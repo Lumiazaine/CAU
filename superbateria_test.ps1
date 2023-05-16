@@ -1,5 +1,5 @@
 # ¡IMPORTANTE!  Si no funciona, ejecutra - Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine
-#Prueba de update v0.3 Beta
+#Prueba de update v0.2 Beta
 
 
 # Verificar si el script se está ejecutando con permisos de administrador
@@ -135,7 +135,26 @@ function EjecutarOpcion {
              }
         2 { Write-Host "Has elegido la Opción 2" }
         3 { 
-            #Actualizar script
+
+            if ($osVersion -like "*Windows 7*") {
+            # Actualización W7
+            $scriptUrl = "https://raw.githubusercontent.com/JUST3EXT/CAU/main/superbateria_test.ps1"
+            $localScriptPath = ".\superbateria_test.ps1"
+
+            # Descargar el script actualizado desde la URL de GitHub
+            $webClient = New-Object System.Net.WebClient
+            $webClient.DownloadFile($scriptUrl, $localScriptPath)
+
+            # Verificar si la descarga fue exitosa
+            if (Test-Path $localScriptPath) {
+                Write-Host "El script se ha actualizado correctamente."
+            } else {
+                Write-Host "No se pudo descargar el script actualizado desde la URL de GitHub."
+            }
+
+            }
+            elseif ($osVersion -like "*Windows 10*") {
+                 #Actualizar script Windows 10
             $scriptUrl = "https://raw.githubusercontent.com/JUST3EXT/CAU/main/superbateria_test.ps1"
             $localScriptPath = ".\superbateria_test.ps1"
 
@@ -148,8 +167,26 @@ function EjecutarOpcion {
             } else {
                 Write-Host "No se pudo descargar el script actualizado desde la URL de GitHub."
             }
+            }
+            else {
 
+                # Actualización primitiva
+                $scriptUrl = "https://raw.githubusercontent.com/JUST3EXT/CAU/main/superbateria_test.ps1"
+                $localScriptPath = ".\superbateria_test.ps1"
 
+                # Descargar el script actualizado desde la URL de GitHub
+                $webClient = New-Object System.Net.WebClient
+                $webClient.DownloadFile($scriptUrl, $localScriptPath)
+
+                # Verificar si la descarga fue exitosa
+                if (Test-Path $localScriptPath) {
+                    Write-Host "El script se ha actualizado correctamente."
+                } else {
+                    Write-Host "No se pudo descargar el script actualizado desde la URL de GitHub."
+                }
+
+            }
+            
          }
         4 { exit }
         default { Write-Host "Opción inválida" }
