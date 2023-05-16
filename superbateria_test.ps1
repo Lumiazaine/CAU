@@ -1,5 +1,5 @@
 # ¡IMPORTANTE!  Si no funciona, ejecutra - Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine
-#Prueba de update v0.1 Beta
+#Prueba de update v0.2 Beta
 
 
 # Verificar si el script se está ejecutando con permisos de administrador
