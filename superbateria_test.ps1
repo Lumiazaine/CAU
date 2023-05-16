@@ -1,5 +1,5 @@
 # ¡IMPORTANTE!  Si no funciona, ejecutra - Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine
-#Prueba de update v0.2 Beta
+#Prueba de update v0.3 Beta
 
 
 # Verificar si el script se está ejecutando con permisos de administrador
@@ -137,7 +137,7 @@ function EjecutarOpcion {
         3 { 
             #Actualizar script
             $scriptUrl = "https://raw.githubusercontent.com/JUST3EXT/CAU/main/superbateria_test.ps1"
-            $localScriptPath = "C:\Users\CAU.LAP\Desktop\superbateria_test.ps1"
+            $localScriptPath = ".\superbateria_test.ps1"
 
             # Descargar el script actualizado desde la URL de GitHub
             Invoke-WebRequest -Uri $scriptUrl -OutFile $localScriptPath -ErrorAction Stop
