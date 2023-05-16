@@ -1,5 +1,5 @@
 # ¡IMPORTANTE!  Si no funciona, ejecutra - Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine
-#Prueba de update v0.4 Beta
+#Prueba de update v0.5 Beta
 
 
 # Verificar si el script se está ejecutando con permisos de administrador
@@ -34,6 +34,9 @@ else {
 # Comprobar ip equipo
 $ipAddress = (Test-Connection -ComputerName (hostname) -Count 1).IPv4Address.IPAddressToString
 
+# Variable ruta equipo
+$scriptPath = $MyInvocation.MyCommand.Definition
+$scriptDirectory = Split-Path -Path $scriptPath -Parent
 
 
 function Mostrar-Menu {
@@ -139,7 +142,7 @@ function EjecutarOpcion {
             if ($osVersion -like "*Windows 7*") {
             # Actualización W7
             $scriptUrl = "https://raw.githubusercontent.com/JUST3EXT/CAU/main/superbateria_test.ps1"
-            $localScriptPath = ".\superbateria_test.ps1"
+            $localScriptPath = $scriptDirectory
 
             # Descargar el script actualizado desde la URL de GitHub
             $webClient = New-Object System.Net.WebClient
@@ -156,7 +159,7 @@ function EjecutarOpcion {
             elseif ($osVersion -like "*Windows 10*") {
                  #Actualizar script Windows 10
             $scriptUrl = "https://raw.githubusercontent.com/JUST3EXT/CAU/main/superbateria_test.ps1"
-            $localScriptPath = ".\superbateria_test.ps1"
+            $localScriptPath = $scriptDirectory
 
             # Descargar el script actualizado desde la URL de GitHub
             Invoke-WebRequest -Uri $scriptUrl -OutFile $localScriptPath -ErrorAction Stop
@@ -172,7 +175,8 @@ function EjecutarOpcion {
 
                 # Actualización primitiva
                 $scriptUrl = "https://raw.githubusercontent.com/JUST3EXT/CAU/main/superbateria_test.ps1"
-                $localScriptPath = ".\superbateria_test.ps1"
+                $localScriptPath = $scriptDirectory
+
 
                 # Descargar el script actualizado desde la URL de GitHub
                 $webClient = New-Object System.Net.WebClient
