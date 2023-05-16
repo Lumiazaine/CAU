@@ -1,5 +1,5 @@
 # ¡IMPORTANTE!  Si no funciona, ejecutra - Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine
-#Prueba de update v0.5 Beta
+#Prueba de update v0.6 Beta
 
 
 # Verificar si el script se está ejecutando con permisos de administrador
@@ -56,8 +56,11 @@ function EjecutarOpcion {
     switch ($opcion) {
         1 { 
             if ($osVersion -like "*Windows 7*") {
-                # Eliminar archivos temporales de %Temp%
+            # Eliminar archivos temporales de %Temp%
             Remove-Item -Path $env:Temp\* -Force -Recurse
+
+            #Limpiar DNS
+            ipconfig /flushdns
             
             # Desinstalar applets de Java 1.6
             $java16Applets = Get-WmiObject -Class Win32_Product | Where-Object { $_.Name -like "*Java(TM) 6*Applet*" }
@@ -65,6 +68,23 @@ function EjecutarOpcion {
             
             # Limpiar la caché de Java 1.6
             Remove-Item -Path "$env:APPDATA\Sun\Java\Deployment\cache\6.0" -Force -Recurse
+
+            #Cerrar navegadores
+            taskkill /IM chrome.exe /F > nul 2>&1
+            taskkill /IM iexplore.exe /F > nul 2>&1
+
+            #Limpiar caché chrome
+
+            $chromeCachePath = "$env:LOCALAPPDATA\Google\Chrome\User Data\Default\Cache"
+
+            # Verificar si la carpeta de caché de Chrome existe
+            if (Test-Path $chromeCachePath) {
+                # Eliminar todos los archivos dentro de la carpeta de caché
+                Get-ChildItem $chromeCachePath | Remove-Item -Force -Recurse
+                Write-Host "La caché de Google Chrome ha sido eliminada correctamente."
+            } else {
+                Write-Host "No se encontró la carpeta de caché de Google Chrome."
+            }
             
             # Vaciar la Papelera de reciclaje
             $shell = New-Object -ComObject Shell.Application
@@ -84,6 +104,14 @@ function EjecutarOpcion {
             
             # Eliminar archivos temporales de %Temp%
             Remove-Item -Path $env:Temp\* -Force -Recurse
+            
+            #Limpiar DNS
+            ipconfig /flushdns
+
+            #Cerrar navegadores
+            taskkill /IM chrome.exe /F > nul 2>&1
+            taskkill /IM iexplore.exe /F > nul 2>&1
+            taskkill /IM msedge.exe /F > nul 2>&1
 
             # Desinstalar applets de Java 1.6
             $java16Applets = Get-WmiObject -Class Win32_Product | Where-Object { $_.Name -like "*Java(TM) 6*Applet*" }
@@ -91,6 +119,20 @@ function EjecutarOpcion {
 
             # Limpiar la caché de Java 1.6
             Remove-Item -Path "$env:APPDATA\LocalLow\Sun\Java\Deployment\cache\6.0" -Force -Recurse
+
+            #Limpiar cache chrome
+
+            $chromeCachePath = "$env:LOCALAPPDATA\Google\Chrome\User Data\Default\Cache"
+
+            # Verificar si la carpeta de caché de Chrome existe
+            if (Test-Path $chromeCachePath) {
+                # Eliminar todos los archivos dentro de la carpeta de caché
+                Get-ChildItem $chromeCachePath | Remove-Item -Force -Recurse
+                Write-Host "La caché de Google Chrome ha sido eliminada correctamente."
+            } else {
+                Write-Host "No se encontró la carpeta de caché de Google Chrome."
+            }
+
 
             # Vaciar la Papelera de reciclaje
             $shell = New-Object -ComObject Shell.Application
