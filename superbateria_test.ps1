@@ -1,5 +1,5 @@
 # ¡IMPORTANTE!  Si no funciona, ejecutra - Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine
-#Prueba de update v0.10 Beta
+#Prueba de update v0.11 Beta
 
 
 # Verificar si el script se está ejecutando con permisos de administrador
@@ -221,21 +221,25 @@ function EjecutarOpcion {
                  $isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
                  
                  if ($isAdmin) {
-                     # Descargar el script actualizado desde la URL de GitHub
-                     $webClient = New-Object System.Net.WebClient
-                     $webClient.DownloadFile($scriptUrl, $localScriptPath)
+                     try {
+                         # Descargar el script actualizado desde la URL de GitHub
+                         Invoke-WebRequest -Uri $scriptUrl -OutFile $localScriptPath
                  
-                     # Verificar si la descarga fue exitosa
-                     if (Test-Path $localScriptPath) {
-                         Write-Host "El script se ha actualizado correctamente."
-                     } else {
-                         Write-Host "No se pudo descargar el script actualizado desde la URL de GitHub."
+                         # Verificar si la descarga fue exitosa
+                         if (Test-Path $localScriptPath) {
+                             Write-Host "El script se ha actualizado correctamente."
+                         } else {
+                             Write-Host "No se pudo descargar el script actualizado desde la URL de GitHub."
+                         }
+                     } catch {
+                         Write-Host "Ocurrió un error al descargar el script desde la URL de GitHub."
                      }
                  } else {
                      # Solicitar permisos de administrador y volver a ejecutar el script
                      Start-Process powershell.exe -Verb RunAs -ArgumentList "-File `"$PSCommandPath`""
                      Exit
                  }
+                 
             }
             else {
 
