@@ -44,7 +44,7 @@ function Mostrar-Menu {
     Write-Host ""
     Write-Host "1. Bateria de pruebas"
     Write-Host "2. Opcion 2"
-    Write-Host "3. Opcion 3"
+    Write-Host "3. Actualizar script"
     Write-Host "4. Salir"
     Write-Host
 }
@@ -134,7 +134,23 @@ function EjecutarOpcion {
             
              }
         2 { Write-Host "Has elegido la Opción 2" }
-        3 { Write-Host "Has elegido la Opción 3" }
+        3 { 
+            #Actualizar script
+            $scriptUrl = "https://raw.githubusercontent.com/JUST3EXT/CAU/main/superbateria_test.ps1"
+            $localScriptPath = "C:\Users\CAU.LAP\Desktop\superbateria_test.ps1"
+
+            # Descargar el script actualizado desde la URL de GitHub
+            Invoke-WebRequest -Uri $scriptUrl -OutFile $localScriptPath -ErrorAction Stop
+
+            # Verificar si la descarga fue exitosa
+            if (Test-Path $localScriptPath) {
+                Write-Host "El script se ha actualizado correctamente."
+            } else {
+                Write-Host "No se pudo descargar el script actualizado desde la URL de GitHub."
+            }
+
+
+         }
         4 { exit }
         default { Write-Host "Opción inválida" }
     }
