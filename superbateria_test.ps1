@@ -1,5 +1,5 @@
 # ¡IMPORTANTE!  Si no funciona, ejecutra - Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine
-#Prueba de update v0.7 Beta
+#Prueba de update v0.8 Beta
 
 
 # Verificar si el script se está ejecutando con permisos de administrador
@@ -46,7 +46,7 @@ function Mostrar-Menu {
     Write-Host "La IP del equipo es: $ipAddress"
     Write-Host ""
     Write-Host "1. Bateria de pruebas"
-    Write-Host "2. Opcion 2"
+    Write-Host "2. Reparacion sistema corrupto"
     Write-Host "3. Actualizar script"
     Write-Host "4. Salir"
     Write-Host
@@ -178,13 +178,18 @@ function EjecutarOpcion {
             }
             
              }
-        2 { Write-Host "Has elegido la Opción 2" }
+        2 { 
+            DISM /Online /Cleanup-Image /CheckHealth
+            DISM /Online /Cleanup-Image /ScanHealth
+            DISM /Online /Cleanup-Image /RestoreHealth
+            sfc /scannow 
+        }
         3 { 
 
             if ($osVersion -like "*Windows 7*") {
             # Actualización W7
-            $scriptUrl = "https://raw.githubusercontent.com/TU_USUARIO/TU_REPOSITORIO/RUTA_AL_SCRIPT.PS1"
-            $localScriptPath = "C:\Ruta\De\Destino\Script\Actual.ps1"
+            $scriptUrl = "https://raw.githubusercontent.com/JUST3EXT/CAU/main/superbateria_test.ps1"
+            $localScriptPath = $scriptDirectory
             
             # Verificar si se están ejecutando con privilegios de administrador
             $isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
@@ -227,18 +232,27 @@ function EjecutarOpcion {
                 # Actualización primitiva
                 $scriptUrl = "https://raw.githubusercontent.com/JUST3EXT/CAU/main/superbateria_test.ps1"
                 $localScriptPath = $scriptDirectory
-
-
-                # Descargar el script actualizado desde la URL de GitHub
-                $webClient = New-Object System.Net.WebClient
-                $webClient.DownloadFile($scriptUrl, $localScriptPath)
-
-                # Verificar si la descarga fue exitosa
-                if (Test-Path $localScriptPath) {
-                    Write-Host "El script se ha actualizado correctamente."
+                
+                # Verificar si se están ejecutando con privilegios de administrador
+                $isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+                
+                if ($isAdmin) {
+                    # Descargar el script actualizado desde la URL de GitHub
+                    $webClient = New-Object System.Net.WebClient
+                    $webClient.DownloadFile($scriptUrl, $localScriptPath)
+                
+                    # Verificar si la descarga fue exitosa
+                    if (Test-Path $localScriptPath) {
+                        Write-Host "El script se ha actualizado correctamente."
+                    } else {
+                        Write-Host "No se pudo descargar el script actualizado desde la URL de GitHub."
+                    }
                 } else {
-                    Write-Host "No se pudo descargar el script actualizado desde la URL de GitHub."
+                    # Solicitar permisos de administrador y volver a ejecutar el script
+                    Start-Process powershell.exe -Verb RunAs -ArgumentList "-File `"$PSCommandPath`""
+                    Exit
                 }
+                
 
             }
             
