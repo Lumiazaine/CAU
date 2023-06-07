@@ -7,5 +7,5 @@ foreach ($valor in $contenido[3].Split([char]1,200)){
         }
     }
 
-$FechaActual = (get-date).ToString("dd/MM/yyyy hh:mm:ss")
+$FechaActual = (get-date).ToString("dd/MM/yyyy HH:mm:ss")
 ((get-content -path $NombreArchivo).Replace($fechas[0],$FechaActual)).Replace($fechas[1],$FechaActual) | Set-Content -Path $NombreArchivo
