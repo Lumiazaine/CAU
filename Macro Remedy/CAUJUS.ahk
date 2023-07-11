@@ -14,6 +14,14 @@ Añadir clase screen que solo ejecute las macros en Remedy.
 
 
 /*
+                     Rutas ejemplo Alba
+
+C:\Users\Operador\AppData\Roaming\AR System\HOME\ARCmds\Alba.ps1
+C:\Users\CAU.LAP\AppData\Roaming\AR System\HOME\ARCmds\Alba.ps1
+*/
+
+
+/*
                                 ESC emergencia
 */
 
@@ -26,11 +34,6 @@ Return
 Alba es un script que permite modificar los datos de la macro Remedy, permitiendo
 gestionar de una manera eficaz la gestión de llamadas.
 */
-/*
-C:\Users\Operador\AppData\Roaming\AR System\HOME\ARCmds\Alba.ps1
-C:\Users\CAU.LAP\AppData\Roaming\AR System\HOME\ARCmds\Alba.ps1
-*/
-
 
 #1::
     Run, PowerShell.exe -ExecutionPolicy Bypass -File "C:\Users\CAU.LAP\AppData\Roaming\AR System\HOME\ARCmds\Alba.ps1",, Hide
@@ -40,12 +43,13 @@ C:\Users\CAU.LAP\AppData\Roaming\AR System\HOME\ARCmds\Alba.ps1
     Send, {TAB 2}{End}{Enter}
 Return
 
-#2::
 /*
-                            Transfer @driano
+                        Transfer @driano
 
             Macro para transferir llamadas de @driano.
 */
+
+#2::
 MsgBox, 4,, ¿Tiene telefono en campo Remedy? 
 IfMsgBox, Yes
 {
@@ -70,7 +74,7 @@ IfMsgBox, No
 }
 
 /*
-                            Cambio contraseña equipo
+                  Cambio contraseña equipo
 
 */
 
@@ -120,7 +124,7 @@ Return
 }
 
 /*
-                            Cambio contraseña correo 
+            Cambio contraseña correo 
 
 */
 
@@ -171,7 +175,7 @@ Return
 
 /*
 
-                             Transfer Ministerio u otros servicios. (Cambio a)
+             Transfer Ministerio u otros servicios. (Cambio a)
 
 */
 
@@ -202,7 +206,7 @@ Return
 
 /*
 
-                                                            Incidencia crítica plantilla
+                                                            Incidencia equipo
 */
 
 
