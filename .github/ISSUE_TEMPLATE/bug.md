@@ -1,8 +1,8 @@
 ---
-name: Bug report
+name: BUG
 about: Create a report to help us improve
 title: "[BUG]"
-labels: bug, enhancement, invalid, question
+labels: bug, help wanted, invalid, question
 assignees: Lumiazaine, JUST3EXT
 
 ---
