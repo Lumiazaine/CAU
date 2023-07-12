@@ -235,3 +235,12 @@ IfMsgBox, No
 Return
 }
 
+/*
+Caputa pantalla.
+*/
+
+XButton2::
+SetTitleMatchMode, 2
+WinActivate, ahk_class ArFrame
+Send, #+s
+Return
