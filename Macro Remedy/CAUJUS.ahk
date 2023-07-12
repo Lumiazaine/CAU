@@ -41,6 +41,7 @@ gestionar de una manera eficaz la gestión de llamadas.
     WinActivate, ahk_class ArFrame
     Send, ^i 
     Send, {TAB 2}{End}{Enter}
+    Send, {TAB 22}
 Return
 
 /*
