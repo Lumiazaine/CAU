@@ -5,7 +5,6 @@ SetWorkingDir, %A_ScriptDir%
 Esc::Reload
 Return
 
-
 screen()
 {
     SetTitleMatchMode, 2
@@ -48,9 +47,8 @@ cierre(closetext)
     Send, !a {Down 9}{Right}{Enter}{TAB 12}{Right 2}{TAB 6}{Enter}closetext{Tab}{Enter}
 }
 
-
 #1::
-    Run, PowerShell.exe -ExecutionPolicy Bypass -File "C:\Users\CAU.LAP\AppData\Roaming\AR System\HOME\ARCmds\Alba.ps1",, Hide
+    RunWait, powershell.exe -ExecutionPolicy Bypass -File "C:\Users\CAU.LAP\AppData\Roaming\AR System\HOME\ARCmds\Alba.ps1",, Hide
     screen()
     Send, ^i 
     Send, {TAB 2}{End}{Enter}
