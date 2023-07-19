@@ -67,7 +67,7 @@ Gui Show, w194 h264, Window
 Return
 
 ButtonAlba:
-    Run, PowerShell.exe -ExecutionPolicy Bypass -File "C:\Users\CAU.LAP\AppData\Roaming\AR System\HOME\ARCmds\Alba.ps1",, Hide
+    RunWait, powershell.exe -ExecutionPolicy Bypass -File "C:\Users\CAU.LAP\AppData\Roaming\AR System\HOME\ARCmds\Alba.ps1",, Hide
     screen()
     SendInput, ^i 
     SendInput, {TAB 2}{End}{Enter}
@@ -113,7 +113,6 @@ GuiClose:
 
 Esc::Reload
 Return
-
 
 #1::
     RunWait, powershell.exe -ExecutionPolicy Bypass -File "C:\Users\CAU.LAP\AppData\Roaming\AR System\HOME\ARCmds\Alba.ps1",, Hide
