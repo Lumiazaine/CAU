@@ -63,30 +63,35 @@ Return
 #2::
     tlf()
     screen()
-    Send, {TAB 20}{Right}{TAB 9}{Down}{TAB 31}NUEVO ADRIANO{TAB}{@}DRIANO - Se recibe llamada relacionada con {@}driano. Se comprueba que no esta relacionado con puesto de trabajo. Se realiza transfer de llamada para su gesti{ASC 162}n.{TAB 2}Se realiza transfer de llamada a CA {@}driano para su gesti{ASC 162}n. Se cierra ticket.^{enter}{Enter}
-    cierre("Se recibe llamada relacionada con {@}driano. Se comprueba que no esta relacionado con puesto de trabajo. Se realiza transfer de llamada para su gesti{ASC 162}n. Se cierra ticket.")
+    Send, {TAB 23}{Right}{TAB 9}{Down}{TAB 34}NUEVO ADRIANO{TAB}{@}DRIANO - Se recibe llamada relacionada con {@}driano. Se comprueba que no esta relacionado con puesto de trabajo. Se realiza transfer de llamada para su gesti{ASC 162}n.{TAB 2}Se realiza transfer de llamada a CA {@}driano para su gestion. Se cierra ticket.^{enter}{Enter}
+    clipboard := "Se recibe llamada relacionada con @driano. Se comprueba que no esta relacionado con puesto de trabajo. Se realiza transfer de llamada para su gestion. Se cierra ticket."
 Return
 
 #3::
-    tlf()
-    password()
+    RunWait, powershell.exe -ExecutionPolicy Bypass -File "C:\Users\CAU.LAP\AppData\Roaming\AR System\HOME\ARCmds\Alba.ps1",, Hide
     screen()
-    InputBox, PRO,,,
-    Send {Tab 25}{Right}{Tab 9}{Down 2}{Tab 34}GESTION USUARIOS{Tab}%PRO% - Solicita el reseteo de la contrase{U+00F1}a{Tab}CONTRASE{ASC 165}AS{Tab 2}Se restablece contrase{U+00F1}a y se deja en el campo remedy. Resolvemos{TAB 2}-^{enter}{Enter}
-    cierre("Se restablece contrase{U+00F1}a y se deja en el campo remedy. Resolvemos")
+    Send, ^i 
+    Send, {TAB 2}{Down 19}{Enter}
+    Send, {TAB 22}
+    clipboard := "Se reestablece contraseña y se deja en campo Remedy, conforme. Se cierra ticket."
 Return
 
 #4::
-    tlf()
-    password()
-    Send {Tab 25}{Right}{Tab 9}{Down 2}{Tab 34}GESTION USUARIOS{Tab}CORREO - Usuario no recuerda su contrase{U+00F1}a{Tab}CONTRASE{ASC 165}AS{Tab 2}el usuario realiza el cambio de contrase{U+00F1}a desde micuenta.juntadeandalucia.es{TAB 2}-^{enter}{Enter}
-    cierre("el usuario realiza el cambio de contraseña desde micuenta.juntadeandalucia.es, Conforme.")
+    RunWait, powershell.exe -ExecutionPolicy Bypass -File "C:\Users\CAU.LAP\AppData\Roaming\AR System\HOME\ARCmds\Alba.ps1",, Hide
+    screen()
+    Send, ^i 
+    Send, {TAB 2}{Down 21}{Enter}
+    Send, {TAB 22}
+    clipboard := "el usuario realiza el cambio de contraseña desde micuenta.juntadeandalucia.es, Conforme."
 Return
 
 #5::
-    tlf()
-    Send, {TAB 23}{Right}{TAB 2}COMUNICACIONES{TAB}PNJ - Se recibe llamada relacionada con servicio no relacionado con el CEIURIS. Se comprueba que no esta relacionado con puesto de trabajo. Se comunica n{ASC 163}mero del servicio correspondiente{TAB 6}{Down}{TAB 34}COMUNICACIONES{TAB 3}Se recibe llamada relacionada con servicio no relacionado con el CEIURIS. Se comprueba que no esta relacionado con puesto de trabajo. Se comunica n{ASC 163}mero del servicio correspondiente^{enter}{Enter}
-    cierre("Se recibe llamada relacionada con servicio no relacionado con el CEIURIS. Se comprueba que no esta relacionado con puesto de trabajo. Se comunica numero del servicio correspondiente. Se cierra ticket.")
+    RunWait, powershell.exe -ExecutionPolicy Bypass -File "C:\Users\CAU.LAP\AppData\Roaming\AR System\HOME\ARCmds\Alba.ps1",, Hide
+    screen()
+    Send, ^i 
+    Send, {TAB 2}{Down 24}{Enter}
+    Send, {TAB 22}
+    clipboard := "Se recibe llamada relacionada con servicio no relacionado con el CEIURIS. Se comprueba que no esta relacionado con puesto de trabajo. Se comunica numero del servicio correspondiente. Se cierra ticket."
 Return
 
 #6::
@@ -116,11 +121,11 @@ Return
 
 Return
 
-   
 #0::Reload
 Return
  
 XButton2::
-Send, #{PrintScreen}
+screen()
+Send, #+s
 Return
 
