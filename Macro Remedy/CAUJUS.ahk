@@ -82,7 +82,7 @@ Return
     Send, ^i 
     Send, {TAB 2}{Down 21}{Enter}
     Send, {TAB 22}
-    clipboard := "el usuario realiza el cambio de contraseña desde micuenta.juntadeandalucia.es, Conforme."
+    clipboard := "El usuario realiza el cambio de contraseña desde micuenta.juntadeandalucia.es, Conforme."
 Return
 
 #5::
@@ -95,18 +95,11 @@ Return
 Return
 
 #6::
-    tlf()
+    RunWait, powershell.exe -ExecutionPolicy Bypass -File "C:\Users\CAU.LAP\AppData\Roaming\AR System\HOME\ARCmds\Alba.ps1",, Hide
     screen()
-    Send, {TAB 23}{Right}{TAB 2}PUESTO DE TRABAJO{TAB}
-    InputBox, DDI,Motivo del incidente,,
-    screen()
-    Send, %DDI%{TAB}SOFTWARE{TAB 2}
-    InputBox, DIA,Diario,,
-    screen()
-    Send, %DIA%{TAB 2}-
-    Send, ^{enter}{Enter}
-    Send, !a {Down 9}{Right}{Enter}{TAB 12}{Right 2}{TAB 5}{Enter 3}
-    Send, !a {Down 9}{Right}{Enter}{TAB 12}{Right 2}{TAB 6}{Enter}%DIA%{Tab}{Enter}
+    Send, ^i 
+    Send, {TAB 2}{Down 20}{Enter}
+    Send, {TAB 22}
 Return
 
 #7::
@@ -123,9 +116,14 @@ Return
 
 #0::Reload
 Return
- 
+
+XButton1::
+Send, AppsKey
+Return
+
 XButton2::
 screen()
 Send, #+s
 Return
+
 
