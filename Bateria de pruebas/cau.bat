@@ -55,7 +55,8 @@ ECHO 1. Cambio password correo
 ECHO 2. Correo corporativo
 ECHO 3. SIRAJ2
 ECHO 4. Lexnet
-ECHO 5. inicio
+ECHO 5. Nuevo Adriano
+ECHO 6. inicio
 set choice=
 set /p choice=Escoge una opcion:
 if not '%choice%'=='' set choice=%choice:~0,1%
@@ -63,7 +64,8 @@ if '%choice%'=='1' goto link1
 if '%choice%'=='2' goto link2
 if '%choice%'=='3' goto link3
 if '%choice%'=='4' goto link4
-if '%choice%'=='5' goto main
+if '%choice%'=='5' goto link5
+if '%choice%'=='6' goto main
 ECHO "%choice%" is not valid, try again
 ECHO.
 goto start
@@ -78,6 +80,9 @@ start chrome "https://cas.justicia.es/cas/login?service=https%3A%2F%2Fsiraj2.jus
 goto enlaces
 :link4
 start chrome "https://lexnet.justicia.es/"
+goto enlaces
+:link5
+start chrome "https://gestorprocesal.justicia.junta-andalucia.es/login"
 goto enlaces
 cls
 :other
