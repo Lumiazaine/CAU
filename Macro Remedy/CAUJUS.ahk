@@ -87,5 +87,3 @@ XButton2::
 screen()
 Send, #+s
 Return
-
-
