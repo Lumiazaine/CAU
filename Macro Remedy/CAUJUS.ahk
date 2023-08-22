@@ -22,36 +22,17 @@ screen()
     Return
 }
 
-tlf()
+Alba(num)
 {
-    SetTitleMatchMode, 2
-    WinActivate, ahk_class ArFrame
-    InputBox, phone, Telefono, (indica el telefono del usuario)
-    SendInput, {TAB 3}
-    Send, +{Left 90}{BackSpace}
-    SendInput, %phone%
-}
-
-password()
-{   
-    SetTitleMatchMode, 2
-    WinActivate, ahk_class ArFrame
-    InputBox, pass, Password, (Nueva password)
-    SendInput, {TAB 36}%pass%
+    RunWait, powershell.exe -ExecutionPolicy Bypass -File "C:\Users\CAU.LAP\AppData\Roaming\AR System\HOME\ARCmds\Alba.ps1",, Hide
+    screen()
+    Send, ^i 
+    Send, {TAB 2}{Down %num%}{Enter}
+    Send, {TAB 22}
     Return
 }
 
-cierre(closetext)
-{
-    Send, !a {Down 9}{Right}{Enter}{TAB 12}{Right 2}{TAB 5}{Enter 3}
-    Send, !a {Down 9}{Right}{Enter}{TAB 12}{Right 2}{TAB 6}{Enter}%closetext%{Tab}{Enter}
-}
-
-select()
-{
-    Send, +{Left 90}{BackSpace}
-}
-
+;CIERRE USUARIO
 #1::
     RunWait, powershell.exe -ExecutionPolicy Bypass -File "C:\Users\CAU.LAP\AppData\Roaming\AR System\HOME\ARCmds\Alba.ps1",, Hide
     screen()
@@ -59,51 +40,32 @@ select()
     Send, {TAB 2}{End}{Enter}
     Send, {TAB 22}
 Return
-
+;@Driano
 #2::
-    tlf()
-    screen()
-    Send, {TAB 23}{Right}{TAB 9}{Down}{TAB 34}NUEVO ADRIANO{TAB}{@}DRIANO - Se recibe llamada relacionada con {@}driano. Se comprueba que no esta relacionado con puesto de trabajo. Se realiza transfer de llamada para su gesti{ASC 162}n.{TAB 2}Se realiza transfer de llamada a CA {@}driano para su gestion. Se cierra ticket.^{enter}{Enter}
-    clipboard := "Se recibe llamada relacionada con @driano. Se comprueba que no esta relacionado con puesto de trabajo. Se realiza transfer de llamada para su gestion. Se cierra ticket."
+    Alba(24)
 Return
-
+;AD
 #3::
-    RunWait, powershell.exe -ExecutionPolicy Bypass -File "C:\Users\CAU.LAP\AppData\Roaming\AR System\HOME\ARCmds\Alba.ps1",, Hide
-    screen()
-    Send, ^i 
-    Send, {TAB 2}{Down 19}{Enter}
-    Send, {TAB 22}
+    Alba(19)
     clipboard := "Se reestablece contraseña y se deja en campo Remedy, conforme. Se cierra ticket."
 Return
-
+;Correo
 #4::
-    RunWait, powershell.exe -ExecutionPolicy Bypass -File "C:\Users\CAU.LAP\AppData\Roaming\AR System\HOME\ARCmds\Alba.ps1",, Hide
-    screen()
-    Send, ^i 
-    Send, {TAB 2}{Down 21}{Enter}
-    Send, {TAB 22}
+    Alba(21)
     clipboard := "El usuario realiza el cambio de contraseña desde micuenta.juntadeandalucia.es, Conforme."
 Return
-
+;PNJ
 #5::
-    RunWait, powershell.exe -ExecutionPolicy Bypass -File "C:\Users\CAU.LAP\AppData\Roaming\AR System\HOME\ARCmds\Alba.ps1",, Hide
-    screen()
-    Send, ^i 
-    Send, {TAB 2}{Down 24}{Enter}
-    Send, {TAB 22}
+    Alba(25)
     clipboard := "Se recibe llamada relacionada con servicio no relacionado con el CEIURIS. Se comprueba que no esta relacionado con puesto de trabajo. Se comunica numero del servicio correspondiente. Se cierra ticket."
 Return
-
+;Adriano
 #6::
-    RunWait, powershell.exe -ExecutionPolicy Bypass -File "C:\Users\CAU.LAP\AppData\Roaming\AR System\HOME\ARCmds\Alba.ps1",, Hide
-    screen()
-    Send, ^i 
-    Send, {TAB 2}{Down 20}{Enter}
-    Send, {TAB 22}
+    Alba(20)
 Return
-
+;Tarjeta
 #7::
-Send, {F3}{Enter}{Tab 5}
+    Alba(26)
 Return
 
 #8::
@@ -111,14 +73,14 @@ Return
 Return
 
 #9::
-
+Send, {F3}{Enter}{Tab 5}
 Return
 
 #0::Reload
 Return
 
+
 XButton1::
-Send, AppsKey
 Return
 
 XButton2::
