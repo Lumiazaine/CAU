@@ -79,7 +79,7 @@ goto enlaces
 start chrome "https://cas.justicia.es/cas/login?service=https%3A%2F%2Fsiraj2.justicia.es%2FSIRAJGLB-webapp%2Fj_spring_cas_security_check"
 goto enlaces
 :link4
-start chrome "https://lexnet.justicia.es/"
+"%ProgramFiles%\Internet Explorer\iexplore.exe" "https://lexnet.justicia.es/"  
 goto enlaces
 :link5
 start chrome "https://gestorprocesal.justicia.junta-andalucia.es/login"
@@ -121,13 +121,13 @@ cls
 :pool
 runas /user:DLUNA@JUSTICIA "net stop spooler"
 runas /user:DLUNA@JUSTICIA rd /s /q C:\Windows\System32\spool\PRINTERS\
-runas /user:DLUNA@JUSTICIA net start spooler
+runas /user:DLUNA@JUSTICIA "net start spooler"
 goto other
 :screen
 rundll32.exe shell32.dll,Control_RunDLL desk.cpl
 goto other
 :driver
-runas /user:DLUNA@JUSTICIA RunDll32.exe devmgr.dll DeviceManager_Execute
+runas /user:DLUNA@JUSTICIA "RunDll32.exe devmgr.dll DeviceManager_Execute"
 goto other
 :version
 RunDll32.exe SHELL32.DLL,ShellAboutW
