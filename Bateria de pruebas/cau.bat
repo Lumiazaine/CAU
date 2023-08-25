@@ -137,8 +137,10 @@ goto other
 :ieopcion
 Rundll32.exe shell32.dll,Control_RunDLL inetcpl.cpl,,3
 goto other
+:printer
+Rundll32 Shell32.dll,SHHelpShortcuts_RunDLL PrintersFolder 
+goto other
 goto end
 :end
 pause
-:printer
-Rundll32 Shell32.dll,SHHelpShortcuts_RunDLL PrintersFolder 
+
