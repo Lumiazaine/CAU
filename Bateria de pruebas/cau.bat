@@ -107,7 +107,8 @@ if '%choice%'=='3' goto screen
 if '%choice%'=='4' goto driver
 if '%choice%'=='5' goto version
 if '%choice%'=='6' goto ieopcion
-if '%choice%'=='7' goto main
+if '%choice%'=='7' goto printer
+if '%choice%'=='8' goto main
 ECHO "%choice%" is not valid, try again
 ECHO.
 goto start
