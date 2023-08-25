@@ -134,7 +134,7 @@ goto other
 RunDll32.exe SHELL32.DLL,ShellAboutW
 goto other
 :ieopcion
-Rundll32 Shell32.dll, Control_RunDLL Inetcpl.cpl
+Rundll32.exe shell32.dll,Control_RunDLL inetcpl.cpl,,3
 goto other
 goto end
 :end
