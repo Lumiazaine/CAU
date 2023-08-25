@@ -96,7 +96,8 @@ ECHO 3. Resolucion pantalla
 ECHO 4. Administrador de dispositivos
 ECHO 5. Ver version
 ECHO 6. Opciones internet
-ECHO 7. inicio
+ECHO 7. Ver impresoras
+ECHO 8. inicio
 set choice=
 set /p choice=Escoge una opcion:
 if not '%choice%'=='' set choice=%choice:~0,1%
@@ -138,3 +139,5 @@ goto other
 goto end
 :end
 pause
+:printer
+Rundll32 Shell32.dll,SHHelpShortcuts_RunDLL PrintersFolder 
