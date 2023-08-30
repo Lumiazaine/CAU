@@ -15,6 +15,8 @@ SendMode Input
 DllCall("ntdll\ZwSetTimerResolution","Int",5000,"Int",1,"Int*",MyCurrentTimerResolution)
 SetWorkingDir, %A_ScriptDir%
 
+Gui Add, Edit, x224 y592 w150 h26 vDni,
+Gui Add, Edit, x224 y632 w150 h26 vtelf,
 Gui Add, Text, x1208 y48 w119 h25, CONTRASEÑAS
 Gui Add, Text, x984 y48 w48 h29, DP
 Gui Add, Text, x1224 y360 w153 h31, TRANSFER
@@ -23,8 +25,6 @@ Gui Add, Text, x656 y48 w106 h29, MINISTERIO
 Gui Add, Text, x280 y48 w150 h29, INCIDENCIAS
 Gui Add, Text, x272 y368 w150 h29, SOLICITUDES
 Gui Add, Text, x672 y432 w62 h29, CIERRES
-Gui Add, Edit, x224 y592 w150 h26 
-Gui Add, Edit, x224 y632 w150 h26 
 Gui Add, Text, x176 y592 w43 h29, DNI
 Gui Add, Text, x984 y512 w150 h29, Teléfonos
 Gui Add, Text, x936 y552 w169 h29, MINISTERIO - 913 859 800
@@ -90,6 +90,10 @@ Alba(num)
     Send, ^i 
     Send, {TAB 2}{End}{Up %num%}{Enter}
     Send, {TAB 22}
+    GuiControlGet,vDni
+    ControlGetText, textvar, %vDni%
+    Send, %textvar% 
+    Send, {Tab}{Enter}
     Return
 }
 
@@ -269,6 +273,7 @@ Return
 
 #0::Reload
 Return
+
 XButton1::
 Return
 
