@@ -1,0 +1,31 @@
+ZZZPortafirmasNG
+Set-schema: 101_INCIDENCIAS10.241.130.25
+Form-open: 
+Submit-display: 101_INCIDENCIAS10.241.130.25|1010000274=Se han realizado las siguientes pruebas:
+
+   * Se comrpueba estado del certificado digital.
+   * Se eliminan los temporales de Java y la cach�.
+   * Se ha eliminado los temporales.
+   * Se ha vaciado la cach� del navegador.
+   * Se han actualizado directivas.
+   * Se ha reiniciado el equipo.
+
+Tras realizar las pruebas, comprobamos que el problema persiste, se asigna para su gesti�n1010000262=INCIDENCIA1010000229=TELEFONO1010000200=31/08/2023 14:22:261010000179=NORMAL1010000177=PORTAFIRMASNG -1010000175=ERROR FUNCIONAL1010000174=PORTAFIRMASNG1010000173=APLICACIONES1010000151=CONFORME1010000150=31/08/2023 14:22:261010000147=Servicios536871051=PROCEDIMIENTOS Y ERRORES COMUNES DE PORTAFIRMAS:
+
+
+https://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/QueHacemos/CSU/CAU_Resoluci%C3%B3n%20de%20incidencias/CSU_Resoluci%C3%B3n%20de%20incidencias_PORTAFIRMAS/7=Abierta4=Desarrollo2=$-1$1=IN1010000199=301010000171=Acuerdo CEIURIS536870998=No536870981=NO536870966=IN8=.
+Form-final: new1010000274=Se han realizado las siguientes pruebas:
+
+   * Se comrpueba estado del certificado digital.
+   * Se eliminan los temporales de Java y la cach�.
+   * Se ha eliminado los temporales.
+   * Se ha vaciado la cach� del navegador.
+   * Se han actualizado directivas.
+   * Se ha reiniciado el equipo.
+
+Tras realizar las pruebas, comprobamos que el problema persiste, se asigna para su gesti�n1010000262=INCIDENCIA1010000229=TELEFONO1010000200=31/08/2023 14:22:261010000179=NORMAL1010000177=PORTAFIRMASNG -1010000175=ERROR FUNCIONAL1010000174=PORTAFIRMASNG1010000173=APLICACIONES1010000151=CONFORME1010000150=31/08/2023 14:22:261010000147=Servicios536871051=PROCEDIMIENTOS Y ERRORES COMUNES DE PORTAFIRMAS:
+
+
+https://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/QueHacemos/CSU/CAU_Resoluci%C3%B3n%20de%20incidencias/CSU_Resoluci%C3%B3n%20de%20incidencias_PORTAFIRMAS/7=Abierta4=Desarrollo2=$-1$1=IN1010000199=301010000171=Acuerdo CEIURIS536870998=No536870981=NO536870966=IN8=.
+end
+
