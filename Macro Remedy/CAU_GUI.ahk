@@ -15,63 +15,64 @@ SendMode Input
 DllCall("ntdll\ZwSetTimerResolution","Int",5000,"Int",1,"Int*",MyCurrentTimerResolution)
 SetWorkingDir, %A_ScriptDir%
 
-Gui Add, Edit, x224 y592 w150 h26 vDni,
-Gui Add, Edit, x224 y632 w150 h26 vtelf,
-Gui Add, Text, x1208 y48 w119 h25, CONTRASEÑAS
-Gui Add, Text, x984 y48 w48 h29, DP
-Gui Add, Text, x1224 y360 w153 h31, TRANSFER
-Gui Add, Text, x680 y280 w67 h29, CAU
-Gui Add, Text, x656 y48 w106 h29, MINISTERIO
-Gui Add, Text, x280 y48 w150 h29, INCIDENCIAS
-Gui Add, Text, x272 y368 w150 h29, SOLICITUDES
-Gui Add, Text, x672 y432 w62 h29, CIERRES
-Gui Add, Text, x176 y592 w43 h29, DNI
-Gui Add, Text, x984 y512 w150 h29, Teléfonos
-Gui Add, Text, x936 y552 w169 h29, MINISTERIO - 913 859 800
-Gui Add, Text, x936 y576 w133 h29, PNJ - 918 382 680
-Gui Add, Text, x128 y632 w88 h31, TELÉFONO
-Gui Add, Button, x88 y88 w146 h54 gButton1, Adriano
-Gui Add, Button, x88 y152 w146 h54 gButton2, Escritorio judicial
-Gui Add, Button, x400 y88 w146 h54 gButton3, Arconte
-Gui Add, Button, x400 y216 w146 h54 gButton4, PortafirmasNG
-Gui Add, Button, x248 y88 w146 h54 gButton5, Agenda de señalamientos
-Gui Add, Button, x248 y152 w146 h54 gButton6, Expediente digital
-Gui Add, Button, x400 y152 w146 h54 gButton7, Hermes
-Gui Add, Button, x88 y216 w146 h54 gButton8, Jara
-Gui Add, Button, x248 y216 w146 h54 gButton9, Quenda // Cita previa
-Gui Add, Button, x88 y280 w146 h54 gButton10, Suministros
-Gui Add, Button, x240 y456 w146 h54 gButton11, Internet libre
-Gui Add, Button, x88 y512 w146 h54 gButton12, Multiconferencia
-Gui Add, Button, x392 y400 w146 h54 gButton13, Dragon Speaking
-Gui Add, Button, x240 y400 w146 h54 gButton14, Aumento espacio correo
-Gui Add, Button, x88 y400 w146 h54 gButton15, Abbypdf
-Gui Add, Button, x88 y456 w146 h54 gButton16, GDU
-Gui Add, Button, x624 y144 w146 h54 gButton17, Orfila
-Gui Add, Button, x624 y88 w146 h54 gButton18, Lexnet
-Gui Add, Button, x624 y200 w146 h54 gButton19, Siraj2
-Gui Add, Button, x624 y360 w146 h54 gButton20, Emparejamiento ISL
-Gui Add, Button, x624 y304 w146 h54 gButton21, Certificado digital
-Gui Add, Button, x624 y592 w146 h54 gButton22, Software
-Gui Add, Button, x624 y464 w146 h54 gButton23, PIN tarjeta
-Gui Add, Button, x624 y528 w146 h54 gButton24, Servicio no CEIURIS
-Gui Add, Button, x1000 y152 w146 h54 gButton25, Lector tarjeta
-Gui Add, Button, x848 y216 w146 h54 gButton26, Equipo sin red
-Gui Add, Button, x1000 y88 w146 h54 gButton27, GM
-Gui Add, Button, x920 y408 w146 h54 gButton28, Teléfono
-Gui Add, Button, x848 y344 w146 h54 gButton29, Ganes
-Gui Add, Button, x848 y280 w146 h54 gButton30, Equipo no enciende
-Gui Add, Button, x848 y88 w146 h54 gButton31, Disco duro
-Gui Add, Button, x848 y152 w146 h54 gButton32, Edoc Fortuny
-Gui Add, Button, x1184 y152 w146 h54 gButton33, AD
-Gui Add, Button, x1184 y216 w146 h54 gButton34, Correo
-Gui Add, Button, x1184 y280 w146 h54 gButton35, Temis
-Gui Add, Button, x1184 y88 w146 h54 gButton36, Arconte
-Gui Add, Button, x1184 y392 w146 h54 gButton37, @Driano
-Gui Add, Button, x392 y456 w146 h54 gButton38, Intervención video
-Gui Add, Button, x1000 y216 w146 h54 gButton39, Monitor
-Gui Add, Button, x1000 y344 w146 h54 gButton40, Teclado
-Gui Add, Button, x1000 y280 w146 h54 gButton41, Ratón
-Gui Show, w1385 h687, CAU
+Menu ActualizacionesMenu, Add, Comprobar actualizaciones, update
+Menu MenuMenu, Add, Actualizaciones, :ActualizacionesMenu
+Menu MenuMenu, Add, Acerca de, AcercadeMenu
+Gui Menu, MenuMenu
+
+Gui Add, Edit, x109 y639 w188 h26
+Gui Add, Edit, x411 y638 w188 h26
+Gui Add, Text, x1219 y17 w25 h17, DP
+Gui Add, Text, x798 y368 w84 h19, MINISTERIO
+Gui Add, Text, x288 y20 w95 h20, INCIDENCIAS
+Gui Add, Text, x289 y376 w98 h19, SOLICITUDES
+Gui Add, Text, x797 y18 w67 h18, CIERRES
+Gui Add, Text, x68 y644 w33 h21, DNI
+Gui Add, Text, x327 y645 w76 h21, TELÉFONO
+Gui Add, Button, x49 y57 w183 h68 gButton1, Adriano
+Gui Add, Button, x49 y137 w183 h68 gButton2, Escritorio judicial
+Gui Add, Button, x431 y56 w183 h68 gButton3, Arconte
+Gui Add, Button, x50 y285 w183 h68 gButton4, PortafirmasNG
+Gui Add, Button, x241 y56 w183 h68 gButton5, Agenda de señalamientos
+Gui Add, Button, x241 y136 w183 h68 gButton6, Expediente digital
+Gui Add, Button, x50 y212 w183 h68 gButton7, Hermes
+Gui Add, Button, x240 y210 w183 h68 gButton8, Jara
+Gui Add, Button, x432 y209 w183 h68 gButton9, Quenda // Cita previa
+Gui Add, Button, x240 y284 w183 h68 gButton10, Suministros
+Gui Add, Button, x242 y478 w183 h68 gButton11, Internet libre
+Gui Add, Button, x52 y548 w183 h68 gButton12, Multiconferencia
+Gui Add, Button, x432 y408 w183 h68 gButton13, Dragon Speaking
+Gui Add, Button, x242 y408 w183 h68 gButton14, Aumento espacio correo
+Gui Add, Button, x52 y408 w183 h68 gButton15, Abbypdf
+Gui Add, Button, x52 y478 w183 h68 gButton16, GDU
+Gui Add, Button, x741 y476 w183 h68 gButton17, Orfila
+Gui Add, Button, x740 y406 w183 h68 gButton18, Lexnet
+Gui Add, Button, x742 y547 w183 h68 gButton19, Siraj2
+Gui Add, Button, x431 y134 w183 h68 gButton20, Emparejamiento ISL
+Gui Add, Button, x642 y127 w183 h68 gButton21, Certificado digital
+Gui Add, Button, x831 y57 w183 h68 gButton22, Software
+Gui Add, Button, x831 y128 w183 h68 gButton23, PIN tarjeta
+Gui Add, Button, x643 y199 w183 h68 gButton24, Servicio no CEIURIS
+Gui Add, Button, x1234 y198 w183 h68 gButton25, Lector tarjeta
+Gui Add, Button, x1045 y197 w183 h68 gButton26, Equipo sin red
+Gui Add, Button, x1233 y57 w183 h68 gButton27, GM
+Gui Add, Button, x1137 y483 w183 h68 gButton28, Teléfono
+Gui Add, Button, x1046 y410 w183 h68 gButton29, Ganes
+Gui Add, Button, x1045 y268 w183 h68 gButton30, Equipo no enciende
+Gui Add, Button, x1045 y57 w183 h68 gButton31, Disco duro
+Gui Add, Button, x1045 y127 w183 h68 gButton32, Edoc Fortuny
+Gui Add, Button, x832 y199 w183 h68 gButton33, Transfer @Driano
+Gui Add, Button, x432 y478 w183 h68 gButton34, Intervención video
+Gui Add, Button, x1235 y267 w183 h68 gButton35, Monitor
+Gui Add, Button, x1236 y410 w183 h68 gButton36, Teclado
+Gui Add, Button, x1236 y338 w183 h68 gButton37, Ratón
+Gui Add, Button, x1233 y127 w183 h68 gButton38, ISL Apagado
+Gui Add, Button, x1045 y339 w183 h68 gButton39, Error relación de confianza
+Gui Add, Button, x642 y56 w183 h68 gButton40, Contraseñas
+Gui Add, Button, x244 y549 w183 h68 gButton41, Formaciones
+
+
+Gui Show, w1456 h704, Gestor de incidencias
 Return
 
 ;Variables 
@@ -94,117 +95,126 @@ Alba(num)
     ControlGetText, textvar, %vDni%
     Send, %textvar% 
     Send, {Tab}{Enter}
+    Send, {Tab 3} 
+    Send, +{Left 90}{BackSpace}
     Return
 }
+
+update:
+Return
+
+AcercadeMenu:
+MsgBox, 0,,Versión 1.0 `nYG5DcmVhZG8gcG9yIERhdmlkIPCfjJlgbkRlZGljYWRvIGEgbGFzIHBlcnNvbmFzIHF1ZSBtZSBoYW4gYW5pbWFkbyB5IGFwb3lhZG8gY2FkYSBkw61hLg==
+Return
 
 ;Lógica botones
 
 Button1:
-    Alba(40)
-Return
-
-Button2:
-    Alba(28)
-Return
-
-Button3:
-    Alba(37)
-Return
-
-Button4:
-    Alba(12)
-Return
-
-Button5:
     Alba(39)
 Return
 
-Button6:
+Button2:
     Alba(27)
 Return
 
-Button7:
-    Alba(23)
+Button3:
+    Alba(36)
 Return
 
-Button8:
-    Alba(19)
-Return
-
-Button9:
-    Alba(10)
-Return
-
-Button10:
-    Alba(5)
-Return
-
-Button11:
-    Alba(22)
-Return
-
-Button12:
-    Alba(16)
-Return
-
-Button13:
-    Alba(32)
-Return
-
-Button14:
-    Alba(38)
-Return
-
-Button15:
-    Alba(42)
-Return
-
-Button16:
-    Alba(25)
-Return
-
-Button17:
-    Alba(14)
-Return
-
-Button18:
-    Alba(18)
-Return
-
-Button19:
-    Alba(7)
-Return
-
-Button20:
-    Alba(30)
-Return
-
-Button21:
-    Alba(35)
-Return
-
-Button22:
-    Alba(6)
-Return
-
-Button23:
-    Alba(11)
-Return
-
-Button24:
-    Alba(13)
-Return
-
-Button25:
-    Alba(4)
-Return
-
-Button26:
+Button4:
     Alba(8)
 Return
 
+Button5:
+    Alba(38)
+Return
+
+Button6:
+    Alba(26)
+Return
+
+Button7:
+    Alba(21)
+Return
+
+Button8:
+    Alba(17)
+Return
+
+Button9:
+    Alba(0)
+Return
+
+Button10:
+    Alba(4)
+Return
+
+Button11:
+    Alba(20)
+Return
+
+Button12:
+    Alba(13)
+Return
+
+Button13:
+    Alba(30)
+Return
+
+Button14:
+    Alba(35)
+Return
+
+Button15:
+    Alba(41)
+Return
+
+Button16:
+    Alba(23)
+Return
+
+Button17:
+    Alba(11)
+Return
+
+Button18:
+    Alba(15)
+Return
+
+Button19:
+    Alba(5)
+Return
+
+Button20:
+    Alba(28)
+Return
+
+Button21:
+    Alba(34)
+Return
+
+Button22:
+    Alba(0)
+Return
+
+Button23:
+    Alba(10)
+Return
+
+Button24:
+    Alba(9)
+Return
+
+Button25:
+    Alba(16)
+Return
+
+Button26:
+    Alba(6)
+Return
+
 Button27:
-    Alba(24)
+    Alba(22)
 Return
 
 Button28:
@@ -212,63 +222,79 @@ Button28:
 Return
 
 Button29:
-    Alba(26)
+    Alba(24)
 Return
 
 Button30:
-    Alba(29)
+    Alba(25)
 Return
 
 Button31:
-    Alba(33)
-Return
-
-Button32:
     Alba(31)
 Return
 
+Button32:
+    Alba(29)
+Return
+
 Button33:
-    Alba(41)
+    Alba(12)
 Return
 
 Button34:
-    Alba(34)
+    Alba(19)
 Return
 
 Button35:
-    Alba(1)
+    Alba(14)
 Return
 
 Button36:
-    Alba(36)
-Return
-
-Button37:
-    Alba(15)
-Return
-
-Button38:
-    Alba(21)
-Return
-
-Button39:
-    Alba(17)
-Return
-
-Button40:
     Alba(3)
 Return
 
+Button37:
+    Alba(7)
+Return
+
+Button38:
+    Alba(18)
+Return
+
+Button39:
+    Alba(0)
+Return
+
+Button40:
+    Alba(33)
+Return
+
 Button41:
-    Alba(9)
+    Alba(0)
 Return
 
 #1::
-Alba(0)
+    Alba(0)
+Return
+
+#2::
+    Alba(40)
+Return
+
+#3::
+    Alba(32)
+Return
+
+#4::
+    Alba(37)
+Return
+
+#5::
+    Alba(1)
 Return
 
 #9::
-Send, {F3}{Enter}{Tab 5}
+    Send, {F3}{Enter}{Tab 5}
 Return
 
 #0::Reload
