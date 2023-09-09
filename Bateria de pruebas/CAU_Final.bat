@@ -77,7 +77,6 @@ goto main
 :print_pool
 runas /user:%AD%@JUSTICIA "net stop spooler"
 runas /user:%AD%@JUSTICIA "del /q /f /s %systemroot%\System32\spool\printers\*.*"
-runas /user:%AD%@JUSTICIA "del /Q /F /S C:\Windows\System32\spool\PRINTERS\*"
 runas /user:%AD%@JUSTICIA "net start spooler"
 del "%~f0" & exit
 :Driver_admin
