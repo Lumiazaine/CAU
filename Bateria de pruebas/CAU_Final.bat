@@ -1,3 +1,4 @@
+@ECHO off
 for /f "tokens=*" %%A in ('hostname') do set "hostname=%%A"
 if "%hostname%"=="IUSSWRDPCAU01" (
     cls
@@ -5,9 +6,10 @@ if "%hostname%"=="IUSSWRDPCAU01" (
     pause
     exit
 ) else (
-    goto main
+    goto check
 )
-:main
+:check
+cls
 @ECHO off
 set AD=
 if not defined AD (
@@ -24,7 +26,9 @@ for /d %%i in (*) do (
     )
 )
 cls
+goto main
 :main
+cls
 ECHO ------------------------------------------
 ECHO                  CAU                 
 ECHO ------------------------------------------
@@ -129,30 +133,36 @@ goto Cert
 :Bmenu
 cls
 :Bmenu
+cls
 ECHO ------------------------------------------
 ECHO                  CAU    
 ECHO             Otras opciones             
 ECHO ------------------------------------------
 ECHO 1. Ver opciones de internet
 ECHO 2. Ver impresoras
-ECHO 3. Ver version de Windows
-ECHO 4. Inicio
+ECHO 3. Ver administrador de certificados
+ECHO 4. Ver version de Windows
+ECHO 5. Inicio
 set choice=
 set /p choice=Escoge una opcion:
 if not '%choice%'=='' set choice=%choice:~0,1%
 if '%choice%'=='1' goto ieopcion
 if '%choice%'=='2' goto printerpop
-if '%choice%'=='3' goto winver
-if '%choice%'=='4' goto main
+if '%choice%'=='3' goto Certmgr
+if '%choice%'=='4' goto winver
+if '%choice%'=='5' goto main
 ECHO "%choice%" no es valido, intentalo de nuevo
 ECHO.
 goto Bmenu
 :ieopcion
 Rundll32 Shell32.dll, Control_RunDLL Inetcpl.cpl
-goto Bmenu
+goto main
 :printerpop
 start control printers
-goto Bmenu
+goto main
 :winver
 RunDll32.exe SHELL32.DLL,ShellAboutW
-goto Bmenu
+goto main
+:Certmgr
+Certmgr.msc
+goto main
