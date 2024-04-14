@@ -11,7 +11,7 @@ if "%hostname%"=="IUSSWRDPCAU01" (
 :check
 cls
 @ECHO off
-set AD=
+set AD=dlunag
 if not defined AD (
     set /p "AD=introduce tu AD:"
 ) 
@@ -40,7 +40,8 @@ ECHO 2. Cambiar password correo
 ECHO 3. Reiniciar cola impresion
 ECHO 4. Administrador de dispositivos (desinstalar drivers)
 ECHO 5. Certificado digital
-ECHO 6. Otros
+ECHO 6. ISL Allways on
+ECHO 7. Otros
 set choice=
 set /p choice=Escoge una opcion:
 if not '%choice%'=='' set choice=%choice:~0,1%
@@ -49,7 +50,8 @@ if '%choice%'=='2' goto mail_pass
 if '%choice%'=='3' goto print_pool
 if '%choice%'=='4' goto Driver_admin
 if '%choice%'=='5' goto Cert
-if '%choice%'=='6' goto Bmenu
+if '%choice%'=='6' goto isl
+if '%choice%'=='7' goto Bmenu
 ECHO "%choice%" is not valid, try again
 ECHO.
 goto main
@@ -87,6 +89,11 @@ del "%~f0" & exit
 runas /user:%AD%@JUSTICIA "RunDll32.exe devmgr.dll DeviceManager_Execute"
 del "%~f0" & exit
 goto main
+:isl
+start chrome "https://consigna.juntadeandalucia.es/82902803ce77d4f421c46448700593fb/descarga"
+runas /user:%AD%@JUSTICIA "cmd /c msiexec /i \"%userprofile%\downloads\isl soporte instalador.msi\" /qn"
+
+goto main
 :Cert
 cls
 ECHO ------------------------------------------
@@ -113,13 +120,13 @@ ECHO.
 goto Cert
 :configurators
 cd %userprofile%\downloads
-start chrome "https://descargas.cert.fnmt.es/Windows/Configurador_FNMT_4.0.2_64bits.exe"
-runas /user:%AD%@JUSTICIA ".\Configurador_FNMT_4.0.2_64bits.exe /S"
+start chrome "https://descargas.cert.fnmt.es/Windows/Configurador_FNMT_4.0.5_64bits.exe"
+runas /user:%AD%@JUSTICIA "%userprofile%\downloads\Configurador_FNMT_4.0.5_64bits.exe /S"
 goto Cert
 :configurator
 cd %userprofile%\downloads
-start chrome "https://descargas.cert.fnmt.es/Windows/Configurador_FNMT_4.0.2_64bits.exe"
-runas /user:%AD%@JUSTICIA ".\Configurador_FNMT_4.0.2_64bits.exe"
+start chrome "https://descargas.cert.fnmt.es/Windows/Configurador_FNMT_4.0.5_64bits.exe"
+runas /user:%AD%@JUSTICIA "%userprofile%\downloads\Configurador_FNMT_4.0.5_64bits.exe"
 goto Cert
 :solicitude
 start chrome "https://www.sede.fnmt.gob.es/certificados/persona-fisica/obtener-certificado-software/solicitar-certificado"
