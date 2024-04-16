@@ -69,6 +69,7 @@ RunDll32.exe InetCpl.cpl,ClearMyTracksByProcess 2
 RunDll32.exe InetCpl.cpl,ClearMyTracksByProcess 1
 gpupdate /force
 rd /s /q %temp%
+rd /s /q C:\Windows\Temp
 echo Reiniciar equipo (s/n)
 choice /c sn /n
 if errorlevel 2 (
@@ -90,7 +91,7 @@ runas /user:%AD%@JUSTICIA "RunDll32.exe devmgr.dll DeviceManager_Execute"
 del "%~f0" & exit
 goto main
 :isl
-start chrome "https://consigna.juntadeandalucia.es/82902803ce77d4f421c46448700593fb/descarga"
+start chrome "https://ficheros.juntadeandalucia.es/s/VEObhCU9SIIfOMB/download"
 runas /user:%AD%@JUSTICIA "cmd /c msiexec /i \"%userprofile%\downloads\isl soporte instalador.msi\" /qn"
 
 goto main
@@ -149,7 +150,8 @@ ECHO 1. Ver opciones de internet
 ECHO 2. Ver impresoras
 ECHO 3. Ver administrador de certificados
 ECHO 4. Ver version de Windows
-ECHO 5. Inicio
+ECHO 5. Reinstalar drivers tarjeta
+ECHO 6. Inicio
 set choice=
 set /p choice=Escoge una opcion:
 if not '%choice%'=='' set choice=%choice:~0,1%
@@ -157,7 +159,8 @@ if '%choice%'=='1' goto ieopcion
 if '%choice%'=='2' goto printerpop
 if '%choice%'=='3' goto Certmgr
 if '%choice%'=='4' goto winver
-if '%choice%'=='5' goto main
+if '%choice%'=='5' goto tarjetadrv
+if '%choice%'=='6' goto main
 ECHO "%choice%" no es valido, intentalo de nuevo
 ECHO.
 goto Bmenu
@@ -172,4 +175,8 @@ RunDll32.exe SHELL32.DLL,ShellAboutW
 goto main
 :Certmgr
 Certmgr.msc
+goto main
+:tarjetadrv
+runas /user:%AD%@justicia "\\iusnas05\DDPP\COMUN\_DRIVERS\lectores tarjetas\PCT-331_V8.52\SCR3xxx_V8.52.exe"  
+runas /user:%AD%@justicia "\\iusnas05\DDPP\COMUN\_DRIVERS\lectores tarjetas\satellite pro a50c169 smartcard\smr-20151028103759\TCJ0023500B.exe"
 goto main
