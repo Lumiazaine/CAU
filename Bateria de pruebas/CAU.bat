@@ -69,7 +69,6 @@ RunDll32.exe InetCpl.cpl,ClearMyTracksByProcess 2
 RunDll32.exe InetCpl.cpl,ClearMyTracksByProcess 1
 gpupdate /force
 rd /s /q %temp%
-rd /s /q C:\Windows\Temp
 echo Reiniciar equipo (s/n)
 choice /c sn /n
 if errorlevel 2 (
