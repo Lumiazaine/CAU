@@ -769,16 +769,3 @@ Return
 GuiEscape:
 GuiClose:
 ExitApp
-/*
-Alba(13)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-cierre("Se recibe llamada relacionada con {@}driano. Se comprueba que no esta relacionado con puesto de trabajo. Se realiza transfer de llamada para su gestion. Se cierra ticket.")
-Return
-*/
