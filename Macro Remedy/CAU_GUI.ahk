@@ -1,4 +1,4 @@
-#SingleInstance Force
+﻿#SingleInstance Force
 #NoEnv
 #MaxHotkeysPerInterval 99000000
 #HotkeyInterval 99000000
@@ -15,9 +15,21 @@ SetControlDelay, -1
 SendMode Input
 DllCall("ntdll\ZwSetTimerResolution","Int",5000,"Int",1,"Int*",MyCurrentTimerResolution)
 SetWorkingDir, %A_ScriptDir%
-Gui Add, Edit, x109 y639 w188 h26 vDni, %dni%
+dni:=""
+telf:= ""
+letters := "TRWAGMYFPDXBNJZSQVHLCKE"
+CalculateDNILetter(dniNumber) {
+    global letters
+    if (dniNumber = "" || !RegExMatch(dniNumber, "^\d{1,8}$")) {
+        return ""
+    }
+    index := Mod(dniNumber, 23)
+    return SubStr(letters, index + 1, 1)
+}
+Gui Add, Edit, vdni x109 y639 w188 h26 gUpdateLetter, %dni%
 Gui Add, Edit, x411 y638 w188 h26 vtelf, %telf%
 Gui Add, Edit, x817 y637 w188 h26 vInci, %Inci%
+Gui, Add, Edit, vDNILetter x300 y639 w20 h26 ReadOnly
 Gui Add, Text, x1219 y17 w25 h17, DP
 Gui Add, Text, x798 y368 w84 h19, MINISTERIO
 Gui Add, Text, x288 y20 w95 h20, INCIDENCIAS
@@ -58,7 +70,7 @@ Gui Add, Button, x1046 y410 w183 h68 gButton29, Ganes
 Gui Add, Button, x1045 y268 w183 h68 gButton30, Equipo no enciende
 Gui Add, Button, x1045 y57 w183 h68 gButton31, Disco duro
 Gui Add, Button, x1045 y127 w183 h68 gButton32, Edoc Fortuny
-Gui Add, Button, x832 y199 w183 h68 gButton33, @Driano (WIP)
+Gui Add, Button, x832 y199 w183 h68 gButton33, @Driano
 Gui Add, Button, x432 y478 w183 h68 gButton34, Intervención video
 Gui Add, Button, x1235 y267 w183 h68 gButton35, Monitor
 Gui Add, Button, x1236 y410 w183 h68 gButton36, Teclado
@@ -68,10 +80,13 @@ Gui Add, Button, x1045 y339 w183 h68 gButton39, Error relación de confianza
 Gui Add, Button, x642 y56 w183 h68 gButton40, Contraseñas
 Gui Add, Button, x244 y549 w183 h68 gButton41, Formaciones
 Gui Add, Button, x1050 y635 w80 h23 gButton42, Buscar
+Gui, Add, Checkbox, vModoSeguro x1200 y635 w80 h23, Modo Seguro
 Gui Show, w1456 h704, Gestor de incidencias
-Return
-dni:= ""
-telf:= ""
+UpdateLetter:
+    Gui, Submit, NoHide
+    DNILetter := CalculateDNILetter(dni)
+    GuiControl,, DNILetter, %DNILetter%
+    Return
 screen()
 {
     SetTitleMatchMode, 2
@@ -89,540 +104,540 @@ Alba(num)
 }
 cierre(closetext)
 {
-Sleep, 800
-Send, ^{enter}{Enter}
-Sleep, 800
-SendInput, !a {Down 9}{Right}{Enter}{TAB 12}{Right 2}{TAB 5}{Enter 3}
-SendInput, !a {Down 9}{Right}{Enter}{TAB 12}{Right 2}{TAB 6}{Enter}closetext{Tab}{Enter}
+    Sleep, 800
+    Send, ^{enter}{Enter}
+    Sleep, 800
+    SendInput, !a {Down 9}{Right}{Enter}{TAB 12}{Right 2}{TAB 5}{Enter 3}
+    SendInput, !a {Down 9}{Right}{Enter}{TAB 12}{Right 2}{TAB 6}{Enter}closetext{Tab}{Enter}
 }
 KeepActive:
     if (IsActive)
     {
-        ; Guarda la posición actual del ratón
         MouseGetPos, xpos, ypos
-        ; Mueve el ratón un píxel y luego lo devuelve
         MouseMove, %xpos%, %ypos%, 0
-        ; Simula una pulsación de la tecla Shift
         Send, {Shift}
+        Return
     }
-return
 Button1:
-Alba(42)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(42)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button2:
-Alba(29)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(29)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button3:
-Alba(39)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(39)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button4:
-Alba(9)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(9)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button5:
-Alba(41)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(41)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button6:
-Alba(28)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(28)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button7:
-Alba(22)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(22)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button8:
-Alba(18)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(18)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button9:
-Alba(0)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(0)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button10:
-Alba(4)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(4)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button11:
-Alba(21)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(21)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button12:
-Alba(14)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(14)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button13:
-Alba(32)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(32)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button14:
-Alba(38)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(38)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button15:
-Alba(44)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(44)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button16:
-Alba(24)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(24)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    if (dni != "" && DNILetter != "") {
+        Clipboard := dni . DNILetter
+    }
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button17:
-Alba(12)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(12)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button18:
-Alba(16)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(16)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button19:
-Alba(6)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(6)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button20:
-Alba(30)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(30)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button21:
-Alba(37)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(37)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button22:
-Alba(5)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(5)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button23:
-Alba(11)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(11)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button24:
-Alba(10)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(10)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button25:
-Alba(17)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(17)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button26:
-Alba(7)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(7)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button27:
-Alba(23)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(23)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button28:
-Alba(2)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(2)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button29:
-Alba(25)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(25)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button30:
-Alba(26)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(26)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button31:
-Alba(33)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(33)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button32:
-Alba(31)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(31)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button33:
-Alba(13)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(13)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button34:
-Alba(20)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(20)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button35:
-Alba(15)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(15)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button36:
-Alba(3)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(3)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button37:
-Alba(8)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(8)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button38:
-Alba(19)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(19)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button39:
-Alba(36)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(36)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button40:
-Alba(35)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(35)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button41:
-Alba(27)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(27)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 Button42:
-Alba(0)
-Send, {F3}{Enter}{Tab 5}
-Gui, Submit, NoHide
-Send, %Inci%
-Send, ^{Enter}
-GuiControl, , Inci
-Return
+    Alba(0)
+    Send, {F3}{Enter}{Tab 5}
+    Gui, Submit, NoHide
+    Send, %Inci%
+    Send, ^{Enter}
+    GuiControl, , Inci
+    Return
 #1::
-Alba(0)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(0)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 #2::
-Alba(43)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-cierre("Se cambia contrase{U+00F1}a de AD.")
-Return
+    Alba(43)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    cierre("Se cambia contrase{U+00F1}a de AD.")
+    Return
 #3::
-Alba(34)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telfsi 
-Return
+    Alba(34)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telfsi 
+    Return
 #4::
-Alba(40)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(40)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 #5::
-Alba(1)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(1)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 #7:: ; AFK mode
-SetTimer, KeepActive, 60000 ; 60000 ms = 1 minuto
+SetTimer, KeepActive, 60000 
     Toggle := !Toggle
     if (Toggle)
     {
@@ -638,114 +653,117 @@ SetTimer, KeepActive, 60000 ; 60000 ms = 1 minuto
     }
 return
 #9::
-Alba(0)
-Send, {F3}{Enter}{Tab 5}
-Gui, Submit, NoHide
-Send, %Inci%
-Send, ^{Enter}
-GuiControl, , Inci
-Return
+    Alba(0)
+    Send, {F3}{Enter}{Tab 5}
+    Gui, Submit, NoHide
+    Send, %Inci%
+    Send, ^{Enter}
+    GuiControl, , Inci
+    Return
 #0::Reload
 Return
 XButton1::
-Send, !a{Down 9}{Right}{Enter}
-Return
+    Send, !a{Down 9}{Right}{Enter}
+    Return
 XButton2::
-screen()
-Send, #+s
-Return
+    screen()
+    Send, #+s
+    Return
 F13::
-Alba(0)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-Return
+    Alba(0)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    Return
 F14::
-Alba(43)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-cierre("Se cambia contrase{U+00F1}a de AD.")
-Return
+    Alba(43)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    cierre("Se cambia contrase{U+00F1}a de AD.")
+    Return
 F15::
-Alba(34)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-cierre("Se cambia contrase{U+00F1}a de correo.")
-Return
+    Alba(34)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    cierre("Se cambia contrase{U+00F1}a de correo.")
+    Return
 F16::
-Alba(40)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-cierre("Se cambia contrase{U+00F1}a de Aurea.")
-Return
+    Alba(40)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    cierre("Se cambia contrase{U+00F1}a de Aurea.")
+    Return
 F17::
-Alba(1)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-cierre("Se cambia contrase{U+00F1}a Temis.")
-Return
+    Alba(1)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    cierre("Se cambia contrase{U+00F1}a Temis.")
+    Return
+F18::
+    Send, ^c
+    Alba(0)
+    Send, {F3}{Enter}{Tab 5}
+    Gui, Submit, NoHide
+    Send, ^v
+    Send, ^{Enter}
+    Return
+F12::
+    Alba(0)
+    Send, {F3}{Enter}{Tab 5}
+    Gui, Submit, NoHide
+    Send, %Inci%
+    Send, ^{Enter}
+    GuiControl, , Inci
+    Return
 F19::
-Alba(0)
-Send, {F3}{Enter}{Tab 5}
-Gui, Submit, NoHide
-Send, %Inci%
-Send, ^{Enter}
-GuiControl, , Inci
-Return
+    Alba(0)
+    Send, {F3}{Enter}{Tab 5}
+    Gui, Submit, NoHide
+    Send, %Inci%
+    Send, ^{Enter}
+    GuiControl, , Inci
+    Return
 F20::
-Alba(30)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-cierre("Se empareja equipo correctamente y se indica contrase{U+00F1}a ISL se cierra ticket.")
-Return
+    Alba(30)
+    Gui, Submit, NoHide
+    Send, %dni%
+    Send, {Tab}{Enter}
+    Send, {Tab 3}
+    Send, +{Left 90}{BackSpace}
+    Send, %telf%
+    GuiControl, , dni
+    GuiControl, , telf
+    cierre("Se empareja equipo correctamente y se indica contrase{U+00F1}a ISL se cierra ticket.")
+    Return
 GuiEscape:
 GuiClose:
 ExitApp
-/*
-Alba(13)
-Gui, Submit, NoHide
-Send, %dni%
-Send, {Tab}{Enter}
-Send, {Tab 3}
-Send, +{Left 90}{BackSpace}
-Send, %telf%
-GuiControl, , dni
-GuiControl, , telf
-cierre("Se recibe llamada relacionada con {@}driano. Se comprueba que no esta relacionado con puesto de trabajo. Se realiza transfer de llamada para su gestion. Se cierra ticket.")
-Return
-*/
