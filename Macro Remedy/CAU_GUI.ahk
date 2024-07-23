@@ -1,4 +1,4 @@
-#SingleInstance Force
+﻿#SingleInstance Force
 #NoEnv
 #MaxHotkeysPerInterval 99000000
 #HotkeyInterval 99000000
@@ -15,9 +15,21 @@ SetControlDelay, -1
 SendMode Input
 DllCall("ntdll\ZwSetTimerResolution","Int",5000,"Int",1,"Int*",MyCurrentTimerResolution)
 SetWorkingDir, %A_ScriptDir%
-Gui Add, Edit, x109 y639 w188 h26 vDni, %dni%
+dni:=""
+telf:= ""
+letters := "TRWAGMYFPDXBNJZSQVHLCKE"
+CalculateDNILetter(dniNumber) {
+    global letters
+    if (dniNumber = "" || !RegExMatch(dniNumber, "^\d{1,8}$")) {
+        return ""
+    }
+    index := Mod(dniNumber, 23)
+    return SubStr(letters, index + 1, 1)
+}
+Gui Add, Edit, vdni x109 y639 w188 h26 gUpdateLetter, %dni%
 Gui Add, Edit, x411 y638 w188 h26 vtelf, %telf%
 Gui Add, Edit, x817 y637 w188 h26 vInci, %Inci%
+Gui, Add, Edit, vDNILetter x300 y639 w20 h26 ReadOnly
 Gui Add, Text, x1219 y17 w25 h17, DP
 Gui Add, Text, x798 y368 w84 h19, MINISTERIO
 Gui Add, Text, x288 y20 w95 h20, INCIDENCIAS
@@ -58,7 +70,7 @@ Gui Add, Button, x1046 y410 w183 h68 gButton29, Ganes
 Gui Add, Button, x1045 y268 w183 h68 gButton30, Equipo no enciende
 Gui Add, Button, x1045 y57 w183 h68 gButton31, Disco duro
 Gui Add, Button, x1045 y127 w183 h68 gButton32, Edoc Fortuny
-Gui Add, Button, x832 y199 w183 h68 gButton33, @Driano (WIP)
+Gui Add, Button, x832 y199 w183 h68 gButton33, @Driano
 Gui Add, Button, x432 y478 w183 h68 gButton34, Intervención video
 Gui Add, Button, x1235 y267 w183 h68 gButton35, Monitor
 Gui Add, Button, x1236 y410 w183 h68 gButton36, Teclado
@@ -69,9 +81,11 @@ Gui Add, Button, x642 y56 w183 h68 gButton40, Contraseñas
 Gui Add, Button, x244 y549 w183 h68 gButton41, Formaciones
 Gui Add, Button, x1050 y635 w80 h23 gButton42, Buscar
 Gui Show, w1456 h704, Gestor de incidencias
+UpdateLetter:
+Gui, Submit, NoHide
+DNILetter := CalculateDNILetter(dni)
+GuiControl,, DNILetter, %DNILetter%
 Return
-dni:= ""
-telf:= ""
 screen()
 {
     SetTitleMatchMode, 2
@@ -89,11 +103,11 @@ Alba(num)
 }
 cierre(closetext)
 {
-Sleep, 800
-Send, ^{enter}{Enter}
-Sleep, 800
-SendInput, !a {Down 9}{Right}{Enter}{TAB 12}{Right 2}{TAB 5}{Enter 3}
-SendInput, !a {Down 9}{Right}{Enter}{TAB 12}{Right 2}{TAB 6}{Enter}closetext{Tab}{Enter}
+    Sleep, 800
+    Send, ^{enter}{Enter}
+    Sleep, 800
+    SendInput, !a {Down 9}{Right}{Enter}{TAB 12}{Right 2}{TAB 5}{Enter 3}
+    SendInput, !a {Down 9}{Right}{Enter}{TAB 12}{Right 2}{TAB 6}{Enter}closetext{Tab}{Enter}
 }
 KeepActive:
     if (IsActive)
@@ -104,8 +118,8 @@ KeepActive:
         MouseMove, %xpos%, %ypos%, 0
         ; Simula una pulsación de la tecla Shift
         Send, {Shift}
+        Return
     }
-return
 Button1:
 Alba(42)
 Gui, Submit, NoHide
@@ -279,6 +293,9 @@ Send, {Tab}{Enter}
 Send, {Tab 3}
 Send, +{Left 90}{BackSpace}
 Send, %telf%
+if (dni != "" && DNILetter != "") {
+    Clipboard := dni . DNILetter
+}
 GuiControl, , dni
 GuiControl, , telf
 Return
@@ -622,7 +639,7 @@ GuiControl, , dni
 GuiControl, , telf
 Return
 #7:: ; AFK mode
-SetTimer, KeepActive, 60000 ; 60000 ms = 1 minuto
+SetTimer, KeepActive, 60000 
     Toggle := !Toggle
     if (Toggle)
     {
@@ -712,6 +729,22 @@ Send, %telf%
 GuiControl, , dni
 GuiControl, , telf
 cierre("Se cambia contrase{U+00F1}a Temis.")
+Return
+F18::
+Send, ^c
+Alba(0)
+Send, {F3}{Enter}{Tab 5}
+Gui, Submit, NoHide
+Send, ^v
+Send, ^{Enter}
+Return
+F12::
+Alba(0)
+Send, {F3}{Enter}{Tab 5}
+Gui, Submit, NoHide
+Send, %Inci%
+Send, ^{Enter}
+GuiControl, , Inci
 Return
 F19::
 Alba(0)
