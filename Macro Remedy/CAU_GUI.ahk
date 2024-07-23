@@ -80,6 +80,7 @@ Gui Add, Button, x1045 y339 w183 h68 gButton39, Error relación de confianza
 Gui Add, Button, x642 y56 w183 h68 gButton40, Contraseñas
 Gui Add, Button, x244 y549 w183 h68 gButton41, Formaciones
 Gui Add, Button, x1050 y635 w80 h23 gButton42, Buscar
+Gui, Add, Checkbox, vModoSeguro x1200 y635 w80 h23, Modo Seguro
 Gui Show, w1456 h704, Gestor de incidencias
 UpdateLetter:
 Gui, Submit, NoHide
