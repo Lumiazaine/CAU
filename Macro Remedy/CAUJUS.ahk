@@ -32,40 +32,25 @@ CalculateDNILetter(dniNumber) {
 }
 
 WriteLog(action) {
-    ; Obtener el nombre del equipo
     ComputerName := A_ComputerName
-    ; Obtener la fecha y hora actual
     FormatTime, DateTime,, yyyy-MM-dd HH:mm:ss
-    ; Obtener el mes y año actual para el nombre del archivo de log
     FormatTime, LogFileName,, MMMMyyyy
-    ; Reemplazar espacio con guion bajo en el nombre del archivo
     StringReplace, LogFileName, LogFileName, %A_Space%, _, All
-    ; Crear la ruta del archivo de log
     LogFilePath := A_MyDocuments "\log_" LogFileName ".txt"
-    ; Escribir en el archivo de log
     FileAppend, %DateTime% - %ComputerName% - %action%`n, %LogFilePath%
-    ; Hacer que el archivo sea oculto
     FileSetAttrib, +H, %LogFilePath%
 }
 
 WriteError(errorMessage) {
-    ; Obtener el nombre del equipo
     ComputerName := A_ComputerName
-    ; Obtener la fecha y hora actual
     FormatTime, DateTime,, yyyy-MM-dd HH:mm:ss
-    ; Obtener el mes y año actual para el nombre del archivo de log
     FormatTime, LogFileName,, MMMMyyyy
-    ; Reemplazar espacio con guion bajo en el nombre del archivo
     StringReplace, LogFileName, LogFileName, %A_Space%, _, All
-    ; Crear la ruta del archivo de log
     LogFilePath := A_MyDocuments "\log_" LogFileName ".txt"
-    ; Escribir en el archivo de log
     FileAppend, %DateTime% - %ComputerName% - *** ERROR %errorMessage% ***`n, %LogFilePath%
-    ; Hacer que el archivo sea oculto
     FileSetAttrib, +H, %LogFilePath%
 }
 
-; Interfaz gráfica
 Gui Add, Button, x688 y56 w80 h23 gButton1, Buscar
 Gui Add, Edit, x96 y56 w120 h21 vDNI gUpdateLetter, %dni%
 Gui Add, Edit, x344 y56 w120 h21 vtelf, %telf%
