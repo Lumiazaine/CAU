@@ -135,6 +135,20 @@ Return
     }
     Return
 
+F20::
+    try {
+        Gui, Submit, NoHide
+        Alba(0)
+        Send, {F3}{Enter}{Tab 5}
+        Send, %Inci%
+        Send, ^{Enter}
+        GuiControl, , Inci
+        WriteLog("Pulsó el botón Buscar y ejecutó la macro Alba con Inci: " . Inci)
+    } catch e {
+        WriteError("Pulsando botón Buscar: " . e.Message)
+    }
+    Return
+
 Button1:
     try {
         Gui, Submit, NoHide
