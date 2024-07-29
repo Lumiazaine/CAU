@@ -11,7 +11,7 @@ if "%hostname%"=="IUSSWRDPCAU01" (
 :check
 cls
 @ECHO off
-set AD=dlunag
+set AD=
 if not defined AD (
     set /p "AD=introduce tu AD:"
 ) 
@@ -120,13 +120,13 @@ ECHO.
 goto Cert
 :configurators
 cd %userprofile%\downloads
-start chrome "https://descargas.cert.fnmt.es/Windows/Configurador_FNMT_4.0.5_64bits.exe"
-runas /user:%AD%@JUSTICIA "%userprofile%\downloads\Configurador_FNMT_4.0.5_64bits.exe /S"
+start chrome "https://descargas.cert.fnmt.es/Windows/Configurador_FNMT_4.0.6_64bits.exe"
+runas /user:%AD%@JUSTICIA "%userprofile%\downloads\Configurador_FNMT_4.0.6_64bits.exe /S"
 goto Cert
 :configurator
 cd %userprofile%\downloads
-start chrome "https://descargas.cert.fnmt.es/Windows/Configurador_FNMT_4.0.5_64bits.exe"
-runas /user:%AD%@JUSTICIA "%userprofile%\downloads\Configurador_FNMT_4.0.5_64bits.exe"
+start chrome "https://descargas.cert.fnmt.es/Windows/Configurador_FNMT_4.0.6_64bits.exe"
+runas /user:%AD%@JUSTICIA "%userprofile%\downloads\Configurador_FNMT_4.0.6_64bits.exe"
 goto Cert
 :solicitude
 start chrome "https://www.sede.fnmt.gob.es/certificados/persona-fisica/obtener-certificado-software/solicitar-certificado"
@@ -176,6 +176,6 @@ goto main
 Certmgr.msc
 goto main
 :tarjetadrv
-runas /user:%AD%@justicia "\\iusnas05\DDPP\COMUN\_DRIVERS\lectores tarjetas\PCT-331_V8.52\SCR3xxx_V8.52.exe"  
-runas /user:%AD%@justicia "\\iusnas05\DDPP\COMUN\_DRIVERS\lectores tarjetas\satellite pro a50c169 smartcard\smr-20151028103759\TCJ0023500B.exe"
+rem runas /user:%AD%@justicia "\\iusnas05\DDPP\COMUN\_DRIVERS\lectores tarjetas\PCT-331_V8.52\SCR3xxx_V8.52.exe"  
+rem runas /user:%AD%@justicia "\\iusnas05\DDPP\COMUN\_DRIVERS\lectores tarjetas\satellite pro a50c169 smartcard\smr-20151028103759\TCJ0023500B.exe"
 goto main
