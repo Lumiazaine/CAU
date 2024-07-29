@@ -110,6 +110,8 @@ cierre(closetext) {
     }
 }
 
+;Recargar programa
+
 #0::Reload
     try {
         WriteLog("Recargó el script")
@@ -117,6 +119,8 @@ cierre(closetext) {
         WriteError("Recargando el script: " . e.Message)
     }
 Return
+
+;Abrir ticket con DNI y Teléfono.
 
 #1::
     try {
@@ -135,14 +139,23 @@ Return
     }
     Return
 
+;Busca incidencia por selección
+
 F19::
-    Send, ^c
-    Alba(0)
-    Send, {F3}{Enter}{Tab 5}
-    Gui, Submit, NoHide
-    Send, ^v
-    Send, ^{Enter}
+    try {
+        Send, ^c
+        Alba(0)
+        Send, {F3}{Enter}{Tab 5}
+        Gui, Submit, NoHide
+        Send, ^v
+        Send, ^{Enter}
+          WriteLog("Pulsó el botón Buscar y ejecutó la macro Alba con Inci: " . Inci)
+    } catch e {
+        WriteError("Pulsando botón Buscar: " . e.Message)
+    }
     Return    
+
+;Misma acción que el botón 1 pero con tecla
 
 F20::
     try {
@@ -157,6 +170,8 @@ F20::
         WriteError("Pulsando botón Buscar: " . e.Message)
     }
     Return
+
+;botón de busqueda
 
 Button1:
     try {
