@@ -135,6 +135,15 @@ Return
     }
     Return
 
+F19::
+    Send, ^c
+    Alba(0)
+    Send, {F3}{Enter}{Tab 5}
+    Gui, Submit, NoHide
+    Send, ^v
+    Send, ^{Enter}
+    Return    
+
 F20::
     try {
         Gui, Submit, NoHide
