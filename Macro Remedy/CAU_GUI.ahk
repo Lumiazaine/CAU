@@ -18,6 +18,7 @@ SetWorkingDir, %A_ScriptDir%
 dni:=""
 telf:= ""
 letters := "TRWAGMYFPDXBNJZSQVHLCKE"
+
 CalculateDNILetter(dniNumber) {
     global letters
     if (dniNumber = "" || !RegExMatch(dniNumber, "^\d{1,8}$")) {
@@ -26,6 +27,35 @@ CalculateDNILetter(dniNumber) {
     index := Mod(dniNumber, 23)
     return SubStr(letters, index + 1, 1)
 }
+
+WriteLog(action) {
+    ComputerName := A_ComputerName
+    FormatTime, DateTime,, yyyy-MM-dd HH:mm:ss
+    FormatTime, LogFileName,, MMMMyyyy
+    StringReplace, LogFileName, LogFileName, %A_Space%, _, All
+    LogFilePath := A_MyDocuments "\log_" LogFileName ".txt"
+    FileAppend, %DateTime% - %ComputerName% - %action%`n, %LogFilePath%
+    FileSetAttrib, +H, %LogFilePath%
+}
+
+WriteError(errorMessage) {
+    ComputerName := A_ComputerName
+    FormatTime, DateTime,, yyyy-MM-dd HH:mm:ss
+    FormatTime, LogFileName,, MMMMyyyy
+    StringReplace, LogFileName, LogFileName, %A_Space%, _, All
+    LogFilePath := A_MyDocuments "\log_" LogFileName ".txt"
+    FileAppend, %DateTime% - %ComputerName% - *** ERROR %errorMessage% ***`n, %LogFilePath%
+    FileSetAttrib, +H, %LogFilePath%
+}
+
+;Log inicialización del programa
+
+Try {
+    WriteLog("Ejecutando aplicación")
+} catch e {
+    WriteError("Error ejecutando la aplicación: " . e.Message)
+}
+
 Gui Add, Edit, vdni x109 y639 w188 h26 gUpdateLetter, %dni%
 Gui Add, Edit, x411 y638 w188 h26 vtelf, %telf%
 Gui Add, Edit, x817 y637 w188 h26 vInci, %Inci%
@@ -82,206 +112,312 @@ Gui Add, Button, x244 y549 w183 h68 gButton41, Formaciones
 Gui Add, Button, x1050 y635 w80 h23 gButton42, Buscar
 Gui, Add, Checkbox, vModoSeguro x1200 y635 w80 h23, Modo Seguro
 Gui Show, w1456 h704, Gestor de incidencias
+
 UpdateLetter:
-    Gui, Submit, NoHide
-    DNILetter := CalculateDNILetter(dni)
-    GuiControl,, DNILetter, %DNILetter%
+    try {
+        Gui, Submit, NoHide
+        DNILetter := CalculateDNILetter(DNI)
+        GuiControl,, DNILetter, %DNILetter%
+        WriteLog("Actualizó la letra del DNI")
+    } catch e {
+        WriteError("Actualizando letra del DNI: " . e.Message)
+    }
     Return
+
 screen()
 {
-    SetTitleMatchMode, 2
-    WinActivate, ahk_class ArFrame
+    try {
+        SetTitleMatchMode, 2
+        WinActivate, ahk_class ArFrame
+        WriteLog("Activó la ventana ArFrame")
+    } catch e {
+        WriteError("Activando ventana ArFrame: " . e.Message)
+    }
     Return
 }
+
 Alba(num)
 {
-    RunWait, powershell.exe -ExecutionPolicy Bypass -File "C:\Users\CAU.LAP\AppData\Roaming\AR System\HOME\ARCmds\Alba.ps1",, Hide
-    screen()
-    Send, ^i
-    Send, {TAB 2}{End}{Up %num%}{Enter}
-    Send, {TAB 22}
+    try {
+        RunWait, powershell.exe -ExecutionPolicy Bypass -File "C:\Users\CAU.LAP\AppData\Roaming\AR System\HOME\ARCmds\Alba.ps1",, Hide
+        screen()
+        Send, ^i
+        Send, {TAB 2}{End}{Up %num%}{Enter}
+        Send, {TAB 22}
+        WriteLog("Ejecutó la macro Alba con parámetro " . num)
+    } catch e {
+        WriteError("Ejecutando macro Alba: " . e.Message)
+    }
     Return
 }
+
 cierre(closetext)
 {
-    Sleep, 800
-    Send, ^{enter}{Enter}
-    Sleep, 800
-    SendInput, !a {Down 9}{Right}{Enter}{TAB 12}{Right 2}{TAB 5}{Enter 3}
-    SendInput, !a {Down 9}{Right}{Enter}{TAB 12}{Right 2}{TAB 6}{Enter}closetext{Tab}{Enter}
-}
-KeepActive:
-    if (IsActive)
-    {
-        MouseGetPos, xpos, ypos
-        MouseMove, %xpos%, %ypos%, 0
-        Send, {Shift}
-        Return
+    try {
+        Sleep, 800
+        Send, ^{enter}{Enter}
+        Sleep, 800
+        SendInput, !a {Down 9}{Right}{Enter}{TAB 12}{Right 2}{TAB 5}{Enter 3}
+        SendInput, !a {Down 9}{Right}{Enter}{TAB 12}{Right 2}{TAB 6}{Enter}closetext{Tab}{Enter}
+        WriteLog("Cierre ejecutado con texto: " . closetext)
+    } catch e {
+        WriteError("Cierre ejecutado con texto: " . e.Message)
     }
+}
+
+KeepActive:
+    Try {
+        if (IsActive)
+        {
+            MouseGetPos, xpos, ypos
+            MouseMove, %xpos%, %ypos%, 0
+            Send, {Shift}
+            WriteLog("Se movió mouse")
+            Return
+        } 
+    } catch e {
+        WriteError("Se movió mouse " . e.Message)
+    }
+
 Button1:
-    Alba(42)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(42)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Ejecutó macro alba " .dni "y" .telf)
+    } catch e {
+        WriteError("Error ejecutando macro " . .e.Message)
+    }
     Return
 Button2:
-    Alba(29)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(29)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Ejecutó macro alba " .dni "y" .telf)
+    } catch e {
+        WriteError("Error ejecutando macro " . .e.Message)
+    }
     Return
 Button3:
-    Alba(39)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(39)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Ejecutó macro alba " .dni "y" .telf)
+    } catch e {
+        WriteError("Error ejecutando macro " . .e.Message)
+    }
     Return
 Button4:
-    Alba(9)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(9)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Ejecutó macro alba " .dni "y" .telf)
+    } catch e {
+        WriteError("Error ejecutando macro " . .e.Message)
+    }
     Return
 Button5:
-    Alba(41)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(41)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Ejecutó macro alba " .dni "y" .telf)
+    } catch e {
+        WriteError("Error ejecutando macro " . .e.Message)
+    }
     Return
 Button6:
-    Alba(28)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(28)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Ejecutó macro alba " .dni "y" .telf)
+    } catch e {
+        WriteError("Error ejecutando macro " . .e.Message)
+    }
     Return
 Button7:
-    Alba(22)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(22)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Ejecutó macro alba " .dni "y" .telf)
+    } catch e {
+        WriteError("Error ejecutando macro " . .e.Message)
+    }
     Return
 Button8:
-    Alba(18)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(18)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Ejecutó macro alba " .dni "y" .telf)
+    } catch e {
+        WriteError("Error ejecutando macro " . .e.Message)
+    }
     Return
 Button9:
-    Alba(0)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(0)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Ejecutó macro alba " .dni "y" .telf)
+    } catch e {
+        WriteError("Error ejecutando macro " . .e.Message)
+    }
     Return
 Button10:
-    Alba(4)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(4)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Ejecutó macro alba " .dni "y" .telf)
+    } catch e {
+        WriteError("Error ejecutando macro " . .e.Message)
+    }
     Return
 Button11:
-    Alba(21)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(21)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Ejecutó macro alba " .dni "y" .telf)
+    } catch e {
+        WriteError("Error ejecutando macro " . .e.Message)
+    }
     Return
 Button12:
-    Alba(14)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(14)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Ejecutó macro alba " .dni "y" .telf)
+    } catch e {
+        WriteError("Error ejecutando macro " . .e.Message)
+    }
     Return
 Button13:
-    Alba(32)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(32)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Ejecutó macro alba " .dni "y" .telf)
+    } catch e {
+        WriteError("Error ejecutando macro " . .e.Message)
+    }
     Return
 Button14:
-    Alba(38)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(38)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Ejecutó macro alba " .dni "y" .telf)
+    } catch e {
+        WriteError("Error ejecutando macro " . .e.Message)
+    }
     Return
 Button15:
-    Alba(44)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(44)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Ejecutó macro alba " .dni "y" .telf)
+    } catch e {
+        WriteError("Error ejecutando macro " . .e.Message)
+    }
     Return
 Button16:
     Alba(24)
@@ -298,298 +434,432 @@ Button16:
     GuiControl, , telf
     Return
 Button17:
-    Alba(12)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(12)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Ejecutó macro alba " .dni "y" .telf)
+    } catch e {
+        WriteError("Error ejecutando macro " . .e.Message)
+    }
     Return
 Button18:
-    Alba(16)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(16)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Ejecutó macro alba " .dni "y" .telf)
+    } catch e {
+        WriteError("Error ejecutando macro " . .e.Message)
+    }
     Return
 Button19:
-    Alba(6)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(6)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Ejecutó macro alba " .dni "y" .telf)
+    } catch e {
+        WriteError("Error ejecutando macro " . .e.Message)
+    }
     Return
 Button20:
-    Alba(30)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(30)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Ejecutó macro alba " .dni "y" .telf)
+    } catch e {
+        WriteError("Error ejecutando macro " . .e.Message)
+    }
     Return
 Button21:
-    Alba(37)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(37)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Ejecutó macro alba " .dni "y" .telf)
+    } catch e {
+        WriteError("Error ejecutando macro " . .e.Message)
+    }
     Return
 Button22:
-    Alba(5)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(5)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Ejecutó macro alba " .dni "y" .telf)
+    } catch e {
+        WriteError("Error ejecutando macro " . .e.Message)
+    }
     Return
 Button23:
-    Alba(11)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(11)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Ejecutó macro alba " .dni "y" .telf)
+    } catch e {
+        WriteError("Error ejecutando macro " . .e.Message)
+    }
     Return
 Button24:
-    Alba(10)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(10)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Ejecutó macro alba " .dni "y" .telf)
+    } catch e {
+        WriteError("Error ejecutando macro " . .e.Message)
+    }
     Return
 Button25:
-    Alba(17)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(17)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Ejecutó macro alba " .dni "y" .telf)
+    } catch e {
+        WriteError("Error ejecutando macro " . .e.Message)
+    }
     Return
 Button26:
-    Alba(7)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(7)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Ejecutó macro alba " .dni "y" .telf)
+    } catch e {
+        WriteError("Error ejecutando macro " . .e.Message)
+    }
     Return
 Button27:
-    Alba(23)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(23)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Ejecutó macro alba " .dni "y" .telf)
+    } catch e {
+        WriteError("Error ejecutando macro " . .e.Message)
+    }
     Return
 Button28:
-    Alba(2)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(2)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Ejecutó macro alba " .dni "y" .telf)
+    } catch e {
+        WriteError("Error ejecutando macro " . .e.Message)
+    }
     Return
 Button29:
-    Alba(25)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(25)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Ejecutó macro alba " .dni "y" .telf)
+    } catch e {
+        WriteError("Error ejecutando macro " . .e.Message)
+    }
     Return
 Button30:
-    Alba(26)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(26)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Ejecutó macro alba " .dni "y" .telf)
+    } catch e {
+        WriteError("Error ejecutando macro " . .e.Message)
+    }
     Return
 Button31:
-    Alba(33)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(33)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Ejecutó macro alba " .dni "y" .telf)
+    } catch e {
+        WriteError("Error ejecutando macro " . .e.Message)
+    }
     Return
 Button32:
-    Alba(31)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(31)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Ejecutó macro alba " .dni "y" .telf)
+    } catch e {
+        WriteError("Error ejecutando macro " . .e.Message)
+    }
     Return
 Button33:
-    Alba(13)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(13)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Ejecutó macro alba " .dni "y" .telf)
+    } catch e {
+        WriteError("Error ejecutando macro " . .e.Message)
+    }
     Return
 Button34:
-    Alba(20)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(20)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Ejecutó macro alba " .dni "y" .telf)
+    } catch e {
+        WriteError("Error ejecutando macro " . .e.Message)
+    }
     Return
 Button35:
-    Alba(15)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(15)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Ejecutó macro alba " .dni "y" .telf)
+    } catch e {
+        WriteError("Error ejecutando macro " . .e.Message)
+    }
     Return
 Button36:
-    Alba(3)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(3)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Ejecutó macro alba " .dni "y" .telf)
+    } catch e {
+        WriteError("Error ejecutando macro " . .e.Message)
+    }
     Return
 Button37:
-    Alba(8)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(8)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Ejecutó macro alba " .dni "y" .telf)
+    } catch e {
+        WriteError("Error ejecutando macro " . .e.Message)
+    }
     Return
 Button38:
-    Alba(19)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(19)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Ejecutó macro alba " .dni "y" .telf)
+    } catch e {
+        WriteError("Error ejecutando macro " . .e.Message)
+    }
     Return
 Button39:
-    Alba(36)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(36)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Ejecutó macro alba " .dni "y" .telf)
+    } catch e {
+        WriteError("Error ejecutando macro " . .e.Message)
+    }
     Return
 Button40:
-    Alba(35)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(35)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Ejecutó macro alba " .dni "y" .telf)
+    } catch e {
+        WriteError("Error ejecutando macro " . .e.Message)
+    }
     Return
 Button41:
-    Alba(27)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(27)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Ejecutó macro alba " .dni "y" .telf)
+    } catch e {
+        WriteError("Error ejecutando macro " . .e.Message)
+    }
     Return
 Button42:
-    Alba(0)
-    Send, {F3}{Enter}{Tab 5}
-    Gui, Submit, NoHide
-    Send, %Inci%
-    Send, ^{Enter}
-    GuiControl, , Inci
-    Return
+    try {
+        Gui, Submit, NoHide
+        Alba(0)
+        Send, {F3}{Enter}{Tab 5}
+        Send, %Inci%
+        Send, ^{Enter}
+        GuiControl, , Inci
+        WriteLog("Pulsó el botón Buscar y ejecutó la macro Alba con Inci: " . Inci)
+    } catch e {
+        WriteError("Pulsando botón Buscar: " . e.Message)
+    }
 #1::
-    Alba(0)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try {
+        Alba(0)
+        Gui, Submit, NoHide
+        Send, %DNI%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , DNI
+        GuiControl, , telf
+        WriteLog("Ejecutó la combinación #1 con DNI y teléfono")
+    } catch e {
+        WriteError("Ejecutando combinación #1: " . e.Message)
+    }
     Return
 #2::
     Alba(43)
@@ -637,21 +907,27 @@ Button42:
     GuiControl, , telf
     Return
 #7:: ; AFK mode
-SetTimer, KeepActive, 60000 
-    Toggle := !Toggle
-    if (Toggle)
-    {
-        SetTimer, KeepActive, On
-        IsActive := true
-        MsgBox, 64, Modo AFK activado.
-    }
-    else
-    {
-        SetTimer, KeepActive, Off
-        IsActive := false
-        MsgBox, 64, Modo AFK desactivado.
-    }
-return
+try{
+    SetTimer, KeepActive, 60000 
+        Toggle := !Toggle
+        if (Toggle)
+        {
+            SetTimer, KeepActive, On
+            IsActive := true
+            MsgBox, 64, Modo AFK activado.
+            WriteLog("Activó modo afk")
+        }
+        else
+        {
+            SetTimer, KeepActive, Off
+            IsActive := false
+            MsgBox, 64, Modo AFK desactivado.
+            WriteLog("Desactivó modo afk")
+        }} catch e {
+            WriteError("Error ejecutando modo afk " . e.Message)
+        }
+
+    Return
 #9::
     Alba(0)
     Send, {F3}{Enter}{Tab 5}
@@ -661,7 +937,13 @@ return
     GuiControl, , Inci
     Return
 #0::Reload
+    try {
+        WriteLog("Recargó el script")
+    } catch e {
+        WriteError("Recargando el script: " . e.Message)
+    }
 Return
+
 XButton1::
     Send, !a{Down 9}{Right}{Enter}
     Return
@@ -764,6 +1046,12 @@ F20::
     GuiControl, , telf
     cierre("Se empareja equipo correctamente y se indica contrase{U+00F1}a ISL se cierra ticket.")
     Return
+
 GuiEscape:
 GuiClose:
-ExitApp
+    try {
+        WriteLog("Cerró la aplicación")
+        ExitApp
+    } catch e {
+        WriteError("Cerrando la aplicación: " . e.Message)
+    }
