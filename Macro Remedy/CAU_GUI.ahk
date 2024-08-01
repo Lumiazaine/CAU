@@ -118,7 +118,6 @@ UpdateLetter:
         Gui, Submit, NoHide
         DNILetter := CalculateDNILetter(DNI)
         GuiControl,, DNILetter, %DNILetter%
-        WriteLog("Actualizó la letra del DNI")
     } catch e {
         WriteError("Actualizando letra del DNI: " . e.Message)
     }
