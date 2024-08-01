@@ -118,10 +118,25 @@ UpdateLetter:
         Gui, Submit, NoHide
         DNILetter := CalculateDNILetter(DNI)
         GuiControl,, DNILetter, %DNILetter%
+        WriteLog("Actualizó la letra del DNI")
     } catch e {
         WriteError("Actualizando letra del DNI: " . e.Message)
     }
     Return
+
+CheckRemedy()
+{
+    IfWinExist, ahk_exe aruser.exe
+    {
+        return true
+    }
+    else
+    {
+        MsgBox, Error, el programa Remedy no se encuentra abierto.
+        WriteLog("Error, el programa Remedy no se encuentra abierto")
+        return false
+    }
+}
 
 screen()
 {
@@ -137,7 +152,12 @@ screen()
 
 Alba(num)
 {
+     if (!CheckRemedy())
+    {
+        return
+    }
     try {
+        BlockInput, On ; Bloquea el teclado y el ratón
         RunWait, powershell.exe -ExecutionPolicy Bypass -File "C:\Users\CAU.LAP\AppData\Roaming\AR System\HOME\ARCmds\Alba.ps1",, Hide
         screen()
         Send, ^i
@@ -147,8 +167,13 @@ Alba(num)
     } catch e {
         WriteError("Ejecutando macro Alba: " . e.Message)
     }
+        finally
+    {
+        BlockInput, Off ; Desbloquea el teclado y el ratón
+    }
     Return
 }
+
 
 cierre(closetext)
 {
@@ -179,6 +204,10 @@ KeepActive:
     }
 
 Button1:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try{
         Alba(42)
         Gui, Submit, NoHide
@@ -195,6 +224,10 @@ Button1:
     }
     Return
 Button2:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try{
         Alba(29)
         Gui, Submit, NoHide
@@ -211,6 +244,10 @@ Button2:
     }
     Return
 Button3:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try{
         Alba(39)
         Gui, Submit, NoHide
@@ -227,6 +264,10 @@ Button3:
     }
     Return
 Button4:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try{
         Alba(9)
         Gui, Submit, NoHide
@@ -243,6 +284,10 @@ Button4:
     }
     Return
 Button5:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try{
         Alba(41)
         Gui, Submit, NoHide
@@ -259,6 +304,10 @@ Button5:
     }
     Return
 Button6:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try{
         Alba(28)
         Gui, Submit, NoHide
@@ -275,6 +324,10 @@ Button6:
     }
     Return
 Button7:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try{
         Alba(22)
         Gui, Submit, NoHide
@@ -291,6 +344,10 @@ Button7:
     }
     Return
 Button8:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try{
         Alba(18)
         Gui, Submit, NoHide
@@ -307,6 +364,10 @@ Button8:
     }
     Return
 Button9:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try{
         Alba(0)
         Gui, Submit, NoHide
@@ -323,6 +384,10 @@ Button9:
     }
     Return
 Button10:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try{
         Alba(4)
         Gui, Submit, NoHide
@@ -339,6 +404,10 @@ Button10:
     }
     Return
 Button11:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try{
         Alba(21)
         Gui, Submit, NoHide
@@ -355,6 +424,10 @@ Button11:
     }
     Return
 Button12:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try{
         Alba(14)
         Gui, Submit, NoHide
@@ -371,6 +444,10 @@ Button12:
     }
     Return
 Button13:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try{
         Alba(32)
         Gui, Submit, NoHide
@@ -387,6 +464,10 @@ Button13:
     }
     Return
 Button14:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try{
         Alba(38)
         Gui, Submit, NoHide
@@ -403,6 +484,10 @@ Button14:
     }
     Return
 Button15:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try{
         Alba(44)
         Gui, Submit, NoHide
@@ -419,6 +504,10 @@ Button15:
     }
     Return
 Button16:
+     if (!CheckRemedy())
+    {
+        return
+    }
     Alba(24)
     Gui, Submit, NoHide
     Send, %dni%
@@ -433,6 +522,10 @@ Button16:
     GuiControl, , telf
     Return
 Button17:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try{
         Alba(12)
         Gui, Submit, NoHide
@@ -449,6 +542,10 @@ Button17:
     }
     Return
 Button18:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try{
         Alba(16)
         Gui, Submit, NoHide
@@ -465,6 +562,10 @@ Button18:
     }
     Return
 Button19:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try{
         Alba(6)
         Gui, Submit, NoHide
@@ -481,6 +582,10 @@ Button19:
     }
     Return
 Button20:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try{
         Alba(30)
         Gui, Submit, NoHide
@@ -497,6 +602,10 @@ Button20:
     }
     Return
 Button21:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try{
         Alba(37)
         Gui, Submit, NoHide
@@ -513,6 +622,10 @@ Button21:
     }
     Return
 Button22:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try{
         Alba(5)
         Gui, Submit, NoHide
@@ -529,6 +642,10 @@ Button22:
     }
     Return
 Button23:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try{
         Alba(11)
         Gui, Submit, NoHide
@@ -545,6 +662,10 @@ Button23:
     }
     Return
 Button24:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try{
         Alba(10)
         Gui, Submit, NoHide
@@ -561,6 +682,10 @@ Button24:
     }
     Return
 Button25:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try{
         Alba(17)
         Gui, Submit, NoHide
@@ -577,6 +702,10 @@ Button25:
     }
     Return
 Button26:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try{
         Alba(7)
         Gui, Submit, NoHide
@@ -593,6 +722,10 @@ Button26:
     }
     Return
 Button27:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try{
         Alba(23)
         Gui, Submit, NoHide
@@ -609,6 +742,10 @@ Button27:
     }
     Return
 Button28:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try{
         Alba(2)
         Gui, Submit, NoHide
@@ -625,6 +762,10 @@ Button28:
     }
     Return
 Button29:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try{
         Alba(25)
         Gui, Submit, NoHide
@@ -641,6 +782,10 @@ Button29:
     }
     Return
 Button30:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try{
         Alba(26)
         Gui, Submit, NoHide
@@ -657,6 +802,10 @@ Button30:
     }
     Return
 Button31:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try{
         Alba(33)
         Gui, Submit, NoHide
@@ -673,6 +822,10 @@ Button31:
     }
     Return
 Button32:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try{
         Alba(31)
         Gui, Submit, NoHide
@@ -689,6 +842,10 @@ Button32:
     }
     Return
 Button33:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try{
         Alba(13)
         Gui, Submit, NoHide
@@ -705,6 +862,10 @@ Button33:
     }
     Return
 Button34:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try{
         Alba(20)
         Gui, Submit, NoHide
@@ -721,6 +882,10 @@ Button34:
     }
     Return
 Button35:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try{
         Alba(15)
         Gui, Submit, NoHide
@@ -737,6 +902,10 @@ Button35:
     }
     Return
 Button36:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try{
         Alba(3)
         Gui, Submit, NoHide
@@ -753,6 +922,10 @@ Button36:
     }
     Return
 Button37:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try{
         Alba(8)
         Gui, Submit, NoHide
@@ -769,6 +942,10 @@ Button37:
     }
     Return
 Button38:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try{
         Alba(19)
         Gui, Submit, NoHide
@@ -785,6 +962,10 @@ Button38:
     }
     Return
 Button39:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try{
         Alba(36)
         Gui, Submit, NoHide
@@ -801,6 +982,10 @@ Button39:
     }
     Return
 Button40:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try{
         Alba(35)
         Gui, Submit, NoHide
@@ -817,6 +1002,10 @@ Button40:
     }
     Return
 Button41:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try{
         Alba(27)
         Gui, Submit, NoHide
@@ -833,6 +1022,10 @@ Button41:
     }
     Return
 Button42:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try {
         Gui, Submit, NoHide
         Alba(0)
@@ -845,6 +1038,10 @@ Button42:
         WriteError("Pulsando botón Buscar: " . e.Message)
     }
 #1::
+     if (!CheckRemedy())
+    {
+        return
+    }
     try {
         Alba(0)
         Gui, Submit, NoHide
@@ -861,6 +1058,10 @@ Button42:
     }
     Return
 #2::
+     if (!CheckRemedy())
+    {
+        return
+    }
     Alba(43)
     Gui, Submit, NoHide
     Send, %dni%
@@ -873,6 +1074,10 @@ Button42:
     cierre("Se cambia contrase{U+00F1}a de AD.")
     Return
 #3::
+     if (!CheckRemedy())
+    {
+        return
+    }
     Alba(34)
     Gui, Submit, NoHide
     Send, %dni%
@@ -884,6 +1089,10 @@ Button42:
     GuiControl, , telfsi 
     Return
 #4::
+     if (!CheckRemedy())
+    {
+        return
+    }
     Alba(40)
     Gui, Submit, NoHide
     Send, %dni%
@@ -895,6 +1104,10 @@ Button42:
     GuiControl, , telf
     Return
 #5::
+     if (!CheckRemedy())
+    {
+        return
+    }
     Alba(1)
     Gui, Submit, NoHide
     Send, %dni%
@@ -906,6 +1119,10 @@ Button42:
     GuiControl, , telf
     Return
 #7:: ; AFK mode
+     if (!CheckRemedy())
+    {
+        return
+    }
 try{
     SetTimer, KeepActive, 60000 
         Toggle := !Toggle
@@ -928,6 +1145,10 @@ try{
 
     Return
 #9::
+     if (!CheckRemedy())
+    {
+        return
+    }
     Alba(0)
     Send, {F3}{Enter}{Tab 5}
     Gui, Submit, NoHide
@@ -951,6 +1172,10 @@ XButton2::
     Send, #+s
     Return
 F13::
+     if (!CheckRemedy())
+    {
+        return
+    }
     Alba(0)
     Gui, Submit, NoHide
     Send, %dni%
@@ -962,6 +1187,10 @@ F13::
     GuiControl, , telf
     Return
 F14::
+     if (!CheckRemedy())
+    {
+        return
+    }
     Alba(43)
     Gui, Submit, NoHide
     Send, %dni%
@@ -974,6 +1203,10 @@ F14::
     cierre("Se cambia contrase{U+00F1}a de AD.")
     Return
 F15::
+     if (!CheckRemedy())
+    {
+        return
+    }
     Alba(34)
     Gui, Submit, NoHide
     Send, %dni%
@@ -986,6 +1219,10 @@ F15::
     cierre("Se cambia contrase{U+00F1}a de correo.")
     Return
 F16::
+     if (!CheckRemedy())
+    {
+        return
+    }
     Alba(40)
     Gui, Submit, NoHide
     Send, %dni%
@@ -998,6 +1235,10 @@ F16::
     cierre("Se cambia contrase{U+00F1}a de Aurea.")
     Return
 F17::
+     if (!CheckRemedy())
+    {
+        return
+    }
     Alba(1)
     Gui, Submit, NoHide
     Send, %dni%
@@ -1010,6 +1251,10 @@ F17::
     cierre("Se cambia contrase{U+00F1}a Temis.")
     Return
 F18::
+     if (!CheckRemedy())
+    {
+        return
+    }
     Send, ^c
     Alba(0)
     Send, {F3}{Enter}{Tab 5}
@@ -1018,6 +1263,10 @@ F18::
     Send, ^{Enter}
     Return
 F12::
+     if (!CheckRemedy())
+    {
+        return
+    }
     Alba(0)
     Send, {F3}{Enter}{Tab 5}
     Gui, Submit, NoHide
@@ -1026,6 +1275,10 @@ F12::
     GuiControl, , Inci
     Return
 F19::
+     if (!CheckRemedy())
+    {
+        return
+    }
     Alba(0)
     Send, {F3}{Enter}{Tab 5}
     Gui, Submit, NoHide
@@ -1034,6 +1287,10 @@ F19::
     GuiControl, , Inci
     Return
 F20::
+     if (!CheckRemedy())
+    {
+        return
+    }
     Alba(30)
     Gui, Submit, NoHide
     Send, %dni%
