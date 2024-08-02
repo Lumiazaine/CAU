@@ -1062,6 +1062,7 @@ Button42:
     {
         return
     }
+    try {
     Alba(43)
     Gui, Submit, NoHide
     Send, %dni%
@@ -1073,11 +1074,16 @@ Button42:
     GuiControl, , telf
     cierre("Se cambia contrase{U+00F1}a de AD.")
     Return
+            WriteLog("Ejecutó la combinación #2 con DNI y teléfono")
+    } catch e {
+        WriteError("Ejecutando combinación #2: " . e.Message)
+    }
 #3::
      if (!CheckRemedy())
     {
         return
     }
+    try {
     Alba(34)
     Gui, Submit, NoHide
     Send, %dni%
@@ -1086,13 +1092,18 @@ Button42:
     Send, +{Left 90}{BackSpace}
     Send, %telf%
     GuiControl, , dni
-    GuiControl, , telfsi 
+    GuiControl, , telf
+            WriteLog("Ejecutó la combinación #3 con DNI y teléfono")
+    } catch e {
+        WriteError("Ejecutando combinación #3: " . e.Message)
+    } 
     Return
 #4::
      if (!CheckRemedy())
     {
         return
     }
+    try {
     Alba(40)
     Gui, Submit, NoHide
     Send, %dni%
@@ -1102,12 +1113,17 @@ Button42:
     Send, %telf%
     GuiControl, , dni
     GuiControl, , telf
+            WriteLog("Ejecutó la combinación #4 con DNI y teléfono")
+    } catch e {
+        WriteError("Ejecutando combinación #4: " . e.Message)
+    }
     Return
 #5::
      if (!CheckRemedy())
     {
         return
     }
+    try {
     Alba(1)
     Gui, Submit, NoHide
     Send, %dni%
@@ -1117,6 +1133,10 @@ Button42:
     Send, %telf%
     GuiControl, , dni
     GuiControl, , telf
+            WriteLog("Ejecutó la combinación #1 con DNI y teléfono")
+    } catch e {
+        WriteError("Ejecutando combinación #1: " . e.Message)
+    }
     Return
 #7:: ; AFK mode
      if (!CheckRemedy())
@@ -1165,10 +1185,20 @@ try{
 Return
 
 XButton1::
-    Send, !a{Down 9}{Right}{Enter}
-    Return
+     if (!CheckRemedy())
+    {
+        return
+    }
+    try{
+        screen()
+        Send, {Alt}a
+        Send, {Down 9}{Right}{Enter}
+          WriteLog("Se utilizó botón " . XButton1)
+    } catch e {
+        WriteError("Se utilizó botón " . XButton1 . e.Message)
+    }
+        Return
 XButton2::
-    screen()
     Send, #+s
     Return
 F13::
@@ -1176,21 +1206,27 @@ F13::
     {
         return
     }
-    Alba(0)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
+    try{
+        Alba(0)
+        Gui, Submit, NoHide
+        Send, %dni%
+        Send, {Tab}{Enter}
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        Send, %telf%
+        GuiControl, , dni
+        GuiControl, , telf
+        WriteLog("Se utilizó macro F13")
+    } catch e {
+        WriteError("Se utilizó macro F13" . e.Message)
+    }
     Return
 F14::
      if (!CheckRemedy())
     {
         return
     }
+    try{
     Alba(43)
     Gui, Submit, NoHide
     Send, %dni%
@@ -1201,12 +1237,17 @@ F14::
     GuiControl, , dni
     GuiControl, , telf
     cierre("Se cambia contrase{U+00F1}a de AD.")
+        WriteLog("Ejecutó macro F14")
+    } catch e {
+        WriteError("Ejecutó macro F14: " . e.Message)
+    }
     Return
 F15::
      if (!CheckRemedy())
     {
         return
     }
+    try{
     Alba(34)
     Gui, Submit, NoHide
     Send, %dni%
@@ -1217,12 +1258,17 @@ F15::
     GuiControl, , dni
     GuiControl, , telf
     cierre("Se cambia contrase{U+00F1}a de correo.")
+        WriteLog("Ejecutó macro F15")
+    } catch e {
+        WriteError("Ejecutó macro F15: " . e.Message)
+    }
     Return
 F16::
      if (!CheckRemedy())
     {
         return
     }
+    try{
     Alba(40)
     Gui, Submit, NoHide
     Send, %dni%
@@ -1233,12 +1279,17 @@ F16::
     GuiControl, , dni
     GuiControl, , telf
     cierre("Se cambia contrase{U+00F1}a de Aurea.")
+        WriteLog("Ejecutó macro F16")
+    } catch e {
+        WriteError("Ejecutó macro F16: " . e.Message)
+    }
     Return
 F17::
      if (!CheckRemedy())
     {
         return
     }
+    try{
     Alba(1)
     Gui, Submit, NoHide
     Send, %dni%
@@ -1249,48 +1300,68 @@ F17::
     GuiControl, , dni
     GuiControl, , telf
     cierre("Se cambia contrase{U+00F1}a Temis.")
+        WriteLog("Ejecutó macro F17")
+    } catch e {
+        WriteError("Ejecutó macro F17: " . e.Message)
+    }
     Return
 F18::
      if (!CheckRemedy())
     {
         return
     }
+    try {
     Send, ^c
     Alba(0)
     Send, {F3}{Enter}{Tab 5}
     Gui, Submit, NoHide
     Send, ^v
     Send, ^{Enter}
+    WriteLog("Ejecutó macro F18")
+    } catch e {
+        WriteError("Ejecutó macro F18: " . e.Message)
+    }
     Return
 F12::
      if (!CheckRemedy())
     {
         return
     }
+    try{
     Alba(0)
     Send, {F3}{Enter}{Tab 5}
     Gui, Submit, NoHide
     Send, %Inci%
     Send, ^{Enter}
     GuiControl, , Inci
+    WriteLog("Ejecutó macro F12")
+    } catch e {
+        WriteError("Ejecutó macro F12: " . e.Message)
+    }
     Return
 F19::
      if (!CheckRemedy())
     {
         return
     }
+    Try {
     Alba(0)
     Send, {F3}{Enter}{Tab 5}
     Gui, Submit, NoHide
     Send, %Inci%
     Send, ^{Enter}
     GuiControl, , Inci
+    WriteLog("Se ejecutó macro F19")
+    } catch e {
+        WriteError("Se ejecutó macro F19 :" . e.Message)
+    }
     Return
 F20::
      if (!CheckRemedy())
     {
         return
     }
+    try{
     Alba(30)
     Gui, Submit, NoHide
     Send, %dni%
@@ -1301,6 +1372,10 @@ F20::
     GuiControl, , dni
     GuiControl, , telf
     cierre("Se empareja equipo correctamente y se indica contrase{U+00F1}a ISL se cierra ticket.")
+    WriteLog("Se ejecuta macro F20")
+    } catch e {
+        WriteError("Se ejecuta macro F20: " . e.Message)
+    }
     Return
 
 GuiEscape:

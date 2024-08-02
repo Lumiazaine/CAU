@@ -141,11 +141,12 @@ Return
 ;Abrir ticket con DNI y Teléfono.
 
 #1::
-     if (!CheckRemedy())
+    if (!CheckRemedy())
     {
         return
     }
     try {
+        BlockInput, On
         Alba(0)
         Gui, Submit, NoHide
         Send, %DNI%
@@ -158,6 +159,10 @@ Return
         WriteLog("Ejecutó la combinación #1 con DNI y teléfono")
     } catch e {
         WriteError("Ejecutando combinación #1: " . e.Message)
+    }
+        finally
+    {
+        BlockInput, Off ; Desbloquea el teclado y el ratón
     }
     Return
 
