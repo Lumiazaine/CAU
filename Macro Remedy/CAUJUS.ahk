@@ -51,6 +51,63 @@ WriteError(errorMessage) {
     FileSetAttrib, +H, %LogFilePath%
 }
 
+; URL del repositorio y archivo
+repoUrl := "https://api.github.com/repos/JUST3EXT/CAU/releases/latest"
+downloadUrl := "https://github.com/JUST3EXT/CAU/releases/download/1.1/CAU_GUI.exe"
+localFile := A_ScriptFullPath
+
+; Función para obtener la última versión de GitHub
+GetLatestReleaseVersion() {
+    global repoUrl
+    HttpObj := ComObjCreate("WinHttp.WinHttpRequest.5.1")
+    HttpObj.Open("GET", repoUrl)
+    HttpObj.SetRequestHeader("User-Agent", "AutoHotkey Script")
+    HttpObj.Send()
+    response := HttpObj.ResponseText
+    version := ""
+    RegExMatch(response, """tag_name"":""v(\d+\.\d+\.\d+)""", match)
+    if (match1) {
+        version := match1
+    }
+    return version
+}
+
+; Función para descargar la última versión del ejecutable
+DownloadLatestVersion() {
+    global downloadUrl, localFile
+    UrlDownloadToFile, %downloadUrl%, %localFile%.tmp
+    if (FileExist(localFile ".tmp")) {
+        FileMove, %localFile%.tmp, %localFile%, 1
+        return true
+    } else {
+        return false
+    }
+}
+
+; Función para verificar y actualizar el script
+CheckForUpdates() {
+    latestVersion := GetLatestReleaseVersion()
+    currentVersion := "1.1" ; versión actual
+    WriteLog("Comprobando actualizaciones... Versión actual: " currentVersion)
+    if (latestVersion != "" && latestVersion != currentVersion) {
+        WriteLog("Nueva versión disponible: " latestVersion)
+        MsgBox, Hay una nueva versión disponible: %latestVersion%`nActualizando el script...
+        if (DownloadLatestVersion()) {
+            MsgBox, Script actualizado correctamente. Se reiniciará ahora.
+            Run, %localFile%
+            ExitApp
+        } else {
+            WriteLog("*** ERROR *** Error al descargar la nueva versión.")
+            MsgBox, Error al descargar la nueva versión.
+        } 
+    } else {
+            WriteLog("No se encontraron nuevas actualizaciones.")
+        }
+    }
+
+; Verificar actualizaciones al inicio del script
+CheckForUpdates()
+
 Gui Add, Button, x688 y56 w80 h23 gButton1, Buscar
 Gui Add, Edit, x96 y56 w120 h21 vDNI gUpdateLetter, %dni%
 Gui Add, Edit, x344 y56 w120 h21 vtelf, %telf%
