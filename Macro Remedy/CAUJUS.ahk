@@ -66,11 +66,25 @@ UpdateLetter:
         Gui, Submit, NoHide
         DNILetter := CalculateDNILetter(DNI)
         GuiControl,, DNILetter, %DNILetter%
-        WriteLog("Actualizó la letra del DNI")
     } catch e {
         WriteError("Actualizando letra del DNI: " . e.Message)
     }
     Return
+
+CheckRemedy()
+{
+    IfWinExist, ahk_exe aruser.exe
+    {
+        return true
+    }
+    else
+    {
+        MsgBox, Error, el programa Remedy no se encuentra abierto.
+        WriteLog("Error, el programa Remedy no se encuentra abierto")
+        return false
+    }
+}
+
 
 screen() {
     try {
@@ -84,6 +98,10 @@ screen() {
 }
 
 Alba(num) {
+         if (!CheckRemedy())
+    {
+        return
+    }
     try {
         RunWait, powershell.exe -ExecutionPolicy Bypass -File "C:\Users\CAU.LAP\AppData\Roaming\AR System\HOME\ARCmds\Alba.ps1",, Hide
         screen()
@@ -123,7 +141,12 @@ Return
 ;Abrir ticket con DNI y Teléfono.
 
 #1::
+    if (!CheckRemedy())
+    {
+        return
+    }
     try {
+        BlockInput, On
         Alba(0)
         Gui, Submit, NoHide
         Send, %DNI%
@@ -137,11 +160,19 @@ Return
     } catch e {
         WriteError("Ejecutando combinación #1: " . e.Message)
     }
+        finally
+    {
+        BlockInput, Off ; Desbloquea el teclado y el ratón
+    }
     Return
 
 ;Busca incidencia por selección
 
 F19::
+     if (!CheckRemedy())
+    {
+        return
+    }
     try {
         Send, ^c
         Alba(0)
@@ -158,6 +189,10 @@ F19::
 ;Misma acción que el botón 1 pero con tecla
 
 F20::
+     if (!CheckRemedy())
+    {
+        return
+    }
     try {
         Gui, Submit, NoHide
         Alba(0)
@@ -174,6 +209,10 @@ F20::
 ;botón de busqueda
 
 Button1:
+     if (!CheckRemedy())
+    {
+        return
+    }
     try {
         Gui, Submit, NoHide
         Alba(0)
