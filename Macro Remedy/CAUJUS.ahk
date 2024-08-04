@@ -53,7 +53,7 @@ WriteError(errorMessage) {
 
 ; URL del repositorio y archivo
 repoUrl := "https://api.github.com/repos/JUST3EXT/CAU/releases/latest"
-downloadUrl := "https://github.com/JUST3EXT/CAU/releases/download/1.1/CAU_GUI.exe"
+downloadUrl := "https://github.com/JUST3EXT/CAU/releases/download/1.1/CAUJUS.exe"
 localFile := A_ScriptFullPath
 
 ; Función para obtener la última versión de GitHub
@@ -74,36 +74,49 @@ GetLatestReleaseVersion() {
 
 ; Función para descargar la última versión del ejecutable
 DownloadLatestVersion() {
-    global downloadUrl, localFile
-    UrlDownloadToFile, %downloadUrl%, %localFile%.tmp
-    if (FileExist(localFile ".tmp")) {
-        FileMove, %localFile%.tmp, %localFile%, 1
-        return true
-    } else {
-        return false
-    }
+    global tempFile
+    latestVersion := GetLatestReleaseVersion()
+    downloadUrl := "https://github.com/JUST3EXT/CAU/releases/download/v" latestVersion "/CAUJUS.exe"
+    UrlDownloadToFile, %downloadUrl%, %tempFile%
+    return FileExist(tempFile)
 }
 
 ; Función para verificar y actualizar el script
 CheckForUpdates() {
     latestVersion := GetLatestReleaseVersion()
-    currentVersion := "1.1" ; versión actual
+    currentVersion := "1.0" ; La versión actual de tu script
     WriteLog("Comprobando actualizaciones... Versión actual: " currentVersion)
     if (latestVersion != "" && latestVersion != currentVersion) {
         WriteLog("Nueva versión disponible: " latestVersion)
         MsgBox, Hay una nueva versión disponible: %latestVersion%`nActualizando el script...
         if (DownloadLatestVersion()) {
+            WriteLog("Script actualizado correctamente a la versión " latestVersion)
             MsgBox, Script actualizado correctamente. Se reiniciará ahora.
-            Run, %localFile%
+            RunUpdateScript()
             ExitApp
         } else {
-            WriteLog("*** ERROR *** Error al descargar la nueva versión.")
+            WriteError("*** ERROR *** Error al descargar la nueva versión.")
             MsgBox, Error al descargar la nueva versión.
-        } 
-    } else {
-            WriteLog("No se encontraron nuevas actualizaciones.")
         }
+    } else {
+        WriteLog("No se encontraron nuevas actualizaciones.")
     }
+}
+
+; Función para ejecutar el script de actualización
+RunUpdateScript() {
+    global localFile, tempFile, logFilePath
+    updateScript := "
+    (
+    Sleep, 2000
+    Process, WaitClose, " . DllCall("GetModuleFileName", "uint", DllCall("GetModuleHandle", "str", "AutoHotkey.exe"), "str", localFile, "uint", 260) . "
+    FileMove, " . tempFile . ", " . localFile . ", 1
+    Run, " . localFile . "
+    ExitApp
+    )"
+    FileAppend, %updateScript%, %A_Temp%\UpdateScript.ahk
+    Run, %A_Temp%\UpdateScript.ahk
+}
 
 ; Verificar actualizaciones al inicio del script
 CheckForUpdates()
@@ -141,7 +154,6 @@ CheckRemedy()
         return false
     }
 }
-
 
 screen() {
     try {

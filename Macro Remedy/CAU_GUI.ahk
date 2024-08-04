@@ -15,11 +15,14 @@ SetControlDelay, -1
 SendMode Input
 DllCall("ntdll\ZwSetTimerResolution","Int",5000,"Int",1,"Int*",MyCurrentTimerResolution)
 SetWorkingDir, %A_ScriptDir%
-global repoUrl, downloadUrl, localFile, logFilePath
+
+; Variables globales
+global repoUrl, downloadUrl, localFile, logFilePath, tempFile
 dni:=""
 telf:= ""
 letters := "TRWAGMYFPDXBNJZSQVHLCKE"
 
+; Función para calcular letra dni
 CalculateDNILetter(dniNumber) {
     global letters
     if (dniNumber = "" || !RegExMatch(dniNumber, "^\d{1,8}$")) {
@@ -29,6 +32,7 @@ CalculateDNILetter(dniNumber) {
     return SubStr(letters, index + 1, 1)
 }
 
+; Función para registrar logs
 WriteLog(action) {
     ComputerName := A_ComputerName
     FormatTime, DateTime,, yyyy-MM-dd HH:mm:ss
@@ -39,6 +43,7 @@ WriteLog(action) {
     FileSetAttrib, +H, %LogFilePath%
 }
 
+; Función para registrar erores
 WriteError(errorMessage) {
     ComputerName := A_ComputerName
     FormatTime, DateTime,, yyyy-MM-dd HH:mm:ss
@@ -72,36 +77,49 @@ GetLatestReleaseVersion() {
 
 ; Función para descargar la última versión del ejecutable
 DownloadLatestVersion() {
-    global downloadUrl, localFile
-    UrlDownloadToFile, %downloadUrl%, %localFile%.tmp
-    if (FileExist(localFile ".tmp")) {
-        FileMove, %localFile%.tmp, %localFile%, 1
-        return true
-    } else {
-        return false
-    }
+    global tempFile
+    latestVersion := GetLatestReleaseVersion()
+    downloadUrl := "https://github.com/JUST3EXT/CAU/releases/download/v" latestVersion "/CAU_GUI.exe"
+    UrlDownloadToFile, %downloadUrl%, %tempFile%
+    return FileExist(tempFile)
 }
 
 ; Función para verificar y actualizar el script
 CheckForUpdates() {
     latestVersion := GetLatestReleaseVersion()
-    currentVersion := "1.1" ; versión actual
+    currentVersion := "1.0" ; La versión actual de tu script
     WriteLog("Comprobando actualizaciones... Versión actual: " currentVersion)
     if (latestVersion != "" && latestVersion != currentVersion) {
         WriteLog("Nueva versión disponible: " latestVersion)
         MsgBox, Hay una nueva versión disponible: %latestVersion%`nActualizando el script...
         if (DownloadLatestVersion()) {
+            WriteLog("Script actualizado correctamente a la versión " latestVersion)
             MsgBox, Script actualizado correctamente. Se reiniciará ahora.
-            Run, %localFile%
+            RunUpdateScript()
             ExitApp
         } else {
-            WriteLog("*** ERROR *** Error al descargar la nueva versión.")
+            WriteError("*** ERROR *** Error al descargar la nueva versión.")
             MsgBox, Error al descargar la nueva versión.
-        } 
-    } else {
-            WriteLog("No se encontraron nuevas actualizaciones.")
         }
+    } else {
+        WriteLog("No se encontraron nuevas actualizaciones.")
     }
+}
+
+; Función para ejecutar el script de actualización
+RunUpdateScript() {
+    global localFile, tempFile, logFilePath
+    updateScript := "
+    (
+    Sleep, 2000
+    Process, WaitClose, " . DllCall("GetModuleFileName", "uint", DllCall("GetModuleHandle", "str", "AutoHotkey.exe"), "str", localFile, "uint", 260) . "
+    FileMove, " . tempFile . ", " . localFile . ", 1
+    Run, " . localFile . "
+    ExitApp
+    )"
+    FileAppend, %updateScript%, %A_Temp%\UpdateScript.ahk
+    Run, %A_Temp%\UpdateScript.ahk
+}
 
 ; Verificar actualizaciones al inicio del script
 CheckForUpdates()
