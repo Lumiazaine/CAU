@@ -84,7 +84,7 @@ DownloadLatestVersion() {
 ; Función para verificar y actualizar el script
 CheckForUpdates() {
     latestVersion := GetLatestReleaseVersion()
-    currentVersion := "1.0" ; La versión actual de tu script
+    currentVersion := "1.0" ; Versión actual
     WriteLog("Comprobando actualizaciones... Versión actual: " currentVersion)
     if (latestVersion != "" && latestVersion != currentVersion) {
         WriteLog("Nueva versión disponible: " latestVersion)
