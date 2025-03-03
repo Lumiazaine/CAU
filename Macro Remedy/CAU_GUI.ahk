@@ -54,24 +54,31 @@ WriteError(errorMessage) {
     FileSetAttrib, +H, %LogFilePath%
 }
 
-; URL del repositorio y archivo
+; Versión actual del script (usar el mismo formato que se espera en GitHub)
+currentVersion := "1.0.0"
+
+; URL del repositorio de GitHub (último release)
 repoUrl := "https://api.github.com/repos/JUST3EXT/CAU/releases/latest"
-downloadUrl := "https://github.com/JUST3EXT/CAU/releases/download/1.1/CAU_GUI.exe"
+
+; Ruta temporal para el archivo descargado
+tempFile := A_Temp "\CAU_GUI.exe"
+
+; Ruta del archivo actual (se asume que es un ejecutable compilado)
 localFile := A_ScriptFullPath
 
-; Función para obtener la última versión de GitHub
+
+; Función para obtener la última versión desde GitHub
 GetLatestReleaseVersion() {
     global repoUrl
     HttpObj := ComObjCreate("WinHttp.WinHttpRequest.5.1")
-    HttpObj.Open("GET", repoUrl)
+    HttpObj.Open("GET", repoUrl, false)
     HttpObj.SetRequestHeader("User-Agent", "AutoHotkey Script")
     HttpObj.Send()
     response := HttpObj.ResponseText
     version := ""
-    RegExMatch(response, """tag_name"":""v(\d+\.\d+\.\d+)""", match)
-    if (match1) {
+    ; Se permite opcionalmente la "v" en el tag
+    if RegExMatch(response, """tag_name"":""v?(\d+\.\d+\.\d+)""", match)
         version := match1
-    }
     return version
 }
 
@@ -79,49 +86,63 @@ GetLatestReleaseVersion() {
 DownloadLatestVersion() {
     global tempFile
     latestVersion := GetLatestReleaseVersion()
+    if (latestVersion = "") {
+        return false
+    }
     downloadUrl := "https://github.com/JUST3EXT/CAU/releases/download/v" latestVersion "/CAU_GUI.exe"
     UrlDownloadToFile, %downloadUrl%, %tempFile%
     return FileExist(tempFile)
 }
 
-; Función para verificar y actualizar el script
+; Función para ejecutar el script de actualización (script auxiliar temporal)
+RunUpdateScript() {
+    global localFile, tempFile
+    updateScript =
+    (
+        Sleep, 2000
+        ; Intentar mover el archivo en un bucle hasta que sea posible
+        Loop {
+            FileMove, %tempFile%, %localFile%, 1
+            if (ErrorLevel = 0)
+                break
+            Sleep, 500
+        }
+        Run, %localFile%
+        ExitApp
+    )
+    ; Guardar y ejecutar el script auxiliar
+    FileDelete, %A_Temp%\UpdateScript.ahk  ; Borrar si existe uno anterior
+    FileAppend, %updateScript%, %A_Temp%\UpdateScript.ahk
+    Run, %A_Temp%\UpdateScript.ahk
+}
+
+; Función para comprobar y actualizar el script
 CheckForUpdates() {
+    global currentVersion
     latestVersion := GetLatestReleaseVersion()
-    currentVersion := "1.0" ; La versión actual de tu script
     WriteLog("Comprobando actualizaciones... Versión actual: " currentVersion)
     if (latestVersion != "" && latestVersion != currentVersion) {
         WriteLog("Nueva versión disponible: " latestVersion)
-        MsgBox, Hay una nueva versión disponible: %latestVersion%`nActualizando el script...
-        if (DownloadLatestVersion()) {
-            WriteLog("Script actualizado correctamente a la versión " latestVersion)
-            MsgBox, Script actualizado correctamente. Se reiniciará ahora.
-            RunUpdateScript()
-            ExitApp
-        } else {
-            WriteError("*** ERROR *** Error al descargar la nueva versión.")
-            MsgBox, Error al descargar la nueva versión.
+        ; Preguntar al usuario si desea actualizar (puedes quitar el prompt si prefieres la actualización silenciosa)
+        MsgBox, 4,, Hay una nueva versión disponible: %latestVersion%`n¿Deseas actualizar el script?
+        IfMsgBox, Yes
+        {
+            if (DownloadLatestVersion()) {
+                WriteLog("Script actualizado correctamente a la versión " latestVersion)
+                MsgBox, Script actualizado correctamente. Se reiniciará ahora.
+                RunUpdateScript()
+                ExitApp
+            } else {
+                WriteError("*** ERROR *** Error al descargar la nueva versión.")
+                MsgBox, Error al descargar la nueva versión.
+            }
         }
     } else {
         WriteLog("No se encontraron nuevas actualizaciones.")
     }
 }
 
-; Función para ejecutar el script de actualización
-RunUpdateScript() {
-    global localFile, tempFile, logFilePath
-    updateScript := "
-    (
-    Sleep, 2000
-    Process, WaitClose, " . DllCall("GetModuleFileName", "uint", DllCall("GetModuleHandle", "str", "AutoHotkey.exe"), "str", localFile, "uint", 260) . "
-    FileMove, " . tempFile . ", " . localFile . ", 1
-    Run, " . localFile . "
-    ExitApp
-    )"
-    FileAppend, %updateScript%, %A_Temp%\UpdateScript.ahk
-    Run, %A_Temp%\UpdateScript.ahk
-}
-
-; Verificar actualizaciones al inicio del script
+; Comprobar actualizaciones al iniciar el script
 CheckForUpdates()
 
 ;Log inicialización del programa

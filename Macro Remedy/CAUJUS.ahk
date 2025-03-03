@@ -51,12 +51,13 @@ WriteError(errorMessage) {
     FileSetAttrib, +H, %LogFilePath%
 }
 
-; URL del repositorio y archivo
-repoUrl := "https://api.github.com/repos/JUST3EXT/CAU/releases/latest"
-downloadUrl := "https://github.com/JUST3EXT/CAU/releases/download/1.1/CAUJUS.exe"
-localFile := A_ScriptFullPath
+; --- Configuración inicial ---
+repoUrl    := "https://api.github.com/repos/JUST3EXT/CAU/releases/latest"
+localFile  := A_ScriptFullPath
+tempFile   := A_Temp "\CAUJUS.exe"    ; Ruta temporal para el ejecutable descargado
+currentVersion := "1.0"               ; Versión actual del script
 
-; Función para obtener la última versión de GitHub
+; --- Función para obtener la última versión desde GitHub ---
 GetLatestReleaseVersion() {
     global repoUrl
     HttpObj := ComObjCreate("WinHttp.WinHttpRequest.5.1")
@@ -65,26 +66,27 @@ GetLatestReleaseVersion() {
     HttpObj.Send()
     response := HttpObj.ResponseText
     version := ""
-    RegExMatch(response, """tag_name"":""v(\d+\.\d+\.\d+)""", match)
-    if (match1) {
-        version := match1
-    }
+    ; Se utiliza una variable auxiliar 'm' para capturar el primer grupo (X.Y.Z)
+    if RegExMatch(response, """tag_name"":""v(\d+\.\d+\.\d+)""", m)
+        version := m1
     return version
 }
 
-; Función para descargar la última versión del ejecutable
+; --- Función para descargar la última versión del ejecutable ---
 DownloadLatestVersion() {
     global tempFile
     latestVersion := GetLatestReleaseVersion()
+    ; Se construye la URL de descarga usando la versión obtenida
     downloadUrl := "https://github.com/JUST3EXT/CAU/releases/download/v" latestVersion "/CAUJUS.exe"
     UrlDownloadToFile, %downloadUrl%, %tempFile%
     return FileExist(tempFile)
 }
 
-; Función para verificar y actualizar el script
+; --- Función para verificar y actualizar el script ---
 CheckForUpdates() {
+    global currentVersion
     latestVersion := GetLatestReleaseVersion()
-    currentVersion := "1.0" ; Versión actual
+    ; Se asume que WriteLog y WriteError están definidas en otra parte
     WriteLog("Comprobando actualizaciones... Versión actual: " currentVersion)
     if (latestVersion != "" && latestVersion != currentVersion) {
         WriteLog("Nueva versión disponible: " latestVersion)
@@ -103,23 +105,28 @@ CheckForUpdates() {
     }
 }
 
-; Función para ejecutar el script de actualización
+; --- Función para ejecutar el script de actualización ---
 RunUpdateScript() {
-    global localFile, tempFile, logFilePath
-    updateScript := "
+    global localFile, tempFile
+    ; Se crea un script auxiliar en el directorio temporal
+    updateScript =
     (
     Sleep, 2000
-    Process, WaitClose, " . DllCall("GetModuleFileName", "uint", DllCall("GetModuleHandle", "str", "AutoHotkey.exe"), "str", localFile, "uint", 260) . "
-    FileMove, " . tempFile . ", " . localFile . ", 1
-    Run, " . localFile . "
+    ; Espera a que el proceso actual se cierre utilizando A_PID
+    Process, WaitClose, %A_PID%
+    ; Mueve el archivo descargado al lugar del script actual
+    FileMove, %tempFile%, %localFile%, 1
+    ; Ejecuta el script actualizado
+    Run, %localFile%
     ExitApp
-    )"
+    )
     FileAppend, %updateScript%, %A_Temp%\UpdateScript.ahk
     Run, %A_Temp%\UpdateScript.ahk
 }
 
-; Verificar actualizaciones al inicio del script
+; --- Inicio de la verificación de actualizaciones ---
 CheckForUpdates()
+
 
 Gui Add, Button, x688 y56 w80 h23 gButton1, Buscar
 Gui Add, Edit, x96 y56 w120 h21 vDNI gUpdateLetter, %dni%
@@ -129,7 +136,7 @@ Gui Add, Edit, x216 y56 w31 h21 vDNILetter, ReadOnly
 Gui Add, Text, x56 y56 w23 h23 +0x200, DNI
 Gui Add, Text, x272 y56 w62 h23 +0x200, TELÉFONO
 Gui Add, Text, x496 y56 w19 h23 +0x200, IN
-Gui Show, w838 h159, Rosetta
+Gui Show, w838 h159, Rosetta v2
 
 UpdateLetter:
     try {
