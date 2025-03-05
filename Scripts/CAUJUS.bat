@@ -35,6 +35,7 @@ ECHO Nombre equipo: %computerName%
 ECHO Numero de serie: %sn%
 ECHO Numero de IP: %networkIP%
 ECHO Version: %win%, con la compilacion %versionSO%
+ECHO Version Script: 2503
 echo(
 ECHO 1. Bateria pruebas
 ECHO 2. Cambiar password correo
