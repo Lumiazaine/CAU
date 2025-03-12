@@ -54,93 +54,149 @@ WriteError(errorMessage) {
     FileSetAttrib, +H, %LogFilePath%
 }
 
-; Versión actual del script (usar el mismo formato que se espera en GitHub)
+; Versión actual del script (usar el mismo formato que en GitHub)
 currentVersion := "1.0.0"
 
 ; URL del repositorio de GitHub (último release)
 repoUrl := "https://api.github.com/repos/JUST3EXT/CAU/releases/latest"
 
-; Ruta temporal para el archivo descargado
+; Rutas de archivos
 tempFile := A_Temp "\CAU_GUI.exe"
-
-; Ruta del archivo actual (se asume que es un ejecutable compilado)
 localFile := A_ScriptFullPath
+logFile := A_ScriptDir "\update_log.txt"
 
+; Configuración inicial
+#NoEnv
+SetBatchLines, -1
+FileEncoding, UTF-8
 
-; Función para obtener la última versión desde GitHub
+; Obtener última versión desde GitHub
 GetLatestReleaseVersion() {
     global repoUrl
-    HttpObj := ComObjCreate("WinHttp.WinHttpRequest.5.1")
-    HttpObj.Open("GET", repoUrl, false)
-    HttpObj.SetRequestHeader("User-Agent", "AutoHotkey Script")
-    HttpObj.Send()
-    response := HttpObj.ResponseText
-    version := ""
-    ; Se permite opcionalmente la "v" en el tag
-    if RegExMatch(response, """tag_name"":""v?(\d+\.\d+\.\d+)""", match)
-        version := match1
-    return version
+    try {
+        HttpObj := ComObjCreate("WinHttp.WinHttpRequest.5.1")
+        HttpObj.Open("GET", repoUrl, false)
+        HttpObj.SetRequestHeader("User-Agent", "CAU-Updater/1.0")
+        HttpObj.Send()
+        
+        if (HttpObj.Status != 200) {
+            throw Exception("HTTP Error: " HttpObj.Status)
+        }
+        
+        response := HttpObj.ResponseText
+        if RegExMatch(response, """tag_name"":""(v?[\d.]+)""", match) {
+            return match1
+        }
+        return ""
+    }
+    catch e {
+        WriteError("Falló la obtención de versión: " e.Message)
+        return ""
+    }
 }
 
-; Función para descargar la última versión del ejecutable
+; Descargar última versión
 DownloadLatestVersion() {
     global tempFile
-    latestVersion := GetLatestReleaseVersion()
-    if (latestVersion = "") {
+    try {
+        latestVersion := GetLatestReleaseVersion()
+        if !latestVersion {
+            return false
+        }
+        
+        downloadUrl := "https://github.com/JUST3EXT/CAU/releases/download/" latestVersion "/CAU_GUI.exe"
+        WriteLog("Iniciando descarga desde: " downloadUrl)
+        
+        HttpObj := ComObjCreate("WinHttp.WinHttpRequest.5.1")
+        HttpObj.Open("GET", downloadUrl, false)
+        HttpObj.SetRequestHeader("User-Agent", "CAU-Updater/1.0")
+        HttpObj.Send()
+        
+        if (HttpObj.Status != 200) {
+            throw Exception("Error en descarga: HTTP " HttpObj.Status)
+        }
+        
+        ; Guardar archivo binario correctamente
+        adoStream := ComObjCreate("ADODB.Stream")
+        adoStream.Type := 1 ; Tipo binario
+        adoStream.Open()
+        adoStream.Write(HttpObj.ResponseBody)
+        adoStream.SaveToFile(tempFile, 2)
+        adoStream.Close()
+        
+        return FileExist(tempFile)
+    }
+    catch e {
+        WriteError("Falló la descarga: " e.Message)
         return false
     }
-    downloadUrl := "https://github.com/JUST3EXT/CAU/releases/download/v" latestVersion "/CAU_GUI.exe"
-    UrlDownloadToFile, %downloadUrl%, %tempFile%
-    return FileExist(tempFile)
 }
 
-; Función para ejecutar el script de actualización (script auxiliar temporal)
+; Ejecutar script de actualización
 RunUpdateScript() {
     global localFile, tempFile
     updateScript =
     (
-        Sleep, 2000
-        ; Intentar mover el archivo en un bucle hasta que sea posible
+        #NoEnv
+        SetBatchLines, -1
+        SetTitleMatchMode, 2
+        
+        tries := 0
         Loop {
             FileMove, %tempFile%, %localFile%, 1
-            if (ErrorLevel = 0)
+            if !ErrorLevel
                 break
-            Sleep, 500
+            if (tries++ >= 10) {
+                MsgBox, 16, Error, No se pudo reemplazar el archivo!
+                ExitApp
+            }
+            Sleep, 1000
         }
-        Run, %localFile%
+        Run, "%localFile%"
         ExitApp
     )
-    ; Guardar y ejecutar el script auxiliar
-    FileDelete, %A_Temp%\UpdateScript.ahk  ; Borrar si existe uno anterior
-    FileAppend, %updateScript%, %A_Temp%\UpdateScript.ahk
-    Run, %A_Temp%\UpdateScript.ahk
+    
+    scriptPath := A_Temp "\CAU_Updater.ahk"
+    FileDelete, %scriptPath%
+    FileAppend, %updateScript%, %scriptPath%
+    Run, "%scriptPath%",, Hide
 }
 
-; Función para comprobar y actualizar el script
+; Comprobar actualizaciones
 CheckForUpdates() {
     global currentVersion
+    WriteLog("Iniciando verificación de actualizaciones...")
+    WriteLog("Versión actual: " currentVersion)
+    
     latestVersion := GetLatestReleaseVersion()
-    WriteLog("Comprobando actualizaciones... Versión actual: " currentVersion)
-    if (latestVersion != "" && latestVersion != currentVersion) {
-        WriteLog("Nueva versión disponible: " latestVersion)
-        ; Preguntar al usuario si desea actualizar (puedes quitar el prompt si prefieres la actualización silenciosa)
-        MsgBox, 4,, Hay una nueva versión disponible: %latestVersion%`n¿Deseas actualizar el script?
+    if !latestVersion {
+        return
+    }
+    
+    WriteLog("Última versión disponible: " latestVersion)
+    
+    if (latestVersion != currentVersion) {
+        MsgBox, 68, Actualización Disponible, Nueva versión %latestVersion% disponible.`n¿Deseas actualizar ahora?
         IfMsgBox, Yes
         {
-            if (DownloadLatestVersion()) {
-                WriteLog("Script actualizado correctamente a la versión " latestVersion)
-                MsgBox, Script actualizado correctamente. Se reiniciará ahora.
+            if DownloadLatestVersion() {
+                WriteLog("Actualización descargada exitosamente")
+                MsgBox, 64, Éxito, Actualización completada. La aplicación se reiniciará.
                 RunUpdateScript()
                 ExitApp
-            } else {
-                WriteError("*** ERROR *** Error al descargar la nueva versión.")
-                MsgBox, Error al descargar la nueva versión.
             }
         }
     } else {
-        WriteLog("No se encontraron nuevas actualizaciones.")
+        WriteLog("Ya tienes la última versión instalada")
     }
 }
+
+; Punto de entrada principal
+CheckForUpdates()
+
+; Tu código principal continuaría aquí
+MsgBox, 64, Bienvenido, Aplicación cargada correctamente (Versión %currentVersion%)
+return
 
 ; Comprobar actualizaciones al iniciar el script
 CheckForUpdates()
