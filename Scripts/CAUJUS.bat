@@ -109,7 +109,7 @@ goto main
 cls
 ECHO ------------------------------------------
 ECHO                  CAU                 
-ECHO       Renovar certificado digital
+ECHO     Gestiones del certificado digital
 ECHO ------------------------------------------
 ECHO 1. Configuracion previa (Silenciosa)
 ECHO 2. Configuracion previa (Manual)
@@ -155,7 +155,7 @@ ECHO                  CAU
 ECHO               Utilidades            
 ECHO ------------------------------------------
 ECHO 1. Ver opciones de internet
-ECHO 2. Ver impresoras
+ECHO 2. Instalar Chrome 109
 ECHO 3. Desinstalar driver lector tarjetas
 ECHO 4. Ver version de Windows
 ECHO 5. Reinstalar drivers tarjeta
@@ -167,7 +167,7 @@ set choice=
 set /p choice=Escoge una opcion:
 if not '%choice%'=='' set choice=%choice:~0,1%
 if '%choice%'=='1' goto ieopcion
-if '%choice%'=='2' goto printerpop
+if '%choice%'=='2' goto chrome
 if '%choice%'=='3' goto remove_drivers
 if '%choice%'=='4' goto winver
 if '%choice%'=='5' goto tarjetadrv
@@ -186,8 +186,8 @@ goto main
 :ieopcion
 Rundll32 Shell32.dll, Control_RunDLL Inetcpl.cpl
 goto main
-:printerpop
-start control printers
+:chrome
+runas /user:%AD%@JUSTICIA /savecred "cmd /c msiexec /i \"\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\chrome.msi\" /qn"
 goto main
 :winver
 RunDll32.exe SHELL32.DLL,ShellAboutW
