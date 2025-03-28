@@ -2,7 +2,7 @@
 for /f "tokens=*" %%A in ('hostname') do set "hostname=%%A"
 if "%hostname%"=="IUSSWRDPCAU02" (
     cls
-    echo Las palabras del CAU01 resuenan en tu cabeza ahora mismo: "los script en la maquina de salto no."
+    echo Error, se está ejecutando el script desde la máquina de salto.
     pause
     exit
 ) else (
