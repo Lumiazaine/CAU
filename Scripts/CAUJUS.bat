@@ -2,7 +2,7 @@
 for /f "tokens=*" %%A in ('hostname') do set "hostname=%%A"
 if "%hostname%"=="IUSSWRDPCAU02" (
     cls
-    echo Error, se está ejecutando el script desde la máquina de salto.
+    echo Error 1, se procede a cerrar el script.
     pause
     exit
 ) else (
