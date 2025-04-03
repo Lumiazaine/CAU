@@ -1,11 +1,12 @@
 ﻿# Módulos
 Import-Module ActiveDirectory
-
+$comandos = @()
 # Contraseña
 $securePassword = ConvertTo-SecureString "Temporal01" -AsPlainText -Force
 
 # Ruta fija del archivo CSV
-$filepath = "E:\Users\dlunag\Altas.csv"
+# $filepath = "E:\Users\dlunag\Altas.csv"
+$filepath = "./Descargas/Altas.csv"
 
 # Importar archivo a variable
 $users = Import-Csv $filepath
@@ -30,9 +31,9 @@ function Get-UniqueUsername {
     )
 
     # Quitar tildes
-    $initials = Remove-Accents $initials
-    $lastName = Remove-Accents $lastName
-    $secondLastName = Remove-Accents $secondLastName
+    #$initials = Remove-Accents $initials
+    #$lastName = Remove-Accents $lastName
+    #$secondLastName = Remove-Accents $secondLastName
 
     # Crear el nombre base con ambos apellidos completos
     $baseUsername = "$initials$lastName$secondLastName".ToLower()
@@ -60,7 +61,8 @@ ForEach ($user in $users) {
     
     # Obtener los datos
     $fname = Remove-Accents $user.'Nombre'
-    $apellidos = Remove-Accents $user.'Apellidos' -split '\s+', 2
+    #$apellidos = Remove-Accents $user.'Apellidos' -split '\s+', 2
+    $apellidos = $user.'Apellidos' -split '\s+', 2
     $jtitle = $user.'Cargo'
     $office = $user.'Oficina'
     $dni = $user.'DNI'
@@ -75,8 +77,8 @@ ForEach ($user in $users) {
 
     # Verificar si hay suficientes apellidos
     if ($apellidos.Count -ge 2) {
-        $firstLastName = $apellidos[0]  # Primer apellido
-        $secondLastName = $apellidos[1]  # Segundo apellido
+        $firstLastName = Remove-Accents $apellidos[0]  # Primer apellido
+        $secondLastName = Remove-Accents $apellidos[1]  # Segundo apellido
     } else {
         Write-Warning "Usuario $fname omitido por tener un solo apellido."
         continue  # Saltar a la siguiente iteración
@@ -113,4 +115,5 @@ ForEach ($user in $users) {
     } else {
         Write-Warning "Usuario $fname $firstLastName $secondLastName omitido porque 'membresias' está vacío."
     }
+    
 }

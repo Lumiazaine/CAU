@@ -11,14 +11,29 @@ if "%hostname%"=="IUSSWRDPCAU02" (
 :check
 cls
 @ECHO off
-set AD=
-if not defined AD (
-    set /p "AD=introduce tu AD:"
+set "AD="
+
+:: Verificar si el equipo está conectado al dominio
+set "DOMAIN_STATUS=offline"
+for /f "tokens=2 delims==" %%D in ('wmic computersystem get domain /value ^| findstr /I /V "Domain="') do set "DOMAIN_NAME=%%D"
+
+:: Intentar comunicarse con un controlador de dominio conocido
+ping -n 1 -w 1000 uo.local >nul 2>&1 && set "DOMAIN_STATUS=online"
+
+if /I "%DOMAIN_STATUS%"=="online" (
+    if not defined AD (
+        set /p "AD=Introduce tu AD:"
+    )
+    for /f "tokens=2 delims=\\" %%i in ('whoami') do set "Perfil=%%i"
+) else (
+    set "Perfil=DP_ADMIN"
 )
-for /f "tokens=2 delims=\" %%i in ('whoami') do set Perfil=%%i
+
 cls
 goto main
+
 :main
+
 cls
 FOR /F "usebackq" %%i IN (`hostname`) DO SET computerName=%%i
 FOR /F "Tokens=1* Delims==" %%g In ('WMIC BIOS Get SerialNumber /Value') Do FOR /F "Tokens=*" %%i In ("%%h") Do SET sn=%%i
@@ -35,7 +50,7 @@ ECHO Nombre equipo: %computerName%
 ECHO Numero de serie: %sn%
 ECHO Numero de IP: %networkIP%
 ECHO Version: %win%, con la compilacion %versionSO%
-ECHO Version Script: 2503
+ECHO Version Script: 2504.1
 echo(
 ECHO 1. Bateria pruebas
 ECHO 2. Cambiar password correo
