@@ -74,6 +74,7 @@ ECHO.
 goto main
 del /q "%~f0"
 :Batery_test
+runas /user:%AD%@JUSTICIA /savecred "cmd /c msiexec /i \"\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\isl.msi\" /qn"
 taskkill /IM chrome.exe /F > nul 2>&1
 taskkill /IM iexplore.exe /F > nul 2>&1
 taskkill /IM msedge.exe /F > nul 2>&1
