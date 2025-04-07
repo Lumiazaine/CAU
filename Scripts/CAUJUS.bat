@@ -2,7 +2,7 @@
 for /f "tokens=*" %%A in ('hostname') do set "hostname=%%A"
 if "%hostname%"=="IUSSWRDPCAU02" (
     cls
-    echo Error 1, se procede a cerrar el script.
+    echo Error, se está ejecutando el script desde la máquina de salto.
     pause
     exit
 ) else (
@@ -11,29 +11,14 @@ if "%hostname%"=="IUSSWRDPCAU02" (
 :check
 cls
 @ECHO off
-set "AD="
-
-:: Verificar si el equipo está conectado al dominio
-set "DOMAIN_STATUS=offline"
-for /f "tokens=2 delims==" %%D in ('wmic computersystem get domain /value ^| findstr /I /V "Domain="') do set "DOMAIN_NAME=%%D"
-
-:: Intentar comunicarse con un controlador de dominio conocido
-ping -n 1 -w 1000 uo.local >nul 2>&1 && set "DOMAIN_STATUS=online"
-
-if /I "%DOMAIN_STATUS%"=="online" (
-    if not defined AD (
-        set /p "AD=Introduce tu AD:"
-    )
-    for /f "tokens=2 delims=\\" %%i in ('whoami') do set "Perfil=%%i"
-) else (
-    set "Perfil=DP_ADMIN"
+set AD=
+if not defined AD (
+    set /p "AD=introduce tu AD:"
 )
-
+for /f "tokens=2 delims=\" %%i in ('whoami') do set Perfil=%%i
 cls
 goto main
-
 :main
-
 cls
 FOR /F "usebackq" %%i IN (`hostname`) DO SET computerName=%%i
 FOR /F "Tokens=1* Delims==" %%g In ('WMIC BIOS Get SerialNumber /Value') Do FOR /F "Tokens=*" %%i In ("%%h") Do SET sn=%%i
@@ -50,7 +35,7 @@ ECHO Nombre equipo: %computerName%
 ECHO Numero de serie: %sn%
 ECHO Numero de IP: %networkIP%
 ECHO Version: %win%, con la compilacion %versionSO%
-ECHO Version Script: 2504.1
+ECHO Version Script: 2503
 echo(
 ECHO 1. Bateria pruebas
 ECHO 2. Cambiar password correo
@@ -74,7 +59,6 @@ ECHO.
 goto main
 del /q "%~f0"
 :Batery_test
-runas /user:%AD%@JUSTICIA /savecred "cmd /c msiexec /i \"\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\isl.msi\" /qn"
 taskkill /IM chrome.exe /F > nul 2>&1
 taskkill /IM iexplore.exe /F > nul 2>&1
 taskkill /IM msedge.exe /F > nul 2>&1
