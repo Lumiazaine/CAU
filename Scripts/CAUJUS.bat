@@ -1,4 +1,11 @@
 @ECHO off
+:log
+:: Parámetro 1 = mensaje a registrar
+setlocal enabledelayedexpansion
+set "LOGFILE=%Perfil%_%ComputerName%.log"
+set "TIMESTAMP=%date% %time%"
+echo [%TIMESTAMP%] %~1>> "%LOGFILE%"
+endlocal
 for /f "tokens=*" %%A in ('hostname') do set "hostname=%%A"
 if "%hostname%"=="IUSSWRDPCAU02" (
     cls
@@ -97,7 +104,7 @@ start chrome "https://micuenta.juntadeandalucia.es/micuenta/es.juntadeandalucia.
 del "%~f0" & exit
 goto main
 :print_pool
-FOR /F "tokens=3,*" %%a in ('cscript c:windows\System32\printing_Admin_Scripts\es-ES\prnmngr.vbs -l ^| find "Nombre de impresora"') DO cscript c:windows\System32\printing_Admin_Scripts\es-ES\prnqctl.vbs -m -p "%%b" & CLS
+runas /user:%AD%@JUSTICIA /savecred "cmd /c FOR /F \"tokens=3,*\" %%a in ('cscript c:\\windows\\System32\\printing_Admin_Scripts\\es-ES\\prnmngr.vbs -l ^| find \"Nombre de impresora\"') DO cscript c:\\windows\\System32\\printing_Admin_Scripts\\es-ES\\prnqctl.vbs -m -p \"%%b\""
 del "%~f0" & exit
 :Driver_admin
 runas /user:%AD%@JUSTICIA /savecred "RunDll32.exe devmgr.dll DeviceManager_Execute"
