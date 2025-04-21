@@ -1,11 +1,4 @@
 @ECHO off
-:log
-:: Parámetro 1 = mensaje a registrar
-setlocal enabledelayedexpansion
-set "LOGFILE=%Perfil%_%ComputerName%.log"
-set "TIMESTAMP=%date% %time%"
-echo [%TIMESTAMP%] %~1>> "%LOGFILE%"
-endlocal
 for /f "tokens=*" %%A in ('hostname') do set "hostname=%%A"
 if "%hostname%"=="IUSSWRDPCAU02" (
     cls
