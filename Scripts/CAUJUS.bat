@@ -25,6 +25,24 @@ FOR /F "Tokens=1* Delims==" %%g In ('WMIC BIOS Get SerialNumber /Value') Do FOR 
 FOR /f "delims=[] tokens=2" %%a in ('ping -4 -n 1 %ComputerName% ^| findstr [') do set networkIP=%%a
 FOR /F "Tokens=1* Delims==" %%g In ('wmic os get caption /Value') Do FOR /F "Tokens=*" %%i In ("%%h") Do SET win=%%i
 FOR /f "skip=2 tokens=2,*" %%A in ('reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v CurrentBuildNumber') do (set versionSO=%%B)
+:log
+:: LOG WIP
+setlocal enabledelayedexpansion
+set "LOGFILE=%Perfil%_%ComputerName%.log"
+set "TIMESTAMP=%date% %time%"
+echo [%TIMESTAMP%] %~1>> "%LOGFILE%"
+endlocal
+for /f "tokens=*" %%A in ('hostname') do set "hostname=%%A"
+if "%hostname%"=="IUSSWRDPCAU02" (
+    cls
+    echo Error, se está ejecutando el script desde la máquina de salto.
+    pause
+    exit
+) else (
+    goto check
+)
+:check
+cls
 ECHO ------------------------------------------
 ECHO                  CAU                 
 ECHO ------------------------------------------
@@ -35,7 +53,7 @@ ECHO Nombre equipo: %computerName%
 ECHO Numero de serie: %sn%
 ECHO Numero de IP: %networkIP%
 ECHO Version: %win%, con la compilacion %versionSO%
-ECHO Version Script: 2503
+ECHO Version Script: 2504
 echo(
 ECHO 1. Bateria pruebas
 ECHO 2. Cambiar password correo
