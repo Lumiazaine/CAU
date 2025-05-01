@@ -1,4 +1,5 @@
 @ECHO off
+:: Bloqueo para máquina de salto
 for /f "tokens=*" %%A in ('hostname') do set "hostname=%%A"
 if "%hostname%"=="IUSSWRDPCAU02" (
     cls
@@ -8,6 +9,7 @@ if "%hostname%"=="IUSSWRDPCAU02" (
 ) else (
     goto check
 )
+:: Variable AD
 :check
 cls
 @ECHO off
@@ -18,6 +20,7 @@ if not defined AD (
 for /f "tokens=2 delims=\" %%i in ('whoami') do set Perfil=%%i
 cls
 goto main
+:: Datos equipos
 :main
 cls
 FOR /F "usebackq" %%i IN (`hostname`) DO SET computerName=%%i
@@ -32,15 +35,6 @@ set "LOGFILE=%Perfil%_%ComputerName%.log"
 set "TIMESTAMP=%date% %time%"
 echo [%TIMESTAMP%] %~1>> "%LOGFILE%"
 endlocal
-for /f "tokens=*" %%A in ('hostname') do set "hostname=%%A"
-if "%hostname%"=="IUSSWRDPCAU02" (
-    cls
-    echo Error, se está ejecutando el script desde la máquina de salto.
-    pause
-    exit
-) else (
-    goto check
-)
 :check
 cls
 ECHO ------------------------------------------
