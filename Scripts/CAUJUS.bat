@@ -31,7 +31,7 @@ FOR /f "skip=2 tokens=2,*" %%A in ('reg query "HKLM\SOFTWARE\Microsoft\Windows N
 :log
 :: LOG WIP
 setlocal enabledelayedexpansion
-set "LOGFILE=%Perfil%_%ComputerName%.log"
+set "LOGFILE=%AD%_%ComputerName%.log"
 set "TIMESTAMP=%date% %time%"
 echo [%TIMESTAMP%] %~1>> "%LOGFILE%"
 endlocal
@@ -169,7 +169,7 @@ ECHO               Utilidades
 ECHO ------------------------------------------
 ECHO 1. Ver opciones de internet
 ECHO 2. Instalar Chrome 109
-ECHO 3. Desinstalar driver lector tarjetas
+ECHO 3. Arreglar pantalla oscura (no aparece fondo de pantalla)
 ECHO 4. Ver version de Windows
 ECHO 5. Reinstalar drivers tarjeta
 ECHO 6. Instalar Autofirmas
@@ -181,7 +181,7 @@ set /p choice=Escoge una opcion:
 if not '%choice%'=='' set choice=%choice:~0,1%
 if '%choice%'=='1' goto ieopcion
 if '%choice%'=='2' goto chrome
-if '%choice%'=='3' goto remove_drivers
+if '%choice%'=='3' goto black_screen
 if '%choice%'=='4' goto winver
 if '%choice%'=='5' goto tarjetadrv
 if '%choice%'=='6' goto autof
@@ -191,6 +191,11 @@ if '%choice%'=='9' goto main
 ECHO "%choice%" no es valido, intentalo de nuevo
 ECHO.
 goto Bmenu
+:black_screen
+DisplaySwitch.exe /internal
+timeout /t 3
+DisplaySwitch.exe /extend
+goto main
 :autof
 taskkill /IM chrome.exe /F > nul 2>&1
 runas /user:%AD%@JUSTICIA /savecred "\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\AutoFirma_64_v1_8_3_installer.exe /S"
