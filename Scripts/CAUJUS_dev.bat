@@ -80,9 +80,9 @@ RunDll32.exe InetCpl.cpl,ClearMyTracksByProcess 8
 RunDll32.exe InetCpl.cpl,ClearMyTracksByProcess 2
 RunDll32.exe InetCpl.cpl,ClearMyTracksByProcess 1
 del /q /s /f "E:\Users\%Perfil%\AppData\Local\Google\Chrome\User Data\Default\Cache\*"
-runas /user:%AD%@JUSTICIA /savecred "cmd.exe /c reg add \"HKCU\Control Panel\Desktop\WindowMetrics\" /v MinAnimate /t REG_SZ /d 0 /f"
-runas /user:%AD%@JUSTICIA /savecred "cmd.exe /c reg add \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\" /v TaskbarAnimations /t REG_DWORD /d 0 /f"
-runas /user:%AD%@JUSTICIA /savecred "cmd.exe /c reg add \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects\" /v VisualFXSetting /t REG_DWORD /d 2 /f"
+runas /user:%AD%@JUSTICIA /savecred "reg add "HKCU\Control Panel\Desktop\WindowMetrics" /v MinAnimate /t REG_SZ /d 0 /f"
+runas /user:%AD%@JUSTICIA /savecred "reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarAnimations /t REG_DWORD /d 0 /f"
+runas /user:%AD%@JUSTICIA /savecred "reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects" /v VisualFXSetting /t REG_DWORD /d 2 /f"
 runas /user:%AD%@JUSTICIA /savecred "taskkill /f /im explorer.exe"
 runas /user:%AD%@JUSTICIA /savecred "start explorer.exe"
 gpupdate /force
