@@ -31,8 +31,13 @@ FOR /f "skip=2 tokens=2,*" %%A in ('reg query "HKLM\SOFTWARE\Microsoft\Windows N
 :log
 :: LOG WIP
 setlocal enabledelayedexpansion
-set "LOGFILE=%AD%_%ComputerName%.log"
+set "LOGDIR=\\iusnas05\SIJ\CAU-2012\logs"
+set "LOGFILE=%LOGDIR%\%AD%_%COMPUTERNAME%.log"
 set "TIMESTAMP=%date% %time%"
+if not exist "%LOGDIR%" (
+    echo [ERROR] No se puede acceder al directorio de logs: %LOGDIR%
+    exit /b 1
+)
 echo [%TIMESTAMP%] %~1>> "%LOGFILE%"
 endlocal
 :check
