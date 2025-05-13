@@ -28,6 +28,18 @@ FOR /F "Tokens=1* Delims==" %%g In ('WMIC BIOS Get SerialNumber /Value') Do FOR 
 FOR /f "delims=[] tokens=2" %%a in ('ping -4 -n 1 %ComputerName% ^| findstr [') do set networkIP=%%a
 FOR /F "Tokens=1* Delims==" %%g In ('wmic os get caption /Value') Do FOR /F "Tokens=*" %%i In ("%%h") Do SET win=%%i
 FOR /f "skip=2 tokens=2,*" %%A in ('reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v CurrentBuildNumber') do (set versionSO=%%B)
+:log
+:: LOG WIP
+setlocal enabledelayedexpansion
+set "LOGDIR=\\iusnas05\SIJ\CAU-2012\logs"
+set "LOGFILE=%LOGDIR%\%AD%_%COMPUTERNAME%.log"
+set "TIMESTAMP=%date% %time%"
+if not exist "%LOGDIR%" (
+    echo [ERROR] No se puede acceder al directorio de logs: %LOGDIR%
+    exit /b 1
+)
+echo [%TIMESTAMP%] %~1>> "%LOGFILE%"
+endlocal
 :check
 cls
 ECHO ------------------------------------------
