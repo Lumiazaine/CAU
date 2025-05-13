@@ -39,6 +39,8 @@ if not exist "%LOGDIR%" (
     exit /b 1
 )
 echo [%TIMESTAMP%] %~1>> "%LOGFILE%"
+call :log "Inicio del script"
+
 endlocal
 :check
 cls
