@@ -31,7 +31,7 @@ FOR /f "skip=2 tokens=2,*" %%A in ('reg query "HKLM\SOFTWARE\Microsoft\Windows N
 :log
 @echo off && setlocal enabledelayedexpansion
 if "!_log!/" == "/" (
-     set "LOGDIR=\\iusnas05\DDPP\COMUN\CAU\logs"
+     set "LOGDIR=./"
      set "_log=%LOGDIR%\%AD%_%COMPUTERNAME%.log" 
      2>&1 call "%~f0" >>"!_log!" & exit /b
     )else endlocal
