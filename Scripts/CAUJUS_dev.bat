@@ -64,12 +64,6 @@ ECHO.
 goto main
 del /q "%~f0"
 :Batery_test
-@echo off && setlocal enabledelayedexpansion
-if "!_log!/" == "/" (
-     set "LOGDIR=./"
-     set "_log=%LOGDIR%\%AD%_%COMPUTERNAME%.log" 
-     2>&1 call "%~f0" >>"!_log!" & exit /b
-    )else endlocal
 taskkill /IM chrome.exe /F > nul 2>&1
 taskkill /IM iexplore.exe /F > nul 2>&1
 taskkill /IM msedge.exe /F > nul 2>&1
@@ -207,12 +201,6 @@ timeout /t 3
 DisplaySwitch.exe /extend
 goto main
 :autof
-@echo off && setlocal enabledelayedexpansion
-if "!_log!/" == "/" (
-     set "LOGDIR=./"
-     set "_log=%LOGDIR%\%AD%_%COMPUTERNAME%.log" 
-     2>&1 call "%~f0" >>"!_log!" & exit /b
-    )else endlocal
 taskkill /IM chrome.exe /F > nul 2>&1
 runas /user:%AD%@JUSTICIA /savecred "\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\AutoFirma_64_v1_8_3_installer.exe /S"
 runas /user:%AD%@JUSTICIA /savecred "cmd /c msiexec /i \"\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\AutoFirma_v1_6_0_JAv05_installer_64.msi\" /qn"
