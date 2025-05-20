@@ -219,11 +219,11 @@ runas /user:%AD%@justicia /savecred "\\iusnas05\DDPP\COMUN\_DRIVERS\lectores tar
 runas /user:%AD%@justicia /savecred "\\iusnas05\DDPP\COMUN\_DRIVERS\lectores tarjetas\satellite pro a50c169 smartcard\smr-20151028103759\TCJ0023500B.exe"
 goto main
 :horafec
-runas /user:DLUNAG@JUSTICIA /savecred "net stop w32time"
-runas /user:DLUNAG@JUSTICIA /savecred "w32tm /unregister"
-runas /user:DLUNAG@JUSTICIA /savecred "w32tm /register"
-runas /user:DLUNAG@JUSTICIA /savecred "net start w32time"
-runas /user:DLUNAG@JUSTICIA /savecred "w32tm /resync"
+runas /user:%AD%@JUSTICIA /savecred "net stop w32time"
+runas /user:%AD%@JUSTICIA /savecred "w32tm /unregister"
+runas /user:%AD%@JUSTICIA /savecred "w32tm /register"
+runas /user:%AD%@JUSTICIA /savecred "net start w32time"
+runas /user:%AD%@JUSTICIA /savecred "w32tm /resync"
 goto main
 :libreoff
 runas /user:%AD%@JUSTICIA /savecred "cmd /c msiexec /i \"\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\LibreOffice.msi\" /qn"

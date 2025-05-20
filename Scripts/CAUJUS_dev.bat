@@ -524,20 +524,19 @@ goto main :: Returns to the main menu.
 ::-----------------------------------------------------------------------------
 :: Sub-Section: Forzar fecha y hora (:horafec)
 :: Stops, unregisters, reregisters, starts, and resyncs the Windows Time service.
-:: Uses a specific user account (DLUNAG@JUSTICIA) for these operations.
 ::-----------------------------------------------------------------------------
 :horafec
 call :log "Starting sub-section horafec (Force Time Sync)"
 call :log "Performing action: net stop w32time"
-runas /user:DLUNAG@JUSTICIA /savecred "net stop w32time"
+runas /user:%AD%@JUSTICIA /savecred "net stop w32time"
 call :log "Performing action: w32tm /unregister"
-runas /user:DLUNAG@JUSTICIA /savecred "w32tm /unregister"
+runas /user:%AD%@JUSTICIA /savecred "w32tm /unregister"
 call :log "Performing action: w32tm /register"
-runas /user:DLUNAG@JUSTICIA /savecred "w32tm /register"
+runas /user:%AD%@JUSTICIA /savecred "w32tm /register"
 call :log "Performing action: net start w32time"
-runas /user:DLUNAG@JUSTICIA /savecred "net start w32time"
+runas /user:%AD%@JUSTICIA /savecred "net start w32time"
 call :log "Performing action: w32tm /resync"
-runas /user:DLUNAG@JUSTICIA /savecred "w32tm /resync"
+runas /user:%AD%@JUSTICIA /savecred "w32tm /resync"
 goto main :: Returns to the main menu.
 :: End of Sub-Section: horafec
 
