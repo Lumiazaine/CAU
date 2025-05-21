@@ -1,4 +1,5 @@
 @ECHO OFF
+set TEST_START_TIME=%TIME%
 ECHO.
 ECHO ======================================================
 ECHO          CAUJUS_dev.bat Unit Test Runner
@@ -59,7 +60,9 @@ ECHO.
 :: ======================================================
 
 :: Test Case 1: Initial Log Entry via --test-logging
-ECHO Running Test Case 1: --test-logging mode
+ECHO Running Test Case 1: Basic Log Functionality Test
+ECHO   Purpose: Verify that CAUJUS_dev.bat creates a log entry when called with --test-logging.
+ECHO   Action: Calling CAUJUS_dev.bat --test-logging
 ECHO ------------------------------------------------------
 CALL "%CAUJUS_SCRIPT_PATH%" --test-logging
 IF ERRORLEVEL 1 (
@@ -67,7 +70,7 @@ IF ERRORLEVEL 1 (
     GOTO TeardownAndExit
 )
 
-ECHO Verifying log content...
+ECHO Verifying log content for Test Case 1...
 IF NOT EXIST "%TEST_LOG_FILE%" (
     ECHO Test Case 1 FAILED: Log file not found at %TEST_LOG_FILE%
     GOTO TeardownAndExit
@@ -75,7 +78,7 @@ IF NOT EXIST "%TEST_LOG_FILE%" (
 
 FINDSTR /C:"Test log entry from --test-logging mode" "%TEST_LOG_FILE%" >NUL
 IF ERRORLEVEL 0 (
-    ECHO Test Case 1 PASSED: Found expected log entry.
+    ECHO Test Case 1 PASSED: Found expected log entry "Test log entry from --test-logging mode".
 ) ELSE (
     ECHO Test Case 1 FAILED: Did not find "Test log entry from --test-logging mode" in %TEST_LOG_FILE%
     ECHO Log content:
@@ -103,6 +106,39 @@ ECHO.
 ECHO ======================================================
 ECHO                    Testing Finished
 ECHO ======================================================
+ECHO.
+
+set TEST_END_TIME=%TIME%
+set /A T_START_H=1%TEST_START_TIME:~0,2% - 100
+set /A T_START_M=1%TEST_START_TIME:~3,2% - 100
+set /A T_START_S=1%TEST_START_TIME:~6,2% - 100
+set /A T_START_CS=1%TEST_START_TIME:~9,2% - 100
+set /A T_START_TOTAL_CS=(%T_START_H%*360000) + (%T_START_M%*6000) + (%T_START_S%*100) + %T_START_CS%
+
+set /A T_END_H=1%TEST_END_TIME:~0,2% - 100
+set /A T_END_M=1%TEST_END_TIME:~3,2% - 100
+set /A T_END_S=1%TEST_END_TIME:~6,2% - 100
+set /A T_END_CS=1%TEST_END_TIME:~9,2% - 100
+set /A T_END_TOTAL_CS=(%T_END_H%*360000) + (%T_END_M%*6000) + (%T_END_S%*100) + %T_END_CS%
+
+IF %T_END_TOTAL_CS% LSS %T_START_TOTAL_CS% (
+    set /A T_END_TOTAL_CS = %T_END_TOTAL_CS% + (24 * 360000)
+)
+set /A T_DURATION_CS=%T_END_TOTAL_CS% - %T_START_TOTAL_CS%
+
+set /A T_DURATION_S = %T_DURATION_CS% / 100
+set /A T_DURATION_DEC = %T_DURATION_CS% %% 100
+IF %T_DURATION_DEC% LSS 10 set T_DURATION_DEC=0%T_DURATION_DEC%
+
+set /A T_DURATION_M = %T_DURATION_S% / 60
+set /A T_DURATION_S_REM = %T_DURATION_S% %% 60
+IF %T_DURATION_S_REM% LSS 10 set T_DURATION_S_REM=0%T_DURATION_S_REM%
+
+set /A T_DURATION_H = %T_DURATION_M% / 60
+set /A T_DURATION_M_REM = %T_DURATION_M% %% 60
+IF %T_DURATION_M_REM% LSS 10 set T_DURATION_M_REM=0%T_DURATION_M_REM%
+
+ECHO Total test script execution time: %T_DURATION_H%:%T_DURATION_M_REM%:%T_DURATION_S_REM%.%T_DURATION_DEC%
 ECHO.
 
 EXIT /B %ERRORLEVEL%
