@@ -1,7 +1,27 @@
 @ECHO off
-:: Test mode entry point
+:: Test mode entry points
 IF "%1"=="--test-logging" (
-    call :log "Test log entry from --test-logging mode"
+    shift /1
+    call :log_entry "%~1"
+    exit /b 0
+)
+IF "%1"=="--test-new-log" ( REM Alias for --test-logging for consistency with older test script versions
+    shift /1
+    call :log_entry "%~1"
+    exit /b 0
+)
+IF "%1"=="--test-execandlog-success" (
+    call :ExecAndLog ping -n 1 127.0.0.1
+    exit /b %LAST_CMD_ERRORLEVEL%
+)
+IF "%1"=="--test-execandlog-error" (
+    call :ExecAndLog an_invalid_command_that_should_fail
+    exit /b %LAST_CMD_ERRORLEVEL%
+)
+IF "%1"=="--test-init-minimal" (
+    REM Minimal run: Initialize AD/User (faked by test script env vars), then call initialize_logging and exit.
+    REM AD, COMPUTERNAME, RUNAS_USER should be set by the test script environment.
+    call :initialize_logging
     exit /b 0
 )
 ::-----------------------------------------------------------------------------
@@ -200,8 +220,9 @@ FOR /f "skip=2 tokens=2,*" %%A in ('reg query "HKLM\SOFTWARE\Microsoft\Windows N
 ::=============================================================================
 :initialize_logging
 call :log_entry "INITIALIZE_LOGGING: Starting..."
-set "DEFAULT_LOG_PATH=\\iusnas05\SIJ\CAU-2012\logs"
-set "LOCAL_LOG_PATH=%~dp0logs"
+REM Allow overriding log paths for testing
+IF NOT DEFINED TEST_OVERRIDE_DEFAULT_LOG_PATH (set "DEFAULT_LOG_PATH=\\iusnas05\SIJ\CAU-2012\logs") ELSE (set "DEFAULT_LOG_PATH=%TEST_OVERRIDE_DEFAULT_LOG_PATH%")
+IF NOT DEFINED TEST_OVERRIDE_LOCAL_LOG_PATH (set "LOCAL_LOG_PATH=%~dp0logs") ELSE (set "LOCAL_LOG_PATH=%TEST_OVERRIDE_LOCAL_LOG_PATH%")
 
 IF NOT DEFINED LOG_WRITE_MODE (
     set "LOG_WRITE_MODE=NETWORK" 
@@ -227,28 +248,45 @@ IF NOT DEFINED COMPUTERNAME (
     call :log_entry "INITIALIZE_LOGGING: WARNING - COMPUTERNAME not defined. Log filenames might be incomplete."
 )
 
-call :log_entry "INITIALIZE_LOGGING: Checking network log path %DEFAULT_LOG_PATH% with RUNAS_USER: %RUNAS_USER%"
+call :log_entry "INITIALIZE_LOGGING: Checking network log path %DEFAULT_LOG_PATH% directly."
 
+:: Prepare components for the temporary check file name
 set "CHECK_AD_PART=NO_AD_USER"
 if defined AD (set "CHECK_AD_PART=%AD%")
 if "%CHECK_AD_PART%"=="./DP_ADMIN" set "CHECK_AD_PART=DP_ADMIN"
+set "CHECK_AD_PART=%CHECK_AD_PART:./=%" :: Sanitize AD part
 
 set "CHECK_PC_PART=NO_PC_NAME"
 if defined COMPUTERNAME (set "CHECK_PC_PART=%COMPUTERNAME%")
 
-set "CHECK_NAME=%CHECK_AD_PART%_%CHECK_PC_PART%_chk"
-set "CHECK_NAME=%CHECK_NAME:./=%" :: Sanitize
+set "TEMP_CHECK_FILE_NAME=%CHECK_AD_PART%_%CHECK_PC_PART%_access_check.tmp"
+set "TEMP_CHECK_FILE_PATH=%DEFAULT_LOG_PATH%\%TEMP_CHECK_FILE_NAME%"
 
-runas /user:%RUNAS_USER% "cmd /c if exist \"%DEFAULT_LOG_PATH%\" (mkdir \"%DEFAULT_LOG_PATH%\%CHECK_NAME%\" >nul 2>&1 && rmdir \"%DEFAULT_LOG_PATH%\%CHECK_NAME%\" >nul 2>&1 && exit 0) else (exit 1)"
-if errorlevel 1 (
-    call :log_entry "INITIALIZE_LOGGING: Network log path %DEFAULT_LOG_PATH% not accessible/writable by %RUNAS_USER%. Setting LOG_WRITE_MODE to LOCAL."
-    set "LOG_WRITE_MODE=LOCAL"
+call :log_entry "INITIALIZE_LOGGING: Attempting to create temporary check file: %TEMP_CHECK_FILE_PATH%"
+IF DEFINED TEST_FORCE_NETWORK_LOG_FAIL_INIT (
+    call :log_entry "INITIALIZE_LOGGING: TEST_FORCE_NETWORK_LOG_FAIL_INIT is YES. Simulating init network check error."
+    (call) REM This sets errorlevel to 1
+) ELSE (
+    (echo test > "%TEMP_CHECK_FILE_PATH%")
+)
+if errorlevel 0 (
+    call :log_entry "INITIALIZE_LOGGING: Successfully created temporary check file. Network path appears writable."
+    call :log_entry "INITIALIZE_LOGGING: Attempting to delete temporary check file: %TEMP_CHECK_FILE_PATH%"
+    (del "%TEMP_CHECK_FILE_PATH%" >nul 2>&1)
+    if errorlevel 0 (
+        call :log_entry "INITIALIZE_LOGGING: Successfully deleted temporary check file."
+    ) else (
+        call :log_entry "INITIALIZE_LOGGING: WARNING - Failed to delete temporary check file (Errorlevel: %errorlevel%). Path still considered accessible for writing."
+    )
+    REM LOG_WRITE_MODE remains NETWORK (or its current value if already NETWORK)
+    call :log_entry "INITIALIZE_LOGGING: Network log path %DEFAULT_LOG_PATH% is accessible. LOG_WRITE_MODE is %LOG_WRITE_MODE%."
 ) else (
-    call :log_entry "INITIALIZE_LOGGING: Network log path %DEFAULT_LOG_PATH% is accessible. LOG_WRITE_MODE confirmed as NETWORK."
+    call :log_entry "INITIALIZE_LOGGING: Failed to create temporary check file (Errorlevel: %errorlevel%). Network path %DEFAULT_LOG_PATH% not accessible/writable directly. Setting LOG_WRITE_MODE to LOCAL."
+    set "LOG_WRITE_MODE=LOCAL"
 )
 
 :log_init_done
-call :log_entry "INITIALIZE_LOGGING: Finished. Mode: %LOG_WRITE_MODE%. Default: %DEFAULT_LOG_PATH%. Local: %LOCAL_LOG_PATH%."
+call :log_entry "INITIALIZE_LOGGING: Finished. Final LOG_WRITE_MODE: %LOG_WRITE_MODE%. Default Log Path: %DEFAULT_LOG_PATH%. Local Log Path: %LOCAL_LOG_PATH%."
 goto :eof
 
 
@@ -268,7 +306,11 @@ goto :eof
 setlocal
 set "LOG_MESSAGE=%~1"
 set "TIMESTAMP=%date% %time%"
-set "CURRENT_WRITE_MODE=%LOG_WRITE_MODE%" :: Use the global mode for this attempt
+set "EFFECTIVE_LOG_WRITE_MODE=%LOG_WRITE_MODE%" :: Snapshot of global mode for current attempt
+set "GLOBAL_LOG_WRITE_MODE_CHANGED=0"
+
+:: Define critical fallback log file path (used if all other logging fails)
+IF NOT DEFINED TEST_OVERRIDE_CRITICAL_FALLBACK_LOG (set "CRITICAL_FALLBACK_LOG=%~dp0CAUJUS_CRITICAL.log") ELSE (set "CRITICAL_FALLBACK_LOG=%TEST_OVERRIDE_CRITICAL_FALLBACK_LOG%")
 
 :: Determine log file name components
 set "LOG_AD_PART=NO_AD_USER" :: Default if AD is not defined
@@ -276,44 +318,98 @@ if defined AD (
     set "LOG_AD_PART=%AD%"
     if "%AD%"=="./DP_ADMIN" set "LOG_AD_PART=DP_ADMIN"
 )
+set "LOG_AD_PART=%LOG_AD_PART:./=%" :: Sanitize AD part
 
 set "LOG_PC_PART=NO_PC_NAME" :: Default if COMPUTERNAME is not defined
 if defined COMPUTERNAME (set "LOG_PC_PART=%COMPUTERNAME%")
 
 set "LOG_FILE_NAME=%LOG_AD_PART%_%LOG_PC_PART%.log"
-set "LOG_FILE_NAME=%LOG_FILE_NAME:./=%" :: Sanitize potential "./" from AD variable
 
-if "%CURRENT_WRITE_MODE%"=="NETWORK" (
-    set "NETWORK_LOG_FILE_PATH=%DEFAULT_LOG_PATH%\%LOG_FILE_NAME%"
-    if defined RUNAS_USER (
-        runas /user:%RUNAS_USER% "cmd /c echo [%TIMESTAMP%] %LOG_MESSAGE% >> \"%NETWORK_LOG_FILE_PATH%\""
-        if not errorlevel 1 (
-            goto :eof :: Successfully written to network log
-        )
-        echo [WARNING] Failed to write to network log with %RUNAS_USER% (Errorlevel %errorlevel%). Falling back to LOCAL for THIS message.
-        REM This failure does NOT change the global LOG_WRITE_MODE.
+if "%EFFECTIVE_LOG_WRITE_MODE%"=="NETWORK" (
+    if not defined DEFAULT_LOG_PATH (
+        echo [%TIMESTAMP%] [CRITICAL_ERROR] :log_entry - DEFAULT_LOG_PATH is not defined. Cannot attempt network log for message: %LOG_MESSAGE%
+        (echo [%TIMESTAMP%] [CRITICAL_ERROR] :log_entry - DEFAULT_LOG_PATH is not defined. Message: %LOG_MESSAGE% >> "%CRITICAL_FALLBACK_LOG%")
+        set "EFFECTIVE_LOG_WRITE_MODE=LOCAL" :: Force attempt to local
+        set "LOG_WRITE_MODE=LOCAL"           :: Change global state
+        set "GLOBAL_LOG_WRITE_MODE_CHANGED=1"
     ) else (
-        echo [INFO] RUNAS_USER not defined. Cannot write to network log. Falling back to LOCAL for THIS message.
+        set "NETWORK_LOG_FILE_PATH=%DEFAULT_LOG_PATH%\%LOG_FILE_NAME%"
+        IF DEFINED TEST_FORCE_NETWORK_LOG_FAIL_WRITE (
+            call :log_entry "LOG_ENTRY: TEST_FORCE_NETWORK_LOG_FAIL_WRITE is YES. Simulating network write error."
+            (call) REM This sets errorlevel to 1
+        ) ELSE (
+            (echo [%TIMESTAMP%] %LOG_MESSAGE% >> "%NETWORK_LOG_FILE_PATH%")
+        )
+        if errorlevel 0 (
+            REM Successfully written to network log
+            if "%GLOBAL_LOG_WRITE_MODE_CHANGED%"=="1" (endlocal & set "LOG_WRITE_MODE=%LOG_WRITE_MODE%") else (endlocal)
+            goto :eof
+        )
+        echo [%TIMESTAMP%] [WARNING] Failed to write to network log: "%NETWORK_LOG_FILE_PATH%" (Errorlevel %errorlevel%). Switching to LOCAL logging for this and subsequent messages.
+        REM Attempt to log this warning itself to local as the first local message
+        set "EFFECTIVE_LOG_WRITE_MODE=LOCAL"
+        set "LOG_WRITE_MODE=LOCAL" :: Change global state
+        set "GLOBAL_LOG_WRITE_MODE_CHANGED=1"
+        REM Fallthrough to local logging for the current message
     )
-    REM Fallback to local for this specific message if network failed or RUNAS_USER not defined
-    set "CURRENT_WRITE_MODE=LOCAL_FALLBACK"
 )
 
-if "%CURRENT_WRITE_MODE%"=="LOCAL" OR "%CURRENT_WRITE_MODE%"=="LOCAL_FALLBACK" (
-    if not defined LOCAL_LOG_PATH set "LOCAL_LOG_PATH=%~dp0logs" :: Failsafe if called too early
+if "%EFFECTIVE_LOG_WRITE_MODE%"=="LOCAL" (
+    if not defined LOCAL_LOG_PATH (
+        REM This is a critical setup issue if LOCAL_LOG_PATH isn't defined by :initialize_logging
+        echo [%TIMESTAMP%] [CRITICAL_ERROR] :log_entry - LOCAL_LOG_PATH is not defined. Cannot log message: %LOG_MESSAGE%
+        (echo [%TIMESTAMP%] [CRITICAL_ERROR] :log_entry - LOCAL_LOG_PATH is not defined. Message: %LOG_MESSAGE% >> "%CRITICAL_FALLBACK_LOG%")
+        if "%GLOBAL_LOG_WRITE_MODE_CHANGED%"=="1" (endlocal & set "LOG_WRITE_MODE=%LOG_WRITE_MODE%") else (endlocal)
+        goto :eof
+    )
     set "LOCAL_LOG_FILE_PATH=%LOCAL_LOG_PATH%\%LOG_FILE_NAME%"
-    if not exist "%LOCAL_LOG_PATH%" (
-        mkdir "%LOCAL_LOG_PATH%"
+    
+    REM Check and create local log directory if it doesn't exist
+    if not exist "%LOCAL_LOG_PATH%\" (
+        IF DEFINED TEST_FORCE_LOCAL_MKDIR_FAIL (
+            call :log_entry "LOG_ENTRY: TEST_FORCE_LOCAL_MKDIR_FAIL is YES. Simulating mkdir error."
+            (call) REM This sets errorlevel to 1
+        ) ELSE (
+            mkdir "%LOCAL_LOG_PATH%"
+        )
         if errorlevel 1 (
-            echo [CRITICAL_ERROR] Failed to create local log directory: %LOCAL_LOG_PATH%. Cannot log message: [%TIMESTAMP%] %LOG_MESSAGE%
+            echo [%TIMESTAMP%] [CRITICAL_ERROR] Failed to create local log directory: "%LOCAL_LOG_PATH%" (Errorlevel %errorlevel%). Cannot log message: %LOG_MESSAGE%
+            (echo [%TIMESTAMP%] [CRITICAL_ERROR] Failed to create local log directory: "%LOCAL_LOG_PATH%" (Errorlevel %errorlevel%). Message: %LOG_MESSAGE% >> "%CRITICAL_FALLBACK_LOG%")
+            if "%GLOBAL_LOG_WRITE_MODE_CHANGED%"=="1" (endlocal & set "LOG_WRITE_MODE=%LOG_WRITE_MODE%") else (endlocal)
             goto :eof
         )
         REM Log the creation of the local log directory itself to the (newly created) local log
-        echo [%TIMESTAMP%] [SYSTEM] Created local log directory: %LOCAL_LOG_PATH% >> "%LOCAL_LOG_FILE_PATH%"
+        IF DEFINED TEST_FORCE_LOCAL_WRITE_FAIL (
+             call :log_entry "LOG_ENTRY: TEST_FORCE_LOCAL_WRITE_FAIL is YES. Simulating local write error for [SYSTEM] message."
+             REM We don't need to (call) here as the original message write will be skipped/simulated too
+        ) ELSE (
+            (echo [%TIMESTAMP%] [SYSTEM] Created local log directory: "%LOCAL_LOG_PATH%" >> "%LOCAL_LOG_FILE_PATH%")
+            if errorlevel 1 (
+                echo [%TIMESTAMP%] [CRITICAL_ERROR] Failed to write [SYSTEM] message to newly created local log: "%LOCAL_LOG_FILE_PATH%" (Errorlevel %errorlevel%).
+                (echo [%TIMESTAMP%] [CRITICAL_ERROR] Failed to write [SYSTEM] message to newly created local log: "%LOCAL_LOG_FILE_PATH%" (Errorlevel %errorlevel%) >> "%CRITICAL_FALLBACK_LOG%")
+                REM Continue to attempt to write the original message anyway
+            )
+        )
     )
-    echo [%TIMESTAMP%] %LOG_MESSAGE%>> "%LOCAL_LOG_FILE_PATH%"
+    
+    REM Append the original log message to the local log file
+    IF DEFINED TEST_FORCE_LOCAL_WRITE_FAIL (
+        call :log_entry "LOG_ENTRY: TEST_FORCE_LOCAL_WRITE_FAIL is YES. Simulating local write error for main message."
+        (call) REM This sets errorlevel to 1
+    ) ELSE (
+        (echo [%TIMESTAMP%] %LOG_MESSAGE% >> "%LOCAL_LOG_FILE_PATH%")
+    )
+    if errorlevel 1 (
+        echo [%TIMESTAMP%] [CRITICAL_ERROR] Failed to write to local log file: "%LOCAL_LOG_FILE_PATH%" (Errorlevel %errorlevel%). Message: %LOG_MESSAGE%
+        (echo [%TIMESTAMP%] [CRITICAL_ERROR] Failed to write to local log file: "%LOCAL_LOG_FILE_PATH%" (Errorlevel %errorlevel%). Message: %LOG_MESSAGE% >> "%CRITICAL_FALLBACK_LOG%")
+    )
 )
-endlocal
+
+if "%GLOBAL_LOG_WRITE_MODE_CHANGED%"=="1" (
+    endlocal & set "LOG_WRITE_MODE=%LOG_WRITE_MODE%"
+) else (
+    endlocal
+)
 goto :eof
 
 ::-----------------------------------------------------------------------------
