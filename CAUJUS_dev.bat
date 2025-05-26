@@ -1,6 +1,4 @@
 @ECHO off
-set "BOOTSTRAP_LOG_FILE=%~dp0caujus_bootstrap_temp.log"
-echo [%date% %time%] CAUJUS_dev.bat bootstrap log started. > "%BOOTSTRAP_LOG_FILE%"
 :: Test mode entry point
 IF "%1"=="--test-logging" (
     call :log "Test log entry from --test-logging mode"
@@ -43,87 +41,14 @@ cls
 @ECHO off
 set AD=
 if not defined AD (
-    echo [%date% %time%] [BOOTSTRAP] AD variable not defined. Prompting user. >> "%BOOTSTRAP_LOG_FILE%"
+    call :log "AD variable not defined. Prompting user."
     set /p "AD=introduce tu AD:"
-    echo [%date% %time%] [BOOTSTRAP] User provided AD: %AD% >> "%BOOTSTRAP_LOG_FILE%"
+    call :log "User provided AD: %AD%"
 ) else (
-    echo [%date% %time%] [BOOTSTRAP] AD variable already defined: %AD% >> "%BOOTSTRAP_LOG_FILE%"
+    call :log "AD variable already defined: %AD%"
 )
-
-:: Date/Month Logic
-echo [%date% %time%] [BOOTSTRAP] Getting system date/time for MonthlyFolder... >> "%BOOTSTRAP_LOG_FILE%"
-for /f "tokens=2 delims==" %%a in ('wmic os get LocalDateTime /value') do set datetime=%%a
-if not defined datetime (
-    echo [%date% %time%] [BOOTSTRAP] ERROR: Failed to get LocalDateTime from WMIC. >> "%BOOTSTRAP_LOG_FILE%"
-    set datetime=00000000000000.000000+000 :: Fallback to prevent script crash
-)
-echo [%date% %time%] [BOOTSTRAP] LocalDateTime: %datetime% >> "%BOOTSTRAP_LOG_FILE%"
-set "YY=%datetime:~2,2%"
-set "MesNum=%datetime:~4,2%"
-
-echo [%date% %time%] [BOOTSTRAP] Determining Spanish month name for MesNum: %MesNum% ... >> "%BOOTSTRAP_LOG_FILE%"
-if "%MesNum%"=="01" set "MesNombre=ene"
-if "%MesNum%"=="02" set "MesNombre=feb"
-if "%MesNum%"=="03" set "MesNombre=mar"
-if "%MesNum%"=="04" set "MesNombre=abr"
-if "%MesNum%"=="05" set "MesNombre=may"
-if "%MesNum%"=="06" set "MesNombre=jun"
-if "%MesNum%"=="07" set "MesNombre=jul"
-if "%MesNum%"=="08" set "MesNombre=ago"
-if "%MesNum%"=="09" set "MesNombre=sep"
-if "%MesNum%"=="10" set "MesNombre=oct"
-if "%MesNum%"=="11" set "MesNombre=nov"
-if "%MesNum%"=="12" set "MesNombre=dic"
-if not defined MesNombre (
-    echo [%date% %time%] [BOOTSTRAP] ERROR: MesNombre could not be determined. Defaulting to 'MES_DESCONOCIDO'. >> "%BOOTSTRAP_LOG_FILE%"
-    set "MesNombre=MES_DESCONOCIDO"
-)
-set "MonthlyFolder=%MesNombre%_%YY%"
-echo [%date% %time%] [BOOTSTRAP] MonthlyFolder determined as: %MonthlyFolder% >> "%BOOTSTRAP_LOG_FILE%"
-echo [%date% %time%] [BOOTSTRAP] AD user for log path: %AD% >> "%BOOTSTRAP_LOG_FILE%"
-
-:: >> START: Basic Network Directory Creation and Usage
-set "ruta_log_base_network=\\iusnas05\SIJ\CAU-2012\logs"
-echo [%date% %time%] [NET_LOG_SETUP] Base network log path set to: %ruta_log_base_network% >> "%BOOTSTRAP_LOG_FILE%"
-set "TARGET_NETWORK_MONTHLY_DIR=%ruta_log_base_network%\%MonthlyFolder%"
-echo [%date% %time%] [NET_LOG_SETUP] Target network monthly directory set to: %TARGET_NETWORK_MONTHLY_DIR% >> "%BOOTSTRAP_LOG_FILE%"
-
-if not exist "%TARGET_NETWORK_MONTHLY_DIR%" (
-    echo [%date% %time%] [NET_LOG_SETUP] Network monthly directory does not exist. Attempting to create: %TARGET_NETWORK_MONTHLY_DIR% >> "%BOOTSTRAP_LOG_FILE%"
-    mkdir "%TARGET_NETWORK_MONTHLY_DIR%"
-    if errorlevel 1 (
-        echo [%date% %time%] [NET_LOG_SETUP] FAILED to create network monthly directory %TARGET_NETWORK_MONTHLY_DIR%. Errorlevel: %errorlevel%. Logging may fail. >> "%BOOTSTRAP_LOG_FILE%"
-        set NETWORK_DIR_READY=false
-    ) else (
-        echo [%date% %time%] [NET_LOG_SETUP] Successfully created network monthly directory %TARGET_NETWORK_MONTHLY_DIR%. >> "%BOOTSTRAP_LOG_FILE%"
-        set NETWORK_DIR_READY=true
-    )
-) else (
-    echo [%date% %time%] [NET_LOG_SETUP] Network monthly directory %TARGET_NETWORK_MONTHLY_DIR% already exists. >> "%BOOTSTRAP_LOG_FILE%"
-    set NETWORK_DIR_READY=true
-)
-
-set "LOGFILE=%TARGET_NETWORK_MONTHLY_DIR%\%AD%_%COMPUTERNAME%.log"
-set "CURRENT_LOG_DIR=%TARGET_NETWORK_MONTHLY_DIR%"
-set "USE_FALLBACK_LOG=false" 
-set "FALLBACK_TYPE=NONE"
-set "LOG_PATH_INITIALIZED=true"
-echo [%date% %time%] [NET_LOG_SETUP] Initial LOGFILE attempt: %LOGFILE% >> "%BOOTSTRAP_LOG_FILE%"
-
-if /I "%NETWORK_DIR_READY%" NEQ "true" (
-    echo [%date% %time%] [FALLBACK_SETUP] Network path failed (NETWORK_DIR_READY is '%NETWORK_DIR_READY%'). Initializing fallback to script root. >> "%BOOTSTRAP_LOG_FILE%"
-    set "LOGFILE=%~dp0%AD%_%COMPUTERNAME%.log"
-    set "CURRENT_LOG_DIR=%~dp0"
-    set "USE_FALLBACK_LOG=true"
-    set "FALLBACK_TYPE=ROOT"
-    echo [%date% %time%] [FALLBACK_SETUP] LOGFILE is now %LOGFILE%. Fallback active (ROOT). >> "%BOOTSTRAP_LOG_FILE%"
-) else (
-    echo [%date% %time%] [NET_LOG_SETUP] Network path OK. LOGFILE is %LOGFILE%. Fallback not active. >> "%BOOTSTRAP_LOG_FILE%"
-)
-:: << END: Basic Network Directory Creation and Usage / Basic Root Directory Fallback
-
 for /f "tokens=2 delims=\" %%i in ('whoami') do set Perfil=%%i
-call :log "User profile determined: %Perfil%" 
+call :log "User profile determined: %Perfil%"
 set START_TIME=%TIME%
 call :log "Script start time captured: %START_TIME%"
 cls
@@ -149,17 +74,32 @@ FOR /f "skip=2 tokens=2,*" %%A in ('reg query "HKLM\SOFTWARE\Microsoft\Windows N
 :: Log file is named based on AD username and computer name.
 ::=============================================================================
 :log
-REM if not defined LOG_PATH_INITIALIZED call :setup_logfile_path <- This will be part of future fallback logic
 setlocal enabledelayedexpansion
-:: LOGFILE should be globally set by the main script body in :check
-if not defined LOGFILE (
-    echo %DATE% %TIME% - [CRITICAL_ERROR] LOGFILE variable not defined in :log. Attempting emergency log. >> "%~dp0caujus_critical_error.log"
-    echo %DATE% %TIME% - [%~0] %~1 >> "%~dp0caujus_critical_error.log"
-    goto :eof
+:: Define log directory and file
+IF NOT DEFINED ruta_log (
+    set "ruta_log=\\iusnas05\SIJ\CAU-2012\logs"
+)
+:: The following log line is for debugging the log path in tests.
+:: It's not strictly part of the original script's logging but useful for verification.
+:: Check if AD and COMPUTERNAME are defined before attempting to log with them.
+if defined AD if defined COMPUTERNAME (
+    call :basic_log "Using log path: %ruta_log%"
+) else (
+    REM Cannot log to the main file yet if AD or COMPUTERNAME are not set.
+    REM This typically happens if --test-logging is called before AD is set.
+    REM The :basic_log function itself will handle %AD% and %COMPUTERNAME% being empty for the log filename.
+    call :basic_log "Using log path: %ruta_log% (AD or COMPUTERNAME might be undefined at this point for filename)"
 )
 
+set "LOGFILE=%ruta_log%\%AD%_%COMPUTERNAME%.log"
+:: Get current timestamp
 set "TIMESTAMP=%date% %time%"
-:: Directory creation for the primary path is now handled in :check
+:: Check if log directory exists
+if not exist "%ruta_log%" (
+    echo [ERROR] No se puede acceder al directorio de logs: %ruta_log%
+    exit /b 1
+)
+:: Append message to log file
 echo [%TIMESTAMP%] %~1>> "%LOGFILE%"
 endlocal
 goto :eof
@@ -167,100 +107,35 @@ goto :eof
 
 ::=============================================================================
 :: Sub-Section: Basic Logging Function (:basic_log)
-:: This function is now simplified. Its main purpose was early logging.
-:: :setup_logfile_path handles the core path logic and bootstrap logging.
-:: This can be a fallback or for specific messages if needed, but :log should be preferred.
+:: This is a simplified logger used by the main :log function for the
+:: "Using log path" message, ensuring it can log even if AD/COMPUTERNAME
+:: are not yet fully resolved for the main LOGFILE path.
+:: It uses a fixed name or a name based on available info if AD/COMPUTERNAME are empty.
 ::=============================================================================
 :basic_log
-REM if not defined LOG_PATH_INITIALIZED call :setup_logfile_path <- This will be part of future fallback logic
 setlocal enabledelayedexpansion
-
-set "TEMP_AD_BASIC=%AD%"
-set "TEMP_COMPUTERNAME_BASIC=%COMPUTERNAME%"
-
-if not defined TEMP_AD_BASIC (set "TEMP_AD_BASIC=UNKNOWN_AD_BASIC"})
-if not defined TEMP_COMPUTERNAME_BASIC (set "TEMP_COMPUTERNAME_BASIC=UNKNOWN_PC_BASIC"})
-
-if not defined LOGFILE (
-    REM Ultimate fallback for basic_log if LOGFILE is somehow not set
-    set "BASIC_LOG_FILE_FINAL=%~dp0%TEMP_AD_BASIC%_%TEMP_COMPUTERNAME_BASIC%_basic_emergency.log"
-    echo %DATE% %TIME% - [CRITICAL_ERROR] LOGFILE variable not defined in :basic_log. Using emergency: %BASIC_LOG_FILE_FINAL% >> "%BASIC_LOG_FILE_FINAL%"
-) else (
-    set "BASIC_LOG_FILE_FINAL=%LOGFILE%"
+:: Ensure ruta_log is available; if not, this sub-logger can't do much.
+IF NOT DEFINED ruta_log (
+    echo [ERROR] ruta_log not defined for :basic_log
+    exit /b 1
 )
-
+:: Construct a log file name for this basic log entry.
+:: If AD or COMPUTERNAME are empty, it will result in a log file like "_.log" or "TESTUSER_.log" etc.
+set "BASIC_LOG_FILE=%ruta_log%\%AD%_%COMPUTERNAME%.log"
 set "TIMESTAMP_BASIC=%date% %time%"
-echo [%TIMESTAMP_BASIC%] [BASIC_LOG] %~1>> "%BASIC_LOG_FILE_FINAL%"
+
+if not exist "%ruta_log%" (
+    mkdir "%ruta_log%" >nul 2>&1
+    if not exist "%ruta_log%" (
+        echo [ERROR] No se pudo crear el directorio de logs para basic_log: %ruta_log%
+        exit /b 1
+    )
+)
+echo [%TIMESTAMP_BASIC%] %~1>> "%BASIC_LOG_FILE%"
 endlocal
 goto :eof
 :: End of Sub-Section: Basic Logging Function
 :: End of Section: Logging Function
-
-::=============================================================================
-:: Subroutine: Setup Logfile Path
-:: Determines and creates the log file path, with network and local fallback.
-::=============================================================================
-:setup_logfile_path
-setlocal
-set "BOOTSTRAP_LOG_FILE=%~dp0caujus_bootstrap_log.txt"
-set "CURRENT_TIMESTAMP_BOOTSTRAP=%date% %time%"
-
-echo [%CURRENT_TIMESTAMP_BOOTSTRAP%] Attempting to set up log path. AD: %AD%, COMPUTERNAME: %COMPUTERNAME%, MonthlyFolder: %MonthlyFolder% >> "%BOOTSTRAP_LOG_FILE%"
-
-set "NETWORK_LOG_DIR_INTERNAL=%ruta_log_base_network%\%MonthlyFolder%"
-set "FALLBACK_LOG_DIR_BASE_INTERNAL=%ruta_fallback_base%"
-set "FALLBACK_LOG_DIR_MONTHLY_INTERNAL=%FALLBACK_LOG_DIR_BASE_INTERNAL%\%MonthlyFolder%"
-set "USE_FALLBACK_LOG_INTERNAL=false"
-set "FINAL_LOG_DIR_INTERNAL="
-set "FINAL_LOGFILE_INTERNAL="
-
-echo [%CURRENT_TIMESTAMP_BOOTSTRAP%] Trying network log path: %NETWORK_LOG_DIR_INTERNAL% >> "%BOOTSTRAP_LOG_FILE%"
-if not exist "%NETWORK_LOG_DIR_INTERNAL%" (
-    echo [%CURRENT_TIMESTAMP_BOOTSTRAP%] Network directory %NETWORK_LOG_DIR_INTERNAL% does not exist. Attempting to create. >> "%BOOTSTRAP_LOG_FILE%"
-    mkdir "%NETWORK_LOG_DIR_INTERNAL%"
-    if errorlevel 1 (
-        echo [%CURRENT_TIMESTAMP_BOOTSTRAP%] FAILED to create network directory %NETWORK_LOG_DIR_INTERNAL%. Errorlevel: %errorlevel%. Switching to fallback. >> "%BOOTSTRAP_LOG_FILE%"
-        set USE_FALLBACK_LOG_INTERNAL=true
-    ) else (
-        echo [%CURRENT_TIMESTAMP_BOOTSTRAP%] Successfully created network directory %NETWORK_LOG_DIR_INTERNAL%. >> "%BOOTSTRAP_LOG_FILE%"
-    )
-) else (
-    echo [%CURRENT_TIMESTAMP_BOOTSTRAP%] Network directory %NETWORK_LOG_DIR_INTERNAL% already exists. >> "%BOOTSTRAP_LOG_FILE%"
-)
-
-if "%USE_FALLBACK_LOG_INTERNAL%"=="true" (
-    echo [%CURRENT_TIMESTAMP_BOOTSTRAP%] Using fallback log path. Fallback base: %FALLBACK_LOG_DIR_BASE_INTERNAL%, Fallback monthly dir: %FALLBACK_LOG_DIR_MONTHLY_INTERNAL% >> "%BOOTSTRAP_LOG_FILE%"
-    if not exist "%FALLBACK_LOG_DIR_BASE_INTERNAL%" mkdir "%FALLBACK_LOG_DIR_BASE_INTERNAL%" >nul 2>&1
-    if not exist "%FALLBACK_LOG_DIR_MONTHLY_INTERNAL%" (
-        mkdir "%FALLBACK_LOG_DIR_MONTHLY_INTERNAL%"
-        if errorlevel 1 (
-             echo [%CURRENT_TIMESTAMP_BOOTSTRAP%] FAILED to create fallback directory %FALLBACK_LOG_DIR_MONTHLY_INTERNAL%. Logging to script root. >> "%BOOTSTRAP_LOG_FILE%"
-             set FINAL_LOG_DIR_INTERNAL=%~dp0
-        ) else (
-             echo [%CURRENT_TIMESTAMP_BOOTSTRAP%] Successfully created fallback directory %FALLBACK_LOG_DIR_MONTHLY_INTERNAL%. >> "%BOOTSTRAP_LOG_FILE%"
-             set FINAL_LOG_DIR_INTERNAL=%FALLBACK_LOG_DIR_MONTHLY_INTERNAL%
-        )
-    ) else (
-        echo [%CURRENT_TIMESTAMP_BOOTSTRAP%] Fallback monthly directory %FALLBACK_LOG_DIR_MONTHLY_INTERNAL% already exists. >> "%BOOTSTRAP_LOG_FILE%"
-        set FINAL_LOG_DIR_INTERNAL=%FALLBACK_LOG_DIR_MONTHLY_INTERNAL%
-    )
-) else (
-    set FINAL_LOG_DIR_INTERNAL=%NETWORK_LOG_DIR_INTERNAL%
-)
-
-REM Ensure AD and COMPUTERNAME are not empty for filename construction
-set "TEMP_AD_SETUP=%AD%"
-set "TEMP_COMPUTERNAME_SETUP=%COMPUTERNAME%"
-if not defined TEMP_AD_SETUP (set "TEMP_AD_SETUP=UNKNOWN_AD_IN_SETUP"})
-if not defined TEMP_COMPUTERNAME_SETUP (set "TEMP_COMPUTERNAME_SETUP=UNKNOWN_PC_IN_SETUP"})
-
-set "FINAL_LOGFILE_INTERNAL=%FINAL_LOG_DIR_INTERNAL%\%TEMP_AD_SETUP%_%TEMP_COMPUTERNAME_SETUP%.log"
-echo [%CURRENT_TIMESTAMP_BOOTSTRAP%] Final log file determined: %FINAL_LOGFILE_INTERNAL% >> "%BOOTSTRAP_LOG_FILE%"
-echo [%CURRENT_TIMESTAMP_BOOTSTRAP%] USE_FALLBACK_LOG_INTERNAL set to: %USE_FALLBACK_LOG_INTERNAL% >> "%BOOTSTRAP_LOG_FILE%"
-
-endlocal & set "LOGFILE=%FINAL_LOGFILE_INTERNAL%" & set "USE_FALLBACK_LOG=%USE_FALLBACK_LOG_INTERNAL%" & set "CURRENT_LOG_DIR=%FINAL_LOG_DIR_INTERNAL%" & set "LOG_PATH_INITIALIZED=true"
-goto :eof
-:: End of Subroutine: Setup Logfile Path
 
 ::=============================================================================
 :: Section: Execution Time Logging Subroutine
