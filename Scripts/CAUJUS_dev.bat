@@ -406,7 +406,7 @@ set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
 set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
 set "L_HHMMSS=%L_HHMMSS: =0%"
 ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: \\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\Configurador_FNMT_4.0.6_64bits.exe /S >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\Configurador_FNMT_4.0.6_64bits.exe /S"
+runas /user:%AD%@JUSTICIA /savecred "\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\Configurador_FNMT_5.0.0_64bits.exe /S"
 goto Cert
 :configurator
 set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
@@ -418,7 +418,7 @@ set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
 set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
 set "L_HHMMSS=%L_HHMMSS: =0%"
 ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: \\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\Configurador_FNMT_4.0.6_64bits.exe >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\Configurador_FNMT_4.0.6_64bits.exe"
+runas /user:%AD%@JUSTICIA /savecred "\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\Configurador_FNMT_5.0.0_64bits.exe"
 goto Cert
 :solicitude
 set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
