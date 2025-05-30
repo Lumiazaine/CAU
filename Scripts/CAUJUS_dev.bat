@@ -265,26 +265,20 @@ set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
 set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
 set "L_HHMMSS=%L_HHMMSS: =0%"
 ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - Script self-deleting and exiting. Triggered in section near/after label: Batery_test_RestartChoice. >> "%LOG_FILE%"
-
 set "L_YYYYMMDD_UPLOAD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
 set "L_HHMMSS_UPLOAD=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
 set "L_HHMMSS_UPLOAD=%L_HHMMSS_UPLOAD: =0%"
 ECHO %L_YYYYMMDD_UPLOAD% %L_HHMMSS_UPLOAD% - INFO - Preparing to upload log file %LOG_FILE% to network. >> "%LOG_FILE%"
-
 set "FINAL_LOG_DIR=\\iusnas05\SIJ\CAU-2012\logs"
 set "FINAL_LOG_FILENAME=%AD%_%CURRENT_COMPUTERNAME_FOR_LOG%_%YYYYMMDD%_%HHMMSS%.log"
 set "FINAL_LOG_PATH=%FINAL_LOG_DIR%\%FINAL_LOG_FILENAME%"
-
 REM Ensure FINAL_LOG_DIR exists on the network using RUNAS
 runas /user:%AD%@JUSTICIA /savecred "cmd /c IF NOT EXIST "%FINAL_LOG_DIR%" mkdir "%FINAL_LOG_DIR%"" >> "%LOG_FILE%" 2>&1
-
 ECHO %L_YYYYMMDD_UPLOAD% %L_HHMMSS_UPLOAD% - INFO - Attempting to copy log from %LOG_FILE% to %FINAL_LOG_PATH% using RUNAS. >> "%LOG_FILE%"
 runas /user:%AD%@JUSTICIA /savecred "cmd /c copy /Y "%LOG_FILE%" "%FINAL_LOG_PATH%"" >> "%LOG_FILE%" 2>&1
 ECHO %L_YYYYMMDD_UPLOAD% %L_HHMMSS_UPLOAD% - INFO - Log upload attempt finished. >> "%LOG_FILE%"
-
 if errorlevel 2 del "%~f0" & exit
 if errorlevel 1 shutdown /r /t 0
-@echo off
 :mail_pass
 set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
 set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
