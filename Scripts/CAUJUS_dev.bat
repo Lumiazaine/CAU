@@ -139,11 +139,10 @@ IF "%hostname%"=="IUSSWRDPCAU02" (
     CHOICE /C sn /N
     CALL :LogMessage "INFO - Script self-deleting and exiting. Triggered in section near/after label: Batery_test_RestartChoice."
     CALL :UploadLogFile
-    IF ERRORLEVEL 2 (
+    IF %ERRORLEVEL%==2 (
         DEL "%~f0"
         EXIT
-    )
-    IF ERRORLEVEL 1 (
+    ) ELSE IF %ERRORLEVEL%==1 (
         SHUTDOWN /r /t 0
     )
     GOTO :EOF
