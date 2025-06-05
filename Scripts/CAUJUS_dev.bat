@@ -1,621 +1,451 @@
-@ECHO off
+:: Script: CAUJUS_dev.bat
+:: Purpose: Provides a menu-driven utility for various CAU IT support tasks.
+:: Version: 2504 - Refactored for Clean Code
+:: Last Modified: %DATE%
+
+@ECHO OFF
+
 :: Bloqueo para máquina de salto
-for /f "tokens=*" %%A in ('hostname') do set "hostname=%%A"
-if "%hostname%"=="IUSSWRDPCAU02" (
-    cls
-    echo Error, se está ejecutando el script desde la máquina de salto.
-    pause
-    exit
-) else (
-    goto check
-)
-:: Variable AD
-:check
-cls
-@ECHO off
-set AD=
-if not defined AD (
-    set /p "AD=introduce tu AD:"
-)
-for /f "tokens=2 delims=\" %%i in ('whoami') do set Perfil=%%i
-set "LOG_DIR=%TEMP%\CAUJUS_Logs"
-FOR /F "usebackq" %%j IN (`hostname`) DO SET CURRENT_COMPUTERNAME_FOR_LOG=%%j
-set "YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "HHMMSS=%HHMMSS: =0%"
-set "LOG_FILE=%LOG_DIR%\%AD%_%CURRENT_COMPUTERNAME_FOR_LOG%_%YYYYMMDD%_%HHMMSS%.log"
-
-REM Create Log Directory if it doesn't exist
-IF NOT EXIST "%LOG_DIR%" (
-    mkdir "%LOG_DIR%"
-    ECHO %YYYYMMDD% %HHMMSS% - INFO - Log directory created: %LOG_DIR% >> "%LOG_FILE%"
+FOR /F "tokens=*" %%A IN ('hostname') DO SET "hostname=%%A"
+IF "%hostname%"=="IUSSWRDPCAU02" (
+    CLS
+    ECHO Error, se está ejecutando el script desde la máquina de salto.
+    PAUSE
+    EXIT
 ) ELSE (
-    ECHO %YYYYMMDD% %HHMMSS% - INFO - Log directory already exists: %LOG_DIR% >> "%LOG_FILE%"
+    GOTO check_initial_setup
 )
-ECHO %YYYYMMDD% %HHMMSS% - INFO - Script CAUJUS.bat started. User: %AD%, Profile: %Perfil%, Machine: %CURRENT_COMPUTERNAME_FOR_LOG%. Logging to: %LOG_FILE% >> "%LOG_FILE%"
-cls
-goto main
-:: Datos equipos
-:main
-cls
-FOR /F "usebackq" %%i IN (`hostname`) DO SET computerName=%%i
-FOR /F "Tokens=1* Delims==" %%g In ('WMIC BIOS Get SerialNumber /Value') Do FOR /F "Tokens=*" %%i In ("%%h") Do SET sn=%%i
-FOR /f "delims=[] tokens=2" %%a in ('ping -4 -n 1 %ComputerName% ^| findstr [') do set networkIP=%%a
-FOR /F "Tokens=1* Delims==" %%g In ('wmic os get caption /Value') Do FOR /F "Tokens=*" %%i In ("%%h") Do SET win=%%i
-FOR /f "skip=2 tokens=2,*" %%A in ('reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v CurrentBuildNumber') do (set versionSO=%%B)
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - System Info: User: %Perfil%, AD User: %AD%, Computer: %computerName%, SN: %sn%, IP: %networkIP%, OS: %win% (%versionSO%), Script Version: 2504 >> "%LOG_FILE%"
-:check
-cls
-ECHO ------------------------------------------
-ECHO                  CAU                 
-ECHO ------------------------------------------
-echo(
-ECHO Usuario: %Perfil%
-ECHO Usuario AD utilizado: %AD%
-ECHO Nombre equipo: %computerName%
-ECHO Numero de serie: %sn%
-ECHO Numero de IP: %networkIP%
-ECHO Version: %win%, con la compilacion %versionSO%
-ECHO Version Script: 2504
-echo(
-ECHO 1. Bateria pruebas
-ECHO 2. Cambiar password correo
-ECHO 3. Reiniciar cola impresion
-ECHO 4. Administrador de dispositivos (desinstalar drivers)
-ECHO 5. Certificado digital
-ECHO 6. ISL Allways on
-ECHO 7. Utilidades
-set choice=
-set /p choice=Escoge una opcion:
-if not '%choice%'=='' set choice=%choice:~0,1%
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - Main menu: User selected option %choice%. Referring to %choice% value. >> "%LOG_FILE%"
-if '%choice%'=='1' goto Batery_test
-if '%choice%'=='2' goto mail_pass
-if '%choice%'=='3' goto print_pool
-if '%choice%'=='4' goto Driver_admin
-if '%choice%'=='5' goto Cert
-if '%choice%'=='6' goto isl
-if '%choice%'=='7' goto Bmenu
-ECHO "%choice%" opcion no valida, intentalo de nuevo
-ECHO.
-goto main
-del /q "%~f0"
-:Batery_test
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - Action: Starting Batery_test. >> "%LOG_FILE%"
-taskkill /IM chrome.exe /F > nul 2>&1
-taskkill /IM iexplore.exe /F > nul 2>&1
-taskkill /IM msedge.exe /F > nul 2>&1
-ipconfig /flushdns
-RunDll32.exe InetCpl.cpl,ClearMyTracksByProcess 16
-RunDll32.exe InetCpl.cpl,ClearMyTracksByProcess 8
-RunDll32.exe InetCpl.cpl,ClearMyTracksByProcess 2
-RunDll32.exe InetCpl.cpl,ClearMyTracksByProcess 1
-del /q /s /f "E:\Users\%Perfil%\AppData\Local\Google\Chrome\User Data\Default\Cache\*"
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: reg add \"HKCU\Control Panel\Desktop\WindowMetrics\" /v MinAnimate /t REG_SZ /d 0 /f >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "cmd.exe /c reg add \"HKCU\Control Panel\Desktop\WindowMetrics\" /v MinAnimate /t REG_SZ /d 0 /f"
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: reg add \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\" /v TaskbarAnimations /t REG_DWORD /d 0 /f >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "cmd.exe /c reg add \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\" /v TaskbarAnimations /t REG_DWORD /d 0 /f"
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: reg add \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects\" /v VisualFXSetting /t REG_DWORD /d 2 /f >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "cmd.exe /c reg add \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects\" /v VisualFXSetting /t REG_DWORD /d 2 /f"
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: reg add \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects\" /v ComboBoxAnimation /t REG_DWORD /d 0 /f >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "cmd.exe /c reg add \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects\" /v ComboBoxAnimation /t REG_DWORD /d 0 /f"
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: reg add \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects\" /v CursorShadow /t REG_DWORD /d 0 /f >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "cmd.exe /c reg add \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects\" /v CursorShadow /t REG_DWORD /d 0 /f"
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: reg add \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects\" /v DropShadow /t REG_DWORD /d 0 /f >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "cmd.exe /c reg add \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects\" /v DropShadow /t REG_DWORD /d 0 /f"
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: reg add \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects\" /v ListBoxSmoothScrolling /t REG_DWORD /d 0 /f >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "cmd.exe /c reg add \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects\" /v ListBoxSmoothScrolling /t REG_DWORD /d 0 /f"
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: reg add \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects\" /v MenuAnimation /t REG_DWORD /d 0 /f >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "cmd.exe /c reg add \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects\" /v MenuAnimation /t REG_DWORD /d 0 /f"
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: reg add \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects\" /v SelectionFade /t REG_DWORD /d 0 /f >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "cmd.exe /c reg add \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects\" /v SelectionFade /t REG_DWORD /d 0 /f"
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: reg add \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects\" /v TooltipAnimation /t REG_DWORD /d 0 /f >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "cmd.exe /c reg add \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects\" /v TooltipAnimation /t REG_DWORD /d 0 /f"
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: reg add \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects\" /v Fade /t REG_DWORD /d 0 /f >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "cmd.exe /c reg add \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects\" /v Fade /t REG_DWORD /d 0 /f"
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - Action: Running gpupdate /force in Batery_test. >> "%LOG_FILE%"
-gpupdate /force
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: cmd /c msiexec /i \"\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\isl.msi\" /qn >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "cmd /c msiexec /i \"\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\isl.msi\" /qn"
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: cmd.exe /c del /f /s /q \"%windir%\*.bak\" >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "cmd.exe /c del /f /s /q \"%windir%\*.bak\""
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: cmd.exe /c del /f /s /q \"%windir%\SoftwareDistribution\Download\*.*\" >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "cmd.exe /c del /f /s /q \"%windir%\SoftwareDistribution\Download\*.*\""
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: cmd.exe /c del /f /s /q \"%systemdrive%\*.tmp\" >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "cmd.exe /c del /f /s /q \"%systemdrive%\*.tmp\""
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: cmd.exe /c del /f /s /q \"%systemdrive%\*._mp\" >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "cmd.exe /c del /f /s /q \"%systemdrive%\*._mp\""
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: cmd.exe /c del /f /s /q \"%systemdrive%\*.gid\" >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "cmd.exe /c del /f /s /q \"%systemdrive%\*.gid\""
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: cmd.exe /c del /f /s /q \"%systemdrive%\*.chk\" >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "cmd.exe /c del /f /s /q \"%systemdrive%\*.chk\""
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: cmd.exe /c del /f /s /q \"%systemdrive%\*.old\" >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "cmd.exe /c del /f /s /q \"%systemdrive%\*.old\""
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: cmd.exe /c if exist \"%appdata%\Microsoft\Windows\cookies\" del /f /s /q \"%appdata%\Microsoft\Windows\cookies\*.*\" >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "cmd.exe /c if exist \"%appdata%\Microsoft\Windows\cookies\" del /f /s /q \"%appdata%\Microsoft\Windows\cookies\*.*\""
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: cmd.exe /c if exist \"%appdata%\Local\Microsoft\Windows\Temporary Internet Files\" del /f /s /q \"%appdata%\Local\Microsoft\Windows\Temporary Internet Files\*.*\" >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "cmd.exe /c if exist \"%appdata%\Local\Microsoft\Windows\Temporary Internet Files\" del /f /s /q \"%appdata%\Local\Microsoft\Windows\Temporary Internet Files\*.*\""
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: cmd.exe /c if exist \"%appdata%\Local\Microsoft\Windows\INetCache\" del /f /s /q \"%appdata%\Local\Microsoft\Windows\INetCache\*.*\" >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "cmd.exe /c if exist \"%appdata%\Local\Microsoft\Windows\INetCache\" del /f /s /q \"%appdata%\Local\Microsoft\Windows\INetCache\*.*\""
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: cmd.exe /c if exist \"%appdata%\Local\Microsoft\Windows\INetCookies\" del /f /s /q \"%appdata%\Local\Microsoft\Windows\INetCookies\*.*\" >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "cmd.exe /c if exist \"%appdata%\Local\Microsoft\Windows\INetCookies\" del /f /s /q \"%appdata%\Local\Microsoft\Windows\INetCookies\*.*\""
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: cmd.exe /c if exist \"%appdata%\Local\Microsoft\Terminal Server Client\Cache\" del /f /s /q \"%appdata%\Local\Microsoft\Terminal Server Client\Cache\*.*\" >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "cmd.exe /c if exist \"%appdata%\Local\Microsoft\Terminal Server Client\Cache\" del /f /s /q \"%appdata%\Local\Microsoft\Terminal Server Client\Cache\*.*\""
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: cmd.exe /c if exist \"%appdata%\Local\CrashDumps\" del /f /s /q \"%appdata%\Local\CrashDumps\*.*\" >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "cmd.exe /c if exist \"%appdata%\Local\CrashDumps\" del /f /s /q \"%appdata%\Local\CrashDumps\*.*\""
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: cmd.exe /c if exist \"%userprofile%\Local Settings\Temporary Internet Files\" del /f /s /q \"%userprofile%\Local Settings\Temporary Internet Files\*.*\" >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "cmd.exe /c if exist \"%userprofile%\Local Settings\Temporary Internet Files\" del /f /s /q \"%userprofile%\Local Settings\Temporary Internet Files\*.*\""
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: cmd.exe /c if exist \"%userprofile%\Local Settings\Temp\" del /f /s /q \"%userprofile%\Local Settings\Temp\*.*\" >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "cmd.exe /c if exist \"%userprofile%\Local Settings\Temp\" del /f /s /q \"%userprofile%\Local Settings\Temp\*.*\""
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: cmd.exe /c if exist \"%userprofile%\AppData\Local\Temp\" del /f /s /q \"%userprofile%\AppData\Local\Temp\*.*\" >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "cmd.exe /c if exist \"%userprofile%\AppData\Local\Temp\" del /f /s /q \"%userprofile%\AppData\Local\Temp\*.*\""
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: cmd.exe /c if exist \"%userprofile%\Local Settings\Temp\" rmdir /s /q \"%userprofile%\Local Settings\Temp\" & md \"%userprofile%\Local Settings\Temp\" >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "cmd.exe /c if exist \"%userprofile%\Local Settings\Temp\" rmdir /s /q \"%userprofile%\Local Settings\Temp\" & md \"%userprofile%\Local Settings\Temp\""
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: cmd.exe /c if exist \"%windir%\Temp\" rmdir /s /q \"%windir%\Temp\" & md \"%windir%\Temp\" >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "cmd.exe /c if exist \"%windir%\Temp\" rmdir /s /q \"%windir%\Temp\" & md \"%windir%\Temp\""
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - Action: Prompting for restart in Batery_test. >> "%LOG_FILE%"
-echo Reiniciar equipo (s/n)
-choice /c sn /n
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - Script self-deleting and exiting. Triggered in section near/after label: Batery_test_RestartChoice. >> "%LOG_FILE%"
-set "L_YYYYMMDD_UPLOAD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS_UPLOAD=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS_UPLOAD=%L_HHMMSS_UPLOAD: =0%"
-ECHO %L_YYYYMMDD_UPLOAD% %L_HHMMSS_UPLOAD% - INFO - Preparing to upload log file %LOG_FILE% to network. >> "%LOG_FILE%"
-set "FINAL_LOG_DIR=\\iusnas05\SIJ\CAU-2012\logs"
-set "FINAL_LOG_FILENAME=%AD%_%CURRENT_COMPUTERNAME_FOR_LOG%_%YYYYMMDD%_%HHMMSS%.log"
-set "FINAL_LOG_PATH=%FINAL_LOG_DIR%\%FINAL_LOG_FILENAME%"
-REM Ensure FINAL_LOG_DIR exists on the network using RUNAS
-runas /user:%AD%@JUSTICIA /savecred "cmd /c IF NOT EXIST "%FINAL_LOG_DIR%" mkdir "%FINAL_LOG_DIR%"" >> "%LOG_FILE%" 2>&1
-ECHO %L_YYYYMMDD_UPLOAD% %L_HHMMSS_UPLOAD% - INFO - Attempting to copy log from %LOG_FILE% to %FINAL_LOG_PATH% using RUNAS. >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "cmd /c copy /Y "%LOG_FILE%" "%FINAL_LOG_PATH%"" >> "%LOG_FILE%" 2>&1
-ECHO %L_YYYYMMDD_UPLOAD% %L_HHMMSS_UPLOAD% - INFO - Log upload attempt finished. >> "%LOG_FILE%"
-if errorlevel 2 del "%~f0" & exit
-if errorlevel 1 shutdown /r /t 0
-:mail_pass
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - Action: Starting mail_pass. Opening URL. >> "%LOG_FILE%"
-start chrome "https://micuenta.juntadeandalucia.es/micuenta/es.juntadeandalucia.micuenta.servlets.LoginInicial"
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - Script self-deleting and exiting. Triggered in section near/after label: mail_pass_Exit. >> "%LOG_FILE%"
 
-set "L_YYYYMMDD_UPLOAD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS_UPLOAD=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS_UPLOAD=%L_HHMMSS_UPLOAD: =0%"
-ECHO %L_YYYYMMDD_UPLOAD% %L_HHMMSS_UPLOAD% - INFO - Preparing to upload log file %LOG_FILE% to network. >> "%LOG_FILE%"
+::=============================================================================
+:: Initial Setup & Main Logic
+::=============================================================================
 
-set "FINAL_LOG_DIR=\\iusnas05\SIJ\CAU-2012\logs"
-set "FINAL_LOG_FILENAME=%AD%_%CURRENT_COMPUTERNAME_FOR_LOG%_%YYYYMMDD%_%HHMMSS%.log"
-set "FINAL_LOG_PATH=%FINAL_LOG_DIR%\%FINAL_LOG_FILENAME%"
+:check_initial_setup
+    CLS
+    @ECHO OFF
 
-REM Ensure FINAL_LOG_DIR exists on the network using RUNAS
-runas /user:%AD%@JUSTICIA /savecred "cmd /c IF NOT EXIST "%FINAL_LOG_DIR%" mkdir "%FINAL_LOG_DIR%"" >> "%LOG_FILE%" 2>&1
-
-ECHO %L_YYYYMMDD_UPLOAD% %L_HHMMSS_UPLOAD% - INFO - Attempting to copy log from %LOG_FILE% to %FINAL_LOG_PATH% using RUNAS. >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "cmd /c copy /Y "%LOG_FILE%" "%FINAL_LOG_PATH%"" >> "%LOG_FILE%" 2>&1
-ECHO %L_YYYYMMDD_UPLOAD% %L_HHMMSS_UPLOAD% - INFO - Log upload attempt finished. >> "%LOG_FILE%"
-
-del "%~f0" & exit
-goto main
-:print_pool
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - Action: Starting print_pool. Resetting printer queues. >> "%LOG_FILE%"
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: cmd /c FOR /F \"tokens=3,*\" %%a in ('cscript c:\\windows\\System32\\printing_Admin_Scripts\\es-ES\\prnmngr.vbs -l ^| find \"Nombre de impresora\"') DO cscript c:\\windows\\System32\\printing_Admin_Scripts\\es-ES\\prnqctl.vbs -m -p \"%%b\" >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "cmd /c FOR /F \"tokens=3,*\" %%a in ('cscript c:\\windows\\System32\\printing_Admin_Scripts\\es-ES\\prnmngr.vbs -l ^| find \"Nombre de impresora\"') DO cscript c:\\windows\\System32\\printing_Admin_Scripts\\es-ES\\prnqctl.vbs -m -p \"%%b\""
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - Script self-deleting and exiting. Triggered in section near/after label: print_pool_Exit. >> "%LOG_FILE%"
-
-set "L_YYYYMMDD_UPLOAD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS_UPLOAD=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS_UPLOAD=%L_HHMMSS_UPLOAD: =0%"
-ECHO %L_YYYYMMDD_UPLOAD% %L_HHMMSS_UPLOAD% - INFO - Preparing to upload log file %LOG_FILE% to network. >> "%LOG_FILE%"
-
-set "FINAL_LOG_DIR=\\iusnas05\SIJ\CAU-2012\logs"
-set "FINAL_LOG_FILENAME=%AD%_%CURRENT_COMPUTERNAME_FOR_LOG%_%YYYYMMDD%_%HHMMSS%.log"
-set "FINAL_LOG_PATH=%FINAL_LOG_DIR%\%FINAL_LOG_FILENAME%"
-
-REM Ensure FINAL_LOG_DIR exists on the network using RUNAS
-runas /user:%AD%@JUSTICIA /savecred "cmd /c IF NOT EXIST "%FINAL_LOG_DIR%" mkdir "%FINAL_LOG_DIR%"" >> "%LOG_FILE%" 2>&1
-
-ECHO %L_YYYYMMDD_UPLOAD% %L_HHMMSS_UPLOAD% - INFO - Attempting to copy log from %LOG_FILE% to %FINAL_LOG_PATH% using RUNAS. >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "cmd /c copy /Y "%LOG_FILE%" "%FINAL_LOG_PATH%"" >> "%LOG_FILE%" 2>&1
-ECHO %L_YYYYMMDD_UPLOAD% %L_HHMMSS_UPLOAD% - INFO - Log upload attempt finished. >> "%LOG_FILE%"
-
-del "%~f0" & exit
-:Driver_admin
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - Action: Starting Driver_admin. Opening Device Manager. >> "%LOG_FILE%"
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: RunDll32.exe devmgr.dll DeviceManager_Execute >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "RunDll32.exe devmgr.dll DeviceManager_Execute"
-goto main
-:isl
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - Action: Starting isl. Installing ISL Always On. >> "%LOG_FILE%"
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: cmd /c msiexec /i \"\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\isl.msi\" /qn >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "cmd /c msiexec /i \"\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\isl.msi\" /qn"
-goto main
-:Cert
-cls
-ECHO ------------------------------------------
-ECHO                  CAU                 
-ECHO     Gestiones del certificado digital
-ECHO ------------------------------------------
-ECHO 1. Configuracion previa (Silenciosa)
-ECHO 2. Configuracion previa (Manual)
-ECHO 3. Solicitar certificado digital
-ECHO 4. Renovar certificado digital
-ECHO 5. Descargar certificado digital
-ECHO 6. Inicio
-set choice=
-set /p choice=Escoge una opcion:
-if not '%choice%'=='' set choice=%choice:~0,1%
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - Cert menu: User selected option %choice%. Referring to %choice% value. >> "%LOG_FILE%"
-if '%choice%'=='1' goto configurators
-if '%choice%'=='2' goto configurator
-if '%choice%'=='3' goto solicitude
-if '%choice%'=='4' goto renew
-if '%choice%'=='5' goto download
-if '%choice%'=='6' goto main
-ECHO "%choice%" no es valido, intentalo de nuevo
-ECHO.
-goto Cert
-:configurators
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - Action: Starting configurators. Silent FNMT configuration. >> "%LOG_FILE%"
-cd %userprofile%\downloads
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: \\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\Configurador_FNMT_4.0.6_64bits.exe /S >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\Configurador_FNMT_5.0.0_64bits.exe /S"
-goto Cert
-:configurator
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - Action: Starting configurator. Manual FNMT configuration. >> "%LOG_FILE%"
-cd %userprofile%\downloads
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: \\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\Configurador_FNMT_4.0.6_64bits.exe >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\Configurador_FNMT_5.0.0_64bits.exe"
-goto Cert
-:solicitude
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - Action: Starting solicitude. Opening certificate request URL. >> "%LOG_FILE%"
-start chrome "https://www.sede.fnmt.gob.es/certificados/persona-fisica/obtener-certificado-software/solicitar-certificado"
-goto Cert
-:renew
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - Action: Starting renew. Opening certificate renewal URL. >> "%LOG_FILE%"
-start chrome "https://www.sede.fnmt.gob.es/certificados/persona-fisica/renovar/solicitar-renovacion"
-goto Cert
-:download
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - Action: Starting download. Opening certificate download URL. >> "%LOG_FILE%"
-start chrome "https://www.sede.fnmt.gob.es/certificados/persona-fisica/obtener-certificado-software/descargar-certificado"
-goto Cert
-:Bmenu
-cls
-:Bmenu
-cls
-ECHO ------------------------------------------
-ECHO                  CAU    
-ECHO               Utilidades            
-ECHO ------------------------------------------
-ECHO 1. Ver opciones de internet
-ECHO 2. Instalar Chrome 109
-ECHO 3. Arreglar pantalla oscura (no aparece fondo de pantalla)
-ECHO 4. Ver version de Windows
-ECHO 5. Reinstalar drivers tarjeta
-ECHO 6. Instalar Autofirmas
-ECHO 7. Instalar Libreoffice
-ECHO 8. Forzar fecha y hora
-ECHO 9. Inicio
-set choice=
-set /p choice=Escoge una opcion:
-if not '%choice%'=='' set choice=%choice:~0,1%
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - Bmenu menu: User selected option %choice%. Referring to %choice% value. >> "%LOG_FILE%"
-if '%choice%'=='1' goto ieopcion
-if '%choice%'=='2' goto chrome
-if '%choice%'=='3' goto black_screen
-if '%choice%'=='4' goto winver
-if '%choice%'=='5' goto tarjetadrv
-if '%choice%'=='6' goto autof
-if '%choice%'=='7' goto libreoff
-if '%choice%'=='8' goto horafec
-if '%choice%'=='9' goto main
-ECHO "%choice%" no es valido, intentalo de nuevo
-ECHO.
-goto Bmenu
-:black_screen
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - Action: Starting black_screen. Fixing black screen issue. >> "%LOG_FILE%"
-DisplaySwitch.exe /internal
-timeout /t 3
-DisplaySwitch.exe /extend
-goto main
-:autof
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - Action: Starting autof. Installing AutoFirma. >> "%LOG_FILE%"
-taskkill /IM chrome.exe /F > nul 2>&1
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: \\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\AutoFirma_64_v1_8_3_installer.exe /S >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\AutoFirma_64_v1_8_3_installer.exe /S"
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: cmd /c msiexec /i \"\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\AutoFirma_v1_6_0_JAv05_installer_64.msi\" /qn >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "cmd /c msiexec /i \"\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\AutoFirma_v1_6_0_JAv05_installer_64.msi\" /qn"
-goto main
-:ieopcion
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - Action: Starting ieopcion. Opening Internet Options. >> "%LOG_FILE%"
-Rundll32 Shell32.dll, Control_RunDLL Inetcpl.cpl
-goto main
-:chrome
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - Action: Starting chrome. Installing Chrome 109. >> "%LOG_FILE%"
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: cmd /c msiexec /i \"\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\chrome.msi\" /qn >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "cmd /c msiexec /i \"\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\chrome.msi\" /qn"
-goto main
-:winver
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - Action: Starting winver. Displaying Windows version. >> "%LOG_FILE%"
-RunDll32.exe SHELL32.DLL,ShellAboutW
-goto main
-:tarjetadrv
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - Action: Starting tarjetadrv. Reinstalling card reader drivers. >> "%LOG_FILE%"
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: \\iusnas05\DDPP\COMUN\_DRIVERS\lectores tarjetas\PCT-331_V8.52\SCR3xxx_V8.52.exe >> "%LOG_FILE%"
-runas /user:%AD%@justicia /savecred "\\iusnas05\DDPP\COMUN\_DRIVERS\lectores tarjetas\PCT-331_V8.52\SCR3xxx_V8.52.exe"  
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: \\iusnas05\DDPP\COMUN\_DRIVERS\lectores tarjetas\satellite pro a50c169 smartcard\smr-20151028103759\TCJ0023500B.exe >> "%LOG_FILE%"
-runas /user:%AD%@justicia /savecred "\\iusnas05\DDPP\COMUN\_DRIVERS\lectores tarjetas\satellite pro a50c169 smartcard\smr-20151028103759\TCJ0023500B.exe"
-goto main
-:horafec
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - Action: Starting horafec. Forcing date and time sync. >> "%LOG_FILE%"
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: net stop w32time >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "net stop w32time"
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: w32tm /unregister >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "w32tm /unregister"
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: w32tm /register >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "w32tm /register"
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: net start w32time >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "net start w32time"
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: w32tm /resync >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "w32tm /resync"
-goto main
-:libreoff
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - Action: Starting libreoff. Installing LibreOffice. >> "%LOG_FILE%"
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - RUNAS: Attempting to execute: cmd /c msiexec /i \"\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\LibreOffice.msi\" /qn >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "cmd /c msiexec /i \"\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\LibreOffice.msi\" /qn"
-goto main
-:desinstalador_tarjetas
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - Action: Starting desinstalador_tarjetas. Uninstalling unknown/reader drivers. >> "%LOG_FILE%"
-@echo off
-:remove_drivers
-FOR /F "tokens=3,*" %%a in ('pnputil /enum-drivers ^| find "Nombre publicado"') DO (
-    rem %%b contiene el identificador del controlador (p.ej. oemXX.inf)
-    echo %%b | findstr /I /C:"desconocido" /C:"lector" >nul
-    if not errorlevel 1 (
-         echo Eliminando el controlador %%b...
-         pnputil /delete-driver %%b /uninstall /force
-         CLS
+    SET adUser=
+    IF NOT DEFINED adUser (
+        SET /P "adUser=introduce tu AD:"
     )
-)
-set "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS=%L_HHMMSS: =0%"
-ECHO %L_YYYYMMDD% %L_HHMMSS% - INFO - Script self-deleting and exiting. Triggered in section near/after label: remove_drivers_Exit. >> "%LOG_FILE%"
+    FOR /F "tokens=2 delims=\" %%i IN ('whoami') DO SET userProfileName=%%i
 
-set "L_YYYYMMDD_UPLOAD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-set "L_HHMMSS_UPLOAD=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-set "L_HHMMSS_UPLOAD=%L_HHMMSS_UPLOAD: =0%"
-ECHO %L_YYYYMMDD_UPLOAD% %L_HHMMSS_UPLOAD% - INFO - Preparing to upload log file %LOG_FILE% to network. >> "%LOG_FILE%"
+    SET "LOG_DIR=%TEMP%\CAUJUS_Logs"
+    FOR /F "usebackq" %%j IN ('hostname') DO SET currentHostname=%%j
+    SET "YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
+    SET "HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
+    SET "HHMMSS=%HHMMSS: =0%"
+    SET "LOG_FILE=%LOG_DIR%\%adUser%_%currentHostname%_%YYYYMMDD%_%HHMMSS%.log"
 
-set "FINAL_LOG_DIR=\\iusnas05\SIJ\CAU-2012\logs"
-set "FINAL_LOG_FILENAME=%AD%_%CURRENT_COMPUTERNAME_FOR_LOG%_%YYYYMMDD%_%HHMMSS%.log"
-set "FINAL_LOG_PATH=%FINAL_LOG_DIR%\%FINAL_LOG_FILENAME%"
+    REM Create Log Directory if it doesn't exist
+    IF NOT EXIST "%LOG_DIR%" (
+        MKDIR "%LOG_DIR%"
+        CALL :LogMessage "INFO - Log directory created: %LOG_DIR%"
+    ) ELSE (
+        CALL :LogMessage "INFO - Log directory already exists: %LOG_DIR%"
+    )
+    CALL :LogMessage "INFO - Script CAUJUS.bat started. User: %adUser%, Profile: %userProfileName%, Machine: %currentHostname%. Logging to: %LOG_FILE%"
+    CLS
+    GOTO main_menu
 
-REM Ensure FINAL_LOG_DIR exists on the network using RUNAS
-runas /user:%AD%@JUSTICIA /savecred "cmd /c IF NOT EXIST "%FINAL_LOG_DIR%" mkdir "%FINAL_LOG_DIR%"" >> "%LOG_FILE%" 2>&1
+::=============================================================================
+:: Main Menu and System Information Display
+::=============================================================================
+:main_menu
+    CLS
+    :: Gather system information
+    FOR /F "usebackq" %%i IN ('hostname') DO SET computerName=%%i
+    FOR /F "Tokens=1* Delims==" %%g IN ('WMIC BIOS GET SerialNumber /Value') DO FOR /F "Tokens=*" %%i IN ("%%h") DO SET serialNumber=%%i
+    FOR /F "delims=[] tokens=2" %%a IN ('PING -4 -n 1 %ComputerName% ^| FINDSTR [') DO SET networkIP=%%a
+    FOR /F "Tokens=1* Delims==" %%g IN ('WMIC OS GET Caption /Value') DO FOR /F "Tokens=*" %%i IN ("%%h") DO SET osCaption=%%i
+    FOR /F "SKIP=2 tokens=2,*" %%A IN ('REG QUERY "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v CurrentBuildNumber') DO (SET osBuildNumber=%%B)
 
-ECHO %L_YYYYMMDD_UPLOAD% %L_HHMMSS_UPLOAD% - INFO - Attempting to copy log from %LOG_FILE% to %FINAL_LOG_PATH% using RUNAS. >> "%LOG_FILE%"
-runas /user:%AD%@JUSTICIA /savecred "cmd /c copy /Y "%LOG_FILE%" "%FINAL_LOG_PATH%"" >> "%LOG_FILE%" 2>&1
-ECHO %L_YYYYMMDD_UPLOAD% %L_HHMMSS_UPLOAD% - INFO - Log upload attempt finished. >> "%LOG_FILE%"
+    CALL :LogMessage "INFO - System Info: User: %userProfileName%, AD User: %adUser%, Computer: %computerName%, SN: %serialNumber%, IP: %networkIP%, OS: %osCaption% (%osBuildNumber%), Script Version: 2504"
 
-del "%~f0" & exit
-goto main
+    :: Display system information and menu
+    ECHO ------------------------------------------
+    ECHO                  CAU
+    ECHO ------------------------------------------
+    ECHO.
+    ECHO Usuario: %userProfileName%
+    ECHO Usuario AD utilizado: %adUser%
+    ECHO Nombre equipo: %computerName%
+    ECHO Numero de serie: %serialNumber%
+    ECHO Numero de IP: %networkIP%
+    ECHO Version: %osCaption%, con la compilacion %osBuildNumber%
+    ECHO Version Script: 2504
+    ECHO.
+    ECHO 1. Bateria pruebas
+    ECHO 2. Cambiar password correo
+    ECHO 3. Reiniciar cola impresion
+    ECHO 4. Administrador de dispositivos (desinstalar drivers)
+    ECHO 5. Certificado digital
+    ECHO 6. ISL Allways on
+    ECHO 7. Utilidades
+
+    SET choice=
+    SET /P "choice=Escoge una opcion: "
+    IF NOT "%choice%"=="" SET choice=%choice:~0,1%
+
+    CALL :LogMessage "INFO - Main menu: User selected option %choice%. Referring to %choice% value."
+
+    IF "%choice%"=="1" GOTO Batery_test
+    IF "%choice%"=="2" GOTO mail_pass
+    IF "%choice%"=="3" GOTO print_pool
+    IF "%choice%"=="4" GOTO Driver_admin
+    IF "%choice%"=="5" GOTO Cert_Menu
+    IF "%choice%"=="6" GOTO isl_always_on
+    IF "%choice%"=="7" GOTO Utilities_Menu
+
+    ECHO "%choice%" opcion no valida, intentalo de nuevo
+    ECHO.
+    GOTO main_menu
+
+::=============================================================================
+:: Main Action Blocks
+::=============================================================================
+
+:Batery_test
+    CALL :LogMessage "INFO - Action: Starting Batery_test."
+    CALL :BT_KillBrowsers
+    CALL :BT_ClearSystemCaches
+    CALL :BT_ApplyVisualEffectRegTweaks
+    CALL :BT_SystemMaintenanceTasks
+    CALL :LogMessage "INFO - Action: Prompting for restart in Batery_test."
+    ECHO Reiniciar equipo (s/n)
+    CHOICE /C sn /N
+    CALL :LogMessage "INFO - Script self-deleting and exiting. Triggered in section near/after label: Batery_test_RestartChoice."
+    CALL :UploadLogFile
+    IF ERRORLEVEL 2 (
+        DEL "%~f0"
+        EXIT
+    )
+    IF ERRORLEVEL 1 (
+        SHUTDOWN /r /t 0
+    )
+    GOTO :EOF
+
+:mail_pass
+    CALL :LogMessage "INFO - Action: Starting mail_pass. Opening URL."
+    START chrome "https://micuenta.juntadeandalucia.es/micuenta/es.juntadeandalucia.micuenta.servlets.LoginInicial"
+    CALL :LogMessage "INFO - Script self-deleting and exiting. Triggered in section near/after label: mail_pass_Exit."
+    CALL :UploadLogFile
+    DEL "%~f0"
+    EXIT
+
+:print_pool
+    CALL :LogMessage "INFO - Action: Starting print_pool. Resetting printer queues."
+    CALL :ExecuteWithRunas "cmd /c FOR /F \"tokens=3,*\" %%a IN ('cscript c:\\windows\\System32\\printing_Admin_Scripts\\es-ES\\prnmngr.vbs -l ^| FINDSTR \"Nombre de impresora\"') DO cscript c:\\windows\\System32\\printing_Admin_Scripts\\es-ES\\prnqctl.vbs -m -p \"%%b\""
+    CALL :LogMessage "INFO - Script self-deleting and exiting. Triggered in section near/after label: print_pool_Exit."
+    CALL :UploadLogFile
+    DEL "%~f0"
+    EXIT
+
+:Driver_admin
+    CALL :LogMessage "INFO - Action: Starting Driver_admin. Opening Device Manager."
+    CALL :ExecuteWithRunas "RunDll32.exe devmgr.dll DeviceManager_Execute"
+    GOTO main_menu
+
+:isl_always_on
+    CALL :LogMessage "INFO - Action: Starting isl_always_on. Installing ISL Always On."
+    CALL :ExecuteWithRunas "cmd /c MSIEXEC /i \"\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\isl.msi\" /qn"
+    GOTO main_menu
+
+::-----------------------------------------------------------------------------
+:: Certificate Management Menu
+::-----------------------------------------------------------------------------
+:Cert_Menu
+    CLS
+    ECHO ------------------------------------------
+    ECHO                  CAU
+    ECHO     Gestiones del certificado digital
+    ECHO ------------------------------------------
+    ECHO 1. Configuracion previa (Silenciosa)
+    ECHO 2. Configuracion previa (Manual)
+    ECHO 3. Solicitar certificado digital
+    ECHO 4. Renovar certificado digital
+    ECHO 5. Descargar certificado digital
+    ECHO 6. Inicio
+
+    SET choice=
+    SET /P "choice=Escoge una opcion: "
+    IF NOT "%choice%"=="" SET choice=%choice:~0,1%
+
+    CALL :LogMessage "INFO - Cert_Menu: User selected option %choice%. Referring to %choice% value."
+
+    IF "%choice%"=="1" GOTO Cert_Config_Silent
+    IF "%choice%"=="2" GOTO Cert_Config_Manual
+    IF "%choice%"=="3" GOTO Cert_Request
+    IF "%choice%"=="4" GOTO Cert_Renew
+    IF "%choice%"=="5" GOTO Cert_Download
+    IF "%choice%"=="6" GOTO main_menu
+
+    ECHO "%choice%" no es valido, intentalo de nuevo
+    ECHO.
+    GOTO Cert_Menu
+
+:Cert_Config_Silent
+    CALL :LogMessage "INFO - Action: Starting Cert_Config_Silent. Silent FNMT configuration."
+    CD /D %userprofile%\downloads
+    CALL :ExecuteWithRunas "\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\Configurador_FNMT_5.0.0_64bits.exe /S"
+    GOTO Cert_Menu
+
+:Cert_Config_Manual
+    CALL :LogMessage "INFO - Action: Starting Cert_Config_Manual. Manual FNMT configuration."
+    CD /D %userprofile%\downloads
+    CALL :ExecuteWithRunas "\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\Configurador_FNMT_5.0.0_64bits.exe"
+    GOTO Cert_Menu
+
+:Cert_Request
+    CALL :LogMessage "INFO - Action: Starting Cert_Request. Opening certificate request URL."
+    START chrome "https://www.sede.fnmt.gob.es/certificados/persona-fisica/obtener-certificado-software/solicitar-certificado"
+    GOTO Cert_Menu
+
+:Cert_Renew
+    CALL :LogMessage "INFO - Action: Starting Cert_Renew. Opening certificate renewal URL."
+    START chrome "https://www.sede.fnmt.gob.es/certificados/persona-fisica/renovar/solicitar-renovacion"
+    GOTO Cert_Menu
+
+:Cert_Download
+    CALL :LogMessage "INFO - Action: Starting Cert_Download. Opening certificate download URL."
+    START chrome "https://www.sede.fnmt.gob.es/certificados/persona-fisica/obtener-certificado-software/descargar-certificado"
+    GOTO Cert_Menu
+
+::-----------------------------------------------------------------------------
+:: Utilities Menu
+::-----------------------------------------------------------------------------
+:Utilities_Menu
+    CLS
+    ECHO ------------------------------------------
+    ECHO                  CAU
+    ECHO               Utilidades
+    ECHO ------------------------------------------
+    ECHO 1. Ver opciones de internet
+    ECHO 2. Instalar Chrome 109
+    ECHO 3. Arreglar pantalla oscura (no aparece fondo de pantalla)
+    ECHO 4. Ver version de Windows
+    ECHO 5. Reinstalar drivers tarjeta
+    ECHO 6. Instalar Autofirmas
+    ECHO 7. Instalar Libreoffice
+    ECHO 8. Forzar fecha y hora
+    ECHO 9. Inicio
+
+    SET choice=
+    SET /P "choice=Escoge una opcion: "
+    IF NOT "%choice%"=="" SET choice=%choice:~0,1%
+
+    CALL :LogMessage "INFO - Utilities_Menu: User selected option %choice%. Referring to %choice% value."
+
+    IF "%choice%"=="1" GOTO Util_InternetOptions
+    IF "%choice%"=="2" GOTO Util_InstallChrome
+    IF "%choice%"=="3" GOTO Util_FixBlackScreen
+    IF "%choice%"=="4" GOTO Util_ShowWinVer
+    IF "%choice%"=="5" GOTO Util_ReinstallCardReaderDrivers
+    IF "%choice%"=="6" GOTO Util_InstallAutofirma
+    IF "%choice%"=="7" GOTO Util_InstallLibreOffice
+    IF "%choice%"=="8" GOTO Util_ForceDateTimeSync
+    IF "%choice%"=="9" GOTO main_menu
+
+    ECHO "%choice%" no es valido, intentalo de nuevo
+    ECHO.
+    GOTO Utilities_Menu
+
+:Util_FixBlackScreen
+    CALL :LogMessage "INFO - Action: Starting Util_FixBlackScreen. Fixing black screen issue."
+    DisplaySwitch.exe /internal
+    TIMEOUT /T 3 /NOBREAK
+    DisplaySwitch.exe /extend
+    GOTO main_menu
+
+:Util_InstallAutofirma
+    CALL :LogMessage "INFO - Action: Starting Util_InstallAutofirma. Installing AutoFirma."
+    TASKKILL /IM chrome.exe /F > nul 2>&1
+    CALL :ExecuteWithRunas "\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\AutoFirma_64_v1_8_3_installer.exe /S"
+    CALL :ExecuteWithRunas "cmd /c MSIEXEC /i \"\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\AutoFirma_v1_6_0_JAv05_installer_64.msi\" /qn"
+    GOTO main_menu
+
+:Util_InternetOptions
+    CALL :LogMessage "INFO - Action: Starting Util_InternetOptions. Opening Internet Options."
+    Rundll32 Shell32.dll,Control_RunDLL Inetcpl.cpl
+    GOTO main_menu
+
+:Util_InstallChrome
+    CALL :LogMessage "INFO - Action: Starting Util_InstallChrome. Installing Chrome 109."
+    CALL :ExecuteWithRunas "cmd /c MSIEXEC /i \"\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\chrome.msi\" /qn"
+    GOTO main_menu
+
+:Util_ShowWinVer
+    CALL :LogMessage "INFO - Action: Starting Util_ShowWinVer. Displaying Windows version."
+    RunDll32.exe SHELL32.DLL,ShellAboutW
+    GOTO main_menu
+
+:Util_ReinstallCardReaderDrivers
+    CALL :LogMessage "INFO - Action: Starting Util_ReinstallCardReaderDrivers. Reinstalling card reader drivers."
+    CALL :ExecuteWithRunas "\\iusnas05\DDPP\COMUN\_DRIVERS\lectores tarjetas\PCT-331_V8.52\SCR3xxx_V8.52.exe"
+    CALL :ExecuteWithRunas "\\iusnas05\DDPP\COMUN\_DRIVERS\lectores tarjetas\satellite pro a50c169 smartcard\smr-20151028103759\TCJ0023500B.exe"
+    GOTO main_menu
+
+:Util_ForceDateTimeSync
+    CALL :LogMessage "INFO - Action: Starting Util_ForceDateTimeSync. Forcing date and time sync."
+    CALL :ExecuteWithRunas "NET STOP w32time"
+    CALL :ExecuteWithRunas "W32TM /unregister"
+    CALL :ExecuteWithRunas "W32TM /register"
+    CALL :ExecuteWithRunas "NET START w32time"
+    CALL :ExecuteWithRunas "W32TM /resync"
+    GOTO main_menu
+
+:Util_InstallLibreOffice
+    CALL :LogMessage "INFO - Action: Starting Util_InstallLibreOffice. Installing LibreOffice."
+    CALL :ExecuteWithRunas "cmd /c MSIEXEC /i \"\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\LibreOffice.msi\" /qn"
+    GOTO main_menu
+
+:desinstalador_tarjetas
+    CALL :LogMessage "INFO - Action: Starting desinstalador_tarjetas. Uninstalling unknown/reader drivers."
+    @ECHO OFF
+    :: This loop iterates through installed drivers and uninstalls those matching specific keywords.
+    :remove_drivers_loop
+    FOR /F "tokens=3,*" %%a IN ('PNPUTIL /enum-drivers ^| FINDSTR "Nombre publicado"') DO (
+        REM %%b contiene el identificador del controlador (p.ej. oemXX.inf)
+        ECHO %%b | FINDSTR /I /C:"desconocido" /C:"lector" >nul
+        IF NOT ERRORLEVEL 1 (
+             ECHO Eliminando el controlador %%b...
+             PNPUTIL /delete-driver %%b /uninstall /force
+             CLS
+        )
+    )
+    CALL :LogMessage "INFO - Script self-deleting and exiting. Triggered in section near/after label: remove_drivers_loop_Exit."
+    CALL :UploadLogFile
+    DEL "%~f0"
+    EXIT
+
+::=============================================================================
+:: Subroutines
+::=============================================================================
+
+::-----------------------------------------------------------------------------
+:: Subroutine: LogMessage
+:: Purpose: Writes a timestamped message to the global log file (%LOG_FILE%).
+:: Usage: CALL :LogMessage "INFO - Your message here"
+:: Arguments: %1 - The message string to log.
+::-----------------------------------------------------------------------------
+:LogMessage
+    SETLOCAL
+    SET "logMessage=%~1"
+    SET "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
+    SET "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
+    SET "L_HHMMSS=%L_HHMMSS: =0%"
+    ECHO %L_YYYYMMDD% %L_HHMMSS% - %logMessage% >> "%LOG_FILE%"
+    ENDLOCAL
+    GOTO :EOF
+
+::-----------------------------------------------------------------------------
+:: Subroutine: UploadLogFile
+:: Purpose: Uploads the current log file to a central network share.
+:: Usage: CALL :UploadLogFile
+:: Arguments: None. Relies on global variables for paths and names.
+::-----------------------------------------------------------------------------
+:UploadLogFile
+    SETLOCAL
+    CALL :LogMessage "INFO - Preparing to upload log file %LOG_FILE% to network."
+    SET "FINAL_LOG_DIR=\\iusnas05\SIJ\CAU-2012\logs"
+    SET "FINAL_LOG_FILENAME=%adUser%_%currentHostname%_%YYYYMMDD%_%HHMMSS%.log"
+    SET "FINAL_LOG_PATH=%FINAL_LOG_DIR%\%FINAL_LOG_FILENAME%"
+    REM Ensure FINAL_LOG_DIR exists on the network using RUNAS
+    CALL :ExecuteWithRunas "cmd /c IF NOT EXIST "%FINAL_LOG_DIR%" MKDIR "%FINAL_LOG_DIR%""
+    CALL :ExecuteWithRunas "cmd /c COPY /Y "%LOG_FILE%" "%FINAL_LOG_PATH%""
+    CALL :LogMessage "INFO - Log upload attempt finished."
+    ENDLOCAL
+    GOTO :EOF
+
+::-----------------------------------------------------------------------------
+:: Subroutine: ExecuteWithRunas
+:: Purpose: Executes a given command string with elevated privileges using RUNAS.
+::          Logs the attempt and redirects RUNAS output to the main log file.
+:: Usage: CALL :ExecuteWithRunas "command_to_execute_with_args"
+:: Arguments: %1 - The command string to execute.
+::-----------------------------------------------------------------------------
+:ExecuteWithRunas
+    SETLOCAL
+    SET "commandToRun=%~1"
+    CALL :LogMessage "RUNAS - Attempting to execute: %commandToRun%"
+    runas /user:%adUser%@JUSTICIA /savecred "%commandToRun%" >> "%LOG_FILE%" 2>&1
+    ENDLOCAL
+    GOTO :EOF
+
+::-----------------------------------------------------------------------------
+:: Subroutine Group: Batery_test Helpers
+:: Purpose: These subroutines modularize actions within the Batery_test.
+::-----------------------------------------------------------------------------
+
+::-----------------------------------------------------------------------------
+:: Subroutine: BT_KillBrowsers
+:: Purpose: Terminates common web browser processes.
+:: Usage: CALL :BT_KillBrowsers
+::-----------------------------------------------------------------------------
+:BT_KillBrowsers
+    TASKKILL /IM chrome.exe /F > nul 2>&1
+    TASKKILL /IM iexplore.exe /F > nul 2>&1
+    TASKKILL /IM msedge.exe /F > nul 2>&1
+    GOTO :EOF
+
+::-----------------------------------------------------------------------------
+:: Subroutine: BT_ClearSystemCaches
+:: Purpose: Clears various system and browser caches.
+:: Usage: CALL :BT_ClearSystemCaches
+::-----------------------------------------------------------------------------
+:BT_ClearSystemCaches
+    IPCONFIG /flushdns
+    RunDll32.exe InetCpl.cpl,ClearMyTracksByProcess 16
+    RunDll32.exe InetCpl.cpl,ClearMyTracksByProcess 8
+    RunDll32.exe InetCpl.cpl,ClearMyTracksByProcess 2
+    RunDll32.exe InetCpl.cpl,ClearMyTracksByProcess 1
+    DEL /Q /S /F "E:\Users\%userProfileName%\AppData\Local\Google\Chrome\User Data\Default\Cache\*"
+    GOTO :EOF
+
+::-----------------------------------------------------------------------------
+:: Subroutine: BT_ApplyVisualEffectRegTweaks
+:: Purpose: Applies registry tweaks to disable various visual effects for performance.
+:: Usage: CALL :BT_ApplyVisualEffectRegTweaks
+::-----------------------------------------------------------------------------
+:BT_ApplyVisualEffectRegTweaks
+    CALL :ExecuteWithRunas "cmd.exe /c REG ADD \"HKCU\Control Panel\Desktop\WindowMetrics\" /v MinAnimate /t REG_SZ /d 0 /f"
+    CALL :ExecuteWithRunas "cmd.exe /c REG ADD \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\" /v TaskbarAnimations /t REG_DWORD /d 0 /f"
+    CALL :ExecuteWithRunas "cmd.exe /c REG ADD \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects\" /v VisualFXSetting /t REG_DWORD /d 2 /f"
+    CALL :ExecuteWithRunas "cmd.exe /c REG ADD \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects\" /v ComboBoxAnimation /t REG_DWORD /d 0 /f"
+    CALL :ExecuteWithRunas "cmd.exe /c REG ADD \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects\" /v CursorShadow /t REG_DWORD /d 0 /f"
+    CALL :ExecuteWithRunas "cmd.exe /c REG ADD \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects\" /v DropShadow /t REG_DWORD /d 0 /f"
+    CALL :ExecuteWithRunas "cmd.exe /c REG ADD \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects\" /v ListBoxSmoothScrolling /t REG_DWORD /d 0 /f"
+    CALL :ExecuteWithRunas "cmd.exe /c REG ADD \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects\" /v MenuAnimation /t REG_DWORD /d 0 /f"
+    CALL :ExecuteWithRunas "cmd.exe /c REG ADD \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects\" /v SelectionFade /t REG_DWORD /d 0 /f"
+    CALL :ExecuteWithRunas "cmd.exe /c REG ADD \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects\" /v TooltipAnimation /t REG_DWORD /d 0 /f"
+    CALL :ExecuteWithRunas "cmd.exe /c REG ADD \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects\" /v Fade /t REG_DWORD /d 0 /f"
+    GOTO :EOF
+
+::-----------------------------------------------------------------------------
+:: Subroutine: BT_SystemMaintenanceTasks
+:: Purpose: Performs various system cleanup and maintenance tasks.
+:: Usage: CALL :BT_SystemMaintenanceTasks
+::-----------------------------------------------------------------------------
+:BT_SystemMaintenanceTasks
+    CALL :LogMessage "INFO - Action: Running gpupdate /force in Batery_test."
+    GPUPDATE /force
+    CALL :ExecuteWithRunas "cmd /c MSIEXEC /i \"\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\isl.msi\" /qn"
+    CALL :ExecuteWithRunas "cmd.exe /c DEL /F /S /Q \"%windir%\*.bak\""
+    CALL :ExecuteWithRunas "cmd.exe /c DEL /F /S /Q \"%windir%\SoftwareDistribution\Download\*.*\""
+    CALL :ExecuteWithRunas "cmd.exe /c DEL /F /S /Q \"%systemdrive%\*.tmp\""
+    CALL :ExecuteWithRunas "cmd.exe /c DEL /F /S /Q \"%systemdrive%\*._mp\""
+    CALL :ExecuteWithRunas "cmd.exe /c DEL /F /S /Q \"%systemdrive%\*.gid\""
+    CALL :ExecuteWithRunas "cmd.exe /c DEL /F /S /Q \"%systemdrive%\*.chk\""
+    CALL :ExecuteWithRunas "cmd.exe /c DEL /F /S /Q \"%systemdrive%\*.old\""
+    CALL :ExecuteWithRunas "cmd.exe /c IF EXIST \"%appdata%\Microsoft\Windows\cookies\" DEL /F /S /Q \"%appdata%\Microsoft\Windows\cookies\*.*\""
+    CALL :ExecuteWithRunas "cmd.exe /c IF EXIST \"%appdata%\Local\Microsoft\Windows\Temporary Internet Files\" DEL /F /S /Q \"%appdata%\Local\Microsoft\Windows\Temporary Internet Files\*.*\""
+    CALL :ExecuteWithRunas "cmd.exe /c IF EXIST \"%appdata%\Local\Microsoft\Windows\INetCache\" DEL /F /S /Q \"%appdata%\Local\Microsoft\Windows\INetCache\*.*\""
+    CALL :ExecuteWithRunas "cmd.exe /c IF EXIST \"%appdata%\Local\Microsoft\Windows\INetCookies\" DEL /F /S /Q \"%appdata%\Local\Microsoft\Windows\INetCookies\*.*\""
+    CALL :ExecuteWithRunas "cmd.exe /c IF EXIST \"%appdata%\Local\Microsoft\Terminal Server Client\Cache\" DEL /F /S /Q \"%appdata%\Local\Microsoft\Terminal Server Client\Cache\*.*\""
+    CALL :ExecuteWithRunas "cmd.exe /c IF EXIST \"%appdata%\Local\CrashDumps\" DEL /F /S /Q \"%appdata%\Local\CrashDumps\*.*\""
+    CALL :ExecuteWithRunas "cmd.exe /c IF EXIST \"%userprofile%\Local Settings\Temporary Internet Files\" DEL /F /S /Q \"%userprofile%\Local Settings\Temporary Internet Files\*.*\""
+    CALL :ExecuteWithRunas "cmd.exe /c IF EXIST \"%userprofile%\Local Settings\Temp\" DEL /F /S /Q \"%userprofile%\Local Settings\Temp\*.*\""
+    CALL :ExecuteWithRunas "cmd.exe /c IF EXIST \"%userprofile%\AppData\Local\Temp\" DEL /F /S /Q \"%userprofile%\AppData\Local\Temp\*.*\""
+    CALL :ExecuteWithRunas "cmd.exe /c IF EXIST \"%userprofile%\Local Settings\Temp\" RMDIR /S /Q \"%userprofile%\Local Settings\Temp\" & MKDIR \"%userprofile%\Local Settings\Temp\""
+    CALL :ExecuteWithRunas "cmd.exe /c IF EXIST \"%windir%\Temp\" RMDIR /S /Q \"%windir%\Temp\" & MKDIR \"%windir%\Temp\""
+    GOTO :EOF
