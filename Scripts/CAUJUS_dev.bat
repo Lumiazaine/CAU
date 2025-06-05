@@ -5,6 +5,29 @@
 
 @ECHO OFF
 
+:: --- Configuration Variables ---
+SET "config_RemoteLogDir=\\iusnas05\SIJ\CAU-2012\logs"
+SET "config_SoftwareBasePath=\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas"
+SET "config_DriverBasePath=\\iusnas05\DDPP\COMUN\_DRIVERS\lectores tarjetas"
+
+SET "config_IslMsiPath=%config_SoftwareBasePath%\isl.msi"
+SET "config_FnmtConfigExe=%config_SoftwareBasePath%\Configurador_FNMT_5.0.0_64bits.exe"
+SET "config_AutoFirmaExe=%config_SoftwareBasePath%\AutoFirma_64_v1_8_3_installer.exe"
+SET "config_AutoFirmaMsi=%config_SoftwareBasePath%\AutoFirma_v1_6_0_JAv05_installer_64.msi"
+SET "config_ChromeMsiPath=%config_SoftwareBasePath%\chrome.msi"
+SET "config_LibreOfficeMsiPath=%config_SoftwareBasePath%\LibreOffice.msi"
+
+SET "config_DriverPctPath=%config_DriverBasePath%\PCT-331_V8.52\SCR3xxx_V8.52.exe"
+SET "config_DriverSatellitePath=%config_DriverBasePath%\satellite pro a50c169 smartcard\smr-20151028103759\TCJ0023500B.exe"
+
+SET "config_UrlMiCuentaJunta=https://micuenta.juntadeandalucia.es/micuenta/es.juntadeandalucia.micuenta.servlets.LoginInicial"
+SET "config_UrlFnmtSolicitar=https://www.sede.fnmt.gob.es/certificados/persona-fisica/obtener-certificado-software/solicitar-certificado"
+SET "config_UrlFnmtRenovar=https://www.sede.fnmt.gob.es/certificados/persona-fisica/renovar/solicitar-renovacion"
+SET "config_UrlFnmtDescargar=https://www.sede.fnmt.gob.es/certificados/persona-fisica/obtener-certificado-software/descargar-certificado"
+
+SET "config_ScriptVersion=2504-refactored"
+:: --- End Configuration Variables ---
+
 :: Bloqueo para máquina de salto
 FOR /F "tokens=*" %%A IN ('hostname') DO SET "hostname=%%A"
 IF "%hostname%"=="IUSSWRDPCAU02" (
@@ -60,7 +83,7 @@ IF "%hostname%"=="IUSSWRDPCAU02" (
     FOR /F "Tokens=1* Delims==" %%g IN ('WMIC OS GET Caption /Value') DO FOR /F "Tokens=*" %%i IN ("%%h") DO SET osCaption=%%i
     FOR /F "SKIP=2 tokens=2,*" %%A IN ('REG QUERY "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v CurrentBuildNumber') DO (SET osBuildNumber=%%B)
 
-    CALL :LogMessage "INFO - System Info: User: %userProfileName%, AD User: %adUser%, Computer: %computerName%, SN: %serialNumber%, IP: %networkIP%, OS: %osCaption% (%osBuildNumber%), Script Version: 2504"
+    CALL :LogMessage "INFO - System Info: User: %userProfileName%, AD User: %adUser%, Computer: %computerName%, SN: %serialNumber%, IP: %networkIP%, OS: %osCaption% (%osBuildNumber%), Script Version: %config_ScriptVersion%"
 
     :: Display system information and menu
     ECHO ------------------------------------------
@@ -73,7 +96,7 @@ IF "%hostname%"=="IUSSWRDPCAU02" (
     ECHO Numero de serie: %serialNumber%
     ECHO Numero de IP: %networkIP%
     ECHO Version: %osCaption%, con la compilacion %osBuildNumber%
-    ECHO Version Script: 2504
+    ECHO Version Script: %config_ScriptVersion%
     ECHO.
     ECHO 1. Bateria pruebas
     ECHO 2. Cambiar password correo
@@ -127,7 +150,7 @@ IF "%hostname%"=="IUSSWRDPCAU02" (
 
 :mail_pass
     CALL :LogMessage "INFO - Action: Starting mail_pass. Opening URL."
-    START chrome "https://micuenta.juntadeandalucia.es/micuenta/es.juntadeandalucia.micuenta.servlets.LoginInicial"
+    START chrome "%config_UrlMiCuentaJunta%"
     CALL :LogMessage "INFO - Script self-deleting and exiting. Triggered in section near/after label: mail_pass_Exit."
     CALL :UploadLogFile
     DEL "%~f0"
@@ -148,7 +171,7 @@ IF "%hostname%"=="IUSSWRDPCAU02" (
 
 :isl_always_on
     CALL :LogMessage "INFO - Action: Starting isl_always_on. Installing ISL Always On."
-    CALL :ExecuteWithRunas "cmd /c MSIEXEC /i \"\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\isl.msi\" /qn"
+    CALL :ExecuteWithRunas "cmd /c MSIEXEC /i \"%config_IslMsiPath%\" /qn"
     GOTO main_menu
 
 ::-----------------------------------------------------------------------------
@@ -187,28 +210,28 @@ IF "%hostname%"=="IUSSWRDPCAU02" (
 :Cert_Config_Silent
     CALL :LogMessage "INFO - Action: Starting Cert_Config_Silent. Silent FNMT configuration."
     CD /D %userprofile%\downloads
-    CALL :ExecuteWithRunas "\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\Configurador_FNMT_5.0.0_64bits.exe /S"
+    CALL :ExecuteWithRunas "\"%config_FnmtConfigExe%\" /S"
     GOTO Cert_Menu
 
 :Cert_Config_Manual
     CALL :LogMessage "INFO - Action: Starting Cert_Config_Manual. Manual FNMT configuration."
     CD /D %userprofile%\downloads
-    CALL :ExecuteWithRunas "\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\Configurador_FNMT_5.0.0_64bits.exe"
+    CALL :ExecuteWithRunas "\"%config_FnmtConfigExe%\""
     GOTO Cert_Menu
 
 :Cert_Request
     CALL :LogMessage "INFO - Action: Starting Cert_Request. Opening certificate request URL."
-    START chrome "https://www.sede.fnmt.gob.es/certificados/persona-fisica/obtener-certificado-software/solicitar-certificado"
+    START chrome "%config_UrlFnmtSolicitar%"
     GOTO Cert_Menu
 
 :Cert_Renew
     CALL :LogMessage "INFO - Action: Starting Cert_Renew. Opening certificate renewal URL."
-    START chrome "https://www.sede.fnmt.gob.es/certificados/persona-fisica/renovar/solicitar-renovacion"
+    START chrome "%config_UrlFnmtRenovar%"
     GOTO Cert_Menu
 
 :Cert_Download
     CALL :LogMessage "INFO - Action: Starting Cert_Download. Opening certificate download URL."
-    START chrome "https://www.sede.fnmt.gob.es/certificados/persona-fisica/obtener-certificado-software/descargar-certificado"
+    START chrome "%config_UrlFnmtDescargar%"
     GOTO Cert_Menu
 
 ::-----------------------------------------------------------------------------
@@ -260,8 +283,8 @@ IF "%hostname%"=="IUSSWRDPCAU02" (
 :Util_InstallAutofirma
     CALL :LogMessage "INFO - Action: Starting Util_InstallAutofirma. Installing AutoFirma."
     TASKKILL /IM chrome.exe /F > nul 2>&1
-    CALL :ExecuteWithRunas "\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\AutoFirma_64_v1_8_3_installer.exe /S"
-    CALL :ExecuteWithRunas "cmd /c MSIEXEC /i \"\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\AutoFirma_v1_6_0_JAv05_installer_64.msi\" /qn"
+    CALL :ExecuteWithRunas "\"%config_AutoFirmaExe%\" /S"
+    CALL :ExecuteWithRunas "cmd /c MSIEXEC /i \"%config_AutoFirmaMsi%\" /qn"
     GOTO main_menu
 
 :Util_InternetOptions
@@ -271,7 +294,7 @@ IF "%hostname%"=="IUSSWRDPCAU02" (
 
 :Util_InstallChrome
     CALL :LogMessage "INFO - Action: Starting Util_InstallChrome. Installing Chrome 109."
-    CALL :ExecuteWithRunas "cmd /c MSIEXEC /i \"\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\chrome.msi\" /qn"
+    CALL :ExecuteWithRunas "cmd /c MSIEXEC /i \"%config_ChromeMsiPath%\" /qn"
     GOTO main_menu
 
 :Util_ShowWinVer
@@ -281,8 +304,8 @@ IF "%hostname%"=="IUSSWRDPCAU02" (
 
 :Util_ReinstallCardReaderDrivers
     CALL :LogMessage "INFO - Action: Starting Util_ReinstallCardReaderDrivers. Reinstalling card reader drivers."
-    CALL :ExecuteWithRunas "\\iusnas05\DDPP\COMUN\_DRIVERS\lectores tarjetas\PCT-331_V8.52\SCR3xxx_V8.52.exe"
-    CALL :ExecuteWithRunas "\\iusnas05\DDPP\COMUN\_DRIVERS\lectores tarjetas\satellite pro a50c169 smartcard\smr-20151028103759\TCJ0023500B.exe"
+    CALL :ExecuteWithRunas "\"%config_DriverPctPath%\""
+    CALL :ExecuteWithRunas "\"%config_DriverSatellitePath%\""
     GOTO main_menu
 
 :Util_ForceDateTimeSync
@@ -296,7 +319,7 @@ IF "%hostname%"=="IUSSWRDPCAU02" (
 
 :Util_InstallLibreOffice
     CALL :LogMessage "INFO - Action: Starting Util_InstallLibreOffice. Installing LibreOffice."
-    CALL :ExecuteWithRunas "cmd /c MSIEXEC /i \"\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\LibreOffice.msi\" /qn"
+    CALL :ExecuteWithRunas "cmd /c MSIEXEC /i \"%config_LibreOfficeMsiPath%\" /qn"
     GOTO main_menu
 
 :desinstalador_tarjetas
@@ -347,7 +370,7 @@ IF "%hostname%"=="IUSSWRDPCAU02" (
 :UploadLogFile
     SETLOCAL
     CALL :LogMessage "INFO - Preparing to upload log file %LOG_FILE% to network."
-    SET "FINAL_LOG_DIR=\\iusnas05\SIJ\CAU-2012\logs"
+    SET "FINAL_LOG_DIR=%config_RemoteLogDir%"
     SET "FINAL_LOG_FILENAME=%adUser%_%currentHostname%_%YYYYMMDD%_%HHMMSS%.log"
     SET "FINAL_LOG_PATH=%FINAL_LOG_DIR%\%FINAL_LOG_FILENAME%"
     REM Ensure FINAL_LOG_DIR exists on the network using RUNAS
@@ -429,7 +452,7 @@ IF "%hostname%"=="IUSSWRDPCAU02" (
 :BT_SystemMaintenanceTasks
     CALL :LogMessage "INFO - Action: Running gpupdate /force in Batery_test."
     GPUPDATE /force
-    CALL :ExecuteWithRunas "cmd /c MSIEXEC /i \"\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\isl.msi\" /qn"
+    CALL :ExecuteWithRunas "cmd /c MSIEXEC /i \"%config_IslMsiPath%\" /qn"
     CALL :ExecuteWithRunas "cmd.exe /c DEL /F /S /Q \"%windir%\*.bak\""
     CALL :ExecuteWithRunas "cmd.exe /c DEL /F /S /Q \"%windir%\SoftwareDistribution\Download\*.*\""
     CALL :ExecuteWithRunas "cmd.exe /c DEL /F /S /Q \"%systemdrive%\*.tmp\""
