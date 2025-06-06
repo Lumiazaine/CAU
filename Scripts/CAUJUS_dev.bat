@@ -137,12 +137,13 @@ IF "%hostname%"=="IUSSWRDPCAU02" (
     CALL :LogMessage "INFO - Action: Prompting for restart in Batery_test."
     ECHO Reiniciar equipo (s/n)
     CHOICE /C sn /N
+    SET "CHOICE_RESULT=%ERRORLEVEL%"
     CALL :LogMessage "INFO - Script self-deleting and exiting. Triggered in section near/after label: Batery_test_RestartChoice."
     CALL :UploadLogFile
-    IF %ERRORLEVEL%==2 (
+    IF %CHOICE_RESULT%==2 (
         DEL "%~f0"
         EXIT
-    ) ELSE IF %ERRORLEVEL%==1 (
+    ) ELSE IF %CHOICE_RESULT%==1 (
         SHUTDOWN /r /t 0
     )
     GOTO :EOF
