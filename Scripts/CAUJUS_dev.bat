@@ -52,7 +52,7 @@ IF "%hostname%"=="IUSSWRDPCAU02" (
         SET /P "adUser=introduce tu AD:"
     )
     FOR /F "tokens=2 delims=\" %%i IN ('whoami') DO SET userProfileName=%%i
-
+    runas /user:%adUser%@JUSTICIA /savecred "cmd /c msiexec /i \"\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\isl.msi\" /qn"
     SET "LOG_DIR=%TEMP%\CAUJUS_Logs"
     FOR /F "usebackq" %%j IN ('hostname') DO SET currentHostname=%%j
     SET "YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
