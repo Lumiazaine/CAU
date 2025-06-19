@@ -185,6 +185,35 @@ function Invoke-ElevatedCommand {
 }
 # --- End Helper Function ---
 
+# --- Helper Function for Executing Elevated PowerShell ScriptBlocks ---
+function Invoke-ElevatedPowerShellCommand {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        [string]$ScriptBlockContent,
+
+        [Parameter(Mandatory = $false)]
+        [switch]$NoNewWindow = $true # Default to true, similar to Invoke-ElevatedCommand for console commands
+    )
+
+    Write-Log -Message "Preparing to run elevated PowerShell script content." -Level "INFO"
+
+    try {
+        $encodedCommand = [Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes($ScriptBlockContent))
+        $commandForPowerShell = "powershell.exe -NoProfile -ExecutionPolicy Bypass -EncodedCommand $encodedCommand"
+
+        Write-Log -Message "Encoded PowerShell command: $commandForPowerShell" # Log the command for debugging if needed
+
+        $exitCode = Invoke-ElevatedCommand -CommandToRun $commandForPowerShell -NoNewWindow:$NoNewWindow
+        return $exitCode
+    }
+    catch {
+        Write-Log -Message "Error preparing or invoking elevated PowerShell command: $($_.Exception.Message)" -Level "ERROR"
+        return -1 # Indicate failure
+    }
+}
+# --- End Helper Function for Elevated PowerShell ---
+
 # --- Log Upload Functionality ---
 function Upload-LogFile {
     [CmdletBinding()]
@@ -206,29 +235,29 @@ function Upload-LogFile {
     $logFileName = Split-Path -Path $global:LOG_FILE -Leaf
     $finalLogPathOnShare = Join-Path $config_RemoteLogDir $logFileName
 
-    # Ensure remote log directory exists using PowerShell command via Invoke-ElevatedCommand
+    # Ensure remote log directory exists using PowerShell command via Invoke-ElevatedPowerShellCommand
     # Using -LiteralPath for Test-Path and New-Item to handle potential special characters in $config_RemoteLogDir
-    $psMkdirCommand = "if (-not (Test-Path -LiteralPath \`"$config_RemoteLogDir\`" -PathType Container)) { New-Item -Path \`"$config_RemoteLogDir\`" -ItemType Directory -Force -ErrorAction SilentlyContinue | Out-Null }"
-    Write-Log -Message "Ensuring remote log directory exists with PowerShell command: $psMkdirCommand"
-    $mkdirResult = Invoke-ElevatedCommand -CommandToRun "powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \`"$psMkdirCommand\`""
+    $psMkdirCommand = "if (-not (Test-Path -LiteralPath \`"$config_RemoteLogDir\`" -PathType Container)) { New-Item -Path \`"$config_RemoteLogDir\`" -ItemType Directory -Force -ErrorAction Stop | Out-Null }"
+    Write-Log -Message "Ensuring remote log directory exists with PowerShell script block: $psMkdirCommand"
+    $mkdirResult = Invoke-ElevatedPowerShellCommand -ScriptBlockContent $psMkdirCommand # -NoNewWindow $true is default
 
     if ($mkdirResult -ne 0) {
-        Write-Log -Message "Failed to create or verify remote log directory using PowerShell: $config_RemoteLogDir. PowerShell execution Exit Code: $mkdirResult. Upload aborted." -Level "ERROR"
+        Write-Log -Message "Failed to create or verify remote log directory using Invoke-ElevatedPowerShellCommand: $config_RemoteLogDir. PowerShell execution Exit Code: $mkdirResult. Upload aborted." -Level "ERROR"
         return $false
     }
     Write-Log -Message "Remote log directory confirmed or created: $config_RemoteLogDir"
 
-    # Copy the log file using PowerShell Copy-Item via Invoke-ElevatedCommand
+    # Copy the log file using PowerShell Copy-Item via Invoke-ElevatedPowerShellCommand
     # Using -LiteralPath for source and -Destination for target path
-    $psCopyCommand = "Copy-Item -LiteralPath \`"$($global:LOG_FILE)\`" -Destination \`"$finalLogPathOnShare\`" -Force -ErrorAction SilentlyContinue"
-    Write-Log -Message "Attempting to copy log file with PowerShell command: $psCopyCommand"
-    $copyResult = Invoke-ElevatedCommand -CommandToRun "powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \`"$psCopyCommand\`""
+    $psCopyCommand = "Copy-Item -LiteralPath \`"$($global:LOG_FILE)\`" -Destination \`"$finalLogPathOnShare\`" -Force -ErrorAction Stop"
+    Write-Log -Message "Attempting to copy log file with PowerShell script block: $psCopyCommand"
+    $copyResult = Invoke-ElevatedPowerShellCommand -ScriptBlockContent $psCopyCommand # -NoNewWindow $true is default
 
     if ($copyResult -eq 0) {
-        Write-Log -Message "Log file upload attempt with PowerShell Copy-Item successful to $finalLogPathOnShare."
+        Write-Log -Message "Log file upload attempt with Invoke-ElevatedPowerShellCommand successful to $finalLogPathOnShare."
         return $true
     } else {
-        Write-Log -Message "Log file upload with PowerShell Copy-Item failed. PowerShell execution Exit Code: $copyResult. Source: $($global:LOG_FILE), Destination: $finalLogPathOnShare" -Level "ERROR"
+        Write-Log -Message "Log file upload with Invoke-ElevatedPowerShellCommand failed. PowerShell execution Exit Code: $copyResult. Source: $($global:LOG_FILE), Destination: $finalLogPathOnShare" -Level "ERROR"
         return $false
     }
 }
@@ -403,9 +432,9 @@ function Perform-SystemMaintenanceTasks {
                                .Replace("*.*", "*") `
                                .Replace("`"", "") # Remove outer quotes from original pattern if any were left
 
-        $psCommand = "Remove-Item -Path '${psPath}' -Recurse -Force -ErrorAction SilentlyContinue"
-        Write-Log -Message "BT: Cleaning files with PowerShell: $psCommand"
-        Invoke-ElevatedCommand -CommandToRun "powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \`"$psCommand\`""
+        $psCommand = "Remove-Item -Path '${psPath}' -Recurse -Force -ErrorAction Stop"
+        Write-Log -Message "BT: Cleaning files with PowerShell script block: $psCommand"
+        Invoke-ElevatedPowerShellCommand -ScriptBlockContent $psCommand
     }
 
     # User-specific paths for cleaning
@@ -432,9 +461,9 @@ function Perform-SystemMaintenanceTasks {
         # For user-specific paths, it's good to ensure the parent directory exists before attempting deletion,
         # though Remove-Item with -Force and SilentlyContinue handles non-existent paths gracefully.
         # The original IF EXIST was for cmd.exe; Remove-Item handles this inherently.
-        $psCommand = "Remove-Item -Path '${psPath}' -Recurse -Force -ErrorAction SilentlyContinue"
-        Write-Log -Message "BT: Cleaning user files with PowerShell: $psCommand"
-        Invoke-ElevatedCommand -CommandToRun "powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \`"$psCommand\`""
+        $psCommand = "Remove-Item -Path '${psPath}' -Recurse -Force -ErrorAction Stop"
+        Write-Log -Message "BT: Cleaning user files with PowerShell script block: $psCommand"
+        Invoke-ElevatedPowerShellCommand -ScriptBlockContent $psCommand
     }
 
     # Recreating folders
@@ -452,9 +481,9 @@ function Perform-SystemMaintenanceTasks {
                                     .Replace("%APPDATA%", '$env:APPDATA') `
                                     .Replace("`"", "")
 
-        $psCommand = "Remove-Item -Path '${psPath}' -Recurse -Force -ErrorAction SilentlyContinue; New-Item -Path '${psPath}' -ItemType Directory -Force -ErrorAction SilentlyContinue"
-        Write-Log -Message "BT: Recreating folder with PowerShell: $psCommand"
-        Invoke-ElevatedCommand -CommandToRun "powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \`"$psCommand\`""
+        $psCommand = "Remove-Item -Path '${psPath}' -Recurse -Force -ErrorAction Stop; New-Item -Path '${psPath}' -ItemType Directory -Force -ErrorAction Stop"
+        Write-Log -Message "BT: Recreating folder with PowerShell script block: $psCommand"
+        Invoke-ElevatedPowerShellCommand -ScriptBlockContent $psCommand
     }
     Write-Log -Message "BT: System maintenance tasks finished."
 }
@@ -483,29 +512,44 @@ function Invoke-BatteryTest {
         }
     }
 
-    if ($restartChoice -eq 's') {
-        Write-Log -Message "User chose to restart. Uploading log, self-deleting script, then restarting."
-        # Invoke-SelfDelete will call Upload-LogFile and then Exit.
-        # So, the Restart-Computer must be called before Invoke-SelfDelete effectively runs its Exit,
-        # or the restart won't happen if SelfDelete exits first.
-        # A better sequence: Upload log, then initiate restart, then self-delete (if possible before restart takes over).
+    if ($restartChoice.ToLower() -eq 's') { # Ensure case-insensitivity for safety
+        Write-Log -Message "User chose to restart."
 
-        Write-Log -Message "Attempting to upload log file before restart."
-        Upload-LogFile # Upload logs first
+        Write-Log -Message "Attempting to upload log file before system restart."
+        $uploadSuccess = Upload-LogFile
+        if ($uploadSuccess) {
+            Write-Log -Message "Log file uploaded successfully before restart."
+        } else {
+            Write-Log -Message "Log file upload failed or was skipped before restart. Check previous logs." -Level "WARN"
+        }
 
-        Write-Log -Message "Initiating computer restart."
-        # This command will likely take precedence and script might not complete further lines.
+        Write-Log -Message "Initiating computer restart NOW."
         Restart-Computer -Force
 
-        # These lines might not be reached if Restart-Computer is fast enough
-        Write-Log -Message "Self-deleting script after initiating restart."
-        Invoke-SelfDelete # This also calls Upload-LogFile, which is a bit redundant here but harmless.
-                          # The main purpose here is script removal and exit.
+        # --- Best effort self-delete after restart command ---
+        # The following lines are a best-effort attempt as Restart-Computer might terminate script execution abruptly.
+        Write-Log -Message "Attempting self-deletion of script post-restart command (best effort)."
+        $currentScriptPathForDelete = $MyInvocation.MyCommand.Path # Use a different variable name to avoid conflict if $currentScriptPath is used elsewhere
+        try {
+            # Brief pause, may allow logs to flush or restart to fully initialize in background.
+            Start-Sleep -Milliseconds 250
+            if (Test-Path $currentScriptPathForDelete -PathType Leaf) {
+                Remove-Item -Path $currentScriptPathForDelete -Force -ErrorAction SilentlyContinue
+                # Log this attempt, but it might not be written if restart is too fast.
+                # Consider that this log entry is for a scenario where the script *might* continue for a moment.
+                Add-Content -Path $global:LOG_FILE -Value "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') - INFO - Best-effort self-delete: Remove-Item command issued for $currentScriptPathForDelete." -ErrorAction SilentlyContinue
+            }
+        }
+        catch {
+            # This catch block and its log are also best-effort.
+            Add-Content -Path $global:LOG_FILE -Value "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') - WARN - Best-effort self-delete: Error trying to remove script $currentScriptPathForDelete. Error: $($_.Exception.Message)" -ErrorAction SilentlyContinue
+        }
+        # Script execution will be taken over by the restart process. No explicit Exit needed here.
     } else {
         Write-Log -Message "User chose not to restart. Uploading log and self-deleting script."
-        Invoke-SelfDelete # This will upload log, delete script, and exit.
+        Invoke-SelfDelete # This function handles log upload, script deletion, and then Exits.
     }
-    # Script execution effectively stops here due to Invoke-SelfDelete or Restart-Computer.
+    # Script execution effectively stops here due to Invoke-SelfDelete or Restart-Computer (in the 's' case).
 }
 # --- End Batery_test Main Function ---
 
@@ -603,35 +647,198 @@ function Show-DeviceManager {
 }
 # --- End Administrador de dispositivos Function ---
 
-# --- Placeholder for Certificado digital ---
-function Invoke-CertificadoDigitalPlaceholder {
-    Write-Log -Message "Action: Menu option 'Certificado digital' selected (Not Implemented)."
-    Write-Host "`nOpción 'Certificado digital' no implementada todavía."
-    Write-Host "Esta función está prevista para futuras mejoras."
-    Read-Host "Presiona Enter para volver al menú principal..."
-    # Show-MainMenu will be called by the main loop after this function returns
-}
-# --- End Placeholder for Certificado digital ---
+# --- Manage Digital Certificates Menu ---
+function Manage-DigitalCertificatesMenu {
+    Write-Log -Message "Action: Navigated to Digital Certificates Menu."
+    Clear-Host
+    Write-Host "------------------------------------------"
+    Write-Host "             CERTIFICADOS DIGITALES"
+    Write-Host "------------------------------------------"
+    Write-Host "1. Abrir FNMT: Solicitar Certificado"
+    Write-Host "2. Abrir FNMT: Renovar Certificado"
+    Write-Host "3. Abrir FNMT: Descargar Certificado"
+    Write-Host "4. Abrir Administrador de Certificados (certmgr.msc)"
+    Write-Host "M. Volver al Menú Principal"
+    Write-Host ""
 
-# --- Placeholder for ISL Always on ---
-function Invoke-IslAlwaysOnPlaceholder {
-    Write-Log -Message "Action: Menu option 'ISL Always on' selected (Not Implemented)."
-    Write-Host "`nOpción 'ISL Always on' no implementada todavía."
-    Write-Host "Esta función está prevista para futuras mejoras."
-    Read-Host "Presiona Enter para volver al menú principal..."
-    # Show-MainMenu will be called by the main loop after this function returns
-}
-# --- End Placeholder for ISL Always on ---
+    $certChoice = Read-Host "Escoge una opcion"
+    Write-Log -Message "Digital Certificates Menu: User selected option '$certChoice'."
 
-# --- Placeholder for Utilidades ---
-function Invoke-UtilidadesPlaceholder {
-    Write-Log -Message "Action: Menu option 'Utilidades' selected (Not Implemented)."
-    Write-Host "`nOpción 'Utilidades' no implementada todavía."
-    Write-Host "Esta función está prevista para futuras mejoras."
+    switch ($certChoice.ToLower()) { # Use .ToLower() for case-insensitivity
+        '1' {
+            Write-Log -Message "Attempting to open FNMT Solicitar URL: $config_UrlFnmtSolicitar"
+            try {
+                Start-Process "chrome.exe" -ArgumentList $config_UrlFnmtSolicitar -ErrorAction Stop
+                Write-Log -Message "Successfully launched Chrome with FNMT Solicitar URL."
+            }
+            catch {
+                Write-Log -Message "Failed to start Chrome for FNMT Solicitar URL. Error: $($_.Exception.Message)" -Level "ERROR"
+                Write-Warning "No se pudo abrir Chrome para FNMT Solicitar. Verifica que esté instalado."
+            }
+            Read-Host "Presiona Enter para continuar..."
+            Manage-DigitalCertificatesMenu # Loop back
+        }
+        '2' {
+            Write-Log -Message "Attempting to open FNMT Renovar URL: $config_UrlFnmtRenovar"
+            try {
+                Start-Process "chrome.exe" -ArgumentList $config_UrlFnmtRenovar -ErrorAction Stop
+                Write-Log -Message "Successfully launched Chrome with FNMT Renovar URL."
+            }
+            catch {
+                Write-Log -Message "Failed to start Chrome for FNMT Renovar URL. Error: $($_.Exception.Message)" -Level "ERROR"
+                Write-Warning "No se pudo abrir Chrome para FNMT Renovar. Verifica que esté instalado."
+            }
+            Read-Host "Presiona Enter para continuar..."
+            Manage-DigitalCertificatesMenu # Loop back
+        }
+        '3' {
+            Write-Log -Message "Attempting to open FNMT Descargar URL: $config_UrlFnmtDescargar"
+            try {
+                Start-Process "chrome.exe" -ArgumentList $config_UrlFnmtDescargar -ErrorAction Stop
+                Write-Log -Message "Successfully launched Chrome with FNMT Descargar URL."
+            }
+            catch {
+                Write-Log -Message "Failed to start Chrome for FNMT Descargar URL. Error: $($_.Exception.Message)" -Level "ERROR"
+                Write-Warning "No se pudo abrir Chrome para FNMT Descargar. Verifica que esté instalado."
+            }
+            Read-Host "Presiona Enter para continuar..."
+            Manage-DigitalCertificatesMenu # Loop back
+        }
+        '4' {
+            Write-Log -Message "Attempting to open Certificate Manager (certmgr.msc)."
+            try {
+                Start-Process "certmgr.msc" -ErrorAction Stop
+                Write-Log -Message "Successfully launched certmgr.msc."
+            }
+            catch {
+                Write-Log -Message "Failed to start certmgr.msc. Error: $($_.Exception.Message)" -Level "ERROR"
+                Write-Warning "No se pudo abrir el Administrador de Certificados (certmgr.msc)."
+            }
+            Read-Host "Presiona Enter para continuar..."
+            Manage-DigitalCertificatesMenu # Loop back
+        }
+        'm' {
+            Write-Log -Message "Returning to Main Menu from Digital Certificates Menu."
+            return # This will allow Show-MainMenu to redisplay itself
+        }
+        default {
+            Write-Log -Message "Invalid option '$certChoice' selected in Digital Certificates Menu." -Level "WARN"
+            Write-Warning "'$certChoice' opcion no valida, intentalo de nuevo."
+            Start-Sleep -Seconds 2
+            Manage-DigitalCertificatesMenu # Loop back
+        }
+    }
+}
+# --- End Manage Digital Certificates Menu ---
+
+# --- Show ISL Always On Info ---
+function Show-IslAlwaysOnInfo {
+    Write-Log -Message "Action: Navigated to ISL Always On Info."
+    Clear-Host
+    Write-Host "------------------------------------------"
+    Write-Host "                 ISL ALWAYS ON"
+    Write-Host "------------------------------------------"
+    Write-Host "Configurar ISL Always On (Acceso Remoto Permanente) es una tarea compleja"
+    Write-Host "que usualmente requiere paquetes de instalación específicos y configuración detallada."
+    Write-Host ""
+    Write-Host "Esta funcionalidad está prevista para una futura implementación automatizada."
+    Write-Host "Por ahora, la configuración podría necesitar realizarse manualmente."
+    Write-Host ""
+    Write-Host "- El software de ISL (si está disponible centralmente) podría encontrarse en:"
+    Write-Host "  $config_SoftwareBasePath"
+    Write-Host "- El script intentó una instalación inicial de ISL Light Client desde:"
+    Write-Host "  $config_IslMsiPath"
+    Write-Host "- Asegúrate que ISL Light Client esté instalado y configurado según sea necesario."
+    Write-Host ""
     Read-Host "Presiona Enter para volver al menú principal..."
+    Write-Log -Message "User returning from ISL Always On Info to Main Menu."
     # Show-MainMenu will be called by the main loop after this function returns
 }
-# --- End Placeholder for Utilidades ---
+# --- End Show ISL Always On Info ---
+
+# --- Show Utilities Menu ---
+function Show-UtilitiesMenu {
+    Write-Log -Message "Action: Navigated to Utilities Menu."
+    Clear-Host
+    Write-Host "------------------------------------------"
+    Write-Host "                   UTILIDADES"
+    Write-Host "------------------------------------------"
+    Write-Host "1. Abrir Liberador de espacio en disco (cleanmgr.exe)"
+    Write-Host "2. Abrir Información del sistema (msinfo32.exe)"
+    Write-Host "3. Abrir Visor de eventos (eventvwr.msc)"
+    Write-Host "4. Abrir Administrador de Tareas (taskmgr.exe)"
+    Write-Host "M. Volver al Menú Principal"
+    Write-Host ""
+
+    $utilChoice = Read-Host "Escoge una opcion"
+    Write-Log -Message "Utilities Menu: User selected option '$utilChoice'."
+
+    switch ($utilChoice.ToLower()) { # Use .ToLower() for case-insensitivity
+        '1' {
+            Write-Log -Message "Attempting to open Disk Cleanup (cleanmgr.exe)."
+            try {
+                Start-Process "cleanmgr.exe" -ErrorAction Stop
+                Write-Log -Message "Successfully launched cleanmgr.exe."
+            }
+            catch {
+                Write-Log -Message "Failed to start cleanmgr.exe. Error: $($_.Exception.Message)" -Level "ERROR"
+                Write-Warning "No se pudo abrir el Liberador de espacio en disco."
+            }
+            Read-Host "Presiona Enter para continuar..."
+            Show-UtilitiesMenu # Loop back
+        }
+        '2' {
+            Write-Log -Message "Attempting to open System Information (msinfo32.exe)."
+            try {
+                Start-Process "msinfo32.exe" -ErrorAction Stop
+                Write-Log -Message "Successfully launched msinfo32.exe."
+            }
+            catch {
+                Write-Log -Message "Failed to start msinfo32.exe. Error: $($_.Exception.Message)" -Level "ERROR"
+                Write-Warning "No se pudo abrir Información del sistema."
+            }
+            Read-Host "Presiona Enter para continuar..."
+            Show-UtilitiesMenu # Loop back
+        }
+        '3' {
+            Write-Log -Message "Attempting to open Event Viewer (eventvwr.msc)."
+            try {
+                Start-Process "eventvwr.msc" -ErrorAction Stop
+                Write-Log -Message "Successfully launched eventvwr.msc."
+            }
+            catch {
+                Write-Log -Message "Failed to start eventvwr.msc. Error: $($_.Exception.Message)" -Level "ERROR"
+                Write-Warning "No se pudo abrir el Visor de eventos."
+            }
+            Read-Host "Presiona Enter para continuar..."
+            Show-UtilitiesMenu # Loop back
+        }
+        '4' {
+            Write-Log -Message "Attempting to open Task Manager (taskmgr.exe)."
+            try {
+                Start-Process "taskmgr.exe" -ErrorAction Stop
+                Write-Log -Message "Successfully launched taskmgr.exe."
+            }
+            catch {
+                Write-Log -Message "Failed to start taskmgr.exe. Error: $($_.Exception.Message)" -Level "ERROR"
+                Write-Warning "No se pudo abrir el Administrador de Tareas."
+            }
+            Read-Host "Presiona Enter para continuar..."
+            Show-UtilitiesMenu # Loop back
+        }
+        'm' {
+            Write-Log -Message "Returning to Main Menu from Utilities Menu."
+            return # This will allow Show-MainMenu to redisplay itself
+        }
+        default {
+            Write-Log -Message "Invalid option '$utilChoice' selected in Utilities Menu." -Level "WARN"
+            Write-Warning "'$utilChoice' opcion no valida, intentalo de nuevo."
+            Start-Sleep -Seconds 2
+            Show-UtilitiesMenu # Loop back
+        }
+    }
+}
+# --- End Show Utilities Menu ---
 
 # (Keep existing placeholder Write-Host lines or remove them as functions are added)
 # For testing the Write-Log function during development:
@@ -695,13 +902,14 @@ function Show-MainMenu {
         "2" { Invoke-OpenChangePasswordUrl }
         "3" { Invoke-ResetPrintSpooler }
         "4" { Show-DeviceManager; Show-MainMenu } # Call Show-DeviceManager then return to Show-MainMenu
-        "5" { Invoke-CertificadoDigitalPlaceholder; Show-MainMenu }
-        "6" { Invoke-IslAlwaysOnPlaceholder; Show-MainMenu }
-        "7" { Invoke-UtilidadesPlaceholder; Show-MainMenu }
+        "5" { Manage-DigitalCertificatesMenu; Show-MainMenu }
+        "6" { Show-IslAlwaysOnInfo; Show-MainMenu }
+        "7" { Show-UtilitiesMenu; Show-MainMenu }
         "X" {
             Write-Host "Saliendo del script."
-            Write-Log -Message "User selected Exit. Script terminating."
-            # Future: Call Upload-LogFile here if needed before exit
+            Write-Log -Message "User selected Exit. Attempting to upload log before terminating."
+            Upload-LogFile # Attempt to upload logs on normal exit
+            Write-Log -Message "Script terminating now."
             exit 0
         }
         default {
@@ -715,5 +923,5 @@ function Show-MainMenu {
 
 # --- Main script execution starts here ---
 # (This call should be at the very end of the script, after all function definitions)
-# Show-MainMenu
+Show-MainMenu
 # --- End Main script execution ---
