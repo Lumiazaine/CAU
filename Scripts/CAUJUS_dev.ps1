@@ -156,7 +156,22 @@ function Invoke-ElevatedCommand {
         return -1 # Indicate failure
     }
 
-    $fullUser = "$($global:adUser)@JUSTICIA"
+    # Determine computer's domain
+    try {
+        $computerDomain = (Get-WmiObject -Class Win32_ComputerSystem -ErrorAction Stop).Domain
+    }
+    catch {
+        $computerDomain = $null # Handle cases where domain is not available or WMI query fails
+    }
+
+    # Set fullUser based on the domain
+    if ($computerDomain -ne $null -and $computerDomain.ToUpper() -eq 'JUSTICIA') {
+        $fullUser = "$($global:adUser)@JUSTICIA"
+    }
+    else {
+        $fullUser = $global:adUser # Use local account if not in JUSTICIA domain or domain is null
+    }
+
     # Ensure the command within quotes is properly escaped if it contains quotes itself.
     # For simple commands passed as strings, direct embedding is often fine.
     # Complex commands might need careful handling of nested quotes.
