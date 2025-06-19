@@ -69,16 +69,15 @@ try {
     }
 
     Write-Log -Message "Attempting initial ISL MSI installation for $adUser@JUSTICIA."
-    $islCommand = "msiexec /i `"$($config_IslMsiPath)`" /qn"
-    $runasArgs = "/user:$($global:adUser)@JUSTICIA /savecred `"cmd /c $islCommand`""
+    $islCommand = "msiexec /i \`"$($config_IslMsiPath)\`" /qn" # Path to MSI is quoted for msiexec
+    Write-Log -Message "Preparing ISL installation command: $islCommand"
 
-    Write-Log -Message "Executing: runas $runasArgs" -Level "RUNAS"
-    Start-Process runas.exe -ArgumentList $runasArgs -Wait -NoNewWindow
+    $islInstallResult = Invoke-ElevatedCommand -CommandToRun $islCommand
 
-    if ($LASTEXITCODE -eq 0) {
-        Write-Log -Message "Initial ISL MSI installation command executed. Check system for success."
+    if ($islInstallResult -eq 0) {
+        Write-Log -Message "Initial ISL MSI installation via Invoke-ElevatedCommand succeeded."
     } else {
-        Write-Log -Message "Initial ISL MSI installation command failed or ran with errors. Exit code: $LASTEXITCODE" -Level "ERROR"
+        Write-Log -Message "Initial ISL MSI installation via Invoke-ElevatedCommand failed or ran with errors. Exit code: $islInstallResult" -Level "ERROR"
     }
 
 }
@@ -207,30 +206,29 @@ function Upload-LogFile {
     $logFileName = Split-Path -Path $global:LOG_FILE -Leaf
     $finalLogPathOnShare = Join-Path $config_RemoteLogDir $logFileName
 
-    # Ensure FINAL_LOG_DIR exists on the network using Invoke-ElevatedCommand
-    # The path for MKDIR should not be in quotes if it contains spaces and is used with cmd /c IF NOT EXIST
-    # However, $config_RemoteLogDir likely doesn't have spaces based on original script.
-    # If $config_RemoteLogDir could have spaces, it's safer to quote it: "...MKDIR `"$config_RemoteLogDir`""
-    $mkdirCommand = "cmd /c IF NOT EXIST `"$config_RemoteLogDir`" MKDIR `"$config_RemoteLogDir`""
-    Write-Log -Message "Ensuring remote log directory exists with command: $mkdirCommand"
-    $mkdirResult = Invoke-ElevatedCommand -CommandToRun $mkdirCommand
+    # Ensure remote log directory exists using PowerShell command via Invoke-ElevatedCommand
+    # Using -LiteralPath for Test-Path and New-Item to handle potential special characters in $config_RemoteLogDir
+    $psMkdirCommand = "if (-not (Test-Path -LiteralPath \`"$config_RemoteLogDir\`" -PathType Container)) { New-Item -Path \`"$config_RemoteLogDir\`" -ItemType Directory -Force -ErrorAction SilentlyContinue | Out-Null }"
+    Write-Log -Message "Ensuring remote log directory exists with PowerShell command: $psMkdirCommand"
+    $mkdirResult = Invoke-ElevatedCommand -CommandToRun "powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \`"$psMkdirCommand\`""
 
     if ($mkdirResult -ne 0) {
-        Write-Log -Message "Failed to create or verify remote log directory: $config_RemoteLogDir. MKDIR Exit Code: $mkdirResult. Upload aborted." -Level "ERROR"
+        Write-Log -Message "Failed to create or verify remote log directory using PowerShell: $config_RemoteLogDir. PowerShell execution Exit Code: $mkdirResult. Upload aborted." -Level "ERROR"
         return $false
     }
+    Write-Log -Message "Remote log directory confirmed or created: $config_RemoteLogDir"
 
-    # Copy the log file using Invoke-ElevatedCommand with cmd /c COPY
-    # Ensure paths with spaces are quoted for the COPY command.
-    $copyCommand = "cmd /c COPY /Y `"$($global:LOG_FILE)`" `"$finalLogPathOnShare`""
-    Write-Log -Message "Attempting to copy log file with command: $copyCommand"
-    $copyResult = Invoke-ElevatedCommand -CommandToRun $copyCommand
+    # Copy the log file using PowerShell Copy-Item via Invoke-ElevatedCommand
+    # Using -LiteralPath for source and -Destination for target path
+    $psCopyCommand = "Copy-Item -LiteralPath \`"$($global:LOG_FILE)\`" -Destination \`"$finalLogPathOnShare\`" -Force -ErrorAction SilentlyContinue"
+    Write-Log -Message "Attempting to copy log file with PowerShell command: $psCopyCommand"
+    $copyResult = Invoke-ElevatedCommand -CommandToRun "powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \`"$psCopyCommand\`""
 
     if ($copyResult -eq 0) {
-        Write-Log -Message "Log file upload attempt successful to $finalLogPathOnShare."
+        Write-Log -Message "Log file upload attempt with PowerShell Copy-Item successful to $finalLogPathOnShare."
         return $true
     } else {
-        Write-Log -Message "Log file upload failed. COPY Exit Code: $copyResult. Source: $($global:LOG_FILE), Destination: $finalLogPathOnShare" -Level "ERROR"
+        Write-Log -Message "Log file upload with PowerShell Copy-Item failed. PowerShell execution Exit Code: $copyResult. Source: $($global:LOG_FILE), Destination: $finalLogPathOnShare" -Level "ERROR"
         return $false
     }
 }
@@ -384,52 +382,79 @@ function Perform-SystemMaintenanceTasks {
     $islResult = Invoke-ElevatedCommand -CommandToRun $islCommand
     Write-Log -Message "BT: ISL MSI installer executed. Exit code: $islResult"
 
-    # System-wide paths for Invoke-ElevatedCommand "cmd /c DEL ..."
-    # Using environment variables that resolve correctly in elevated context
+    # System-wide paths for cleaning
+    Write-Log -Message "BT: Cleaning system-wide paths."
     $pathsToCleanSystemDrive = @(
-        "`"%windir%\*.bak`"", # Quoting for DEL command
-        "`"%windir%\SoftwareDistribution\Download\*.*`"",
-        "`"%SystemDrive%\*.tmp`"",
-        "`"%SystemDrive%\*._mp`"", # Original syntax
-        "`"%SystemDrive%\*.gid`"",
-        "`"%SystemDrive%\*.chk`"",
-        "`"%SystemDrive%\*.old`""
+        "%windir%\*.bak",
+        "%windir%\SoftwareDistribution\Download\*.*",
+        "%SystemDrive%\*.tmp",
+        "%SystemDrive%\*._mp",
+        "%SystemDrive%\*.gid",
+        "%SystemDrive%\*.chk",
+        "%SystemDrive%\*.old"
     )
 
     foreach ($pathPattern in $pathsToCleanSystemDrive) {
-        $delCommand = "cmd.exe /c DEL /F /S /Q $pathPattern" # Path pattern is already quoted
-        Write-Log -Message "BT: Cleaning files: $delCommand"
-        Invoke-ElevatedCommand -CommandToRun $delCommand
+        $psPath = $pathPattern.Replace("%windir%", '$env:windir') `
+                               .Replace("%SystemDrive%", '$env:SystemDrive') `
+                               .Replace("%TEMP%", '$env:TEMP') `
+                               .Replace("%LOCALAPPDATA%", '$env:LOCALAPPDATA') `
+                               .Replace("%APPDATA%", '$env:APPDATA') `
+                               .Replace("*.*", "*") `
+                               .Replace("`"", "") # Remove outer quotes from original pattern if any were left
+
+        $psCommand = "Remove-Item -Path '${psPath}' -Recurse -Force -ErrorAction SilentlyContinue"
+        Write-Log -Message "BT: Cleaning files with PowerShell: $psCommand"
+        Invoke-ElevatedCommand -CommandToRun "powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \`"$psCommand\`""
     }
 
-    # User-specific paths - CAVEAT: these resolve to AD User's profile when run via Invoke-ElevatedCommand
+    # User-specific paths for cleaning
     Write-Log -Message "BT: Cleaning user-specific paths (Note: context is for AD User: $($global:adUser))." -Level "WARN"
     $userSpecificPathsForElevatedDel = @(
-        # These environment variables will be expanded by the cmd.exe process run by $adUser
-        "`"%TEMP%\*.*`"",
-        "`"%LOCALAPPDATA%\Microsoft\Windows\Temporary Internet Files\*.*`"",
-        "`"%LOCALAPPDATA%\Microsoft\Windows\INetCache\*.*`"",
-        "`"%LOCALAPPDATA%\Microsoft\Windows\INetCookies\*.*`"",
-        "`"%LOCALAPPDATA%\Microsoft\Terminal Server Client\Cache\*.*`"",
-        "`"%LOCALAPPDATA%\CrashDumps\*.*`"",
-        "`"%APPDATA%\Microsoft\Windows\cookies\*.*`""
+        "%TEMP%\*.*",
+        "%LOCALAPPDATA%\Microsoft\Windows\Temporary Internet Files\*.*",
+        "%LOCALAPPDATA%\Microsoft\Windows\INetCache\*.*",
+        "%LOCALAPPDATA%\Microsoft\Windows\INetCookies\*.*",
+        "%LOCALAPPDATA%\Microsoft\Terminal Server Client\Cache\*.*",
+        "%LOCALAPPDATA%\CrashDumps\*.*",
+        "%APPDATA%\Microsoft\Windows\cookies\*.*"
     )
+
     foreach ($pathPattern in $userSpecificPathsForElevatedDel) {
-         $delCommand = "cmd.exe /c IF EXIST $pathPattern DEL /F /S /Q $pathPattern"
-         Write-Log -Message "BT: Cleaning user files: $delCommand"
-         Invoke-ElevatedCommand -CommandToRun $delCommand
+        $psPath = $pathPattern.Replace("%windir%", '$env:windir') `
+                               .Replace("%SystemDrive%", '$env:SystemDrive') `
+                               .Replace("%TEMP%", '$env:TEMP') `
+                               .Replace("%LOCALAPPDATA%", '$env:LOCALAPPDATA') `
+                               .Replace("%APPDATA%", '$env:APPDATA') `
+                               .Replace("*.*", "*") `
+                               .Replace("`"", "")
+
+        # For user-specific paths, it's good to ensure the parent directory exists before attempting deletion,
+        # though Remove-Item with -Force and SilentlyContinue handles non-existent paths gracefully.
+        # The original IF EXIST was for cmd.exe; Remove-Item handles this inherently.
+        $psCommand = "Remove-Item -Path '${psPath}' -Recurse -Force -ErrorAction SilentlyContinue"
+        Write-Log -Message "BT: Cleaning user files with PowerShell: $psCommand"
+        Invoke-ElevatedCommand -CommandToRun "powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \`"$psCommand\`""
     }
 
-    # RMDIR and MKDIR for Temp folders - also in $adUser context
+    # Recreating folders
+    Write-Log -Message "BT: Recreating specified folders (Note: context is for AD User: $($global:adUser) if env vars like %windir% are used directly)."
     $foldersToRecreate = @(
-        # "%USERPROFILE%\Local Settings\Temp" # This is effectively %TEMP%
         "%windir%\Temp"
+        # "%USERPROFILE%\Local Settings\Temp" # This is effectively $env:TEMP, handled by user specific cleaning if pattern matches
     )
-    foreach ($folderPathVar in $foldersToRecreate) {
-        # For cmd.exe, ensure the variable like %windir% is used, not PowerShell's $env:windir
-        $recreateCommand = "cmd.exe /c IF EXIST `"$folderPathVar`" (RMDIR /S /Q `"$folderPathVar`" & MKDIR `"$folderPathVar`") ELSE (MKDIR `"$folderPathVar`")"
-        Write-Log -Message "BT: Recreating folder (elevated): $recreateCommand"
-        Invoke-ElevatedCommand -CommandToRun $recreateCommand
+
+    foreach ($folderPathPattern in $foldersToRecreate) {
+        $psPath = $folderPathPattern.Replace("%windir%", '$env:windir') `
+                                    .Replace("%SystemDrive%", '$env:SystemDrive') `
+                                    .Replace("%TEMP%", '$env:TEMP') `
+                                    .Replace("%LOCALAPPDATA%", '$env:LOCALAPPDATA') `
+                                    .Replace("%APPDATA%", '$env:APPDATA') `
+                                    .Replace("`"", "")
+
+        $psCommand = "Remove-Item -Path '${psPath}' -Recurse -Force -ErrorAction SilentlyContinue; New-Item -Path '${psPath}' -ItemType Directory -Force -ErrorAction SilentlyContinue"
+        Write-Log -Message "BT: Recreating folder with PowerShell: $psCommand"
+        Invoke-ElevatedCommand -CommandToRun "powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \`"$psCommand\`""
     }
     Write-Log -Message "BT: System maintenance tasks finished."
 }
@@ -578,6 +603,36 @@ function Show-DeviceManager {
 }
 # --- End Administrador de dispositivos Function ---
 
+# --- Placeholder for Certificado digital ---
+function Invoke-CertificadoDigitalPlaceholder {
+    Write-Log -Message "Action: Menu option 'Certificado digital' selected (Not Implemented)."
+    Write-Host "`nOpción 'Certificado digital' no implementada todavía."
+    Write-Host "Esta función está prevista para futuras mejoras."
+    Read-Host "Presiona Enter para volver al menú principal..."
+    # Show-MainMenu will be called by the main loop after this function returns
+}
+# --- End Placeholder for Certificado digital ---
+
+# --- Placeholder for ISL Always on ---
+function Invoke-IslAlwaysOnPlaceholder {
+    Write-Log -Message "Action: Menu option 'ISL Always on' selected (Not Implemented)."
+    Write-Host "`nOpción 'ISL Always on' no implementada todavía."
+    Write-Host "Esta función está prevista para futuras mejoras."
+    Read-Host "Presiona Enter para volver al menú principal..."
+    # Show-MainMenu will be called by the main loop after this function returns
+}
+# --- End Placeholder for ISL Always on ---
+
+# --- Placeholder for Utilidades ---
+function Invoke-UtilidadesPlaceholder {
+    Write-Log -Message "Action: Menu option 'Utilidades' selected (Not Implemented)."
+    Write-Host "`nOpción 'Utilidades' no implementada todavía."
+    Write-Host "Esta función está prevista para futuras mejoras."
+    Read-Host "Presiona Enter para volver al menú principal..."
+    # Show-MainMenu will be called by the main loop after this function returns
+}
+# --- End Placeholder for Utilidades ---
+
 # (Keep existing placeholder Write-Host lines or remove them as functions are added)
 # For testing the Write-Log function during development:
 # $global:LOG_FILE = Join-Path $global:LOG_DIR "test_initial.log" # Temporary for direct testing
@@ -640,9 +695,9 @@ function Show-MainMenu {
         "2" { Invoke-OpenChangePasswordUrl }
         "3" { Invoke-ResetPrintSpooler }
         "4" { Show-DeviceManager; Show-MainMenu } # Call Show-DeviceManager then return to Show-MainMenu
-        "5" { Write-Host "Not Implemented: Certificado digital"; Show-MainMenu } # Placeholder
-        "6" { Write-Host "Not Implemented: ISL Always on"; Show-MainMenu } # Placeholder
-        "7" { Write-Host "Not Implemented: Utilidades"; Show-MainMenu } # Placeholder
+        "5" { Invoke-CertificadoDigitalPlaceholder; Show-MainMenu }
+        "6" { Invoke-IslAlwaysOnPlaceholder; Show-MainMenu }
+        "7" { Invoke-UtilidadesPlaceholder; Show-MainMenu }
         "X" {
             Write-Host "Saliendo del script."
             Write-Log -Message "User selected Exit. Script terminating."
