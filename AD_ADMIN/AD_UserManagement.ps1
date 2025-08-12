@@ -24,47 +24,106 @@ param(
     [string]$LogPath = "C:\Logs\AD_UserManagement"
 )
 
-$ErrorActionPreference = "Stop"
+$ErrorActionPreference = "Continue"
+
+# Configurar logging antes de importar módulos
+$ScriptPath = Split-Path -Parent $MyInvocation.MyCommand.Path
+
+if (-not (Test-Path $LogPath)) {
+    New-Item -Path $LogPath -ItemType Directory -Force | Out-Null
+}
+
+$LogFile = Join-Path $LogPath "AD_UserManagement_$(Get-Date -Format 'yyyyMMdd_HHmmss').log"
+
+function Write-Log {
+    param([string]$Message, [string]$Level = "INFO")
+    $TimeStamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+    $LogEntry = "[$TimeStamp] [$Level] $Message"
+    Write-Host $LogEntry
+    if ($LogFile -and (Test-Path (Split-Path $LogFile -Parent))) {
+        Add-Content -Path $LogFile -Value $LogEntry -ErrorAction SilentlyContinue
+    }
+}
 
 try {
-    $ScriptPath = Split-Path -Parent $MyInvocation.MyCommand.Path
+    Write-Log "Iniciando carga de módulos" "INFO"
     
-    Import-Module "$ScriptPath\Modules\UOManager.psm1" -Force
-    Import-Module "$ScriptPath\Modules\PasswordManager.psm1" -Force
-    Import-Module "$ScriptPath\Modules\UserSearch.psm1" -Force
-    Import-Module "$ScriptPath\Modules\DomainStructureManager.psm1" -Force
-    Import-Module "$ScriptPath\Modules\UserTemplateManager.psm1" -Force
-    Import-Module "$ScriptPath\Modules\TransferManager.psm1" -Force
-    Import-Module "$ScriptPath\Modules\NormalizedUserCreation.psm1" -Force
-    Import-Module "$ScriptPath\Modules\CompoundUserCreation.psm1" -Force
+    # Importar módulos con manejo de errores individual
+    $ModulesToLoad = @(
+        "UOManager.psm1",
+        "PasswordManager.psm1", 
+        "UserSearch.psm1",
+        "CSVValidation.psm1",
+        "SamAccountNameGenerator.psm1",
+        "DomainStructureManager.psm1",
+        "UserTemplateManager.psm1",
+        "TransferManager.psm1"
+    )
     
-    if (-not (Test-Path $LogPath)) {
-        New-Item -Path $LogPath -ItemType Directory -Force | Out-Null
+    foreach ($ModuleName in $ModulesToLoad) {
+        $ModulePath = Join-Path "$ScriptPath\Modules" $ModuleName
+        if (Test-Path $ModulePath) {
+            try {
+                Import-Module $ModulePath -Force
+                Write-Log "Módulo cargado: $ModuleName" "INFO"
+            } catch {
+                Write-Log "Error cargando módulo $ModuleName`: $($_.Exception.Message)" "ERROR"
+                # Continuar con otros módulos
+            }
+        } else {
+            Write-Log "Módulo no encontrado: $ModulePath" "WARNING"
+        }
     }
     
-    $LogFile = Join-Path $LogPath "AD_UserManagement_$(Get-Date -Format 'yyyyMMdd_HHmmss').log"
+    # Intentar cargar módulos opcionales (que pueden no existir aún)
+    $OptionalModules = @(
+        "NormalizedUserCreation.psm1",
+        "CompoundUserCreation.psm1"
+    )
     
-    function Write-Log {
-        param([string]$Message, [string]$Level = "INFO")
-        $TimeStamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-        $LogEntry = "[$TimeStamp] [$Level] $Message"
-        Write-Host $LogEntry
-        Add-Content -Path $LogFile -Value $LogEntry
+    foreach ($ModuleName in $OptionalModules) {
+        $ModulePath = Join-Path "$ScriptPath\Modules" $ModuleName
+        if (Test-Path $ModulePath) {
+            try {
+                Import-Module $ModulePath -Force
+                Write-Log "Módulo opcional cargado: $ModuleName" "INFO"
+            } catch {
+                Write-Log "Error cargando módulo opcional $ModuleName`: $($_.Exception.Message)" "WARNING"
+            }
+        } else {
+            Write-Log "Módulo opcional no encontrado: $ModuleName (esto es normal si no se ha implementado aún)" "INFO"
+        }
     }
     
     Write-Log "Iniciando procesamiento de altas de usuarios" "INFO"
     Write-Log "Archivo CSV: $CSVFile" "INFO"
     Write-Log "Modo WhatIf: $WhatIf" "INFO"
     
-    if (-not (Test-Path $CSVFile)) {
-        throw "El archivo CSV no existe: $CSVFile"
+    # Validar archivo CSV antes de procesar
+    Write-Log "Validando archivo CSV..." "INFO"
+    $CSVValidation = Test-CSVFile -CSVPath $CSVFile -Delimiter ";"
+    
+    Show-ValidationSummary -ValidationSummary $CSVValidation
+    
+    if (-not $CSVValidation.IsValid) {
+        Write-Log "El archivo CSV contiene errores. Proceso abortado." "ERROR"
+        throw "Errores de validación en el archivo CSV. Corrija los errores e intente de nuevo."
     }
     
-    Initialize-UOManager
-    Write-Log "Módulo UO inicializado correctamente" "INFO"
+    if ($CSVValidation.Warnings.Count -gt 0) {
+        Write-Log "Se encontraron $($CSVValidation.Warnings.Count) advertencias en el CSV" "WARNING"
+    }
     
-    $Users = Import-Csv -Path $CSVFile -Delimiter ";" -Encoding UTF8
-    Write-Log "Importados $($Users.Count) registros del CSV" "INFO"
+    # Inicializar módulo UOManager si está disponible
+    if (Get-Command "Initialize-UOManager" -ErrorAction SilentlyContinue) {
+        Initialize-UOManager
+        Write-Log "Módulo UO inicializado correctamente" "INFO"
+    } else {
+        Write-Log "Función Initialize-UOManager no disponible - módulo UOManager no cargado" "WARNING"
+    }
+    
+    $Users = $CSVValidation.ValidatedData
+    Write-Log "Datos validados: $($Users.Count) registros válidos para procesar" "INFO"
     
     $ProcessedCount = 0
     $ErrorCount = 0
@@ -76,20 +135,38 @@ try {
             switch ($User.TipoAlta.ToUpper()) {
                 "NORMALIZADA" {
                     Write-Log "Procesando alta normalizada" "INFO"
-                    New-NormalizedUser -UserData $User -WhatIf:$WhatIf
+                    if (Get-Command "New-NormalizedUser" -ErrorAction SilentlyContinue) {
+                        New-NormalizedUser -UserData $User -WhatIf:$WhatIf
+                    } else {
+                        Write-Log "Función New-NormalizedUser no disponible - funcionalidad no implementada aún" "WARNING"
+                        $ErrorCount++
+                        continue
+                    }
                 }
                 "TRASLADO" {
                     Write-Log "Procesando traslado" "INFO"
-                    $TransferResult = Start-UserTransferProcess -UserData $User -WhatIf:$WhatIf
-                    if (-not $TransferResult) {
-                        Write-Log "Error en el proceso de traslado para $($User.Nombre) $($User.Apellidos)" "ERROR"
+                    if (Get-Command "Start-UserTransferProcess" -ErrorAction SilentlyContinue) {
+                        $TransferResult = Start-UserTransferProcess -UserData $User -WhatIf:$WhatIf
+                        if (-not $TransferResult) {
+                            Write-Log "Error en el proceso de traslado para $($User.Nombre) $($User.Apellidos)" "ERROR"
+                            $ErrorCount++
+                            continue
+                        }
+                    } else {
+                        Write-Log "Función Start-UserTransferProcess no disponible - módulo TransferManager no cargado" "ERROR"
                         $ErrorCount++
                         continue
                     }
                 }
                 "COMPAGINADA" {
                     Write-Log "Procesando alta compaginada" "INFO"
-                    Add-CompoundUserMembership -UserData $User -WhatIf:$WhatIf
+                    if (Get-Command "Add-CompoundUserMembership" -ErrorAction SilentlyContinue) {
+                        Add-CompoundUserMembership -UserData $User -WhatIf:$WhatIf
+                    } else {
+                        Write-Log "Función Add-CompoundUserMembership no disponible - funcionalidad no implementada aún" "WARNING"
+                        $ErrorCount++
+                        continue
+                    }
                 }
                 default {
                     Write-Log "Tipo de alta no válido: $($User.TipoAlta)" "WARNING"
