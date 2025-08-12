@@ -8,7 +8,12 @@
     y permitir selección interactiva cuando no hay coincidencias exactas
 #>
 
-Import-Module "$PSScriptRoot\DomainStructureManager.psm1" -Force
+# Importar módulos dependientes con manejo de errores
+try {
+    Import-Module "$PSScriptRoot\DomainStructureManager.psm1" -Force -ErrorAction SilentlyContinue
+} catch {
+    Write-Warning "No se pudo cargar DomainStructureManager: $($_.Exception.Message)"
+}
 
 function Find-TemplateUserByDescription {
     <#

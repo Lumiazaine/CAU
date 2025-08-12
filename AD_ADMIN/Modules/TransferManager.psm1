@@ -8,9 +8,24 @@
     copia de perfiles y gestión de grupos según el destino
 #>
 
-Import-Module "$PSScriptRoot\PasswordManager.psm1" -Force
-Import-Module "$PSScriptRoot\DomainStructureManager.psm1" -Force
-Import-Module "$PSScriptRoot\UserTemplateManager.psm1" -Force
+# Importar módulos dependientes con manejo de errores
+try {
+    Import-Module "$PSScriptRoot\PasswordManager.psm1" -Force -ErrorAction SilentlyContinue
+} catch {
+    Write-Warning "No se pudo cargar PasswordManager: $($_.Exception.Message)"
+}
+
+try {
+    Import-Module "$PSScriptRoot\DomainStructureManager.psm1" -Force -ErrorAction SilentlyContinue
+} catch {
+    Write-Warning "No se pudo cargar DomainStructureManager: $($_.Exception.Message)"
+}
+
+try {
+    Import-Module "$PSScriptRoot\UserTemplateManager.psm1" -Force -ErrorAction SilentlyContinue
+} catch {
+    Write-Warning "No se pudo cargar UserTemplateManager: $($_.Exception.Message)"
+}
 
 function Start-UserTransferProcess {
     <#
@@ -34,10 +49,11 @@ function Start-UserTransferProcess {
     Write-Host "Email: $($UserData.Email)" -ForegroundColor White
     Write-Host "Destino: $($UserData.Oficina)" -ForegroundColor Yellow
     
-    # 1. Buscar usuario existente por email
-    $ExistingUser = Find-UserByEmail -Email $UserData.Email
+    # 1. Buscar usuario existente por email o campo AD
+    $ExistingUser = Find-UserForTransfer -Email $UserData.Email -ADField $UserData.AD
     if (-not $ExistingUser) {
-        Write-Host "ERROR: Usuario no encontrado con email $($UserData.Email)" -ForegroundColor Red
+        $SearchCriteria = if (![string]::IsNullOrWhiteSpace($UserData.AD)) { "campo AD: $($UserData.AD)" } else { "email: $($UserData.Email)" }
+        Write-Host "ERROR: Usuario no encontrado con $SearchCriteria" -ForegroundColor Red
         return $false
     }
     
@@ -63,6 +79,78 @@ function Start-UserTransferProcess {
     }
 }
 
+function Find-UserForTransfer {
+    <#
+    .SYNOPSIS
+        Busca un usuario para traslado por email o campo AD
+    .PARAMETER Email
+        Dirección de email del usuario (opcional)
+    .PARAMETER ADField
+        Campo AD que contiene el SamAccountName del usuario (opcional)
+    #>
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory=$false)]
+        [string]$Email,
+        
+        [Parameter(Mandatory=$false)]
+        [string]$ADField
+    )
+    
+    # Priorizar búsqueda por campo AD si está presente
+    if (![string]::IsNullOrWhiteSpace($ADField)) {
+        Write-Host "Buscando usuario por campo AD: $ADField" -ForegroundColor Yellow
+        return Find-UserByADField -ADField $ADField
+    }
+    
+    # Si no hay campo AD, buscar por email
+    if (![string]::IsNullOrWhiteSpace($Email)) {
+        Write-Host "Buscando usuario por email: $Email" -ForegroundColor Yellow
+        return Find-UserByEmail -Email $Email
+    }
+    
+    Write-Warning "No se proporcionó email ni campo AD para buscar el usuario"
+    return $null
+}
+
+function Find-UserByADField {
+    <#
+    .SYNOPSIS
+        Busca un usuario por su SamAccountName en todos los dominios
+    #>
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$ADField
+    )
+    
+    $AllDomains = Get-AllAvailableDomains
+    
+    foreach ($Domain in $AllDomains) {
+        try {
+            Write-Verbose "Buscando usuario '$ADField' en dominio: $($Domain.Name)"
+            
+            $User = Get-ADUser -Identity $ADField -Server $Domain.Name -Properties @(
+                'DisplayName', 'mail', 'proxyAddresses', 'Description', 'Office', 
+                'Department', 'Title', 'telephoneNumber', 'MemberOf', 'Enabled'
+            ) -ErrorAction SilentlyContinue
+            
+            if ($User) {
+                # Agregar información del dominio
+                $User | Add-Member -NotePropertyName "SourceDomain" -NotePropertyValue $Domain.Name -Force
+                $User | Add-Member -NotePropertyName "SourceDomainNetBIOS" -NotePropertyValue $Domain.NetBIOSName -Force
+                
+                Write-Host "Usuario encontrado en $($Domain.Name): $($User.DisplayName) ($($User.SamAccountName))" -ForegroundColor Green
+                return $User
+            }
+        } catch {
+            Write-Verbose "Usuario '$ADField' no encontrado en dominio $($Domain.Name)"
+        }
+    }
+    
+    return $null
+}
+
 function Find-UserByEmail {
     <#
     .SYNOPSIS
@@ -73,8 +161,6 @@ function Find-UserByEmail {
         [Parameter(Mandatory=$true)]
         [string]$Email
     )
-    
-    Write-Host "Buscando usuario con email: $Email" -ForegroundColor Yellow
     
     $AllDomains = Get-AllAvailableDomains
     

@@ -60,17 +60,41 @@ El sistema reconoce las siguientes descripciones y sus variantes:
 ## Formato del CSV
 
 ```csv
-TipoAlta;Nombre;Apellidos;Email;Telefono;Oficina
-TRASLADO;Juan;García López;juan.garcia@juntadeandalucia.es;555-0001;Sevilla Centro
+TipoAlta;Nombre;Apellidos;Email;Telefono;Oficina;Descripcion;AD
+TRASLADO;Juan;García López;juan.garcia@juntadeandalucia.es;12345678A;Sevilla Centro;Tramitador;jgarcia
+NORMALIZADA;María Luisa;Martín García;;55667788E;Almería Sur;Letrado;
+COMPAGINADA;José Antonio;Ruiz Pérez;josea.ruiz@juntadeandalucia.es;99887766F;Huelva Centro;Magistrado;jaruiz
 ```
 
-### Campos Requeridos:
-- **TipoAlta**: Debe ser "TRASLADO"
-- **Nombre**: Nombre del usuario
-- **Apellidos**: Apellidos del usuario  
-- **Email**: Dirección de correo (usado para buscar usuario existente)
-- **Telefono**: Número de teléfono
-- **Oficina**: Oficina de destino (usado para determinar provincia)
+### Campos del CSV:
+
+#### Campos Obligatorios:
+- **TipoAlta**: NORMALIZADA, TRASLADO o COMPAGINADA (obligatorio)
+- **Nombre**: Nombre del usuario (obligatorio)
+- **Apellidos**: Apellidos del usuario (obligatorio)
+- **Oficina**: Oficina/juzgado de destino (obligatorio, usado para determinar UO y provincia)
+- **Descripcion**: Puesto del usuario - LAJ, Letrado, Juez, Magistrado, Auxilio, Gestor, Tramitador (obligatorio)
+
+#### Campos Opcionales/Condicionales:
+- **Email**: Dirección de correo (opcional para NORMALIZADA, requerido para TRASLADO/COMPAGINADA si no hay AD)
+- **Telefono**: DNI del usuario (se almacena en campo teléfono de AD)
+- **AD**: SamAccountName del usuario existente (requerido para TRASLADO/COMPAGINADA si no hay Email, vacío para NORMALIZADA)
+
+### Validaciones Específicas por Tipo:
+
+#### NORMALIZADA:
+- Campo AD debe estar vacío (se generará automáticamente)
+- Email es opcional (para casos sin cuenta de correo)
+- Se generará SamAccountName según reglas específicas
+
+#### TRASLADO:
+- Debe tener Email O campo AD para localizar usuario existente
+- Se buscará primero por AD, luego por Email
+- Eliminará grupos anteriores y copiará los del destino
+
+#### COMPAGINADA:
+- Debe tener Email O campo AD para localizar usuario existente
+- Solo añadirá grupos adicionales sin eliminar los existentes
 
 ## Cómo Usar el Sistema
 
@@ -124,6 +148,40 @@ Prueba:
 3. **Selección interactiva**: Control manual cuando no hay coincidencias automáticas
 4. **Logging detallado**: Registro completo de todas las operaciones
 5. **Manejo de errores**: Continuación del procesamiento aunque fallen casos individuales
+
+## Generación de SamAccountName
+
+Para altas normalizadas, el sistema genera automáticamente el SamAccountName siguiendo estas reglas:
+
+### Estrategias de Generación:
+
+1. **Estrategia 1**: Iniciales del nombre + primer apellido completo
+   - "Juan García López" → "jgarcia"
+   - "María Luisa Rodríguez" → "mlrodriguez"
+
+2. **Estrategia 2**: Si existe, añadir letras del segundo apellido progresivamente
+   - "Juan García López" → "jgarcia", "jgarcial", "jgarcialopez"
+
+3. **Estrategia 3**: Si se agota, usar nombre completo + iniciales del apellido
+   - "Juan García López" → "juang", "juangl", etc.
+
+4. **Fallback**: Numeración secuencial
+   - "jgarcia1", "jgarcia2", etc.
+
+### Reglas Especiales:
+
+- **Nombres compuestos**: Se usan iniciales (María Luisa → ML)
+- **Limpieza de caracteres**: Se eliminan acentos y caracteres especiales
+- **Longitud máxima**: 20 caracteres
+- **Verificación de unicidad**: Se verifica en el dominio de destino
+
+### Ejemplos:
+```
+Juan García López → jgarcia
+María Luisa Rodríguez Martín → mlrodriguez  
+José Antonio Fernández → jafernandez
+Carmen López → clopez
+```
 
 ## Contraseñas Estándar
 
