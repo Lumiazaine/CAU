@@ -23,37 +23,39 @@ global Inci
 global DNILetter
 global buttons
 global IsActive
+global Toggle
 
 ; Inicializar variables globales
-dni := ""
-telf := ""
-Inci := ""
-DNILetter := ""
-buttons := []
-IsActive := false
+dni =
+telf =
+Inci =
+DNILetter =
+buttons =
+IsActive = 0
+Toggle = 0
 
 ; =============================================================================
 ; CONFIGURACIÓN GLOBAL Y CONSTANTES
 ; =============================================================================
-Config_VERSION := "1.0.0"
-Config_REPO_URL := "https://api.github.com/repos/JUST3EXT/CAU/releases/latest"
-Config_TEMP_FILE := A_Temp "\CAU_GUI.exe"
-Config_LOCAL_FILE := A_ScriptFullPath
-Config_DNI_LETTERS := "TRWAGMYFPDXBNJZSQVHLCKE"
-Config_REMEDY_EXE := "aruser.exe"
-Config_AR_FRAME_CLASS := "ArFrame"
-Config_ALBA_SCRIPT_PATH := "C:\ProgramData\Application Data\AR SYSTEM\home\Alba.ps1"
+Config_VERSION = 1.0.0
+Config_REPO_URL = https://api.github.com/repos/JUST3EXT/CAU/releases/latest
+Config_TEMP_FILE = %A_Temp%\CAU_GUI.exe
+Config_LOCAL_FILE = %A_ScriptFullPath%
+Config_DNI_LETTERS = TRWAGMYFPDXBNJZSQVHLCKE
+Config_REMEDY_EXE = aruser.exe
+Config_AR_FRAME_CLASS = ArFrame
+Config_ALBA_SCRIPT_PATH = C:\ProgramData\Application Data\AR SYSTEM\home\Alba.ps1
 
 ; =============================================================================
 ; FUNCIONES PARA MANEJO DE LOGS
 ; =============================================================================
-Logger_LogFilePath := ""
+Logger_LogFilePath =
 
 Logger_Init() {
     global Logger_LogFilePath
     FormatTime, LogFileName,, MMMMyyyy
     StringReplace, LogFileName, LogFileName, %A_Space%, _, All
-    Logger_LogFilePath := A_MyDocuments "\log_" LogFileName ".txt"
+    Logger_LogFilePath = %A_MyDocuments%\log_%LogFileName%.txt
 }
 
 Logger_Write(action) {
@@ -121,7 +123,7 @@ Updater_GetLatestReleaseVersion() {
     HttpObj.SetRequestHeader("User-Agent", "AutoHotkey Script")
     HttpObj.Send()
     response := HttpObj.ResponseText
-    version := ""
+    version =
     if RegExMatch(response, """tag_name"":""v?(\d+\.\d+\.\d+)""", match)
         version := match1
     return version
@@ -133,7 +135,7 @@ Updater_DownloadLatestVersion() {
     if (latestVersion = "") {
         return false
     }
-    downloadUrl := "https://github.com/JUST3EXT/CAU/releases/download/v" latestVersion "/CAU_GUI.exe"
+    downloadUrl = https://github.com/JUST3EXT/CAU/releases/download/v%latestVersion%/CAU_GUI.exe
     UrlDownloadToFile, %downloadUrl%, %Config_TEMP_FILE%
     return FileExist(Config_TEMP_FILE)
 }
@@ -160,14 +162,14 @@ Updater_RunUpdateScript() {
 Updater_CheckForUpdates() {
     global Config_VERSION
     latestVersion := Updater_GetLatestReleaseVersion()
-    Logger_Write("Comprobando actualizaciones... Versión actual: " Config_VERSION)
+    Logger_Write("Comprobando actualizaciones... Versión actual: " . Config_VERSION)
     if (latestVersion != "" && latestVersion != Config_VERSION) {
-        Logger_Write("Nueva versión disponible: " latestVersion)
+        Logger_Write("Nueva versión disponible: " . latestVersion)
         MsgBox, 4,, Hay una nueva versión disponible: %latestVersion%`n¿Deseas actualizar el script?
         IfMsgBox, Yes
         {
             if (Updater_DownloadLatestVersion()) {
-                Logger_Write("Script actualizado correctamente a la versión " latestVersion)
+                Logger_Write("Script actualizado correctamente a la versión " . latestVersion)
                 MsgBox, Script actualizado correctamente. Se reiniciará ahora.
                 Updater_RunUpdateScript()
                 ExitApp
@@ -208,7 +210,7 @@ MacroManager_ExecuteCierre(closetext) {
     Logger_Write("Cierre ejecutado con texto: " . closetext)
 }
 
-MacroManager_ExecuteStandardMacro(albaNumber, dni, telf, closeText := "") {
+MacroManager_ExecuteStandardMacro(albaNumber, dni, telf, closeText=""){
     if (!Utils_IsRemedyRunning()) {
         return
     }
@@ -248,13 +250,11 @@ MacroManager_ExecuteSearchMacro(inci) {
 GUI_Create() {
     global dni, telf, Inci, DNILetter, buttons
     
-    ; Crear controles de entrada
     Gui Add, Edit, vdni x109 y639 w188 h26 gUpdateLetter, %dni%
     Gui Add, Edit, x411 y638 w188 h26 vtelf, %telf%
     Gui Add, Edit, x817 y637 w188 h26 vInci, %Inci%
     Gui, Add, Edit, vDNILetter x300 y639 w20 h26 ReadOnly
     
-    ; Crear etiquetas
     Gui Add, Text, x1219 y17 w25 h17, DP
     Gui Add, Text, x798 y368 w84 h19, MINISTERIO
     Gui Add, Text, x288 y20 w95 h20, INCIDENCIAS
@@ -264,10 +264,8 @@ GUI_Create() {
     Gui Add, Text, x327 y645 w76 h21, TELÉFONO
     Gui Add, Text, x786 y646 w23 h21, IN
     
-    ; Crear botones usando un array de configuración
     GUI_CreateButtons()
     
-    ; Botones adicionales
     Gui Add, Button, x1050 y635 w80 h23 gButton42, Buscar
     Gui, Add, Checkbox, vModoSeguro x1200 y635 w80 h23, Modo Seguro
     
@@ -276,53 +274,57 @@ GUI_Create() {
 
 GUI_CreateButtons() {
     global buttons
-    ; Configuración de botones: [x, y, width, height, label, albaNumber]
-    buttons := [
-        [49, 57, 183, 68, "Adriano", 42],
-        [49, 137, 183, 68, "Escritorio judicial", 29],
-        [431, 56, 183, 68, "Arconte", 39],
-        [50, 285, 183, 68, "PortafirmasNG", 9],
-        [241, 56, 183, 68, "Agenda de señalamientos", 41],
-        [241, 136, 183, 68, "Expediente digital", 28],
-        [50, 212, 183, 68, "Hermes", 22],
-        [240, 210, 183, 68, "Jara", 18],
-        [432, 209, 183, 68, "Quenda // Cita previa", 0],
-        [240, 284, 183, 68, "Suministros", 4],
-        [242, 478, 183, 68, "Internet libre", 21],
-        [52, 548, 183, 68, "Multiconferencia", 14],
-        [432, 408, 183, 68, "Dragon Speaking", 32],
-        [242, 408, 183, 68, "Aumento espacio correo", 38],
-        [52, 408, 183, 68, "Abbypdf", 44],
-        [52, 478, 183, 68, "GDU", 24],
-        [741, 476, 183, 68, "Orfila", 12],
-        [740, 406, 183, 68, "Lexnet", 16],
-        [742, 547, 183, 68, "Siraj2", 6],
-        [431, 134, 183, 68, "Emparejamiento ISL", 30],
-        [642, 127, 183, 68, "Certificado digital", 37],
-        [831, 57, 183, 68, "Software", 5],
-        [831, 128, 183, 68, "PIN tarjeta", 11],
-        [643, 199, 183, 68, "Servicio no CEIURIS", 10],
-        [1234, 198, 183, 68, "Lector tarjeta", 17],
-        [1045, 197, 183, 68, "Equipo sin red", 7],
-        [1233, 57, 183, 68, "GM", 23],
-        [1137, 483, 183, 68, "Teléfono", 2],
-        [1046, 410, 183, 68, "Ganes", 25],
-        [1045, 268, 183, 68, "Equipo no enciende", 26],
-        [1045, 57, 183, 68, "Disco duro", 33],
-        [1045, 127, 183, 68, "Edoc Fortuny", 31],
-        [832, 199, 183, 68, "@Driano", 13],
-        [432, 478, 183, 68, "Intervención video", 20],
-        [1235, 267, 183, 68, "Monitor", 15],
-        [1236, 410, 183, 68, "Teclado", 3],
-        [1236, 338, 183, 68, "Ratón", 8],
-        [1233, 127, 183, 68, "ISL Apagado", 19],
-        [1045, 339, 183, 68, "Error relación de confianza", 36],
-        [642, 56, 183, 68, "Contraseñas", 35],
-        [244, 549, 183, 68, "Formaciones", 27]
-    ]
-    
-    for index, button in buttons {
-        Gui Add, Button, x%button[1]% y%button[2]% w%button[3]% h%button[4]% gButton%index%, %button[5]%
+    buttons_data =
+(LTrim
+49|57|183|68|Adriano|42
+49|137|183|68|Escritorio judicial|29
+431|56|183|68|Arconte|39
+50|285|183|68|PortafirmasNG|9
+241|56|183|68|Agenda de señalamientos|41
+241|136|183|68|Expediente digital|28
+50|212|183|68|Hermes|22
+240|210|183|68|Jara|18
+432|209|183|68|Quenda // Cita previa|0
+240|284|183|68|Suministros|4
+242|478|183|68|Internet libre|21
+52|548|183|68|Multiconferencia|14
+432|408|183|68|Dragon Speaking|32
+242|408|183|68|Aumento espacio correo|38
+52|408|183|68|Abbypdf|44
+52|478|183|68|GDU|24
+741|476|183|68|Orfila|12
+740|406|183|68|Lexnet|16
+742|547|183|68|Siraj2|6
+431|134|183|68|Emparejamiento ISL|30
+642|127|183|68|Certificado digital|37
+831|57|183|68|Software|5
+831|128|183|68|PIN tarjeta|11
+643|199|183|68|Servicio no CEIURIS|10
+1234|198|183|68|Lector tarjeta|17
+1045|197|183|68|Equipo sin red|7
+1233|57|183|68|GM|23
+1137|483|183|68|Teléfono|2
+1046|410|183|68|Ganes|25
+1045|268|183|68|Equipo no enciende|26
+1045|57|183|68|Disco duro|33
+1045|127|183|68|Edoc Fortuny|31
+832|199|183|68|@Driano|13
+432|478|183|68|Intervención video|20
+1235|267|183|68|Monitor|15
+1236|410|183|68|Teclado|3
+1236|338|183|68|Ratón|8
+1233|127|183|68|ISL Apagado|19
+1045|339|183|68|Error relación de confianza|36
+642|56|183|68|Contraseñas|35
+244|549|183|68|Formaciones|27
+)
+    Loop, Parse, buttons_data, `n, `r
+    {
+        if (A_LoopField = "")
+            continue
+        StringSplit, button_props, A_LoopField, |
+        Gui, Add, Button, x%button_props1% y%button_props2% w%button_props3% h%button_props4% gButton%A_Index%, %button_props5%
+        buttons%A_Index% := button_props6
     }
 }
 
@@ -338,12 +340,26 @@ UpdateLetter:
     Return
 
 ; Generar manejadores de botones dinámicamente
-Loop, 41 {
-    Button%A_Index%:
-        global dni, telf, buttons
-        MacroManager_ExecuteStandardMacro(buttons[A_Index][6], dni, telf)
-        Return
+Loop, 41
+{
+    handler_name := "Button" . A_Index
+    SetLabel(handler_name, "Button_Handler")
 }
+
+Button_Handler:
+    StringTrimLeft, button_index, A_ThisLabel, 6
+    global dni, telf, buttons
+    alba_num := buttons%button_index%
+    MacroManager_ExecuteStandardMacro(alba_num, dni, telf)
+Return
+
+SetLabel(label, p_handler) {
+    global
+    %label%:
+    GoSub, %p_handler%
+    Return
+}
+
 
 Button42:
     global Inci
@@ -368,19 +384,19 @@ Button42:
 #3:: 
     global dni, telf
     Gui, Submit, NoHide
-    MacroManager_ExecuteStandardMacro(34, dni, telf)
+    MacroManager_ExecuteStandardMacro(34, dni, telf, "Se cambia contraseña de correo.")
     Return
 
 #4:: 
     global dni, telf
     Gui, Submit, NoHide
-    MacroManager_ExecuteStandardMacro(40, dni, telf)
+    MacroManager_ExecuteStandardMacro(40, dni, telf, "Se cambia contraseña de Aurea.")
     Return
 
 #5:: 
     global dni, telf
     Gui, Submit, NoHide
-    MacroManager_ExecuteStandardMacro(1, dni, telf)
+    MacroManager_ExecuteStandardMacro(1, dni, telf, "Se cambia contraseña Temis.")
     Return
 
 #6::
@@ -409,11 +425,10 @@ Button42:
     if (!Utils_IsRemedyRunning()) {
         return
     }
-    static Toggle := false
-    global IsActive
+    global IsActive, Toggle
     Toggle := !Toggle
     if (Toggle) {
-        SetTimer, KeepActive, On
+        SetTimer, KeepActive, 5000
         IsActive := true
         MsgBox, 64, Modo AFK activado.
         Logger_Write("Activó modo afk")
@@ -531,3 +546,4 @@ Logger_Init()
 Logger_Write("Ejecutando aplicación")
 Updater_CheckForUpdates()
 GUI_Create()
+Return
