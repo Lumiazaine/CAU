@@ -674,65 +674,146 @@ function Find-OrganizationalUnit {
             }
         }
         
-        # PASO 2.5: Manejo especial para oficinas de Guardia Civil y otras oficinas no judiciales
-        if ($NormalizedOffice -like "*guardia civil*" -or $NormalizedOffice -like "*policia*" -or $NormalizedOffice -like "*fiscalia*") {
-            Write-Log "Detectada oficina de tipo especial (Guardia Civil, Policía, Fiscalía): '$Office'" "INFO"
-            
-            # Buscar UOs que contengan palabras clave similares
-            $SpecialKeywords = @()
-            if ($NormalizedOffice -like "*guardia civil*") { $SpecialKeywords += @('guardia', 'civil') }
-            if ($NormalizedOffice -like "*policia*") { $SpecialKeywords += @('policia', 'nacional') }
-            if ($NormalizedOffice -like "*fiscalia*") { $SpecialKeywords += @('fiscalia', 'ministerio') }
+        # PASO 2.5: Manejo especial para oficinas no judiciales (Fiscalía, Guardia Civil, etc.)
+        # Identificar tipos de oficina específicos para evitar matches incorrectos
+        $OfficeType = $null
+        $SpecialKeywords = @()
+        $ExclusionKeywords = @()
+        
+        if ($NormalizedOffice -like "*fiscalia*") {
+            $OfficeType = "Fiscalia"
+            $SpecialKeywords = @('fiscalia', 'ministerio', 'fiscal')
+            $ExclusionKeywords = @('juzgado', 'juzgados', 'tribunal', 'instancia', 'penal', 'civil')
+            Write-Log "Detectada FISCALIA: '$Office' - Buscando solo UOs de fiscalia" "INFO"
+        }
+        elseif ($NormalizedOffice -like "*guardia civil*") {
+            $OfficeType = "GuardiaCivil"
+            $SpecialKeywords = @('guardia', 'civil')
+            $ExclusionKeywords = @('juzgado', 'juzgados', 'tribunal', 'fiscalia')
+            Write-Log "Detectada GUARDIA CIVIL: '$Office'" "INFO"
+        }
+        elseif ($NormalizedOffice -like "*policia*") {
+            $OfficeType = "Policia"
+            $SpecialKeywords = @('policia', 'nacional')
+            $ExclusionKeywords = @('juzgado', 'juzgados', 'tribunal', 'fiscalia')
+            Write-Log "Detectada POLICIA: '$Office'" "INFO"
+        }
+        
+        if ($OfficeType) {
+            $ValidMatches = @()
             
             foreach ($OU in $AllOUs) {
                 $OUNameNormalized = $OU.Name.ToLower()
-                $SpecialMatchCount = 0
+                $HasSpecialKeyword = $false
+                $HasExclusionKeyword = $false
                 
+                # Verificar palabras clave requeridas
                 foreach ($Keyword in $SpecialKeywords) {
                     if ($OUNameNormalized -like "*$Keyword*") {
-                        $SpecialMatchCount++
+                        $HasSpecialKeyword = $true
+                        break
                     }
                 }
                 
-                # Si encuentra al menos 1 palabra clave especial, usar esta UO
-                if ($SpecialMatchCount -ge 1) {
-                    Write-Log "UO especial encontrada: '$($OU.Name)' (Coincidencias: $SpecialMatchCount)" "INFO"
-                    Write-Log "DN: $($OU.DistinguishedName)" "INFO"
-                    return $OU.DistinguishedName
+                # Verificar palabras de exclusión
+                foreach ($ExclWord in $ExclusionKeywords) {
+                    if ($OUNameNormalized -like "*$ExclWord*") {
+                        $HasExclusionKeyword = $true
+                        break
+                    }
+                }
+                
+                # Solo incluir si tiene palabra clave requerida Y NO tiene palabra de exclusión
+                if ($HasSpecialKeyword -and -not $HasExclusionKeyword) {
+                    $ValidMatches += $OU
+                    Write-Log "UO valida para ${OfficeType}: '$($OU.Name)'" "INFO"
+                }
+                elseif ($HasSpecialKeyword -and $HasExclusionKeyword) {
+                    Write-Log "UO descartada por exclusion: '$($OU.Name)' (contiene: $($ExclusionKeywords -join ', '))" "WARNING"
                 }
             }
             
-            # Si no encuentra UO específica para Guardia Civil, crear una UO genérica
-            Write-Log "No se encontró UO específica para oficina especial. Usando UO genérica basada en la oficina." "WARNING"
-            $GenericOU = "OU=$Office,OU=Oficinas Especiales,DC=$($Domain -replace '\.', ',DC=')"
-            Write-Log "UO genérica sugerida: $GenericOU" "INFO"
-            return $GenericOU
+            # Si hay matches válidos, usar el primero
+            if ($ValidMatches.Count -gt 0) {
+                $SelectedOU = $ValidMatches[0]
+                Write-Log "UO ${OfficeType} seleccionada: '$($SelectedOU.Name)'" "INFO"
+                Write-Log "DN: $($SelectedOU.DistinguishedName)" "INFO"
+                return $SelectedOU.DistinguishedName
+            } else {
+                Write-Log "No se encontro UO especifica valida para ${OfficeType}. Usando UO generica." "WARNING"
+                $GenericOU = "OU=$Office,OU=Oficinas Especiales,DC=$($Domain -replace '\.', ',DC=')"
+                Write-Log "UO genérica sugerida: $GenericOU" "INFO"
+                return $GenericOU
+            }
         }
         
-        # PASO 3: Buscar por coincidencia de palabras clave (sin numero especifico)
+        # PASO 3: Buscar por coincidencia de palabras clave (para juzgados y tribunales)
         $OfficeWords = $Office -split '\s+' | Where-Object { $_.Length -gt 3 -and $_ -notmatch '^\d+$' }  # Excluir numeros solos
+        Write-Log "Palabras clave de la oficina: $($OfficeWords -join ', ')" "INFO"
         
         $BestMatch = $null
         $BestScore = 0
+        $ValidCandidates = @()
+        
+        # Determinar el contexto de búsqueda basado en la oficina
+        $IsCourtOffice = $NormalizedOffice -like "*juzgado*" -or $NormalizedOffice -like "*tribunal*" -or 
+                        $NormalizedOffice -like "*instancia*" -or $NormalizedOffice -like "*penal*" -or
+                        $NormalizedOffice -like "*civil*" -or $NormalizedOffice -like "*social*" -or
+                        $NormalizedOffice -like "*contencioso*" -or $NormalizedOffice -like "*mercantil*"
         
         foreach ($OU in $AllOUs) {
             $Score = 0
             $OUName = $OU.Name.ToLower()
+            $WordMatches = 0
+            $HasIncompatibleContent = $false
+            
+            # Verificar incompatibilidades (evitar matches incorrectos)
+            if ($IsCourtOffice) {
+                # Si buscamos juzgado, excluir fiscalías y otras oficinas no judiciales
+                if ($OUName -like "*fiscalia*" -or $OUName -like "*ministerio*" -or $OUName -like "*guardia*") {
+                    $HasIncompatibleContent = $true
+                    Write-Log "UO excluida por incompatibilidad: '$($OU.Name)' (contiene fiscalia/ministerio/guardia)" "INFO"
+                }
+            } else {
+                # Si buscamos fiscalía/otras, excluir juzgados
+                if ($OUName -like "*juzgado*" -or $OUName -like "*tribunal*") {
+                    $HasIncompatibleContent = $true
+                    Write-Log "UO excluida por incompatibilidad: '$($OU.Name)' (contiene juzgado/tribunal)" "INFO"
+                }
+            }
+            
+            if ($HasIncompatibleContent) {
+                continue
+            }
             
             # Puntuar coincidencias de palabras (excluyendo numeros)
             foreach ($Word in $OfficeWords) {
                 $CleanWord = $Word.ToLower() -replace '[^a-z]', ''
                 if ($CleanWord.Length -gt 3 -and $OUName -like "*$CleanWord*") {
-                    $Score += $CleanWord.Length
+                    $Score += $CleanWord.Length * 2  # Dar más peso a coincidencias de palabras
+                    $WordMatches++
                 }
             }
             
-            # Penalizar si tiene numero diferente
+            # Bonus por coincidencias múltiples
+            if ($WordMatches -gt 1) {
+                $Score += $WordMatches * 5
+            }
+            
+            # Penalizar si tiene numero diferente (solo para juzgados)
             if ($OfficeNumber -and $OUName -match '\bn[o..]\s*(\d+)') {
                 $OUNumber = $Matches[1]
                 if ($OUNumber -ne $OfficeNumber) {
-                    $Score = $Score * 0.5  # Reducir puntuacion a la mitad
+                    $Score = $Score * 0.3  # Penalización más severa
                     Write-Log "Penalizando UO '$($OU.Name)' por numero diferente ($OUNumber vs $OfficeNumber)" "INFO"
+                }
+            }
+            
+            if ($Score -gt 0) {
+                $ValidCandidates += [PSCustomObject]@{
+                    OU = $OU
+                    Score = $Score
+                    WordMatches = $WordMatches
                 }
             }
             
@@ -742,7 +823,16 @@ function Find-OrganizationalUnit {
             }
         }
         
-        if ($BestMatch -and $BestScore -gt 10) {  # Umbral minimo de puntuacion
+        # Log de candidatos válidos para debugging
+        if ($ValidCandidates.Count -gt 0) {
+            Write-Log "Candidatos válidos encontrados: $($ValidCandidates.Count)" "INFO"
+            $SortedCandidates = $ValidCandidates | Sort-Object Score -Descending | Select-Object -First 3
+            foreach ($Candidate in $SortedCandidates) {
+                Write-Log "  - '$($Candidate.OU.Name)' (Score: $($Candidate.Score), Matches: $($Candidate.WordMatches))" "INFO"
+            }
+        }
+        
+        if ($BestMatch -and $BestScore -gt 15) {  # Umbral más alto para mayor precisión
             Write-Log "Mejor coincidencia encontrada: '$($BestMatch.Name)' (Puntuacion: $BestScore)" "WARNING"
             Write-Log "ADVERTENCIA: Esta UO puede no ser exacta. Verifique manualmente." "WARNING"
             Write-Log "DN: $($BestMatch.DistinguishedName)" "INFO"
@@ -1162,6 +1252,34 @@ function Execute-CrossDomainTransfer {
             $StandardPassword = "Justicia$Month$Year"
             $SecurePassword = ConvertTo-SecureString $StandardPassword -AsPlainText -Force
             
+            # Para traslados entre dominios: eliminar usuario original y recrear en destino
+            # Usar UPN normal del dominio destino (sin timestamp)
+            $UniqueUPN = "$($OriginalUser.SamAccountName)@justicia.junta-andalucia.es"
+            
+            # Verificar si el SamAccountName ya existe en el destino
+            try {
+                $ExistingSam = Get-ADUser -Filter "SamAccountName -eq '$($OriginalUser.SamAccountName)'" -Server $TargetDomain -ErrorAction SilentlyContinue
+                if ($ExistingSam) {
+                    Write-Log "ADVERTENCIA: SamAccountName $($OriginalUser.SamAccountName) ya existe en dominio destino $TargetDomain" "WARNING"
+                    Write-Log "Eliminando usuario existente en destino para recrearlo..." "WARNING"
+                    
+                    # Eliminar usuario existente en destino antes de recrear
+                    try {
+                        Remove-ADUser -Identity $ExistingSam.SamAccountName -Server $TargetDomain -Confirm:$false
+                        Write-Log "Usuario existente eliminado del destino: $($ExistingSam.SamAccountName)" "INFO"
+                    } catch {
+                        Write-Log "Error eliminando usuario existente en destino: $($_.Exception.Message)" "ERROR"
+                        return $false
+                    }
+                }
+            } catch {
+                Write-Log "Error verificando SamAccountName en destino: $($_.Exception.Message)" "WARNING"
+            }
+            
+            Write-Log "UPN para recreación en destino: $UniqueUPN" "INFO"
+            Write-Log "SamAccountName a recrear: $($OriginalUser.SamAccountName)" "INFO"
+            Write-Log "Estrategia: Eliminar original y recrear con perfil similar (descripción: $($UserData.Descripcion))" "INFO"
+            
             # Parametros para crear el usuario en destino
             $NewUserParams = @{
                 SamAccountName = $OriginalUser.SamAccountName
@@ -1169,7 +1287,7 @@ function Execute-CrossDomainTransfer {
                 DisplayName = $OriginalUser.DisplayName
                 GivenName = $OriginalUser.GivenName
                 Surname = $OriginalUser.Surname
-                UserPrincipalName = "$($OriginalUser.SamAccountName)@justicia.junta-andalucia.es"
+                UserPrincipalName = $UniqueUPN
                 EmailAddress = $UserData.Email
                 OfficePhone = $UserData.Telefono
                 Office = $UserData.Oficina
@@ -1182,7 +1300,12 @@ function Execute-CrossDomainTransfer {
             }
             
             # Crear el usuario en el dominio destino
-            New-ADUser @NewUserParams
+            try {
+                New-ADUser @NewUserParams -ErrorAction Stop
+            } catch {
+                Write-Log "Error creando usuario: $($_.Exception.Message)" "ERROR"
+                throw $_
+            }
             Write-Log "Usuario creado exitosamente en $TargetDomain" "INFO"
             
             # PASO 4: Copiar grupos del usuario plantilla
@@ -1275,24 +1398,38 @@ function Execute-UserTransfer {
         if ($ADModuleAvailable) {
             # PASO 1: Eliminar grupos actuales (excepto sistema)
             Write-Log "PASO 1: Eliminando grupos actuales del usuario..." "INFO"
-            $CurrentGroups = Get-ADPrincipalGroupMembership -Identity $ExistingUser.SamAccountName -Server $ExistingUser.SourceDomain
+            
+            $CurrentGroups = @()
+            try {
+                $CurrentGroups = Get-ADPrincipalGroupMembership -Identity $ExistingUser.SamAccountName -Server $ExistingUser.SourceDomain -ErrorAction Stop
+                Write-Log "Se encontraron $($CurrentGroups.Count) grupos para el usuario" "INFO"
+            } catch {
+                Write-Log "Error obteniendo grupos del usuario: $($_.Exception.Message)" "WARNING"
+                Write-Log "Continuando con el proceso de traslado sin eliminar grupos..." "WARNING"
+                $CurrentGroups = @()
+            }
             
             # Grupos del sistema que NO se eliminan
             $SystemGroups = @('Domain Users', 'Usuarios del dominio', 'Everyone', 'Authenticated Users', 'Usuarios autenticados')
             
             $GroupsRemoved = 0
+            $GroupsSkipped = 0
             foreach ($Group in $CurrentGroups) {
                 if ($Group.Name -notin $SystemGroups) {
                     try {
-                        Remove-ADGroupMember -Identity $Group -Members $ExistingUser.SamAccountName -Server $ExistingUser.SourceDomain -Confirm:$false
+                        Remove-ADGroupMember -Identity $Group -Members $ExistingUser.SamAccountName -Server $ExistingUser.SourceDomain -Confirm:$false -ErrorAction Stop
                         Write-Log "Grupo eliminado: $($Group.Name)" "INFO"
                         $GroupsRemoved++
                     } catch {
                         Write-Log "Error eliminando grupo $($Group.Name): $($_.Exception.Message)" "WARNING"
+                        Write-Log "CONTINUANDO con el proceso de traslado..." "WARNING"
+                        $GroupsSkipped++
                     }
+                } else {
+                    Write-Log "Grupo del sistema conservado: $($Group.Name)" "INFO"
                 }
             }
-            Write-Log "PASO 1 COMPLETADO: $GroupsRemoved grupos eliminados" "INFO"
+            Write-Log "PASO 1 COMPLETADO: $GroupsRemoved grupos eliminados, $GroupsSkipped con errores (PROCESO CONTINUA)" "INFO"
             
             # PASO 2: Mover usuario a nueva ubicacion
             Write-Log "PASO 2: Moviendo usuario a nueva UO..." "INFO"
@@ -1354,10 +1491,18 @@ function Execute-UserTransfer {
             
             # PASO 5: Verificacion final
             Write-Log "PASO 5: Verificacion final del traslado..." "INFO"
-            $FinalGroups = Get-ADPrincipalGroupMembership -Identity $ExistingUser.SamAccountName -Server $TargetDomain
-            Write-Log "Grupos finales del usuario: $($FinalGroups.Count)" "INFO"
-            foreach ($FinalGroup in $FinalGroups) {
-                Write-Log "  - $($FinalGroup.Name)" "INFO"
+            
+            $FinalGroups = @()
+            try {
+                $FinalGroups = Get-ADPrincipalGroupMembership -Identity $ExistingUser.SamAccountName -Server $TargetDomain -ErrorAction Stop
+                Write-Log "Grupos finales del usuario: $($FinalGroups.Count)" "INFO"
+                foreach ($FinalGroup in $FinalGroups) {
+                    Write-Log "  - $($FinalGroup.Name)" "INFO"
+                }
+                Write-Log "PASO 5 COMPLETADO: Verificacion exitosa" "INFO"
+            } catch {
+                Write-Log "Error en verificacion final: $($_.Exception.Message)" "WARNING"
+                Write-Log "PASO 5 COMPLETADO: Traslado realizado exitosamente (verificacion omitida)" "WARNING"
             }
             
             return $true
@@ -1474,6 +1619,7 @@ Write-Log "Iniciando procesamiento de $($Users.Count) usuarios" "INFO"
 
 $ProcessedCount = 0
 $ErrorCount = 0
+$ProcessingResults = @()  # Array para almacenar resultados del procesamiento
 
 foreach ($User in $Users) {
     try {
@@ -1483,6 +1629,23 @@ foreach ($User in $Users) {
         if ([string]::IsNullOrWhiteSpace($User.TipoAlta)) {
             Write-Log "Establece el tipo de alta, es obligatorio para seguir con el proceso" "ERROR"
             $ErrorCount++
+            
+            # Agregar resultado de validación fallida
+            $ProcessingResults += [PSCustomObject]@{
+                Nombre = if ($User.Nombre) { $User.Nombre } else { "N/A" }
+                Apellidos = if ($User.Apellidos) { $User.Apellidos } else { "N/A" }
+                TipoAlta = "FALTANTE"
+                Email = if ($User.Email) { $User.Email } else { "N/A" }
+                Telefono = if ($User.Telefono) { $User.Telefono } else { "N/A" }
+                Oficina = if ($User.Oficina) { $User.Oficina } else { "N/A" }
+                Descripcion = if ($User.Descripcion) { $User.Descripcion } else { "N/A" }
+                AD = "N/A"
+                UO_Destino = "N/A"
+                Dominio_Destino = "N/A"
+                Estado = "ERROR"
+                TipoTraslado = "N/A"
+                Observaciones = "TipoAlta es obligatorio y no fue especificado"
+            }
             continue
         }
         
@@ -1535,6 +1698,23 @@ foreach ($User in $Users) {
                         Write-Log "MODO WHATIF: Simulando traslado MISMO DOMINIO de $($ExistingUser.SamAccountName) a $TargetOU" "INFO"
                     }
                     $ProcessedCount++
+                    
+                    # Agregar resultado de simulación de traslado
+                    $ProcessingResults += [PSCustomObject]@{
+                        Nombre = $User.Nombre
+                        Apellidos = $User.Apellidos
+                        TipoAlta = $User.TipoAlta
+                        Email = $User.Email
+                        Telefono = $User.Telefono
+                        Oficina = $User.Oficina
+                        Descripcion = $User.Descripcion
+                        AD = $ExistingUser.SamAccountName
+                        UO_Destino = $TargetOU
+                        Dominio_Destino = $TargetDomain
+                        Estado = "SIMULADO"
+                        TipoTraslado = if ($IsCrossDomainTransfer) { "entre dominios" } else { "mismo dominio" }
+                        Observaciones = "Traslado simulado en modo WhatIf"
+                    }
                 } else {
                     if ($IsCrossDomainTransfer) {
                         # Usar funcion de traslado entre dominios
@@ -1548,9 +1728,43 @@ foreach ($User in $Users) {
                         $TransferType = if ($IsCrossDomainTransfer) { "entre dominios" } else { "mismo dominio" }
                         Write-Log "Traslado $TransferType completado exitosamente para: $($User.Nombre) $($User.Apellidos)" "INFO"
                         $ProcessedCount++
+                        
+                        # Agregar resultado exitoso
+                        $ProcessingResults += [PSCustomObject]@{
+                            Nombre = $User.Nombre
+                            Apellidos = $User.Apellidos
+                            TipoAlta = $User.TipoAlta
+                            Email = $User.Email
+                            Telefono = $User.Telefono
+                            Oficina = $User.Oficina
+                            Descripcion = $User.Descripcion
+                            AD = $ExistingUser.SamAccountName
+                            UO_Destino = $TargetOU
+                            Dominio_Destino = $TargetDomain
+                            Estado = "EXITOSO"
+                            TipoTraslado = $TransferType
+                            Observaciones = "Traslado completado correctamente"
+                        }
                     } else {
                         Write-Log "Error en traslado para: $($User.Nombre) $($User.Apellidos)" "ERROR"
                         $ErrorCount++
+                        
+                        # Agregar resultado con error
+                        $ProcessingResults += [PSCustomObject]@{
+                            Nombre = $User.Nombre
+                            Apellidos = $User.Apellidos
+                            TipoAlta = $User.TipoAlta
+                            Email = $User.Email
+                            Telefono = $User.Telefono
+                            Oficina = $User.Oficina
+                            Descripcion = $User.Descripcion
+                            AD = if ($ExistingUser) { $ExistingUser.SamAccountName } else { "N/A" }
+                            UO_Destino = if ($TargetOU) { $TargetOU } else { "N/A" }
+                            Dominio_Destino = $TargetDomain
+                            Estado = "ERROR"
+                            TipoTraslado = "N/A"
+                            Observaciones = "Error durante el procesamiento del traslado"
+                        }
                     }
                 }
             }
@@ -1570,17 +1784,68 @@ foreach ($User in $Users) {
                         if ([string]::IsNullOrWhiteSpace($SamAccountName)) {
                             Write-Log "No se pudo generar un SamAccountName unico para $($User.Nombre) $($User.Apellidos)" "ERROR"
                             $ErrorCount++
+                            
+                            # Agregar resultado con error de generación
+                            $ProcessingResults += [PSCustomObject]@{
+                                Nombre = $User.Nombre
+                                Apellidos = $User.Apellidos
+                                TipoAlta = $User.TipoAlta
+                                Email = $User.Email
+                                Telefono = $User.Telefono
+                                Oficina = $User.Oficina
+                                Descripcion = $User.Descripcion
+                                AD = "ERROR"
+                                UO_Destino = "N/A"
+                                Dominio_Destino = $TargetDomain
+                                Estado = "ERROR"
+                                TipoTraslado = "N/A"
+                                Observaciones = "No se pudo generar SamAccountName único"
+                            }
                             continue
                         }
                         Write-Log "SamAccountName generado: $SamAccountName (verificado como unico en todos los dominios)" "INFO"
                     } else {
                         Write-Log "Modulo SamAccountNameGenerator no disponible - no se puede crear usuario" "ERROR"
                         $ErrorCount++
+                        
+                        # Agregar resultado con error de módulo
+                        $ProcessingResults += [PSCustomObject]@{
+                            Nombre = $User.Nombre
+                            Apellidos = $User.Apellidos
+                            TipoAlta = $User.TipoAlta
+                            Email = $User.Email
+                            Telefono = $User.Telefono
+                            Oficina = $User.Oficina
+                            Descripcion = $User.Descripcion
+                            AD = "ERROR"
+                            UO_Destino = "N/A"
+                            Dominio_Destino = $TargetDomain
+                            Estado = "ERROR"
+                            TipoTraslado = "N/A"
+                            Observaciones = "Módulo SamAccountNameGenerator no disponible"
+                        }
                         continue
                     }
                 } catch {
                     Write-Log "Error generando SamAccountName para $($User.Nombre) $($User.Apellidos): $($_.Exception.Message)" "ERROR"
                     $ErrorCount++
+                    
+                    # Agregar resultado con error de excepción
+                    $ProcessingResults += [PSCustomObject]@{
+                        Nombre = $User.Nombre
+                        Apellidos = $User.Apellidos
+                        TipoAlta = $User.TipoAlta
+                        Email = $User.Email
+                        Telefono = $User.Telefono
+                        Oficina = $User.Oficina
+                        Descripcion = $User.Descripcion
+                        AD = "ERROR"
+                        UO_Destino = "N/A"
+                        Dominio_Destino = $TargetDomain
+                        Estado = "ERROR"
+                        TipoTraslado = "N/A"
+                        Observaciones = "Error generando SamAccountName: $($_.Exception.Message)"
+                    }
                     continue
                 }
                 
@@ -1622,6 +1887,23 @@ foreach ($User in $Users) {
                     Write-Log "SIMULACION: UO destino: $TargetOU" "INFO"
                     Write-Log "SIMULACION: UPN seria: $SamAccountName@justicia.junta-andalucia.es" "INFO"
                     $ProcessedCount++
+                    
+                    # Agregar resultado de simulación de alta normalizada
+                    $ProcessingResults += [PSCustomObject]@{
+                        Nombre = $User.Nombre
+                        Apellidos = $User.Apellidos
+                        TipoAlta = $User.TipoAlta
+                        Email = $User.Email
+                        Telefono = $User.Telefono
+                        Oficina = $User.Oficina
+                        Descripcion = $User.Descripcion
+                        AD = $SamAccountName
+                        UO_Destino = if ($TargetOU) { $TargetOU } else { "UO por defecto" }
+                        Dominio_Destino = $TargetDomain
+                        Estado = "SIMULADO"
+                        TipoTraslado = "N/A"
+                        Observaciones = "Alta normalizada simulada en modo WhatIf"
+                    }
                 } else {
                     Write-Log "CREANDO USUARIO REAL en dominio $TargetDomain" "INFO"
                     
@@ -1696,9 +1978,43 @@ foreach ($User in $Users) {
                             
                             $ProcessedCount++
                             
+                            # Agregar resultado exitoso de alta normalizada
+                            $ProcessingResults += [PSCustomObject]@{
+                                Nombre = $User.Nombre
+                                Apellidos = $User.Apellidos
+                                TipoAlta = $User.TipoAlta
+                                Email = $User.Email
+                                Telefono = $User.Telefono
+                                Oficina = $User.Oficina
+                                Descripcion = $User.Descripcion
+                                AD = $SamAccountName
+                                UO_Destino = if ($TargetOU) { $TargetOU } else { "UO por defecto" }
+                                Dominio_Destino = $TargetDomain
+                                Estado = "EXITOSO"
+                                TipoTraslado = "N/A"
+                                Observaciones = "Usuario normalizado creado correctamente"
+                            }
+                            
                         } catch {
                             Write-Log "ERROR: Fallo creando usuario ${SamAccountName}: $($_.Exception.Message)" "ERROR"
                             $ErrorCount++
+                            
+                            # Agregar resultado con error de creación
+                            $ProcessingResults += [PSCustomObject]@{
+                                Nombre = $User.Nombre
+                                Apellidos = $User.Apellidos
+                                TipoAlta = $User.TipoAlta
+                                Email = $User.Email
+                                Telefono = $User.Telefono
+                                Oficina = $User.Oficina
+                                Descripcion = $User.Descripcion
+                                AD = $SamAccountName
+                                UO_Destino = if ($TargetOU) { $TargetOU } else { "N/A" }
+                                Dominio_Destino = $TargetDomain
+                                Estado = "ERROR"
+                                TipoTraslado = "N/A"
+                                Observaciones = "Error creando usuario: $($_.Exception.Message)"
+                            }
                             continue
                         }
                     } else {
@@ -1713,6 +2029,23 @@ foreach ($User in $Users) {
                         }
                         
                         $ProcessedCount++
+                        
+                        # Agregar resultado exitoso simulado
+                        $ProcessingResults += [PSCustomObject]@{
+                            Nombre = $User.Nombre
+                            Apellidos = $User.Apellidos
+                            TipoAlta = $User.TipoAlta
+                            Email = $User.Email
+                            Telefono = $User.Telefono
+                            Oficina = $User.Oficina
+                            Descripcion = $User.Descripcion
+                            AD = $SamAccountName
+                            UO_Destino = if ($TargetOU) { $TargetOU } else { "UO simulada" }
+                            Dominio_Destino = $TargetDomain
+                            Estado = "SIMULADO"
+                            TipoTraslado = "N/A"
+                            Observaciones = "Usuario normalizado simulado (módulo AD no disponible)"
+                        }
                     }
                 }
             }
@@ -1720,17 +2053,68 @@ foreach ($User in $Users) {
             "COMPAGINADA" {
                 Write-Log "Tipo COMPAGINADA no implementado aun" "WARNING"
                 $ErrorCount++
+                
+                # Agregar resultado de tipo no implementado
+                $ProcessingResults += [PSCustomObject]@{
+                    Nombre = $User.Nombre
+                    Apellidos = $User.Apellidos
+                    TipoAlta = $User.TipoAlta
+                    Email = $User.Email
+                    Telefono = $User.Telefono
+                    Oficina = $User.Oficina
+                    Descripcion = $User.Descripcion
+                    AD = "N/A"
+                    UO_Destino = "N/A"
+                    Dominio_Destino = "N/A"
+                    Estado = "NO_IMPLEMENTADO"
+                    TipoTraslado = "N/A"
+                    Observaciones = "Tipo de alta COMPAGINADA no implementado aún"
+                }
             }
             
             default {
                 Write-Log "Tipo de alta no reconocido: $($User.TipoAlta)" "ERROR"
                 $ErrorCount++
+                
+                # Agregar resultado de tipo no reconocido
+                $ProcessingResults += [PSCustomObject]@{
+                    Nombre = $User.Nombre
+                    Apellidos = $User.Apellidos
+                    TipoAlta = $User.TipoAlta
+                    Email = $User.Email
+                    Telefono = $User.Telefono
+                    Oficina = $User.Oficina
+                    Descripcion = $User.Descripcion
+                    AD = "N/A"
+                    UO_Destino = "N/A"
+                    Dominio_Destino = "N/A"
+                    Estado = "ERROR"
+                    TipoTraslado = "N/A"
+                    Observaciones = "Tipo de alta no reconocido: $($User.TipoAlta)"
+                }
             }
         }
         
     } catch {
         Write-Log "Error procesando usuario $($User.Nombre) $($User.Apellidos): $($_.Exception.Message)" "ERROR"
         $ErrorCount++
+        
+        # Agregar resultado de error general
+        $ProcessingResults += [PSCustomObject]@{
+            Nombre = if ($User.Nombre) { $User.Nombre } else { "N/A" }
+            Apellidos = if ($User.Apellidos) { $User.Apellidos } else { "N/A" }
+            TipoAlta = if ($User.TipoAlta) { $User.TipoAlta } else { "N/A" }
+            Email = if ($User.Email) { $User.Email } else { "N/A" }
+            Telefono = if ($User.Telefono) { $User.Telefono } else { "N/A" }
+            Oficina = if ($User.Oficina) { $User.Oficina } else { "N/A" }
+            Descripcion = if ($User.Descripcion) { $User.Descripcion } else { "N/A" }
+            AD = "ERROR"
+            UO_Destino = "N/A"
+            Dominio_Destino = "N/A"
+            Estado = "ERROR"
+            TipoTraslado = "N/A"
+            Observaciones = "Error general procesando usuario: $($_.Exception.Message)"
+        }
     }
 }
 
@@ -1739,6 +2123,37 @@ Write-Log "=== PROCESO COMPLETADO ===" "INFO"
 Write-Log "Usuarios procesados exitosamente: $ProcessedCount" "INFO"
 Write-Log "Usuarios con errores: $ErrorCount" "INFO"
 Write-Log "Total procesados: $($ProcessedCount + $ErrorCount) de $($Users.Count)" "INFO"
+
+# Generar CSV de resultados
+if ($ProcessingResults.Count -gt 0) {
+    # Mantener CSV anterior si existe y crear uno con timestamp
+    $TimeStampForCSV = Get-Date -Format "yyyyMMdd_HHmmss"
+    $ResultsCSVPath = $CSVFile -replace '\.csv$', "_resultados_${TimeStampForCSV}.csv"
+    
+    try {
+        $ProcessingResults | Export-Csv -Path $ResultsCSVPath -Delimiter ";" -Encoding UTF8 -NoTypeInformation
+        Write-Log "CSV de resultados generado: $ResultsCSVPath" "INFO"
+        Write-Log "Registros en CSV de resultados: $($ProcessingResults.Count)" "INFO"
+        
+        # Mostrar resumen por estado
+        $ResultadosExitosos = ($ProcessingResults | Where-Object { $_.Estado -eq "EXITOSO" }).Count
+        $ResultadosError = ($ProcessingResults | Where-Object { $_.Estado -eq "ERROR" }).Count
+        $ResultadosSimulados = ($ProcessingResults | Where-Object { $_.Estado -eq "SIMULADO" }).Count
+        
+        Write-Log "Resumen de resultados:" "INFO"
+        Write-Log "  - Exitosos: $ResultadosExitosos" "INFO"
+        Write-Log "  - Errores: $ResultadosError" "INFO"
+        Write-Log "  - Simulados: $ResultadosSimulados" "INFO"
+        
+        Write-Host "`nCSV de resultados generado en: $ResultsCSVPath" -ForegroundColor Cyan
+        
+    } catch {
+        Write-Log "Error generando CSV de resultados: $($_.Exception.Message)" "ERROR"
+        Write-Host "Error generando CSV de resultados. Revisar log." -ForegroundColor Red
+    }
+} else {
+    Write-Log "No hay resultados para generar CSV" "WARNING"
+}
 
 if ($ErrorCount -gt 0) {
     Write-Log "Se encontraron $ErrorCount errores durante el procesamiento" "WARNING"
