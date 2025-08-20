@@ -1,225 +1,438 @@
-# Guía del Sistema de Traslados de Usuarios
+# Guía del Sistema AD_ADMIN - Gestión Completa de Usuarios
 
 ## Descripción General
 
-El sistema de traslados permite mover usuarios entre diferentes ubicaciones/dominios en Active Directory, manteniendo o copiando sus perfiles según sea necesario.
+El sistema AD_ADMIN es una suite completa de herramientas para la gestión de usuarios en Active Directory, diseñado específicamente para entornos multi-dominio del sistema de justicia. Incluye funcionalidades para traslados, búsquedas, creación de usuarios y gestión de contraseñas.
 
-## Tipos de Traslado
+## Estructura del Sistema
 
-### 1. Traslado Dentro del Mismo Dominio
-- **Cuándo se aplica**: Cuando el usuario se traslada dentro de la misma provincia
-- **Proceso**: Se mueve el usuario existente, se limpian sus grupos actuales y se copian los grupos del usuario plantilla
-- **Ventajas**: Mantiene el historial del usuario
+### Scripts Principales
 
-### 2. Traslado Entre Dominios (Copia)
-- **Cuándo se aplica**: Cuando el usuario se traslada a una provincia diferente
-- **Proceso**: Se crea un nuevo usuario copiando datos del original y la plantilla
-- **Características**: Nuevo SamAccountName, contraseña estándar (Justicia+MM+YY)
+#### 1. **AD_UserManagement.ps1**
+**Funcionalidad**: Script principal para gestión completa de usuarios
+**Uso**: 
+```powershell
+.\AD_UserManagement.ps1 -CSVFile "usuarios.csv" [-WhatIf]
+```
 
-## Flujo del Proceso
+**Características**:
+- Procesamiento de altas normalizadas, traslados y compaginaciones
+- Modo WhatIf para pruebas seguras
+- Logging detallado automático
+- Detección automática de tipos de operación
+- Corrección automática de caracteres especiales
 
-### Paso 1: Búsqueda del Usuario Existente
-El sistema busca al usuario por su dirección de email en todos los dominios disponibles.
+#### 2. **MultiDomainUserSearch.ps1** 
+**Funcionalidad**: Herramienta de búsqueda avanzada en múltiples dominios
+**Uso**:
+```powershell
+.\MultiDomainUserSearch.ps1 [-Domain "almeria"] [-SearchAllDomains]
+```
 
-### Paso 2: Detección de Provincia
-- **Origen**: Se extrae de la estructura del dominio (ej: malaga.justicia.junta-andalucia.es → málaga)
-- **Destino**: Se determina por la oficina especificada en el CSV
+**Características**:
+- Búsqueda en todos los dominios del bosque
+- Interfaz interactiva para selección de usuarios
+- Gestión completa de usuarios (habilitar, deshabilitar, cambiar contraseña)
+- Visualización de grupos y permisos
+- Manejo seguro de propiedades de AD
 
-### Paso 3: Búsqueda de Usuario Plantilla
-El sistema busca un usuario plantilla con las siguientes prioridades:
+#### 3. **TestSystemComponents.ps1**
+**Funcionalidad**: Suite completa de pruebas del sistema
+**Uso**:
+```powershell
+.\TestSystemComponents.ps1 [-TestModule "All|SamAccountName|Password|CSV|Search"] [-WhatIf]
+```
 
-1. **Coincidencia exacta**: Misma descripción (Tramitador, Auxilio, LAJ, etc.)
-2. **Coincidencia por oficina**: Usuario con descripción similar en la oficina destino
-3. **Selección interactiva**: Si no hay coincidencias, muestra usuarios con descripciones diferentes para selección manual
+**Características**:
+- Prueba todos los módulos y funcionalidades
+- Validación de conectividad a dominios
+- Verificación de permisos y funciones
+- Informes detallados de estado
 
-### Paso 4: Aplicación del Traslado
-Según el tipo de traslado detectado:
+#### 4. **TestModules.ps1** y **TestTransferSystem.ps1**
+**Funcionalidad**: Scripts de prueba específicos mantenidos por compatibilidad
+**Uso**: Para pruebas específicas de componentes individuales
 
-#### Mismo Dominio:
-- Limpia membresías de grupos actuales
-- Copia grupos del usuario plantilla
-- Actualiza propiedades (nombre, teléfono, oficina, etc.)
-- Mantiene contraseña actual
+### Módulos del Sistema
 
-#### Entre Dominios:
-- Crea nuevo usuario en dominio destino
-- Copia propiedades del usuario original y plantilla
-- Asigna contraseña estándar (Justicia+MM+YY)
-- Copia grupos del usuario plantilla
+#### **Módulos Core**
 
-## Descripcionces de Usuario Soportadas
+1. **DomainStructureManager.psm1**
+   - Gestión de estructura de dominios y bosques
+   - Detección automática de dominios disponibles
+   - Mapeo de provincias y localidades
 
-El sistema reconoce las siguientes descripciones y sus variantes:
+2. **UserSearch.psm1**
+   - Búsquedas avanzadas de usuarios
+   - Criterios múltiples (nombre, email, oficina, descripción)
+   - Interfaz interactiva para selección
 
-- **Tramitador**: Tramitador, Tramitadora, Gestión procesal, Procesal
-- **Auxilio**: Auxilio, Auxilio judicial, Auxiliar, Auxiliar judicial  
-- **LAJ**: LAJ, Letrado de la administración, Letrado, Administración de Justicia
-- **Letrado de la Administración de justicia**: LAJ, Letrado, Letrado de la administración
-- **Juez**: Juez, Jueza, Magistrado, Magistrada
+3. **MultiDomainSearch.psm1**
+   - Búsqueda simultánea en múltiples dominios
+   - Agregación y consolidación de resultados
+   - Manejo seguro de propiedades de colecciones AD
+
+#### **Módulos de Gestión**
+
+4. **SamAccountNameGenerator.psm1**
+   - Generación automática de nombres de usuario
+   - Múltiples estrategias de generación
+   - Verificación de unicidad en todos los dominios
+
+5. **PasswordManager.psm1**
+   - Gestión de contraseñas estándar y personalizadas
+   - Validación de complejidad
+   - Políticas de expiración y cambio forzoso
+
+6. **TransferManager.psm1**
+   - Lógica de traslados entre dominios
+   - Detección automática de tipo de traslado
+   - Preservación de datos y grupos
+
+#### **Módulos de Soporte**
+
+7. **CSVValidation.psm1**
+   - Validación de estructura y contenido de archivos CSV
+   - Verificación de campos obligatorios por tipo de alta
+   - Normalización de datos de entrada
+
+8. **UOManager.psm1**
+   - Gestión de Unidades Organizativas
+   - Mapeo automático de oficinas a UOs
+   - Sistema de puntuación para coincidencias
+
+9. **UserTemplateManager.psm1**
+   - Búsqueda y gestión de usuarios plantilla
+   - Copia de grupos y permisos
+   - Selección interactiva cuando es necesaria
+
+10. **UserTransfer.psm1** y **NormalizedUserCreation.psm1**
+    - Funcionalidades específicas para tipos de operación
+    - Manejo de casos especiales y excepciones
+
+## Tipos de Operaciones
+
+### 1. Alta Normalizada
+**Cuándo se usa**: Creación de nuevos usuarios
+**Proceso**:
+- Generación automática de SamAccountName
+- Asignación de contraseña estándar (Justicia+MM+YY)
+- Búsqueda automática de UO por oficina
+- Copia de grupos de usuario plantilla
+
+**Ejemplo CSV**:
+```csv
+TipoAlta;Nombre;Apellidos;Email;Telefono;Oficina;Descripcion;AD
+NORMALIZADA;María;González López;;12345678A;Juzgado de Primera Instancia Nº 3 de Sevilla;Gestión Procesal;
+```
+
+### 2. Traslado
+**Cuándo se usa**: Movimiento de usuarios existentes
+**Proceso**:
+- Búsqueda del usuario por campo AD o Email
+- Detección automática de dominio origen y destino
+- **Mismo dominio**: Mover usuario, limpiar y copiar grupos
+- **Entre dominios**: Crear nuevo usuario, mantener el original
+
+**Ejemplo CSV**:
+```csv
+TipoAlta;Nombre;Apellidos;Email;Telefono;Oficina;Descripcion;AD
+TRASLADO;Juan;Pérez Martín;juan.perez@juntadeandalucia.es;98765432B;Juzgado de Primera Instancia Nº 1 de Granada;Auxilio Judicial;jperez
+```
+
+### 3. Compaginación
+**Cuándo se usa**: Añadir funciones adicionales sin eliminar las existentes
+**Proceso**:
+- Búsqueda del usuario existente
+- Adición de grupos sin eliminar los actuales
+- Actualización de propiedades si es necesario
+
+## Mejoras y Características Nuevas
+
+### **Corrección de Caracteres Especiales**
+- **Problema resuelto**: Caracteres como "ñ", "º" aparecían como "�"
+- **Solución**: Función `Normalize-Text` que convierte automáticamente caracteres problemáticos
+- **Aplicado a**: Nombres de oficina, descripciones, campos de texto
+
+### **Búsqueda de Usuario Plantilla Mejorada**
+- **Problema resuelto**: Fallos en coincidencia de descripciones con tildes
+- **Solución**: Normalización previa de descripciones antes de comparar
+- **Mapeos añadidos**: "Gestión Procesal" ↔ "gestion", incluyendo variantes con/sin tildes
+
+### **Selección Inteligente de UO**
+- **Problema resuelto**: Selección incorrecta entre UOs similares (ej: Primera Instancia vs Instrucción)
+- **Solución**: Sistema de puntuación que prioriza coincidencias específicas
+- **Ejemplo**: "Primera Instancia" recibe bonus de +20 puntos vs "Instrucción" con +2 puntos
+
+### **Manejo Robusto de Propiedades AD**
+- **Problema resuelto**: Errores al mostrar propiedades tipo `ADPropertyValueCollection`
+- **Solución**: Función `Get-SafePropertyValue` que maneja colecciones de manera segura
+- **Aplicado a**: Todas las visualizaciones de propiedades de usuario
+
+## Arquitectura Modular
+
+### **Ventajas del Sistema Modular**
+1. **Mantenibilidad**: Cada funcionalidad en su propio módulo
+2. **Reutilización**: Módulos compartidos entre scripts
+3. **Escalabilidad**: Fácil añadir nuevas funcionalidades
+4. **Pruebas**: Cada módulo se puede probar independientemente
+
+### **Imports Automáticos**
+Los módulos importan automáticamente sus dependencias:
+```powershell
+Import-Module "$PSScriptRoot\DomainStructureManager.psm1" -Force
+Import-Module "$PSScriptRoot\UserSearch.psm1" -Force
+```
+
+### **Funciones Exportadas**
+Cada módulo exporta solo las funciones públicas necesarias:
+```powershell
+Export-ModuleMember -Function @(
+    'Search-UsersInAllDomains',
+    'Show-MultiDomainSearchResults', 
+    'Start-MultiDomainUserSearch'
+)
+```
 
 ## Formato del CSV
 
+### Estructura Requerida
 ```csv
 TipoAlta;Nombre;Apellidos;Email;Telefono;Oficina;Descripcion;AD
-TRASLADO;Juan;García López;juan.garcia@juntadeandalucia.es;12345678A;Sevilla Centro;Tramitador;jgarcia
-NORMALIZADA;María Luisa;Martín García;;55667788E;Almería Sur;Letrado;
-COMPAGINADA;José Antonio;Ruiz Pérez;josea.ruiz@juntadeandalucia.es;99887766F;Huelva Centro;Magistrado;jaruiz
 ```
 
-### Campos del CSV:
+### Campos Obligatorios por Tipo
 
-#### Campos Obligatorios:
-- **TipoAlta**: NORMALIZADA, TRASLADO o COMPAGINADA (obligatorio)
-- **Nombre**: Nombre del usuario (obligatorio)
-- **Apellidos**: Apellidos del usuario (obligatorio)
-- **Oficina**: Oficina/juzgado de destino (obligatorio, usado para determinar UO y provincia)
-- **Descripcion**: Puesto del usuario - LAJ, Letrado, Juez, Magistrado, Auxilio, Gestor, Tramitador (obligatorio)
+#### **NORMALIZADA**
+- ✅ TipoAlta, Nombre, Apellidos, Oficina, Descripcion
+- ❌ AD (debe estar vacío)
+- 🔸 Email (opcional), Telefono (opcional)
 
-#### Campos Opcionales/Condicionales:
-- **Email**: Dirección de correo (opcional para NORMALIZADA, requerido para TRASLADO/COMPAGINADA si no hay AD)
-- **Telefono**: DNI del usuario (se almacena en campo teléfono de AD)
-- **AD**: SamAccountName del usuario existente (requerido para TRASLADO/COMPAGINADA si no hay Email, vacío para NORMALIZADA)
+#### **TRASLADO**
+- ✅ TipoAlta, Nombre, Apellidos, Oficina, Descripcion
+- ✅ AD O Email (al menos uno para localizar usuario)
+- 🔸 Telefono (opcional)
 
-### Validaciones Específicas por Tipo:
+#### **COMPAGINADA**
+- ✅ TipoAlta, Nombre, Apellidos, Oficina, Descripcion
+- ✅ AD O Email (al menos uno para localizar usuario)
+- 🔸 Telefono (opcional)
 
-#### NORMALIZADA:
-- Campo AD debe estar vacío (se generará automáticamente)
-- Email es opcional (para casos sin cuenta de correo)
-- Se generará SamAccountName según reglas específicas
-
-#### TRASLADO:
-- Debe tener Email O campo AD para localizar usuario existente
-- Se buscará primero por AD, luego por Email
-- Eliminará grupos anteriores y copiará los del destino
-
-#### COMPAGINADA:
-- Debe tener Email O campo AD para localizar usuario existente
-- Solo añadirá grupos adicionales sin eliminar los existentes
-
-## Cómo Usar el Sistema
-
-### 1. Preparar el CSV
-Crear archivo CSV con los datos de traslado usando el formato especificado.
-
-### 2. Ejecutar en Modo Prueba (WhatIf)
-```powershell
-.\AD_UserManagement.ps1 -CSVFile "ejemplos_traslados.csv" -WhatIf
-```
-
-### 3. Revisar Logs
-Verificar el archivo de log generado para confirmar que el proceso es correcto.
-
-### 4. Ejecutar en Modo Real
-```powershell
-.\AD_UserManagement.ps1 -CSVFile "ejemplos_traslados.csv"
-```
-
-## Scripts de Prueba
-
-### TestTransferSystem.ps1
-Script para probar componentes individuales del sistema:
-```powershell
-.\TestTransferSystem.ps1 -WhatIf
-```
-
-Prueba:
-- Detección de dominios
-- Búsqueda por email
-- Detección de provincias
-- Búsqueda de plantillas
-- Proceso completo de traslado
-
-## Archivos del Sistema
-
-### Módulos Principales:
-- **TransferManager.psm1**: Lógica principal de traslados
-- **DomainStructureManager.psm1**: Gestión de estructura de dominios
-- **UserTemplateManager.psm1**: Búsqueda y gestión de plantillas
-
-### Scripts:
-- **AD_UserManagement.ps1**: Script principal
-- **TestTransferSystem.ps1**: Pruebas del sistema
-- **ejemplos_traslados.csv**: CSV de ejemplo
-
-## Características de Seguridad
-
-1. **Modo WhatIf por defecto**: Todas las operaciones se pueden simular primero
-2. **Validación de usuarios**: Verificación de existencia antes de procesar
-3. **Selección interactiva**: Control manual cuando no hay coincidencias automáticas
-4. **Logging detallado**: Registro completo de todas las operaciones
-5. **Manejo de errores**: Continuación del procesamiento aunque fallen casos individuales
+### Validaciones Automáticas
+- **Estructura**: Verificación de columnas requeridas
+- **Contenido**: Validación de campos según tipo de alta
+- **Consistencia**: Verificación de coherencia entre campos
+- **Caracteres**: Normalización automática de caracteres especiales
 
 ## Generación de SamAccountName
 
-Para altas normalizadas, el sistema genera automáticamente el SamAccountName siguiendo estas reglas:
-
-### Estrategias de Generación:
-
-1. **Estrategia 1**: Iniciales del nombre + primer apellido completo
+### Estrategias de Generación
+1. **Estrategia Principal**: Iniciales nombre + primer apellido
    - "Juan García López" → "jgarcia"
    - "María Luisa Rodríguez" → "mlrodriguez"
 
-2. **Estrategia 2**: Si existe, añadir letras del segundo apellido progresivamente
-   - "Juan García López" → "jgarcia", "jgarcial", "jgarcialopez"
+2. **Estrategia Secundaria**: Añadir letras del segundo apellido
+   - Si "jgarcia" existe → "jgarcial", "jgarcialopez"
 
-3. **Estrategia 3**: Si se agota, usar nombre completo + iniciales del apellido
-   - "Juan García López" → "juang", "juangl", etc.
+3. **Estrategia Terciaria**: Nombre completo + iniciales apellidos
+   - "Juan García López" → "juang", "juangl"
 
 4. **Fallback**: Numeración secuencial
    - "jgarcia1", "jgarcia2", etc.
 
-### Reglas Especiales:
-
-- **Nombres compuestos**: Se usan iniciales (María Luisa → ML)
-- **Limpieza de caracteres**: Se eliminan acentos y caracteres especiales
-- **Longitud máxima**: 20 caracteres
-- **Verificación de unicidad**: Se verifica en el dominio de destino
-
-### Ejemplos:
-```
-Juan García López → jgarcia
-María Luisa Rodríguez Martín → mlrodriguez  
-José Antonio Fernández → jafernandez
-Carmen López → clopez
-```
+### Características
+- **Verificación Global**: Comprueba unicidad en TODOS los dominios
+- **Longitud Máxima**: 20 caracteres
+- **Caracteres Permitidos**: Solo letras y números
+- **Normalización**: Eliminación automática de acentos
 
 ## Contraseñas Estándar
 
-Para usuarios nuevos creados por traslado entre dominios:
-- **Formato**: Justicia + MM + YY
-- **Ejemplo actual**: Justicia0825 (Agosto 2025)
-- **Política**: Forzar cambio en primer inicio de sesión
+### Formato Actual
+- **Patrón**: Justicia + MM + YY
+- **Ejemplo**: Justicia0825 (Agosto 2025)
+- **Política**: Cambio obligatorio en primer inicio
+- **Actualización**: Automática según fecha del sistema
 
-## Mapeo de Provincias
+### Validación de Complejidad
+- **Longitud mínima**: 8 caracteres
+- **Requisitos**: Mayúsculas, minúsculas, números, símbolos
+- **Verificación**: Automática antes de asignar contraseñas personalizadas
 
-El sistema mapea automáticamente:
-- **Almería**: almeria.justicia.junta-andalucia.es
-- **Cádiz**: cadiz.justicia.junta-andalucia.es  
-- **Córdoba**: cordoba.justicia.junta-andalucia.es
-- **Granada**: granada.justicia.junta-andalucia.es
-- **Huelva**: huelva.justicia.junta-andalucia.es
-- **Jaén**: jaen.justicia.junta-andalucia.es
-- **Málaga**: malaga.justicia.junta-andalucia.es
-- **Sevilla**: sevilla.justicia.junta-andalucia.es
+## Mapeo de Provincias y Dominios
+
+```
+Almería   → almeria.justicia.junta-andalucia.es
+Cádiz     → cadiz.justicia.junta-andalucia.es  
+Córdoba   → cordoba.justicia.junta-andalucia.es
+Granada   → granada.justicia.junta-andalucia.es
+Huelva    → huelva.justicia.junta-andalucia.es
+Jaén      → jaen.justicia.junta-andalucia.es
+Málaga    → malaga.justicia.junta-andalucia.es
+Sevilla   → sevilla.justicia.junta-andalucia.es
+```
+
+### Detección Automática
+- **Por oficina**: Extracción automática de provincia del nombre de oficina
+- **Flexibilidad**: Maneja variaciones como "Almería", "almeria", "ALMERIA"
+- **Fallback**: Dominio principal si no se detecta provincia específica
+
+## Logging y Monitoreo
+
+### Archivos de Log Automáticos
+- **Ubicación**: `C:\Logs\AD_UserManagement\`
+- **Formato**: `AD_UserManagement_YYYYMMDD_HHMMSS.log`
+- **Contenido**: Timestamp, nivel, mensaje detallado
+- **Rotación**: Automática por ejecución
+
+### Niveles de Log
+- **INFO**: Operaciones normales
+- **WARNING**: Situaciones que requieren atención
+- **ERROR**: Errores que impiden operaciones
+- **DEBUG**: Información detallada para diagnóstico
+
+### CSV de Resultados
+
+#### **Sistema Dual de Archivos CSV**
+El sistema ahora genera dos tipos de archivos CSV:
+
+1. **CSV de Ejecución Individual**
+   - **Ubicación**: Mismo directorio que el CSV de entrada
+   - **Formato**: `[archivo_original]_resultados_YYYYMMDD_HHMMSS.csv`
+   - **Contenido**: Solo los resultados de la ejecución actual
+   - **Uso**: Para revisar resultados específicos de una operación
+
+2. **CSV Acumulativo Histórico** ⭐ **NUEVO**
+   - **Ubicación**: `AD_ADMIN_Historial_Completo_Altas.csv`
+   - **Formato**: Archivo único que nunca se sobrescribe
+   - **Contenido**: **TODOS** los resultados históricos de todas las ejecuciones
+   - **Uso**: Control total y auditoría completa de todas las altas realizadas
+
+#### **Campos Adicionales en CSV Histórico**
+- **FechaProceso**: Timestamp exacto de procesamiento
+- **ProcesoId**: Identificador único del proceso de ejecución  
+- **ArchivoOrigen**: Nombre del CSV original procesado
+- **VersionSistema**: Versión del sistema AD_ADMIN utilizado
+- **UsuarioEjecucion**: Usuario que ejecutó el proceso
+- **ServidorEjecucion**: Servidor donde se ejecutó
+
+#### **Control de Duplicados**
+- Automático: El sistema evita duplicar registros idénticos
+- Criterios: Nombre + Apellidos + AD + TipoAlta + Estado + ArchivoOrigen
+- Los duplicados se omiten automáticamente con mensaje en log
+
+## Casos de Uso Comunes
+
+### **Ejecución Básica**
+```powershell
+# Modo prueba (recomendado primero)
+.\AD_UserManagement.ps1 -CSVFile "nuevos_usuarios.csv" -WhatIf
+
+# Ejecución real
+.\AD_UserManagement.ps1 -CSVFile "nuevos_usuarios.csv"
+```
+
+### **Búsqueda de Usuarios**
+```powershell
+# Búsqueda interactiva
+.\MultiDomainUserSearch.ps1
+
+# Búsqueda en dominio específico
+.\MultiDomainUserSearch.ps1 -Domain "sevilla"
+
+# Búsqueda en todos los dominios
+.\MultiDomainUserSearch.ps1 -SearchAllDomains
+```
+
+### **Pruebas del Sistema**
+```powershell
+# Prueba completa
+.\TestSystemComponents.ps1
+
+# Prueba específica
+.\TestSystemComponents.ps1 -TestModule "Search"
+
+# Modo WhatIf
+.\TestSystemComponents.ps1 -WhatIf
+```
 
 ## Solución de Problemas
 
-### Usuario no encontrado por email
-- Verificar que el email esté correcto en el CSV
-- Comprobar que el usuario existe en algún dominio
-- Revisar conectividad a todos los dominios
+### **Errores Comunes**
 
-### No se encuentra usuario plantilla
-- El sistema mostrará usuarios con descripciones diferentes
-- Seleccionar manualmente el más apropiado
-- Verificar que existan usuarios activos en el dominio destino
+#### "No se encontró el módulo"
+- **Causa**: Estructura de directorios incorrecta
+- **Solución**: Verificar que todos los archivos .psm1 están en `Modules\`
 
-### Error en creación de usuario
-- Verificar permisos en el dominio destino
-- Comprobar que la OU destino existe
-- Revisar políticas de contraseñas del dominio
+#### "Usuario no encontrado por email"
+- **Causa**: Email incorrecto o usuario no existe
+- **Solución**: Verificar email en AD, probar con campo AD
 
-### Error en copia de grupos
-- Algunos grupos pueden no ser copiables (grupos del sistema)
-- Verificar permisos para gestión de grupos
-- Revisar logs para grupos específicos que fallan
+#### "Error de permisos"
+- **Causa**: Cuenta sin permisos suficientes
+- **Solución**: Ejecutar con cuenta de administrador de dominio
+
+#### "Caracteres extraños en campos"
+- **Causa**: Problema de codificación (RESUELTO en nueva versión)
+- **Solución**: Automática con función `Normalize-Text`
+
+### **Diagnóstico Avanzado**
+
+#### Verificar Estado de Módulos
+```powershell
+.\TestSystemComponents.ps1 -TestModule "Modules"
+```
+
+#### Verificar Conectividad Dominios
+```powershell
+.\TestSystemComponents.ps1 -TestModule "Search"
+```
+
+#### Log Detallado
+- Revisar `C:\Logs\AD_UserManagement\` para logs detallados
+- Buscar mensajes ERROR y WARNING específicos
+
+## Desarrollo y Extensión
+
+### **Añadir Nuevas Funcionalidades**
+1. Crear nuevo módulo en `Modules\`
+2. Implementar funciones con `Export-ModuleMember`
+3. Importar en script principal si es necesario
+4. Añadir pruebas en `TestSystemComponents.ps1`
+
+### **Modificar Comportamientos**
+1. Localizar módulo responsable
+2. Editar función específica
+3. Probar con `TestSystemComponents.ps1`
+4. Actualizar documentación
+
+### **Buenas Prácticas**
+- ✅ Usar módulos para funcionalidad reutilizable
+- ✅ Implementar logging detallado
+- ✅ Incluir validaciones y manejo de errores
+- ✅ Documentar cambios en esta guía
+- ✅ Probar en modo WhatIf primero
+
+## Historial de Versiones
+
+### **Versión Actual (2025-08-20)**
+- ✅ Corrección completa de caracteres especiales
+- ✅ Mejora en búsqueda de usuario plantilla  
+- ✅ Sistema de puntuación para selección de UO
+- ✅ Manejo robusto de propiedades AD
+- ✅ Refactorización modular completa
+- ✅ Script de pruebas unificado
+- ✅ Herramienta búsqueda multi-dominio mejorada
+
+### **Cambios Principales**
+1. **Arquitectura**: De scripts monolíticos a sistema modular
+2. **Robustez**: Manejo de errores y casos especiales mejorado  
+3. **Usabilidad**: Interfaces más intuitivas y feedback claro
+4. **Mantenibilidad**: Código organizado y documentado
+5. **Funcionalidad**: Nuevas capacidades de búsqueda y gestión
+
+---
+
+**Última actualización**: 2025-08-20  
+**Versión del sistema**: 2.0.0 (Modular)  
+**Compatibilidad**: PowerShell 5.1+, Windows Server 2016+, Active Directory módulo requerido

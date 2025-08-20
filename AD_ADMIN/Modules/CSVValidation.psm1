@@ -2,7 +2,7 @@
 
 <#
 .SYNOPSIS
-    Módulo para validación de datos del CSV de usuarios
+    Modulo para validacion de datos del CSV de usuarios
 .DESCRIPTION
     Proporciona funciones para validar los campos requeridos y opcionales del CSV
 #>
@@ -14,7 +14,7 @@ function Test-CSVUserData {
     .PARAMETER UserData
         Objeto con los datos del usuario del CSV
     .PARAMETER LineNumber
-        Número de línea en el CSV (para reportes de error)
+        Numero de linea en el CSV (para reportes de error)
     #>
     [CmdletBinding()]
     param(
@@ -32,7 +32,7 @@ function Test-CSVUserData {
         ProcessedData = $UserData
     }
     
-    $LinePrefix = if ($LineNumber -gt 0) { "Línea $LineNumber`: " } else { "" }
+    $LinePrefix = if ($LineNumber -gt 0) { "Linea $LineNumber: " } else { "" }
     
     # Validar campo TipoAlta (obligatorio)
     if ([string]::IsNullOrWhiteSpace($UserData.TipoAlta)) {
@@ -41,7 +41,7 @@ function Test-CSVUserData {
     } else {
         $ValidTipoAlta = @("NORMALIZADA", "TRASLADO", "COMPAGINADA")
         if ($UserData.TipoAlta.ToUpper() -notin $ValidTipoAlta) {
-            $ValidationResults.Errors += "$($LinePrefix)Tipo de alta inválido: '$($UserData.TipoAlta)'. Debe ser: NORMALIZADA, TRASLADO o COMPAGINADA."
+            $ValidationResults.Errors += "$($LinePrefix)Tipo de alta invalido: '$($UserData.TipoAlta)'. Debe ser: NORMALIZADA, TRASLADO o COMPAGINADA."
             $ValidationResults.IsValid = $false
         } else {
             # Normalizar el tipo de alta
@@ -58,7 +58,7 @@ function Test-CSVUserData {
         }
     }
     
-    # Validaciones específicas por tipo de alta
+    # Validaciones especificas por tipo de alta
     switch ($UserData.TipoAlta.ToUpper()) {
         "TRASLADO" {
             # Para traslados, debe tener Email O campo AD
@@ -68,9 +68,9 @@ function Test-CSVUserData {
             }
         }
         "NORMALIZADA" {
-            # Para altas normalizadas, validar que el campo AD esté vacío
+            # Para altas normalizadas, validar que el campo AD este vacio
             if (![string]::IsNullOrWhiteSpace($UserData.AD)) {
-                $ValidationResults.Warnings += "$($LinePrefix)Para alta normalizada el campo AD debería estar vacío (se generará automáticamente)."
+                $ValidationResults.Warnings += "$($LinePrefix)Para alta normalizada el campo AD deberia estar vacio (se generara automaticamente)."
             }
         }
         "COMPAGINADA" {
@@ -82,14 +82,14 @@ function Test-CSVUserData {
         }
     }
     
-    # Validar formato de email si está presente
+    # Validar formato de email si esta presente
     if (![string]::IsNullOrWhiteSpace($UserData.Email)) {
         if (!($UserData.Email -match "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")) {
             $ValidationResults.Warnings += "$($LinePrefix)El formato del email parece incorrecto: '$($UserData.Email)'"
         }
     }
     
-    # Validar descripción
+    # Validar descripcion
     if (![string]::IsNullOrWhiteSpace($UserData.Descripcion)) {
         $ValidDescriptions = @("LAJ", "Letrado", "Juez", "Magistrado", "Auxilio", "Gestor", "Tramitador", "Tramitadora")
         $IsValidDescription = $false
@@ -102,21 +102,21 @@ function Test-CSVUserData {
         }
         
         if (!$IsValidDescription) {
-            $ValidationResults.Warnings += "$($LinePrefix)La descripción '$($UserData.Descripcion)' no coincide con los tipos estándar (LAJ, Letrado, Juez, Magistrado, Auxilio, Gestor, Tramitador)."
+            $ValidationResults.Warnings += "$($LinePrefix)La descripcion '$($UserData.Descripcion)' no coincide con los tipos estandar (LAJ, Letrado, Juez, Magistrado, Auxilio, Gestor, Tramitador)."
         }
     }
     
-    # Validar teléfono/DNI
+    # Validar telefono/DNI
     if (![string]::IsNullOrWhiteSpace($UserData.Telefono)) {
-        # Asumir que es un DNI si contiene letras, teléfono si es solo números
+        # Asumir que es un DNI si contiene letras, telefono si es solo numeros
         if ($UserData.Telefono -match "^\d{8}[A-Z]$") {
             # Formato DNI español
             $ValidationResults.ProcessedData | Add-Member -NotePropertyName "IsDNI" -NotePropertyValue $true -Force
         } elseif ($UserData.Telefono -match "^[\d\s\-\+\(\)]+$") {
-            # Formato teléfono
+            # Formato telefono
             $ValidationResults.ProcessedData | Add-Member -NotePropertyName "IsDNI" -NotePropertyValue $false -Force
         } else {
-            $ValidationResults.Warnings += "$($LinePrefix)El formato del teléfono/DNI no es reconocido: '$($UserData.Telefono)'"
+            $ValidationResults.Warnings += "$($LinePrefix)El formato del telefono/DNI no es reconocido: '$($UserData.Telefono)'"
         }
     }
     
@@ -164,7 +164,7 @@ function Test-CSVFile {
         $ValidationSummary.TotalRows = $CSVData.Count
         
         if ($ValidationSummary.TotalRows -eq 0) {
-            $ValidationSummary.Errors += "El archivo CSV está vacío o no tiene datos válidos"
+            $ValidationSummary.Errors += "El archivo CSV esta vacio o no tiene datos validos"
             $ValidationSummary.IsValid = $false
             return $ValidationSummary
         }
@@ -186,7 +186,7 @@ function Test-CSVFile {
         
         # Validar cada fila
         for ($i = 0; $i -lt $CSVData.Count; $i++) {
-            $LineNumber = $i + 2  # +2 porque empezamos en línea 2 (después de cabeceras)
+            $LineNumber = $i + 2  # +2 porque empezamos en linea 2 (despues de cabeceras)
             $RowValidation = Test-CSVUserData -UserData $CSVData[$i] -LineNumber $LineNumber
             
             if ($RowValidation.IsValid) {
@@ -217,7 +217,7 @@ function Test-CSVFile {
 function Show-ValidationSummary {
     <#
     .SYNOPSIS
-        Muestra un resumen de la validación del CSV
+        Muestra un resumen de la validacion del CSV
     #>
     [CmdletBinding()]
     param(
@@ -225,12 +225,12 @@ function Show-ValidationSummary {
         [PSCustomObject]$ValidationSummary
     )
     
-    Write-Host "`n=== RESUMEN DE VALIDACIÓN DEL CSV ===" -ForegroundColor Cyan
+    Write-Host "`n=== RESUMEN DE VALIDACION DEL CSV ===" -ForegroundColor Cyan
     Write-Host "Total de filas: $($ValidationSummary.TotalRows)" -ForegroundColor White
-    Write-Host "Filas válidas: $($ValidationSummary.ValidRows)" -ForegroundColor Green
+    Write-Host "Filas validas: $($ValidationSummary.ValidRows)" -ForegroundColor Green
     Write-Host "Filas con errores: $($ValidationSummary.ErrorRows)" -ForegroundColor Red
     Write-Host "Filas con advertencias: $($ValidationSummary.WarningRows)" -ForegroundColor Yellow
-    Write-Host "Estado general: $(if ($ValidationSummary.IsValid) { 'VÁLIDO' } else { 'INVÁLIDO' })" -ForegroundColor $(if ($ValidationSummary.IsValid) { 'Green' } else { 'Red' })
+    Write-Host "Estado general: $(if ($ValidationSummary.IsValid) { 'VALIDO' } else { 'INVALIDO' })" -ForegroundColor $(if ($ValidationSummary.IsValid) { 'Green' } else { 'Red' })
     
     if ($ValidationSummary.Errors.Count -gt 0) {
         Write-Host "`nERRORES ENCONTRADOS:" -ForegroundColor Red
