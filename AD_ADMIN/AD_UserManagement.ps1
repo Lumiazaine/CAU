@@ -264,6 +264,7 @@ function Get-DomainFromOffice {
         'hinojosa del duque' = 'cordoba.justicia.junta-andalucia.es'
         'castro del rio' = 'cordoba.justicia.junta-andalucia.es'
         'castro del río' = 'cordoba.justicia.junta-andalucia.es'
+        'montoro' = 'cordoba.justicia.junta-andalucia.es'
         
         # ===== PROVINCIA DE GRANADA =====
         'granada' = 'granada.justicia.junta-andalucia.es'
@@ -521,64 +522,56 @@ function Get-DomainFromOffice {
     # Mapeo de provincias andaluzas a dominios (mantenido para compatibilidad)
     $ProvinciaDominios = @{
         'almeria' = 'almeria.justicia.junta-andalucia.es'
+        'almería' = 'almeria.justicia.junta-andalucia.es'
         'cadiz' = 'cadiz.justicia.junta-andalucia.es'
+        'cádiz' = 'cadiz.justicia.junta-andalucia.es'
         'cordoba' = 'cordoba.justicia.junta-andalucia.es'
+        'córdoba' = 'cordoba.justicia.junta-andalucia.es'
         'granada' = 'granada.justicia.junta-andalucia.es'
         'huelva' = 'huelva.justicia.junta-andalucia.es'
         'jaen' = 'jaen.justicia.junta-andalucia.es'
+        'jaén' = 'jaen.justicia.junta-andalucia.es'
         'malaga' = 'malaga.justicia.junta-andalucia.es'
+        'málaga' = 'malaga.justicia.junta-andalucia.es'
         'sevilla' = 'sevilla.justicia.junta-andalucia.es'
     }
     
     # Mapeo adicional para busquedas con patrones flexibles
     $ProvinciaPatterns = @{
         'almer' = 'almeria.justicia.junta-andalucia.es'
+        'almeri' = 'almeria.justicia.junta-andalucia.es'
         'cadiz' = 'cadiz.justicia.junta-andalucia.es'
+        'cádiz' = 'cadiz.justicia.junta-andalucia.es'
         'c.diz' = 'cadiz.justicia.junta-andalucia.es'
         'cordoba' = 'cordoba.justicia.junta-andalucia.es'
+        'córdoba' = 'cordoba.justicia.junta-andalucia.es'
         'c.rdoba' = 'cordoba.justicia.junta-andalucia.es'
         'granada' = 'granada.justicia.junta-andalucia.es'
         'huelva' = 'huelva.justicia.junta-andalucia.es'
         'jaen' = 'jaen.justicia.junta-andalucia.es'
+        'jaén' = 'jaen.justicia.junta-andalucia.es'
         'ja.n' = 'jaen.justicia.junta-andalucia.es'
         'malaga' = 'malaga.justicia.junta-andalucia.es'
+        'málaga' = 'malaga.justicia.junta-andalucia.es'
         'm.laga' = 'malaga.justicia.junta-andalucia.es'
         'sevilla' = 'sevilla.justicia.junta-andalucia.es'
+        # Patrones adicionales para casos problemáticos detectados en logs
+        'central de jaén' = 'jaen.justicia.junta-andalucia.es'
+        'central de jaen' = 'jaen.justicia.junta-andalucia.es'
+        'central de ja?n' = 'jaen.justicia.junta-andalucia.es'  # Caso específico observado
+        'imlcf central de jaén' = 'jaen.justicia.junta-andalucia.es'
+        'imlcf central de jaen' = 'jaen.justicia.junta-andalucia.es'
+        'imlcf central de ja?n' = 'jaen.justicia.junta-andalucia.es'
+        'de cádiz' = 'cadiz.justicia.junta-andalucia.es'
+        'de cadiz' = 'cadiz.justicia.junta-andalucia.es'
+        'de málaga' = 'malaga.justicia.junta-andalucia.es'
+        'de malaga' = 'malaga.justicia.junta-andalucia.es'
+        'de córdoba' = 'cordoba.justicia.junta-andalucia.es'
+        'de cordoba' = 'cordoba.justicia.junta-andalucia.es'
     }
     
-    # Normalizar texto trabajando directamente con bytes UTF-8
-    $OfficeNormalized = $Office.ToLower()
-    
-    # Convertir a bytes y luego normalizar caracteres UTF-8 problemáticos
-    $Bytes = [System.Text.Encoding]::UTF8.GetBytes($OfficeNormalized)
-    $ByteList = [System.Collections.Generic.List[byte]]::new($Bytes)
-    
-    # Buscar y reemplazar secuencia UTF-8 para á (C3 A1) con a (61)
-    for ($i = 0; $i -lt $ByteList.Count - 1; $i++) {
-        if ($ByteList[$i] -eq 0xC3 -and $ByteList[$i + 1] -eq 0xA1) {
-            $ByteList.RemoveAt($i)     # Remover C3
-            $ByteList[$i] = 0x61       # Cambiar A1 por 61 (a)
-        }
-        elseif ($ByteList[$i] -eq 0xC3 -and $ByteList[$i + 1] -eq 0xA9) {
-            $ByteList.RemoveAt($i)     # Remover C3  
-            $ByteList[$i] = 0x65       # Cambiar A9 por 65 (e)
-        }
-        elseif ($ByteList[$i] -eq 0xC3 -and $ByteList[$i + 1] -eq 0xAD) {
-            $ByteList.RemoveAt($i)     # Remover C3
-            $ByteList[$i] = 0x69       # Cambiar AD por 69 (i)
-        }
-        elseif ($ByteList[$i] -eq 0xC3 -and $ByteList[$i + 1] -eq 0xB3) {
-            $ByteList.RemoveAt($i)     # Remover C3
-            $ByteList[$i] = 0x6F       # Cambiar B3 por 6F (o)
-        }
-        elseif ($ByteList[$i] -eq 0xC3 -and $ByteList[$i + 1] -eq 0xBA) {
-            $ByteList.RemoveAt($i)     # Remover C3
-            $ByteList[$i] = 0x75       # Cambiar BA por 75 (u)
-        }
-    }
-    
-    # Convertir de vuelta a string
-    $OfficeNormalized = [System.Text.Encoding]::UTF8.GetString($ByteList.ToArray())
+    # Normalizar texto usando la función mejorada
+    $OfficeNormalized = (Normalize-Text -Text $Office).ToLower()
     
     Write-Log "Oficina normalizada para deteccion: '$OfficeNormalized'" "INFO"
     
@@ -606,8 +599,16 @@ function Get-DomainFromOffice {
         }
     }
     
-    # Si no se detecta provincia, usar dominio principal
+    # Si no se detecta provincia, intentar usar informacion del contexto actual
+    # En caso de traslados, podriamos inferir la provincia mas probable
     Write-Log "No se pudo detectar provincia en '$Office' - usando dominio principal" "WARNING"
+    
+    # FALLBACK: Si es un juzgado sin provincia específica, usar Sevilla (sede principal)
+    if ($OfficeNormalized -like "*juzgado*") {
+        Write-Log "Juzgado sin provincia especifica - usando Sevilla como fallback" "INFO"  
+        return "sevilla.justicia.junta-andalucia.es"
+    }
+    
     return "justicia.junta-andalucia.es"
 }
 
@@ -657,61 +658,32 @@ function Find-OrganizationalUnit {
             return $SimulatedOU
         }
         
-        # Normalizar nombre de oficina usando la misma funcion que para provincias
-        $OfficeNormalized = $Office.ToLower()
+        # Normalizar nombre de oficina usando la función mejorada
+        $CleanOffice = Normalize-Text -Text $Office
+        $NormalizedOffice = $CleanOffice.ToLower()
+        Write-Log "Oficina normalizada: '$NormalizedOffice'" "INFO"
         
-        # Normalizar acentos usando el mismo metodo robusto
-        $Bytes = [System.Text.Encoding]::UTF8.GetBytes($OfficeNormalized)
-        $ByteList = [System.Collections.Generic.List[byte]]::new($Bytes)
-        
-        # Buscar y reemplazar secuencias UTF-8 problematicas
-        for ($i = 0; $i -lt $ByteList.Count - 1; $i++) {
-            if ($ByteList[$i] -eq 0xC3 -and $ByteList[$i + 1] -eq 0xA1) {
-                $ByteList.RemoveAt($i); $ByteList[$i] = 0x61  # á -> a
-            }
-            elseif ($ByteList[$i] -eq 0xC3 -and $ByteList[$i + 1] -eq 0xA9) {
-                $ByteList.RemoveAt($i); $ByteList[$i] = 0x65  # é -> e
-            }
-            elseif ($ByteList[$i] -eq 0xC3 -and $ByteList[$i + 1] -eq 0xAD) {
-                $ByteList.RemoveAt($i); $ByteList[$i] = 0x69  # í -> i
-            }
-            elseif ($ByteList[$i] -eq 0xC3 -and $ByteList[$i + 1] -eq 0xB3) {
-                $ByteList.RemoveAt($i); $ByteList[$i] = 0x6F  # ó -> o
-            }
-            elseif ($ByteList[$i] -eq 0xC3 -and $ByteList[$i + 1] -eq 0xBA) {
-                $ByteList.RemoveAt($i); $ByteList[$i] = 0x75  # ú -> u
-            }
+        # PASO 0: Mapeos específicos para oficinas problemáticas identificadas en logs
+        $SpecificOUMappings = @{
+            'imlcf central de jaen - patologia forense' = 'OU=IML - Sede Central,OU=Jaen-JA4C-San Antonio,DC=jaen,DC=justicia,DC=junta-andalucia,DC=es'
+            'imlcf central de jaén - patología forense' = 'OU=IML - Sede Central,OU=Jaen-JA4C-San Antonio,DC=jaen,DC=justicia,DC=junta-andalucia,DC=es'
+            'imlcf de algeciras' = 'OU=UVIG,OU=IML,OU=Algeciras-CAAL3-Virgen del Carmen,DC=cadiz,DC=justicia,DC=junta-andalucia,DC=es'
+            'registro civil exclusivo de malaga' = 'OU=Registro Civil de Malaga,OU=Malaga-MACJ-Ciudad de la Justicia,DC=malaga,DC=justicia,DC=junta-andalucia,DC=es'
+            'registro civil exclusivo de málaga' = 'OU=Registro Civil de Malaga,OU=Malaga-MACJ-Ciudad de la Justicia,DC=malaga,DC=justicia,DC=junta-andalucia,DC=es'
         }
         
-        $NormalizedOffice = [System.Text.Encoding]::UTF8.GetString($ByteList.ToArray())
-        Write-Log "Oficina normalizada: '$NormalizedOffice'" "INFO"
+        # Verificar si existe un mapeo específico para esta oficina
+        if ($SpecificOUMappings.ContainsKey($NormalizedOffice)) {
+            $SpecificOU = $SpecificOUMappings[$NormalizedOffice]
+            Write-Log "Mapeo específico encontrado para '$Office': $SpecificOU" "INFO"
+            return $SpecificOU
+        }
         
         # PASO 1: Buscar coincidencia exacta (incluyendo numeros)
         foreach ($OU in $AllOUs) {
-            # Normalizar el nombre de la UO de la misma forma
-            $OUNormalized = $OU.Name.ToLower()
-            $OUBytes = [System.Text.Encoding]::UTF8.GetBytes($OUNormalized)
-            $OUByteList = [System.Collections.Generic.List[byte]]::new($OUBytes)
-            
-            for ($i = 0; $i -lt $OUByteList.Count - 1; $i++) {
-                if ($OUByteList[$i] -eq 0xC3 -and $OUByteList[$i + 1] -eq 0xA1) {
-                    $OUByteList.RemoveAt($i); $OUByteList[$i] = 0x61
-                }
-                elseif ($OUByteList[$i] -eq 0xC3 -and $OUByteList[$i + 1] -eq 0xA9) {
-                    $OUByteList.RemoveAt($i); $OUByteList[$i] = 0x65
-                }
-                elseif ($OUByteList[$i] -eq 0xC3 -and $OUByteList[$i + 1] -eq 0xAD) {
-                    $OUByteList.RemoveAt($i); $OUByteList[$i] = 0x69
-                }
-                elseif ($OUByteList[$i] -eq 0xC3 -and $OUByteList[$i + 1] -eq 0xB3) {
-                    $OUByteList.RemoveAt($i); $OUByteList[$i] = 0x6F
-                }
-                elseif ($OUByteList[$i] -eq 0xC3 -and $OUByteList[$i + 1] -eq 0xBA) {
-                    $OUByteList.RemoveAt($i); $OUByteList[$i] = 0x75
-                }
-            }
-            
-            $NormalizedOUName = [System.Text.Encoding]::UTF8.GetString($OUByteList.ToArray())
+            # Normalizar el nombre de la UO usando la función mejorada
+            $CleanOUName = Normalize-Text -Text $OU.Name
+            $NormalizedOUName = $CleanOUName.ToLower()
             
             if ($NormalizedOUName -eq $NormalizedOffice) {
                 Write-Log "Coincidencia EXACTA encontrada: '$($OU.Name)'" "INFO"
@@ -727,30 +699,9 @@ function Find-OrganizationalUnit {
             Write-Log "Numero detectado en oficina: '$OfficeNumber'" "INFO"
             
             foreach ($OU in $AllOUs) {
-                # Normalizar nombre de UO
-                $OUNormalized = $OU.Name.ToLower()
-                $OUBytes = [System.Text.Encoding]::UTF8.GetBytes($OUNormalized)
-                $OUByteList = [System.Collections.Generic.List[byte]]::new($OUBytes)
-                
-                for ($i = 0; $i -lt $OUByteList.Count - 1; $i++) {
-                    if ($OUByteList[$i] -eq 0xC3 -and $OUByteList[$i + 1] -eq 0xA1) {
-                        $OUByteList.RemoveAt($i); $OUByteList[$i] = 0x61
-                    }
-                    elseif ($OUByteList[$i] -eq 0xC3 -and $OUByteList[$i + 1] -eq 0xA9) {
-                        $OUByteList.RemoveAt($i); $OUByteList[$i] = 0x65
-                    }
-                    elseif ($OUByteList[$i] -eq 0xC3 -and $OUByteList[$i + 1] -eq 0xAD) {
-                        $OUByteList.RemoveAt($i); $OUByteList[$i] = 0x69
-                    }
-                    elseif ($OUByteList[$i] -eq 0xC3 -and $OUByteList[$i + 1] -eq 0xB3) {
-                        $OUByteList.RemoveAt($i); $OUByteList[$i] = 0x6F
-                    }
-                    elseif ($OUByteList[$i] -eq 0xC3 -and $OUByteList[$i + 1] -eq 0xBA) {
-                        $OUByteList.RemoveAt($i); $OUByteList[$i] = 0x75
-                    }
-                }
-                
-                $OUNameNormalized = [System.Text.Encoding]::UTF8.GetString($OUByteList.ToArray())
+                # Normalizar nombre de UO usando la función mejorada
+                $CleanOUName = Normalize-Text -Text $OU.Name
+                $OUNameNormalized = $CleanOUName.ToLower()
                 
                 # Verificar que contenga el numero especifico (buscar patrones mas flexibles)
                 if ($OUNameNormalized -match "\b$OfficeNumber\b") {
@@ -758,6 +709,22 @@ function Find-OrganizationalUnit {
                     $KeyWords = @('juzgado', 'juzgados', 'primera', 'instancia', 'instruccion', 'penal', 'civil', 'mixto', 'familia', 'mercantil', 'contencioso', 'social')
                     $MatchedKeyWords = 0
                     $Score = 0
+                    
+                    # LÓGICA ESPECIAL: Mapeo de Juzgado de Instrucción a Primera Instancia e Instrucción (con número)
+                    $IsInstruccionOnlyNumbered = $NormalizedOffice -like "*instruccion*" -and 
+                                                $NormalizedOffice -notlike "*primera*" -and 
+                                                $NormalizedOffice -notlike "*instancia*" -and
+                                                $NormalizedOffice -like "*juzgado*"
+                    
+                    $IsFirstInstanceInstructionNumbered = $OUNameNormalized -like "*primera*" -and 
+                                                         $OUNameNormalized -like "*instancia*" -and 
+                                                         $OUNameNormalized -like "*instruccion*"
+                    
+                    if ($IsInstruccionOnlyNumbered -and $IsFirstInstanceInstructionNumbered) {
+                        Write-Log "MAPEO ESPECIAL CON NÚMERO: Juzgado de Instrucción N°$OfficeNumber → Primera Instancia e Instrucción: '$($OU.Name)'" "INFO"
+                        $Score += 100  # Bonus muy alto para mapeo específico con número
+                        $MatchedKeyWords += 5  # Contar como múltiples keywords
+                    }
                     
                     foreach ($KeyWord in $KeyWords) {
                         if ($NormalizedOffice -like "*$KeyWord*" -and $OUNameNormalized -like "*$KeyWord*") {
@@ -825,7 +792,8 @@ function Find-OrganizationalUnit {
             $ValidMatches = @()
             
             foreach ($OU in $AllOUs) {
-                $OUNameNormalized = $OU.Name.ToLower()
+                $CleanOUName = Normalize-Text -Text $OU.Name
+                $OUNameNormalized = $CleanOUName.ToLower()
                 $HasSpecialKeyword = $false
                 $HasExclusionKeyword = $false
                 
@@ -885,7 +853,8 @@ function Find-OrganizationalUnit {
         
         foreach ($OU in $AllOUs) {
             $Score = 0
-            $OUName = $OU.Name.ToLower()
+            $CleanOUName = Normalize-Text -Text $OU.Name
+            $OUName = $CleanOUName.ToLower()
             $WordMatches = 0
             $HasIncompatibleContent = $false
             
@@ -906,6 +875,23 @@ function Find-OrganizationalUnit {
             
             if ($HasIncompatibleContent) {
                 continue
+            }
+            
+            # LÓGICA ESPECIAL: Mapeo de Juzgado de Instrucción a Primera Instancia e Instrucción
+            $IsInstruccionOnly = $NormalizedOffice -like "*instruccion*" -and 
+                                $NormalizedOffice -notlike "*primera*" -and 
+                                $NormalizedOffice -notlike "*instancia*" -and
+                                $NormalizedOffice -like "*juzgado*"
+            
+            $IsFirstInstanceInstruction = $OUName -like "*primera*" -and 
+                                         $OUName -like "*instancia*" -and 
+                                         $OUName -like "*instruccion*"
+            
+            # Si estamos buscando un Juzgado de Instrucción y encontramos una UO de Primera Instancia e Instrucción
+            if ($IsInstruccionOnly -and $IsFirstInstanceInstruction) {
+                Write-Log "MAPEO ESPECIAL: Juzgado de Instrucción → Primera Instancia e Instrucción: '$($OU.Name)'" "INFO"
+                $Score += 50  # Bonus muy alto para este mapeo específico
+                $WordMatches += 3  # Contar como múltiples matches
             }
             
             # Puntuar coincidencias de palabras (excluyendo numeros)
@@ -1109,8 +1095,78 @@ function Normalize-Text {
         return $Text
     }
     
-    # Normalizar caracteres especiales problemáticos a caracteres legibles
-    $Normalized = $Text -replace '�', 'ñ' -replace '�', 'º' -replace '�', 'í' -replace '�', 'ó' -replace '�', 'á' -replace '�', 'é' -replace '�', 'ú'
+    # Aplicar normalizaciones específicas paso a paso
+    $Normalized = $Text
+    
+    # Mapeo de patrones completos más específicos primero (todas las variaciones de caso)
+    # Caracteres originales con tildes (mantener los correctos)
+    $Normalized = $Normalized -replace 'LÓPEZ', 'LÓPEZ'
+    $Normalized = $Normalized -replace 'ALMERÍA', 'ALMERÍA'
+    $Normalized = $Normalized -replace 'CÁDIZ', 'CÁDIZ'
+    $Normalized = $Normalized -replace 'CÓRDOBA', 'CÓRDOBA'
+    $Normalized = $Normalized -replace 'JAÉN', 'JAÉN'
+    $Normalized = $Normalized -replace 'MÁLAGA', 'MÁLAGA'
+    
+    # Caracteres � (diamond question mark)
+    $Normalized = $Normalized -replace 'L�PEZ', 'LÓPEZ'
+    $Normalized = $Normalized -replace 'ALMER�A', 'ALMERÍA'
+    $Normalized = $Normalized -replace 'C�DIZ', 'CÁDIZ'
+    $Normalized = $Normalized -replace 'C�RDOBA', 'CÓRDOBA'
+    $Normalized = $Normalized -replace 'JA�N', 'JAÉN'
+    $Normalized = $Normalized -replace 'M�LAGA', 'MÁLAGA'
+    
+    # Caracteres ? (question mark - otra corrupción común)
+    $Normalized = $Normalized -replace 'L?PEZ', 'LÓPEZ'
+    $Normalized = $Normalized -replace 'ALMER?A', 'ALMERÍA'
+    $Normalized = $Normalized -replace 'C?DIZ', 'CÁDIZ'
+    $Normalized = $Normalized -replace 'C?RDOBA', 'CÓRDOBA'
+    $Normalized = $Normalized -replace 'JA?N', 'JAÉN'
+    $Normalized = $Normalized -replace 'M?LAGA', 'MÁLAGA'
+    
+    # Versiones con primera letra mayúscula - �
+    $Normalized = $Normalized -replace 'L�pez', 'López'
+    $Normalized = $Normalized -replace 'Almer�a', 'Almería'
+    $Normalized = $Normalized -replace 'C�diz', 'Cádiz'
+    $Normalized = $Normalized -replace 'C�rdoba', 'Córdoba'
+    $Normalized = $Normalized -replace 'Ja�n', 'Jaén'
+    $Normalized = $Normalized -replace 'M�laga', 'Málaga'
+    
+    # Versiones con primera letra mayúscula - ?
+    $Normalized = $Normalized -replace 'L?pez', 'López'
+    $Normalized = $Normalized -replace 'Almer?a', 'Almería'
+    $Normalized = $Normalized -replace 'C?diz', 'Cádiz'
+    $Normalized = $Normalized -replace 'C?rdoba', 'Córdoba'
+    $Normalized = $Normalized -replace 'Ja?n', 'Jaén'
+    $Normalized = $Normalized -replace 'M?laga', 'Málaga'
+    
+    # Versiones en minúsculas - �
+    $Normalized = $Normalized -replace 'l�pez', 'lópez'
+    $Normalized = $Normalized -replace 'almer�a', 'almería'
+    $Normalized = $Normalized -replace 'c�diz', 'cádiz'
+    $Normalized = $Normalized -replace 'c�rdoba', 'córdoba'
+    $Normalized = $Normalized -replace 'ja�n', 'jaén'
+    $Normalized = $Normalized -replace 'm�laga', 'málaga'
+    
+    # Versiones en minúsculas - ?
+    $Normalized = $Normalized -replace 'l?pez', 'lópez'
+    $Normalized = $Normalized -replace 'almer?a', 'almería'
+    $Normalized = $Normalized -replace 'c?diz', 'cádiz'
+    $Normalized = $Normalized -replace 'c?rdoba', 'córdoba'
+    $Normalized = $Normalized -replace 'ja?n', 'jaén'
+    $Normalized = $Normalized -replace 'm?laga', 'málaga'
+    
+    # Luego normalizaciones de caracteres individuales más comunes
+    # Caracteres � (diamond question mark)
+    $Normalized = $Normalized -replace '�', 'ñ'
+    $Normalized = $Normalized -replace '�', 'á'
+    $Normalized = $Normalized -replace '�', 'é'
+    $Normalized = $Normalized -replace '�', 'í'
+    $Normalized = $Normalized -replace '�', 'ó'
+    $Normalized = $Normalized -replace '�', 'ú'
+    
+    # Normalizaciones adicionales para caracteres problemáticos
+    # Casos específicos donde ? aparece en lugar de vocales acentuadas
+    $Normalized = $Normalized -replace '\?\?', 'ó'  # ?? puede ser ó en algunos casos
     
     return $Normalized
 }
@@ -1126,10 +1182,13 @@ function Normalize-JobDescription {
         return ""
     }
     
-    # Convertir a minusculas y limpiar
-    $Normalized = $Description.ToLower().Trim()
+    # Primero corregir caracteres mal codificados
+    $Normalized = Normalize-Text -Text $Description
     
-    # Normalizar caracteres especiales (tildes, eñes, etc.)
+    # Convertir a minusculas y limpiar
+    $Normalized = $Normalized.ToLower().Trim()
+    
+    # Normalizar caracteres especiales (tildes, eñes, etc.) para comparación
     $Normalized = $Normalized -replace 'á','a' -replace 'é','e' -replace 'í','i' -replace 'ó','o' -replace 'ú','u' -replace 'ñ','n'
     
     # Mapeo de terminos equivalentes
@@ -1137,14 +1196,17 @@ function Normalize-JobDescription {
         'tramitador' = 'tramitacion'
         'tramitadora' = 'tramitacion'
         'tramitacion procesal' = 'tramitacion'
+        'tramitaci�n procesal' = 'tramitacion'  # Version con caracter mal codificado
         'tramitacion y gestion procesal' = 'tramitacion'
         'gestion procesal' = 'gestion'
         'gestión procesal' = 'gestion'
+        'gesti�n procesal' = 'gestion'  # Version con caracter mal codificado
         'auxilio judicial' = 'auxilio'
         'auxilio' = 'auxilio'
         'letrado' = 'letrado'
         'letrada' = 'letrado'
         'letrado de la administracion de justicia' = 'letrado'
+        'letrado de la administraci�n de justicia' = 'letrado'  # Version con caracter mal codificado
         'laj' = 'letrado'
         'juez' = 'juez'
         'jueza' = 'juez'
@@ -1546,8 +1608,15 @@ function Execute-UserTransfer {
             
             $CurrentGroups = @()
             try {
-                $CurrentGroups = Get-ADPrincipalGroupMembership -Identity $ExistingUser.SamAccountName -Server $ExistingUser.SourceDomain -ErrorAction Stop
-                Write-Log "Se encontraron $($CurrentGroups.Count) grupos para el usuario" "INFO"
+                # Intentar con diferentes metodos para obtener grupos
+                try {
+                    $CurrentGroups = Get-ADPrincipalGroupMembership -Identity $ExistingUser.SamAccountName -Server $ExistingUser.SourceDomain -ErrorAction Stop
+                    Write-Log "Se encontraron $($CurrentGroups.Count) grupos para el usuario (metodo 1)" "INFO"
+                } catch {
+                    # Intentar con DN si SamAccountName falla
+                    $CurrentGroups = Get-ADPrincipalGroupMembership -Identity $ExistingUser.DistinguishedName -Server $ExistingUser.SourceDomain -ErrorAction Stop
+                    Write-Log "Se encontraron $($CurrentGroups.Count) grupos para el usuario (metodo 2)" "INFO"
+                }
             } catch {
                 Write-Log "Error obteniendo grupos del usuario: $($_.Exception.Message)" "WARNING"
                 Write-Log "Continuando con el proceso de traslado sin eliminar grupos..." "WARNING"
@@ -1582,10 +1651,13 @@ function Execute-UserTransfer {
                 Move-ADObject -Identity $ExistingUser.DistinguishedName -TargetPath $TargetOU -Server $TargetDomain
                 Write-Log "Usuario movido exitosamente a: $TargetOU" "INFO"
                 
-                # Actualizar campo oficina
+                # Actualizar campo oficina y descripcion
                 $NormalizedOficina = Normalize-Text -Text $UserData.Oficina
-                Set-ADUser -Identity $ExistingUser.SamAccountName -Office $NormalizedOficina -Server $TargetDomain
+                $NormalizedDescripcion = Normalize-Text -Text $UserData.Descripcion
+                
+                Set-ADUser -Identity $ExistingUser.SamAccountName -Office $NormalizedOficina -Description $NormalizedDescripcion -Server $TargetDomain
                 Write-Log "Campo oficina actualizado a: $NormalizedOficina" "INFO"
+                Write-Log "Campo descripcion actualizado a: $NormalizedDescripcion" "INFO"
                 
             } catch {
                 Write-Log "Error moviendo usuario: $($_.Exception.Message)" "ERROR"
@@ -1746,6 +1818,8 @@ if ($Users.Count -eq 0) {
     throw "El archivo CSV esta vacio"
 }
 
+# Los datos del CSV se normalizarán automáticamente cuando se procesen
+
 Write-Log "Importados $($Users.Count) registros del CSV" "INFO"
 
 # Detectar columnas
@@ -1812,6 +1886,17 @@ foreach ($User in $Users) {
                 
                 # Determinar dominio de destino basado en la oficina de destino
                 $TargetDomain = Get-DomainFromOffice -Office $User.Oficina
+                
+                # Si no se pudo detectar y es un juzgado generico, usar dominio de origen como referencia  
+                if ($TargetDomain -eq "sevilla.justicia.junta-andalucia.es" -and $ExistingUser.SourceDomain) {
+                    Write-Log "Oficina generica detectada. Usuario origen en: $($ExistingUser.SourceDomain)" "INFO"
+                    # Si es el mismo tipo de juzgado, podria ser dentro de la misma provincia
+                    if ($User.Oficina -like "*primera instancia*instruccion*" -or $User.Oficina -like "*primera instancia*e*instruccion*") {
+                        Write-Log "Juzgado de Primera Instancia e Instruccion detectado - usando dominio origen como referencia" "INFO"
+                        $TargetDomain = $ExistingUser.SourceDomain
+                    }
+                }
+                
                 Write-Log "Dominio de destino determinado: $TargetDomain" "INFO"
                 
                 # Buscar UO de destino en el dominio correcto
@@ -2293,25 +2378,24 @@ if ($ProcessingResults.Count -gt 0) {
         Write-Log "  - Errores: $ResultadosError" "INFO"
         Write-Log "  - Simulados: $ResultadosSimulados" "INFO"
         
-        Write-Host "`n=== ARCHIVOS CSV GENERADOS ===" -ForegroundColor Cyan
-        Write-Host "Resultados de esta ejecución: $ResultsCSVPath" -ForegroundColor White
-        Write-Host "Historial completo (ACUMULATIVO): $CumulativeCSVPath" -ForegroundColor Yellow
-        Write-Host ""
+        Write-Host "=== ARCHIVOS CSV GENERADOS ===" -ForegroundColor Cyan
+        Write-Host "Resultados de esta ejecucion: $ResultsCSVPath" -ForegroundColor White
+        Write-Host "Historial completo: $CumulativeCSVPath" -ForegroundColor Yellow
         
-        # Mostrar estadísticas del histórico
+        # Mostrar estadisticas del historico
         try {
             $HistoricalStats = Import-Csv -Path $CumulativeCSVPath -Delimiter ";" -Encoding UTF8
             $TotalExitosos = ($HistoricalStats | Where-Object { $_.Estado -eq "EXITOSO" }).Count
             $TotalErrores = ($HistoricalStats | Where-Object { $_.Estado -eq "ERROR" }).Count
             $TotalSimulados = ($HistoricalStats | Where-Object { $_.Estado -eq "SIMULADO" }).Count
             
-            Write-Host "=== ESTADÍSTICAS HISTÓRICAS COMPLETAS ===" -ForegroundColor Green
+            Write-Host "=== ESTADISTICAS HISTORICAS COMPLETAS ===" -ForegroundColor Green
             Write-Host "Total altas procesadas: $($HistoricalStats.Count)" -ForegroundColor White
             Write-Host "  - Exitosas: $TotalExitosos" -ForegroundColor Green
             Write-Host "  - Con errores: $TotalErrores" -ForegroundColor Red
             Write-Host "  - Simuladas: $TotalSimulados" -ForegroundColor Yellow
         } catch {
-            Write-Log "No se pudieron obtener estadísticas históricas: $($_.Exception.Message)" "WARNING"
+            Write-Log "No se pudieron obtener estadisticas historicas: $($_.Exception.Message)" "WARNING"
         }
         
     } catch {
@@ -2327,4 +2411,4 @@ if ($ErrorCount -gt 0) {
 }
 
 Write-Log "Log guardado en: $Global:LogFile" "INFO"
-Write-Host ("`nProceso completado. Revise el log para detalles: " + $Global:LogFile) -ForegroundColor Green
+Write-Host "Proceso completado. Log: $Global:LogFile" -ForegroundColor Green

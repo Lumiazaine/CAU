@@ -4,7 +4,8 @@
       "Bash(mkdir:*)",
       "Bash(.TestModules.ps1)",
       "Bash(powershell:*)",
-      "Bash(dir:*)"
+      "Bash(dir:*)",
+      "Bash:*"
     ],
     "deny": [],
     "ask": []
