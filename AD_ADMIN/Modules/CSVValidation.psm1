@@ -32,7 +32,7 @@ function Test-CSVUserData {
         ProcessedData = $UserData
     }
     
-    $LinePrefix = if ($LineNumber -gt 0) { "Linea $LineNumber: " } else { "" }
+    $LinePrefix = if ($LineNumber -gt 0) { "Linea $($LineNumber): " } else { "" }
     
     # Validar campo TipoAlta (obligatorio)
     if ([string]::IsNullOrWhiteSpace($UserData.TipoAlta)) {
