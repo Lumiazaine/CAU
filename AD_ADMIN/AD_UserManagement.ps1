@@ -1,4 +1,4 @@
-#requires -version 5.1
+﻿#requires -version 5.1
 
 <#
 .SYNOPSIS
@@ -83,6 +83,16 @@ function Add-ToCumulativeResults {
             $EnrichedResult | Add-Member -NotePropertyName "VersionSistema" -NotePropertyValue "2.0.0" -Force
             $EnrichedResult | Add-Member -NotePropertyName "UsuarioEjecucion" -NotePropertyValue $env:USERNAME -Force
             $EnrichedResult | Add-Member -NotePropertyName "ServidorEjecucion" -NotePropertyValue $env:COMPUTERNAME -Force
+            
+            # Verificar coincidencia Oficina vs UO_Destino
+            if ($EnrichedResult.PSObject.Properties.Name -contains "Oficina" -and 
+                $EnrichedResult.PSObject.Properties.Name -contains "UO_Destino") {
+                $MatchResult = Test-OfficeUOMatch -Oficina $EnrichedResult.Oficina -UO_DN $EnrichedResult.UO_Destino
+                $MatchDescription = Get-OfficeUOMatchDescription -MatchCode $MatchResult
+                $EnrichedResult | Add-Member -NotePropertyName "Coincide_Oficina_UO" -NotePropertyValue $MatchDescription -Force
+            } else {
+                $EnrichedResult | Add-Member -NotePropertyName "Coincide_Oficina_UO" -NotePropertyValue "Datos faltantes" -Force
+            }
             
             $EnrichedResults += $EnrichedResult
         }
@@ -685,8 +695,8 @@ function Find-OrganizationalUnit {
             $CleanOUName = Normalize-Text -Text $OU.Name
             $NormalizedOUName = $CleanOUName.ToLower()
             
-            if ($NormalizedOUName -eq $NormalizedOffice) {
-                Write-Log "Coincidencia EXACTA encontrada: '$($OU.Name)'" "INFO"
+            if ($NormalizedOUName -eq $NormalizedOffice -or (Compare-TextWithoutAccents -Text1 $NormalizedOUName -Text2 $NormalizedOffice)) {
+                Write-Log "Coincidencia EXACTA encontrada: '$($OU.Name)' (con normalización de acentos)" "INFO"
                 Write-Log "DN: $($OU.DistinguishedName)" "INFO"
                 return $OU.DistinguishedName
             }
@@ -727,7 +737,11 @@ function Find-OrganizationalUnit {
                     }
                     
                     foreach ($KeyWord in $KeyWords) {
-                        if ($NormalizedOffice -like "*$KeyWord*" -and $OUNameNormalized -like "*$KeyWord*") {
+                        # Usar comparación mejorada que ignora acentos
+                        $OfficeContainsKey = $NormalizedOffice -like "*$KeyWord*" -or (Compare-TextWithoutAccents -Text1 $NormalizedOffice -Text2 $KeyWord)
+                        $OUContainsKey = $OUNameNormalized -like "*$KeyWord*" -or (Compare-TextWithoutAccents -Text1 $OUNameNormalized -Text2 $KeyWord)
+                        
+                        if ($OfficeContainsKey -and $OUContainsKey) {
                             $MatchedKeyWords++
                             # Dar mayor peso a combinaciones específicas
                             if ($KeyWord -eq 'primera' -and $OUNameNormalized -like "*instancia*") {
@@ -738,6 +752,14 @@ function Find-OrganizationalUnit {
                                 $Score += 1   # Puntuacion base
                             }
                         }
+                    }
+                    
+                    # Bonus adicional por similitud general del texto (ignora acentos)
+                    $SimilarityScore = Get-TextSimilarityScore -Text1 $NormalizedOffice -Text2 $OUNameNormalized
+                    if ($SimilarityScore -gt 70) {
+                        $SimilarityBonus = [Math]::Round($SimilarityScore / 10, 0)
+                        $Score += $SimilarityBonus
+                        Write-Log "Bonus de similitud aplicado: +$SimilarityBonus (similitud: $SimilarityScore%)" "INFO"
                     }
                     
                     Write-Log "Evaluando UO: '$($OU.Name)' - Numero: $OfficeNumber, Palabras clave: $MatchedKeyWords, Score: $Score" "INFO"
@@ -758,9 +780,26 @@ function Find-OrganizationalUnit {
         # Seleccionar el mejor candidato si hay múltiples opciones
         if ($CandidateOUs -and $CandidateOUs.Count -gt 0) {
             $BestCandidate = $CandidateOUs | Sort-Object @{Expression="Score"; Descending=$true}, @{Expression="KeyWordMatches"; Descending=$true} | Select-Object -First 1
-            Write-Log "Mejor coincidencia por NUMERO ESPECIFICO: '$($BestCandidate.OU.Name)' (Score: $($BestCandidate.Score), Palabras: $($BestCandidate.KeyWordMatches))" "INFO"
-            Write-Log "DN: $($BestCandidate.OU.DistinguishedName)" "INFO"
-            return $BestCandidate.OU.DistinguishedName
+            
+            # Evaluar confianza de la mejor coincidencia
+            $ConfidenceLevel = Get-UOMatchConfidence -Score $BestCandidate.Score -KeywordMatches $BestCandidate.KeyWordMatches -Office $Office -OUDN $BestCandidate.OU.DistinguishedName
+            
+            if ($ConfidenceLevel -eq "HIGH") {
+                Write-Log "Mejor coincidencia por NUMERO ESPECIFICO (ALTA CONFIANZA): '$($BestCandidate.OU.Name)' (Score: $($BestCandidate.Score), Palabras: $($BestCandidate.KeyWordMatches))" "INFO"
+                Write-Log "DN: $($BestCandidate.OU.DistinguishedName)" "INFO"
+                return $BestCandidate.OU.DistinguishedName
+            } else {
+                Write-Log "Coincidencia por número incierta (Confianza: $ConfidenceLevel). Candidatos encontrados: $($CandidateOUs.Count)" "WARNING"
+                Write-Log "Mejor candidato: '$($BestCandidate.OU.Name)' (Score: $($BestCandidate.Score), Keywords: $($BestCandidate.KeyWordMatches))" "INFO"
+                Write-Log "Iniciando selección interactiva..." "WARNING"
+                $SelectedOU = Select-BestUOInteractive -Candidates $CandidateOUs -Office $Office
+                if ($SelectedOU) {
+                    return $SelectedOU
+                } else {
+                    Write-Log "Usuario decidió omitir esta asignación de UO por número" "WARNING"
+                    return $null
+                }
+            }
         }
         
         # PASO 2.5: Manejo especial para oficinas no judiciales (Fiscalía, Guardia Civil, etc.)
@@ -941,20 +980,65 @@ function Find-OrganizationalUnit {
         }
         
         if ($BestMatch -and $BestScore -gt 15) {  # Umbral más alto para mayor precisión
-            Write-Log "Mejor coincidencia encontrada: '$($BestMatch.Name)' (Puntuacion: $BestScore)" "WARNING"
-            Write-Log "ADVERTENCIA: Esta UO puede no ser exacta. Verifique manualmente." "WARNING"
-            Write-Log "DN: $($BestMatch.DistinguishedName)" "INFO"
-            return $BestMatch.DistinguishedName
-        } else {
-            Write-Log "No se encontro UO especifica para '$Office' - usando UO por defecto" "WARNING"
+            # Evaluar confianza con el nuevo sistema
+            $ConfidenceLevel = Get-UOMatchConfidence -Score $BestScore -KeywordMatches 1 -Office $Office -OUDN $BestMatch.DistinguishedName
             
-            # Mostrar UOs disponibles para ayuda
-            Write-Log "UOs disponibles que contienen 'juzgado':" "INFO"
-            $JuzgadoOUs = $AllOUs | Where-Object { $_.Name -like "*juzgado*" } | Select-Object -First 5
-            foreach ($JOU in $JuzgadoOUs) {
-                Write-Log "  - $($JOU.Name)" "INFO"
+            if ($ConfidenceLevel -eq "HIGH" -or $ConfidenceLevel -eq "MEDIUM") {
+                Write-Log "Mejor coincidencia encontrada: '$($BestMatch.Name)' (Puntuacion: $BestScore, Confianza: $ConfidenceLevel)" "INFO"
+                Write-Log "DN: $($BestMatch.DistinguishedName)" "INFO"
+                return $BestMatch.DistinguishedName
+            } else {
+                Write-Log "Coincidencia incierta encontrada (Confianza: $ConfidenceLevel). Iniciando selección interactiva..." "WARNING"
+                
+                # Crear array de candidatos para selección interactiva
+                $InteractiveCandidates = @()
+                if ($ValidCandidates.Count -gt 0) {
+                    $InteractiveCandidates = $ValidCandidates | Sort-Object Score -Descending | Select-Object -First 10
+                } else {
+                    # Crear un candidato único con el BestMatch
+                    $InteractiveCandidates = @([PSCustomObject]@{
+                        OU = $BestMatch
+                        Score = $BestScore
+                        KeyWordMatches = 1
+                    })
+                }
+                
+                $SelectedOU = Select-BestUOInteractive -Candidates $InteractiveCandidates -Office $Office
+                if ($SelectedOU) {
+                    return $SelectedOU
+                } else {
+                    Write-Log "Usuario decidió omitir esta asignación de UO general" "WARNING"
+                    return $null
+                }
+            }
+        } else {
+            Write-Log "No se encontraron coincidencias suficientes para '$Office'" "WARNING"
+            
+            # Ofrecer selección manual de todas las UOs disponibles como último recurso
+            if ($AllOUs.Count -gt 0) {
+                Write-Log "Iniciando búsqueda manual en todas las UOs disponibles..." "INFO"
+                
+                # Crear candidatos genéricos para selección
+                $GenericCandidates = @()
+                $FilteredOUs = $AllOUs | Where-Object { $_.Name -like "*juzgado*" -or $_.Name -like "*tribunal*" -or $_.Name -like "*fiscalia*" -or $_.Name -like "*servicio*" }
+                
+                foreach ($OU in $FilteredOUs) {
+                    $GenericCandidates += [PSCustomObject]@{
+                        OU = $OU
+                        Score = 5  # Score bajo para indicar búsqueda manual
+                        KeyWordMatches = 0
+                    }
+                }
+                
+                if ($GenericCandidates.Count -gt 0) {
+                    $SelectedOU = Select-BestUOInteractive -Candidates $GenericCandidates -Office $Office
+                    if ($SelectedOU) {
+                        return $SelectedOU
+                    }
+                }
             }
             
+            Write-Log "No se pudo determinar UO para '$Office' - registro será omitido" "ERROR"
             return $null
         }
         
@@ -1098,14 +1182,10 @@ function Normalize-Text {
     # Aplicar normalizaciones específicas paso a paso
     $Normalized = $Text
     
-    # Mapeo de patrones completos más específicos primero (todas las variaciones de caso)
-    # Caracteres originales con tildes (mantener los correctos)
-    $Normalized = $Normalized -replace 'LÓPEZ', 'LÓPEZ'
-    $Normalized = $Normalized -replace 'ALMERÍA', 'ALMERÍA'
-    $Normalized = $Normalized -replace 'CÁDIZ', 'CÁDIZ'
-    $Normalized = $Normalized -replace 'CÓRDOBA', 'CÓRDOBA'
-    $Normalized = $Normalized -replace 'JAÉN', 'JAÉN'
-    $Normalized = $Normalized -replace 'MÁLAGA', 'MÁLAGA'
+    # Correcciones específicas para ciudades problemáticas
+    $Normalized = $Normalized -replace 'mamámámálaga', 'málaga'
+    $Normalized = $Normalized -replace 'MAMÁMÁMÁLAGA', 'MÁLAGA'
+    $Normalized = $Normalized -replace 'Mamámámálaga', 'Málaga'
     
     # Caracteres � (diamond question mark)
     $Normalized = $Normalized -replace 'L�PEZ', 'LÓPEZ'
@@ -1164,11 +1244,122 @@ function Normalize-Text {
     $Normalized = $Normalized -replace '�', 'ó'
     $Normalized = $Normalized -replace '�', 'ú'
     
+    # Normalizaciones específicas para términos judiciales comunes
+    # Mayúsculas
+    $Normalized = $Normalized -replace 'INSTRUCCI[?ó]N', 'INSTRUCCIÓN'
+    $Normalized = $Normalized -replace 'ADMINISTRACI[?ó]N', 'ADMINISTRACIÓN'
+    $Normalized = $Normalized -replace 'CONTENCI[?o]SO', 'CONTENCIOSO'
+    $Normalized = $Normalized -replace 'FISCAL[?í]A', 'FISCALÍA'
+    $Normalized = $Normalized -replace 'CRIMINAL[?í]STICO', 'CRIMINALÍSTICO'
+    $Normalized = $Normalized -replace 'EJECUCI[?ó]N', 'EJECUCIÓN'
+    $Normalized = $Normalized -replace 'VIGILANCIA PENITENCIARI[?a]', 'VIGILANCIA PENITENCIARIA'
+    $Normalized = $Normalized -replace 'MENORE[?s]', 'MENORES'
+    $Normalized = $Normalized -replace 'VIOLENCI[?a]', 'VIOLENCIA'
+    
+    # Minúsculas/Mixtas
+    $Normalized = $Normalized -replace 'Instrucci[?ó]n', 'Instrucción'
+    $Normalized = $Normalized -replace 'instrucci[?ó]n', 'instrucción'
+    $Normalized = $Normalized -replace 'Administraci[?ó]n', 'Administración'
+    $Normalized = $Normalized -replace 'administraci[?ó]n', 'administración'
+    $Normalized = $Normalized -replace 'Contenci[?o]so', 'Contencioso'
+    $Normalized = $Normalized -replace 'contenci[?o]so', 'contencioso'
+    $Normalized = $Normalized -replace 'Fiscal[?í]a', 'Fiscalía'
+    $Normalized = $Normalized -replace 'fiscal[?í]a', 'fiscalía'
+    $Normalized = $Normalized -replace 'Criminal[?í]stico', 'Criminalístico'
+    $Normalized = $Normalized -replace 'criminal[?í]stico', 'criminalístico'
+    $Normalized = $Normalized -replace 'Ejecuci[?ó]n', 'Ejecución'
+    $Normalized = $Normalized -replace 'ejecuci[?ó]n', 'ejecución'
+    
     # Normalizaciones adicionales para caracteres problemáticos
     # Casos específicos donde ? aparece en lugar de vocales acentuadas
     $Normalized = $Normalized -replace '\?\?', 'ó'  # ?? puede ser ó en algunos casos
     
     return $Normalized
+}
+
+function Compare-TextWithoutAccents {
+    <#
+    .SYNOPSIS
+        Compara dos textos ignorando tildes y acentos para mejorar coincidencias de UO
+    #>
+    param(
+        [string]$Text1,
+        [string]$Text2
+    )
+    
+    if ([string]::IsNullOrWhiteSpace($Text1) -or [string]::IsNullOrWhiteSpace($Text2)) {
+        return $false
+    }
+    
+    # Función auxiliar para remover acentos
+    function Remove-Accents($Text) {
+        $Text = $Text.ToLower()
+        $Text = $Text -replace 'á','a' -replace 'é','e' -replace 'í','i' -replace 'ó','o' -replace 'ú','u' -replace 'ñ','n'
+        $Text = $Text -replace 'ü','u' -replace 'ç','c'
+        # Remover caracteres mal codificados también 
+        $Text = $Text -replace '\?','o' -replace '�','o' -replace '�','a' -replace '�','e' -replace '�','i' -replace '�','u'
+        return $Text.Trim()
+    }
+    
+    $CleanText1 = Remove-Accents -Text $Text1
+    $CleanText2 = Remove-Accents -Text $Text2
+    
+    return $CleanText1 -eq $CleanText2
+}
+
+function Get-TextSimilarityScore {
+    <#
+    .SYNOPSIS
+        Calcula un score de similitud entre dos textos ignorando acentos y diferencias menores
+    #>
+    param(
+        [string]$Text1,
+        [string]$Text2
+    )
+    
+    if ([string]::IsNullOrWhiteSpace($Text1) -or [string]::IsNullOrWhiteSpace($Text2)) {
+        return 0
+    }
+    
+    # Función auxiliar para limpiar y normalizar
+    function Clean-ForComparison($Text) {
+        $Text = $Text.ToLower().Trim()
+        $Text = $Text -replace 'á','a' -replace 'é','e' -replace 'í','i' -replace 'ó','o' -replace 'ú','u' -replace 'ñ','n'
+        $Text = $Text -replace 'ü','u' -replace 'ç','c'
+        # Remover caracteres especiales y espacios extra
+        $Text = $Text -replace '[^\w\s]', ' ' -replace '\s+', ' '
+        return $Text.Trim()
+    }
+    
+    $Clean1 = Clean-ForComparison -Text $Text1
+    $Clean2 = Clean-ForComparison -Text $Text2
+    
+    # Comparación exacta después de limpiar
+    if ($Clean1 -eq $Clean2) {
+        return 100
+    }
+    
+    # Dividir en palabras y calcular intersección
+    $Words1 = $Clean1 -split '\s+' | Where-Object { $_.Length -gt 1 }
+    $Words2 = $Clean2 -split '\s+' | Where-Object { $_.Length -gt 1 }
+    
+    if ($Words1.Count -eq 0 -or $Words2.Count -eq 0) {
+        return 0
+    }
+    
+    # Calcular palabras comunes
+    $CommonWords = 0
+    foreach ($Word1 in $Words1) {
+        if ($Words2 -contains $Word1) {
+            $CommonWords++
+        }
+    }
+    
+    # Score basado en palabras comunes y longitud
+    $MaxWords = [Math]::Max($Words1.Count, $Words2.Count)
+    $SimilarityScore = [Math]::Round(($CommonWords * 100) / $MaxWords, 2)
+    
+    return $SimilarityScore
 }
 
 function Normalize-JobDescription {
@@ -1227,6 +1418,371 @@ function Normalize-JobDescription {
     return $Normalized
 }
 
+function Test-OfficeUOMatch {
+    <#
+    .SYNOPSIS
+        Verifica si la oficina coincide geográficamente con la UO destino
+    #>
+    param(
+        [string]$Oficina,
+        [string]$UO_DN
+    )
+    
+    if ([string]::IsNullOrWhiteSpace($Oficina) -or [string]::IsNullOrWhiteSpace($UO_DN)) {
+        return "DATOS_FALTANTES"
+    }
+    
+    try {
+        # Normalizar oficina
+        $OfficeClean = Normalize-Text -Text $Oficina
+        $OfficeNormalized = $OfficeClean.ToLower()
+        
+        # Extraer localidad de la oficina
+        $OfficeLocality = ""
+        
+        # Patrones para detectar localidades en la oficina
+        $LocalityPatterns = @{
+            'sevilla' = 'sevilla'
+            'cordoba' = 'cordoba'
+            'malaga' = 'malaga'
+            'granada' = 'granada'
+            'almeria' = 'almeria'
+            'cadiz' = 'cadiz'
+            'jaen' = 'jaen'
+            'huelva' = 'huelva'
+            'jerez' = 'jerez'
+            'marbella' = 'marbella'
+            'algeciras' = 'algeciras'
+            'antequera' = 'antequera'
+            'ubeda' = 'ubeda'
+            'linares' = 'linares'
+            'motril' = 'motril'
+            'baza' = 'baza'
+            'guadix' = 'guadix'
+            'loja' = 'loja'
+            'puerto de santa maria' = 'puerto de santa maria'
+            'sanlucar de barrameda' = 'sanlucar de barrameda'
+            'el puerto' = 'puerto de santa maria'
+            'ronda' = 'ronda'
+            'estepona' = 'estepona'
+            'fuengirola' = 'fuengirola'
+            'velez-malaga' = 'velez-malaga'
+            'velez malaga' = 'velez-malaga'
+        }
+        
+        # Buscar coincidencia de localidad en la oficina
+        foreach ($Pattern in $LocalityPatterns.Keys) {
+            if ($OfficeNormalized -like "*$Pattern*") {
+                $OfficeLocality = $LocalityPatterns[$Pattern]
+                break
+            }
+        }
+        
+        if ([string]::IsNullOrWhiteSpace($OfficeLocality)) {
+            return "LOCALIDAD_NO_DETECTADA"
+        }
+        
+        # Normalizar UO DN
+        $UO_Clean = Normalize-Text -Text $UO_DN
+        $UO_Normalized = $UO_Clean.ToLower()
+        
+        # Verificar si la localidad de la oficina aparece en la UO
+        if ($UO_Normalized -like "*$OfficeLocality*") {
+            return "COINCIDE"
+        }
+        
+        # Verificaciones especiales para casos conocidos
+        # Jerez vs Puerto de Santa María (ambos en Cádiz pero diferentes)
+        if ($OfficeLocality -eq "jerez" -and $UO_Normalized -like "*puerto*santa*maria*") {
+            return "NO_COINCIDE_JEREZ_PUERTO"
+        }
+        
+        if ($OfficeLocality -eq "puerto de santa maria" -and $UO_Normalized -like "*jerez*") {
+            return "NO_COINCIDE_PUERTO_JEREZ"
+        }
+        
+        # Otras verificaciones especiales
+        if ($OfficeLocality -eq "el puerto" -and $UO_Normalized -like "*puerto*santa*maria*") {
+            return "COINCIDE"
+        }
+        
+        # Si llegamos aquí, no hay coincidencia
+        return "NO_COINCIDE"
+        
+    } catch {
+        Write-Log "Error verificando coincidencia oficina-UO: $($_.Exception.Message)" "WARNING"
+        return "ERROR_VERIFICACION"
+    }
+}
+
+function Get-OfficeUOMatchDescription {
+    <#
+    .SYNOPSIS
+        Convierte el código de coincidencia en una descripción legible
+    #>
+    param([string]$MatchCode)
+    
+    switch ($MatchCode) {
+        "COINCIDE" { return "Sí" }
+        "NO_COINCIDE" { return "No" }
+        "NO_COINCIDE_JEREZ_PUERTO" { return "No (Jerez≠Puerto)" }
+        "NO_COINCIDE_PUERTO_JEREZ" { return "No (Puerto≠Jerez)" }
+        "LOCALIDAD_NO_DETECTADA" { return "Localidad no detectada" }
+        "DATOS_FALTANTES" { return "Datos faltantes" }
+        "ERROR_VERIFICACION" { return "Error verificación" }
+        default { return $MatchCode }
+    }
+}
+
+function Get-UOMatchConfidence {
+    <#
+    .SYNOPSIS
+        Evalúa el nivel de confianza de una coincidencia de UO
+    #>
+    param(
+        [int]$Score,
+        [int]$KeywordMatches,
+        [string]$Office,
+        [string]$OUDN
+    )
+    
+    # Extraer localidad de la oficina y de la UO
+    $OfficeLocation = Extract-LocationFromOffice -Office $Office
+    $OULocation = Extract-LocationFromOU -OUDN $OUDN
+    
+    # Extraer números para verificar coincidencias exactas
+    $OfficeNumber = $null
+    $OUNumber = $null
+    
+    if ($Office -match 'n[ºo°u]\s*(\d+)') {
+        $OfficeNumber = $matches[1]
+    } elseif ($Office -match 'n\w*\s*(\d+)') {
+        $OfficeNumber = $matches[1]  
+    } elseif ($Office -match '(\d+)') {
+        $OfficeNumber = $matches[1]
+    }
+    
+    if ($OUDN -match 'n[ºo°u]\s*(\d+)') {
+        $OUNumber = $matches[1]
+    } elseif ($OUDN -match 'n\w*\s*(\d+)') {
+        $OUNumber = $matches[1]
+    } elseif ($OUDN -match '(\d+)') {
+        $OUNumber = $matches[1]
+    }
+    
+    # CONFIANZA ALTA: Coincidencia exacta de número + localidad + keywords decentes
+    if ($OfficeNumber -and $OUNumber -and $OfficeNumber -eq $OUNumber -and 
+        $OfficeLocation -eq $OULocation -and $OfficeLocation -ne "UNKNOWN" -and 
+        $KeywordMatches -ge 2) {
+        return "HIGH"
+    }
+    
+    # CONFIANZA ALTA: Coincidencia exacta de localidad + keywords decentes (sin número o número coincide)
+    if ($OfficeLocation -eq $OULocation -and $OfficeLocation -ne "UNKNOWN" -and $KeywordMatches -ge 3) {
+        return "HIGH"
+    }
+    
+    # CONFIANZA ALTA: Score muy alto + keywords decentes
+    if ($Score -ge 100 -and $KeywordMatches -ge 3) {
+        return "HIGH"
+    }
+    
+    # CONFIANZA ALTA: Score alto + coincidencia de localidad
+    if ($Score -ge 80 -and $OfficeLocation -eq $OULocation -and $OfficeLocation -ne "UNKNOWN") {
+        return "HIGH"
+    }
+    
+    # CONFIANZA MEDIA: Score decente + alguna coincidencia de localidad o keywords altos
+    if (($Score -ge 50 -and $KeywordMatches -ge 2) -or ($KeywordMatches -ge 4)) {
+        return "MEDIUM"
+    }
+    
+    # CONFIANZA MEDIA: Coincidencia de localidad + keywords mínimos
+    if ($OfficeLocation -eq $OULocation -and $OfficeLocation -ne "UNKNOWN" -and $KeywordMatches -ge 2) {
+        return "MEDIUM"
+    }
+    
+    # CONFIANZA BAJA: Coincidencias mínimas pero válidas
+    if ($Score -ge 10 -and $KeywordMatches -ge 1) {
+        return "LOW"
+    }
+    
+    return "VERY_LOW"
+}
+
+function Extract-LocationFromOffice {
+    <#
+    .SYNOPSIS
+        Extrae la localidad principal de una oficina
+    #>
+    param([string]$Office)
+    
+    $OfficeClean = Normalize-Text -Text $Office
+    $OfficeLower = $OfficeClean.ToLower()
+    
+    $LocationMappings = @{
+        'malaga' = 'malaga'
+        'málaga' = 'malaga'  # Añadir versión con tilde
+        'sevilla' = 'sevilla'
+        'cordoba' = 'cordoba'
+        'granada' = 'granada'
+        'cadiz' = 'cadiz'
+        'almeria' = 'almeria'
+        'jaen' = 'jaen'
+        'huelva' = 'huelva'
+        'jerez' = 'jerez'
+        'puerto de santa maria' = 'puerto'
+        'el puerto' = 'puerto'
+        'algeciras' = 'algeciras'
+        'marbella' = 'marbella'
+        'antequera' = 'antequera'
+        'fuengirola' = 'fuengirola'
+        'estepona' = 'estepona'
+        'torremolinos' = 'torremolinos'
+        'motril' = 'motril'
+        'ubeda' = 'ubeda'
+        'linares' = 'linares'
+        'martos' = 'martos'
+        'andujar' = 'andujar'
+        'lucena' = 'lucena'
+        'puente genil' = 'puente genil'
+        'montilla' = 'montilla'
+        'ayamonte' = 'ayamonte'
+        'aracena' = 'aracena'
+        'sanlucar de barrameda' = 'sanlucar'
+        'chiclana' = 'chiclana'
+        'barbate' = 'barbate'
+        'arcos de la frontera' = 'arcos'
+        'la linea' = 'la linea'
+        'el ejido' = 'el ejido'
+        'carmona' = 'carmona'
+        'dos hermanas' = 'dos hermanas'
+    }
+    
+    foreach ($Location in $LocationMappings.Keys) {
+        if ($OfficeLower -like "*$Location*") {
+            return $LocationMappings[$Location]
+        }
+    }
+    
+    return "UNKNOWN"
+}
+
+function Extract-LocationFromOU {
+    <#
+    .SYNOPSIS
+        Extrae la localidad principal de un DN de UO
+    #>
+    param([string]$OUDN)
+    
+    $OUClean = Normalize-Text -Text $OUDN
+    $OULower = $OUClean.ToLower()
+    
+    # Buscar patrones específicos en el DN
+    $LocationPatterns = @{
+        'malaga-macj' = 'malaga'
+        'ciudad de la justicia' = 'malaga'  # Específico para Málaga
+        'sevilla-se' = 'sevilla'
+        'cordoba-co' = 'cordoba'
+        'granada-gr' = 'granada'
+        'cadiz-ca' = 'cadiz'
+        'almeria-al' = 'almeria'
+        'jaen-ja' = 'jaen'
+        'huelva-hu' = 'huelva'
+        'jerez de la frontera' = 'jerez'
+        'puerto de santa maria' = 'puerto'
+        'algeciras' = 'algeciras'
+        'marbella' = 'marbella'
+        'antequera' = 'antequera'
+        'fuengirola' = 'fuengirola'
+        'estepona' = 'estepona'
+        'torremolinos' = 'torremolinos'
+        'motril' = 'motril'
+        'ubeda' = 'ubeda'
+        'linares' = 'linares'
+        'martos' = 'martos'
+        'andujar' = 'andujar'
+        'lucena' = 'lucena'
+        'puente genil' = 'puente genil'
+        'montilla' = 'montilla'
+        'ayamonte' = 'ayamonte'
+        'aracena' = 'aracena'
+        'sanlucar' = 'sanlucar'
+        'chiclana' = 'chiclana'
+        'barbate' = 'barbate'
+        'arcos' = 'arcos'
+        'la linea' = 'la linea'
+        'el ejido' = 'el ejido'
+        'carmona' = 'carmona'
+        'santa fe' = 'santa fe'
+    }
+    
+    foreach ($Pattern in $LocationPatterns.Keys) {
+        if ($OULower -like "*$Pattern*") {
+            return $LocationPatterns[$Pattern]
+        }
+    }
+    
+    return "UNKNOWN"
+}
+
+function Select-BestUOInteractive {
+    <#
+    .SYNOPSIS
+        Permite selección interactiva de UO cuando hay incertidumbre
+    #>
+    param(
+        [array]$Candidates,
+        [string]$Office
+    )
+    
+    Write-Host "`n=== SELECCIÓN DE UNIDAD ORGANIZATIVA ===" -ForegroundColor Yellow
+    Write-Host "Oficina: $Office" -ForegroundColor Cyan
+    
+    if (!$Candidates -or $Candidates.Count -eq 0) {
+        Write-Host "No se encontraron candidatos válidos para selección interactiva." -ForegroundColor Red
+        Write-Log "ERROR: No hay candidatos para selección interactiva" "ERROR"
+        return $null
+    }
+    
+    Write-Host "Se encontraron $($Candidates.Count) candidatos con confianza incierta:" -ForegroundColor White
+    Write-Host ""
+    
+    # Mostrar candidatos ordenados por score
+    $SortedCandidates = $Candidates | Sort-Object @{Expression="Score"; Descending=$true}, @{Expression="KeyWordMatches"; Descending=$true}
+    
+    for ($i = 0; $i -lt $SortedCandidates.Count; $i++) {
+        $Candidate = $SortedCandidates[$i]
+        
+        $LocationMatch = Extract-LocationFromOU -OUDN $Candidate.OU.DistinguishedName
+        
+        Write-Host "$($i + 1). " -NoNewline -ForegroundColor Cyan
+        Write-Host "$($Candidate.OU.Name)" -ForegroundColor White
+        Write-Host "   Score: $($Candidate.Score) | Palabras: $($Candidate.KeyWordMatches) | Localidad: $LocationMatch" -ForegroundColor Gray
+        Write-Host "   DN: $($Candidate.OU.DistinguishedName)" -ForegroundColor DarkGray
+        Write-Host ""
+    }
+    
+    Write-Host "0. " -NoNewline -ForegroundColor Red
+    Write-Host "OMITIR - No asignar UO (saltará este usuario)" -ForegroundColor Red
+    Write-Host ""
+    
+    do {
+        $Selection = Read-Host "Seleccione la UO más apropiada (1-$($SortedCandidates.Count)) o 0 para omitir"
+        if ($Selection -eq "0") {
+            Write-Log "Usuario decidió omitir asignación de UO para oficina: $Office" "WARNING"
+            return $null
+        }
+        $SelectionNum = [int]$Selection
+    } while ($SelectionNum -lt 1 -or $SelectionNum -gt $SortedCandidates.Count)
+    
+    $SelectedOU = $SortedCandidates[$SelectionNum - 1]
+    Write-Log "UO seleccionada interactivamente: $($SelectedOU.OU.Name)" "INFO"
+    Write-Log "DN: $($SelectedOU.OU.DistinguishedName)" "INFO"
+    
+    return $SelectedOU.OU.DistinguishedName
+}
+
 function Show-DescriptionOptions {
     <#
     .SYNOPSIS
@@ -1280,9 +1836,13 @@ function Show-DescriptionOptions {
 function Find-ExistingUserForTransfer {
     <#
     .SYNOPSIS
-        Busca usuario existente para traslado por email o campo AD
+        Busca usuario existente para traslado por múltiples criterios: AD, email, nombre, apellido, teléfono
+        Soporta búsqueda en todos los dominios y selección múltiple
     #>
-    param([PSCustomObject]$UserData)
+    param(
+        [PSCustomObject]$UserData,
+        [switch]$Interactive = $true
+    )
     
     try {
         # Obtener todos los dominios
@@ -1326,6 +1886,20 @@ function Find-ExistingUserForTransfer {
             return $null
         }
         
+        # Verificar disponibilidad de datos para búsqueda
+        $MissingFields = @()
+        if ([string]::IsNullOrWhiteSpace($UserData.Email)) {
+            $MissingFields += "Email"
+        }
+        if ([string]::IsNullOrWhiteSpace($UserData.Telefono)) {
+            $MissingFields += "Teléfono"
+        }
+        
+        if ($MissingFields.Count -gt 0) {
+            Write-Log "ADVERTENCIA: Campos faltantes para búsqueda optimizada: $($MissingFields -join ', ')" "WARNING"
+            Write-Log "La búsqueda se realizará con los datos disponibles" "INFO"
+        }
+        
         # Verificar si el modulo ActiveDirectory esta disponible
         $ADModuleAvailable = $false
         try {
@@ -1335,18 +1909,93 @@ function Find-ExistingUserForTransfer {
             Write-Log "Modulo ActiveDirectory no disponible - modo simulacion para testing" "WARNING"
         }
         
+        $FoundUsers = @()
+        
         if ($ADModuleAvailable) {
-            # Buscar por campo AD si existe
-            if (![string]::IsNullOrWhiteSpace($UserData.AD)) {
-                Write-Log "Buscando usuario por campo AD: $($UserData.AD)" "INFO"
+            Write-Log "=== INICIANDO BÚSQUEDA MULTICRITERIO ===" "INFO"
+            Write-Log "Buscando en dominios: $($AllDomains -join ', ')" "INFO"
+            
+            foreach ($Domain in $AllDomains) {
+                Write-Log "Buscando en dominio: $Domain" "INFO"
                 
-                foreach ($Domain in $AllDomains) {
+                # 1. Buscar por campo AD si existe
+                if (![string]::IsNullOrWhiteSpace($UserData.AD)) {
                     try {
-                        $User = Get-ADUser -Identity $UserData.AD -Server $Domain -Properties DisplayName, mail, Office, Description -ErrorAction SilentlyContinue
+                        $User = Get-ADUser -Identity $UserData.AD -Server $Domain -Properties DisplayName, mail, Office, Description, telephoneNumber, GivenName, Surname -ErrorAction SilentlyContinue
                         if ($User) {
-                            Write-Log "Usuario encontrado en ${Domain}: $($User.DisplayName) ($($User.SamAccountName))" "INFO"
+                            Write-Log "Usuario encontrado por AD en ${Domain}: $($User.DisplayName) ($($User.SamAccountName))" "INFO"
                             $User | Add-Member -NotePropertyName "SourceDomain" -NotePropertyValue $Domain -Force
-                            return $User
+                            $User | Add-Member -NotePropertyName "MatchType" -NotePropertyValue "AD" -Force
+                            $FoundUsers += $User
+                        }
+                    } catch {
+                        # Continuar con el siguiente criterio
+                    }
+                }
+                
+                # 2. Buscar por email
+                if (![string]::IsNullOrWhiteSpace($UserData.Email)) {
+                    try {
+                        $Users = Get-ADUser -Filter "mail -eq '$($UserData.Email)'" -Server $Domain -Properties DisplayName, mail, Office, Description, telephoneNumber, GivenName, Surname -ErrorAction SilentlyContinue
+                        foreach ($User in $Users) {
+                            # Evitar duplicados
+                            if ($FoundUsers | Where-Object { $_.SamAccountName -eq $User.SamAccountName -and $_.SourceDomain -eq $Domain }) {
+                                continue
+                            }
+                            Write-Log "Usuario encontrado por email en ${Domain}: $($User.DisplayName) ($($User.SamAccountName))" "INFO"
+                            $User | Add-Member -NotePropertyName "SourceDomain" -NotePropertyValue $Domain -Force
+                            $User | Add-Member -NotePropertyName "MatchType" -NotePropertyValue "Email" -Force
+                            $FoundUsers += $User
+                        }
+                    } catch {
+                        # Continuar con el siguiente criterio
+                    }
+                }
+                
+                # 3. Buscar por teléfono
+                if (![string]::IsNullOrWhiteSpace($UserData.Telefono)) {
+                    try {
+                        $CleanPhone = $UserData.Telefono -replace '\s+', '' -replace '-', '' -replace '\(', '' -replace '\)', ''
+                        $Users = Get-ADUser -Filter "telephoneNumber -like '*$CleanPhone*'" -Server $Domain -Properties DisplayName, mail, Office, Description, telephoneNumber, GivenName, Surname -ErrorAction SilentlyContinue
+                        foreach ($User in $Users) {
+                            # Evitar duplicados
+                            if ($FoundUsers | Where-Object { $_.SamAccountName -eq $User.SamAccountName -and $_.SourceDomain -eq $Domain }) {
+                                continue
+                            }
+                            Write-Log "Usuario encontrado por teléfono en ${Domain}: $($User.DisplayName) ($($User.SamAccountName))" "INFO"
+                            $User | Add-Member -NotePropertyName "SourceDomain" -NotePropertyValue $Domain -Force
+                            $User | Add-Member -NotePropertyName "MatchType" -NotePropertyValue "Teléfono" -Force
+                            $FoundUsers += $User
+                        }
+                    } catch {
+                        # Continuar con el siguiente criterio
+                    }
+                }
+                
+                # 4. Buscar por nombre y apellido
+                if (![string]::IsNullOrWhiteSpace($UserData.Nombre) -and ![string]::IsNullOrWhiteSpace($UserData.Apellidos)) {
+                    try {
+                        # Dividir apellidos para búsqueda más flexible
+                        $ApellidosParts = $UserData.Apellidos -split '\s+'
+                        $PrimerApellido = $ApellidosParts[0]
+                        $SegundoApellido = if ($ApellidosParts.Length -gt 1) { $ApellidosParts[1] } else { "" }
+                        
+                        # Buscar por nombre y primer apellido
+                        $FilterName = "GivenName -like '*$($UserData.Nombre)*' -and Surname -like '*$PrimerApellido*'"
+                        if (![string]::IsNullOrWhiteSpace($SegundoApellido)) {
+                            $FilterName += " -and Surname -like '*$SegundoApellido*'"
+                        }
+                        
+                        $Users = Get-ADUser -Filter $FilterName -Server $Domain -Properties DisplayName, mail, Office, Description, telephoneNumber, GivenName, Surname -ErrorAction SilentlyContinue
+                        foreach ($User in $Users) {
+                            # Evitar duplicados
+                            if ($FoundUsers | Where-Object { $_.SamAccountName -eq $User.SamAccountName -and $_.SourceDomain -eq $Domain }) {
+                                continue
+                            }
+                            Write-Log "Usuario encontrado por nombre/apellido en ${Domain}: $($User.DisplayName) ($($User.SamAccountName))" "INFO"
+                            $User | Add-Member -NotePropertyName "SourceDomain" -NotePropertyValue $Domain -Force
+                            $User | Add-Member -NotePropertyName "MatchType" -NotePropertyValue "Nombre/Apellido" -Force
+                            $FoundUsers += $User
                         }
                     } catch {
                         # Continuar con el siguiente dominio
@@ -1354,24 +2003,53 @@ function Find-ExistingUserForTransfer {
                 }
             }
             
-            # Buscar por email si no se encontro por AD
-            if (![string]::IsNullOrWhiteSpace($UserData.Email)) {
-                Write-Log "Buscando usuario por email: $($UserData.Email)" "INFO"
+            # Procesar resultados
+            if ($FoundUsers.Count -eq 0) {
+                Write-Log "No se encontró ningún usuario con los criterios especificados" "WARNING"
+                return $null
+            } elseif ($FoundUsers.Count -eq 1) {
+                Write-Log "Usuario único encontrado: $($FoundUsers[0].DisplayName) ($($FoundUsers[0].SamAccountName)) en $($FoundUsers[0].SourceDomain)" "INFO"
+                return $FoundUsers[0]
+            } else {
+                Write-Log "Se encontraron $($FoundUsers.Count) usuarios coincidentes" "INFO"
                 
-                foreach ($Domain in $AllDomains) {
-                    try {
-                        $Users = Get-ADUser -Filter "mail -eq '$($UserData.Email)'" -Server $Domain -Properties DisplayName, mail, Office, Description -ErrorAction SilentlyContinue
-                        if ($Users) {
-                            $User = $Users[0]  # Tomar el primero si hay multiples
-                            Write-Log "Usuario encontrado en ${Domain}: $($User.DisplayName) ($($User.SamAccountName))" "INFO"
-                            $User | Add-Member -NotePropertyName "SourceDomain" -NotePropertyValue $Domain -Force
-                            return $User
-                        }
-                    } catch {
-                        # Continuar con el siguiente dominio
+                if ($Interactive) {
+                    # Mostrar opciones para selección manual
+                    Write-Host "`n=== MÚLTIPLES USUARIOS ENCONTRADOS ===" -ForegroundColor Yellow
+                    Write-Host "Se encontraron los siguientes usuarios:" -ForegroundColor White
+                    
+                    for ($i = 0; $i -lt $FoundUsers.Count; $i++) {
+                        $User = $FoundUsers[$i]
+                        Write-Host "$($i + 1). " -NoNewline -ForegroundColor Cyan
+                        Write-Host "$($User.DisplayName) " -NoNewline -ForegroundColor White
+                        Write-Host "($($User.SamAccountName)) " -NoNewline -ForegroundColor Green
+                        Write-Host "- Dominio: $($User.SourceDomain) " -NoNewline -ForegroundColor Gray
+                        Write-Host "- Coincidencia: $($User.MatchType)" -ForegroundColor Yellow
+                        if ($User.mail) { Write-Host "   Email: $($User.mail)" -ForegroundColor Gray }
+                        if ($User.telephoneNumber) { Write-Host "   Teléfono: $($User.telephoneNumber)" -ForegroundColor Gray }
+                        if ($User.Office) { Write-Host "   Oficina: $($User.Office)" -ForegroundColor Gray }
+                        Write-Host ""
                     }
+                    
+                    do {
+                        $Selection = Read-Host "Seleccione el usuario (1-$($FoundUsers.Count)) o 0 para cancelar"
+                        if ($Selection -eq "0") {
+                            Write-Log "Selección cancelada por el usuario" "INFO"
+                            return $null
+                        }
+                        $SelectionNum = [int]$Selection
+                    } while ($SelectionNum -lt 1 -or $SelectionNum -gt $FoundUsers.Count)
+                    
+                    $SelectedUser = $FoundUsers[$SelectionNum - 1]
+                    Write-Log "Usuario seleccionado: $($SelectedUser.DisplayName) ($($SelectedUser.SamAccountName))" "INFO"
+                    return $SelectedUser
+                } else {
+                    # Modo no interactivo: devolver el primer usuario encontrado
+                    Write-Log "Modo no interactivo: seleccionando primer usuario encontrado" "INFO"
+                    return $FoundUsers[0]
                 }
             }
+            
         } else {
             # Modo simulacion para testing sin ActiveDirectory
             Write-Log "MODO SIMULACION: Creando usuario simulado para testing" "WARNING"
@@ -1393,18 +2071,17 @@ function Find-ExistingUserForTransfer {
                 SamAccountName = $UserData.AD
                 DisplayName = "$($UserData.Nombre) $($UserData.Apellidos)"
                 mail = $UserData.Email
+                telephoneNumber = $UserData.Telefono
                 Office = "Oficina Anterior"
                 Description = "Usuario simulado para testing"
                 DistinguishedName = "CN=$($UserData.AD),OU=Usuarios,DC=testdomain,DC=local"
                 SourceDomain = $SimulatedSourceDomain
+                MatchType = "Simulado"
             }
             
             Write-Log "Usuario simulado creado: $($SimulatedUser.DisplayName) ($($SimulatedUser.SamAccountName))" "INFO"
             return $SimulatedUser
         }
-        
-        Write-Log "No se encontro usuario con email '$($UserData.Email)' o AD '$($UserData.AD)'" "WARNING"
-        return $null
         
     } catch {
         Write-Log "Error buscando usuario existente: $($_.Exception.Message)" "ERROR"
@@ -1461,7 +2138,7 @@ function Execute-CrossDomainTransfer {
             
             # Para traslados entre dominios: eliminar usuario original y recrear en destino
             # Usar UPN normal del dominio destino (sin timestamp)
-            $UniqueUPN = "$($OriginalUser.SamAccountName)@justicia.junta-andalucia.es"
+            $UniqueUPN = "$($OriginalUser.SamAccountName)`@justicia.junta-andalucia.es"
             
             # Verificar si el SamAccountName ya existe en el destino
             try {
@@ -1554,7 +2231,7 @@ function Execute-CrossDomainTransfer {
             
             Write-Log "PASO 3 SIMULADO: Creando usuario en dominio destino..." "INFO"
             Write-Log "  Nuevo usuario: $($ExistingUser.SamAccountName) en $TargetDomain" "INFO"
-            Write-Log "  UPN: $($ExistingUser.SamAccountName)@justicia.junta-andalucia.es" "INFO"
+            Write-Log "  UPN: $($ExistingUser.SamAccountName)`@justicia.junta-andalucia.es" "INFO"
             Write-Log "  Contrasenia: Justicia$Month$Year" "INFO"
             
             Write-Log "PASO 4 SIMULADO: Copiando grupos..." "INFO"
@@ -2116,7 +2793,7 @@ foreach ($User in $Users) {
                 if ($Global:WhatIfMode) {
                     Write-Log "SIMULACION: Crearia usuario normalizado en dominio $TargetDomain" "INFO"
                     Write-Log "SIMULACION: UO destino: $TargetOU" "INFO"
-                    Write-Log "SIMULACION: UPN seria: $SamAccountName@justicia.junta-andalucia.es" "INFO"
+                    Write-Log "SIMULACION: UPN seria: $SamAccountName`@justicia.junta-andalucia.es" "INFO"
                     $ProcessedCount++
                     
                     # Agregar resultado de simulación de alta normalizada
@@ -2164,7 +2841,7 @@ foreach ($User in $Users) {
                                 DisplayName = "$($User.Nombre) $($User.Apellidos)"
                                 GivenName = $User.Nombre
                                 Surname = $User.Apellidos
-                                UserPrincipalName = "$SamAccountName@justicia.junta-andalucia.es"
+                                UserPrincipalName = "$SamAccountName`@justicia.junta-andalucia.es"
                                 EmailAddress = $User.Email
                                 OfficePhone = $User.Telefono
                                 Office = $User.Oficina
@@ -2182,7 +2859,7 @@ foreach ($User in $Users) {
                             
                             Write-Log "Creando usuario con parametros:" "INFO"
                             Write-Log "  SamAccountName: $SamAccountName" "INFO"
-                            Write-Log "  UPN: $SamAccountName@justicia.junta-andalucia.es" "INFO"
+                            Write-Log "  UPN: $SamAccountName`@justicia.junta-andalucia.es" "INFO"
                             Write-Log "  Dominio: $TargetDomain" "INFO"
                             Write-Log "  UO: $TargetOU" "INFO"
                             
@@ -2251,7 +2928,7 @@ foreach ($User in $Users) {
                     } else {
                         # Modo simulacion sin ActiveDirectory
                         Write-Log "CREACION SIMULADA: Usuario $SamAccountName en dominio $TargetDomain" "WARNING"
-                        Write-Log "  UPN simulado: $SamAccountName@justicia.junta-andalucia.es" "INFO"
+                        Write-Log "  UPN simulado: $SamAccountName`@justicia.junta-andalucia.es" "INFO"
                         Write-Log "  UO simulada: $TargetOU" "INFO"
                         Write-Log "  Contrasenia simulada: Justicia$Month$Year" "INFO"
                         
@@ -2412,3 +3089,4 @@ if ($ErrorCount -gt 0) {
 
 Write-Log "Log guardado en: $Global:LogFile" "INFO"
 Write-Host "Proceso completado. Log: $Global:LogFile" -ForegroundColor Green
+
