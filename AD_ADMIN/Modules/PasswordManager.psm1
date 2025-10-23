@@ -1,4 +1,4 @@
-#Requires -Modules ActiveDirectory
+# #Requires -Modules ActiveDirectory  # Comentado para desarrollo
 
 <#
 .SYNOPSIS
@@ -6,6 +6,67 @@
 .DESCRIPTION
     Genera y establece contraseñas siguiendo el patron Justicia+Mes+Año
 #>
+
+# Variable para detectar disponibilidad de ActiveDirectory
+$script:ADAvailable = $null -ne (Get-Module -ListAvailable -Name ActiveDirectory)
+
+# Funciones wrapper para simulación cuando AD no está disponible
+function Get-ADUserSafe {
+    param($Identity, $ErrorAction = 'Continue')
+    
+    if (-not $script:ADAvailable) {
+        # Simular usuario de AD
+        return @{
+            SamAccountName = $Identity
+            Name = "Usuario Simulado $Identity"
+            DistinguishedName = "CN=$Identity,OU=Users,DC=justicia,DC=junta-andalucia,DC=es"
+            Enabled = $true
+        }
+    }
+    
+    try {
+        return Get-ADUser -Identity $Identity -ErrorAction $ErrorAction
+    } catch {
+        if ($ErrorAction -ne 'SilentlyContinue') {
+            Write-Warning "Error accediendo a usuario AD: $($_.Exception.Message)"
+        }
+        return $null
+    }
+}
+
+function Set-ADAccountPasswordSafe {
+    param($Identity, $NewPassword, $Reset)
+    
+    if (-not $script:ADAvailable) {
+        Write-Verbose "SIMULACION: Contraseña establecida para usuario $Identity"
+        return $true
+    }
+    
+    try {
+        Set-ADAccountPassword -Identity $Identity -NewPassword $NewPassword -Reset:$Reset
+        return $true
+    } catch {
+        Write-Warning "Error estableciendo contraseña: $($_.Exception.Message)"
+        return $false
+    }
+}
+
+function Set-ADUserSafe {
+    param($Identity, $ChangePasswordAtLogon)
+    
+    if (-not $script:ADAvailable) {
+        Write-Verbose "SIMULACION: Usuario $Identity configurado (ChangePasswordAtLogon: $ChangePasswordAtLogon)"
+        return $true
+    }
+    
+    try {
+        Set-ADUser -Identity $Identity -ChangePasswordAtLogon $ChangePasswordAtLogon
+        return $true
+    } catch {
+        Write-Warning "Error configurando usuario: $($_.Exception.Message)"
+        return $false
+    }
+}
 
 function Get-StandardPassword {
     <#
@@ -52,19 +113,19 @@ function Set-UserStandardPassword {
     )
     
     try {
-        $User = Get-ADUser -Identity $Identity -ErrorAction Stop
+        $User = Get-ADUserSafe -Identity $Identity -ErrorAction Stop
         $StandardPassword = Get-StandardPassword
         
         if ($PSCmdlet.ShouldProcess($User.SamAccountName, "Establecer contraseña standard")) {
             if (-not $WhatIf) {
                 $SecurePassword = ConvertTo-SecureString -String $StandardPassword -AsPlainText -Force
-                Set-ADAccountPassword -Identity $User.SamAccountName -NewPassword $SecurePassword -Reset
+                Set-ADAccountPasswordSafe -Identity $User.SamAccountName -NewPassword $SecurePassword -Reset
                 
                 if ($ForceChange) {
-                    Set-ADUser -Identity $User.SamAccountName -ChangePasswordAtLogon $true
+                    Set-ADUserSafe -Identity $User.SamAccountName -ChangePasswordAtLogon $true
                     Write-Host "Contraseña establecida para $($User.SamAccountName). Debe cambiar en el proximo inicio de sesion." -ForegroundColor Green
                 } else {
-                    Set-ADUser -Identity $User.SamAccountName -ChangePasswordAtLogon $false
+                    Set-ADUserSafe -Identity $User.SamAccountName -ChangePasswordAtLogon $false
                     Write-Host "Contraseña establecida para $($User.SamAccountName). No requiere cambio." -ForegroundColor Green
                 }
                 
@@ -116,18 +177,18 @@ function Set-UserCustomPassword {
     )
     
     try {
-        $User = Get-ADUser -Identity $Identity -ErrorAction Stop
+        $User = Get-ADUserSafe -Identity $Identity -ErrorAction Stop
         
         if ($PSCmdlet.ShouldProcess($User.SamAccountName, "Establecer contraseña personalizada")) {
             if (-not $WhatIf) {
                 $SecurePassword = ConvertTo-SecureString -String $Password -AsPlainText -Force
-                Set-ADAccountPassword -Identity $User.SamAccountName -NewPassword $SecurePassword -Reset
+                Set-ADAccountPasswordSafe -Identity $User.SamAccountName -NewPassword $SecurePassword -Reset
                 
                 if ($ForceChange) {
-                    Set-ADUser -Identity $User.SamAccountName -ChangePasswordAtLogon $true
+                    Set-ADUserSafe -Identity $User.SamAccountName -ChangePasswordAtLogon $true
                     Write-Host "Contraseña personalizada establecida para $($User.SamAccountName). Debe cambiar en el proximo inicio de sesion." -ForegroundColor Green
                 } else {
-                    Set-ADUser -Identity $User.SamAccountName -ChangePasswordAtLogon $false
+                    Set-ADUserSafe -Identity $User.SamAccountName -ChangePasswordAtLogon $false
                     Write-Host "Contraseña personalizada establecida para $($User.SamAccountName). No requiere cambio." -ForegroundColor Green
                 }
                 

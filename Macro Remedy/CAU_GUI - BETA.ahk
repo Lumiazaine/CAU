@@ -1292,6 +1292,25 @@ try{
             WriteError("Error ejecutando modo afk " . e.Message)
         }
     Return
+#8::
+        Send, {End}^+{Up}^{c}
+        WinActivate, ahk_class MozillaWindowClass
+        Send, ^{1}
+        Sleep, 100
+        Send, {Tab}
+        Send, {Tab}
+        Send, {Enter}
+        Sleep, 30
+        SendInput, 0
+        Sleep, 30
+        SendInput, ^v
+        Sleep, 30
+        SendInput, {Enter}
+        WinActivate, ahk_class MozillaWindowClass
+        Send, {F6}
+        Sleep, 100
+        SendInput, {Tab 2}
+Return
 #9::
      if (!CheckRemedy())
     {
