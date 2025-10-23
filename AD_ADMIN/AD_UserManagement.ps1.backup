@@ -1,4 +1,4 @@
-#requires -version 5.1
+﻿#requires -version 5.1
 
 <#
 .SYNOPSIS
@@ -568,10 +568,10 @@ function Get-DomainFromOffice {
         # Patrones adicionales para casos problemáticos detectados en logs
         'central de jaén' = 'jaen.justicia.junta-andalucia.es'
         'central de jaen' = 'jaen.justicia.junta-andalucia.es'
-        'central de jan' = 'jaen.justicia.junta-andalucia.es'  # Caso específico observado
+        'central de ja?n' = 'jaen.justicia.junta-andalucia.es'  # Caso específico observado
         'imlcf central de jaén' = 'jaen.justicia.junta-andalucia.es'
         'imlcf central de jaen' = 'jaen.justicia.junta-andalucia.es'
-        'imlcf central de jan' = 'jaen.justicia.junta-andalucia.es'
+        'imlcf central de ja?n' = 'jaen.justicia.junta-andalucia.es'
         'de cádiz' = 'cadiz.justicia.junta-andalucia.es'
         'de cadiz' = 'cadiz.justicia.junta-andalucia.es'
         'de málaga' = 'malaga.justicia.junta-andalucia.es'
@@ -1200,25 +1200,51 @@ function Normalize-Text {
         # PASO 1: Normalización UTF-8 y corrección de encoding
         $Normalized = [System.Text.Encoding]::UTF8.GetString([System.Text.Encoding]::UTF8.GetBytes($Text))
         
-        # PASO 2: Aplicar correcciones básicas de caracteres comunes
-        # Corrección de caracteres con tildes comunes
-        $Normalized = $Normalized -replace 'ALMER�A|ALMERA|Almer�a|Almera|almer�a|almera', 'ALMERÍA'
-        $Normalized = $Normalized -replace 'C�DIZ|CDIZ|C�diz|Cdiz|c�diz|cdiz', 'CÁDIZ'
-        $Normalized = $Normalized -replace 'C�RDOBA|CRDOBA|C�rdoba|Crdoba|c�rdoba|crdoba', 'CÓRDOBA'
-        $Normalized = $Normalized -replace 'JA�N|JAN|Ja�n|Jan|ja�n|jan', 'JAÉN'
-        $Normalized = $Normalized -replace 'M�LAGA|MLAGA|M�laga|Mlaga|m�laga|mlaga', 'MÁLAGA'
-        $Normalized = $Normalized -replace 'L�PEZ|LPEZ|L�pez|Lpez|l�pez|lpez', 'LÓPEZ'
-        $Normalized = $Normalized -replace 'MART�NEZ|MARTNEZ|Mart�nez|Martnez|mart�nez|martnez', 'MARTÍNEZ'
-        $Normalized = $Normalized -replace 'G�MEZ|GMEZ|G�mez|Gmez|g�mez|gmez', 'GÓMEZ'
-        $Normalized = $Normalized -replace 'HERN�NDEZ|HERNNDEZ|Hern�ndez|Hernndez|hern�ndez|hernndez', 'HERNÁNDEZ'
+        # PASO 2: Mapa de correcciones de caracteres corruptos (optimizado con hashtable)
+        $script:CharacterMap = @{
+            # Caracteres � (U+FFFD - replacement character)
+            "�" = @{
+                "ALMER�A" = "ALMERÍA"; "Almer�a" = "Almería"; "almer�a" = "almería"
+                "C�DIZ" = "CÁDIZ"; "C�diz" = "Cádiz"; "c�diz" = "cádiz"
+                "C�RDOBA" = "CÓRDOBA"; "C�rdoba" = "Córdoba"; "c�rdoba" = "córdoba"
+                "JA�N" = "JAÉN"; "Ja�n" = "Jaén"; "ja�n" = "jaén"
+                "M�LAGA" = "MÁLAGA"; "M�laga" = "Málaga"; "m�laga" = "málaga"
+                "L�PEZ" = "LÓPEZ"; "L�pez" = "López"; "l�pez" = "lópez"
+                "MART�NEZ" = "MARTÍNEZ"; "Mart�nez" = "Martínez"; "mart�nez" = "martínez"
+                "G�MEZ" = "GÓMEZ"; "G�mez" = "Gómez"; "g�mez" = "gómez"
+                "HERN�NDEZ" = "HERNÁNDEZ"; "Hern�ndez" = "Hernández"; "hern�ndez" = "hernández"
+            }
+            # Caracteres ? (corrupción alternativa)
+            "?" = @{
+                "ALMER?A" = "ALMERÍA"; "Almer?a" = "Almería"; "almer?a" = "almería"
+                "C?DIZ" = "CÁDIZ"; "C?diz" = "Cádiz"; "c?diz" = "cádiz"
+                "C?RDOBA" = "CÓRDOBA"; "C?rdoba" = "Córdoba"; "c?rdoba" = "córdoba"
+                "JA?N" = "JAÉN"; "Ja?n" = "Jaén"; "ja?n" = "jaén"
+                "M?LAGA" = "MÁLAGA"; "M?laga" = "Málaga"; "m?laga" = "málaga"
+                "L?PEZ" = "LÓPEZ"; "L?pez" = "López"; "l?pez" = "lópez"
+            }
+        }
         
-        # Corrección de caracteres de reemplazo genéricos
-        $Normalized = $Normalized -replace [char]0xFFFD, 'á'
+        # PASO 3: Aplicar correcciones específicas usando el mapa
+        foreach ($CorruptChar in $script:CharacterMap.Keys) {
+            if ($Normalized.Contains($CorruptChar)) {
+                $Replacements = $script:CharacterMap[$CorruptChar]
+                foreach ($CorruptPattern in $Replacements.Keys) {
+                    if ($Normalized.Contains($CorruptPattern)) {
+                        $Normalized = $Normalized -replace [regex]::Escape($CorruptPattern), $Replacements[$CorruptPattern]
+                    }
+                }
+            }
+        }
         
         # PASO 4: Correcciones específicas para patrones problemáticos identificados
         $SpecificCorruptions = @{
-            'mamamamalaga' = 'málaga'
+            'mamámámálaga' = 'málaga'
+            'MAMÁMÁMÁLAGA' = 'MÁLAGA'
+            'Mamámámálaga' = 'Málaga'
+            'mamamalaga' = 'málaga'
             'MAMAMALAGA' = 'MÁLAGA'
+            'Mamamalaga' = 'Málaga'
         }
         
         foreach ($Pattern in $SpecificCorruptions.Keys) {
@@ -1244,7 +1270,7 @@ function Normalize-Text {
     } catch {
         Write-Warning "Error en normalización de texto '$Text': $($_.Exception.Message)"
         # Fallback: limpiar caracteres básicos
-        $SafeNormalized = $Text -replace '[^\w\s\-]', ' '
+        $SafeNormalized = $Text -replace '[^\w\s\-áéíóúüñÁÉÍÓÚÜÑ]', ' '
         $SafeNormalized = $SafeNormalized -replace '\s+', ' '
         return $SafeNormalized.Trim()
     }
@@ -1270,7 +1296,7 @@ function Compare-TextWithoutAccents {
         $Text = $Text -replace 'á','a' -replace 'é','e' -replace 'í','i' -replace 'ó','o' -replace 'ú','u' -replace 'ñ','n'
         $Text = $Text -replace 'ü','u' -replace 'ç','c'
         # Remover caracteres mal codificados también 
-        $Text = $Text -replace 'ó','o' -replace 'ò','o' -replace 'à','a' -replace 'è','e' -replace 'ì','i' -replace 'ù','u'
+        $Text = $Text -replace '\?','o' -replace '�','o' -replace '�','a' -replace '�','e' -replace '�','i' -replace '�','u'
         return $Text.Trim()
     }
     
@@ -2203,20 +2229,20 @@ function Extract-LocationFromOffice {
         }
         'almeria' = @{
             'province' = 'almeria'
-            'patterns' = @('almeria', 'almería', 'almera', 'almer�a')
+            'patterns' = @('almeria', 'almería', 'almer?a', 'almer�a')
             'fuzzy_patterns' = @('almer[íi][áa]', 'almeri[áa]')
             'cities' = @('el ejido', 'roquetas', 'vera', 'huercal')
         }
         'jaen' = @{
             'province' = 'jaen'
-            'patterns' = @('jaen', 'jaén', 'jan', 'ja�n')
+            'patterns' = @('jaen', 'jaén', 'ja?n', 'ja�n')
             'fuzzy_patterns' = @('ja[ée]n', 'jae[ñn]')
             'cities' = @('ubeda', 'úbeda', 'linares', 'martos', 'andujar', 'andújar')
         }
         'huelva' = @{
             'province' = 'huelva'
             'patterns' = @('huelva', 'uelva')
-            'fuzzy_patterns' = @('huelv[áa]')
+            'fuzzy_patterns' = @('h?uelv[áa]')
             'cities' = @('ayamonte', 'aracena', 'moguer', 'lepe')
         }
     }
@@ -2523,7 +2549,7 @@ function Show-DescriptionOptions {
     
     for ($i = 0; $i -lt $UniqueDescriptions.Count; $i++) {
         $Desc = $UniqueDescriptions[$i]
-        Write-Host "[$($i+1)] $($Desc.Name) ($($Desc.Count) elementos)" -ForegroundColor White
+        Write-Host "[$($i+1)] $($Desc.Name) ($($Desc.Count) usuarios)" -ForegroundColor White
     }
     
     Write-Host "[0] Continuar sin plantilla" -ForegroundColor Gray
@@ -2670,7 +2696,7 @@ function Find-ExistingUserForTransfer {
                 # 3. Buscar por teléfono
                 if (![string]::IsNullOrWhiteSpace($UserData.Telefono)) {
                     try {
-                        $CleanPhone = $UserData.Telefono -replace '\s+', '' -replace '-', '' -replace '[\(\)]', ''
+                        $CleanPhone = $UserData.Telefono -replace '\s+', '' -replace '-', '' -replace '\(', '' -replace '\)', ''
                         $Users = Get-ADUser -Filter "telephoneNumber -like '*$CleanPhone*'" -Server $Domain -Properties DisplayName, mail, Office, Description, telephoneNumber, GivenName, Surname -ErrorAction SilentlyContinue
                         foreach ($User in $Users) {
                             # Evitar duplicados
@@ -3754,7 +3780,7 @@ if ($ProcessingResults.Count -gt 0) {
         $TimeStampForCSV = Get-Date -Format "yyyyMMdd_HHmmss"
         $ResultsCSVPath = $CSVFile -replace '\.csv$', "_resultados_${TimeStampForCSV}.csv"
         $ProcessingResults | Export-Csv -Path $ResultsCSVPath -Delimiter ";" -Encoding UTF8 -NoTypeInformation
-        Write-Log "Resultados CSV para esta ejecucion: $ResultsCSVPath" "INFO"
+        Write-Log "CSV de resultados de esta ejecución: $ResultsCSVPath" "INFO"
         
         # 2. Añadir al archivo acumulativo de control total
         $CumulativeCSVPath = Add-ToCumulativeResults -Results $ProcessingResults -BaseCSVPath $CSVFile
@@ -3777,9 +3803,9 @@ if ($ProcessingResults.Count -gt 0) {
         # Mostrar estadisticas del historico
         try {
             $HistoricalStats = Import-Csv -Path $CumulativeCSVPath -Delimiter ";" -Encoding UTF8
-            $TotalExitosos = ($HistoricalStats | Where-Object { $_.Estado -eq 'EXITOSO' }).Count
-            $TotalErrores = ($HistoricalStats | Where-Object { $_.Estado -eq 'ERROR' }).Count
-            $TotalSimulados = ($HistoricalStats | Where-Object { $_.Estado -eq 'SIMULADO' }).Count
+            $TotalExitosos = ($HistoricalStats | Where-Object { $_.Estado -eq "EXITOSO" }).Count
+            $TotalErrores = ($HistoricalStats | Where-Object { $_.Estado -eq "ERROR" }).Count
+            $TotalSimulados = ($HistoricalStats | Where-Object { $_.Estado -eq "SIMULADO" }).Count
             
             Write-Host "=== ESTADISTICAS HISTORICAS COMPLETAS ===" -ForegroundColor Green
             Write-Host "Total altas procesadas: $($HistoricalStats.Count)" -ForegroundColor White

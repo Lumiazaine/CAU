@@ -1,0 +1,36 @@
+﻿{
+    "SkippedTests":  0,
+    "Warnings":  [
+
+                 ],
+    "TotalTests":  0,
+    "PassedTests":  0,
+    "StartTime":  {
+                      "value":  "\/Date(1756398879209)\/",
+                      "DisplayHint":  2,
+                      "DateTime":  "jueves, 28 de agosto de 2025 18:34:39"
+                  },
+    "CodeCoverage":  0,
+    "ExecutionTime":  {
+                          "Ticks":  16690000,
+                          "Days":  0,
+                          "Hours":  0,
+                          "Milliseconds":  669,
+                          "Minutes":  0,
+                          "Seconds":  1,
+                          "TotalDays":  1.931712962962963E-05,
+                          "TotalHours":  0.00046361111111111109,
+                          "TotalMilliseconds":  1669,
+                          "TotalMinutes":  0.027816666666666667,
+                          "TotalSeconds":  1.6689999999999998
+                      },
+    "QualityGatesPassed":  false,
+    "Errors":  [
+
+               ],
+    "EndTime":  null,
+    "FailedTests":  0,
+    "DetailedResults":  [
+
+                        ]
+}

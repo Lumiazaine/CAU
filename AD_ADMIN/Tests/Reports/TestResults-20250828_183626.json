@@ -1,0 +1,54 @@
+﻿{
+    "FailedTests":  null,
+    "ExecutionTime":  {
+                          "Ticks":  722320000,
+                          "Days":  0,
+                          "Hours":  0,
+                          "Milliseconds":  232,
+                          "Minutes":  1,
+                          "Seconds":  12,
+                          "TotalDays":  0.00083601851851851849,
+                          "TotalHours":  0.020064444444444444,
+                          "TotalMilliseconds":  72232,
+                          "TotalMinutes":  1.2038666666666666,
+                          "TotalSeconds":  72.232
+                      },
+    "DetailedResults":  [
+                            {
+                                "FailedTests":  {
+
+                                                },
+                                "SuiteName":  "Unit",
+                                "TestsFailed":  0,
+                                "TestsSkipped":  0,
+                                "TestsPassed":  0,
+                                "Success":  false,
+                                "CodeCoverage":  0,
+                                "Duration":  {
+                                                 "Ticks":  718171998,
+                                                 "Days":  0,
+                                                 "Hours":  0,
+                                                 "Milliseconds":  817,
+                                                 "Minutes":  1,
+                                                 "Seconds":  11,
+                                                 "TotalDays":  0.0008312175902777777,
+                                                 "TotalHours":  0.019949222166666666,
+                                                 "TotalMilliseconds":  71817.1998,
+                                                 "TotalMinutes":  1.19695333,
+                                                 "TotalSeconds":  71.8171998
+                                             },
+                                "TestsRun":  0
+                            }
+                        ],
+    "PassedTests":  null,
+    "QualityGatesPassed":  false,
+    "TotalTests":  null,
+    "StartTime":  {
+                      "value":  "\/Date(1756398986804)\/",
+                      "DisplayHint":  2,
+                      "DateTime":  "jueves, 28 de agosto de 2025 18:36:26"
+                  },
+    "EndTime":  null,
+    "SkippedTests":  0,
+    "CodeCoverage":  0
+}

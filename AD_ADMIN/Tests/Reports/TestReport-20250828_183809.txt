@@ -1,0 +1,30 @@
+﻿AD_ADMIN Test Execution Report
+==============================
+Generated: 2025-08-28 18:39:22
+
+EXECUTION SUMMARY:
+- Test Suite: Unit
+- Start Time: 2025-08-28 18:38:09
+- Duration: 00:01:13.0050000
+- Total Tests: 
+- Passed: 
+- Failed: 
+- Code Coverage: 0%
+
+QUALITY GATES:
+Status: FAILED
+- Coverage Threshold: 10%
+- Max Failed Tests: 0
+- Max Execution Time: 300s
+
+DETAILED RESULTS BY SUITE:
+[FAIL] Unit:
+  - Tests: 0 total, 0 passed, 0 failed
+  - Duration: 00:01:12.6171295
+  - Coverage: 0%
+ENVIRONMENT INFO:
+- PowerShell: 5.1.26100.4768
+- OS: 
+- Pester: 3.4.0
+- Framework: AD_ADMIN QA Framework v2.0 (Pester 3.x Compatible)
+
