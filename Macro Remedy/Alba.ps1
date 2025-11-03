@@ -1,92 +1,63 @@
-param(
-    [bool] $Instala = $false,
-    [bool] $Actualiza = $false
+﻿# Ruta base
+$Ruta = "C:\Users\CAU.LAP\AppData\Roaming\AR System\HOME\ARCmds"
+
+# Archivos a excluir
+$Excluidos = @(
+    "x0x1xxxM.arq","x0xxxMIS.arq","x1xxxCSU.arq","x2x1xxxH.arq","x2xxxHEL.arq",
+    "x3x1xxxP.arq","x3x2xxxP.arq","x3x3xxxP.arq","x3x4xxxP.arq","x3xxxPEN.arq",
+    "x4x1xxxG.arq","x4x2xxxG.arq","x4xxxGES.arq","x5x1xxxM.arq","x5x2xxxC.arq",
+    "x5xxxMIC.arq","x6xxxCSU.arq","x7xxxGES.arq"
 )
 
-if ($Instala) {
-    Out-Default -InputObject "Proceso de Instalación"
-    break
-}
-if ($Actualiza) {
-    Out-Default -InputObject "Proceso de Actualización"
-    break
-}
+# Log
+$LogPath = Join-Path $Ruta "ARCmds_log.txt"
+"=== LOG de actualización de fechas === $(Get-Date -Format 'dd/MM/yyyy HH:mm:ss')" | Out-File $LogPath -Encoding UTF8
 
-if (-not $Instala -and -not $Actualiza) {
+# Fecha actual para reemplazo
+$FechaActual = (Get-Date).ToString("dd/MM/yyyy HH:mm:ss")
 
-    # Función para mostrar el menú (se mantiene para la selección interactiva si se llegara a usar)
-    function PintaMenu($Datos, $seleccionados = $null) {
-        Clear
-        if ($null -ne $seleccionados) {
-            $seleccion = $seleccionados.Split(" ", 2000)
-        }
-        for ($i = 0; $i -lt $Archivos.count; $i++) {
-            if ($null -eq $seleccionados) {
-                $texto = " " + [string]$i + ".- " + $Archivos[$i].Name
-            } else {
-                if ($seleccion -match $i) {
-                    $texto = "*" + [string]$i + ".- " + $Archivos[$i].Name
-                } else {
-                    $texto = " " + [string]$i + ".- " + $Archivos[$i].Name
+# Obtener todos los archivos .arq excepto los excluidos
+$Archivos = Get-ChildItem -Path $Ruta -Filter "*.arq" | Where-Object { $Excluidos -notcontains $_.Name }
+
+foreach ($Archivo in $Archivos) {
+    try {
+        # Leer el contenido respetando codificación Windows-1252
+        $Contenido = Get-Content -Path $Archivo.FullName -Encoding Default
+        
+        $Modificado = $false
+        $FechasEncontradas = @()
+
+        for ($i = 0; $i -lt $Contenido.Count; $i++) {
+            $Linea = $Contenido[$i]
+            $LineasReemplazadas = $false
+
+            foreach ($Campo in $Linea.Split([char]1, 200)) {
+                if ($Campo -match "1010000200=" -or $Campo -match "1010000150=") {
+                    $FechaAntigua = $Campo.Substring(11)
+                    $FechasEncontradas += $FechaAntigua
+                    $Linea = $Linea.Replace($FechaAntigua, $FechaActual)
+                    $LineasReemplazadas = $true
                 }
             }
-            Out-Default -InputObject $texto
-        }
-    }
 
-    function SeleccionaArchivos($ruta) {
-        $Archivos = Get-ChildItem -Path $ruta | Sort-Object Name
-        $salida = $false
-        while (-not $salida) {
-            PintaMenu($Archivos.Name)
-            $Selecciones = Read-Host -Prompt "Selecciona los archivos separados por espacios"
-            PintaMenu($Archivos.Name)($Selecciones)
-            $Finaliza = Read-Host -Prompt "¿Es correcta la selección? (s/n)"
-            if ($Finaliza.ToUpper() -like "S") {
-                $salida = $true
-                $selec = @()
-                foreach ($seleccion in ($Selecciones.Split(" ", 200))) {
-                    if ($seleccion -ge 0 -and $seleccion -lt $Archivos.Count) {
-                        $selec += $Archivos[$seleccion]
-                    }
-                }
-                return $selec
+            if ($LineasReemplazadas) {
+                $Contenido[$i] = $Linea
+                $Modificado = $true
             }
         }
-    }
 
-    ## Definimos la ruta de los archivos .arq
-    $Ruta = "C:\Users\CAU.LAP\AppData\Roaming\AR System\HOME\ARCmds\*.arq"
-    $TodosLosArchivos = Get-ChildItem -Path $Ruta | Sort-Object Name
+        # Si hubo cambios, reescribir respetando la codificación original
+        if ($Modificado) {
+            $Contenido | Set-Content -Path $Archivo.FullName -Encoding Default
+            Add-Content -Path $LogPath -Value "[$(Get-Date -Format 'HH:mm:ss')] ✅ $($Archivo.Name): Fechas reemplazadas -> $($FechasEncontradas -join ', ')"
+        } else {
+            Add-Content -Path $LogPath -Value "[$(Get-Date -Format 'HH:mm:ss')] ⏭️ $($Archivo.Name): Sin coincidencias"
+        }
 
-    ## Lista de exclusión (archivos que NO se deben procesar)
-    $Exclusiones = @(
-        "x0x1xxxM.arq",
-        "x0xxxMIS.arq",
-        "x1xxxCSU.arq",
-        "x2x1xxxH.arq",
-        "x2xxxHEL.arq",
-        "x3x1xxxP.arq",
-        "x3x2xxxP.arq",
-        "x3x3xxxP.arq",
-        "x3x4xxxP.arq",
-        "x3xxxPEN.arq",
-        "x4x1xxxG.arq",
-        "x4x2xxxG.arq",
-        "x4xxxGES.arq",
-        "x5x1xxxM.arq",
-        "x5x2xxxC.arq",
-        "x5xxxMIC.arq",
-        "x6xxxCSU.arq",
-        "x7xxxGES.arq"
-    )
-
-    ## Seleccionamos TODOS los archivos .arq EXCEPTO los que están en la lista de exclusión
-    $archivos = $TodosLosArchivos | Where-Object { $Exclusiones -notcontains $_.Name }
-
-    # Aquí se podrían agregar otras operaciones sobre los archivos seleccionados.
-    Out-Default -InputObject "Archivos seleccionados para procesar:"
-    foreach ($archivo in $archivos) {
-        Out-Default -InputObject $archivo.Name
+    } catch {
+        Add-Content -Path $LogPath -Value "[$(Get-Date -Format 'HH:mm:ss')] ⚠️ ERROR en $($Archivo.Name): $_"
     }
 }
+
+Add-Content -Path $LogPath -Value "=== Proceso finalizado === $(Get-Date -Format 'dd/MM/yyyy HH:mm:ss')"
+Write-Host "✅ Proceso completado. Revisa el log en: $LogPath"
