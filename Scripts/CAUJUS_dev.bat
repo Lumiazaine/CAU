@@ -11,6 +11,7 @@ SET "config_SoftwareBasePath=\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas"
 SET "config_DriverBasePath=\\iusnas05\DDPP\COMUN\_DRIVERS\lectores tarjetas"
 
 SET "config_IslMsiPath=%config_SoftwareBasePath%\isl.msi"
+SET "config_IslExe=%config_SoftwareBasePath%\isl.exe"
 SET "config_FnmtConfigExe=%config_SoftwareBasePath%\Configurador_FNMT_5.0.3_64bits.exe"
 SET "config_AutoFirmaExe=%config_SoftwareBasePath%\AutoFirma_64_v1_8_3_installer.exe"
 SET "config_AutoFirmaMsi=%config_SoftwareBasePath%\AutoFirma_v1_6_0_JAv05_installer_64.msi"
@@ -201,7 +202,7 @@ SET "LOG_FILE=%LOG_DIR%\%adUser%_%currentHostname%_%YYYYMMDD%_%HHMMSS%.log"
 
 :isl_always_on
     CALL :LogMessage "INFO - Action: Starting isl_always_on. Installing ISL Always On."
-    CALL :ExecuteWithRunas "cmd /c MSIEXEC /i \"%config_IslMsiPath%\" /qn"
+    CALL :ExecuteWithRunas "\"%config_IslExe%\" /qn"
     GOTO main_menu
 
 ::-----------------------------------------------------------------------------
