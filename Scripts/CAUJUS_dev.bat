@@ -11,7 +11,7 @@ SET "config_SoftwareBasePath=\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas"
 SET "config_DriverBasePath=\\iusnas05\DDPP\COMUN\_DRIVERS\lectores tarjetas"
 
 SET "config_IslMsiPath=%config_SoftwareBasePath%\isl.msi"
-SET "config_FnmtConfigExe=%config_SoftwareBasePath%\Configurador_FNMT_5.0.0_64bits.exe"
+SET "config_FnmtConfigExe=%config_SoftwareBasePath%\Configurador_FNMT_5.0.3_64bits.exe"
 SET "config_AutoFirmaExe=%config_SoftwareBasePath%\AutoFirma_64_v1_8_3_installer.exe"
 SET "config_AutoFirmaMsi=%config_SoftwareBasePath%\AutoFirma_v1_6_0_JAv05_installer_64.msi"
 SET "config_ChromeMsiPath=%config_SoftwareBasePath%\chrome.msi"
@@ -25,7 +25,7 @@ SET "config_UrlFnmtSolicitar=https://www.sede.fnmt.gob.es/certificados/persona-f
 SET "config_UrlFnmtRenovar=https://www.sede.fnmt.gob.es/certificados/persona-fisica/renovar/solicitar-renovacion"
 SET "config_UrlFnmtDescargar=https://www.sede.fnmt.gob.es/certificados/persona-fisica/obtener-certificado-software/descargar-certificado"
 
-SET "config_ScriptVersion=2504-refactored"
+SET "config_ScriptVersion=JUS-301025"
 :: --- End Configuration Variables ---
 
 :: Bloqueo para máquina de salto
@@ -44,21 +44,28 @@ IF "%hostname%"=="IUSSWRDPCAU02" (
 ::=============================================================================
 
 :check_initial_setup
-    CLS
-    @ECHO OFF
+SET "adUser="
+IF NOT DEFINED adUser (
+    SET /P "adUser=introduce tu AD:"
+)
 
-    SET adUser=
-    IF NOT DEFINED adUser (
-        SET /P "adUser=introduce tu AD:"
-    )
-    FOR /F "tokens=2 delims=\" %%i IN ('whoami') DO SET userProfileName=%%i
-    runas /user:%adUser%@JUSTICIA /savecred "cmd /c msiexec /i \"\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\isl.msi\" /qn"
-    SET "LOG_DIR=%TEMP%\CAUJUS_Logs"
-    FOR /F "usebackq" %%j IN ('hostname') DO SET currentHostname=%%j
-    SET "YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-    SET "HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-    SET "HHMMSS=%HHMMSS: =0%"
-    SET "LOG_FILE=%LOG_DIR%\%adUser%_%currentHostname%_%YYYYMMDD%_%HHMMSS%.log"
+FOR /F "tokens=2 delims=\" %%i IN ('whoami') DO SET "userProfileName=%%i"
+
+runas /user:%adUser%@JUSTICIA /savecred "cmd /c msiexec /i \"\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\isl.msi\" /qn"
+
+SET "LOG_DIR=%TEMP%\CAUJUS_Logs"
+IF NOT EXIST "%LOG_DIR%" MD "%LOG_DIR%"
+
+REM Método seguro y rápido
+SET "currentHostname=%COMPUTERNAME%"
+
+SET "YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
+SET "HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
+SET "HHMMSS=%HHMMSS: =0%"
+
+SET "LOG_FILE=%LOG_DIR%\%adUser%_%currentHostname%_%YYYYMMDD%_%HHMMSS%.log"
+
+
 
     REM Create Log Directory if it doesn't exist
     IF NOT EXIST "%LOG_DIR%" (
@@ -72,16 +79,38 @@ IF "%hostname%"=="IUSSWRDPCAU02" (
     GOTO main_menu
 
 ::=============================================================================
-:: Main Menu and System Information Display
+:: Main Menu and System Information Display (corregido)
 ::=============================================================================
 :main_menu
     CLS
-    :: Gather system information
-    FOR /F "usebackq" %%i IN ('hostname') DO SET computerName=%%i
-    FOR /F "Tokens=1* Delims==" %%g IN ('WMIC BIOS GET SerialNumber /Value') DO FOR /F "Tokens=*" %%i IN ("%%h") DO SET serialNumber=%%i
-    FOR /F "delims=[] tokens=2" %%a IN ('PING -4 -n 1 %ComputerName% ^| FINDSTR [') DO SET networkIP=%%a
-    FOR /F "Tokens=1* Delims==" %%g IN ('WMIC OS GET Caption /Value') DO FOR /F "Tokens=*" %%i IN ("%%h") DO SET osCaption=%%i
-    FOR /F "SKIP=2 tokens=2,*" %%A IN ('REG QUERY "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v CurrentBuildNumber') DO (SET osBuildNumber=%%B)
+
+    :: Nombre del equipo (seguro, sin invocar hostname)
+    SET "computerName=%COMPUTERNAME%"
+
+    :: Numero de serie (WMIC puede devolver líneas vacías; comprobamos la clave)
+    SET "serialNumber="
+    FOR /F "tokens=1* delims==" %%g IN ('wmic bios get SerialNumber /value 2^>nul') DO (
+        IF /I "%%g"=="SerialNumber" SET "serialNumber=%%h"
+    )
+    :: Fallback si no se obtuvo
+    IF NOT DEFINED serialNumber SET "serialNumber=Desconocido"
+
+    :: IP de red — captura la parte entre corchetes de la línea "Pinging NAME [IP] ..."
+    SET "networkIP="
+    FOR /F "tokens=2 delims=[]" %%a IN ('ping -4 -n 1 %computerName% 2^>nul ^| findstr /I "Pinging"') DO SET "networkIP=%%a"
+    IF NOT DEFINED networkIP SET "networkIP=Desconocida"
+
+    :: OS caption (ej. "Microsoft Windows 11 Pro")
+    SET "osCaption="
+    FOR /F "tokens=1* delims==" %%g IN ('wmic os get Caption /value 2^>nul') DO (
+        IF /I "%%g"=="Caption" SET "osCaption=%%h"
+    )
+    IF NOT DEFINED osCaption SET "osCaption=Desconocido"
+
+    :: Numero de compilacion desde el registro
+    SET "osBuildNumber="
+    FOR /F "tokens=3" %%A IN ('REG QUERY "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v CurrentBuildNumber 2^>nul ^| FINDSTR /I "CurrentBuildNumber"') DO SET "osBuildNumber=%%A"
+    IF NOT DEFINED osBuildNumber SET "osBuildNumber=Desconocida"
 
     CALL :LogMessage "INFO - System Info: User: %userProfileName%, AD User: %adUser%, Computer: %computerName%, SN: %serialNumber%, IP: %networkIP%, OS: %osCaption% (%osBuildNumber%), Script Version: %config_ScriptVersion%"
 
@@ -105,6 +134,7 @@ IF "%hostname%"=="IUSSWRDPCAU02" (
     ECHO 5. Certificado digital
     ECHO 6. ISL Allways on
     ECHO 7. Utilidades
+
 
     SET choice=
     SET /P "choice=Escoge una opcion: "

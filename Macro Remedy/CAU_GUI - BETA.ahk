@@ -15,7 +15,6 @@ SetControlDelay, -1
 SendMode Input
 DllCall("ntdll\ZwSetTimerResolution","Int",5000,"Int",1,"Int*",MyCurrentTimerResolution)
 SetWorkingDir, %A_ScriptDir%
-
 ; Variables globales
 global repoUrl, downloadUrl, localFile, logFilePath, tempFile
 dni:=""
@@ -247,24 +246,39 @@ screen()
     Return
 }
 
-Alba(num)
-{
-     if (!CheckRemedy())
+Alba(num) {
+    if (!CheckRemedy())
     {
         return
     }
+    
     try {
+        ; --- Rutas de script ---
+        psScriptPath := "C:\Alba.ps1"
+        psWorkDir  := "C:\"
+        
+        ; --- COMPROBACIÓN DE ARCHIVO ---
+        ; Comprueba si el archivo NO existe
+        If !FileExist(psScriptPath)
+        {
+            MsgBox, 48, Error de Script, No se pudo encontrar el archivo de PowerShell en la ruta:%n%n%psScriptPath%
+            Return ; Aborta la macro si no se encuentra el archivo
+        }
         BlockInput, On ; Bloquea el teclado y el ratón
-        RunWait, powershell.exe -ExecutionPolicy Bypass -File "C:\ProgramData\Application Data\AR SYSTEM\home\Alba.ps1",, Hide
+        psComando := "& '" . psScriptPath . "'"
+        RunWait, powershell.exe -NoProfile -ExecutionPolicy Bypass -Command %psComando%, %psWorkDir%, Hide
         screen()
         Send, ^i
+        Sleep, 300 
         Send, {TAB 2}{End}{Up %num%}{Enter}
+        Sleep, 300 
         Send, {TAB 22}
         WriteLog("Ejecutó la macro Alba con parámetro " . num)
+        
     } catch e {
         WriteError("Ejecutando macro Alba: " . e.Message)
     }
-        finally
+    finally
     {
         BlockInput, Off ; Desbloquea el teclado y el ratón
     }
