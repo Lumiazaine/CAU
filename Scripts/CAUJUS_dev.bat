@@ -1,7 +1,4 @@
 :: Script: CAUJUS_dev.bat
-:: Purpose: Provides a menu-driven utility for various CAU IT support tasks.
-:: Version: 2504 - Refactored for Clean Code
-:: Last Modified: %DATE%
 
 @ECHO OFF
 
@@ -26,7 +23,7 @@ SET "config_UrlFnmtSolicitar=https://www.sede.fnmt.gob.es/certificados/persona-f
 SET "config_UrlFnmtRenovar=https://www.sede.fnmt.gob.es/certificados/persona-fisica/renovar/solicitar-renovacion"
 SET "config_UrlFnmtDescargar=https://www.sede.fnmt.gob.es/certificados/persona-fisica/obtener-certificado-software/descargar-certificado"
 
-SET "config_ScriptVersion=JUS-301025"
+SET "config_ScriptVersion=JUS-041125"
 :: --- End Configuration Variables ---
 
 :: Bloqueo para máquina de salto
@@ -52,7 +49,7 @@ IF NOT DEFINED adUser (
 
 FOR /F "tokens=2 delims=\" %%i IN ('whoami') DO SET "userProfileName=%%i"
 
-runas /user:%adUser%@JUSTICIA /savecred "cmd /c msiexec /i \"\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\isl.msi\" /qn"
+runas /user:%adUser%@JUSTICIA /savecred "cmd /c \"\"\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\isl.exe\" /S\""
 
 SET "LOG_DIR=%TEMP%\CAUJUS_Logs"
 IF NOT EXIST "%LOG_DIR%" MD "%LOG_DIR%"
