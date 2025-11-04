@@ -23,7 +23,7 @@ SET "config_UrlFnmtSolicitar=https://www.sede.fnmt.gob.es/certificados/persona-f
 SET "config_UrlFnmtRenovar=https://www.sede.fnmt.gob.es/certificados/persona-fisica/renovar/solicitar-renovacion"
 SET "config_UrlFnmtDescargar=https://www.sede.fnmt.gob.es/certificados/persona-fisica/obtener-certificado-software/descargar-certificado"
 
-SET "config_ScriptVersion=JUS-041125"
+SET "config_ScriptVersion=JUS-25041125"
 :: --- End Configuration Variables ---
 
 :: Bloqueo para máquina de salto
