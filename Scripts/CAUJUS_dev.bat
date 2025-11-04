@@ -239,12 +239,14 @@ SET "LOG_FILE=%LOG_DIR%\%adUser%_%currentHostname%_%YYYYMMDD%_%HHMMSS%.log"
     CALL :LogMessage "INFO - Action: Starting Cert_Config_Silent. Silent FNMT configuration."
     CD /D %userprofile%\downloads
     CALL :ExecuteWithRunas "\"%config_FnmtConfigExe%\" /S"
+    runas /user:%adUser%@JUSTICIA /savecred "cmd /c \"\"\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\Configurador_FNMT_5.0.3_64bits.exe\" /S\""
     GOTO Cert_Menu
 
 :Cert_Config_Manual
     CALL :LogMessage "INFO - Action: Starting Cert_Config_Manual. Manual FNMT configuration."
     CD /D %userprofile%\downloads
     CALL :ExecuteWithRunas "\"%config_FnmtConfigExe%\""
+    runas /user:%adUser%@JUSTICIA /savecred "cmd /c \"\"\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\Configurador_FNMT_5.0.3_64bits.exe\""
     GOTO Cert_Menu
 
 :Cert_Request
