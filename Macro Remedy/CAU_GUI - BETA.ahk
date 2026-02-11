@@ -4,6 +4,7 @@
 #HotkeyInterval 99000000
 #KeyHistory 0
 #Persistent
+DetectHiddenWindows, On
 ListLines Off
 Process, Priority, , A
 SetBatchLines, -1
@@ -1306,25 +1307,31 @@ try{
             WriteError("Error ejecutando modo afk " . e.Message)
         }
     Return
-#8::
-        Send, {End}^+{Up}^{c}
-        WinActivate, ahk_class MozillaWindowClass
-        Send, ^{1}
-        Sleep, 100
-        Send, {Tab}
-        Send, {Tab}
-        Send, {Enter}
-        Sleep, 30
-        SendInput, 0
-        Sleep, 30
-        SendInput, ^v
-        Sleep, 30
-        SendInput, {Enter}
-        WinActivate, ahk_class MozillaWindowClass
-        Send, {F6}
-        Sleep, 100
-        SendInput, {Tab 2}
-Return
+    ;;Macro llamadas automáticas openscape
+
+    #8::
+    Send, {End}^+{Up}^{c}
+    WinShow, ahk_class WindowsForms10.Window.8.app.0.25bb5ff_r8_ad1
+    WinRestore, ahk_class WindowsForms10.Window.8.app.0.25bb5ff_r8_ad1
+    WinActivate, ahk_class WindowsForms10.Window.8.app.0.25bb5ff_r8_ad1
+    WinWaitActive, ahk_class WindowsForms10.Window.8.app.0.25bb5ff_r8_ad1
+    Sleep, 1000
+    Send, {Alt down}
+    Send, {Alt up}
+    Send, 1
+    Send, 0
+    Send, ^v
+    Send, {Enter}
+    Sleep, 3000
+    Send, {Alt down}
+    Send, {Alt up}
+    Send, 4
+    Sleep, 12000
+    Send, {Alt down}
+    Send, {Alt up}
+    Send, 3
+    Return
+
 #9::
      if (!CheckRemedy())
     {
