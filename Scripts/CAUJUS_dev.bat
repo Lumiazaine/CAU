@@ -9,8 +9,8 @@ SET "config_DriverBasePath=\\iusnas05\DDPP\COMUN\_DRIVERS\lectores tarjetas"
 
 SET "config_IslMsiPath=%config_SoftwareBasePath%\isl.msi"
 SET "config_IslExe=%config_SoftwareBasePath%\isl.exe"
-SET "config_FnmtConfigExe=%config_SoftwareBasePath%\Configurador_FNMT_5.0.3_64bits.exe"
-SET "config_AutoFirmaExe=%config_SoftwareBasePath%\AutoFirma_64_v1_8_3_installer.exe"
+SET "config_FnmtConfigExe=%config_SoftwareBasePath%\Configurador_FNMT_5.1.1_64bits"
+SET "config_AutoFirmaExe=%config_SoftwareBasePath%\Autofirma_64_v1_9_installer.exe"
 SET "config_AutoFirmaMsi=%config_SoftwareBasePath%\AutoFirma_v1_6_0_JAv05_installer_64.msi"
 SET "config_ChromeMsiPath=%config_SoftwareBasePath%\chrome.msi"
 SET "config_LibreOfficeMsiPath=%config_SoftwareBasePath%\LibreOffice.msi"
@@ -23,7 +23,7 @@ SET "config_UrlFnmtSolicitar=https://www.sede.fnmt.gob.es/certificados/persona-f
 SET "config_UrlFnmtRenovar=https://www.sede.fnmt.gob.es/certificados/persona-fisica/renovar/solicitar-renovacion"
 SET "config_UrlFnmtDescargar=https://www.sede.fnmt.gob.es/certificados/persona-fisica/obtener-certificado-software/descargar-certificado"
 
-SET "config_ScriptVersion=JUS-25041125"
+SET "config_ScriptVersion=JUS-010226"
 :: --- End Configuration Variables ---
 
 :: Bloqueo para máquina de salto
@@ -239,14 +239,14 @@ SET "LOG_FILE=%LOG_DIR%\%adUser%_%currentHostname%_%YYYYMMDD%_%HHMMSS%.log"
     CALL :LogMessage "INFO - Action: Starting Cert_Config_Silent. Silent FNMT configuration."
     CD /D %userprofile%\downloads
     CALL :ExecuteWithRunas "\"%config_FnmtConfigExe%\" /S"
-    runas /user:%adUser%@JUSTICIA /savecred "cmd /c \"\"\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\Configurador_FNMT_5.0.3_64bits.exe\" /S\""
+    runas /user:%adUser%@JUSTICIA /savecred "cmd /c \"\"\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\Configurador_FNMT_5.1.1_64bits\" /S\""
     GOTO Cert_Menu
 
 :Cert_Config_Manual
     CALL :LogMessage "INFO - Action: Starting Cert_Config_Manual. Manual FNMT configuration."
     CD /D %userprofile%\downloads
     CALL :ExecuteWithRunas "\"%config_FnmtConfigExe%\""
-    runas /user:%adUser%@JUSTICIA /savecred "cmd /c \"\"\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\Configurador_FNMT_5.0.3_64bits.exe\""
+    runas /user:%adUser%@JUSTICIA /savecred "cmd /c \"\"\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\Configurador_FNMT_5.1.1_64bits\""
     GOTO Cert_Menu
 
 :Cert_Request
