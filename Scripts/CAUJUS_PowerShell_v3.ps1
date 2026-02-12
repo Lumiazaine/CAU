@@ -234,11 +234,19 @@ function Invoke-BateryTest {
     }
 
     # 3. Optimizacion de Rendimiento (Registro)
-    Write-CAULog "Aplicando optimizaciones de efectos visuales..."
+    Write-CAULog "Aplicando optimizaciones de efectos visuales (11 tweaks)..."
     $RegTweaks = @(
         @{ Path = "HKCU:\Control Panel\Desktop\WindowMetrics"; Name = "MinAnimate"; Value = "0"; Type = "String" },
         @{ Path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"; Name = "TaskbarAnimations"; Value = 0; Type = "DWord" },
-        @{ Path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects"; Name = "VisualFXSetting"; Value = 2; Type = "DWord" }
+        @{ Path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects"; Name = "VisualFXSetting"; Value = 2; Type = "DWord" },
+        @{ Path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects"; Name = "ComboBoxAnimation"; Value = 0; Type = "DWord" },
+        @{ Path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects"; Name = "CursorShadow"; Value = 0; Type = "DWord" },
+        @{ Path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects"; Name = "DropShadow"; Value = 0; Type = "DWord" },
+        @{ Path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects"; Name = "ListBoxSmoothScrolling"; Value = 0; Type = "DWord" },
+        @{ Path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects"; Name = "MenuAnimation"; Value = 0; Type = "DWord" },
+        @{ Path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects"; Name = "SelectionFade"; Value = 0; Type = "DWord" },
+        @{ Path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects"; Name = "TooltipAnimation"; Value = 0; Type = "DWord" },
+        @{ Path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects"; Name = "Fade"; Value = 0; Type = "DWord" }
     )
 
     foreach ($Tweak in $RegTweaks) {
@@ -256,12 +264,23 @@ function Invoke-BateryTest {
     Write-CAULog "Forzando actualizacion de directivas de grupo (GPUpdate)..."
     & gpupdate /force | Out-Null
     
-    Write-CAULog "Limpiando cache de Windows Update..."
+    Write-CAULog "Limpiando cache de Windows Update y temporales profundos..."
     Stop-Service -Name "wuauserv" -Force -ErrorAction SilentlyContinue
+    
     $UpdateCache = Join-Path $env:windir "SoftwareDistribution\Download"
-    if (Test-Path $UpdateCache) {
-        Get-ChildItem -Path "$UpdateCache\*" -Recurse -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
+    $ExtraCleanup = @(
+        "$env:LOCALAPPDATA\Microsoft\Terminal Server Client\Cache",
+        "$env:LOCALAPPDATA\CrashDumps",
+        "$UpdateCache"
+    )
+
+    foreach ($Dir in $ExtraCleanup) {
+        if (Test-Path $Dir) {
+            Write-CAULog "Limpiando: $Dir"
+            Get-ChildItem -Path "$Dir\*" -Recurse -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
+        }
     }
+    
     Start-Service -Name "wuauserv" -ErrorAction SilentlyContinue
 
     Write-CAULog "Bateria de pruebas finalizada con exito." "SUCCESS"
