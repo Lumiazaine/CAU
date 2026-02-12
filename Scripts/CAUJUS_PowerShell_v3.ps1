@@ -1,18 +1,18 @@
 #Requires -Version 5.1
 #Requires -RunAsAdministrator
 
-# Configurar codificación para mostrar caracteres especiales correctamente
+# Configuración de codificación para evitar errores con caracteres especiales
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $OutputEncoding = [System.Text.Encoding]::UTF8
 
 <#
 .SYNOPSIS
-    Utilidad de Soporte IT CAU - Versión PowerShell v3.0 (Optimizada para Win 10/11)
+    Utilidad de Soporte IT CAU - Versión PowerShell v3.1 (Windows 10/11)
 .DESCRIPTION
-    Herramienta integral de soporte migrada de Batch a PowerShell.
-    Optimizada para Windows 10/11 con logging avanzado y ejecución elevada.
+    Herramienta integral de soporte optimizada para aprovechar las ventajas de PowerShell 5.1.
+    Manejo de servicios, registro, limpieza de archivos y logging avanzado.
 .NOTES
-    Versión: JUS-010226-PS
+    Versión: JUS-120226-PS-ADV
     Autor: CAU IT Team
 #>
 
@@ -21,18 +21,22 @@ $OutputEncoding = [System.Text.Encoding]::UTF8
 # =============================================================================
 
 $Global:CAUConfig = @{
-    RemoteLogDir     = "\iusnas05\SIJ\CAU-2012\logs"
-    SoftwareBase     = "\iusnas05\DDPP\COMUN\Aplicaciones Corporativas"
-    DriverBase       = "\iusnas05\DDPP\COMUN\_DRIVERS\lectores tarjetas"
+    RemoteLogDir     = "\\iusnas05\SIJ\CAU-2012\logs"
+    SoftwareBase     = "\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas"
+    DriverBase       = "\\iusnas05\DDPP\COMUN\_DRIVERS\lectores tarjetas"
     
     # Instaladores
-    IslMsi           = "\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\isl.msi"
-    IslExe           = "\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\isl.exe"
-    FnmtConfig       = "\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\Configurador_FNMT_5.1.1_64bits.exe"
-    AutoFirmaExe     = "\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\Autofirma_64_v1_9_installer.exe"
-    AutoFirmaMsi     = "\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\AutoFirma_v1_6_0_JAv05_installer_64.msi"
-    ChromeMsi        = "\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\chrome.msi"
-    LibreOfficeMsi   = "\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\LibreOffice.msi"
+    IslMsi           = "\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\isl.msi"
+    IslExe           = "\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\isl.exe"
+    FnmtConfig       = "\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\Configurador_FNMT_5.1.1_64bits.exe"
+    AutoFirmaExe     = "\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\Autofirma_64_v1_9_installer.exe"
+    AutoFirmaMsi     = "\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\AutoFirma_v1_6_0_JAv05_installer_64.msi"
+    ChromeMsi        = "\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\chrome.msi"
+    LibreOfficeMsi   = "\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\LibreOffice.msi"
+    
+    # Drivers
+    DriverPct        = "\\iusnas05\DDPP\COMUN\_DRIVERS\lectores tarjetas\PCT-331_V8.52\SCR3xxx_V8.52.exe"
+    DriverSatellite  = "\\iusnas05\DDPP\COMUN\_DRIVERS\lectores tarjetas\satellite pro a50c169 smartcard\smr-20151028103759\TCJ0023500B.exe"
     
     # URLs
     UrlMiCuenta      = "https://micuenta.juntadeandalucia.es/micuenta/es.juntadeandalucia.micuenta.servlets.LoginInicial"
@@ -40,7 +44,7 @@ $Global:CAUConfig = @{
     UrlFnmtRenovar   = "https://www.sede.fnmt.gob.es/certificados/persona-fisica/renovar/solicitar-renovacion"
     UrlFnmtDescargar = "https://www.sede.fnmt.gob.es/certificados/persona-fisica/obtener-certificado-software/descargar-certificado"
     
-    ScriptVersion    = "JUS-010226-PS"
+    ScriptVersion    = "JUS-120226-PS-ADV"
     BlockedHost      = "IUSSWRDPCAU02"
 }
 
@@ -52,77 +56,149 @@ $Global:CAUSession = @{
 }
 
 # =============================================================================
-# VARIABLES DE TEXTO (Caracteres especiales)
-# =============================================================================
-$VersionText   = "Versi$([char]243)n"
-$BateriaText   = "1. Bater$([char]237)a de pruebas (Optimizaci$([char]243)n)"
-$ImpresionText = "3. Reiniciar cola de impres$([char]237)n"
-$GestionText   = "5. Gesti$([char]243)n de Certificados Digitales"
-$OpcionText    = "Seleccione una opci$([char]243)n"
-
-# =============================================================================
-# FUNCIONES DE SISTEMA (LOGGING Y ENTORNO)
+# FUNCIONES DE SOPORTE
 # =============================================================================
 
 function Write-CAULog {
     param(
         [Parameter(Mandatory=$true)][string]$Message,
-        [ValidateSet('INFO', 'WARN', 'ERROR', 'RUNAS')][string]$Level = 'INFO'
+        [ValidateSet('INFO', 'WARN', 'ERROR', 'RUNAS', 'SUCCESS')][string]$Level = 'INFO'
     )
     $Timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
     $Color = switch($Level) {
-        'INFO'  { 'Cyan' }
-        'WARN'  { 'Yellow' }
-        'ERROR' { 'Red' }
-        'RUNAS' { 'Green' }
+        'INFO'    { 'Cyan' }
+        'WARN'    { 'Yellow' }
+        'ERROR'   { 'Red' }
+        'RUNAS'   { 'Green' }
+        'SUCCESS' { 'Magenta' }
+        Default   { 'White' }
     }
+    
     $LogEntry = "$Timestamp [$Level] $Message"
     Write-Host $LogEntry -ForegroundColor $Color
     
     if ($Global:CAUSession.LogFile) {
-        $LogEntry | Out-File -FilePath $Global:CAUSession.LogFile -Append -Encoding UTF8
+        try {
+            $LogEntry | Out-File -FilePath $Global:CAUSession.LogFile -Append -Encoding UTF8 -ErrorAction SilentlyContinue
+        } catch {
+            # Si falla el log a archivo, al menos queda en pantalla
+        }
     }
 }
 
-function Initialize-CAUEnvironment {
-    # 1. Bloqueo de Máquina de Salto
-    if ($env:COMPUTERNAME -eq $Global:CAUConfig.BlockedHost) {
-        Write-Host "ERROR: Este script no puede ejecutarse en la máquina de salto ($($Global:CAUConfig.BlockedHost))." -ForegroundColor Red
-        Pause
-        exit
+function Invoke-RunAsAD {
+    param(
+        [Parameter(Mandatory=$true)][string]$Command,
+        [switch]$Wait = $true
+    )
+    Write-CAULog "RUNAS: Preparando ejecucion como $($Global:CAUSession.ADUser)..." "RUNAS"
+    
+    $ProcessParams = @{
+        FilePath     = "runas.exe"
+        ArgumentList = "/user:$($Global:CAUSession.ADUser)@JUSTICIA /savecred `"$Command`""
+        Wait         = $Wait
+        WindowStyle  = 'Minimized'
     }
-
-    # 2. Credenciales
-    $Global:CAUSession.ADUser = Read-Host "Introduce tu usuario AD"
-    if ([string]::IsNullOrWhiteSpace($Global:CAUSession.ADUser)) { exit }
     
-    # 3. Preparar Log Local
-    $LogDir = Join-Path $env:TEMP "CAUJUS_Logs"
-    if (!(Test-Path $LogDir)) { New-Item $LogDir -ItemType Directory | Out-Null }
-    
-    $TimestampFile = Get-Date -Format "yyyyMMdd_HHmmss"
-    $Global:CAUSession.LogFile = Join-Path $LogDir "$($Global:CAUSession.ADUser)_$($env:COMPUTERNAME)_$TimestampFile.log"
-    
-    Write-CAULog "Script iniciado. Usuario: $($env:USERNAME), Máquina: $($env:COMPUTERNAME)"
-    
-    # 4. Instalación inicial de ISL (Silenciosa)
-    if (Test-Path $Global:CAUConfig.IslExe) {
-        Write-CAULog "Ejecutando ISL inicial..."
-        Start-Process $Global:CAUConfig.IslExe -ArgumentList "/S" -Wait
+    try {
+        Start-Process @ProcessParams
+    } catch {
+        Write-CAULog "Fallo al iniciar el proceso RunAs: $($_.Exception.Message)" "ERROR"
     }
 }
 
 function Get-SystemSummary {
-    $IP = (Get-NetIPAddress -AddressFamily IPv4 | Where-Object { $_.InterfaceAlias -notmatch 'Loopback|Virtual' }).IPAddress | Select-Object -First 1
-    $SN = (Get-CimInstance Win32_Bios).SerialNumber
-    $OS = (Get-CimInstance Win32_OperatingSystem).Caption
-    $Build = (Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion").CurrentBuildNumber
+    $Summary = [PSCustomObject]@{
+        IP    = "Desconocida"
+        SN    = "Desconocido"
+        OS    = "Desconocido"
+        Build = "Desconocido"
+    }
 
-    return @{
-        IP    = $IP
-        SN    = if ($SN) { $SN } else { "Desconocido" }
-        OS    = $OS
-        Build = $Build
+    try {
+        $NetInfo = Get-NetIPAddress -AddressFamily IPv4 | Where-Object { $_.InterfaceAlias -notmatch 'Loopback|Virtual|Pseudo' } | Select-Object -First 1
+        if ($NetInfo) { $Summary.IP = $NetInfo.IPAddress }
+
+        $Bios = Get-CimInstance Win32_Bios -ErrorAction SilentlyContinue
+        if ($Bios) { $Summary.SN = $Bios.SerialNumber }
+
+        $OSInfo = Get-CimInstance Win32_OperatingSystem -ErrorAction SilentlyContinue
+        if ($OSInfo) { $Summary.OS = $OSInfo.Caption }
+
+        $RegistryInfo = Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion" -ErrorAction SilentlyContinue
+        if ($RegistryInfo) { $Summary.Build = $RegistryInfo.CurrentBuildNumber }
+    } catch {
+        Write-CAULog "Error al obtener resumen del sistema: $($_.Exception.Message)" "WARN"
+    }
+
+    return $Summary
+}
+
+function Upload-Log {
+    if (-not $Global:CAUSession.LogFile -or -not (Test-Path $Global:CAUSession.LogFile)) {
+        return
+    }
+
+    Write-CAULog "Sincronizando log con el repositorio central..." "INFO"
+    try {
+        $LogFileName = Split-Path $Global:CAUSession.LogFile -Leaf
+        $RemoteDir = $Global:CAUConfig.RemoteLogDir
+        $RemotePath = Join-Path $RemoteDir $LogFileName
+        
+        # Asegurar directorio remoto
+        Invoke-RunAsAD "cmd /c IF NOT EXIST `"$RemoteDir`" MKDIR `"$RemoteDir`"" -Wait
+        # Copiar log
+        Invoke-RunAsAD "cmd /c COPY /Y `"$($Global:CAUSession.LogFile)`" `"$RemotePath`"" -Wait
+        
+        Write-CAULog "Log sincronizado en: $RemotePath" "SUCCESS"
+    } catch {
+        Write-CAULog "No se pudo completar la sincronizacion del log." "WARN"
+    }
+}
+
+function Initialize-CAUEnvironment {
+    Clear-Host
+    Write-Host "====================================================" -ForegroundColor Yellow
+    Write-Host "      INICIALIZANDO ENTORNO DE SOPORTE CAU          " -ForegroundColor White -BackgroundColor DarkBlue
+    Write-Host "====================================================" -ForegroundColor Yellow
+
+    if ($env:COMPUTERNAME -eq $Global:CAUConfig.BlockedHost) {
+        Write-CAULog "ERROR: Ejecucion bloqueada en esta terminal ($($Global:CAUConfig.BlockedHost))." "ERROR"
+        Pause
+        exit
+    }
+
+    $ADUser = Read-Host "Introduzca su usuario AD (Tecnico)"
+    if ([string]::IsNullOrWhiteSpace($ADUser)) {
+        Write-Host "Usuario no valido. Saliendo..." -ForegroundColor Red
+        Start-Sleep -Seconds 2
+        exit
+    }
+    $Global:CAUSession.ADUser = $ADUser
+
+    # Directorio de logs
+    $LogDir = Join-Path $env:TEMP "CAUJUS_Logs"
+    if (!(Test-Path $LogDir)) {
+        New-Item -Path $LogDir -ItemType Directory -Force | Out-Null
+    }
+    
+    $Timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
+    $Global:CAUSession.LogFile = Join-Path $LogDir "$($ADUser)_$($env:COMPUTERNAME)_$Timestamp.log"
+
+    Write-CAULog "Sesion iniciada para el tecnico: $ADUser" "SUCCESS"
+    
+    $Sys = Get-SystemSummary
+    Write-CAULog "Informacion del equipo objetivo:"
+    Write-CAULog " - Hostname: $($env:COMPUTERNAME)"
+    Write-CAULog " - IP:       $($Sys.IP)"
+    Write-CAULog " - S/N:      $($Sys.SN)"
+    Write-CAULog " - OS:       $($Sys.OS) (Build $($Sys.Build))"
+    Write-CAULog "----------------------------------------------------"
+
+    # ISL Inicial (Silencioso)
+    if (Test-Path $Global:CAUConfig.IslExe) {
+        Write-CAULog "Lanzando ISL Light AlwaysOn inicial..."
+        Invoke-RunAsAD "`"$($Global:CAUConfig.IslExe)`" /S" -Wait
     }
 }
 
@@ -131,66 +207,104 @@ function Get-SystemSummary {
 # =============================================================================
 
 function Invoke-BateryTest {
-    Write-CAULog "Iniciando Batería de Pruebas..."
+    Write-CAULog "Iniciando Bateria de Pruebas Automatizada..." "INFO"
     
-    # 1. Cerrar Navegadores
-    Write-CAULog "Cerrando navegadores..."
-    Get-Process chrome, iexplore, msedge -ErrorAction SilentlyContinue | Stop-Process -Force
+    # 1. Finalizar Navegadores
+    $Browsers = @('chrome', 'iexplore', 'msedge')
+    foreach ($Browser in $Browsers) {
+        if (Get-Process -Name $Browser -ErrorAction SilentlyContinue) {
+            Write-CAULog "Cerrando $Browser..."
+            Stop-Process -Name $Browser -Force -ErrorAction SilentlyContinue
+        }
+    }
 
     # 2. Limpieza de Caches
-    Write-Progress -Activity "Batería de Pruebas" -Status "Limpiando Caches" -PercentComplete 25
+    Write-CAULog "Limpiando caches de red e internet..."
     Clear-DnsClientCache
-    # Limpieza IE/Internet (Nativo)
-    Start-Process RunDll32.exe -ArgumentList "InetCpl.cpl,ClearMyTracksByProcess 255" -Wait
+    Start-Process -FilePath "RunDll32.exe" -ArgumentList "InetCpl.cpl,ClearMyTracksByProcess 255" -Wait
     
-    # Limpieza Chrome Cache
-    $ChromeCache = "$env:LOCALAPPDATA\Google\Chrome\User Data\Default\Cache"
-    if (Test-Path $ChromeCache) { Remove-Item "$ChromeCache\*" -Recurse -Force -ErrorAction SilentlyContinue }
-
-    # 3. Ajustes de Rendimiento (Registro)
-    Write-CAULog "Aplicando tweaks de efectos visuales..."
-    $RegPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects"
-    if (!(Test-Path $RegPath)) { New-Item $RegPath -Force | Out-Null }
-    Set-ItemProperty -Path $RegPath -Name "VisualFXSetting" -Value 2
-
-    # 4. Mantenimiento de Sistema
-    Write-Progress -Activity "Batería de Pruebas" -Status "Mantenimiento GPUpdate" -PercentComplete 75
-    gpupdate /force
+    # Limpieza de temporales por patron
+    Write-CAULog "Eliminando archivos temporales residuales..."
+    $Extensions = @('*.bak', '*.tmp', '*._mp', '*.gid', '*.chk', '*.old')
+    $CleanupPaths = @($env:windir, $env:systemdrive)
     
-    # Limpieza SoftwareDistribution (Windows Update Cache)
-    Stop-Service wuauserv -Force -ErrorAction SilentlyContinue
-    Remove-Item "$env:windir\SoftwareDistribution\Download\*" -Recurse -Force -ErrorAction SilentlyContinue
-    Start-Service wuauserv -ErrorAction SilentlyContinue
+    foreach ($Path in $CleanupPaths) {
+        Get-ChildItem -Path $Path -Include $Extensions -Recurse -ErrorAction SilentlyContinue | 
+            Remove-Item -Force -ErrorAction SilentlyContinue
+    }
 
-    Write-Progress -Activity "Batería de Pruebas" -Completed
-    Write-CAULog "Batería de pruebas completada."
+    # 3. Optimizacion de Rendimiento (Registro)
+    Write-CAULog "Aplicando optimizaciones de efectos visuales..."
+    $RegTweaks = @(
+        @{ Path = "HKCU:\Control Panel\Desktop\WindowMetrics"; Name = "MinAnimate"; Value = "0"; Type = "String" },
+        @{ Path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"; Name = "TaskbarAnimations"; Value = 0; Type = "DWord" },
+        @{ Path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects"; Name = "VisualFXSetting"; Value = 2; Type = "DWord" }
+    )
+
+    foreach ($Tweak in $RegTweaks) {
+        try {
+            if (-not (Test-Path $Tweak.Path)) {
+                New-Item -Path $Tweak.Path -Force | Out-Null
+            }
+            Set-ItemProperty -Path $Tweak.Path -Name $Tweak.Name -Value $Tweak.Value -Type $Tweak.Type -Force -ErrorAction SilentlyContinue
+        } catch {
+            Write-CAULog "No se pudo aplicar tweak: $($Tweak.Name)" "WARN"
+        }
+    }
+
+    # 4. Servicios y GPO
+    Write-CAULog "Forzando actualizacion de directivas de grupo (GPUpdate)..."
+    & gpupdate /force | Out-Null
     
-    $Res = Read-Host "¿Deseas reiniciar el equipo ahora? (S/N)"
-    if ($Res -eq 'S') {
+    Write-CAULog "Limpiando cache de Windows Update..."
+    Stop-Service -Name "wuauserv" -Force -ErrorAction SilentlyContinue
+    $UpdateCache = Join-Path $env:windir "SoftwareDistribution\Download"
+    if (Test-Path $UpdateCache) {
+        Get-ChildItem -Path "$UpdateCache\*" -Recurse -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
+    }
+    Start-Service -Name "wuauserv" -ErrorAction SilentlyContinue
+
+    Write-CAULog "Bateria de pruebas finalizada con exito." "SUCCESS"
+    
+    $Choice = Read-Host "¿Desea reiniciar el equipo para aplicar todos los cambios? (S/N)"
+    if ($Choice -match "^[Ss]$") {
         Upload-Log
         Restart-Computer -Force
     }
 }
 
-function Invoke-ResetPrintSpooler {
-    Write-CAULog "Reiniciando cola de impresión..."
-    Stop-Service Spooler -Force
-    Remove-Item "$env:windir\System32\spool\PRINTERS\*" -Force -ErrorAction SilentlyContinue
-    Start-Service Spooler
-    Write-CAULog "Cola de impresión reseteada."
-    Pause
+function Invoke-RemoveDrivers {
+    Write-CAULog "Escaneando drivers de lectores de tarjetas para eliminacion..." "INFO"
+    try {
+        # Obtener drivers OEM que coincidan con patrones de lectores
+        $Drivers = pnputil /enum-drivers | Select-String -Pattern "oem\d+\.inf" -Context 0,5
+        
+        $Count = 0
+        foreach ($Match in $Drivers) {
+            $Inf = $Match.ToString().Trim()
+            if ($Match.Context.PostContext -join "" -match "lector|desconocido|smartcard|gemalto|cherry|scr3") {
+                Write-CAULog "Eliminando driver conflictivo: $Inf" "WARN"
+                pnputil /delete-driver $Inf /uninstall /force | Out-Null
+                $Count++
+            }
+        }
+        Write-CAULog "Se han eliminado $Count controladores." "SUCCESS"
+    } catch {
+        Write-CAULog "Error durante el proceso de limpieza de drivers." "ERROR"
+    }
 }
 
-function Upload-Log {
+function Invoke-ForceTimeSync {
+    Write-CAULog "Forzando sincronizacion con el servidor de tiempo..." "INFO"
     try {
-        if (!(Test-Path $Global:CAUConfig.RemoteLogDir)) {
-            New-Item $Global:CAUConfig.RemoteLogDir -ItemType Directory -Force | Out-Null
-        }
-        $Dest = Join-Path $Global:CAUConfig.RemoteLogDir (Split-Path $Global:CAUSession.LogFile -Leaf)
-        Copy-Item $Global:CAUSession.LogFile -Destination $Dest -Force
-        Write-CAULog "Log subido exitosamente a la red."
+        Stop-Service -Name "w32time" -Force -ErrorAction SilentlyContinue
+        & w32tm /unregister | Out-Null
+        & w32tm /register | Out-Null
+        Start-Service -Name "w32time" -ErrorAction SilentlyContinue
+        & w32tm /resync /nowait | Out-Null
+        Write-CAULog "Sincronizacion de hora completada." "SUCCESS"
     } catch {
-        Write-CAULog "No se pudo subir el log a la red." "WARN"
+        Write-CAULog "Fallo al sincronizar la hora." "ERROR"
     }
 }
 
@@ -198,65 +312,144 @@ function Upload-Log {
 # MENÚS
 # =============================================================================
 
-function Show-MainMenu {
-    $Sys = Get-SystemSummary
+function Show-CertMenu {
+    do {
+        Clear-Host
+        Write-Host "====================================================" -ForegroundColor Cyan
+        Write-Host "         GESTION DE CERTIFICADOS DIGITALES          " -ForegroundColor White -BackgroundColor DarkCyan
+        Write-Host "====================================================" -ForegroundColor Cyan
+        Write-Host " 1. Configuracion previa FNMT (Silenciosa)"
+        Write-Host " 2. Configuracion previa FNMT (Manual)"
+        Write-Host " 3. Solicitar Certificado Persona Fisica"
+        Write-Host " 4. Renovar Certificado"
+        Write-Host " 5. Descargar Certificado"
+        Write-Host " 6. <-- Volver al Menu Principal"
+        Write-Host ""
+        
+        $Choice = Read-Host "Seleccione una opcion"
+        switch ($Choice) {
+            "1" { Invoke-RunAsAD "`"$($Global:CAUConfig.FnmtConfig)`" /S" }
+            "2" { Invoke-RunAsAD "`"$($Global:CAUConfig.FnmtConfig)`"" }
+            "3" { Start-Process -FilePath "chrome.exe" -ArgumentList $Global:CAUConfig.UrlFnmtSolicitar }
+            "4" { Start-Process -FilePath "chrome.exe" -ArgumentList $Global:CAUConfig.UrlFnmtRenovar }
+            "5" { Start-Process -FilePath "chrome.exe" -ArgumentList $Global:CAUConfig.UrlFnmtDescargar }
+            "6" { return }
+            Default { Write-CAULog "Opcion no valida." "WARN"; Start-Sleep -Seconds 1 }
+        }
+    } while ($true)
+}
 
+function Show-UtilitiesMenu {
+    do {
+        Clear-Host
+        Write-Host "====================================================" -ForegroundColor Cyan
+        Write-Host "               UTILIDADES DE SOPORTE                " -ForegroundColor White -BackgroundColor DarkCyan
+        Write-Host "====================================================" -ForegroundColor Cyan
+        Write-Host " 1. Opciones de Internet (Control Panel)"
+        Write-Host " 2. Instalar Google Chrome (Silencioso)"
+        Write-Host " 3. Corregir fondo de pantalla oscuro (Fix)"
+        Write-Host " 4. Mostrar informacion de version (winver)"
+        Write-Host " 5. Reinstalar drivers Lector (PCT/Satellite)"
+        Write-Host " 6. Instalar Autofirma (Completo)"
+        Write-Host " 7. Instalar LibreOffice (Silencioso)"
+        Write-Host " 8. Forzar Sincronizacion de Hora"
+        Write-Host " 9. <-- Volver al Menu Principal"
+        Write-Host ""
+        
+        $Choice = Read-Host "Seleccione una opcion"
+        switch ($Choice) {
+            "1" { Start-Process -FilePath "RunDll32.exe" -ArgumentList "Shell32.dll,Control_RunDLL Inetcpl.cpl" }
+            "2" { Invoke-RunAsAD "msiexec /i `"$($Global:CAUConfig.ChromeMsi)`" /qn" }
+            "3" { 
+                Write-CAULog "Ajustando modo de pantalla..."
+                Start-Process -FilePath "DisplaySwitch.exe" -ArgumentList "/internal" -Wait
+                Start-Sleep -Seconds 2
+                Start-Process -FilePath "DisplaySwitch.exe" -ArgumentList "/extend"
+            }
+            "4" { Start-Process -FilePath "winver.exe" }
+            "5" { 
+                Invoke-RunAsAD "`"$($Global:CAUConfig.DriverPct)`""
+                Invoke-RunAsAD "`"$($Global:CAUConfig.DriverSatellite)`""
+            }
+            "6" { 
+                Write-CAULog "Iniciando despliegue de Autofirma..."
+                Invoke-RunAsAD "`"$($Global:CAUConfig.AutoFirmaExe)`" /S" -Wait
+                Invoke-RunAsAD "msiexec /i `"$($Global:CAUConfig.AutoFirmaMsi)`" /qn"
+            }
+            "7" { Invoke-RunAsAD "msiexec /i `"$($Global:CAUConfig.LibreOfficeMsi)`" /qn" }
+            "8" { Invoke-ForceTimeSync }
+            "9" { return }
+            Default { Write-CAULog "Opcion no valida." "WARN"; Start-Sleep -Seconds 1 }
+        }
+    } while ($true)
+}
+
+function Show-MainMenu {
     Clear-Host
-    Write-Host "------------------------------------------" -ForegroundColor Yellow
-    Write-Host "             $($Global:CAUConfig.ScriptVersion)             " -ForegroundColor White -BackgroundColor DarkBlue
-    Write-Host "------------------------------------------" -ForegroundColor Yellow
-    Write-Host " Usuario AD: $($Global:CAUSession.ADUser)"
-    Write-Host " Equipo:     $($env:COMPUTERNAME) | IP: $($Sys.IP)"
-    Write-Host " S/N:        $($Sys.SN)"
-    Write-Host " OS:         $($Sys.OS) (Build $($Sys.Build))"
-    Write-Host " ${VersionText}:    $($Global:CAUConfig.ScriptVersion)"
-    Write-Host "------------------------------------------" -ForegroundColor Yellow
-    Write-Host " $BateriaText"
-    Write-Host " 2. Cambiar password correo"
-    Write-Host " $ImpresionText"
-    Write-Host " 4. Administrador de dispositivos"
-    Write-Host " $GestionText"
-    Write-Host " 6. Instalar ISL Always On"
-    Write-Host " 7. Utilidades Varias"
-    Write-Host " 8. Salir y Subir Log"
+    Write-Host "====================================================" -ForegroundColor Green
+    Write-Host "             CAUJUS POWERSHELL v3.1                 " -ForegroundColor White -BackgroundColor DarkGreen
+    Write-Host "====================================================" -ForegroundColor Green
+    Write-Host " Tecnico AD: $($Global:CAUSession.ADUser)"
+    Write-Host " Equipo:     $($env:COMPUTERNAME)"
+    Write-Host " Version:    $($Global:CAUConfig.ScriptVersion)"
+    Write-Host "----------------------------------------------------"
+    Write-Host " 1. Bateria de pruebas completa (Optimizacion)"
+    Write-Host " 2. Gestion de Password MiCuenta (Web)"
+    Write-Host " 3. Reiniciar Cola de Impresion"
+    Write-Host " 4. Administrador de Dispositivos (Limpiar Drivers)"
+    Write-Host " 5. Menu Certificados Digitales (FNMT)"
+    Write-Host " 6. Instalar ISL Light AlwaysOn (MSI)"
+    Write-Host " 7. Menu de Utilidades Varias"
+    Write-Host " 8. FINALIZAR Y SUBIR LOG"
     Write-Host ""
 }
 
 # =============================================================================
-# BUCLE PRINCIPAL
+# BUCLE PRINCIPAL DE EJECUCION
 # =============================================================================
 
-Initialize-CAUEnvironment
+try {
+    Initialize-CAUEnvironment
 
-do {
-    Show-MainMenu
-    $Opt = Read-Host "$OpcionText"
-    
-    switch ($Opt) {
-        "1" { Invoke-BateryTest }
-        "2" { Start-Process chrome $Global:CAUConfig.UrlMiCuenta }
-        "3" { Invoke-ResetPrintSpooler }
-        "4" { Start-Process devmgmt.msc }
-        "5" { 
-            # Menú Certificados (Lógica simplificada para el ejemplo)
-            Write-CAULog "Abriendo portal de certificados..."
-            Start-Process chrome $Global:CAUConfig.UrlFnmtSolicitar 
-        }
-        "6" { 
-            Write-CAULog "Instalando ISL Always On..."
-            if (Test-Path $Global:CAUConfig.IslMsi) {
-                Start-Process msiexec.exe -ArgumentList "/i `"$($Global:CAUConfig.IslMsi)`" /qn" -Wait
+    do {
+        Show-MainMenu
+        $Selection = Read-Host "Seleccione una accion"
+        
+        switch ($Selection) {
+            "1" { Invoke-BateryTest }
+            "2" { Start-Process -FilePath "chrome.exe" -ArgumentList $Global:CAUConfig.UrlMiCuenta }
+            "3" { 
+                Write-CAULog "Reseteando el servicio de cola de impresion..." "INFO"
+                Stop-Service -Name "Spooler" -Force -ErrorAction SilentlyContinue
+                Get-ChildItem -Path "$env:windir\System32\spool\PRINTERS\*" -Force -ErrorAction SilentlyContinue | Remove-Item -Force -ErrorAction SilentlyContinue
+                Start-Service -Name "Spooler" -ErrorAction SilentlyContinue
+                Write-CAULog "Cola de impresion lista." "SUCCESS"
+                Pause
+            }
+            "4" { 
+                Start-Process -FilePath "devmgmt.msc"
+                $Resp = Read-Host "¿Desea iniciar la limpieza automatica de drivers de tarjeta? (S/N)"
+                if ($Resp -match "^[Ss]$") { Invoke-RemoveDrivers }
+            }
+            "5" { Show-CertMenu }
+            "6" { Invoke-RunAsAD "msiexec /i `"$($Global:CAUConfig.IslMsi)`" /qn" }
+            "7" { Show-UtilitiesMenu }
+            "8" { 
+                Upload-Log
+                Write-CAULog "Cerrando aplicacion de soporte..." "INFO"
+                Start-Sleep -Seconds 1
+                exit 
+            }
+            Default { 
+                Write-CAULog "Seleccion '$Selection' no valida." "WARN"
+                Start-Sleep -Seconds 1 
             }
         }
-        "7" {
-            Write-CAULog "Abriendo utilidades..."
-            Start-Process winver
-        }
-        "8" { 
-            Upload-Log
-            Write-CAULog "Saliendo..."
-            Start-Sleep -Seconds 2
-            exit 
-        }
-    }
-} while ($true)
+    } while ($true)
+} catch {
+    Write-CAULog "Error inesperado en el bucle principal: $($_.Exception.Message)" "ERROR"
+    Pause
+} finally {
+    # Asegurar que se intenta subir el log si algo falla
+    if ($Global:CAUSession.LogFile) { Upload-Log }
+}
