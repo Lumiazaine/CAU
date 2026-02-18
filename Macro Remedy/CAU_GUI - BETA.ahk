@@ -294,7 +294,8 @@ cierre(closetext)
         Send, ^{enter}{Enter}
         Sleep, 800
         SendInput, !a {Down 9}{Right}{Enter}{TAB 12}{Right 2}{TAB 5}{Enter 3}
-        SendInput, !a {Down 9}{Right}{Enter}{TAB 12}{Right 2}{TAB 6}{Enter}closetext{Tab}{Enter}
+        SendInput, !a {Down 9}{Right}{Enter}{TAB 12}{Right 2}{TAB 6}{Enter}%closetext%{Tab}{Enter}
+        
         WriteLog("Cierre ejecutado con texto: " . closetext)
     } catch e {
         WriteError("Cierre ejecutado con texto: " . e.Message)
@@ -1271,15 +1272,37 @@ Button42:
     {
         try {
             Alba(42)
-            Send ^{Enter}{Enter}
-            WriteLog("Ejecutó la combinación #6 con DNI y teléfono (Iteración: " . A_Index . ")")
+            Sleep, 1000
+            Send ^{Enter}
+            WriteLog("Macro repeticion (Iteración: " . A_Index . ")")
+            Send, {Tab 36}{Enter}
+            Sleep, 1000
+            Send, Down
+            Send, {Enter}{Enter}
+            Send, {Tab 36}{Enter}
+            FileRead, Correo, C:\Users\CAU.LAP\AppData\Roaming\AR System\HOME\ARCmds\correo.txt
+            A_Clipboard := Correo
+            Send, ^v
+            Send, {Enter}
         } catch e {
             WriteError("Error en iteración " . A_Index . ": " . e.Message)
         }
         Sleep 100  ; Puedes ajustar el tiempo de espera si es necesario
     }
-
+    Sleep, 1000
     MsgBox, % "Se ha completado correctamente " . repeatCount . " iteraciones."
+    
+    Send, {Enter}
+    Send, {Tab 36}{Enter}{Enter}
+    Sleep, 1000
+    FileRead, Correo, C:\Users\CAU.LAP\AppData\Roaming\AR System\HOME\ARCmds\correo.txt
+    A_Clipboard := Correo
+    Send, {Enter}
+    Send, ^v
+    Send, {Tab}{Enter}{Enter}
+    Sleep, 1000
+    Send, {Tab 15}{Right 2}
+    cierre("Se notifica por correo tras acoplamiento completado. Se procede al cierre de las incidencias a petición del procedimiento.")
     return
 
 #7:: ; AFK mode
