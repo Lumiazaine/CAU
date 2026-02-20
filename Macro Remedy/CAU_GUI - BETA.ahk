@@ -1272,26 +1272,30 @@ Button42:
     {
         try {
             Alba(42)
-            Sleep, 1000
-            Send ^{Enter}
+            Sleep, 1500
+            MsgBox, 64, Estado de Macro, Macro ejecuntandose %A_Index% de %repeatCount% no tocar.,1
             WriteLog("Macro repeticion (Iteración: " . A_Index . ")")
-            Send, {Tab 36}{Enter}
+            Send, {Enter}
+            Send, {Tab 36}{Enter}{Enter}
             Sleep, 1000
-            Send, Down
-            Send, {Enter}{Enter}
-            Send, {Tab 36}{Enter}
             FileRead, Correo, C:\Users\CAU.LAP\AppData\Roaming\AR System\HOME\ARCmds\correo.txt
             A_Clipboard := Correo
-            Send, ^v
             Send, {Enter}
+            Send, ^v
+            Send, {Tab}{Enter}{Enter}
+            Sleep, 1000
+            Send, {Tab 15}{Right 2}
+            cierre("Se notifica por correo tras acoplamiento completado. Se procede al cierre de las incidencias a petición del procedimiento.")
+            Sleep, 1500
         } catch e {
             WriteError("Error en iteración " . A_Index . ": " . e.Message)
         }
-        Sleep 100  ; Puedes ajustar el tiempo de espera si es necesario
+        Sleep 1000  ; Puedes ajustar el tiempo de espera si es necesario
     }
-    Sleep, 1000
-    MsgBox, % "Se ha completado correctamente " . repeatCount . " iteraciones."
-    
+    MsgBox, % "Se ha completado correctamente " . repeatCount . " veces."
+    return
+    /*
+    Individual corregido
     Send, {Enter}
     Send, {Tab 36}{Enter}{Enter}
     Sleep, 1000
@@ -1304,6 +1308,8 @@ Button42:
     Send, {Tab 15}{Right 2}
     cierre("Se notifica por correo tras acoplamiento completado. Se procede al cierre de las incidencias a petición del procedimiento.")
     return
+    */
+
 
 #7:: ; AFK mode
      if (!CheckRemedy())
