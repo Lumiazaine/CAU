@@ -21,6 +21,7 @@ global repoUrl, downloadUrl, localFile, logFilePath, tempFile
 dni:=""
 telf:= ""
 letters := "TRWAGMYFPDXBNJZSQVHLCKE"
+FileRead, Cierrepass, C:\Users\CAU.LAP\AppData\Roaming\AR System\HOME\ARCmds\Cierrepass.txt
 
 ; Función para calcular letra dni
 CalculateDNILetter(dniNumber) {
@@ -32,25 +33,28 @@ CalculateDNILetter(dniNumber) {
     return SubStr(letters, index + 1, 1)
 }
 
-; Función para registrar logs
-WriteLog(action) {
-    ComputerName := A_ComputerName
-    FormatTime, DateTime,, yyyy-MM-dd HH:mm:ss
+; Función para obtener la ruta del log
+GetLogPath() {
     FormatTime, LogFileName,, MMMMyyyy
     StringReplace, LogFileName, LogFileName, %A_Space%, _, All
-    LogFilePath := A_MyDocuments "\log_" LogFileName ".txt"
-    FileAppend, %DateTime% - %ComputerName% - %action%`n, %LogFilePath%
+    return A_MyDocuments "\log_" LogFileName ".txt"
+}
+
+; Función para registrar logs
+WriteLog(action) {
+    global currentVersion
+    LogFilePath := GetLogPath()
+    FormatTime, DateTime,, yyyy-MM-dd HH:mm:ss
+    FileAppend, %DateTime% - %A_ComputerName% - %A_UserName% - [v%currentVersion%] - %action%`n, %LogFilePath%
     FileSetAttrib, +H, %LogFilePath%
 }
 
-; Función para registrar erores
+; Función para registrar errores
 WriteError(errorMessage) {
-    ComputerName := A_ComputerName
+    global currentVersion
+    LogFilePath := GetLogPath()
     FormatTime, DateTime,, yyyy-MM-dd HH:mm:ss
-    FormatTime, LogFileName,, MMMMyyyy
-    StringReplace, LogFileName, LogFileName, %A_Space%, _, All
-    LogFilePath := A_MyDocuments "\log_" LogFileName ".txt"
-    FileAppend, %DateTime% - %ComputerName% - *** ERROR %errorMessage% ***`n, %LogFilePath%
+    FileAppend, %DateTime% - %A_ComputerName% - %A_UserName% - [v%currentVersion%] - *** ERROR: %errorMessage% ***`n, %LogFilePath%
     FileSetAttrib, +H, %LogFilePath%
 }
 
@@ -247,6 +251,40 @@ screen()
     Return
 }
 
+; Función auxiliar para ejecutar macros Alba estándar con log integrado
+ExecuteAlbaMacro(num, description) {
+    global dni, telf
+    if (!CheckRemedy())
+        return
+    
+    try {
+        WriteLog("Iniciando macro: " . description . " (Alba " . num . ")")
+        Alba(num)
+        Gui, Submit, NoHide
+        
+        ; Introducir datos en Remedy
+        if (dni != "") {
+            Send, %dni%{Tab}{Enter}
+            Sleep, 200
+        }
+        
+        Send, {Tab 3}
+        Send, +{Left 90}{BackSpace}
+        
+        if (telf != "") {
+            Send, %telf%
+        }
+        
+        ; Limpiar campos en la GUI
+        GuiControl,, dni
+        GuiControl,, telf
+        
+        WriteLog("Finalizado: " . description . " [DNI: " . dni . ", Telf: " . telf . "]")
+    } catch e {
+        WriteError("Error en macro " . description . " (Alba " . num . "): " . e.Message)
+    }
+}
+
 Alba(num) {
     if (!CheckRemedy())
     {
@@ -286,6 +324,7 @@ Alba(num) {
     Return
 }
 
+;Función para realizar el proceso de cierre de una incidencia, recibe como parámetro el texto a introducir en el campo de cierre
 
 cierre(closetext)
 {
@@ -317,822 +356,141 @@ KeepActive:
     }
 
 Button1:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-        Alba(42)
-        Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Ejecutó macro alba " .dni "y" .telf)
-    } catch e {
-        WriteError("Error ejecutando macro " . .e.Message)
-    }
+    ExecuteAlbaMacro(42, "Adriano")
     Return
 Button2:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-        Alba(29)
-        Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Ejecutó macro alba " .dni "y" .telf)
-    } catch e {
-        WriteError("Error ejecutando macro " . .e.Message)
-    }
+    ExecuteAlbaMacro(29, "Escritorio judicial")
     Return
 Button3:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-        Alba(39)
-        Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Ejecutó macro alba " .dni "y" .telf)
-    } catch e {
-        WriteError("Error ejecutando macro " . .e.Message)
-    }
+    ExecuteAlbaMacro(39, "Arconte")
     Return
 Button4:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-        Alba(9)
-        Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Ejecutó macro alba " .dni "y" .telf)
-    } catch e {
-        WriteError("Error ejecutando macro " . .e.Message)
-    }
+    ExecuteAlbaMacro(9, "PortafirmasNG")
     Return
 Button5:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-        Alba(41)
-        Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Ejecutó macro alba " .dni "y" .telf)
-    } catch e {
-        WriteError("Error ejecutando macro " . .e.Message)
-    }
+    ExecuteAlbaMacro(41, "Agenda de señalamientos")
     Return
 Button6:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-        Alba(28)
-        Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Ejecutó macro alba " .dni "y" .telf)
-    } catch e {
-        WriteError("Error ejecutando macro " . .e.Message)
-    }
+    ExecuteAlbaMacro(28, "Expediente digital")
     Return
 Button7:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-        Alba(22)
-        Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Ejecutó macro alba " .dni "y" .telf)
-    } catch e {
-        WriteError("Error ejecutando macro " . .e.Message)
-    }
+    ExecuteAlbaMacro(22, "Hermes")
     Return
 Button8:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-        Alba(18)
-        Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Ejecutó macro alba " .dni "y" .telf)
-    } catch e {
-        WriteError("Error ejecutando macro " . .e.Message)
-    }
+    ExecuteAlbaMacro(18, "Jara")
     Return
 Button9:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-        Alba(0)
-        Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Ejecutó macro alba " .dni "y" .telf)
-    } catch e {
-        WriteError("Error ejecutando macro " . .e.Message)
-    }
+    ExecuteAlbaMacro(0, "Quenda // Cita previa")
     Return
 Button10:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-        Alba(4)
-        Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Ejecutó macro alba " .dni "y" .telf)
-    } catch e {
-        WriteError("Error ejecutando macro " . .e.Message)
-    }
+    ExecuteAlbaMacro(4, "Suministros")
     Return
 Button11:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-        Alba(21)
-        Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Ejecutó macro alba " .dni "y" .telf)
-    } catch e {
-        WriteError("Error ejecutando macro " . .e.Message)
-    }
+    ExecuteAlbaMacro(21, "Internet libre")
     Return
 Button12:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-        Alba(14)
-        Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Ejecutó macro alba " .dni "y" .telf)
-    } catch e {
-        WriteError("Error ejecutando macro " . .e.Message)
-    }
+    ExecuteAlbaMacro(14, "Multiconferencia")
     Return
 Button13:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-        Alba(32)
-        Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Ejecutó macro alba " .dni "y" .telf)
-    } catch e {
-        WriteError("Error ejecutando macro " . .e.Message)
-    }
+    ExecuteAlbaMacro(32, "Dragon Speaking")
     Return
 Button14:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-        Alba(38)
-        Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Ejecutó macro alba " .dni "y" .telf)
-    } catch e {
-        WriteError("Error ejecutando macro " . .e.Message)
-    }
+    ExecuteAlbaMacro(38, "Aumento espacio correo")
     Return
 Button15:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-        Alba(44)
-        Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Ejecutó macro alba " .dni "y" .telf)
-    } catch e {
-        WriteError("Error ejecutando macro " . .e.Message)
-    }
+    ExecuteAlbaMacro(44, "Abbypdf")
     Return
 Button16:
-     if (!CheckRemedy())
-    {
+    if (!CheckRemedy())
         return
+    try {
+        Alba(24)
+        Gui, Submit, NoHide
+        Send, %dni%{Tab}{Enter}{Tab 3}+{Left 90}{BackSpace}%telf%
+        if (dni != "" && DNILetter != "") {
+            Clipboard := dni . DNILetter
+        }
+        GuiControl,, dni
+        GuiControl,, telf
+        WriteLog("Ejecutó macro GDU (Alba 24) - DNI en portapapeles: " . (dni . DNILetter))
+    } catch e {
+        WriteError("Error en macro GDU (Alba 24): " . e.Message)
     }
-    Alba(24)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    if (dni != "" && DNILetter != "") {
-        Clipboard := dni . DNILetter
-    }
-    GuiControl, , dni
-    GuiControl, , telf
     Return
 Button17:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-        Alba(12)
-        Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Ejecutó macro alba " .dni "y" .telf)
-    } catch e {
-        WriteError("Error ejecutando macro " . .e.Message)
-    }
+    ExecuteAlbaMacro(12, "Orfila")
     Return
 Button18:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-        Alba(16)
-        Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Ejecutó macro alba " .dni "y" .telf)
-    } catch e {
-        WriteError("Error ejecutando macro " . .e.Message)
-    }
+    ExecuteAlbaMacro(16, "Lexnet")
     Return
 Button19:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-        Alba(6)
-        Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Ejecutó macro alba " .dni "y" .telf)
-    } catch e {
-        WriteError("Error ejecutando macro " . .e.Message)
-    }
+    ExecuteAlbaMacro(6, "Siraj2")
     Return
 Button20:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-        Alba(30)
-        Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Ejecutó macro alba " .dni "y" .telf)
-    } catch e {
-        WriteError("Error ejecutando macro " . .e.Message)
-    }
+    ExecuteAlbaMacro(30, "Emparejamiento ISL")
     Return
 Button21:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-        Alba(37)
-        Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Ejecutó macro alba " .dni "y" .telf)
-    } catch e {
-        WriteError("Error ejecutando macro " . .e.Message)
-    }
+    ExecuteAlbaMacro(37, "Certificado digital")
     Return
 Button22:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-        Alba(5)
-        Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Ejecutó macro alba " .dni "y" .telf)
-    } catch e {
-        WriteError("Error ejecutando macro " . .e.Message)
-    }
+    ExecuteAlbaMacro(5, "Software")
     Return
 Button23:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-        Alba(11)
-        Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Ejecutó macro alba " .dni "y" .telf)
-    } catch e {
-        WriteError("Error ejecutando macro " . .e.Message)
-    }
+    ExecuteAlbaMacro(11, "PIN tarjeta")
     Return
 Button24:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-        Alba(10)
-        Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Ejecutó macro alba " .dni "y" .telf)
-    } catch e {
-        WriteError("Error ejecutando macro " . .e.Message)
-    }
+    ExecuteAlbaMacro(10, "Servicio no CEIURIS")
     Return
 Button25:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-        Alba(17)
-        Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Ejecutó macro alba " .dni "y" .telf)
-    } catch e {
-        WriteError("Error ejecutando macro " . .e.Message)
-    }
+    ExecuteAlbaMacro(17, "Lector tarjeta")
     Return
 Button26:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-        Alba(7)
-        Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Ejecutó macro alba " .dni "y" .telf)
-    } catch e {
-        WriteError("Error ejecutando macro " . .e.Message)
-    }
+    ExecuteAlbaMacro(7, "Equipo sin red")
     Return
 Button27:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-        Alba(23)
-        Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Ejecutó macro alba " .dni "y" .telf)
-    } catch e {
-        WriteError("Error ejecutando macro " . .e.Message)
-    }
+    ExecuteAlbaMacro(23, "GM")
     Return
 Button28:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-        Alba(2)
-        Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Ejecutó macro alba " .dni "y" .telf)
-    } catch e {
-        WriteError("Error ejecutando macro " . .e.Message)
-    }
+    ExecuteAlbaMacro(2, "Teléfono")
     Return
 Button29:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-        Alba(25)
-        Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Ejecutó macro alba " .dni "y" .telf)
-    } catch e {
-        WriteError("Error ejecutando macro " . .e.Message)
-    }
+    ExecuteAlbaMacro(25, "Ganes")
     Return
 Button30:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-        Alba(26)
-        Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Ejecutó macro alba " .dni "y" .telf)
-    } catch e {
-        WriteError("Error ejecutando macro " . .e.Message)
-    }
+    ExecuteAlbaMacro(26, "Equipo no enciende")
     Return
 Button31:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-        Alba(33)
-        Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Ejecutó macro alba " .dni "y" .telf)
-    } catch e {
-        WriteError("Error ejecutando macro " . .e.Message)
-    }
+    ExecuteAlbaMacro(33, "Disco duro")
     Return
 Button32:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-        Alba(31)
-        Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Ejecutó macro alba " .dni "y" .telf)
-    } catch e {
-        WriteError("Error ejecutando macro " . .e.Message)
-    }
+    ExecuteAlbaMacro(31, "Edoc Fortuny")
     Return
 Button33:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-        Alba(13)
-        Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Ejecutó macro alba " .dni "y" .telf)
-    } catch e {
-        WriteError("Error ejecutando macro " . .e.Message)
-    }
+    ExecuteAlbaMacro(13, "@Driano")
     Return
 Button34:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-        Alba(20)
-        Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Ejecutó macro alba " .dni "y" .telf)
-    } catch e {
-        WriteError("Error ejecutando macro " . .e.Message)
-    }
+    ExecuteAlbaMacro(20, "Intervención video")
     Return
 Button35:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-        Alba(15)
-        Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Ejecutó macro alba " .dni "y" .telf)
-    } catch e {
-        WriteError("Error ejecutando macro " . .e.Message)
-    }
+    ExecuteAlbaMacro(15, "Monitor")
     Return
 Button36:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-        Alba(3)
-        Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Ejecutó macro alba " .dni "y" .telf)
-    } catch e {
-        WriteError("Error ejecutando macro " . .e.Message)
-    }
+    ExecuteAlbaMacro(3, "Teclado")
     Return
 Button37:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-        Alba(8)
-        Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Ejecutó macro alba " .dni "y" .telf)
-    } catch e {
-        WriteError("Error ejecutando macro " . .e.Message)
-    }
+    ExecuteAlbaMacro(8, "Ratón")
     Return
 Button38:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-        Alba(19)
-        Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Ejecutó macro alba " .dni "y" .telf)
-    } catch e {
-        WriteError("Error ejecutando macro " . .e.Message)
-    }
+    ExecuteAlbaMacro(19, "ISL Apagado")
     Return
 Button39:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-        Alba(36)
-        Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Ejecutó macro alba " .dni "y" .telf)
-    } catch e {
-        WriteError("Error ejecutando macro " . .e.Message)
-    }
+    ExecuteAlbaMacro(36, "Error relación de confianza")
     Return
 Button40:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-        Alba(35)
-        Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Ejecutó macro alba " .dni "y" .telf)
-    } catch e {
-        WriteError("Error ejecutando macro " . .e.Message)
-    }
+    ExecuteAlbaMacro(35, "Contraseñas")
     Return
 Button41:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-        Alba(27)
-        Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Ejecutó macro alba " .dni "y" .telf)
-    } catch e {
-        WriteError("Error ejecutando macro " . .e.Message)
-    }
+    ExecuteAlbaMacro(27, "Formaciones")
     Return
 Button42:
      if (!CheckRemedy())
@@ -1150,106 +508,31 @@ Button42:
     } catch e {
         WriteError("Pulsando botón Buscar: " . e.Message)
     }
+; Función auxiliar para ejecutar macros Alba con cierre automático
+ExecuteAlbaMacroWithClose(num, description, closureText := "") {
+    global Cierrepass
+    if (closureText = "")
+        closureText := Cierrepass
+    
+    ExecuteAlbaMacro(num, description)
+    cierre(closureText)
+    WriteLog("Cierre automático ejecutado para: " . description)
+}
+
 #1::
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try {
-        Alba(0)
-        Gui, Submit, NoHide
-        Send, %DNI%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , DNI
-        GuiControl, , telf
-        WriteLog("Ejecutó la combinación #1 con DNI y teléfono")
-    } catch e {
-        WriteError("Ejecutando combinación #1: " . e.Message)
-    }
+    ExecuteAlbaMacro(0, "Combinación #1 (Macro Base)")
     Return
 #2::
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try {
-    Alba(43)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
-    cierre("Se cambia contrase{U+00F1}a de AD.")
+    ExecuteAlbaMacroWithClose(43, "Combinación #2 (Cierre Estándar)")
     Return
-            WriteLog("Ejecutó la combinación #2 con DNI y teléfono")
-    } catch e {
-        WriteError("Ejecutando combinación #2: " . e.Message)
-    }
 #3::
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try {
-    Alba(34)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
-            WriteLog("Ejecutó la combinación #3 con DNI y teléfono")
-    } catch e {
-        WriteError("Ejecutando combinación #3: " . e.Message)
-    } 
+    ExecuteAlbaMacro(34, "Combinación #3 (Cierre Estándar)")
     Return
 #4::
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try {
-    Alba(40)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
-            WriteLog("Ejecutó la combinación #4 con DNI y teléfono")
-    } catch e {
-        WriteError("Ejecutando combinación #4: " . e.Message)
-    }
+    ExecuteAlbaMacro(40, "Combinación #4 (Cierre Estándar)")
     Return
 #5::
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try {
-    Alba(1)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
-            WriteLog("Ejecutó la combinación #1 con DNI y teléfono")
-    } catch e {
-        WriteError("Ejecutando combinación #1: " . e.Message)
-    }
+    ExecuteAlbaMacro(1, "Combinación #5 (Cierre Estándar)")
     Return
 ; Macro para repetir incidencias el número que se desee 
 #6::
@@ -1294,6 +577,32 @@ Button42:
     }
     MsgBox, % "Se ha completado correctamente " . repeatCount . " veces."
     return
+/*
+                                ACOPLAMIENTO FASE NUMO
+                            Importante para cierre de mantenimiento AD TEMIS
+
+try {
+Alba(42)
+Sleep, 1500
+MsgBox, 64, Estado de Macro, Macro ejecuntandose %A_Index% de %repeatCount% no tocar.,1
+WriteLog("Macro repeticion (Iteración: " . A_Index . ")")
+Send, {Enter}
+Send, {Tab 36}{Enter}{Enter}
+Sleep, 1000
+FileRead, Correo, C:\Users\CAU.LAP\AppData\Roaming\AR System\HOME\ARCmds\correo.txt
+A_Clipboard := Correo
+Send, {Enter}
+Send, ^v
+Send, {Tab}{Enter}{Enter}
+Sleep, 1000
+Send, {Tab 15}{Right 2}
+cierre("Se notifica por correo tras acoplamiento completado. Se procede al cierre de las incidencias a petición del procedimiento.")
+Sleep, 1500
+
+*/
+
+
+
     /*
     Individual corregido
     Send, {Enter}
@@ -1312,268 +621,142 @@ Button42:
 
 
 #7:: ; AFK mode
-     if (!CheckRemedy())
-    {
+    if (!CheckRemedy())
         return
-    }
-try{
-    SetTimer, KeepActive, 60000 
+    try {
         Toggle := !Toggle
-        if (Toggle)
-        {
-            SetTimer, KeepActive, On
+        if (Toggle) {
+            SetTimer, KeepActive, 60000
             IsActive := true
-            MsgBox, 64, Modo AFK activado.
-            WriteLog("Activó modo afk")
-        }
-        else
-        {
+            MsgBox, 64, Gestor, Modo AFK activado.
+            WriteLog("Modo AFK ACTIVADO")
+        } else {
             SetTimer, KeepActive, Off
             IsActive := false
-            MsgBox, 64, Modo AFK desactivado.
-            WriteLog("Desactivó modo afk")
-        }} catch e {
-            WriteError("Error ejecutando modo afk " . e.Message)
+            MsgBox, 64, Gestor, Modo AFK desactivado.
+            WriteLog("Modo AFK DESACTIVADO")
         }
+    } catch e {
+        WriteError("Cambiando modo AFK: " . e.Message)
+    }
     Return
-    ;;Macro llamadas automáticas openscape
 
-    #8::
-    Send, {End}^+{Up}^{c}
-    WinShow, ahk_class WindowsForms10.Window.8.app.0.25bb5ff_r8_ad1
-    WinRestore, ahk_class WindowsForms10.Window.8.app.0.25bb5ff_r8_ad1
-    WinActivate, ahk_class WindowsForms10.Window.8.app.0.25bb5ff_r8_ad1
-    WinWaitActive, ahk_class WindowsForms10.Window.8.app.0.25bb5ff_r8_ad1
-    Sleep, 1000
-    Send, {Alt down}
-    Send, {Alt up}
-    Send, 1
-    Send, 0
-    Send, ^v
-    Send, {Enter}
-    Sleep, 3000
-    Send, {Alt down}
-    Send, {Alt up}
-    Send, 4
-    Sleep, 12000
-    Send, {Alt down}
-    Send, {Alt up}
-    Send, 3
+    Return
+
+;; Macro llamadas automáticas openscape
+#8::
+    try {
+        WriteLog("Iniciando marcación automática OpenScape")
+        Send, {End}^+{Up}^{c}
+        WinShow, ahk_class WindowsForms10.Window.8.app.0.25bb5ff_r8_ad1
+        WinRestore, ahk_class WindowsForms10.Window.8.app.0.25bb5ff_r8_ad1
+        WinActivate, ahk_class WindowsForms10.Window.8.app.0.25bb5ff_r8_ad1
+        WinWaitActive, ahk_class WindowsForms10.Window.8.app.0.25bb5ff_r8_ad1
+        Sleep, 1000
+        Send, {Alt down}{Alt up}10^v{Enter}
+        Sleep, 3000
+        Send, {Alt down}{Alt up}4
+        Sleep, 12000
+        Send, {Alt down}{Alt up}3
+        WriteLog("Finalizada marcación OpenScape")
+    } catch e {
+        WriteError("Error en marcación OpenScape: " . e.Message)
+    }
     Return
 
 #9::
-     if (!CheckRemedy())
-    {
+    if (!CheckRemedy())
         return
+    try {
+        Gui, Submit, NoHide
+        Alba(0)
+        Send, {F3}{Enter}{Tab 5}%Inci%^{Enter}
+        GuiControl,, Inci
+        WriteLog("Ejecutó búsqueda rápida (#9) con IN: " . Inci)
+    } catch e {
+        WriteError("Error en búsqueda rápida #9: " . e.Message)
     }
-    Alba(0)
-    Send, {F3}{Enter}{Tab 5}
-    Gui, Submit, NoHide
-    Send, %Inci%
-    Send, ^{Enter}
-    GuiControl, , Inci
     Return
 
-#0::Reload
-    try {
-        WriteLog("Recargó el script")
-    } catch e {
-        WriteError("Recargando el script: " . e.Message)
-    }
-Return
+#0::
+    WriteLog("Solicitando recarga del script (Reload)")
+    Reload
+    Return
 
 XButton1::
-     if (!CheckRemedy())
-    {
+    if (!CheckRemedy())
         return
-    }
-    try{
+    try {
         screen()
-        Send, {Alt}a
-        Send, {Down 9}{Right}{Enter}
-          WriteLog("Se utilizó botón " . XButton1)
+        Send, {Alt}a{Down 9}{Right}{Enter}
+        WriteLog("Ejecutó macro rápida de menú con XButton1")
     } catch e {
-        WriteError("Se utilizó botón " . XButton1 . e.Message)
+        WriteError("Error en XButton1: " . e.Message)
     }
-        Return
+    Return
+
 XButton2::
+    WriteLog("Ejecutó captura de pantalla (Win+Shift+S) con XButton2")
     Send, #+s
     Return
-F13::
-     if (!CheckRemedy())
-    {
+/*
+Button42:
+    if (!CheckRemedy())
         return
-    }
-    try{
-        Alba(0)
+    try {
         Gui, Submit, NoHide
-        Send, %dni%
-        Send, {Tab}{Enter}
-        Send, {Tab 3}
-        Send, +{Left 90}{BackSpace}
-        Send, %telf%
-        GuiControl, , dni
-        GuiControl, , telf
-        WriteLog("Se utilizó macro F13")
+        Alba(0)
+        Send, {F3}{Enter}{Tab 5}%Inci%^{Enter}
+        GuiControl,, Inci
+        WriteLog("Pulsó el botón Buscar con IN: " . Inci)
     } catch e {
-        WriteError("Se utilizó macro F13" . e.Message)
+        WriteError("Pulsando botón Buscar: " . e.Message)
     }
     Return
+    ExecuteAlbaMacro(0, "Macro F13")
+    Return
+*/
+
 F14::
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-    Alba(43)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
-    cierre("Se cambia contrase{U+00F1}a de AD.")
-        WriteLog("Ejecutó macro F14")
-    } catch e {
-        WriteError("Ejecutó macro F14: " . e.Message)
-    }
+    ExecuteAlbaMacroWithClose(43, "Macro F14")
     Return
 F15::
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-    Alba(34)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
-    cierre("Se cambia contrase{U+00F1}a de correo.")
-        WriteLog("Ejecutó macro F15")
-    } catch e {
-        WriteError("Ejecutó macro F15: " . e.Message)
-    }
+    ExecuteAlbaMacroWithClose(34, "Macro F15")
     Return
 F16::
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-    Alba(40)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
-    cierre("Se cambia contrase{U+00F1}a de Aurea.")
-        WriteLog("Ejecutó macro F16")
-    } catch e {
-        WriteError("Ejecutó macro F16: " . e.Message)
-    }
+    ExecuteAlbaMacroWithClose(40, "Macro F16")
     Return
 F17::
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-    Alba(1)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
-    cierre("Se cambia contrase{U+00F1}a Temis.")
-        WriteLog("Ejecutó macro F17")
-    } catch e {
-        WriteError("Ejecutó macro F17: " . e.Message)
-    }
+    ExecuteAlbaMacroWithClose(1, "Macro F17")
     Return
 F18::
-     if (!CheckRemedy())
-    {
+    if (!CheckRemedy())
         return
-    }
     try {
-    Send, ^c
-    Alba(0)
-    Send, {F3}{Enter}{Tab 5}
-    Gui, Submit, NoHide
-    Send, ^v
-    Send, ^{Enter}
-    WriteLog("Ejecutó macro F18")
+        Send, ^c
+        Alba(0)
+        Send, {F3}{Enter}{Tab 5}^v^{Enter}
+        WriteLog("Ejecutó búsqueda F18 con texto del portapapeles")
     } catch e {
-        WriteError("Ejecutó macro F18: " . e.Message)
+        WriteError("Error en búsqueda F18: " . e.Message)
     }
     Return
 F12::
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-    Alba(0)
-    Send, {F3}{Enter}{Tab 5}
-    Gui, Submit, NoHide
-    Send, %Inci%
-    Send, ^{Enter}
-    GuiControl, , Inci
-    WriteLog("Ejecutó macro F12")
-    } catch e {
-        WriteError("Ejecutó macro F12: " . e.Message)
-    }
-    Return
 F19::
-     if (!CheckRemedy())
-    {
+    if (!CheckRemedy())
         return
-    }
-    Try {
-    Alba(0)
-    Send, {F3}{Enter}{Tab 5}
-    Gui, Submit, NoHide
-    Send, %Inci%
-    Send, ^{Enter}
-    GuiControl, , Inci
-    WriteLog("Se ejecutó macro F19")
+    try {
+        Gui, Submit, NoHide
+        Alba(0)
+        Send, {F3}{Enter}{Tab 5}%Inci%^{Enter}
+        GuiControl,, Inci
+        WriteLog("Ejecutó búsqueda (F12/F19) con IN: " . Inci)
     } catch e {
-        WriteError("Se ejecutó macro F19 :" . e.Message)
+        WriteError("Error en búsqueda F12/F19: " . e.Message)
     }
     Return
 F20::
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try{
-    Alba(30)
-    Gui, Submit, NoHide
-    Send, %dni%
-    Send, {Tab}{Enter}
-    Send, {Tab 3}
-    Send, +{Left 90}{BackSpace}
-    Send, %telf%
-    GuiControl, , dni
-    GuiControl, , telf
-    cierre("Se empareja equipo correctamente y se indica contrase{U+00F1}a ISL se cierra ticket.")
-    WriteLog("Se ejecuta macro F20")
-    } catch e {
-        WriteError("Se ejecuta macro F20: " . e.Message)
-    }
+    ExecuteAlbaMacroWithClose(30, "Macro F20 (Emparejamiento)", "Se empareja equipo correctamente y se indica contraseña ISL se cierra ticket.")
     Return
 
 GuiEscape:
