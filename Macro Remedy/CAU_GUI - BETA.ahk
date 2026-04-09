@@ -558,7 +558,15 @@ ExecuteAlbaMacroWithClose(num, description, closureText := "") {
             Sleep, 1500
             MsgBox, 64, Estado de Macro, Macro ejecuntandose %A_Index% de %repeatCount% no tocar.,1
             WriteLog("Macro repeticion (Iteración: " . A_Index . ")")
-            Send, {Enter}
+            Send, ^{Enter}{Enter}
+        } catch e {
+            WriteError("Error en iteración " . A_Index . ": " . e.Message)
+        }
+        Sleep 1000  ; Puedes ajustar el tiempo de espera si es necesario
+    }
+    MsgBox, % "Se ha completado correctamente " . repeatCount . " veces."
+    return
+/*
             Send, {Tab 36}{Enter}{Enter}
             Sleep, 1000
             FileRead, Correo, C:\Users\CAU.LAP\AppData\Roaming\AR System\HOME\ARCmds\correo.txt
@@ -570,13 +578,9 @@ ExecuteAlbaMacroWithClose(num, description, closureText := "") {
             Send, {Tab 15}{Right 2}
             cierre("Se notifica por correo tras acoplamiento completado. Se procede al cierre de las incidencias a petición del procedimiento.")
             Sleep, 1500
-        } catch e {
-            WriteError("Error en iteración " . A_Index . ": " . e.Message)
-        }
-        Sleep 1000  ; Puedes ajustar el tiempo de espera si es necesario
-    }
-    MsgBox, % "Se ha completado correctamente " . repeatCount . " veces."
-    return
+*/
+
+
 /*
                                 ACOPLAMIENTO FASE NUMO
                             Importante para cierre de mantenimiento AD TEMIS
