@@ -292,20 +292,7 @@ Alba(num) {
     }
     
     try {
-        ; --- Rutas de script ---
-        psScriptPath := "C:\Alba.ps1"
-        psWorkDir  := "C:\"
-        
-        ; --- COMPROBACIÓN DE ARCHIVO ---
-        ; Comprueba si el archivo NO existe
-        If !FileExist(psScriptPath)
-        {
-            MsgBox, 48, Error de Script, No se pudo encontrar el archivo de PowerShell en la ruta:%n%n%psScriptPath%
-            Return ; Aborta la macro si no se encuentra el archivo
-        }
         BlockInput, On ; Bloquea el teclado y el ratón
-        psComando := "& '" . psScriptPath . "'"
-        RunWait, powershell.exe -NoProfile -ExecutionPolicy Bypass -Command %psComando%, %psWorkDir%, Hide
         screen()
         Send, ^i
         Sleep, 300 
@@ -345,16 +332,12 @@ KeepActive:
     Try {
         if (IsActive)
         {
-            MouseGetPos, xpos, ypos
-            MouseMove, %xpos%, %ypos%, 0
-            Send, {Shift}
-            WriteLog("Se movió mouse")
-            Return
+        DllCall("SetThreadExecutionState", "UInt", 0x80000003)
         } 
     } catch e {
-        WriteError("Se movió mouse " . e.Message)
+        WriteError("Equipo activo " . e.Message)
     }
-
+Return
 Button1:
     ExecuteAlbaMacro(42, "Adriano")
     Return

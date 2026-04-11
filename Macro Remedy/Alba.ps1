@@ -1,5 +1,5 @@
 ﻿# Ruta base
-$Ruta = "C:\Users\CAU.LAP\AppData\Roaming\AR System\HOME\ARCmds"
+$Ruta = "C:\Users\david\AppData\Roaming\AR System\HOME\ARCmds"
 
 # Archivos a excluir
 $Excluidos = @(
@@ -11,47 +11,47 @@ $Excluidos = @(
 
 # Log
 $LogPath = Join-Path $Ruta "ARCmds_log.txt"
-"=== LOG de actualización de fechas === $(Get-Date -Format 'dd/MM/yyyy HH:mm:ss')" | Out-File $LogPath -Encoding UTF8
+"=== LOG de actualización a constantes AR === $(Get-Date -Format 'dd/MM/yyyy HH:mm:ss')" | Out-File $LogPath -Encoding UTF8
 
-# Fecha actual para reemplazo
-$FechaActual = (Get-Date).ToString("dd/MM/yyyy HH:mm:ss")
+# NUEVO VALOR: Constantes de AR System
+$ValorNuevo = '$DATE$ $TIME$'
 
-# Obtener todos los archivos .arq excepto los excluidos
+# Obtener archivos .arq excepto los excluidos
 $Archivos = Get-ChildItem -Path $Ruta -Filter "*.arq" | Where-Object { $Excluidos -notcontains $_.Name }
 
 foreach ($Archivo in $Archivos) {
     try {
-        # Leer el contenido respetando codificación Windows-1252
+        # Leer contenido (Encoding Default suele ser Windows-1252 en sistemas ES)
         $Contenido = Get-Content -Path $Archivo.FullName -Encoding Default
         
         $Modificado = $false
-        $FechasEncontradas = @()
+        $CambiosRealizados = 0
 
         for ($i = 0; $i -lt $Contenido.Count; $i++) {
             $Linea = $Contenido[$i]
-            $LineasReemplazadas = $false
+            
+            # Buscamos los campos específicos mediante Regex para mayor precisión
+            # Captura lo que hay después del ID de campo hasta el final de la cadena o delimitador
+            if ($Linea -match "1010000200=" -or $Linea -match "1010000150=") {
+                
+                # Expresión regular para encontrar el ID y capturar el valor antiguo
+                # Busca 1010000150= o 1010000200= seguido de cualquier cosa hasta el siguiente carácter especial o fin de línea
+                $NuevaLinea = $Linea -replace "(1010000200=)[^]*", "`${1}$ValorNuevo"
+                $NuevaLinea = $NuevaLinea -replace "(1010000150=)[^]*", "`${1}$ValorNuevo"
 
-            foreach ($Campo in $Linea.Split([char]1, 200)) {
-                if ($Campo -match "1010000200=" -or $Campo -match "1010000150=") {
-                    $FechaAntigua = $Campo.Substring(11)
-                    $FechasEncontradas += $FechaAntigua
-                    $Linea = $Linea.Replace($FechaAntigua, $FechaActual)
-                    $LineasReemplazadas = $true
+                if ($NuevaLinea -ne $Linea) {
+                    $Contenido[$i] = $NuevaLinea
+                    $Modificado = $true
+                    $CambiosRealizados++
                 }
-            }
-
-            if ($LineasReemplazadas) {
-                $Contenido[$i] = $Linea
-                $Modificado = $true
             }
         }
 
-        # Si hubo cambios, reescribir respetando la codificación original
         if ($Modificado) {
             $Contenido | Set-Content -Path $Archivo.FullName -Encoding Default
-            Add-Content -Path $LogPath -Value "[$(Get-Date -Format 'HH:mm:ss')] ✅ $($Archivo.Name): Fechas reemplazadas -> $($FechasEncontradas -join ', ')"
+            Add-Content -Path $LogPath -Value "[$(Get-Date -Format 'HH:mm:ss')] ✅ $($Archivo.Name): Se aplicó '$ValorNuevo' ($CambiosRealizados campos)"
         } else {
-            Add-Content -Path $LogPath -Value "[$(Get-Date -Format 'HH:mm:ss')] ⏭️ $($Archivo.Name): Sin coincidencias"
+            Add-Content -Path $LogPath -Value "[$(Get-Date -Format 'HH:mm:ss')] ⏭️ $($Archivo.Name): Sin campos de fecha detectados"
         }
 
     } catch {
@@ -60,4 +60,4 @@ foreach ($Archivo in $Archivos) {
 }
 
 Add-Content -Path $LogPath -Value "=== Proceso finalizado === $(Get-Date -Format 'dd/MM/yyyy HH:mm:ss')"
-Write-Host "✅ Proceso completado. Revisa el log en: $LogPath"
+Write-Host "✅ Proceso completado. Los archivos ahora usan `$DATE$ `$TIME$."
