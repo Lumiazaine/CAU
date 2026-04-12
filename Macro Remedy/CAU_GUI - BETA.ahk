@@ -21,7 +21,7 @@ global repoUrl, downloadUrl, localFile, logFilePath, tempFile
 dni:=""
 telf:= ""
 letters := "TRWAGMYFPDXBNJZSQVHLCKE"
-FileRead, Cierrepass, C:\Users\CAU.LAP\AppData\Roaming\AR System\HOME\ARCmds\Cierrepass.txt
+FileRead, Cierrepass, C:\Users\CAU.LAP\AppData\Roaming\AR System\HOME\ARCmds\Cierres\Cierrepass.txt
 
 ; Función para calcular letra dni
 CalculateDNILetter(dniNumber) {
@@ -59,69 +59,88 @@ WriteError(errorMessage) {
 }
 
 ;Log inicialización del programa
-
 Try {
     WriteLog("Ejecutando aplicación")
 } catch e {
     WriteError("Error ejecutando la aplicación: " . e.Message)
 }
+Gui, 1:Font,, Segoe UI
 
-Gui Add, Edit, vdni x109 y639 w188 h26 gUpdateLetter, %dni%
-Gui Add, Edit, x411 y638 w188 h26 vtelf, %telf%
-Gui Add, Edit, x817 y637 w188 h26 vInci, %Inci%
-Gui, Add, Edit, vDNILetter x300 y639 w20 h26 ReadOnly
-Gui Add, Text, x1219 y17 w25 h17, DP
-Gui Add, Text, x798 y368 w84 h19, MINISTERIO
-Gui Add, Text, x288 y20 w95 h20, INCIDENCIAS
-Gui Add, Text, x289 y376 w98 h19, SOLICITUDES
-Gui Add, Text, x797 y18 w67 h18, CIERRES
-Gui Add, Text, x68 y644 w33 h21, DNI
-Gui Add, Text, x327 y645 w76 h21, TELÉFONO
-Gui Add, Text, x786 y646 w23 h21, IN
-Gui Add, Button, x49 y57 w183 h68 gButton1, Adriano
-Gui Add, Button, x49 y137 w183 h68 gButton2, Escritorio judicial
-Gui Add, Button, x431 y56 w183 h68 gButton3, Arconte
-Gui Add, Button, x50 y285 w183 h68 gButton4, PortafirmasNG
-Gui Add, Button, x241 y56 w183 h68 gButton5, Agenda de señalamientos
-Gui Add, Button, x241 y136 w183 h68 gButton6, Expediente digital
-Gui Add, Button, x50 y212 w183 h68 gButton7, Hermes
-Gui Add, Button, x240 y210 w183 h68 gButton8, Jara
-Gui Add, Button, x432 y209 w183 h68 gButton9, Quenda // Cita previa
-Gui Add, Button, x240 y284 w183 h68 gButton10, Suministros
-Gui Add, Button, x242 y478 w183 h68 gButton11, Internet libre
-Gui Add, Button, x52 y548 w183 h68 gButton12, Multiconferencia
-Gui Add, Button, x432 y408 w183 h68 gButton13, Dragon Speaking
-Gui Add, Button, x242 y408 w183 h68 gButton14, Aumento espacio correo
-Gui Add, Button, x52 y408 w183 h68 gButton15, Abbypdf
-Gui Add, Button, x52 y478 w183 h68 gButton16, GDU
-Gui Add, Button, x741 y476 w183 h68 gButton17, Orfila
-Gui Add, Button, x740 y406 w183 h68 gButton18, Lexnet
-Gui Add, Button, x742 y547 w183 h68 gButton19, Siraj2
-Gui Add, Button, x431 y134 w183 h68 gButton20, Emparejamiento ISL
-Gui Add, Button, x642 y127 w183 h68 gButton21, Certificado digital
-Gui Add, Button, x831 y57 w183 h68 gButton22, Software
-Gui Add, Button, x831 y128 w183 h68 gButton23, PIN tarjeta
-Gui Add, Button, x643 y199 w183 h68 gButton24, Servicio no CEIURIS
-Gui Add, Button, x1234 y198 w183 h68 gButton25, Lector tarjeta
-Gui Add, Button, x1045 y197 w183 h68 gButton26, Equipo sin red
-Gui Add, Button, x1233 y57 w183 h68 gButton27, GM
-Gui Add, Button, x1137 y483 w183 h68 gButton28, Teléfono
-Gui Add, Button, x1046 y410 w183 h68 gButton29, Ganes
-Gui Add, Button, x1045 y268 w183 h68 gButton30, Equipo no enciende
-Gui Add, Button, x1045 y57 w183 h68 gButton31, Disco duro
-Gui Add, Button, x1045 y127 w183 h68 gButton32, Edoc Fortuny
-Gui Add, Button, x832 y199 w183 h68 gButton33, @Driano
-Gui Add, Button, x432 y478 w183 h68 gButton34, Intervención video
-Gui Add, Button, x1235 y267 w183 h68 gButton35, Monitor
-Gui Add, Button, x1236 y410 w183 h68 gButton36, Teclado
-Gui Add, Button, x1236 y338 w183 h68 gButton37, Ratón
-Gui Add, Button, x1233 y127 w183 h68 gButton38, ISL Apagado
-Gui Add, Button, x1045 y339 w183 h68 gButton39, Error relación de confianza
-Gui Add, Button, x642 y56 w183 h68 gButton40, Contraseñas
-Gui Add, Button, x244 y549 w183 h68 gButton41, Formaciones
-Gui Add, Button, x1050 y635 w80 h23 gButton42, Buscar
-Gui, Add, Checkbox, vModoSeguro x1200 y635 w80 h23, Modo Seguro
-Gui Show, w1456 h704, Gestor de incidencias
+;Bloque 1 solicitudes.
+Gui, 1:Add, Text, x144 y16 w98 h19, SOLICITUDES
+Gui, 1:Add, Button, x40 y40 w136 h46 gButton4, GDU
+Gui, 1:Add, Button, x176 y40 w136 h46 gButton3, Aumento espacio correo
+Gui, 1:Add, Button, x40 y88 w136 h46 gButton16, Intervención video
+Gui, 1:Add, Button, x176 y88 w136 h46 gButton24, Formaciones
+Gui, 1:Add, Button, x40 y136 w136 h46 gButton1, Internet libre
+Gui, 1:Add, Button, x176 y136 w136 h46gButton2, Multiconferencia
+
+; Bloque 2 cierres.
+Gui, 1:Add, Text, x464 y16 w67 h18, CIERRES
+Gui, 1:Add, Button, x344 y40 w136 h46 gButton23, Contraseñas
+Gui, 1:Add, Button, x480 y40 w136 h46 gButton7, Software
+Gui, 1:Add, Button, x344 y88 w136 h46 gButton6, Certificado digital
+Gui, 1:Add, Button, x480 y88 w136 h46 gButton8, PIN tarjeta
+Gui, 1:Add, Button, x344 y136 w136 h46 gButton9, Servicio no CEIURIS
+Gui, 1:Add, Button, x480 y136 w136 h46 gButton5, Emparejamiento ISL
+
+;Bloque 3 DP.
+Gui, 1:Add, Text, x840 y16 w25 h17, DP
+Gui, 1:Add, Button, x640 y40 w136 h46 gButton15, Disco duro
+Gui, 1:Add, Button, x776 y40 w136 h46 gButton12, GM
+Gui, 1:Add, Button, x912 y40 w136 h46 gButton11, Equipo sin red
+Gui, 1:Add, Button, x640 y88 w136 h46 gButton22, ISL Apagado
+Gui, 1:Add, Button, x776 y88 w136 h46 gButton14, Equipo no enciende
+Gui, 1:Add, Button, x912 y88 w136 h46 gButton10, Lector tarjeta
+Gui, 1:Add, Button, x640 y136 w136 h46 gButton21, Ratón
+Gui, 1:Add, Button, x776 y136 w136 h46 gButton17, Monitor
+Gui, 1:Add, Button, x912 y136 w136 h46 gButton13, Teléfono
+Gui, 1:Add, Button, x776 y184 w136 h46 gButton18, Teclado
+
+;Bloque 4 DNI
+
+Gui, 1:Add, Text, x136 y272 w33 h21, DNI
+Gui, 1:Add, Edit, x176 y264 w188 h26 gUpdateLetter vdni, %dni%
+Gui, 1:Add, Edit, vDNILetter x368 y264 w20 h26 +ReadOnly
+
+;Bloque 5 Teléfono
+
+Gui, 1:Add, Text, x392 y272 w76 h21, TELÉFONO
+Gui, 1:Add, Edit, x448 y264 w188 h26 vtelf, %telf%
+
+;Bloque 6 Búsqueda incidencias
+
+Gui, 1:Add, Text, x648 y272 w23 h21, IN
+Gui, 1:Add, Edit, x664 y264 w188 h26 vInci, %Inci%
+Gui, 1:Add, Button, x872 y264 w80 h23 gButton25, Buscar
+
+; Mostrar la ventana 1
+Gui, 1:Show, w1083 h332, Lazybird
+
+; GUI Macro plantillas correos
+Gui, 2:Add, Button, x56 y32 w136 h46 gAccionPlantilla, NIG y captura
+Gui, 2:Add, Button, x56 y80 w136 h46 gAccionPlantilla, Captura
+Gui, 2:Add, Button, x56 y128 w136 h46 gAccionPlantilla, Formulario
+Gui, 2:Add, Button, x56 y176 w136 h46 gAccionPlantilla, Formulario GDU
+Gui, 2:Add, Button, x192 y32 w136 h46 gAccionPlantilla, Info solventada
+Gui, 2:Add, Button, x192 y80 w136 h46 gAccionPlantilla, Problema general
+Gui, 2:Add, Button, x192 y128 w136 h46 gAccionPlantilla, Resolución TLT
+Gui, 2:Add, Button, x192 y176 w136 h46 gAccionPlantilla, Mantenimiento
+Gui, 2:Add, Radio, x16 y248 w120 h23 vRadioContacto +Checked, Primer contacto
+Gui, 2:Add, Radio, x144 y248 w120 h23, Segundo contacto
+Gui, 2:Add, Radio, x272 y248 w120 h23, Tercer contacto
+
+Return 
+
+#Space::
+    WriteLog("Abriendo GUI de Plantillas")
+    Gui, 2:Show, w389 h286, Plantillas correos
+Return
+
+AccionPlantilla:
+    MsgBox, Pulsaste %A_GuiControl%
+    Gui, 2:Hide
+Return
 
 UpdateLetter:
     try {
@@ -247,73 +266,71 @@ KeepActive:
         WriteError("Equipo activo " . e.Message)
     }
 Return
+
+; Función auxiliar para ejecutar macros Alba con cierre automático
+ExecuteAlbaMacroWithClose(num, description, closureText := "") {
+    global Cierrepass
+    if (closureText = "")
+        closureText := Cierrepass
+    
+    ExecuteAlbaMacro(num, description)
+    cierre(closureText)
+    WriteLog("Cierre automático ejecutado para: " . description)
+}
+
 Button1:
-    ExecuteAlbaMacro(42, "Adriano")
+    ExecuteAlbaMacro(12, "Internet libre")
     Return
 Button2:
-    ExecuteAlbaMacro(29, "Escritorio judicial")
+    ExecuteAlbaMacro(8, "Multiconferencia")
     Return
 Button3:
-    ExecuteAlbaMacro(39, "Arconte")
+    ExecuteAlbaMacro(21, "Aumento espacio correo")
     Return
 Button4:
-    ExecuteAlbaMacro(9, "PortafirmasNG")
+    ExecuteAlbaMacro(14, "GDU")
     Return
 Button5:
-    ExecuteAlbaMacro(41, "Agenda de señalamientos")
+    ExecuteAlbaMacro(17, "Emparejamiento ISL")
     Return
 Button6:
-    ExecuteAlbaMacro(28, "Expediente digital")
+    ExecuteAlbaMacro(21, "Certificado digital")
     Return
 Button7:
-    ExecuteAlbaMacro(22, "Hermes")
+    ExecuteAlbaMacro(4, "Software")
     Return
 Button8:
-    ExecuteAlbaMacro(18, "Jara")
+    ExecuteAlbaMacro(7, "PIN tarjeta")
     Return
 Button9:
-    ExecuteAlbaMacro(0, "Quenda // Cita previa")
+    ExecuteAlbaMacro(0, "Servicio no CEIURIS")
     Return
 Button10:
-    ExecuteAlbaMacro(4, "Suministros")
+    ExecuteAlbaMacro(10, "Lector tarjeta")
     Return
 Button11:
-    ExecuteAlbaMacro(21, "Internet libre")
+    ExecuteAlbaMacro(5, "Equipo sin red")
     Return
 Button12:
-    ExecuteAlbaMacro(14, "Multiconferencia")
+    ExecuteAlbaMacro(13, "GM")
     Return
 Button13:
-    ExecuteAlbaMacro(32, "Dragon Speaking")
+    ExecuteAlbaMacro(2, "Teléfono")
     Return
 Button14:
-    ExecuteAlbaMacro(38, "Aumento espacio correo")
+    ExecuteAlbaMacro(23, "Equipo no enciende")
     Return
 Button15:
-    ExecuteAlbaMacro(44, "Abbypdf")
+    ExecuteAlbaMacro(18, "Disco duro")
     Return
 Button16:
-    if (!CheckRemedy())
-        return
-    try {
-        Alba(24)
-        Gui, Submit, NoHide
-        Send, %dni%{Tab}{Enter}{Tab 3}+{Left 90}{BackSpace}%telf%
-        if (dni != "" && DNILetter != "") {
-            Clipboard := dni . DNILetter
-        }
-        GuiControl,, dni
-        GuiControl,, telf
-        WriteLog("Ejecutó macro GDU (Alba 24) - DNI en portapapeles: " . (dni . DNILetter))
-    } catch e {
-        WriteError("Error en macro GDU (Alba 24): " . e.Message)
-    }
+    ExecuteAlbaMacro(24, "Intervención video")
     Return
 Button17:
-    ExecuteAlbaMacro(12, "Orfila")
+    ExecuteAlbaMacro(9, "Monitor")
     Return
 Button18:
-    ExecuteAlbaMacro(16, "Lexnet")
+    ExecuteAlbaMacro(3, "Teclado")
     Return
 Button19:
     ExecuteAlbaMacro(6, "Siraj2")
@@ -333,57 +350,22 @@ Button23:
 Button24:
     ExecuteAlbaMacro(10, "Servicio no CEIURIS")
     Return
-Button25:
-    ExecuteAlbaMacro(17, "Lector tarjeta")
-    Return
-Button26:
-    ExecuteAlbaMacro(7, "Equipo sin red")
-    Return
-Button27:
-    ExecuteAlbaMacro(23, "GM")
-    Return
-Button28:
-    ExecuteAlbaMacro(2, "Teléfono")
-    Return
-Button29:
-    ExecuteAlbaMacro(25, "Ganes")
-    Return
-Button30:
-    ExecuteAlbaMacro(26, "Equipo no enciende")
-    Return
-Button31:
-    ExecuteAlbaMacro(33, "Disco duro")
-    Return
-Button32:
-    ExecuteAlbaMacro(31, "Edoc Fortuny")
-    Return
-Button33:
-    ExecuteAlbaMacro(13, "@Driano")
-    Return
-Button34:
-    ExecuteAlbaMacro(20, "Intervención video")
-    Return
-Button35:
-    ExecuteAlbaMacro(15, "Monitor")
-    Return
-Button36:
-    ExecuteAlbaMacro(3, "Teclado")
-    Return
-Button37:
-    ExecuteAlbaMacro(8, "Ratón")
-    Return
-Button38:
-    ExecuteAlbaMacro(19, "ISL Apagado")
-    Return
-Button39:
-    ExecuteAlbaMacro(36, "Error relación de confianza")
-    Return
-Button40:
-    ExecuteAlbaMacro(35, "Contraseñas")
-    Return
-Button41:
-    ExecuteAlbaMacro(27, "Formaciones")
-    Return
+Button25: ;Botón Buscar
+     if (!CheckRemedy())
+    {
+        return
+    }
+    try {
+        Gui, Submit, NoHide
+        Alba(0)
+        Send, {F3}{Enter}{Tab 5}
+        Send, %Inci%
+        Send, ^{Enter}
+        GuiControl, , Inci
+        WriteLog("Pulsó el botón Buscar y ejecutó la macro Alba con Inci: " . Inci)
+    } catch e {
+        WriteError("Pulsando botón Buscar: " . e.Message)
+    }
 Button42:
      if (!CheckRemedy())
     {
@@ -400,16 +382,8 @@ Button42:
     } catch e {
         WriteError("Pulsando botón Buscar: " . e.Message)
     }
-; Función auxiliar para ejecutar macros Alba con cierre automático
-ExecuteAlbaMacroWithClose(num, description, closureText := "") {
-    global Cierrepass
-    if (closureText = "")
-        closureText := Cierrepass
-    
-    ExecuteAlbaMacro(num, description)
-    cierre(closureText)
-    WriteLog("Cierre automático ejecutado para: " . description)
-}
+
+;Shortcuts con cierres
 
 #1::
     ExecuteAlbaMacro(0, "Combinación #1 (Macro Base)")
