@@ -21,9 +21,22 @@ global repoUrl, downloadUrl, localFile, logFilePath, tempFile
 dni:=""
 telf:= ""
 letters := "TRWAGMYFPDXBNJZSQVHLCKE"
-FileRead, Cierrepass, C:\Users\CAU.LAP\AppData\Roaming\AR System\HOME\ARCmds\Cierres\Cierrepass.txt
+FileRead, Cierrepass, C:\Users\CAU.LAP\AppData\Roaming\AR System\HOME\ARCmds\Plantillas\Cierres\Cierrepass.txt
+; Rutas de archivos
+RutaContactos := "C:\Users\david\AppData\Roaming\AR System\HOME\ARCmds\Plantillas\Contactos"
+RutaCorreos := "C:\Users\david\AppData\Roaming\AR System\HOME\ARCmds\Plantillas\Correos"
 
-; Función para calcular letra dni
+; Diccionario para conectar botones de GUI 2 con sus archivos .txt de correo
+DiccionarioCorreos := { "AccionPlantilla1": "NIG_captura"
+                      , "AccionPlantilla2": "Captura"
+                      , "AccionPlantilla3": "Formulario"
+                      , "AccionPlantilla4": "Formulario_GDU"
+                      , "AccionPlantilla5": "Info_solventada"
+                      , "AccionPlantilla6": "Problema_General"
+                      , "AccionPlantilla7": "Resolucion_tlt"
+                      , "AccionPlantilla8": "Mantenimiento" }
+
+                      ; Función para calcular letra dni
 CalculateDNILetter(dniNumber) {
     global letters
     if (dniNumber = "" || !RegExMatch(dniNumber, "^\d{1,8}$")) {
@@ -63,108 +76,6 @@ Try {
     WriteLog("Ejecutando aplicación")
 } catch e {
     WriteError("Error ejecutando la aplicación: " . e.Message)
-}
-Gui, 1:Font,, Segoe UI
-
-;Bloque 1 solicitudes.
-Gui, 1:Add, Text, x144 y16 w98 h19, SOLICITUDES
-Gui, 1:Add, Button, x40 y40 w136 h46 gButton4, GDU
-Gui, 1:Add, Button, x176 y40 w136 h46 gButton3, Aumento espacio correo
-Gui, 1:Add, Button, x40 y88 w136 h46 gButton16, Intervención video
-Gui, 1:Add, Button, x176 y88 w136 h46 gButton24, Formaciones
-Gui, 1:Add, Button, x40 y136 w136 h46 gButton1, Internet libre
-Gui, 1:Add, Button, x176 y136 w136 h46gButton2, Multiconferencia
-
-; Bloque 2 cierres.
-Gui, 1:Add, Text, x464 y16 w67 h18, CIERRES
-Gui, 1:Add, Button, x344 y40 w136 h46 gButton23, Contraseñas
-Gui, 1:Add, Button, x480 y40 w136 h46 gButton7, Software
-Gui, 1:Add, Button, x344 y88 w136 h46 gButton6, Certificado digital
-Gui, 1:Add, Button, x480 y88 w136 h46 gButton8, PIN tarjeta
-Gui, 1:Add, Button, x344 y136 w136 h46 gButton9, Servicio no CEIURIS
-Gui, 1:Add, Button, x480 y136 w136 h46 gButton5, Emparejamiento ISL
-
-;Bloque 3 DP.
-Gui, 1:Add, Text, x840 y16 w25 h17, DP
-Gui, 1:Add, Button, x640 y40 w136 h46 gButton15, Disco duro
-Gui, 1:Add, Button, x776 y40 w136 h46 gButton12, GM
-Gui, 1:Add, Button, x912 y40 w136 h46 gButton11, Equipo sin red
-Gui, 1:Add, Button, x640 y88 w136 h46 gButton22, ISL Apagado
-Gui, 1:Add, Button, x776 y88 w136 h46 gButton14, Equipo no enciende
-Gui, 1:Add, Button, x912 y88 w136 h46 gButton10, Lector tarjeta
-Gui, 1:Add, Button, x640 y136 w136 h46 gButton21, Ratón
-Gui, 1:Add, Button, x776 y136 w136 h46 gButton17, Monitor
-Gui, 1:Add, Button, x912 y136 w136 h46 gButton13, Teléfono
-Gui, 1:Add, Button, x776 y184 w136 h46 gButton18, Teclado
-
-;Bloque 4 DNI
-
-Gui, 1:Add, Text, x136 y272 w33 h21, DNI
-Gui, 1:Add, Edit, x176 y264 w188 h26 gUpdateLetter vdni, %dni%
-Gui, 1:Add, Edit, vDNILetter x368 y264 w20 h26 +ReadOnly
-
-;Bloque 5 Teléfono
-
-Gui, 1:Add, Text, x392 y272 w76 h21, TELÉFONO
-Gui, 1:Add, Edit, x448 y264 w188 h26 vtelf, %telf%
-
-;Bloque 6 Búsqueda incidencias
-
-Gui, 1:Add, Text, x648 y272 w23 h21, IN
-Gui, 1:Add, Edit, x664 y264 w188 h26 vInci, %Inci%
-Gui, 1:Add, Button, x872 y264 w80 h23 gButton25, Buscar
-
-; Mostrar la ventana 1
-Gui, 1:Show, w1083 h332, Lazybird
-
-; GUI Macro plantillas correos
-Gui, 2:Add, Button, x56 y32 w136 h46 gAccionPlantilla, NIG y captura
-Gui, 2:Add, Button, x56 y80 w136 h46 gAccionPlantilla, Captura
-Gui, 2:Add, Button, x56 y128 w136 h46 gAccionPlantilla, Formulario
-Gui, 2:Add, Button, x56 y176 w136 h46 gAccionPlantilla, Formulario GDU
-Gui, 2:Add, Button, x192 y32 w136 h46 gAccionPlantilla, Info solventada
-Gui, 2:Add, Button, x192 y80 w136 h46 gAccionPlantilla, Problema general
-Gui, 2:Add, Button, x192 y128 w136 h46 gAccionPlantilla, Resolución TLT
-Gui, 2:Add, Button, x192 y176 w136 h46 gAccionPlantilla, Mantenimiento
-Gui, 2:Add, Radio, x16 y248 w120 h23 vRadioContacto +Checked, Primer contacto
-Gui, 2:Add, Radio, x144 y248 w120 h23, Segundo contacto
-Gui, 2:Add, Radio, x272 y248 w120 h23, Tercer contacto
-
-Return 
-
-#Space::
-    WriteLog("Abriendo GUI de Plantillas")
-    Gui, 2:Show, w389 h286, Plantillas correos
-Return
-
-AccionPlantilla:
-    MsgBox, Pulsaste %A_GuiControl%
-    Gui, 2:Hide
-Return
-
-UpdateLetter:
-    try {
-        Gui, Submit, NoHide
-        DNILetter := CalculateDNILetter(DNI)
-        GuiControl,, DNILetter, %DNILetter%
-        WriteLog("Actualizó la letra del DNI")
-    } catch e {
-        WriteError("Actualizando letra del DNI: " . e.Message)
-    }
-    Return
-
-CheckRemedy()
-{
-    IfWinExist, ahk_exe aruser.exe
-    {
-        return true
-    }
-    else
-    {
-        MsgBox, Error, el programa Remedy no se encuentra abierto.
-        WriteLog("Error, el programa Remedy no se encuentra abierto")
-        return false
-    }
 }
 
 screen()
@@ -240,7 +151,6 @@ Alba(num) {
 }
 
 ;Función para realizar el proceso de cierre de una incidencia, recibe como parámetro el texto a introducir en el campo de cierre
-
 cierre(closetext)
 {
     try {
@@ -255,6 +165,142 @@ cierre(closetext)
         WriteError("Cierre ejecutado con texto: " . e.Message)
     }
 }
+; Función auxiliar para ejecutar macros Alba con cierre automático
+ExecuteAlbaMacroWithClose(num, description, closureText := "") {
+    global Cierrepass
+    if (closureText = "")
+        closureText := Cierrepass
+    
+    ExecuteAlbaMacro(num, description)
+    cierre(closureText)
+    WriteLog("Cierre automático ejecutado para: " . description)
+}
+
+Gui, 1:Font,, Segoe UI
+
+;Bloque 1 solicitudes.
+Gui, 1:Add, Text, x144 y16 w98 h19, SOLICITUDES
+Gui, 1:Add, Button, x40 y40 w136 h46 gButton4, GDU
+Gui, 1:Add, Button, x176 y40 w136 h46 gButton3, Aumento espacio correo
+Gui, 1:Add, Button, x40 y88 w136 h46 gButton16, Intervención video
+Gui, 1:Add, Button, x176 y88 w136 h46 gButton24, Formaciones
+Gui, 1:Add, Button, x40 y136 w136 h46 gButton1, Internet libre
+Gui, 1:Add, Button, x176 y136 w136 h46gButton2, Multiconferencia
+
+; Bloque 2 cierres.
+Gui, 1:Add, Text, x464 y16 w67 h18, CIERRES
+Gui, 1:Add, Button, x344 y40 w136 h46 gButton23, Contraseñas
+Gui, 1:Add, Button, x480 y40 w136 h46 gButton7, Software
+Gui, 1:Add, Button, x344 y88 w136 h46 gButton6, Certificado digital
+Gui, 1:Add, Button, x480 y88 w136 h46 gButton8, PIN tarjeta
+Gui, 1:Add, Button, x344 y136 w136 h46 gButton9, Servicio no CEIURIS
+Gui, 1:Add, Button, x480 y136 w136 h46 gButton5, Emparejamiento ISL
+
+;Bloque 3 DP.
+Gui, 1:Add, Text, x840 y16 w25 h17, DP
+Gui, 1:Add, Button, x640 y40 w136 h46 gButton15, Disco duro
+Gui, 1:Add, Button, x776 y40 w136 h46 gButton12, GM
+Gui, 1:Add, Button, x912 y40 w136 h46 gButton11, Equipo sin red
+Gui, 1:Add, Button, x640 y88 w136 h46 gButton22, ISL Apagado
+Gui, 1:Add, Button, x776 y88 w136 h46 gButton14, Equipo no enciende
+Gui, 1:Add, Button, x912 y88 w136 h46 gButton10, Lector tarjeta
+Gui, 1:Add, Button, x640 y136 w136 h46 gButton21, Ratón
+Gui, 1:Add, Button, x776 y136 w136 h46 gButton17, Monitor
+Gui, 1:Add, Button, x912 y136 w136 h46 gButton13, Teléfono
+Gui, 1:Add, Button, x776 y184 w136 h46 gButton18, Teclado
+
+;Bloque 4 DNI
+
+Gui, 1:Add, Text, x136 y272 w33 h21, DNI
+Gui, 1:Add, Edit, x176 y264 w188 h26 gUpdateLetter vdni, %dni%
+Gui, 1:Add, Edit, vDNILetter x368 y264 w20 h26 +ReadOnly
+
+;Bloque 5 Teléfono
+
+Gui, 1:Add, Text, x392 y272 w76 h21, TELÉFONO
+Gui, 1:Add, Edit, x448 y264 w188 h26 vtelf, %telf%
+
+;Bloque 6 Búsqueda incidencias
+
+Gui, 1:Add, Text, x648 y272 w23 h21, IN
+Gui, 1:Add, Edit, x664 y264 w188 h26 vInci, %Inci%
+Gui, 1:Add, Button, x872 y264 w80 h23 gButton25, Buscar
+
+; Mostrar la ventana 1
+Gui, 1:Show, w1083 h332, Lazybird
+
+; GUI Macro plantillas correos
+Gui, 2:Add, Button, x56 y32 w136 h46 gAccionPlantilla1, NIG y captura
+Gui, 2:Add, Button, x56 y80 w136 h46 gAccionPlantilla2, Captura
+Gui, 2:Add, Button, x56 y128 w136 h46 gAccionPlantilla3, Formulario
+Gui, 2:Add, Button, x56 y176 w136 h46 gAccionPlantilla4, Formulario GDU
+Gui, 2:Add, Button, x192 y32 w136 h46 gAccionPlantilla5, Info solventada
+Gui, 2:Add, Button, x192 y80 w136 h46 gAccionPlantilla6, Problema general
+Gui, 2:Add, Button, x192 y128 w136 h46 gAccionPlantilla7, Resolución TLT
+Gui, 2:Add, Button, x192 y176 w136 h46 gAccionPlantilla8, Mantenimiento
+Gui, 2:Add, Radio, x16 y248 w120 h23 vRadioContacto +Checked, Primer contacto
+Gui, 2:Add, Radio, x144 y248 w120 h23, Segundo contacto
+Gui, 2:Add, Radio, x272 y248 w120 h23, Tercer contacto
+Return 
+
+#Space::
+    WriteLog("Abriendo GUI de Plantillas")
+    Gui, 2:Show, w389 h286, Plantillas correos
+Return
+
+AccionPlantilla1:
+AccionPlantilla2:
+AccionPlantilla3:
+AccionPlantilla4:
+AccionPlantilla5:
+AccionPlantilla6:
+AccionPlantilla7:
+AccionPlantilla8:
+Gui, 2:Submit, NoHide
+    FileRead, TextoContacto, %RutaContactos%\%RadioContacto%contacto.txt
+    NombreCorreo := DiccionarioCorreos[A_ThisLabel]
+    FileRead, TextoCorreo, %RutaCorreos%\%NombreCorreo%.txt
+    TextoCorreo := StrReplace(TextoCorreo, "`r`n", "`n")
+    Screen()
+    Send, {Tab 24}{Up}{Tab}{Enter}{Tab 3}^+{Up}^v{Tab}{Down 2}{Tab 4}^+{Up}
+    Sleep, 150
+    SendRaw, %TextoContacto%
+    Send, ^{Enter}{Enter}
+    Sleep, 150
+    Send, {Tab 10}{Enter}
+    SendRaw, %TextoCorreo%
+    Send, ^{Enter}
+    Send, {Tab 2}{Enter}{Tab}{Enter}
+    Send, ^{Enter}{Enter}
+    Sleep, 100
+    Send, {Enter}{Tab 2}{Enter}
+    Gui, 2:Hide
+Return
+
+UpdateLetter:
+    try {
+        Gui, Submit, NoHide
+        DNILetter := CalculateDNILetter(DNI)
+        GuiControl,, DNILetter, %DNILetter%
+        WriteLog("Actualizó la letra del DNI")
+    } catch e {
+        WriteError("Actualizando letra del DNI: " . e.Message)
+    }
+    Return
+
+CheckRemedy()
+{
+    IfWinExist, ahk_exe aruser.exe
+    {
+        return true
+    }
+    else
+    {
+        MsgBox, Error, el programa Remedy no se encuentra abierto.
+        WriteLog("Error, el programa Remedy no se encuentra abierto")
+        return false
+    }
+}
 
 KeepActive:
     Try {
@@ -266,17 +312,6 @@ KeepActive:
         WriteError("Equipo activo " . e.Message)
     }
 Return
-
-; Función auxiliar para ejecutar macros Alba con cierre automático
-ExecuteAlbaMacroWithClose(num, description, closureText := "") {
-    global Cierrepass
-    if (closureText = "")
-        closureText := Cierrepass
-    
-    ExecuteAlbaMacro(num, description)
-    cierre(closureText)
-    WriteLog("Cierre automático ejecutado para: " . description)
-}
 
 Button1:
     ExecuteAlbaMacro(12, "Internet libre")
@@ -366,25 +401,7 @@ Button25: ;Botón Buscar
     } catch e {
         WriteError("Pulsando botón Buscar: " . e.Message)
     }
-Button42:
-     if (!CheckRemedy())
-    {
-        return
-    }
-    try {
-        Gui, Submit, NoHide
-        Alba(0)
-        Send, {F3}{Enter}{Tab 5}
-        Send, %Inci%
-        Send, ^{Enter}
-        GuiControl, , Inci
-        WriteLog("Pulsó el botón Buscar y ejecutó la macro Alba con Inci: " . Inci)
-    } catch e {
-        WriteError("Pulsando botón Buscar: " . e.Message)
-    }
-
 ;Shortcuts con cierres
-
 #1::
     ExecuteAlbaMacro(0, "Combinación #1 (Macro Base)")
     Return
@@ -405,18 +422,15 @@ Button42:
     if (!CheckRemedy()) {
         return
     }
-
     InputBox, repeatCount, Repeticiones, ¿Cuántas veces deseas repetir la acción?, , 300, 150
     if ErrorLevel {
         MsgBox, Cancelado por el usuario.
         return
     }
-
     if (repeatCount <= 0 || repeatCount > 999) {
         MsgBox, Número inválido. Introduce un número entre 1 y 999.
         return
     }
-
     Loop %repeatCount%
     {
         try {
@@ -432,63 +446,6 @@ Button42:
     }
     MsgBox, % "Se ha completado correctamente " . repeatCount . " veces."
     return
-/*
-            Send, {Tab 36}{Enter}{Enter}
-            Sleep, 1000
-            FileRead, Correo, C:\Users\CAU.LAP\AppData\Roaming\AR System\HOME\ARCmds\correo.txt
-            A_Clipboard := Correo
-            Send, {Enter}
-            Send, ^v
-            Send, {Tab}{Enter}{Enter}
-            Sleep, 1000
-            Send, {Tab 15}{Right 2}
-            cierre("Se notifica por correo tras acoplamiento completado. Se procede al cierre de las incidencias a petición del procedimiento.")
-            Sleep, 1500
-*/
-
-
-/*
-                                ACOPLAMIENTO FASE NUMO
-                            Importante para cierre de mantenimiento AD TEMIS
-
-try {
-Alba(42)
-Sleep, 1500
-MsgBox, 64, Estado de Macro, Macro ejecuntandose %A_Index% de %repeatCount% no tocar.,1
-WriteLog("Macro repeticion (Iteración: " . A_Index . ")")
-Send, {Enter}
-Send, {Tab 36}{Enter}{Enter}
-Sleep, 1000
-FileRead, Correo, C:\Users\CAU.LAP\AppData\Roaming\AR System\HOME\ARCmds\correo.txt
-A_Clipboard := Correo
-Send, {Enter}
-Send, ^v
-Send, {Tab}{Enter}{Enter}
-Sleep, 1000
-Send, {Tab 15}{Right 2}
-cierre("Se notifica por correo tras acoplamiento completado. Se procede al cierre de las incidencias a petición del procedimiento.")
-Sleep, 1500
-
-*/
-
-
-
-    /*
-    Individual corregido
-    Send, {Enter}
-    Send, {Tab 36}{Enter}{Enter}
-    Sleep, 1000
-    FileRead, Correo, C:\Users\CAU.LAP\AppData\Roaming\AR System\HOME\ARCmds\correo.txt
-    A_Clipboard := Correo
-    Send, {Enter}
-    Send, ^v
-    Send, {Tab}{Enter}{Enter}
-    Sleep, 1000
-    Send, {Tab 15}{Right 2}
-    cierre("Se notifica por correo tras acoplamiento completado. Se procede al cierre de las incidencias a petición del procedimiento.")
-    return
-    */
-
 
 #7:: ; AFK mode
     if (!CheckRemedy())
@@ -511,10 +468,7 @@ Sleep, 1500
     }
     Return
 
-    Return
-
-;; Macro llamadas automáticas openscape
-#8::
+#8:: ;; Macro llamadas automáticas openscape
     try {
         WriteLog("Iniciando marcación automática OpenScape")
         Send, {End}^+{Up}^{c}
