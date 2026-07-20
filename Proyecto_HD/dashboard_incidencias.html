@@ -1,0 +1,2597 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard de Incidencias</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="predictor_data.js"></script>
+<script src="wiki_knowledge.js"></script>
+<script src="ods_data.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,-apple-system,sans-serif;background:#f0f2f5;color:#1a1a2e;padding:0}
+.header{background:linear-gradient(135deg,#1a1a2e,#16213e);color:#fff;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.header h1{font-size:1.2rem;font-weight:600}
+.header .sub{font-size:.8rem;color:#8899bb}
+.header .badge{background:#e74c3c;padding:2px 8px;border-radius:4px;font-size:.7rem}
+.container{max-width:1500px;margin:0 auto;padding:16px}
+#uploadZone{border:2px dashed #ccc;border-radius:10px;padding:24px;text-align:center;background:#fff;transition:all .2s;cursor:pointer;margin-bottom:16px}
+#uploadZone.dragover{border-color:#4361ee;background:#eef0ff}
+#uploadZone.has-file{border-color:#2ecc71;background:#f0fff4}
+#uploadZone .hint{color:#999;font-size:.8rem;margin-top:4px}
+#fileInfo{display:none;margin-top:8px;font-size:.85rem;color:#555}
+#fileInfo.show{display:block}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:16px}
+.stat-card{background:#fff;border-radius:8px;padding:14px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.07)}
+.stat-card .num{font-size:1.6rem;font-weight:700}
+.stat-card .label{font-size:.75rem;color:#666;margin-top:2px}
+.stat-card.urg .num{color:#e74c3c}
+.stat-card.afecta .num{color:#e67e22}
+.stat-card.nopuedo .num{color:#c0392b}
+.stat-card.na .num{color:#4361ee}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+@media(max-width:1000px){.grid-2{grid-template-columns:1fr}}
+.box{background:#fff;border-radius:8px;padding:14px;box-shadow:0 1px 3px rgba(0,0,0,.07)}
+.box h3{font-size:.9rem;margin-bottom:10px;color:#333;display:flex;align-items:center;gap:6px}
+.box h3 .count-badge{background:#4361ee;color:#fff;font-size:.7rem;padding:1px 7px;border-radius:10px;font-weight:400}
+canvas{max-height:260px}
+.blocks-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px;margin-bottom:16px}
+.block-card{border-radius:8px;padding:12px;box-shadow:0 1px 3px rgba(0,0,0,.07);cursor:pointer;transition:transform .1s;border-left:4px solid #4361ee;background:#fff}
+.block-card:hover{transform:translateY(-1px);box-shadow:0 3px 8px rgba(0,0,0,.1)}
+.block-card .title{font-weight:600;font-size:.8rem;margin-bottom:4px}
+.block-card .count{font-size:1.3rem;font-weight:700}
+.block-card .desc{font-size:.7rem;color:#777;margin-top:2px}
+.block-card.b-crit{border-left-color:#e74c3c}
+.block-card.b-warn{border-left-color:#e67e22}
+.block-card.b-ok{border-left-color:#2d6a4f}
+.block-card.b-info{border-left-color:#3498db}
+.block-card.b-purple{border-left-color:#9b59b6}
+.block-card.active{background:#eef0ff;border-color:#4361ee}
+.alert-bar{display:none;background:#fff3cd;border:1px solid #ffc107;border-radius:6px;padding:10px 14px;margin-bottom:12px;font-size:.82rem}
+.alert-bar.show{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.alert-bar .alert-icon{font-size:1.2rem}
+.alert-bar .alert-msg{flex:1}
+.alert-bar .alert-close{background:none;border:none;font-size:1rem;cursor:pointer;color:#856404;padding:2px 6px}
+.anomaly-block{background:#fff;border-radius:6px;padding:10px;margin-bottom:8px;border-left:3px solid #e74c3c;font-size:.78rem}
+.anomaly-block.anomaly-medium{border-left-color:#e67e22}
+.anomaly-block.anomaly-low{border-left-color:#3498db}
+.anomaly-block .anomaly-title{font-weight:600;display:flex;justify-content:space-between;align-items:center}
+.anomaly-block .anomaly-detail{color:#666;margin-top:4px}
+.anomaly-indicator{display:inline-flex;align-items:center;gap:3px;font-size:.65rem;font-weight:600;padding:1px 5px;border-radius:3px;margin-left:6px;vertical-align:middle}
+.anomaly-high{background:#ffe0e0;color:#c0392b}
+.anomaly-medium{background:#fff3d6;color:#e67e22}
+.anomaly-low{background:#e8f4fd;color:#3498db}
+.word-list{display:flex;flex-wrap:wrap;gap:4px;max-height:280px;overflow-y:auto}
+.word-item{background:#f0f2ff;padding:3px 9px;border-radius:4px;font-size:.78rem;cursor:pointer;transition:background .1s;white-space:nowrap}
+.word-item:hover{background:#dde0ff}
+.word-item .cnt{color:#4361ee;font-weight:600;margin-left:3px}
+.bigram-item{background:#fff3e0;padding:3px 9px;border-radius:4px;font-size:.78rem;cursor:pointer;transition:background .1s;white-space:nowrap}
+.bigram-item:hover{background:#ffe0b2}
+.bigram-item .cnt{color:#e65100;font-weight:600;margin-left:3px}
+.control-bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;align-items:center}
+.control-bar label{font-size:.8rem;font-weight:500;color:#555}
+.control-bar input,.control-bar select{padding:5px 9px;border:1px solid #ddd;border-radius:5px;font-size:.8rem}
+.control-bar input:focus,.control-bar select:focus{outline:none;border-color:#4361ee}
+.btn{border:none;border-radius:5px;padding:5px 12px;font-size:.78rem;cursor:pointer;transition:background .15s}
+.btn-primary{background:#4361ee;color:#fff}
+.btn-primary:hover{background:#3651d4}
+.btn-danger{background:#e74c3c;color:#fff}
+.btn-danger:hover{background:#c0392b}
+.btn-outline{background:transparent;border:1px solid #ccc;color:#555}
+.btn-outline:hover{background:#f5f5f5}
+.btn-success{background:#27ae60;color:#fff}
+.btn-success:hover{background:#219a52}
+.btn-sm{padding:3px 8px;font-size:.72rem}
+.pagination{display:flex;gap:4px;align-items:center;flex-wrap:wrap;margin-top:8px}
+.pagination button{padding:3px 10px;border:1px solid #ddd;border-radius:4px;background:#fff;cursor:pointer;font-size:.78rem}
+.pagination button:hover{background:#f0f2ff}
+.pagination button.active{background:#4361ee;color:#fff;border-color:#4361ee}
+.pagination button:disabled{opacity:.4;cursor:default}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.78rem}
+th{background:#f8f9fa;text-align:left;padding:7px 8px;font-weight:600;color:#555;border-bottom:2px solid #eee;white-space:nowrap;cursor:pointer;user-select:none}
+th:hover{color:#1a1a2e}
+th .sort{color:#999;font-size:.65rem;margin-left:3px}
+td{padding:6px 8px;border-bottom:1px solid #f0f0f0;vertical-align:top}
+tr:hover{background:#f8f9ff}
+tr.urgente{background:#fff5f5}
+tr.urgente td{color:#c0392b}
+tr.afecta-todos{background:#fffaf0}
+.badge{display:inline-block;padding:1px 6px;border-radius:3px;font-size:.68rem;font-weight:600}
+.badge-danger{background:#ffe0e0;color:#c0392b}
+.badge-warn{background:#fff3d6;color:#e67e22}
+.badge-dark{background:#e8e8e8;color:#555}
+.badge-gestion{background:#4361ee;color:#fff;cursor:pointer;transition:background .1s}
+.badge-gestion:hover{background:#3651d4}
+.results-info{font-size:.78rem;color:#888;margin-top:6px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.date-range{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.date-range input{padding:4px 8px;border:1px solid #ddd;border-radius:4px;font-size:.78rem;width:120px}
+.tabs{display:flex;gap:2px;margin-bottom:8px;flex-wrap:wrap}
+.tab{padding:6px 14px;font-size:.8rem;border:none;background:#e8e8e8;cursor:pointer;border-radius:5px 5px 0 0;color:#555;transition:background .1s}
+.tab:hover{background:#d8d8d8}
+.tab.active{background:#fff;color:#1a1a2e;font-weight:600}
+.tab-content{display:none}
+.tab-content.active{display:block}
+@media(max-width:768px){
+    .header{flex-direction:column;align-items:flex-start}
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .blocks-grid{grid-template-columns:repeat(2,1fr)}
+}
+.pred-badge{display:inline-block;padding:1px 5px;border-radius:3px;font-size:.68rem;font-weight:600;background:#e8f5e9;color:#2e7d32}
+.pred-none{color:#bbb;font-size:.72rem}
+.routing-bar{display:inline-block;height:10px;border-radius:3px;background:#4dabf7;margin-right:6px;vertical-align:middle;min-width:4px}
+#tabRoutingBtn{display:none}
+.routing-sub{border-top:none!important}
+.formacion-module{margin-bottom:12px;padding:8px;background:#f8f9fa;border-radius:6px}
+.formacion-module h4{margin:0 0 4px 0;color:#1a1a2e}
+.formacion-module table{width:auto}
+.formacion-module td{padding:4px 8px}
+.formacion-module a{color:#4361ee}
+.crit-indicator{display:inline-block;width:10px;height:10px;border-radius:50%;background:#ccc;transition:background .3s}
+.crit-indicator.active{background:#2ecc71;animation:critPulse 1.5s infinite}
+.crit-indicator.error{background:#e74c3c}
+.crit-indicator.paused{background:#f39c12}
+@keyframes critPulse{0%{box-shadow:0 0 0 0 rgba(46,204,113,.5)}70%{box-shadow:0 0 0 6px rgba(46,204,113,0)}100%{box-shadow:0 0 0 0 rgba(46,204,113,0)}}
+.critica-nueva{animation:critFlash 2s ease-out}
+@keyframes critFlash{0%{background:#fff3cd}100%{background:transparent}}
+.critica-resuelta{opacity:.5;text-decoration:line-through}
+.criticas-status{font-size:.78rem;padding:6px 10px;border-radius:4px;margin-bottom:8px}
+.criticas-status.ok{background:#e8f5e9;color:#2e7d32}
+.criticas-status.warn{background:#fff3e0;color:#e65100}
+#tabCriticasBtn{position:relative}
+.crit-count{background:#e74c3c;color:#fff;font-size:.65rem;padding:1px 5px;border-radius:8px;margin-left:4px}
+details summary{outline:none}
+details summary::-webkit-details-marker{color:#4361ee}
+#blockDetail .bd-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+#blockDetail .bd-header h3{font-size:.9rem;margin:0}
+#blockDetail .bd-close{background:none;border:none;font-size:1.2rem;cursor:pointer;color:#999;padding:2px 6px}
+#blockDetail .bd-close:hover{color:#333}
+#blockDetail canvas{max-height:140px}
+#blockDetail table{font-size:.75rem;width:auto}
+#blockDetail td{padding:2px 8px}
+.repeated-row{cursor:pointer}
+.repeated-row:hover{background:#f0f4ff}
+#tabHelpdeskBtn{position:relative;font-weight:700;background:linear-gradient(135deg,#1a1a2e,#16213e);color:#fff!important;border-color:#1a1a2e!important}
+#tabHelpdeskBtn:hover{opacity:.9}
+.hd-status{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;padding:4px 10px;border-radius:12px}
+.hd-status.ready{background:#e8f5e9;color:#2e7d32}
+.hd-status.loading{background:#fff3e0;color:#e65100}
+.hd-status.error{background:#ffebee;color:#c62828}
+.hd-detail-panel{position:fixed;top:0;right:0;width:480px;height:100%;background:#fff;box-shadow:-4px 0 20px rgba(0,0,0,.15);z-index:1000;overflow-y:auto;padding:20px;display:none}
+.hd-detail-panel.open{display:block}
+.hd-detail-panel .close-btn{position:absolute;top:12px;right:12px;background:none;border:none;font-size:1.4rem;cursor:pointer;color:#999;padding:4px 8px}
+.hd-detail-panel .close-btn:hover{color:#333}
+.hd-detail-panel h3{font-size:1rem;margin-bottom:12px;padding-right:30px}
+.hd-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:.8rem}
+.hd-detail-grid .field{background:#f8f9fa;padding:6px 10px;border-radius:6px}
+.hd-detail-grid .field .label{font-size:.7rem;color:#999;display:block}
+.hd-detail-grid .field .value{font-weight:500;word-break:break-word}
+.hd-detail-grid .field.full{grid-column:1/-1}
+.hd-row{cursor:pointer}
+.hd-row:hover{background:#f0f4ff!important}
+.hd-row.selected{background:#e3f2fd!important}
+
+</style>
+</head>
+<body>
+<div class="header">
+<div>
+<h1>Dashboard de Incidencias — Helpdesk</h1>
+<div class="sub">Datos en vivo desde Remedy &bull; Servidor COM en localhost:8080</div>
+</div>
+<div><span class="badge" id="dataSourceBadge">Esperando datos</span></div>
+</div>
+<div class="container">
+<div id="uploadZone">
+<div style="font-size:32px;margin-bottom:4px">&#128196;</div>
+<div><strong>Arrastra el CSV o haz clic para cargar</strong></div>
+<div class="hint">El an&aacute;lisis se calcula autom&aacute;ticamente. Columnas detectadas por nombre.</div>
+<div id="fileInfo"></div>
+<div id="colDebug" style="font-size:.75rem;color:#666;margin-top:6px;display:none"></div>
+<button id="forceReloadBtn" class="btn btn-sm btn-primary" style="display:none;margin-top:6px">Recargar an&aacute;lisis</button>
+</div>
+<input type="file" id="fileInput" accept=".csv" style="display:none">
+<div class="stats" id="statsRow"></div>
+<div class="box" style="margin-bottom:16px">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px">
+<h3 style="margin:0">Tendencia temporal</h3>
+<div class="date-range">
+<label style="font-size:.78rem">Desde:</label><input type="date" id="dateFrom">
+<label style="font-size:.78rem">Hasta:</label><input type="date" id="dateTo">
+<button class="btn btn-sm btn-outline" id="resetDateBtn">Limpiar</button>
+</div>
+</div>
+<canvas id="chartTimeline" height="200"></canvas>
+<div style="font-size:.7rem;color:#999;margin-top:4px;text-align:center">Haz clic en una barra para filtrar incidencias de ese d&iacute;a</div>
+</div>
+<div id="alertBar" class="alert-bar"><span class="alert-icon">&#9888;</span><span class="alert-msg" id="alertMsg"></span><span class="alert-close" id="alertClose">&times;</span></div>
+<div class="tabs">
+<button class="tab active" data-tab="tab-helpdesk" id="tabHelpdeskBtn">HelpDesk Online <span class="crit-count" id="helpdeskBadge" style="display:none"></span></button>
+<button class="tab" data-tab="tab-blocks">Bloques</button>
+<button class="tab" data-tab="tab-casos">Casos Adriano</button>
+<button class="tab" data-tab="tab-words">Palabras</button>
+<button class="tab" data-tab="tab-bigrams">Bigramas</button>
+<button class="tab" data-tab="tab-cargo">Cargos</button>
+<button class="tab" data-tab="tab-repeated">Repetidas</button>
+<button class="tab" data-tab="tab-formacion">Formaci&oacute;n</button>
+<button class="tab" data-tab="tab-routing" id="tabRoutingBtn">Enrutamiento</button>
+<button class="tab" data-tab="tab-dokuwiki" id="tabDokuBtn">DokuWiki</button>
+<button class="tab" data-tab="tab-usuarios">Por Usuario</button>
+<button class="tab" data-tab="tab-criticas" id="tabCriticasBtn">Cr&iacute;ticas <span class="crit-badge" id="criticasBadge" style="display:none;background:#e74c3c;color:#fff;font-size:.65rem;padding:1px 5px;border-radius:8px;margin-left:4px"></span></button>
+</div>
+<div id="tab-helpdesk" class="tab-content active">
+<div class="box" style="margin-bottom:0">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:10px">
+<h3 style="margin:0">
+Incidencias Help-Desk abiertas
+<span class="hd-status" id="hdStatus">Conectando...</span>
+</h3>
+<div style="display:flex;gap:8px;align-items:center;font-size:.78rem">
+<span id="hdTimestamp" style="color:#999"></span>
+<button class="btn btn-sm btn-outline" id="hdRefreshBtn">Refrescar</button>
+</div>
+</div>
+<div id="hdLoading" style="padding:24px;text-align:center;color:#999">Esperando datos del servidor Remedy...</div>
+<div id="hdContent" style="display:none">
+<div style="max-height:600px;overflow-y:auto">
+<table style="font-size:.78rem;width:100%">
+<thead><tr>
+<th style="width:80px">ID</th>
+<th style="width:85px">Estado</th>
+<th style="width:80px">Provincia</th>
+<th style="width:120px">Clase</th>
+<th style="width:140px">Tipo</th>
+<th>Descripci&oacute;n</th>
+</tr></thead>
+<tbody id="hdBody"></tbody>
+</table>
+</div>
+<div style="margin-top:6px;font-size:.7rem;color:#999;text-align:center">
+<span id="hdCount"></span> &middot; Haz clic en una fila para ver detalle completo
+</div>
+</div>
+<div id="hdError" style="display:none;padding:24px;text-align:center;color:#c0392b">
+<span>&#9888;</span> <span id="hdErrorMsg">Error conectando con el servidor</span>
+<button class="btn btn-sm btn-primary" id="hdRetryBtn" style="margin-top:8px">Reintentar</button>
+</div>
+</div>
+</div>
+<div class="hd-detail-panel" id="hdDetailPanel">
+<button class="close-btn" id="hdDetailClose">&times;</button>
+<h3 id="hdDetailTitle">Detalle</h3>
+<div class="hd-detail-grid" id="hdDetailBody"></div>
+</div>
+<div id="tab-blocks" class="tab-content"><div class="blocks-grid" id="blocksGrid"></div><div id="blockDetail" style="display:none;margin-top:12px"></div></div>
+<div id="tab-casos" class="tab-content"><div class="box" style="margin-bottom:0"><h3>Clasificador de casos Adriano <span class="count-badge" id="casosCount"></span></h3><div style="max-height:500px;overflow-y:auto"><table style="font-size:.78rem"><thead><tr><th>Caso</th><th>Descripci&oacute;n</th><th>Tipo</th><th>Categor&iacute;a</th><th>Grupo</th><th>Agrupaci&oacute;n</th></tr></thead><tbody id="casosBody"></tbody></table></div></div></div>
+<div id="tab-words" class="tab-content"><div class="box" style="margin-bottom:0"><h3>Top 40 palabras <span class="count-badge">clic para filtrar</span></h3><div class="word-list" id="wordsList"></div></div></div>
+<div id="tab-bigrams" class="tab-content"><div class="box" style="margin-bottom:0"><h3>Top 30 bigramas <span class="count-badge">clic para filtrar</span></h3><div class="word-list" id="bigramsList"></div></div></div>
+<div id="tab-cargo" class="tab-content"><div class="grid-2"><div class="box"><h3>Por cargo</h3><canvas id="chartCargo"></canvas></div><div class="box"><h3>Por provincia</h3><canvas id="chartProv"></canvas></div></div></div>
+<div id="tab-repeated" class="tab-content"><div class="box" style="margin-bottom:0"><h3>Descripciones repetidas <span class="count-badge" id="repeatedCount"></span></h3><div style="max-height:400px;overflow-y:auto"><table style="font-size:.78rem"><thead><tr><th style="width:50px">Veces</th><th>Descripci&oacute;n</th><th style="width:160px">Rango fechas</th><th style="width:120px">Provincia</th><th style="width:180px">IDs ejemplo</th></tr></thead><tbody id="repeatedBody"></tbody></table></div><div style="margin-top:6px;font-size:.7rem;color:#999">Haz clic en una fila para filtrar incidencias con esa descripci&oacute;n</div></div></div>
+<div id="tab-formacion" class="tab-content"><div class="box" style="margin-bottom:0"><h3>Recursos de formaci&oacute;n <span class="count-badge" id="formacionCount"></span></h3><div id="formacionContent"></div></div></div>
+<div id="tab-routing" class="tab-content"><div class="grid-2"><div class="box" style="margin-bottom:0"><h3>Enrutamiento: NUEVO ADRIANO <span class="count-badge" id="routingNACount"></span></h3><div style="max-height:500px;overflow-y:auto"><table style="font-size:.78rem"><thead><tr><th>Provincia</th><th>Asignaci&oacute;n</th><th>Probabilidad</th></tr></thead><tbody id="routingNABody"></tbody></table></div></div><div class="box" style="margin-bottom:0"><h3>Enrutamiento: PUESTO DE TRABAJO <span class="count-badge" id="routingPTCount"></span></h3><div style="max-height:500px;overflow-y:auto"><table style="font-size:.78rem"><thead><tr><th>Provincia</th><th>Asignaci&oacute;n</th><th>Probabilidad</th></tr></thead><tbody id="routingPTBody"></tbody></table></div></div></div></div>
+<div id="tab-dokuwiki" class="tab-content"><div id="dokuContent"></div></div>
+<div id="tab-usuarios" class="tab-content">
+<div class="box" style="margin-bottom:0">
+<h3>Incidencias por usuario <span class="count-badge" id="usuariosCount"></span></h3>
+<div class="control-bar">
+<input type="text" id="usuarioFilterInput" placeholder="Filtrar usuario..." style="flex:1;min-width:140px">
+<button class="btn btn-outline btn-sm" id="clearUsuarioFilter">Limpiar</button>
+</div>
+<div style="max-height:600px;overflow-y:auto" id="usuariosList"></div>
+</div>
+</div>
+<div id="tab-criticas" class="tab-content">
+<div class="box" style="margin-bottom:0">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:10px">
+<h3 style="margin:0;display:flex;align-items:center;gap:8px">
+Incidencias cr&iacute;ticas en Remedy
+<span class="crit-indicator" id="criticasIndicator" style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#ccc"></span>
+</h3>
+<div style="display:flex;gap:8px;align-items:center;font-size:.78rem">
+<span id="criticasTimestamp" style="color:#999"></span>
+<button class="btn btn-sm btn-outline" id="criticasRefreshBtn">Refrescar ahora</button>
+<button class="btn btn-sm btn-outline" id="criticasTogglePoll">Pausar</button>
+</div>
+</div>
+<div id="criticasLoading" style="padding:24px;text-align:center;color:#999"><span id="criticasLoadingMsg">Conectando con Remedy...</span></div>
+<div id="criticasContent" style="display:none">
+<div class="criticas-status" id="criticasStatusBar"></div>
+<div style="max-height:500px;overflow-y:auto;margin-bottom:12px">
+<table style="font-size:.78rem;width:100%">
+<thead><tr>
+<th style="width:80px">ID</th>
+<th style="width:55px">D&iacute;as</th>
+<th>Descripci&oacute;n</th>
+<th style="width:80px">Provincia</th>
+<th style="width:80px">Clase</th>
+<th style="width:90px">Tipo</th>
+<th style="width:80px">Apertura</th>
+</tr></thead>
+<tbody id="criticasBody"></tbody>
+</table>
+</div>
+<details id="criticasResueltasSection" style="margin-top:8px;border-top:1px solid #eee;padding-top:8px">
+<summary style="cursor:pointer;font-weight:600;font-size:.82rem;color:#666">
+Cr&iacute;ticas resueltas <span class="count-badge" id="criticasResueltasCount">0</span>
+</summary>
+<div style="max-height:300px;overflow-y:auto;margin-top:6px">
+<table style="font-size:.75rem;width:100%">
+<thead><tr>
+<th style="width:70px">ID</th>
+<th style="width:45px">D&iacute;as</th>
+<th>Descripci&oacute;n</th>
+<th style="width:65px">Provincia</th>
+<th style="width:65px">Clase</th>
+<th style="width:75px">Tipo</th>
+<th style="width:80px">Resuelta</th>
+</tr></thead>
+<tbody id="criticasResueltasBody"></tbody>
+</table>
+</div>
+</details>
+</div>
+<div id="criticasError" style="display:none;padding:24px;text-align:center;color:#c0392b">
+<span>&#9888;</span> <span id="criticasErrorMsg">Error al conectar con Remedy</span>
+<button class="btn btn-sm btn-primary" id="criticasRetryBtn" style="margin-top:8px">Reintentar</button>
+</div>
+</div>
+</div>
+<div class="box" style="margin-top:16px">
+<h3 style="margin-bottom:8px">Explorador de incidencias</h3>
+<div class="control-bar">
+<input type="text" id="searchInput" placeholder="Buscar en descripción..." style="flex:1;min-width:140px">
+<select id="filterClase"><option value="">Clase: todas</option></select>
+<select id="filterTipo"><option value="">Tipo: todos</option></select>
+<select id="filterProvincia"><option value="">Provincia: todas</option></select>
+<select id="filterCargo"><option value="">Cargo: todos</option></select>
+<select id="filterCaso"><option value="">Caso: todos</option></select>
+<select id="filterUrgencia">
+<option value="">Urgencia: todas</option>
+<option value="urgente">Solo URGENTE</option>
+<option value="afecta">Afecta a todos</option>
+<option value="nopuedo">No puedo trabajar</option>
+<option value="normal">Sin marca</option>
+</select>
+<button class="btn btn-outline btn-sm" id="clearFiltersBtn">Limpiar</button>
+<button class="btn btn-success btn-sm" id="exportBtn">Exportar CSV</button>
+</div>
+<div class="table-wrap">
+<table>
+<thead><tr>
+<th data-col="id">ID <span class="sort"></span></th>
+<th data-col="provincia">Provincia <span class="sort"></span></th>
+<th data-col="fecha">Fecha <span class="sort"></span></th>
+<th data-col="clase">Clase <span class="sort"></span></th>
+<th data-col="tipo">Tipo <span class="sort"></span></th>
+<th data-col="categoria">Categoría <span class="sort"></span></th>
+<th data-col="cargo">Cargo <span class="sort"></span></th>
+<th data-col="descripcion" style="min-width:200px">Descripción</th>
+<th data-col="prediccion">Predicción</th>
+<th data-col="grupo">Grupo</th>
+<th data-col="fuente">Fuente</th>
+<th>Gestionar</th>
+</tr></thead>
+<tbody id="tableBody"></tbody>
+</table>
+</div>
+<div class="results-info">
+<span id="resultsCount">Carga el CSV para ver los datos</span>
+<div class="pagination" id="pagination"></div>
+</div>
+</div>
+</div>
+
+<script>
+// ============================================================
+// BLOCK DEFINITIONS (inline constant)
+// ============================================================
+const BLOCK_DEFS = [
+    // === Adriano / Motor Tramitación ===
+    {k:"incoa",l:"INCOA / Fallo esquema",tipos:["Motor Tramitación"],cats:["Error INCOA"],
+     kw:["incoa","fallo en el esquema","error no reconocido","tramites en ejecucion","antes de asignar esquema","error de integracion","error en reparto","error en asignacion","no asigna","error tramitar","error al tramitar"],
+     exclude:"no es un error de incoa|error en la aplicacion",
+     casos:["1.1","1.2","1.3","1.4","1.5","1.6"],color:"b-crit"},
+    {k:"bloqueado",l:"Bloqueos / Desbloqueos",tipos:["Motor Tramitación"],
+     cats:["Error trámite bloqueante","Desbloquear procedimiento archivado","Desbloquear procedimiento itineración","Desbloquear procedimiento transformación","Error desacumulación"],
+     kw:["bloqueado","desbloquear","desbloqueo","error bloqueante","no puede trabajar procedimiento","procedimiento bloqueado","procedimiento detenido","no avanza","se ha quedado","no continua","error al desbloquear"],
+     casos:["2.1","2.2","2.3","2.4","5.1"],color:"b-crit"},
+    {k:"itineracion",l:"Itineración / IREC",tipos:["Motor Tramitación"],
+     cats:["Error al elevar recurso","Error itineración"],
+     kw:["itineracion","irec","elevar recurso","recurso apelacion","itinerar","error al itinerar","no itiner","no eleva","error elevacion","recurso no","envio recurso"],
+     casos:["3.1","3.2","3.3","3.4"],color:"b-warn"},
+    {k:"numeradores",l:"Numeradores",tipos:["Motor Tramitación"],
+     cats:["Error numerador resolución","Error numerador reg. general","Error numerador procedimiento","Numeradores resto"],
+     kw:["numerador","numeradores","salto numerador","re numeracion","numeracion","error al numerar","no numer","numero no","correlativo","error correlativo"],
+     casos:["4.1","4.2","4.3","4.4"],color:"b-warn"},
+    {k:"escritorio",l:"Escritorio Judicial",tipos:["Escritorio Judicial"],
+     kw:["escritorio judicial","netflix","bandeja escritorio","asignar procedimiento","visor eje","escritorio no carga","escritorio no funciona","bandeja de entrada","mis procedimientos","no veo","escritorio lento","acceso escritorio"],
+     exclude:"escritorio\\s+(de|del|remoto|vpn)",
+     casos:["6.1","6.2","6.3","6.4","6.5"],color:"b-purple"},
+    {k:"gestion",l:"Gestión y Administración",tipos:["Gestión y Administración"],color:"b-purple"},
+    {k:"editor",l:"Editor documentos",tipos:["Editor documentos"],
+     kw:["editor documento","hcv","verificacion firma","cotejo","editor de documentos","documento no se abre","documento no se ve","error al editar","documento no firma","visor de documentos"],
+     exclude:"editor\\s+de\\s+(texto|pdf|imagenes)",
+     casos:["7.1","7.2","7.3","7.4"],color:"b-info"},
+    {k:"registro",l:"Registro y Reparto",tipos:["Registro y Reparto"],
+     kw:["registro manual","exhorto","reparto","registro de entrada","registro de salida","error en registro","no registra","error al registrar","registro civil","libro registro"],
+     casos:["9.1","9.2","9.3","9.4","14.1","14.2"],color:"b-info"},
+    {k:"lexnet",l:"Lexnet / Atestados",tipos:["Integración Lexnet"],
+     kw:["lexnet","atestado","no reciben","error lexnet","envio lexnet","recepcion lexnet","comunicacion lexnet","lexnet no funciona","atestado policial","no se recibe","no recibido","sin recepcion"],
+     casos:["8.1","8.2","8.3","8.4"],color:"b-ok"},
+    {k:"eje",l:"Gestión EJE",tipos:["Gestión EJE"],
+     kw:["eje","consolidacion","expediente eje","error en eje","eje no funciona","apertura eje","no consolida","error consolidacion"],
+     casos:["4.3","5.2"],color:"b-purple"},
+    {k:"scne",l:"SCNE / Ejecutorias",tipos:["SCNE","Ejecutorias"],
+     kw:["scne","ejecutoria","diligencia","scne no funciona","error scne","ejecutoria no","ejecutoria error"],
+     casos:["5.1","5.3"],color:"b-purple"},
+    {k:"agenda",l:"Agenda / Plazos",tipos:["Agenda Programada","Agenda Calendario"],
+     kw:["reserva sala","agenda","plazos","avisos agenda","alarmas","calendario","agenda de sala","reserva de sala","senalamiento","vista senalada","agenda no funciona","no aparece en agenda"],
+     casos:["11.1","11.2","11.3"],color:"b-info"},
+    {k:"normas",l:"Normas de Reparto",tipos:["Normas de Reparto"],
+     kw:["normas reparto","reparto equilibrado","exencion reparto","compensacion","norma de reparto","error en reparto","reparto no funciona","reparto manual"],
+     casos:["14.1","14.2","14.3"],color:"b-ok"},
+    {k:"cargador",l:"Cargador / Portafirmas",tipos:["Cargador Expedientes","Portafirmas"],
+     kw:["cargador expedientes","portafirmas","cargador","carga expediente","error en cargador","cargador no funciona","portafirmas no","firma electronica","firma digital"],
+     exclude:"cargador\\s+de\\s+bateria|cargador\\s+de\\s+escritorio|cargador\\s+usb|cargador\\s+portatil",
+     casos:["7.1","7.3"],color:"b-ok"},
+    {k:"etl",l:"Migración ETL",tipos:["Procedimientos ETL migración"],
+     kw:["etl","migracion","migracion expedientes","error etl","proceso etl","migracion no","error migracion","datos migrados"],
+     casos:["5.1","5.2","5.3"],color:"b-ok"},
+    // === Infraestructura / Escritorio ===
+    {k:"impresoras",l:"Impresoras / Scanner",tipos:["IMPRESORAS"],cats:["ATASCO/CAPTURA PAPEL"],
+     kw:["impresor","imprimir","scanner","atasco","papel atascado","toner","impresora no","no imprime","error de impresion","sin toner","sin papel","escane","digitalizar","captura papel"],
+     exclude:"imprimir\\s+(pantalla|pdf|archivo)",
+     casos:["17.1","17.2","17.3"],color:"b-ok"},
+    {k:"navegador",l:"Navegador / Lector / Tarjeta",tipos:["NAVEGADOR","LECTOR/TARJETA"],cats:["NAVEGADOR","LECTOR/TARJETA","OCR"],
+     kw:["navegador","lector","tarjeta criptografica","ocr","chrome","explorer","edge","firefox","navegador no","pagina no carga","lector de tarjetas","lector no","tarjeta no","token","autofirma"],
+     exclude:"navegador\\s+gps|tarjeta\\s+grafica|tarjeta\\s+de\\s+sonido|lector\\s+de\\s+codigo",
+     casos:["18.1","18.2","18.3","18.4"],color:"b-warn"},
+    {k:"portatiles",l:"Portátiles / Equipos",tipos:["ELEMENTOS PC","PORTATILES"],cats:["PORTATILES","TECLADO","ALTAVOCES","MONITOR"],
+     kw:["portatil","equipo","pc sobremesa","teclado","monitor","altavoces","dock","docking","base de conexion","equipo no enciende","pantalla no","cargador portatil","bateria","cargador de bateria"],
+     exclude:"portatil\\s+vpn|portatil\\s+acceso",
+     casos:["19.1","22.1","22.2","22.3"],color:"b-warn"},
+    {k:"telefonia",l:"Telefonía / Móvil",tipos:["TELEFONIA FIJA","MOVIL"],
+     kw:["telefono","movil","fijo corporativo","llamada","telefonia","no oye","no se oye","auricular","microfono","pinchazo","cable telefonico","linea telefonica","movi"],
+     casos:["23.1","23.2"],color:"b-info"},
+    {k:"vpn",l:"VPN / Acceso remoto",tipos:["VPN PORTATILES"],
+     kw:["vpn","acceso remoto","conexion remota","acceso externo","vpn no conecta","vpn no funciona","error vpn","conexion vpn","acceso desde casa","conexion remota no","no puedo conectar vpn"],
+     casos:["20.1","20.2"],color:"b-info"},
+    {k:"mantenimiento",l:"Mantenimiento / Hardware",tipos:["MANTENIMIENTO EQUIPAMIENTO"],
+     kw:["mantenimiento","averia","roto","no enciende","no funciona","reparacion","sustitucion","cambio de equipo","fuente alimentacion","disco duro","ram","placa base"],
+     exclude:"mantenimiento\\s+periodico|mantenimiento\\s+programado",
+     casos:["22.1","22.2","22.3","22.4"],color:"b-warn"},
+    // === Software / Aplicaciones ===
+    {k:"firma",l:"Firma electrónica",tipos:["CERTIFICADO DIGITAL","FIRMA"],cats:["CERTIFICADO DIGITAL","FIRMA"],
+     kw:["firma electronica","firmar","certificado digital","error firma","no puede firmar","firma no valida","certificado caducado","certificado no valido","error de firma","firma rechazada","token firma","autofirma","@firma"],
+     exclude:"firma\\s+(electronica|digital)\\s+de\\s+documentos",
+     casos:["7.1","7.2","7.3","7.4","18.2"],color:"b-warn"},
+    {k:"password",l:"Contraseñas / Claves",tipos:["CONTRASEÑAS"],
+     kw:["contrasena","clave","pin","olvido contrasena","restablecer contrasena","cambiar contrasena","error contrasena","clave no valida","bloqueo contrasena","reseteo contrasena","no recuerdo contrasena"],
+     casos:["13.1","13.2","13.3","13.4"],color:"b-warn"},
+    {k:"correo",l:"Correo corporativo",tipos:["CORREO"],cats:["CORREO"],
+     kw:["correo corporativ","correo","email","olvido contrasena correo","correo no funciona","no recibe correo","no envía correo","correo no envia","bandeja correo","outlook","correo lento","error correo"],
+     exclude:"correo\\s+urgente|correo\\s+postal|correo\\s+ordinario",
+     casos:["13.1","15.1","15.2","15.3"],color:"b-info"},
+    {k:"jara",l:"JARA",kw:["aplicacion jara","jara no funciona","error jara","jara no abre"],
+     casos:["8.1"],color:"b-crit"},
+    {k:"hermes",l:"Hermes",kw:["hermes no funciona","error hermes","hermes no abre","aplicacion hermes"],
+     casos:["9.1","9.2"],color:"b-purple"},
+    {k:"pnj",l:"PNJ / SIRAJ / DICIREG",tipos:["APLICACION AUREA","WEB EXTERNAS"],
+     kw:["pnj","siraj","dicireg","prisma","aurea","orfila","consignacion","whitelabel","aplicacion externa","web externa","sede electronica","registro electronico"],
+     casos:["8.2","8.3","8.4","9.3","9.4"],color:"b-purple"},
+    {k:"isldigital",l:"ISL / Digitalización",tipos:["ISL"],cats:["ISL"],
+     kw:["isl","digitalizacion","digitalizar","isl no funciona","error isl","digitalizador","escaneo masivo"],
+     casos:["16.1","16.2"],color:"b-ok"},
+    {k:"grabacion",l:"Grabación de vistas",tipos:["GRABACION VISTAS"],
+     kw:["grabacion","vista","juicio","grabar","grabacion vista","no graba","error grabacion","vista grabada","equipo grabacion","sala grabacion"],
+     exclude:"grabacion\\s+de\\s+audio",
+     color:"b-purple"},
+    // === Usuarios / Administración ===
+    {k:"alta",l:"Altas / Gestión usuarios",tipos:["GESTION USUARIOS"],cats:["PERFIL USUARIO","ERROR ACCESO"],
+     kw:["alta usuario","dar de alta","nuevo usuario","gestion de usuarios","perfil usuario","error acceso","no puede acceder","acceso denegado","usuario no existe","usuario bloqueado","baja usuario","modificar usuario"],
+     exclude:"alta\\s+prioridad|alta\\s+urgencia",
+     casos:["12.1","12.2","12.3","13.3","13.4"],color:"b-info"},
+    {k:"exhortos",l:"Exhortos / Comisiones",
+     kw:["exhorto","comision de servicio","suplicatorio","exhorto internacional","comision"],
+     exclude:"comision\\s+(de|del)\\s+(seguimiento|control|evaluacion|servicio)",
+     casos:["9.2","9.3"],color:"b-warn"},
+    {k:"teletrabajo",l:"Teletrabajo",
+     kw:["teletrabajo","teletrabajo no","error teletrabajo","solicitud teletrabajo","acceso teletrabajo"],
+     casos:["20.1","20.2"],color:"b-info"},
+    // === Generales ===
+    {k:"noptrabajar",l:"No puedo trabajar",
+     kw:["no puedo trabajar","no funciona","no va","no me deja","no puede trabajar","no puedo acceder","no puedo entrar","no arranca","no responde","se queda colgado","no abre","no carga"],
+     exclude:"no\\s+(puedo|puede)\\s+(imprimir|firmar|acceder|enviar|entrar|conectar)",
+     color:"b-crit"},
+    {k:"lentitud",l:"Lentitud / Rendimiento",tipos:["Lentitud"],
+     kw:["lentitud","va lento","muy lento","tarda mucho","rendimiento","congelado","no carga","aplicacion lenta","sistema lento","equipo lento","tarda en abrir","tarda en responder","se congela","se bloquea","no responde"],
+     exclude:"lentitud\\s+en\\s+(la|el)\\s+(red|conexion|wifi)",
+     color:"b-warn"}
+];
+
+// Macro mapping for "Gestionar" button
+const MACRO_MAP = [
+    {kw:"contrase|clave|PIN|CONTRASE",macro:"Alba(11)",label:"Restaurar contrasena"},
+    {kw:"certificado|CERTIFICADO",macro:"Alba(21)",label:"Gestion certificado"},
+    {kw:"INCOA|Fallo en el esquema|error no reconocido",macro:"Alba(?)",label:"Gestion INCOA"},
+    {kw:"bloqueado|BLOQUEADO|desbloqu",macro:"Alba(?)",label:"Desbloqueo"},
+    {kw:"itiner|ITINER",macro:"Alba(?)",label:"Gestion itineracion"},
+    {kw:"firma|FIRMA",macro:"Alba(?)",label:"Gestion firma"},
+    {kw:"impresor|IMPRESOR|imprimir|IMPRIMIR",macro:"Alba(?)",label:"Gestion impresora"},
+    {kw:"JARA",macro:"Alba(?)",label:"Gestion JARA"},
+    {kw:"teletrabajo|TELETRABAJO",macro:"Alba(?)",label:"Gestion teletrabajo"},
+    {kw:"HERMES",macro:"Alba(?)",label:"Gestion Hermes"},
+    {kw:"correo corporativ|CORREO CORPORATIV",macro:"Alba(?)",label:"Gestion correo"},
+    {kw:"alta.*usuari|dar de alta|DAR DE ALTA",macro:"Alba(14)",label:"Alta usuario (GDU)"}
+];
+
+// ============================================================
+// ADRIANO CASE DEFINITIONS (from Asignaciones Nuevo Adriano V7.04)
+// ============================================================
+const CASE_DEFS = [
+    {caso:"1",    desc:"Numeradores resoluciones (Autos, Sentencias, Decretos) - salto",       tipo:"Motor Tramitación",              cat:"Error numerador resolución (Caso 1)",              grupo:"Servicios DevOps",     agrupacion:"MT-Numeradores", kw:["numerador","numeradores","resolucion","salto numerador","auto","sentencia","decreto","Caso 1"], videos:[]},
+    {caso:"1.1",  desc:"Numerador resolución ya asignado",                                      tipo:"Motor Tramitación",              cat:"Error numerador resolución-ya asignado-(Caso 1.1)",  grupo:"Servicios DevOps",     agrupacion:"MT-Numeradores", kw:["numerador ya asignado","ya asignado","Caso 1.1"], videos:[]},
+    {caso:"2",    desc:"Numeradores Registro General / Procedimientos incoados",                 tipo:"Motor Tramitación",              cat:"Error numerador reg. general (Caso 2)",             grupo:"Servicios Adriano",    agrupacion:"MT-Numeradores", kw:["numerador reg","registro general","incoados","numerador procedimiento"], videos:[]},
+    {caso:"2.1",  desc:"Numerador procedimiento incoado (sin cambiar RG)",                       tipo:"Motor Tramitación",              cat:"Error numerador procedimiento (Caso 2.1)",         grupo:"Servicios Adriano",    agrupacion:"MT-Numeradores", kw:["numerador proc","Caso 2.1"], videos:[]},
+    {caso:"3",    desc:"Numeradores RG / Procedimientos no incoados",                            tipo:"Motor Tramitación",              cat:"Error numerador reg. general -no incoados (Caso 3)", grupo:"Servicios Adriano",  agrupacion:"MT-Numeradores", kw:["no incoados","Caso 3"], videos:[]},
+    {caso:"4",    desc:"Numeradores resto (AP, TSJ)",                                            tipo:"Motor Tramitación",              cat:"Numeradores resto (Caso 4)",                       grupo:"Servicios Adriano",    agrupacion:"MT-Numeradores", kw:["numeradores resto","Caso 4","tsj","apelacion"], videos:[]},
+    {caso:"5",    desc:"Soporte formativo atestados / réplicas",                                 tipo:"SOPORTE FORMATIVO",              cat:"ASESORAMIENTO/RECICLAJE",                          grupo:"Formación",            agrupacion:"Formación",      kw:["atestado","replica","atestados","replicas"], videos:[]},
+    {caso:"6",    desc:"Desbloqueo resto - error bloqueante en procedimiento",                   tipo:"Motor Tramitación",              cat:"Error trámite bloqueante (Caso 6)",                grupo:"Servicios Adriano",    agrupacion:"MT-Desbloqueo",  kw:["desbloqueo","bloqueado","no puede trabajar","error bloqueante","Caso 6"], videos:[]},
+    {caso:"6.1",  desc:"Desbloqueo por acumulación (DACU)",                                      tipo:"Motor Tramitación",              cat:"Error desacumulación (Caso 6.1)",                  grupo:"Servicios DevOps",     agrupacion:"MT-Desbloqueo",  kw:["dacu","desacumul","acumul","Caso 6.1"], videos:[]},
+    {caso:"6.2",  desc:"Desbloqueo por archivo bloqueante",                                      tipo:"Motor Tramitación",              cat:"Desbloquear procedimiento archivado (Caso 6.2)",   grupo:"Servicios DevOps",     agrupacion:"MT-Desbloqueo",  kw:["archivado","archivo provisional","terminado por acumulacion","Caso 6.2"], videos:[]},
+    {caso:"6.3",  desc:"Desbloqueo por itineración/enjuiciamiento",                              tipo:"Motor Tramitación",              cat:"Desbloquear procedimiento itineración (Caso 6.3)", grupo:"Servicios Adriano",    agrupacion:"MT-Desbloqueo",  kw:["itineracion","enjuiciamiento","Caso 6.3"], videos:[]},
+    {caso:"6.4",  desc:"Desbloqueo por transformación (TRPROC)",                                 tipo:"Motor Tramitación",              cat:"Desbloquear procedimiento transformación (Caso 6.4)", grupo:"Servicios Adriano", agrupacion:"MT-Desbloqueo",  kw:["trproc","transformacion","Caso 6.4"], videos:[]},
+    {caso:"7",    desc:"Error Netflix / Error al asignar procedimiento",                          tipo:"Escritorio Judicial",            cat:"Error al asignar procedimientos (Caso 7)",         grupo:"Servicios Basal Adriano", agrupacion:"EJ-Solución explotación (error)", kw:["netflix","asignar procedimiento","Caso 7"], videos:[]},
+    {caso:"8",    desc:"Normas de reparto equilibrado / eliminar compensaciones",                tipo:"Normas de Reparto",              cat:"- (Caso 8)",                                       grupo:"Servicios Adriano",    agrupacion:"Cargas y normas de Reparto", kw:["normas reparto","reparto equilibrado","exencion","compensacion","reparto aleatorio","Caso 8"], videos:[]},
+    {caso:"9",    desc:"Proveer escritos (de trámite)",                                          tipo:"Motor Tramitación",              cat:"Error al proveer escritos (Caso 9)",               grupo:"Servicios DevOps",     agrupacion:"MT-Solución explotación (error)", kw:["proveer","proveer escrito","escrito proveer","Caso 9"], videos:[]},
+    {caso:"10",   desc:"No se puede devolver un recurso (RREC)",                                  tipo:"Motor Tramitación",              cat:"Error devolución recurso (Caso 10)",                grupo:"Servicios Basal Adriano", agrupacion:"MT-Solución explotación (error)", kw:["rrec","devolver recurso","recurso devolver","Caso 10"], videos:[]},
+    {caso:"11",   desc:"Configuración nuevas voces tablas maestras CTEAJE",                       tipo:"Motor Tramitación",              cat:"Consulta/configurac. concepto procesal (Caso 11)",  grupo:"Servicios Adriano",    agrupacion:"MT-Configuración concepto procesal", kw:["tablas maestras","voces","cteaje","concepto procesal","Caso 11"], videos:[]},
+    {caso:"12",   desc:"Órganos adscritos SCNE",                                                 tipo:"SCNE",                           cat:"Adscripción órgano (Caso 12)",                      grupo:"Servicios Basal Adriano", agrupacion:"SCNE", kw:["scne","adscrito","adscripcion","organo destino","Caso 12"], videos:[]},
+    {caso:"13",   desc:"Motor Tramitación (residual)",                                            tipo:"Motor Tramitación",              cat:"-",                                                  grupo:"-",                    agrupacion:"MT-Otros",          kw:["Caso 13"], videos:[]},
+    {caso:"14",   desc:"AsuntosHistoriaEntity no encontrado",                                     tipo:"Motor Tramitación",              cat:"Error timeline (Caso 14)",                          grupo:"Servicios Basal Adriano", agrupacion:"MT-Solución explotación (error)", kw:["AsuntosHistoriaEntity","historia no encontrado","timeline","Caso 14"], videos:[]},
+    {caso:"15",   desc:"Incoación múltiple / Errores en la incoación (INCOA)",                    tipo:"Motor Tramitación",              cat:"Error INCOA (Caso 15)",                             grupo:"Servicios Adriano",    agrupacion:"MT-Numeradores",  kw:["incoa","incoacion","incoar","incoaci","error no reconocido","fallo en el esquema","Caso 15"], videos:[]},
+    {caso:"16",   desc:"Error en la consolidación del EJE",                                      tipo:"Gestión EJE",                    cat:"Error en consolidación (Caso 16)",                  grupo:"Servicios Basal Adriano", agrupacion:"GEJE-Solución explotación (error)", kw:["consolidacion","consolidar","eje","Caso 16"], videos:[]},
+    {caso:"17",   desc:"No puede realizar IREC / elevación recurso apelación",                   tipo:"Motor Tramitación",              cat:"Error al elevar recurso (Caso 17)",                 grupo:"Servicios Adriano",    agrupacion:"MT-Solución explotación (error)", kw:["irec","elevar recurso","recurso apelacion","apelacio","Caso 17"], videos:[]},
+    {caso:"18",   desc:"Eliminar procedimiento creado por error",                                 tipo:"Motor Tramitación",              cat:"Error usuario (Caso 18)",                           grupo:"Servicios Adriano",    agrupacion:"MT-Solución explotación (error usuario)", kw:["eliminar procedimiento","creado por error","liberacion numerador","Caso 18"], videos:[]},
+    {caso:"19",   desc:"No reciben atestados de determinados organismos",                         tipo:"Integración Lexnet",             cat:"Error incorporación atestados Lexnet (Caso 19)",    grupo:"Servicios Adriano",    agrupacion:"MT-Solución explotación (error usuario)", kw:["atestado","lexnet","no reciben","Caso 19"], videos:[]},
+    {caso:"20",   desc:"Ocultar visibilidad de documentos sensibles",                             tipo:"Motor Tramitación",              cat:"Error de visibilidad asuntos (Caso 20)",            grupo:"Servicios Adriano",    agrupacion:"MT-Solución explotación (error)", kw:["visibilidad","documentos sensibles","ocultar","Caso 20"], videos:[]},
+    {caso:"21",   desc:"Finalizar o eliminar un trámite en ejecución",                            tipo:"Motor Tramitación",              cat:"Error en trámite en ejecución (Caso 21)",           grupo:"Servicios Basal Adriano", agrupacion:"MT-Solución explotación (error)", kw:["tramite en ejecucion","finalizar tramite","eliminar tramite","Caso 21"], videos:[]},
+    {caso:"22",   desc:"No se puede realizar TRPROC",                                             tipo:"Motor Tramitación",              cat:"Error transformación TRPROC (Caso 22)",              grupo:"Servicios Adriano",    agrupacion:"MT-Solución explotación (error)", kw:["trproc","transformacion","Caso 22"], videos:[]},
+    {caso:"23",   desc:"Rechazar escrito pendiente de aceptar",                                   tipo:"Escritorio Judicial",            cat:"Rechazar escrito pendiente de aceptar (Caso 23)",   grupo:"Servicios Basal Adriano", agrupacion:"EJ-Solución explotación (error)", kw:["rechazar escrito","pendiente de aceptar","Caso 23"], videos:[]},
+    {caso:"24",   desc:"Acumulaciones",                                                           tipo:"Motor Tramitación",              cat:"Error en la acumulación (Caso 24)",                 grupo:"Servicios Adriano",    agrupacion:"MT-Solución explotación (error)", kw:["acumulacion","acumular","acu","dacu","Caso 24"], videos:[]},
+    {caso:"25",   desc:"Asunto no pertenece al órgano (asuntos antiguos)",                        tipo:"Motor Tramitación",              cat:"Error acceso al procedimiento (Caso 25)",           grupo:"Servicios Basal Adriano", agrupacion:"MT-Solución explotación (error)", kw:["no pertenece","asuntos antiguos","asunto no pertenece","Caso 25"], videos:[]},
+    {caso:"26",   desc:"Cambiar estado documento de pendiente firma a cancelado",                 tipo:"Motor Tramitación",              cat:"Modificación estado del documento (Caso 26)",       grupo:"Servicios Adriano",    agrupacion:"MT-Solución explotación (error)", kw:["pendiente de firma","cancelar firma","documento firmado","cambiar estado documento","Caso 26"], videos:[]},
+    {caso:"27",   desc:"Error visor EJE al asignar procedimiento",                                tipo:"Escritorio Judicial",            cat:"Error visor EJE al asignar procedimiento (Caso 27)", grupo:"Servicios Basal Adriano", agrupacion:"EJ-Solución explotación (error)", kw:["visor eje","eje asignar","Caso 27"], videos:[]},
+    {caso:"28",   desc:"Desconsignar diligencias SCNE",                                           tipo:"SCNE",                           cat:"Desconsignación de diligencias (Caso 28)",          grupo:"Servicios Adriano",    agrupacion:"SCNE",            kw:["desconsignar","diligencias scne","Caso 28"], videos:[]},
+    {caso:"29",   desc:"Cambio de asunto de bandeja civil a penal",                               tipo:"Escritorio Judicial",            cat:"Cambio jurisdicción asunto (Caso 29)",              grupo:"Servicios Adriano",    agrupacion:"EJ-Solución explotación (error)", kw:["cambio jurisdiccion","bandeja","civil a penal","cambio bandeja","Caso 29"], videos:[]},
+    {caso:"30",   desc:"Itinerado pendiente de reserva de salas",                                 tipo:"Agenda Programada",              cat:"Reserva de salas (Caso 30)",                        grupo:"Servicios Basal Adriano", agrupacion:"AP-Solución explotación Agenda", kw:["reserva","sala","itinerado pendiente","Caso 30"], videos:[]},
+    {caso:"31",   desc:"Poner asuntos en bandeja de entrada",                                     tipo:"Escritorio Judicial",            cat:"Error usuario (Caso 31)",                           grupo:"Servicios Adriano",    agrupacion:"EJ-Solución explotación (error usuario)", kw:["bandeja de entrada","asuntos pendientes","Caso 31"], videos:[]},
+    {caso:"32",   desc:"Secreto de sumario",                                                      tipo:"Motor Tramitación",              cat:"Secreto de sumario (Caso 32)",                      grupo:"Servicios Adriano",    agrupacion:"MT-Solución explotación (error)", kw:["secreto de sumario","levantar secreto","sumario","Caso 32"], videos:[]},
+    {caso:"33",   desc:"Error ITINE",                                                             tipo:"Motor Tramitación",              cat:"Error en ficha ITINE (Caso 33)",                    grupo:"Servicios Adriano",    agrupacion:"MT-Solución explotación (error)", kw:["itine","error itine","ficha itine","Caso 33"], videos:[]},
+    {caso:"34",   desc:"Modificar tipo de asunto a EJECUCIÓN",                                    tipo:"Motor Tramitación",              cat:"Modificar tipo asunto (Caso 34)",                   grupo:"Servicios Adriano",    agrupacion:"MT-Solución explotación (error)", kw:["modificar tipo asunto","tipo asunto","a ejecucion","Caso 34"], videos:[]},
+    {caso:"35",   desc:"Error visualización/descarga documentos",                                 tipo:"Editor documentos",              cat:"Error visualización documentos (Caso 35)",          grupo:"Servicios Adriano",    agrupacion:"ED-Solución explotación (error)", kw:["visualizacion","descarga documentos","no se ve","documento no visible","visor","Caso 35"], videos:[]},
+    {caso:"36",   desc:"Asignación de esquema: procedimientos vigentes/no vigentes",              tipo:"Motor Tramitación",              cat:"Modelado trámite-Procesal (Caso 36)",               grupo:"Servicios Adriano",    agrupacion:"MT-Modelado trámite", kw:["asignacion esquema","esquema","procedimiento vigente","no vigente","Caso 36"], videos:[]},
+    {caso:"37",   desc:"Documento firmado aparece como borrador",                                 tipo:"Editor documentos",              cat:"Error en documentos firmados (Caso 37)",            grupo:"Servicios Adriano",    agrupacion:"ED-Solución explotación (error)", kw:["documento firmado","aparece como borrador","firmado borrador","Caso 37"], videos:[]},
+    {caso:"38",   desc:"No puede aceptar asunto: origen de itineración",                          tipo:"Escritorio Judicial",            cat:"Error al aceptar asuntos (Caso 38)",                grupo:"Servicios Basal Adriano", agrupacion:"EJ-Solución explotación (error)", kw:["aceptar asunto","origen itineracion","Caso 38"], videos:[]},
+    {caso:"39",   desc:"No funciona TACC",                                                        tipo:"Motor Tramitación",              cat:"Error trámite TACC (Caso 39)",                      grupo:"Servicios Adriano",    agrupacion:"MT-Solución explotación (error)", kw:["tacc","Caso 39"], videos:[]},
+    {caso:"40",   desc:"Error SIJE/DEVSIJE",                                                      tipo:"Motor Tramitación",              cat:"Error SIJE (Caso 40)",                              grupo:"Servicios Adriano",    agrupacion:"MT-Solución explotación (error)", kw:["sije","devsije","Caso 40"], videos:[]},
+    {caso:"41",   desc:"Cambiar NIG",                                                             tipo:"Motor Tramitación",              cat:"Modificación NIG (Caso 41)",                        grupo:"Servicios Adriano",    agrupacion:"MT-Solución explotación (error)", kw:["cambiar nig","modificar nig","Caso 41"], videos:[]},
+    {caso:"42",   desc:"Error envío a firma (crear documento) VISOR",                             tipo:"Motor Tramitación",              cat:"Error envío a firma (crear documento) (Caso 42)",   grupo:"Servicios Basal Adriano", agrupacion:"MT-Solución explotación (error)", kw:["envio a firma","crear documento","visor","error firma","Caso 42"], videos:[]},
+    {caso:"43",   desc:"Error al aceptar escrito",                                                tipo:"Escritorio Judicial",            cat:"Error al aceptar escrito (Caso 43)",               grupo:"Servicios Basal Adriano", agrupacion:"EJ-Solución explotación (error)", kw:["aceptar escrito","Caso 43"], videos:[]},
+    {caso:"44",   desc:"No pueden editar interviniente",                                          tipo:"Motor Tramitación",              cat:"Error edición interviniente (Caso 44)",             grupo:"Servicios Adriano",    agrupacion:"MT-Solución explotación (error)", kw:["editar interviniente","interviniente","Caso 44"], videos:[]},
+    {caso:"45",   desc:"Cambiar estado recurso a resuelto",                                       tipo:"Motor Tramitación",              cat:"Modificar estado recurso (Caso 45)",                grupo:"Servicios Adriano",    agrupacion:"MT-Solución explotación (error)", kw:["estado recurso","recurso resuelto","Caso 45"], videos:[]},
+    {caso:"46",   desc:"Error envío documento a firma",                                           tipo:"Motor Tramitación",              cat:"Error de envío a firma (Caso 46)",                  grupo:"Servicios Basal Adriano", agrupacion:"MT-Solución explotación (error)", kw:["envio documento a firma","Caso 46"], videos:[]},
+    {caso:"47",   desc:"Asignar UPAD en NOJ",                                                     tipo:"Motor Tramitación",              cat:"Error asignación UPAD en ejecución (Caso 47)",     grupo:"Servicios Adriano",    agrupacion:"MT-Solución explotación (error)", kw:["upad","noj","Caso 47"], videos:[]},
+    {caso:"48",   desc:"Error al buscar documentos",                                              tipo:"Editor documentos",              cat:"Error al buscar documentos (caso 48)",              grupo:"Servicios Adriano",    agrupacion:"ED-Solución explotación (error)", kw:["buscar documentos","error buscar","Caso 48"], videos:[]},
+    {caso:"49",   desc:"No se vuelcan datos del procedimiento en plantilla",                      tipo:"Editor documentos",              cat:"Error emisión documentos (Caso 49)",                grupo:"Servicios Adriano",    agrupacion:"ED-Solución explotación (error)", kw:["no se vuelcan","datos procedimiento","cabecera incorrecta","Caso 49"], videos:[]},
+    {caso:"50",   desc:"Plantillas/Modelos Adriano",                                              tipo:"Gestor Plantillas - Modelos",    cat:"Consulta modelos (Caso 50)",                        grupo:"Servicios Adriano",    agrupacion:"GP-Modelos",       kw:["plantilla","modelo","Caso 50"], videos:[]},
+    {caso:"51",   desc:"Habilitar Sala / OJADE",                                                  tipo:"Configurar Salas. OJADE",        cat:"Habilitar Sala (Caso 51)",                          grupo:"Servicios Basal Adriano", agrupacion:"GA-Salas de Vistas", kw:["habilitar sala","ojade","reserva sala","Caso 51"], videos:[]},
+    {caso:"52",   desc:"Modelador trámites: trámites opcionales",                                 tipo:"Herramienta Modelado - Flujos",  cat:"-",                                                  grupo:"Servicios Adriano",    agrupacion:"HM-Flujos modelado", kw:["modelador","tramites opcionales","flujo","Caso 52"], videos:[]},
+    {caso:"53",   desc:"Error creación de notas, tareas, plazos y avisos",                        tipo:"Agenda Calendario",              cat:"Error anotaciones Agenda (Caso 53)",                grupo:"Servicios Adriano",    agrupacion:"AP-Solución explotación Agenda", kw:["nota","tarea","plazo","aviso","crear nota","Caso 53"], videos:[]},
+    {caso:"54",   desc:"Error al consultar agenda",                                               tipo:"Agenda Programada",              cat:"Error consulta Agenda (Caso 54)",                   grupo:"Servicios Adriano",    agrupacion:"AP-Solución explotación Agenda", kw:["consultar agenda","agenda no carga","Caso 54"], videos:[]},
+    {caso:"55",   desc:"No se puede incorporar expediente administrativo",                        tipo:"Cargador Expedientes",           cat:"-",                                                  grupo:"Servicios Adriano",    agrupacion:"Integraciones",   kw:["incorporar expediente","expediente administrativo","cargador","Caso 55"], videos:[]},
+    {caso:"56",   desc:"Documento no generado desde compositor de documento",                     tipo:"Editor documentos",              cat:"Error consulta documentos (Caso 56)",               grupo:"Servicios Adriano",    agrupacion:"ED-Solución explotación (error)", kw:["compositor de documento","no generado desde","Caso 56"], videos:[]},
+    {caso:"57",   desc:"No se puede abrir escrito recibido / símbolo prohibido",                  tipo:"Editor documentos",              cat:"Error editar documentos (Caso 57)",                 grupo:"Servicios Basal Adriano", agrupacion:"ED-Solución explotación (error)", kw:["abrir escrito","simbolo prohibido","no se puede abrir","Caso 57"], videos:[]},
+    {caso:"58",   desc:"Configuración de órganos",                                                tipo:"Gestión y Administración",      cat:"Configuración (Caso 58)",                           grupo:"Servicios DevOps",     agrupacion:"GA-Configuración usuarios", kw:["configuracion organo","no aparece juzgado","Caso 58"], videos:[]},
+    {caso:"59",   desc:"Error al incorporar Altobex",                                             tipo:"Motor Tramitación",              cat:"Error al incorporar Altobex (Caso 59)",             grupo:"Servicios Adriano",    agrupacion:"MT-Solución explotación (error)", kw:["altobex","incorporar altobex","Caso 59"], videos:[]},
+    {caso:"60",   desc:"Error registro ejecutoria",                                               tipo:"Ejecutorias",                    cat:"Error registro ejecutoria (Caso 60)",               grupo:"Servicios Adriano",    agrupacion:"MT-Numeradores",  kw:["ejecutoria","registro ejecutoria","Caso 60"], videos:[]},
+    {caso:"61",   desc:"Modificar tipo de asunto de pieza separada a ejecutoria",                 tipo:"Ejecutorias",                    cat:"Modificar tipo asunto a ejecución (Caso 61)",       grupo:"Servicios Adriano",    agrupacion:"MT-Numeradores",  kw:["pieza separada","a ejecutoria","modificar tipo","Caso 61"], videos:[]},
+    {caso:"62",   desc:"Alta sustitución",                                                        tipo:"Gestión y Administración",      cat:"Alta sustitución (Caso 62)",                        grupo:"Servicios DevOps",     agrupacion:"GA-Configuración usuarios", kw:["alta sustitucion","sustitucion","Caso 62"], videos:[]},
+    {caso:"63",   desc:"Error al registrar asuntos",                                              tipo:"Escritorio Judicial",            cat:"Error al registrar asuntos (caso 63)",              grupo:"Servicios Adriano",    agrupacion:"EJ-Solución explotación (error)", kw:["registrar asunto","Caso 63"], videos:[]},
+    {caso:"64",   desc:"Error al sacar estadísticas",                                             tipo:"Estadísticas e Informes",        cat:"-",                                                  grupo:"Servicios Adriano",    agrupacion:"EI-Estadísticas e Informes", kw:["estadisticas","informes","Caso 64"], videos:[]},
+    {caso:"65",   desc:"Error visualización documentos EJE",                                      tipo:"Gestión EJE",                    cat:"-",                                                  grupo:"Servicios Basal Adriano", agrupacion:"GEJE-Solución explotación (error)", kw:["visualizacion eje","eje visualizar","Caso 65"], videos:[]},
+    {caso:"66",   desc:"Error al descargar EJE",                                                  tipo:"Gestión EJE",                    cat:"Error descarga EJE (Caso 66)",                      grupo:"Servicios Basal Adriano", agrupacion:"GEJE-Solución explotación (error)", kw:["descargar eje","error descarga eje","Caso 66"], videos:[]},
+    {caso:"67",   desc:"Modificación de correos, teléfonos, dirección del Juzgado",               tipo:"Gestión y Administración",      cat:"Modificar datos (Caso 67)",                         grupo:"Servicios DevOps",     agrupacion:"GA-Configuración órgano", kw:["modificar correo","cambiar telefono","direccion juzgado","modificar datos","Caso 67"], videos:[]},
+    {caso:"68",   desc:"Error al eliminar/gestionar lotes",                                       tipo:"Motor Tramitación",              cat:"Error lotes (Caso 68)",                             grupo:"Servicios Adriano",    agrupacion:"MT-Solución explotación (error)", kw:["lotes","gestionar lotes","eliminar lote","Caso 68"], videos:[]},
+    {caso:"69",   desc:"No aparecen determinados firmantes",                                      tipo:"Gestión y Administración",      cat:"Permisos de firmantes (Caso 69)",                   grupo:"Servicios DevOps",     agrupacion:"GA-Configuración usuarios", kw:["firmante","no aparece letrado","no aparece juez","permiso firmante","Caso 69"], videos:[]},
+    {caso:"70",   desc:"Error Whitelabel",                                                        tipo:"Gestión y Administración",      cat:"Error Whitelabel (Caso 70)",                        grupo:"Servicios DevOps",     agrupacion:"GA-Configuración usuarios", kw:["whitelabel","error whitelabel","Caso 70"], videos:[]},
+    {caso:"71",   desc:"Solicitud inclusión/modificación plantilla",                              tipo:"Gestor Plantillas - Modelos",    cat:"-",                                                  grupo:"Servicios Adriano",    agrupacion:"GP-Modelos",       kw:["inclusion plantilla","modificacion plantilla","nueva plantilla","Caso 71"], videos:[]},
+    {caso:"72",   desc:"Error remisión resoluciones a CENDOJ",                                    tipo:"Integración Cendoj",             cat:"-",                                                  grupo:"Servicios Basal Adriano", agrupacion:"-",              kw:["cendoj","remision resoluciones","Caso 72"], videos:[]},
+    {caso:"73",   desc:"Configuración/Activación/Distribución códigos buzones LexNET",            tipo:"Integración Lexnet",             cat:"Buzones LexNET (Caso 73)",                          grupo:"Servicios Adriano",    agrupacion:"MT-Configuración concepto procesal", kw:["buzon lexnet","lexnet","codigo buzon","Caso 73"], videos:[]},
+    {caso:"74",   desc:"Error al notificar por NOTLEX",                                           tipo:"Integración Lexnet",             cat:"Error envío Lexnet (Caso 74)",                      grupo:"Servicios Adriano",    agrupacion:"-",              kw:["notlex","notificar lexnet","error notificacion","Caso 74"], videos:[]},
+    {caso:"75",   desc:"Error Altobex: tipo o tamaño del fichero",                                tipo:"Motor Tramitación",              cat:"Error fichero no admitido (Altobex) (Caso 75)",    grupo:"Servicios Adriano",    agrupacion:"-",              kw:["altobex fichero","tamano archivo","tipo fichero","Caso 75"], videos:[]},
+    {caso:"76",   desc:"No pueden devolver exhortos por REXH",                                    tipo:"Motor Tramitación",              cat:"Error cooperación judicial. EXHORTO (Caso 76)",    grupo:"Servicios Basal Adriano", agrupacion:"-",              kw:["rexh","exhorto","devolver exhorto","Caso 76"], videos:[]},
+    {caso:"77",   desc:"Documentos aparecen cortados al visualizar",                               tipo:"Editor documentos",              cat:"Errores en documentos visualizados (Caso 77)",     grupo:"Servicios Basal Adriano", agrupacion:"ED-Solución explotación (error)", kw:["documentos cortados","cortados","pagina no disponible","Caso 77"], videos:[]},
+    {caso:"78",   desc:"Error envío FSAEC/FSAE (firmeza sentencia apertura ejecución)",          tipo:"Motor Tramitación",              cat:"Error FSAE/FSAEC (Caso 78)",                        grupo:"Servicios Adriano",    agrupacion:"EJEC-Solución Explotación (error)", kw:["fsaec","fsae","firmeza sentencia","apertura ejecucion","Caso 78"], videos:[]},
+    {caso:"79",   desc:"Error al registrar efecto",                                               tipo:"Piezas y Depósitos judiciales",  cat:"-",                                                  grupo:"Servicios Adriano",    agrupacion:"PD-Solución Explotación (error)", kw:["registrar efecto","efecto","deposito judicial","pieza","Caso 79"], videos:[]},
+    {caso:"80",   desc:"Solicitud eliminación de tareas, plazos, avisos o alarmas",               tipo:"Plazos, avisos y alarmas",       cat:"-",                                                  grupo:"Servicios Adriano",    agrupacion:"PAA-Solución Explotación (error)", kw:["eliminar tarea","eliminar plazo","eliminar aviso","eliminar alarma","Caso 80"], videos:[]},
+    {caso:"81",   desc:"Error al firmar",                                                         tipo:"Portafirmas",                    cat:"Error al firmar (Caso 81)",                         grupo:"Servicios Adriano",    agrupacion:"PF-Solución Explotación (error)", kw:["error al firmar","firma","portafirmas","gadget firma","Caso 81"], videos:[]},
+    {caso:"82",   desc:"Errores en migración",                                                    tipo:"Procedimientos ETL migración",   cat:"Errores en migración (Caso 82)",                    grupo:"Servicios Adriano",    agrupacion:"ETL-Solución Explotación (error)", kw:["migracion","datos migrados","no se migraron","Caso 82"], videos:[]},
+    {caso:"83",   desc:"Error al repartir asunto",                                                tipo:"Registro y Reparto",             cat:"Error al repartir asuntos (Caso 83)",               grupo:"Servicios Adriano",    agrupacion:"RyR-Solución explotación (error)", kw:["repartir asunto","reparto","Caso 83"], videos:[]},
+    {caso:"84",   desc:"Error al registrar asunto en RyR",                                        tipo:"Registro y Reparto",             cat:"Error al registrar asuntos (Caso 84)",              grupo:"Servicios Adriano",    agrupacion:"RyR-Solución explotación (error)", kw:["registrar asunto ryr","registro reparto","Caso 84"], videos:[]},
+    {caso:"85",   desc:"Error al eliminar interviniente",                                         tipo:"Motor Tramitación",              cat:"Eliminar interviniente (Caso 85)",                  grupo:"Servicios Adriano",    agrupacion:"RyR-Solución explotación (error)", kw:["eliminar interviniente","interviniente relacion","Caso 85"], videos:[]},
+    {caso:"86",   desc:"Verificación o cotejo de documentos mediante HCV",                        tipo:"Editor documentos",              cat:"Verificación firma documento (HCV) (Caso 86)",     grupo:"Servicios Basal Adriano", agrupacion:"RyR-Solución explotación (error)", kw:["hcv","verificacion","cotejo","documento no encontrado","Caso 86"], videos:[]},
+    {caso:"87",   desc:"Lentitud / problema rendimiento carga en MACROCAUSA",                     tipo:"Lentitud",                       cat:"Macrocausa (Caso 87)",                              grupo:"Servicios Basal Adriano", agrupacion:"RyR-Solución explotación (error)", kw:["lentitud","macrocausa","rendimiento","carga lenta","Caso 87"], videos:[]},
+    // Gestión y Administración sub-cases
+    {caso:"GA1",  desc:"Alta compaginada",                                                        tipo:"Gestión y Administración",      cat:"Alta compaginada",                                 grupo:"Servicios DevOps",     agrupacion:"GA-Configuración usuarios", kw:["alta compaginada","compatibil"], videos:[]},
+    {caso:"GA2",  desc:"Alta nueva incorporación",                                                tipo:"Gestión y Administración",      cat:"Alta nueva incorporación",                         grupo:"Servicios DevOps",     agrupacion:"GA-Configuración usuarios", kw:["alta nueva incorporacion","nuevo usuario","nueva incorporacion"], videos:[]},
+    {caso:"GA3",  desc:"Baja usuario",                                                            tipo:"Gestión y Administración",      cat:"Baja usuario",                                     grupo:"Servicios Basal Adriano", agrupacion:"GA-Configuración usuarios", kw:["baja usuario","dar de baja"], videos:[]},
+    {caso:"GA4",  desc:"Error perfil de acceso al sistema",                                       tipo:"Gestión y Administración",      cat:"Error de acceso al sistema",                       grupo:"Servicios DevOps",     agrupacion:"GA-Configuración usuarios", kw:["error acceso","perfil acceso","no puedo acceder","acceso denegado"], videos:[]},
+    // No Adriano cases
+    {caso:"PT",   desc:"Puesto de trabajo - Software",                                             tipo:"SOFTWARE",                       cat:"NO Clasificación",                                 grupo:"Soporte Técnico",      agrupacion:"Puesto Trabajo",  kw:["software","aplicacion no funciona","programa"], videos:[]},
+    {caso:"PT2",  desc:"Puesto de trabajo - Hardware/PC",                                          tipo:"ELEMENTOS PC",                   cat:"NO Clasificación",                                 grupo:"Soporte Técnico",      agrupacion:"Puesto Trabajo",  kw:["ordenador","pantalla","monitor","pc","teclado","raton","pila","reloj"], videos:[]},
+    {caso:"PT3",  desc:"Puesto de trabajo - Impresoras",                                           tipo:"IMPRESORAS",                     cat:"NO Clasificación",                                 grupo:"Soporte Técnico",      agrupacion:"Puesto Trabajo",  kw:["impresora","imprimir","impresion","fotocopiadora","escane"], videos:[]},
+    {caso:"PT4",  desc:"Puesto de trabajo - VDI",                                                  tipo:"VDI",                            cat:"NO Clasificación",                                 grupo:"Soporte Técnico",      agrupacion:"Puesto Trabajo",  kw:["vdi","escritorio remoto","citrix"], videos:[]},
+    {caso:"SI1",  desc:"Servicios Infraestructura - Correo",                                      tipo:"SISTEMAS DE CORREO",             cat:"ERROR",                                            grupo:"Soporte Técnico",      agrupacion:"Infraestructura", kw:["correo","email","correo electronico","outlook"], videos:[]},
+    {caso:"SI2",  desc:"Servicios Infraestructura - Telefonía",                                    tipo:"TELEFONIA",                      cat:"ERROR",                                            grupo:"Soporte Técnico",      agrupacion:"Infraestructura", kw:["telefono","telefonia","movil","fijo"], videos:[]},
+    {caso:"SI3",  desc:"Servicios Infraestructura - Proxy",                                        tipo:"SISTEMAS PROXY",                 cat:"ERROR",                                            grupo:"Soporte Técnico",      agrupacion:"Infraestructura", kw:["proxy","navegacion","internet no funciona"], videos:[]},
+];
+
+// ============================================================
+// STATE
+// ============================================================
+let allData = [];
+let filteredData = [];
+let currentPage = 1;
+const PAGE_SIZE = 100;
+let sortCol = 'fecha';
+let sortDir = -1;
+let chartTimeline = null, chartCargo = null, chartProv = null;
+
+// Auto-detected column names
+let COL = {
+    id: null, desc: null, fecha: null, clase: null,
+    cargo: null, prov: null, diario: null, usuario: null, correo: null, telefono: null,
+    tipo: null, categoria: null
+};
+
+// ============================================================
+// INIT
+// ============================================================
+document.addEventListener('DOMContentLoaded', function() {
+    setupUI();
+    checkStoredCSV();
+});
+
+function checkStoredCSV() {
+    const stored = localStorage.getItem('dashboard_csv');
+    if (stored) {
+        try {
+            allData = JSON.parse(stored);
+            if (allData.length > 0) {
+                detectColumns(allData[0]);
+                document.getElementById('fileInfo').textContent = 'Datos recuperados de sesion anterior (' + allData.length.toLocaleString() + ' registros)';
+                document.getElementById('fileInfo').className = 'show';
+                document.getElementById('uploadZone').classList.add('has-file');
+                document.getElementById('dataSourceBadge').textContent = allData.length + ' registros';
+                refreshAll();
+            }
+        } catch(e) { localStorage.removeItem('dashboard_csv'); }
+    }
+}
+
+// ============================================================
+// COLUMN AUTO-DETECTION
+// ============================================================
+function detectColumns(sample) {
+    const keys = Object.keys(sample);
+    // Clean keys: remove BOM and trim whitespace
+    const cleanKeys = keys.map(k => k.replace(/^\uFEFF/, '').trim());
+    // Debug: store original keys
+    window._debugKeys = { original: keys, clean: cleanKeys };
+    
+    // Normalize string: lowercase + strip diacritics (ó→o, é→e, etc.)
+    const norm = s => {
+        try {
+            return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        } catch(e) {
+            // Fallback if normalize() not supported
+            return s.toLowerCase().replace(/[áàâäãå]/g,'a').replace(/[éèêë]/g,'e')
+                .replace(/[íìîï]/g,'i').replace(/[óòôöõ]/g,'o').replace(/[úùûü]/g,'u')
+                .replace(/[ñ]/g,'n').replace(/[ç]/g,'c');
+        }
+    };
+    
+    // Fuzzy match: return original (clean) key that matches any alias
+    const match = (aliases) => {
+        const idx = cleanKeys.findIndex(k =>
+            aliases.some(a => norm(k).includes(norm(a)))
+        );
+        return idx >= 0 ? cleanKeys[idx] : '';
+    };
+    
+    COL.id = match(['id incidencia','id','incidencia']);
+    COL.desc = match(['descripcion del incidente','descripcion','descripci','desc']);
+    COL.fecha = match(['fecha creacion','fecha','creacion','date']);
+    COL.clase = match(['clase']);
+    COL.cargo = match(['cargo']);
+    COL.prov = match(['provincia','prov']);
+    COL.diario = match(['diario']);
+    COL.usuario = match(['usuario temis','usuario']);
+    COL.correo = match(['correo funcionario','correo','email','mail']);
+    COL.telefono = match(['telefono','telf','tel']);
+    COL.tipo = match(['tipo','subtipo']);
+    COL.categoria = match(['categoria']);
+    
+    // Fallback 1: position-based for standard Helpdesk CSV (13 columns)
+    if (!COL.desc && cleanKeys.length >= 8) {
+        COL.id = cleanKeys[0] || '';
+        COL.prov = cleanKeys[1] || '';
+        COL.fecha = cleanKeys[2] || '';
+        if (cleanKeys.length >= 11) {
+            // 13-column format with duplicate Clase
+            COL.clase = cleanKeys[3] || '';
+            COL.cargo = cleanKeys[4] || '';
+            COL.usuario = cleanKeys[5] || '';
+            COL.desc = cleanKeys[6] || '';
+            COL.diario = cleanKeys[7] || '';
+            // After dedup: [8] is Clase_2, [9] is Tipo, [10] is Categoría
+            COL.tipo = cleanKeys[9] || '';
+            COL.categoria = cleanKeys[10] || '';
+            COL.correo = cleanKeys[11] || '';
+            COL.telefono = cleanKeys[12] || '';
+        } else {
+            // 10-column legacy format
+            COL.id = cleanKeys[0] || '';
+            COL.prov = cleanKeys[1] || '';
+            COL.fecha = cleanKeys[2] || '';
+            COL.clase = cleanKeys[3] || '';
+            COL.cargo = cleanKeys[4] || '';
+            COL.desc = cleanKeys[6] || '';
+            COL.usuario = cleanKeys[5] || '';
+            COL.diario = cleanKeys[7] || '';
+            COL.correo = cleanKeys[8] || '';
+            COL.telefono = cleanKeys[9] || '';
+        }
+    }
+    
+    // Fallback 2: regex matching on remaining columns
+    if (!COL.desc) {
+        for (const k of cleanKeys) {
+            const kl = norm(k);
+            if (!COL.id && /id|incidencia|ticket/.test(kl)) COL.id = k;
+            else if (!COL.prov && /provincia|prov/.test(kl)) COL.prov = k;
+            else if (!COL.fecha && /fecha|creacion|date/.test(kl)) COL.fecha = k;
+            else if (!COL.clase && /^clase$|^clase_1$/.test(kl)) COL.clase = k;
+            else if (!COL.cargo && /cargo|rol|puesto/.test(kl)) COL.cargo = k;
+            else if (!COL.desc && /descripcion|incidente/.test(kl)) COL.desc = k;
+            else if (!COL.diario && /diario/.test(kl)) COL.diario = k;
+            else if (!COL.tipo && /tipo/.test(kl)) COL.tipo = k;
+            else if (!COL.categoria && /categoria/.test(kl)) COL.categoria = k;
+        }
+    }
+    
+    window._cols = {...COL};
+}
+
+function getVal(row, key) { return key ? (row[key] || '') : ''; }
+
+// ============================================================
+// COMPUTATIONS (all dynamic)
+// ============================================================
+function computeStats() {
+    const total = allData.length;
+    let urgentes = 0, afecta = 0, nopuedo = 0, nadriano = 0;
+    const tipoCount = {}, catCount = {};
+    let catSinClasificar = 0;
+    allData.forEach(r => {
+        const d = getVal(r, COL.desc).toLowerCase();
+        const dia = getVal(r, COL.diario).toLowerCase();
+        if (/urgente/.test(d)) urgentes++;
+        if (/afecta a todos los usuarios/.test(dia)) afecta++;
+        if (/no puedo trabajar/.test(d)) nopuedo++;
+        if (getVal(r, COL.clase).toLowerCase().includes('nuevo adriano')) nadriano++;
+        const tipo = getVal(r, COL.tipo);
+        if (tipo) tipoCount[tipo] = (tipoCount[tipo]||0)+1;
+        const cat = getVal(r, COL.categoria);
+        if (cat && cat !== '-') { catCount[cat] = (catCount[cat]||0)+1; } else { catSinClasificar++; }
+    });
+    return { total, urgentes, afecta, nopuedo, nadriano, tipoCount, catCount, catSinClasificar };
+}
+
+function computeDailyTrends() {
+    const map = {};
+    allData.forEach(r => {
+        const f = getVal(r, COL.fecha);
+        const d = f.replace(/(\d{2})\/(\d{2})\/(\d{4}).*/,'$1/$2/$3');
+        if (d.length !== 10) return;
+        if (!map[d]) map[d] = {t:0,n:0,u:0};
+        map[d].t++;
+        if (getVal(r, COL.clase).toLowerCase().includes('nuevo adriano')) map[d].n++;
+        if (/urgente/.test(getVal(r, COL.desc).toLowerCase())) map[d].u++;
+    });
+    return Object.entries(map).map(([d,v]) => ({d,...v}));
+}
+
+function computeTopWords(max) {
+    const freq = {};
+    allData.forEach(r => {
+        getVal(r, COL.desc).split(/\s+/).forEach(w => {
+            if (w.trim().length > 3) freq[w] = (freq[w]||0)+1;
+        });
+    });
+    return Object.entries(freq).sort((a,b) => b[1]-a[1]).slice(0, max).map(([w,c]) => ({w,c}));
+}
+
+function computeTopBigrams(max) {
+    const freq = {};
+    allData.forEach(r => {
+        const t = getVal(r, COL.desc).split(/\s+/);
+        for (let i=0;i<t.length-1;i++) {
+            const bg = t[i]+' '+t[i+1];
+            if (bg.length > 6) freq[bg] = (freq[bg]||0)+1;
+        }
+    });
+    return Object.entries(freq).sort((a,b) => b[1]-a[1]).slice(0, max).map(([b,c]) => ({b,c}));
+}
+
+function escapeRegex(s) { return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
+
+// Shared block matching: TIPO > CATEGORÍA > keyword (with includes, word boundaries, exclusion)
+function matchBlock(blockDef, row) {
+    const desc = getVal(row, COL.desc);
+    const tipo = getVal(row, COL.tipo);
+    const cat = getVal(row, COL.categoria);
+    if (!desc) return false;
+    const dl = desc.toLowerCase();
+    // Exclusion: skip if matches exclude pattern
+    if (blockDef.exclude && new RegExp(blockDef.exclude,'i').test(dl)) return false;
+    // TIPO match (loose includes, not exact ===)
+    if (blockDef.tipos && tipo && blockDef.tipos.some(t => tipo.toLowerCase().includes(t.toLowerCase()))) return true;
+    // CATEGORÍA match
+    if (blockDef.cats && cat && blockDef.cats.some(c => cat.toLowerCase().includes(c.toLowerCase()))) return true;
+    // Keyword match: word boundaries for short kw (<5 chars), simple includes for longer
+    if (blockDef.kw && blockDef.kw.some(kw => {
+        if (kw.length < 5) return new RegExp('\\b'+escapeRegex(kw)+'\\b','i').test(dl);
+        return dl.includes(kw.toLowerCase());
+    })) return true;
+    // Prediction signal: if block has casos, check predictCaseV3
+    if (blockDef.casos && blockDef.casos.length > 0) {
+        const pred = predictCaseV3(dl, getVal(row, COL.tipo), getVal(row, COL.clase), getVal(row, COL.prov));
+        if (pred && pred.confianza >= 60 && blockDef.casos.includes(pred.caso)) return true;
+    }
+    return false;
+}
+
+// Currently active block filter (set by clicking a block card)
+let activeBlockKey = null;
+
+function computeBlockCounts() {
+    return BLOCK_DEFS.map(b => {
+        let count = 0, urgCount = 0;
+        allData.forEach(r => {
+            if (matchBlock(b, r)) {
+                count++;
+                if (/urgente/i.test(getVal(r, COL.desc))) urgCount++;
+            }
+        });
+        return {k:b.k, l:b.l, c:count, u:urgCount, color:b.color};
+    });
+}
+
+function computeCargoStats() {
+    const map = {};
+    allData.forEach(r => {
+        const c = getVal(r, COL.cargo) || 'Sin cargo';
+        if (!map[c]) map[c] = {t:0,n:0,u:0};
+        map[c].t++;
+        if (getVal(r, COL.clase).toLowerCase().includes('nuevo adriano')) map[c].n++;
+        if (/urgente/.test(getVal(r, COL.desc).toLowerCase())) map[c].u++;
+    });
+    return Object.entries(map).sort((a,b) => b[1].t-a[1].t).slice(0,15).map(([c,v]) => ({c, ...v}));
+}
+
+function computeProvStats() {
+    const map = {};
+    allData.forEach(r => {
+        const p = getVal(r, COL.prov) || 'Sin provincia';
+        if (!map[p]) map[p] = {t:0,n:0,u:0};
+        map[p].t++;
+        if (getVal(r, COL.clase).toLowerCase().includes('nuevo adriano')) map[p].n++;
+        if (/urgente/.test(getVal(r, COL.desc).toLowerCase())) map[p].u++;
+    });
+    return Object.entries(map).sort((a,b) => b[1].t-a[1].t).map(([p,v]) => ({p, ...v}));
+}
+
+function computeRepeated() {
+    const freq = {}, firstSeen = {}, lastSeen = {}, sampleIds = {};
+    allData.forEach(r => {
+        let d = getVal(r, COL.desc);
+        if (!d) return;
+        // Normalize: lowercase, trim, remove common prefixes
+        const norm = d.toLowerCase().trim()
+            .replace(/^(se recibe email[:\s]*|buenos dias[\.!\s]*|buenas tardes[\.!\s]*|buenos días[\.!\s]*)/i, '')
+            .replace(/^urgente[:\s]*/i, '')
+            .replace(/^\d+\s+/, '')
+            .replace(/\s+/g, ' ').trim();
+        if (!norm || norm.length < 5) return;
+        if (!freq[norm]) {
+            freq[norm] = 1;
+            firstSeen[norm] = r;
+        }
+        lastSeen[norm] = r;
+        if (!sampleIds[norm]) sampleIds[norm] = [];
+        if (sampleIds[norm].length < 5) sampleIds[norm].push(getVal(r, COL.id));
+    });
+    return Object.entries(freq).filter(([_,c]) => c > 1).sort((a,b) => b[1]-a[1]).slice(0,50).map(([d,c]) => {
+        const fs = firstSeen[d], ls = lastSeen[d];
+        const fFecha = getVal(fs, COL.fecha).match(/(\d{2})\/(\d{2})\/(\d{4})/);
+        const lFecha = getVal(ls, COL.fecha).match(/(\d{2})\/(\d{2})\/(\d{4})/);
+        const fProv = getVal(fs, COL.prov);
+        const lProv = getVal(ls, COL.prov);
+        // Find original description (first occurrence)
+        const orig = allData.find(r => getVal(r, COL.desc).toLowerCase().trim()
+            .replace(/^(se recibe email[:\s]*|buenos dias[\.!\s]*|buenas tardes[\.!\s]*|buenos días[\.!\s]*)/i, '')
+            .replace(/^urgente[:\s]*/i, '')
+            .replace(/\s+/g, ' ').trim() === d);
+        const displayDesc = orig ? getVal(orig, COL.desc) : d;
+        return {
+            d: displayDesc,
+            norm: d,
+            c: c,
+            ids: sampleIds[d] || [],
+            fDesde: fFecha ? fFecha[1]+'/'+fFecha[2]+'/'+fFecha[3] : '—',
+            fHasta: lFecha ? lFecha[1]+'/'+lFecha[2]+'/'+lFecha[3] : '—',
+            prov: fProv === lProv ? fProv : (fProv+' → '+lProv)
+        };
+    });
+}
+
+function classifyIncident(desc) {
+    for (const m of MACRO_MAP) {
+        if (new RegExp(m.kw, 'i').test(desc)) return m;
+    }
+    return null;
+}
+
+function renderRouting() {
+    if (typeof ROUTING_PRIOR === 'undefined') {
+        const btn = document.getElementById('tabRoutingBtn');
+        if (btn) btn.style.display = 'none';
+        return;
+    }
+    document.getElementById('tabRoutingBtn').style.display = '';
+    function makeRows(data, tbody, countEl) {
+        if (!data) { tbody.innerHTML = '<tr><td colspan="3">Sin datos</td></tr>'; return 0; }
+        const sortedP = Object.keys(data).sort((a,b) => {
+            const ta = Object.values(data[a]).reduce((s,v)=>s+v,0);
+            const tb = Object.values(data[b]).reduce((s,v)=>s+v,0);
+            return tb - ta;
+        });
+        let html = '';
+        for (const prov of sortedP.slice(0, 25)) {
+            const asigs = data[prov];
+            const total = Object.values(asigs).reduce((s,v)=>s+v,0);
+            const sortedA = Object.keys(asigs).sort((a,b) => asigs[b] - asigs[a]);
+            sortedA.slice(0, 8).forEach((asig, i) => {
+                const prob = (asigs[asig] * 100).toFixed(1);
+                html += `<tr${i===0?'':' class="routing-sub"'}>`;
+                if (i === 0) html += `<td rowspan="${Math.min(sortedA.length,8)}"><strong>${escHtml(prov)}</strong><br><small>${total} incidencias</small></td>`;
+                html += `<td>${escHtml(asig)}</td><td><div class="routing-bar" style="width:${Math.max(prob,2)}%"></div>${prob}%</td></tr>`;
+            });
+        }
+        tbody.innerHTML = html;
+        const c = sortedP.length;
+        if (countEl) countEl.textContent = c + ' provincias';
+        return c;
+    }
+    makeRows(ROUTING_PRIOR['NUEVO ADRIANO'], document.getElementById('routingNABody'), document.getElementById('routingNACount'));
+    makeRows(ROUTING_PRIOR['PUESTO DE TRABAJO'], document.getElementById('routingPTBody'), document.getElementById('routingPTCount'));
+}
+
+function computeUsuarioStats() {
+    const map = {};
+    allData.forEach(r => {
+        const u = getVal(r, COL.usuario) || 'Sin usuario';
+        if (!map[u]) map[u] = {user: u, count: 0, rows: []};
+        map[u].count++;
+        map[u].rows.push(r);
+    });
+    return Object.values(map).sort((a, b) => b.count - a.count);
+}
+
+function renderUsuarios() {
+    const el = document.getElementById('usuariosList');
+    if (!el) return;
+    const count = document.getElementById('usuariosCount');
+    const filterVal = (document.getElementById('usuarioFilterInput').value || '').toLowerCase().trim();
+    const stats = computeUsuarioStats();
+    const filtered = filterVal ? stats.filter(u => u.user.toLowerCase().includes(filterVal)) : stats;
+    count.textContent = filtered.length + ' usuarios (' + filtered.reduce((s,u) => s + u.count, 0) + ' incidencias)';
+    if (filtered.length === 0) {
+        el.innerHTML = '<div style="padding:20px;text-align:center;color:#999">No se encontraron usuarios</div>';
+        return;
+    }
+    el.innerHTML = filtered.map(u => {
+        const hasNA = u.rows.some(r => getVal(r, COL.clase).toLowerCase().includes('nuevo adriano'));
+        return `<details style="margin-bottom:4px">
+            <summary style="cursor:pointer;padding:8px 10px;background:${hasNA?'#f0f4ff':'#f8f9fa'};border-radius:6px;font-size:.82rem;display:flex;justify-content:space-between;align-items:center">
+                <span><strong>${escHtml(u.user)}</strong> <span class="count-badge">${u.count}</span></span>
+                <span style="font-size:.72rem;color:#888">${hasNA ? 'Adriano' : 'PT / Infra'}</span>
+            </summary>
+            <div style="padding:6px 0;overflow-x:auto">
+                <table style="font-size:.75rem;width:100%;min-width:600px">
+                    <thead><tr>
+                        <th style="width:110px">ID</th>
+                        <th style="width:85px">Fecha</th>
+                        <th>Descripci&oacute;n</th>
+                        <th style="width:65px">Pred.</th>
+                        <th style="width:85px">Grupo</th>
+                        <th style="width:65px">Gest.</th>
+                    </tr></thead>
+                    <tbody>
+                        ${u.rows.slice(0, 50).map(r => {
+                            const desc = getVal(r, COL.desc);
+                            const pred = predictCaseV3(desc.toLowerCase(), getVal(r, COL.tipo), getVal(r, COL.clase), getVal(r, COL.prov));
+                            const match = classifyIncident(desc);
+                            const gestionBtn = match
+                                ? `<span class="badge badge-gestion gestion-btn" data-macro="${escHtml(match.macro)}" data-label="${escHtml(match.label)}" data-caso="${pred ? escHtml(pred.caso) : ''}" data-grupo="${pred ? escHtml(pred.grupo||pred.routing||'') : ''}">Gestionar</span>`
+                                : '<span class="pred-none">—</span>';
+                            return `<tr>
+                                <td>${escHtml(getVal(r, COL.id))}</td>
+                                <td>${escHtml(getVal(r, COL.fecha))}</td>
+                                <td>${escHtml(desc)}</td>
+                                <td>${pred ? `<span class="pred-badge">${escHtml(pred.caso)}<br><small>${pred.confianza}%</small></span>` : '<span class="pred-none">—</span>'}</td>
+                                <td style="font-size:.7rem">${pred ? escHtml(pred.grupo||pred.routing||'—') : '<span class="pred-none">—</span>'}</td>
+                                <td>${gestionBtn}</td>
+                            </tr>`;
+                        }).join('')}
+                        ${u.rows.length > 50 ? `<tr><td colspan="6" style="text-align:center;color:#999;padding:8px">... y ${u.rows.length - 50} m&aacute;s</td></tr>` : ''}
+                    </tbody>
+                </table>
+            </div>
+        </details>`;
+    }).join('');
+    el.querySelectorAll('.gestion-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            gestionar(this.dataset.macro, this.dataset.label, this.dataset.caso, this.dataset.grupo);
+        });
+    });
+}
+
+function renderDokuWiki() {
+    const el = document.getElementById('dokuContent');
+    if (typeof WIKI_STATS === 'undefined') {
+        el.innerHTML = '<div class="box"><p style="color:#999">Wiki knowledge no disponible. Ejecuta primero el scraper y process_wiki.ps1.</p></div>';
+        return;
+    }
+    const st = WIKI_STATS;
+    let html = '<div class="stats" style="grid-template-columns:repeat(auto-fit,minmax(100px,1fr))">' +
+        `<div class="stat-card"><div class="num">${st.routes||0}</div><div class="label">Rutas wiki</div></div>` +
+        `<div class="stat-card"><div class="num">${st.cases||0}</div><div class="label">Casos con proc.</div></div>` +
+        `<div class="stat-card"><div class="num">${st.ptKeywords||0}</div><div class="label">Keywords PT</div></div>` +
+        `<div class="stat-card"><div class="num" style="font-size:1rem">${st.generated||''}</div><div class="label">Generado</div></div>` +
+        '</div>' +
+        (typeof ODS_STATS !== 'undefined'
+            ? `<div class="stats" style="grid-template-columns:repeat(auto-fit,minmax(100px,1fr));margin-top:8px">` +
+              `<div class="stat-card"><div class="num">${ODS_STATS.total||0}</div><div class="label">Casos ODS</div></div>` +
+              `<div class="stat-card"><div class="num" style="font-size:1rem">${ODS_STATS.generated||''}</div><div class="label">Gen. ODS</div></div>` +
+              `<div class="stat-card"><div class="num">${Object.keys(ODS_GRUPO||{}).length}</div><div class="label">Con grupo</div></div>` +
+              '</div>'
+            : '');
+    // Routing tables from wiki
+    if (typeof WIKI_ROUTING !== 'undefined') {
+        html += '<div class="box" style="margin-bottom:12px"><h3>Enrutamiento Wiki SSDJ</h3>';
+        for (const [section, entries] of Object.entries(WIKI_ROUTING)) {
+            const count = Object.keys(entries).length;
+            html += `<details style="margin-bottom:6px"><summary style="cursor:pointer;font-weight:600;font-size:.85rem;padding:6px;background:#f8f9fa;border-radius:4px">${escHtml(section)} <span class="count-badge">${count}</span></summary>`;
+            html += '<table style="font-size:.78rem;margin-top:6px"><thead><tr><th>Aplicación/Servicio</th><th>Grupo asignación</th></tr></thead><tbody>';
+            for (const [app, grupo] of Object.entries(entries)) {
+                html += `<tr><td>${escHtml(app)}</td><td>${escHtml(grupo)}</td></tr>`;
+            }
+            html += '</tbody></table></details>';
+        }
+        html += '</div>';
+    }
+    // ODS assignment tables
+    if (typeof ODS_CASOS !== 'undefined') {
+        html += '<div class="box" style="margin-bottom:12px"><h3>Asignaciones ODS V7.04 <span class="count-badge">' + ODS_CASOS.length + '</span></h3>';
+        // Grouped by nivelCSU
+        const odsByGroup = {};
+        for (const c of ODS_CASOS) {
+            const g = c.nivelCSU || 'Sin asignar';
+            if (!odsByGroup[g]) odsByGroup[g] = [];
+            odsByGroup[g].push(c);
+        }
+        for (const [grupo, casos] of Object.entries(odsByGroup).sort()) {
+            html += `<details style="margin-bottom:4px"><summary style="cursor:pointer;font-weight:600;font-size:.82rem;padding:5px 8px;background:#fff3e0;border-radius:4px">${escHtml(grupo)} <span class="count-badge">${casos.length}</span></summary>`;
+            html += '<table style="font-size:.75rem;margin-top:4px;width:100%"><thead><tr><th>Caso</th><th>Descripción</th><th>Tipo</th><th>Agrupación</th></tr></thead><tbody>';
+            for (const c of casos) {
+                html += `<tr><td><strong>${escHtml(c.caso)}</strong></td><td>${escHtml(c.desc.substring(0,80))}</td><td>${escHtml(c.tipo)}</td><td>${escHtml(c.agrupacion||'')}</td></tr>`;
+            }
+            html += '</tbody></table></details>';
+        }
+        html += '</div>';
+    }
+    // Case procedures
+    if (typeof WIKI_DESC !== 'undefined') {
+        html += '<div class="box" style="margin-bottom:12px"><h3>Procedimientos de casos <span class="count-badge">' + Object.keys(WIKI_DESC).length + '</span></h3>';
+        for (const [caso, desc] of Object.entries(WIKI_DESC)) {
+            const kw = WIKI_KW && WIKI_KW[caso] ? WIKI_KW[caso].slice(0,15) : [];
+            html += `<details style="margin-bottom:4px"><summary style="cursor:pointer;font-weight:600;font-size:.82rem;padding:5px 8px;background:#f0f4ff;border-radius:4px">Caso ${escHtml(caso)}</summary>`;
+            html += `<div style="padding:8px;font-size:.78rem;background:#fafafa;border-radius:4px;margin-top:4px;white-space:pre-wrap;max-height:300px;overflow-y:auto">${escHtml(desc)}</div>`;
+            if (kw.length > 0) {
+                html += '<div style="margin-top:4px;display:flex;flex-wrap:wrap;gap:3px">' +
+                    kw.map(w => `<span style="background:#e8e8e8;padding:1px 6px;border-radius:3px;font-size:.7rem">${escHtml(w)}</span>`).join('') +
+                    (WIKI_KW[caso].length > 15 ? `<span style="color:#999;font-size:.7rem">+${WIKI_KW[caso].length-15} más</span>` : '') +
+                    '</div>';
+            }
+            html += '</details>';
+        }
+        html += '</div>';
+    }
+    // PT keywords
+    if (typeof WIKI_PT_KW !== 'undefined') {
+        html += '<div class="box" style="margin-bottom:12px"><h3>Keywords Puesto de Trabajo <span class="count-badge">' + WIKI_PT_KW.length + '</span></h3>';
+        html += '<div style="display:flex;flex-wrap:wrap;gap:3px;max-height:200px;overflow-y:auto">' +
+            WIKI_PT_KW.map(w => `<span style="background:#f0f2ff;padding:2px 7px;border-radius:4px;font-size:.75rem">${escHtml(w)}</span>`).join('') +
+            '</div></div>';
+    }
+    el.innerHTML = html;
+}
+
+// ============================================================
+// RENDER FUNCTIONS
+// ============================================================
+function refreshAll() {
+    showDebugInfo();
+    const stats = computeStats();
+    renderStats(stats);
+    renderTimelineChart(computeDailyTrends());
+    renderWords(computeTopWords(40));
+    renderBigrams(computeTopBigrams(30));
+    computeAnomalies();
+    renderBlocks(computeBlockCounts());
+    renderAnomalies();
+    renderCargoChart(computeCargoStats());
+    renderProvChart(computeProvStats());
+    renderRepeated(computeRepeated());
+    renderCasos();
+    renderFormacion();
+    renderRouting();
+    renderDokuWiki();
+    renderUsuarios();
+    populateFilters();
+    applyFilters();
+}
+
+function showDebugInfo() {
+    const el = document.getElementById('colDebug');
+    const keys = window._debugKeys ? window._debugKeys.clean : [];
+    const cols = window._cols || {};
+    const mapping = [];
+    const mapLabel = { id:'ID', desc:'Descripcion', fecha:'Fecha', clase:'Clase', cargo:'Cargo', prov:'Provincia', diario:'Diario', usuario:'Usuario', correo:'Correo', telefono:'Telefono', tipo:'Tipo', categoria:'Categoria' };
+    let allFound = true;
+    for (const [key, label] of Object.entries(mapLabel)) {
+        const detected = cols[key] || '(no detectada)';
+        if (!cols[key]) allFound = false;
+        mapping.push(label + '→' + detected);
+    }
+    el.innerHTML = '<strong>Columnas detectadas:</strong> ' + mapping.join(' | ');
+    el.style.display = 'block';
+    el.style.color = allFound ? '#2e7d32' : '#c0392b';
+    const reloadBtn = document.getElementById('forceReloadBtn');
+    reloadBtn.style.display = allFound ? 'none' : 'inline-block';
+    if (!allFound) {
+        // Force full refresh
+        setTimeout(() => {
+            detectColumns(allData[0]);
+            populateFilters();
+            applyFilters();
+            showDebugInfo();
+        }, 100);
+    }
+}
+
+function renderStats(s) {
+    const topTipos = Object.entries(s.tipoCount).sort((a,b) => b[1]-a[1]).slice(0,3);
+    const tipoStr = topTipos.length > 0 ? topTipos.map(([k,v]) => k+' ('+v+')').join(', ') : '—';
+    let precisionHtml = '';
+    if (typeof TRAINING_STATS !== 'undefined') {
+        const wikiInfo = (typeof WIKI_STATS !== 'undefined') ? ` | Wiki: ${WIKI_STATS.routes} rutas, ${WIKI_STATS.cases} casos` : '';
+        const odsInfo = (typeof ODS_STATS !== 'undefined') ? ` | ODS: ${ODS_STATS.total} casos` : '';
+        precisionHtml = `<div class="stat-card info"><div class="num" style="font-size:.65rem">${TRAINING_STATS.labeledCases} casos${wikiInfo}${odsInfo}</div><div class="label">Datos entrenamiento</div></div>`;
+    }
+    document.getElementById('statsRow').innerHTML = `
+        <div class="stat-card"><div class="num">${s.total.toLocaleString()}</div><div class="label">Total incidencias</div></div>
+        <div class="stat-card urg"><div class="num">${s.urgentes.toLocaleString()} (${(s.urgentes/s.total*100).toFixed(1)}%)</div><div class="label">URGENTE</div></div>
+        <div class="stat-card afecta"><div class="num">${s.afecta.toLocaleString()} (${(s.afecta/s.total*100).toFixed(1)}%)</div><div class="label">Afecta a todos</div></div>
+        <div class="stat-card nopuedo"><div class="num">${s.nopuedo.toLocaleString()}</div><div class="label">"No puedo trabajar"</div></div>
+        <div class="stat-card na"><div class="num">${s.nadriano.toLocaleString()} (${(s.nadriano/s.total*100).toFixed(1)}%)</div><div class="label">${COL.clase || 'Categoria principal'}</div></div>
+        <div class="stat-card info"><div class="num">${s.catSinClasificar.toLocaleString()}</div><div class="label">Sin categor&iacute;a</div></div>
+        ${precisionHtml}
+        <div class="stat-card" style="grid-column:1/-1;font-size:.72rem;color:#888;padding:6px 12px;text-align:left">
+            <strong>Top tipos:</strong> ${escHtml(tipoStr)}
+        </div>
+    `;
+}
+
+function renderTimelineChart(data) {
+    data.sort((a,b) => parseDate(a.d)-parseDate(b.d));
+    function parseDate(s) { const p=s.split('/'); return new Date(p[2],p[1]-1,p[0]); }
+    function toInput(d) { return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+    if (data.length === 0) {
+        document.getElementById('chartTimeline').style.display='none';
+        return;
+    }
+    document.getElementById('chartTimeline').style.display='block';
+    const minD = parseDate(data[0].d), maxD = parseDate(data[data.length-1].d);
+    document.getElementById('dateFrom').value = toInput(minD);
+    document.getElementById('dateTo').value = toInput(maxD);
+    document.getElementById('dateFrom').min = toInput(minD);
+    document.getElementById('dateTo').max = toInput(maxD);
+    window._timelineData = data;
+    const ctx = document.getElementById('chartTimeline').getContext('2d');
+    if (chartTimeline) chartTimeline.destroy();
+    chartTimeline = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: data.map(d=>d.d),
+            datasets: [
+                { label: COL.clase || 'Categoria principal', data: data.map(d=>d.n), backgroundColor:function(c){return c.dataIndex===window._selectedDateIdx?'rgba(67,97,238,1)':'rgba(67,97,238,0.7)'}, borderRadius:2, order:2 },
+                { label: 'URGENTE', data: data.map(d=>d.u), backgroundColor:function(c){return c.dataIndex===window._selectedDateIdx?'rgba(231,76,60,1)':'rgba(231,76,60,0.85)'}, borderRadius:2, order:1 }
+            ]
+        },
+        options: {
+            responsive:true, maintainAspectRatio:false,
+            onClick:function(e) {
+                const bars = this.getElementsAtEventForMode(e, 'index', { intersect: true });
+                if (bars.length > 0) {
+                    const idx = bars[0].index;
+                    const label = this.data.labels[idx];
+                    const parts = label.split('/');
+                    const inputDate = parts[2]+'-'+parts[1]+'-'+parts[0];
+                    document.getElementById('dateFrom').value = inputDate;
+                    document.getElementById('dateTo').value = inputDate;
+                    window._selectedDateIdx = idx;
+                    this.update();
+                    applyFilters();
+                }
+            },
+            onHover:function(e) {
+                const bars = this.getElementsAtEventForMode(e, 'index', { intersect: true });
+                e.native.target.style.cursor = bars.length > 0 ? 'pointer' : 'default';
+            },
+            plugins: {
+                legend: { position:'top', labels:{boxWidth:12,font:{size:11}} },
+                tooltip: { callbacks: { footer: function(items) {
+                    const d = data[items[0].dataIndex];
+                    return 'Total: '+d.t+' | Otros: '+(d.t-d.n)+' | Urgentes: '+d.u;
+                }}}
+            },
+            scales: { x: { ticks:{font:{size:9},maxRotation:60}, grid:{display:false} }, y: { beginAtZero:true } }
+        }
+    });
+}
+
+function renderWords(words) {
+    const cont = document.getElementById('wordsList');
+    if (words.length === 0) { cont.innerHTML = '<span style="color:#999;padding:10px">Carga el CSV para ver palabras clave</span>'; return; }
+    cont.innerHTML = words.map(w => `<span class="word-item" data-word="${escHtml(w.w)}">${escHtml(w.w)} <span class="cnt">${w.c}</span></span>`).join('');
+    cont.querySelectorAll('.word-item').forEach(el => {
+        el.addEventListener('click', function() { searchAndScroll(this.dataset.word); });
+    });
+}
+
+function renderBigrams(bigrams) {
+    const cont = document.getElementById('bigramsList');
+    if (bigrams.length === 0) { cont.innerHTML = '<span style="color:#999;padding:10px">Carga el CSV para ver bigramas</span>'; return; }
+    cont.innerHTML = bigrams.map(b => `<span class="bigram-item" data-bigram="${escHtml(b.b)}">${escHtml(b.b)} <span class="cnt">${b.c}</span></span>`).join('');
+    cont.querySelectorAll('.bigram-item').forEach(el => {
+        el.addEventListener('click', function() { searchAndScroll(this.dataset.bigram); });
+    });
+}
+
+function searchAndScroll(q) {
+    activeBlockKey = null;
+    document.getElementById('searchInput').value = q;
+    document.getElementById('filterClase').value = '';
+    document.getElementById('filterTipo').value = '';
+    document.getElementById('filterProvincia').value = '';
+    document.getElementById('filterCargo').value = '';
+    document.getElementById('filterCaso').value = '';
+    document.getElementById('filterUrgencia').value = '';
+    applyFilters();
+    document.querySelector('.box:last-child').scrollIntoView({behavior:'smooth'});
+}
+
+function renderBlocks(blocks) {
+    const cont = document.getElementById('blocksGrid');
+    if (blocks.length === 0) { cont.innerHTML = '<span style="color:#999;padding:10px">Carga el CSV para ver bloques</span>'; return; }
+    const anomalies = window._anomalies || {};
+    cont.innerHTML = blocks.map(b => {
+        const anomaly = anomalies[b.k];
+        const anomHtml = anomaly ? `<span class="anomaly-indicator anomaly-${anomaly.severity}" title="${escHtml(anomaly.reason)}">&#9888; ${anomaly.label}</span>` : '';
+        return `<div class="block-card ${b.color}" data-block='${JSON.stringify({k:b.k,l:b.l})}'>
+            <div class="title">${escHtml(b.l)}${anomHtml}</div>
+            <div class="count">${b.c}</div>
+            <div class="desc">${b.u > 0 ? b.u + ' urgentes' : 'sin urgentes'}</div>
+        </div>`;
+    }).join('');
+    cont.querySelectorAll('.block-card').forEach(el => {
+        el.addEventListener('click', function() {
+            const b = JSON.parse(this.dataset.block);
+            document.querySelectorAll('.block-card').forEach(x => x.classList.remove('active'));
+            this.classList.add('active');
+            activeBlockKey = b.k;
+            renderBlockDetail(b.k);
+            document.getElementById('searchInput').value = '';
+            document.getElementById('filterClase').value = '';
+            document.getElementById('filterTipo').value = '';
+            document.getElementById('filterProvincia').value = '';
+            document.getElementById('filterCargo').value = '';
+            document.getElementById('filterCaso').value = '';
+            document.getElementById('filterUrgencia').value = '';
+            applyFilters();
+        });
+    });
+}
+
+let blockChart = null;
+
+function renderBlockDetail(blockKey) {
+    const blockDef = BLOCK_DEFS.find(d => d.k === blockKey);
+    if (!blockDef) return;
+    const el = document.getElementById('blockDetail');
+    const matching = allData.filter(r => matchBlock(blockDef, r));
+    // Trend: group by date
+    const trend = {};
+    matching.forEach(r => {
+        const f = getVal(r, COL.fecha);
+        const m = f.match(/(\d{2})\/(\d{2})\/(\d{4})/);
+        if (m) {
+            const d = m[3]+'-'+m[2]+'-'+m[1];
+            if (!trend[d]) trend[d] = 0;
+            trend[d]++;
+        }
+    });
+    const sortedDates = Object.keys(trend).sort();
+    const labels = sortedDates.slice(-30);
+    const data = labels.map(d => trend[d]||0);
+    // By provincia
+    const provMap = {};
+    matching.forEach(r => {
+        const p = getVal(r, COL.prov) || 'Sin provincia';
+        provMap[p] = (provMap[p]||0) + 1;
+    });
+    const provSorted = Object.entries(provMap).sort((a,b) => b[1]-a[1]);
+    // Anomaly detail for this block
+    const anomalies = window._anomalies || {};
+    const anomaly = anomalies[blockKey];
+    let anomHtml = '';
+    if (anomaly) {
+        anomHtml = '<div class="box" style="margin-top:8px;border-left:3px solid ' +
+            (anomaly.severity === 'high' ? '#e74c3c' : anomaly.severity === 'medium' ? '#e67e22' : '#3498db') + '">' +
+            '<h4 style="font-size:.8rem;color:#c0392b;margin-bottom:4px">&#9888; Anomal&iacute;a detectada</h4>' +
+            '<p style="font-size:.78rem;color:#555">' + escHtml(anomaly.reason) + '</p>' +
+            (!anomaly.affected ? '' : '<p style="font-size:.75rem;color:#888">IDs afectados: ' +
+                anomaly.affected.slice(0,10).map(id => '<code style="font-size:.7rem;background:#f0f0f0;padding:1px 4px;border-radius:2px">' + escHtml(id) + '</code>').join(' ') +
+                (anomaly.affected.length > 10 ? '...' : '') + '</p>') +
+            '</div>';
+    }
+    let html = '<div class="box" style="margin-bottom:0">' +
+        '<div class="bd-header"><h3>Tendencia: '+escHtml(blockDef.l)+' <span class="count-badge">'+matching.length+'</span></h3>' +
+        '<button class="bd-close" id="bdClose">&times;</button></div>' +
+        '<div style="display:grid;grid-template-columns:2fr 1fr;gap:12px">' +
+        '<div><canvas id="blockTrendChart" height="100"></canvas></div>' +
+        '<div><h4 style="font-size:.8rem;margin-bottom:6px">Por provincia</h4><table><tbody>' +
+        provSorted.slice(0,10).map(([p,c]) => '<tr><td>'+escHtml(p)+'</td><td style="text-align:right;font-weight:600">'+c+'</td></tr>').join('') +
+        '</tbody></table></div></div>' + anomHtml + '</div>';
+    el.innerHTML = html;
+    el.style.display = 'block';
+    // Mini chart
+    setTimeout(() => {
+        const ctx = document.getElementById('blockTrendChart');
+        if (!ctx) return;
+        if (blockChart) blockChart.destroy();
+        blockChart = new Chart(ctx, {
+            type:'bar',
+            data:{ labels, datasets:[{ label:'Incidencias', data, backgroundColor:'#4361ee', borderRadius:3 }] },
+            options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false} }, scales:{ x:{ticks:{font:{size:8},maxTicksLimit:8}}, y:{beginAtZero:true,ticks:{font:{size:8}}} } }
+        });
+    }, 50);
+    document.getElementById('bdClose').addEventListener('click', function() {
+        el.style.display = 'none';
+        if (blockChart) { blockChart.destroy(); blockChart = null; }
+        activeBlockKey = null;
+        document.querySelectorAll('.block-card').forEach(x => x.classList.remove('active'));
+        applyFilters();
+    });
+}
+
+// ============================================================
+// Anomaly detection
+// ============================================================
+function computeAnomalies() {
+    const anomalies = {};
+    if (allData.length < 14) return anomalies;
+    // Parse dates and build per-block daily counts
+    const rowsByDate = {};
+    const blockDefs = BLOCK_DEFS.filter(b => b.k !== 'gestion');
+    allData.forEach(r => {
+        const f = getVal(r, COL.fecha);
+        const m = f.match(/(\d{2})\/(\d{2})\/(\d{4})/);
+        if (!m) return;
+        const d = m[3]+'-'+m[2]+'-'+m[1];
+        if (!rowsByDate[d]) rowsByDate[d] = [];
+        rowsByDate[d].push(r);
+    });
+    const dates = Object.keys(rowsByDate).sort();
+    if (dates.length < 7) return anomalies;
+    const lastDate = dates[dates.length-1];
+    const sevenDaysAgo = dates[Math.max(0, dates.length-8)];
+    // Per-block anomaly detection
+    blockDefs.forEach(b => {
+        const dailyCounts = {};
+        dates.forEach(d => { dailyCounts[d] = 0; });
+        const blockRows = allData.filter(r => matchBlock(b, r));
+        blockRows.forEach(r => {
+            const f = getVal(r, COL.fecha);
+            const m = f.match(/(\d{2})\/(\d{2})\/(\d{4})/);
+            if (m) { const d = m[3]+'-'+m[2]+'-'+m[1]; if (dailyCounts[d] !== undefined) dailyCounts[d]++; }
+        });
+        // Last 7 days vs previous 7 days baseline
+        const recent = dates.slice(-7).map(d => dailyCounts[d]||0);
+        const baseline = dates.slice(-14, -7).map(d => dailyCounts[d]||0);
+        const mean = baseline.reduce((a,b) => a+b, 0) / Math.max(baseline.length,1);
+        const variance = baseline.reduce((a,b) => a + Math.pow(b-mean,2), 0) / Math.max(baseline.length,1);
+        const std = Math.sqrt(variance) || 1;
+        const recentMean = recent.reduce((a,b) => a+b, 0) / recent.length;
+        const zScore = (recentMean - mean) / Math.max(std, 0.5);
+        const excess = recent.reduce((a,b) => a+b, 0) - baseline.reduce((a,b) => a+b, 0);
+        if (zScore > 2.5 && excess >= 3) {
+            const severity = zScore > 4 ? 'high' : zScore > 3 ? 'medium' : 'low';
+            const ids = blockRows.filter(r => {
+                const f = getVal(r, COL.fecha);
+                const m = f.match(/(\d{2})\/(\d{2})\/(\d{4})/);
+                return m && dates.slice(-7).includes(m[3]+'-'+m[2]+'-'+m[1]);
+            }).slice(0,20).map(r => getVal(r, COL.id));
+            anomalies[b.k] = {
+                severity,
+                label: excess + ' exceso',
+                reason: 'Pico de ' + b.l + ': ' + recent.reduce((a,b)=>a+b,0) + ' incidencias en 7 d&iacute;as (vs ' + baseline.reduce((a,b)=>a+b,0) + ' esperadas, Z=' + zScore.toFixed(1) + '). Exceso de ' + excess + '.',
+                affected: ids
+            };
+        }
+        // Bigram spike detection
+        const recentBigrams = {};
+        blockRows.forEach(r => {
+            const f = getVal(r, COL.fecha);
+            const m = f.match(/(\d{2})\/(\d{2})\/(\d{4})/);
+            if (!m) return;
+            const d = m[3]+'-'+m[2]+'-'+m[1];
+            if (dates.slice(-3).includes(d)) {
+                const desc = getVal(r, COL.desc).toLowerCase();
+                const words = desc.split(/\s+/).filter(w => w.length > 3);
+                for (let i = 0; i < words.length-1; i++) {
+                    const bg = words[i] + ' ' + words[i+1];
+                    if (!recentBigrams[bg]) recentBigrams[bg] = {count:0, ids:[]};
+                    recentBigrams[bg].count++;
+                    if (recentBigrams[bg].ids.length < 10) recentBigrams[bg].ids.push(getVal(r, COL.id));
+                }
+            }
+        });
+        Object.entries(recentBigrams).filter(([_,v]) => v.count >= 5).forEach(([bg, v]) => {
+            // Only flag if not already flagged as spike
+            if (anomalies[b.k]) return;
+            anomalies[b.k] = {
+                severity: 'medium',
+                label: 'Bigram: ' + bg,
+                reason: 'Bigrama repetido en ' + b.l + ': "' + escHtml(bg) + '" aparece ' + v.count + ' veces en los &uacute;ltimos 3 d&iacute;as.',
+                affected: v.ids
+            };
+        });
+        // Exact duplicate detection (same desc in last 7 days)
+        const recentExact = {};
+        blockRows.forEach(r => {
+            const f = getVal(r, COL.fecha);
+            const m = f.match(/(\d{2})\/(\d{2})\/(\d{4})/);
+            if (!m || !dates.slice(-7).includes(m[3]+'-'+m[2]+'-'+m[1])) return;
+            const dl = getVal(r, COL.desc).toLowerCase().trim();
+            if (!recentExact[dl]) recentExact[dl] = {count:0, ids:[]};
+            recentExact[dl].count++;
+            if (recentExact[dl].ids.length < 10) recentExact[dl].ids.push(getVal(r, COL.id));
+        });
+        Object.entries(recentExact).filter(([_,v]) => v.count >= 3).forEach(([desc, v]) => {
+            if (anomalies[b.k]) return;
+            anomalies[b.k] = {
+                severity: 'low',
+                label: v.count + ' duplicados',
+                reason: 'Descripci&oacute;n repetida ' + v.count + ' veces en ' + b.l + ': "' + escHtml(desc.substring(0,80)) + '...".',
+                affected: v.ids
+            };
+        });
+    });
+    window._anomalies = anomalies;
+    return anomalies;
+}
+
+function renderAnomalies() {
+    const bar = document.getElementById('alertBar');
+    const msg = document.getElementById('alertMsg');
+    const anomalies = window._anomalies || {};
+    const entries = Object.entries(anomalies);
+    if (entries.length === 0) {
+        bar.classList.remove('show');
+        return;
+    }
+    bar.classList.add('show');
+    msg.innerHTML = entries.map(([k, v]) => {
+        return '<span class="anomaly-block anomaly-' + v.severity + '">' +
+            '<div class="anomaly-title">' +
+            '<span><strong>' + escHtml(v.label) + '</strong> <span style="font-weight:400;color:#555">en ' + escHtml((BLOCK_DEFS.find(d => d.k === k)||{}).l || k) + '</span></span>' +
+            '<span class="badge ' + (v.severity === 'high' ? 'badge-danger' : v.severity === 'medium' ? 'badge-warn' : 'badge-dark') + '">' + v.severity + '</span>' +
+            '</div>' +
+            '<div class="anomaly-detail">' + v.reason + '</div>' +
+            '</span>';
+    }).join('');
+}
+
+function renderCargoChart(data) {
+    const ctx = document.getElementById('chartCargo').getContext('2d');
+    const filtered = data.filter(c => c.t > 5);
+    if (chartCargo) chartCargo.destroy();
+    if (filtered.length === 0) { return; }
+    chartCargo = new Chart(ctx, {
+        type:'bar',
+        data:{ labels:filtered.map(c=>c.c), datasets:[
+            { label: COL.clase||'Categoria principal', data:filtered.map(c=>c.n), backgroundColor:'#4361ee', borderRadius:3 },
+            { label:'Otras', data:filtered.map(c=>c.t-c.n), backgroundColor:'#ccc', borderRadius:3 }
+        ]},
+        options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{position:'top',labels:{boxWidth:12,font:{size:10}}} }, scales:{ x:{stacked:true,ticks:{font:{size:8}}}, y:{stacked:true,beginAtZero:true} } }
+    });
+}
+
+function renderProvChart(data) {
+    const ctx = document.getElementById('chartProv').getContext('2d');
+    if (chartProv) chartProv.destroy();
+    if (data.length === 0) { return; }
+    chartProv = new Chart(ctx, {
+        type:'bar',
+        data:{ labels:data.map(p=>p.p), datasets:[
+            { label: COL.clase||'Categoria principal', data:data.map(p=>p.n), backgroundColor:'#4361ee', borderRadius:3 },
+            { label:'Urgentes', data:data.map(p=>p.u), backgroundColor:'#e74c3c', borderRadius:3 }
+        ]},
+        options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{position:'top',labels:{boxWidth:12,font:{size:10}}} }, scales:{ x:{ticks:{font:{size:10}}}, y:{beginAtZero:true} } }
+    });
+}
+
+function renderRepeated(repeated) {
+    const tbody = document.getElementById('repeatedBody');
+    document.getElementById('repeatedCount').textContent = repeated.length + ' grupos';
+    if (repeated.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#999;padding:20px">No hay descripciones repetidas</td></tr>';
+        return;
+    }
+    tbody.innerHTML = repeated.map(r => `<tr class="repeated-row" data-desc="${escHtml(r.norm)}" title="Haz clic para ver todas">
+        <td style="text-align:center;font-weight:600;white-space:nowrap">${r.c}x</td>
+        <td style="max-width:400px;word-break:break-word">${escHtml(r.d.length > 120 ? r.d.slice(0,120)+'...' : r.d)}</td>
+        <td style="white-space:nowrap;font-size:.7rem">${escHtml(r.fDesde)} → ${escHtml(r.fHasta)}</td>
+        <td style="font-size:.7rem;color:#666">${escHtml(r.prov)}</td>
+        <td style="font-size:.7rem;color:#999">${r.ids.map(id => escHtml(id)).join(', ')}</td>
+    </tr>`).join('');
+    tbody.querySelectorAll('.repeated-row').forEach(el => {
+        el.addEventListener('click', function() {
+            const desc = this.dataset.desc;
+            // Find matching row in allData and search
+            const match = allData.find(r => {
+                const d = getVal(r, COL.desc).toLowerCase().trim()
+                    .replace(/^(se recibe email[:\s]*|buenos dias[\.!\s]*|buenas tardes[\.!\s]*|buenos días[\.!\s]*)/i, '')
+                    .replace(/^urgente[:\s]*/i, '')
+                    .replace(/\s+/g, ' ').trim();
+                return d === desc;
+            });
+            if (match) {
+                document.getElementById('searchInput').value = getVal(match, COL.desc).slice(0,60);
+                document.getElementById('filterClase').value = '';
+                document.getElementById('filterTipo').value = '';
+                document.getElementById('filterProvincia').value = '';
+                document.getElementById('filterCargo').value = '';
+                document.getElementById('filterCaso').value = '';
+                document.getElementById('filterUrgencia').value = '';
+                applyFilters();
+            }
+        });
+    });
+}
+
+function renderCasos() {
+    const tbody = document.getElementById('casosBody');
+    const count = document.getElementById('casosCount');
+    const items = CASE_DEFS.filter(c => !c.caso.startsWith('PT') && !c.caso.startsWith('SI'));
+    count.textContent = items.length + ' casos';
+    tbody.innerHTML = items.map(c => {
+        const catClass = c.cat && c.cat !== '-' ? '' : 'style="color:#999"';
+        return `<tr>
+            <td><strong>${escHtml(c.caso)}</strong></td>
+            <td>${escHtml(c.desc)}</td>
+            <td>${escHtml(c.tipo)}</td>
+            <td ${catClass}>${c.cat && c.cat !== '-' ? escHtml(c.cat) : '—'}</td>
+            <td>${escHtml(c.grupo)}</td>
+            <td>${escHtml(c.agrupacion)}</td>
+        </tr>`;
+    }).join('');
+}
+
+function renderFormacion() {
+    const cont = document.getElementById('formacionContent');
+    const count = document.getElementById('formacionCount');
+    const modules = [
+        {name:"CIVIL, SOCIAL Y CONTENCIOSO", url:"https://capacitacion.justicia.junta-andalucia.es/course/view.php?id=10", videos:[
+            {caso:"Firma Manuscrita", titulo:"AltobexFIRM - Pasos según instrucción 1/2024", url:"https://videos.justicia.junta-andalucia.es/w/jjUiP9yEgWaamCDK88MrJB"},
+            {caso:"24", titulo:"Acumular (ACU) y Desacumular (DACU)", url:"https://videos.justicia.junta-andalucia.es/w/o4FeUW66VauRB8eHdqFz1r"},
+            {caso:"33", titulo:"ITINE - Itineración de asuntos", url:"https://videos.justicia.junta-andalucia.es/w/pS4eHdyQhEAuMRQb6eddeD"},
+            {caso:"21", titulo:"Cambio de Fase: trámite ESFA", url:"https://videos.justicia.junta-andalucia.es/w/eKe4YKS6EgmysUp8w4bAs4"},
+            {caso:"17", titulo:"Interposición de Recursos - IREC", url:"https://videos.justicia.junta-andalucia.es/w/hjd5ZxcGCENqVoPSwnnSxU"},
+            {caso:"17", titulo:"ELRE: Elevación de Recursos", url:"https://videos.justicia.junta-andalucia.es/w/kyjTSp1e13Y4D8Q6gUcc1x"},
+            {caso:"22", titulo:"Transformación del Procedimiento (TRPROC)", url:""},
+            {caso:"59", titulo:"ALTOBEX - Introducir archivos externos", url:"https://videos.justicia.junta-andalucia.es/w/1wAt89EGvrQ4L9J1ufbizX"},
+            {caso:"1/1.1", titulo:"TRCANDOC: Cancelar Documentos Firmados", url:"https://videos.justicia.junta-andalucia.es/w/1SQQik3gDF3gP6B2Sq5uqr"},
+            {caso:"1/1.1", titulo:"Anular resoluciones y liberar numerador", url:"https://videos.justicia.junta-andalucia.es/w/rvPBPz1xCnapmKENS3dpmk"},
+            {caso:"42", titulo:"TRCANFIRM: Cancelar envío a firma", url:"https://videos.justicia.junta-andalucia.es/w/4sGqjGvCheqduBVZ2SsvVN"},
+            {caso:"9", titulo:"Proveer Escritos", url:"https://videos.justicia.junta-andalucia.es/w/4w1Rn6nbJtQLUHtvWwvZRV"},
+            {caso:"35", titulo:"Visualización Documentos", url:"https://videos.justicia.junta-andalucia.es/w/3u3r3qjornQfHed3tZFPRG"},
+            {caso:"1/1.1", titulo:"Asignar numerador a resoluciones existentes", url:"https://videos.justicia.junta-andalucia.es/w/rcVHBTzd7VDmv778pni5AK"},
+            {caso:"74", titulo:"NOTLEX: Notificación por Lexnet", url:"https://videos.justicia.junta-andalucia.es/w/ubYKYqX4pPKzKhAM75JozR"},
+            {caso:"80", titulo:"Suscripción de avisos ligados a tramitación", url:"https://videos.justicia.junta-andalucia.es/w/tysHLJuK9r82oY3k9A1Ndm"},
+            {caso:"63", titulo:"Registro e incoación de Piezas Separadas", url:"https://videos.justicia.junta-andalucia.es/w/a84UVD9Gthd1zn56yNTr9s"},
+            {caso:"32", titulo:"Secreto de Sumario", url:"https://videos.justicia.junta-andalucia.es/w/5fy42tjnLWiPMxqMuzP1op"},
+            {caso:"", titulo:"Creación de CLIPS de Texto (STXWORD)", url:"https://videos.justicia.junta-andalucia.es/w/t1885x9dEpyG6RnQpGcNFA"},
+            {caso:"", titulo:"Copia de Trabajo desde documentos", url:"https://videos.justicia.junta-andalucia.es/w/icG4DGqskDK1XrnJ2R7UgR"},
+            {caso:"43/23", titulo:"Aceptar y Rechazar Escritos", url:"https://videos.justicia.junta-andalucia.es/w/5NkxeSgfd6P8CWGAQ2iskg"},
+            {caso:"", titulo:"Registrar manualmente Escritos", url:"https://videos.justicia.junta-andalucia.es/w/6oSAKsWsJwDkKiDrJNGMN1"},
+        ]},
+        {name:"PENAL", url:"https://capacitacion.justicia.junta-andalucia.es/course/view.php?id=11", videos:[
+            {caso:"5/19", titulo:"Réplicas: Configuración Destino Atestados", url:"https://videos.justicia.junta-andalucia.es/w/skAUxXzqowHxnSwQWRCxag"},
+            {caso:"6/19", titulo:"Calendario: Configuración Destino Atestados", url:"https://videos.justicia.junta-andalucia.es/w/5xutwHVpoAbdjNJ7m7udyY"},
+            {caso:"63", titulo:"Registrar un Asunto en Instrucción", url:"https://videos.justicia.junta-andalucia.es/w/dec66YW6AHK1hakXH9dS6b"},
+            {caso:"", titulo:"Check Asuntos antiguos", url:"https://videos.justicia.junta-andalucia.es/w/fySEas4qHLT5jQsbSiYMPE"},
+        ]},
+        {name:"REGISTRO Y REPARTO", url:"", videos:[
+            {caso:"84", titulo:"Registro de Asuntos (Instrucción)", url:"https://videos.justicia.junta-andalucia.es/w/dec66YW6AHK1hakXH9dS6b"},
+            {caso:"83", titulo:"Reparto de Asuntos", url:"https://videos.justicia.junta-andalucia.es/w/57UxjFJXm4kgZiD6KMNMtj"},
+        ]},
+        {name:"AUDIENCIA PROVINCIAL", url:"https://capacitacion.justicia.junta-andalucia.es/course/view.php?id=16", videos:[
+            {caso:"38", titulo:"Aceptación e Incoación de Asuntos", url:"https://videos.justicia.junta-andalucia.es/w/bord3uRwm5LnDQeWfANgmN"},
+        ]}
+    ];
+    count.textContent = modules.reduce((s,m) => s + m.videos.length, 0) + ' recursos';
+    cont.innerHTML = modules.map(m => `
+        <div class="formacion-module">
+            <h4 style="margin:12px 0 4px">${escHtml(m.name)}</h4>
+            ${m.url ? `<div style="font-size:.78rem;margin-bottom:6px"><a href="${escHtml(m.url)}" target="_blank">${escHtml(m.url)}</a></div>` : ''}
+            <table style="font-size:.78rem"><thead><tr><th style="width:50px">Caso</th><th>Descripción</th><th>Enlace</th></tr></thead><tbody>
+            ${m.videos.map(v => `<tr>
+                <td>${v.caso || '—'}</td>
+                <td>${escHtml(v.titulo)}</td>
+                <td>${v.url ? `<a href="${escHtml(v.url)}" target="_blank">Ver video</a>` : '—'}</td>
+            </tr>`).join('')}
+            </tbody></table>
+        </div>
+    `).join('');
+}
+
+// ============================================================
+// FILTERS
+// ============================================================
+function populateFilters() {
+    const claseSet = new Set(), provSet = new Set(), cargoSet = new Set(), tipoSet = new Set();
+    allData.forEach(r => {
+        if (getVal(r, COL.clase)) claseSet.add(getVal(r, COL.clase));
+        if (getVal(r, COL.prov)) provSet.add(getVal(r, COL.prov));
+        if (getVal(r, COL.cargo)) cargoSet.add(getVal(r, COL.cargo));
+        if (getVal(r, COL.tipo)) tipoSet.add(getVal(r, COL.tipo));
+    });
+    setOptions('filterClase', claseSet, 'Clase: todas');
+    setOptions('filterTipo', tipoSet, 'Tipo: todos');
+    setOptions('filterProvincia', provSet, 'Provincia: todas');
+    setOptions('filterCargo', cargoSet, 'Cargo: todos');
+    // Populate Caso filter from CASE_DEFS
+    const casoSel = document.getElementById('filterCaso');
+    casoSel.innerHTML = '<option value="">Caso: todos</option>' + CASE_DEFS.map(c => '<option value="'+escHtml(c.caso)+'">'+escHtml(c.caso)+' - '+escHtml(c.desc)+'</option>').join('');
+}
+
+function setOptions(id, set, label) {
+    const sel = document.getElementById(id);
+    sel.innerHTML = '<option value="">'+label+'</option>'+[...set].sort().map(v => '<option value="'+escHtml(v)+'">'+escHtml(v)+'</option>').join('');
+}
+
+// ============================================================
+// CSV PARSING
+// ============================================================
+const uploadZone = document.getElementById('uploadZone');
+const fileInput = document.getElementById('fileInput');
+uploadZone.addEventListener('click', () => fileInput.click());
+uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('dragover'); });
+uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
+uploadZone.addEventListener('drop', e => { e.preventDefault(); uploadZone.classList.remove('dragover'); const f = e.dataTransfer.files[0]; if (f) loadFile(f); });
+fileInput.addEventListener('change', () => { if (fileInput.files[0]) loadFile(fileInput.files[0]); });
+
+function loadFile(file) {
+    if (!file.name.match(/\.csv$/i)) { alert('El archivo debe ser .csv'); return; }
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const text = e.target.result;
+        allData = parseCSV(text);
+        if (allData.length === 0) { alert('No se pudieron leer datos del CSV.'); return; }
+        detectColumns(allData[0]);
+        localStorage.setItem('dashboard_csv', JSON.stringify(allData));
+        document.getElementById('fileInfo').textContent = file.name + ' - ' + allData.length.toLocaleString() + ' registros';
+        document.getElementById('fileInfo').className = 'show';
+        uploadZone.classList.add('has-file');
+        document.getElementById('dataSourceBadge').textContent = allData.length + ' registros';
+        refreshAll();
+    };
+    reader.readAsText(file, 'ISO-8859-1');
+}
+
+function parseCSV(text) {
+    const lines = []; let current = '', inQuote = false;
+    for (let i = 0; i < text.length; i++) {
+        const ch = text[i];
+        if (ch === '"') { inQuote = !inQuote; }
+        else if (ch === '\n' && !inQuote) { lines.push(current); current = ''; }
+        else if (ch !== '\r') current += ch;
+    }
+    if (current) lines.push(current);
+    if (lines.length < 2) return [];
+    const rawHeaders = parseLine(lines[0]);
+    // Deduplicate headers: append _2, _3, etc. for duplicates
+    const header = [];
+    const seen = {};
+    rawHeaders.forEach(h => {
+        const key = h.trim();
+        if (seen[key]) { seen[key]++; header.push(key + '_' + seen[key]); }
+        else { seen[key] = 1; header.push(key); }
+    });
+    const result = [];
+    for (let i = 1; i < lines.length; i++) {
+        const vals = parseLine(lines[i]);
+        if (vals.length < 3) continue;
+        const row = {};
+        header.forEach((h, j) => { let v = vals[j]||''; if (v.startsWith('"')&&v.endsWith('"')) v=v.slice(1,-1); row[h]=v; });
+        if (row['ID Incidencia'] || Object.values(row).some(v=>v)) result.push(row);
+    }
+    return result;
+}
+
+function parseLine(line) {
+    const out = []; let cur = '', inQ = false;
+    for (let i = 0; i < line.length; i++) {
+        const ch = line[i];
+        if (ch === '"') { inQ = !inQ; }
+        else if (ch === ',' && !inQ) { out.push(cur); cur = ''; }
+        else cur += ch;
+    }
+    out.push(cur);
+    return out;
+}
+
+// ============================================================
+// FILTERING, SORTING, PAGINATION
+// ============================================================
+function applyFilters() {
+    if (allData.length === 0) {
+        document.getElementById('tableBody').innerHTML = '<tr><td colspan="11" style="text-align:center;padding:30px;color:#999">Carga el CSV arrastrandolo arriba para explorar los datos</td></tr>';
+        document.getElementById('resultsCount').textContent = 'Carga el CSV para ver los datos';
+        document.getElementById('pagination').innerHTML = '';
+        return;
+    }
+    const query = document.getElementById('searchInput').value.toLowerCase().trim();
+    const clase = document.getElementById('filterClase').value;
+    const tipo = document.getElementById('filterTipo').value;
+    const provincia = document.getElementById('filterProvincia').value;
+    const cargo = document.getElementById('filterCargo').value;
+    const casoF = document.getElementById('filterCaso').value;
+    const urgencia = document.getElementById('filterUrgencia').value;
+    const dateFrom = document.getElementById('dateFrom').value;
+    const dateTo = document.getElementById('dateTo').value;
+
+    filteredData = allData.filter(r => {
+        const desc = getVal(r, COL.desc).toLowerCase();
+        const diario = getVal(r, COL.diario).toLowerCase();
+        const fecha = getVal(r, COL.fecha);
+        if (clase && getVal(r, COL.clase) !== clase) return false;
+        if (tipo && getVal(r, COL.tipo) !== tipo) return false;
+        if (provincia && getVal(r, COL.prov) !== provincia) return false;
+        if (cargo && getVal(r, COL.cargo) !== cargo) return false;
+        if (casoF) {
+            const pred = predictCaseV3(desc, getVal(r, COL.tipo), getVal(r, COL.clase), getVal(r, COL.prov));
+            if (!pred || pred.caso !== casoF) return false;
+        }
+        if (query && !desc.includes(query)) return false;
+        if (dateFrom || dateTo) {
+            const fd = fecha.match(/(\d{2})\/(\d{2})\/(\d{4})/);
+            if (fd) {
+                const d = new Date(+fd[3], +fd[2]-1, +fd[1]);
+                if (dateFrom) {
+                    const p = dateFrom.split('-');
+                    const fromDate = new Date(+p[0], +p[1]-1, +p[2]);
+                    if (d < fromDate) return false;
+                }
+                if (dateTo) {
+                    const p = dateTo.split('-');
+                    const toDate = new Date(+p[0], +p[1]-1, +p[2], 23, 59, 59);
+                    if (d > toDate) return false;
+                }
+            }
+        }
+        if (urgencia === 'urgente') return /urgente/i.test(desc);
+        if (urgencia === 'afecta') return /afecta a todos los usuarios/.test(diario);
+        if (urgencia === 'nopuedo') return /no puedo trabajar/.test(desc);
+        if (urgencia === 'normal') return !/urgente/i.test(desc);
+        if (activeBlockKey) {
+            const bd = BLOCK_DEFS.find(d => d.k === activeBlockKey);
+            if (bd && !matchBlock(bd, r)) return false;
+        }
+        return true;
+    });
+
+    if (sortCol) {
+        filteredData.sort((a, b) => {
+            let va = getSortValue(a, sortCol), vb = getSortValue(b, sortCol);
+            return va < vb ? -1*sortDir : va > vb ? 1*sortDir : 0;
+        });
+    }
+    currentPage = 1;
+    renderTable();
+}
+
+function getSortValue(row, col) {
+    switch(col) {
+        case 'id': return getVal(row, COL.id);
+        case 'provincia': return getVal(row, COL.prov);
+        case 'fecha': return getVal(row, COL.fecha);
+        case 'clase': return getVal(row, COL.clase);
+        case 'tipo': return getVal(row, COL.tipo);
+        case 'categoria': return getVal(row, COL.categoria);
+        case 'cargo': return getVal(row, COL.cargo);
+        case 'descripcion': return getVal(row, COL.desc);
+        case 'prediccion': const p = predictCaseV3(getVal(row, COL.desc).toLowerCase(), getVal(row, COL.tipo), getVal(row, COL.clase), getVal(row, COL.prov)); return p ? p.caso : 'zzz';
+        case 'grupo': const g = predictCaseV3(getVal(row, COL.desc).toLowerCase(), getVal(row, COL.tipo), getVal(row, COL.clase), getVal(row, COL.prov)); return g ? g.grupo||g.routing : 'zzz';
+        case 'fuente': const f = predictCaseV3(getVal(row, COL.desc).toLowerCase(), getVal(row, COL.tipo), getVal(row, COL.clase), getVal(row, COL.prov)); return f ? f.fuente||'zzz' : 'zzz';
+        default: return '';
+    }
+}
+
+function renderTable() {
+    const tbody = document.getElementById('tableBody');
+    const count = document.getElementById('resultsCount');
+    const pag = document.getElementById('pagination');
+    const totalPages = Math.ceil(filteredData.length / PAGE_SIZE);
+    if (currentPage > totalPages) currentPage = Math.max(1, totalPages);
+    const start = (currentPage-1)*PAGE_SIZE;
+    const pageData = filteredData.slice(start, start+PAGE_SIZE);
+    const blockLabel = activeBlockKey ? (BLOCK_DEFS.find(d=>d.k===activeBlockKey)||{}).l || activeBlockKey : null;
+    if (pageData.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="12" style="text-align:center;padding:30px;color:#999">No se encontraron resultados</td></tr>';
+        count.textContent = '0 resultados' + (blockLabel ? ' (filtro: '+blockLabel+')' : ''); pag.innerHTML = ''; return;
+    }
+    document.querySelectorAll('th .sort').forEach(el => {
+        const col = el.parentElement.dataset.col;
+        el.textContent = col === sortCol ? (sortDir===1 ? ' \u25B2' : ' \u25BC') : '';
+    });
+    tbody.innerHTML = pageData.map(r => {
+        const desc = getVal(r, COL.desc);
+        const diario = getVal(r, COL.diario);
+        const isUrg = /urgente/i.test(desc);
+        const isAfect = /afecta a todos los usuarios/.test(diario);
+        const isNoP = /no puedo trabajar/i.test(desc);
+        let cls = ''; if (isUrg) cls='urgente'; else if (isAfect) cls='afecta-todos';
+        let badges = '';
+        if (isUrg) badges += '<span class="badge badge-danger">URGENTE</span> ';
+        if (isAfect) badges += '<span class="badge badge-warn">Afecta a todos</span> ';
+        if (isNoP) badges += '<span class="badge badge-dark">No puedo trabajar</span>';
+        const match = classifyIncident(desc);
+        const pred = predictCaseV3(desc.toLowerCase(), getVal(r, COL.tipo), getVal(r, COL.clase), getVal(r, COL.prov));
+        const gestionBtn = match
+            ? `<span class="badge badge-gestion gestion-btn" data-macro="${escHtml(match.macro)}" data-label="${escHtml(match.label)}" data-caso="${pred ? escHtml(pred.caso) : ''}" data-grupo="${pred ? escHtml(pred.grupo||pred.routing||'') : ''}">Gestionar</span>`
+            : '';
+        const predHtml = pred
+            ? `<span class="pred-badge" title="Tipo: ${pred.breakdown.tipo||0}% | KW: ${pred.breakdown.kw||0}% | WikiKW: ${pred.breakdown.wikiKw||0}% | Routing: ${pred.breakdown.routing||0}%${pred.odsGrupo ? ' | ODS: '+escHtml(pred.odsGrupo) : ''}${pred.odsNivel ? ' | Nivel: '+escHtml(pred.odsNivel) : ''} | ${pred.fuente||'?'}">${escHtml(pred.caso)} (${pred.confianza}%) ${pred.confianza >= 50 ? '✓' : '?'}</span>`
+            : '<span class="pred-none">—</span>';
+        const grupoHtml = pred ? escHtml(pred.grupo||pred.routing||'—') : '<span class="pred-none">—</span>';
+        const tipoVal = getVal(r, COL.tipo);
+        const catVal = getVal(r, COL.categoria);
+        return `<tr class="${cls}">
+            <td>${escHtml(getVal(r, COL.id))}</td>
+            <td>${escHtml(getVal(r, COL.prov))}</td>
+            <td>${escHtml(getVal(r, COL.fecha))}</td>
+            <td>${escHtml(getVal(r, COL.clase))}</td>
+            <td>${tipoVal ? escHtml(tipoVal) : '<span class="pred-none">—</span>'}</td>
+            <td>${catVal && catVal !== '-' ? escHtml(catVal) : '<span class="pred-none">—</span>'}</td>
+            <td>${escHtml(getVal(r, COL.cargo))}</td>
+            <td>${escHtml(desc)} ${badges}</td>
+            <td>${predHtml}</td>
+            <td>${grupoHtml}</td>
+            <td>${pred ? escHtml(pred.fuente||'—') : '—'}</td>
+            <td>${gestionBtn}</td>
+        </tr>`;
+    }).join('');
+    // Gestion button handler
+    tbody.querySelectorAll('.gestion-btn').forEach(el => {
+        el.addEventListener('click', function() {
+            const macro = this.dataset.macro;
+            const label = this.dataset.label;
+            const caso = this.dataset.caso;
+            const grupo = this.dataset.grupo;
+            gestionar(macro, label, caso, grupo);
+        });
+    });
+    count.textContent = filteredData.length.toLocaleString() + ' resultados' + (filteredData.length > PAGE_SIZE ? ' (pag '+currentPage+'/'+totalPages+')' : '') + (blockLabel ? ' — Filtro: '+blockLabel : '');
+    if (totalPages <= 1) { pag.innerHTML = ''; return; }
+    let ph = '<button onclick="goPage(1)" '+(currentPage===1?'disabled':'')+'>&laquo;</button>';
+    ph += '<button onclick="goPage('+(currentPage-1)+')" '+(currentPage===1?'disabled':'')+'>&lsaquo;</button>';
+    const maxB = 7; let sP = Math.max(1,currentPage-Math.floor(maxB/2)), eP = Math.min(totalPages,sP+maxB-1);
+    if (eP-sP < maxB-1) sP = Math.max(1,eP-maxB+1);
+    for (let i=sP;i<=eP;i++) ph += '<button class="'+(i===currentPage?'active':'')+'" onclick="goPage('+i+')">'+i+'</button>';
+    ph += '<button onclick="goPage('+(currentPage+1)+')" '+(currentPage===totalPages?'disabled':'')+'>&rsaquo;</button>';
+    ph += '<button onclick="goPage('+totalPages+')" '+(currentPage===totalPages?'disabled':'')+'>&raquo;</button>';
+    pag.innerHTML = ph;
+}
+
+function goPage(p) { currentPage = p; renderTable(); document.querySelector('.box:last-child').scrollIntoView({behavior:'smooth'}); }
+
+function gestionar(macro, label, caso, grupo) {
+    const msg = 'Funcionalidad en desarrollo.\n\n'
+        + 'Tipo detectado: ' + label + '\n'
+        + 'Macro: ' + macro + '\n'
+        + (caso ? 'Caso predecido: ' + caso + '\n' : '')
+        + (grupo ? 'Grupo asignación: ' + grupo + '\n' : '')
+        + '\nLa integración con AutoHotkey se implementará en una fase posterior.\nVer docs/AHK_integration_roadmap.md';
+    alert(msg);
+}
+
+// ============================================================
+// UI SETUP
+// ============================================================
+function setupUI() {
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            document.getElementById(this.dataset.tab).classList.add('active');
+        });
+    });
+    function clearBlockFilter() { activeBlockKey = null; document.querySelectorAll('.block-card').forEach(x => x.classList.remove('active')); document.getElementById('blockDetail').style.display = 'none'; if (blockChart) { blockChart.destroy(); blockChart = null; } }
+    document.getElementById('searchInput').addEventListener('input', function() { clearBlockFilter(); applyFilters(); });
+    document.getElementById('filterClase').addEventListener('change', function() { clearBlockFilter(); applyFilters(); });
+    document.getElementById('filterTipo').addEventListener('change', function() { clearBlockFilter(); applyFilters(); });
+    document.getElementById('filterProvincia').addEventListener('change', function() { clearBlockFilter(); applyFilters(); });
+    document.getElementById('filterCargo').addEventListener('change', function() { clearBlockFilter(); applyFilters(); });
+    document.getElementById('filterCaso').addEventListener('change', function() { clearBlockFilter(); applyFilters(); });
+    document.getElementById('filterUrgencia').addEventListener('change', function() { clearBlockFilter(); applyFilters(); });
+    document.getElementById('dateFrom').addEventListener('change', function() { window._selectedDateIdx = -1; if (chartTimeline) chartTimeline.update(); applyFilters(); });
+    document.getElementById('dateTo').addEventListener('change', function() { window._selectedDateIdx = -1; if (chartTimeline) chartTimeline.update(); applyFilters(); });
+    document.getElementById('clearFiltersBtn').addEventListener('click', function() {
+        ['searchInput','filterClase','filterTipo','filterProvincia','filterCargo','filterCaso','filterUrgencia'].forEach(id => document.getElementById(id).value='');
+        document.getElementById('dateFrom').value = ''; document.getElementById('dateTo').value = '';
+        clearBlockFilter();
+        applyFilters();
+    });
+    document.getElementById('resetDateBtn').addEventListener('click', function() {
+        window._selectedDateIdx = -1;
+        if (chartTimeline) { chartTimeline.update(); }
+        const data = window._timelineData || [];
+        if (data.length > 0) {
+            const dates = data.filter(d=>d.d).map(d=>{const p=d.d.split('/');return new Date(p[2],p[1]-1,p[0])}).filter(d=>!isNaN(d));
+            if (dates.length > 0) {
+                document.getElementById('dateFrom').value = new Date(Math.min(...dates)).toISOString().slice(0,10);
+                document.getElementById('dateTo').value = new Date(Math.max(...dates)).toISOString().slice(0,10);
+            }
+        }
+        applyFilters();
+    });
+    document.querySelectorAll('th[data-col]').forEach(th => {
+        th.addEventListener('click', function() {
+            const col = this.dataset.col;
+            if (sortCol === col) sortDir *= -1;
+            else { sortCol = col; sortDir = -1; }
+            applyFilters();
+        });
+    });
+    document.getElementById('exportBtn').addEventListener('click', exportCSV);
+    document.getElementById('usuarioFilterInput').addEventListener('input', renderUsuarios);
+    document.getElementById('clearUsuarioFilter').addEventListener('click', function() {
+        document.getElementById('usuarioFilterInput').value = '';
+        renderUsuarios();
+    });
+    initCriticas();
+    initHelpdesk();
+}
+
+function exportCSV() {
+    if (filteredData.length === 0) { alert('No hay datos para exportar.'); return; }
+    const headers = allData.length > 0 ? Object.keys(allData[0]) : [];
+    let csv = headers.map(h=>'"'+h+'"').join(',')+'\n';
+    filteredData.forEach(r => {
+        csv += headers.map(h => { let v=(r[h]||'').replace(/"/g,'""'); return '"'+v+'"'; }).join(',')+'\n';
+    });
+    const blob = new Blob(["\uFEFF"+csv], {type:'text/csv;charset=utf-8;'});
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'incidencias_filtradas.csv';
+    link.click();
+    URL.revokeObjectURL(link.href);
+}
+
+function predictCaseV3(desc, tipo, clase, provincia) {
+  if (!tipo && !desc && !clase) return null;
+  const descLower = (desc||'').toLowerCase().replace(/[^a-z\u00e1\u00e9\u00ed\u00f3\u00fa\u00f1\u00fc0-9\s]/g,'');
+  const isNA = clase && clase.toLowerCase().includes('nuevo adriano');
+
+  // For non-Adriano: use wiki routing first, fallback to historical
+  if (!isNA) {
+    let routedGrupo = null, routingConf = 0, wikiSource = false;
+
+    // Try wiki routing table: normalize clase key
+    if (typeof WIKI_ROUTING !== 'undefined' && tipo && clase) {
+      const wikiClase = clase.toUpperCase().replace(/\s+/g, '_');
+      const wikiTipo = tipo;
+      if (WIKI_ROUTING[wikiClase] && WIKI_ROUTING[wikiClase][wikiTipo]) {
+        routedGrupo = WIKI_ROUTING[wikiClase][wikiTipo];
+        routingConf = 100;
+        wikiSource = true;
+      } else if (WIKI_ROUTING[wikiClase]) {
+        const matchKey = Object.keys(WIKI_ROUTING[wikiClase]).find(k =>
+          k.toUpperCase() === wikiTipo.toUpperCase() || k.toUpperCase().includes(wikiTipo.toUpperCase()) || wikiTipo.toUpperCase().includes(k.toUpperCase())
+        );
+        if (matchKey) {
+          routedGrupo = WIKI_ROUTING[wikiClase][matchKey];
+          routingConf = 95;
+          wikiSource = true;
+        }
+      }
+    }
+
+    // Fallback to historical routing
+    if (!routedGrupo && ROUTING_PRIOR[clase] && provincia && ROUTING_PRIOR[clase][provincia]) {
+      const provData = ROUTING_PRIOR[clase][provincia];
+      const entries = Object.entries(provData).sort((a,b) => b[1]-a[1]);
+      routedGrupo = entries[0][0];
+      routingConf = +(entries[0][1] * 100).toFixed(1);
+    }
+    if (!routedGrupo && ROUTING_PRIOR[clase]) {
+      const allProvs = Object.values(ROUTING_PRIOR[clase]);
+      const globalCounts = {};
+      for (const pData of allProvs) {
+        for (const [g, p] of Object.entries(pData)) {
+          globalCounts[g] = (globalCounts[g]||0) + p;
+        }
+      }
+      const entries = Object.entries(globalCounts).sort((a,b) => b[1]-a[1]);
+      if (entries.length) {
+        routedGrupo = entries[0][0];
+        routingConf = +(entries[0][1] / allProvs.length * 100).toFixed(1);
+      }
+    }
+
+    let caso = '—';
+    if (clase) {
+      const cl = clase.toLowerCase();
+      if (cl.includes('puesto')) caso = 'PT';
+      else if (cl.includes('infraestructura')) caso = 'SI';
+      else if (cl.includes('gestion')) caso = 'GU';
+      else if (cl.includes('comunicaciones')) caso = 'COM';
+      else if (cl.includes('aplicaciones')) caso = 'AP';
+      else if (cl.includes('grabacion')) caso = 'GV';
+      else if (cl.includes('formacion')||cl.includes('formativo')) caso = 'SF';
+      else if (cl.includes('inventario')) caso = 'INV';
+      else if (cl.includes('seguridad')) caso = 'SEG';
+      else if (cl.includes('suministro')) caso = 'SUM';
+      else caso = clase;
+    }
+
+    return {
+      caso,
+      confianza: routingConf,
+      grupo: routedGrupo || '—',
+      breakdown: { routing: routingConf, wiki: wikiSource ? 100 : 0 },
+      routing: routedGrupo || '—',
+      alternativas: [],
+      isNA: false,
+      fuente: wikiSource ? 'Wiki SSDJ' : 'Hist\u00f3rico 2025'
+    };
+  }
+
+  // For NUEVO ADRIANO: multi-source scoring with wiki enhancement
+  const scores = {}, breakdown = {};
+
+  // 1. TIPO prior (25%)
+  const tipoKey = Object.keys(TIPO_PRIOR).find(k => tipo && k.toLowerCase().includes(tipo.toLowerCase()));
+  if (tipoKey) {
+    const data = TIPO_PRIOR[tipoKey];
+    const totalP = Object.values(data).reduce((a,b) => a + b, 0);
+    for (const [c, p] of Object.entries(data)) {
+      scores[c] = (scores[c]||0) + p/totalP * 0.25;
+      if (!breakdown[c]) breakdown[c] = {};
+      breakdown[c].tipo = +(p * 100).toFixed(1);
+    }
+  }
+
+  // 2. Historical keyword match (15%)
+  for (const [c, words] of Object.entries(KW_PROFILES)) {
+    let match = 0;
+    for (const w of words) {
+      if (descLower.includes(w)) match++;
+    }
+    if (match > 0) {
+      const kw = match / words.length * 0.15;
+      scores[c] = (scores[c]||0) + kw;
+      if (!breakdown[c]) breakdown[c] = {};
+      breakdown[c].kw = +(kw * 100).toFixed(1);
+    }
+  }
+
+  // 3. Wiki keyword match (10%) — overrides historical for known wiki cases
+  if (typeof WIKI_KW !== 'undefined') {
+    for (const [c, words] of Object.entries(WIKI_KW)) {
+      let match = 0;
+      for (const w of words) {
+        if (descLower.includes(w)) match++;
+      }
+      if (match > 0) {
+        const kw = match / words.length * 0.10;
+        scores[c] = (scores[c]||0) + kw;
+        if (!breakdown[c]) breakdown[c] = {};
+        breakdown[c].wikiKw = +(kw * 100).toFixed(1);
+      }
+    }
+  }
+
+  // 4. Routing context bonus (10%)
+  if (ROUTING_PRIOR['NUEVO ADRIANO'] && provincia && ROUTING_PRIOR['NUEVO ADRIANO'][provincia]) {
+    const provData = ROUTING_PRIOR['NUEVO ADRIANO'][provincia];
+    const topGrupo = Object.entries(provData).sort((a,b) => b[1]-a[1])[0];
+    if (topGrupo) {
+      const matching = Object.keys(CASO_TIPO).find(c => topGrupo[0].includes(c));
+      if (matching) {
+        scores[matching] = (scores[matching]||0) + topGrupo[1] * 0.10;
+        if (!breakdown[matching]) breakdown[matching] = {};
+        breakdown[matching].routing = +(topGrupo[1] * 10).toFixed(1);
+      }
+    }
+  }
+
+  const ranked = Object.entries(scores)
+    .sort((a,b) => b[1]-a[1])
+    .slice(0,5)
+    .map(([c,s]) => ({ caso:c, score:+(s*100).toFixed(1), breakdown:breakdown[c]||{} }));
+
+  if (!ranked.length) return null;
+
+  const top = ranked[0];
+  const topCaso = top.caso;
+
+  let routedGrupo = null, fuente = 'Hist\u00f3rico 2025';
+  let odsGrupo = null, odsNivel = null;
+
+  // ODS groups: primary source for NA cases
+  if (typeof ODS_GRUPO !== 'undefined' && ODS_GRUPO[topCaso]) {
+    odsGrupo = ODS_GRUPO[topCaso];
+    odsNivel = ODS_NIVEL_CSU[topCaso] || null;
+    routedGrupo = odsGrupo;
+    fuente = 'ODS Asignaciones V7.04';
+  }
+
+  if (!routedGrupo && typeof WIKI_ROUTING !== 'undefined' && tipo && WIKI_ROUTING.APLICACIONES && WIKI_ROUTING.APLICACIONES[tipo]) {
+    routedGrupo = WIKI_ROUTING.APLICACIONES[tipo];
+    fuente = 'Wiki SSDJ';
+  }
+
+  if (!routedGrupo && ROUTING_PRIOR['NUEVO ADRIANO'] && provincia && ROUTING_PRIOR['NUEVO ADRIANO'][provincia]) {
+    const provData = ROUTING_PRIOR['NUEVO ADRIANO'][provincia];
+    routedGrupo = Object.entries(provData).sort((a,b) => b[1]-a[1])[0][0];
+  }
+
+  let defGrupo = null;
+  if (typeof CASE_DEFS !== 'undefined') {
+    const def = CASE_DEFS.find(d => d.caso === topCaso);
+    if (def) defGrupo = def.grupo;
+  }
+
+  let wikiDesc = null;
+  if (typeof WIKI_DESC !== 'undefined' && WIKI_DESC[topCaso]) {
+    wikiDesc = WIKI_DESC[topCaso];
+  }
+
+  return {
+    caso: topCaso,
+    confianza: top.score,
+    grupo: routedGrupo || defGrupo || '—',
+    breakdown: top.breakdown,
+    routing: routedGrupo || '—',
+    odsGrupo: odsGrupo,
+    odsNivel: odsNivel,
+    alternativas: ranked.slice(1).map(r => r.caso),
+    isNA: true,
+    fuente: fuente,
+    wikiDesc: wikiDesc
+  };
+}
+
+function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+// ============================================================
+// Critical incidents live monitor
+// ============================================================
+// CRITICAS_URL is now read from criticas_data.js via script injection (no CORS needed)
+const CRITICAS_POLL_MS = 30000;
+let _criticasInterval = null;
+let _criticasRunning = false;
+let _criticasPrevIds = [];
+let _criticasResueltas = [];
+let _criticasConsecErrors = 0;
+
+function initCriticas() {
+    document.getElementById('criticasRefreshBtn').addEventListener('click', () => fetchCriticas());
+    document.getElementById('criticasTogglePoll').addEventListener('click', toggleCriticasPoll);
+    document.getElementById('criticasRetryBtn').addEventListener('click', () => { showCriticasLoading('Conectando con Remedy...'); fetchCriticas(); });
+    // Start polling when the tab is first shown
+    const checkTab = () => {
+        if (document.getElementById('tab-criticas').classList.contains('active')) {
+            if (!_criticasRunning) startCriticasPoll();
+        } else {
+            // Don't stop - keep polling in background to maintain badge
+        }
+    };
+    document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', checkTab));
+    // Initial fetch
+    fetchCriticas();
+    startCriticasPoll();
+}
+
+function startCriticasPoll() {
+    if (_criticasInterval) clearInterval(_criticasInterval);
+    _criticasRunning = true;
+    _criticasInterval = setInterval(fetchCriticas, CRITICAS_POLL_MS);
+    document.getElementById('criticasTogglePoll').textContent = 'Pausar';
+    document.getElementById('criticasIndicator').className = 'crit-indicator active';
+}
+
+function toggleCriticasPoll() {
+    if (_criticasInterval) {
+        clearInterval(_criticasInterval);
+        _criticasInterval = null;
+        _criticasRunning = false;
+        document.getElementById('criticasTogglePoll').textContent = 'Reanudar';
+        document.getElementById('criticasIndicator').className = 'crit-indicator paused';
+    } else {
+        startCriticasPoll();
+        fetchCriticas();
+    }
+}
+
+function showCriticasLoading(msg) {
+    document.getElementById('criticasLoading').style.display = '';
+    document.getElementById('criticasLoadingMsg').innerHTML = msg || 'Conectando con Remedy...';
+    document.getElementById('criticasContent').style.display = 'none';
+    document.getElementById('criticasError').style.display = 'none';
+}
+
+function showCriticasError(msg) {
+    document.getElementById('criticasError').style.display = '';
+    document.getElementById('criticasErrorMsg').innerHTML = msg || 'Error al conectar con Remedy';
+    document.getElementById('criticasLoading').style.display = 'none';
+    document.getElementById('criticasContent').style.display = 'none';
+    document.getElementById('criticasIndicator').className = 'crit-indicator error';
+}
+
+function formatDate(date) {
+    const d = new Date(date);
+    return d.toLocaleDateString('es-ES', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
+}
+
+function fetchCriticas() {
+    const existing = document.getElementById('criticasLoader');
+    if (existing) existing.remove();
+    window.CRITICAS_DATA = null;
+    const s = document.createElement('script');
+    s.id = 'criticasLoader';
+    s.src = 'criticas_data.js?t=' + Date.now();
+    const timeout = setTimeout(() => {
+        if (!window.CRITICAS_DATA) { s.onerror = null; s.onload = null; handleCriticasError('Timeout cargando criticas_data.js'); }
+    }, 5000);
+    s.onload = () => {
+        clearTimeout(timeout);
+        if (window.CRITICAS_DATA && window.CRITICAS_DATA.length > 0) {
+            _criticasConsecErrors = 0;
+            renderCriticas(window.CRITICAS_DATA);
+        } else {
+            handleCriticasError('criticas_data.js sin datos');
+        }
+        window.CRITICAS_DATA = null;
+    };
+    s.onerror = () => {
+        clearTimeout(timeout);
+        handleCriticasError('No se pudo cargar criticas_data.js');
+    };
+    document.head.appendChild(s);
+}
+
+function handleCriticasError(msg) {
+    _criticasConsecErrors++;
+    if (_criticasConsecErrors >= 3) {
+        showCriticasError(msg + ' (' + _criticasConsecErrors + ' intentos)');
+        if (_criticasInterval) { clearInterval(_criticasInterval); _criticasInterval = null; _criticasRunning = false; }
+        document.getElementById('criticasTogglePoll').textContent = 'Reanudar';
+    } else {
+        document.getElementById('criticasLoadingMsg').innerHTML = 'Error, reintentando (' + _criticasConsecErrors + '/3)...';
+    }
+}
+
+function renderCriticas(data) {
+    // Sort by days open ascending (least days first = newest)
+    data.sort((a, b) => (a.diasAbierta||0) - (b.diasAbierta||0));
+    // Current IDs
+    const currentIds = data.map(r => r.id).filter(Boolean);
+    // New IDs (not in previous fetch)
+    const newIds = currentIds.filter(id => !_criticasPrevIds.includes(id));
+    // Detect resolved: previous IDs not in current IDs
+    _criticasPrevIds.forEach(prevId => {
+        if (!currentIds.includes(prevId) && !_criticasResueltas.find(r => r.id === prevId)) {
+            _criticasResueltas.push({
+                id: prevId,
+                desc: '(resuelta)',
+                _resuelta: new Date().toISOString()
+            });
+        }
+    });
+    _criticasPrevIds = currentIds;
+    // Hide loading, show content
+    document.getElementById('criticasLoading').style.display = 'none';
+    document.getElementById('criticasError').style.display = 'none';
+    document.getElementById('criticasContent').style.display = '';
+    document.getElementById('criticasIndicator').className = 'crit-indicator active';
+    // Timestamp
+    document.getElementById('criticasTimestamp').textContent = 'Actualizado: ' + formatDate(Date.now());
+    // Count
+    const total = data.length;
+    const badge = document.getElementById('criticasBadge');
+    badge.textContent = total;
+    badge.style.display = total > 0 ? '' : 'none';
+    // Status bar
+    const statusBar = document.getElementById('criticasStatusBar');
+    if (total === 0) {
+        statusBar.className = 'criticas-status ok';
+        statusBar.textContent = 'No hay incidencias cr&iacute;ticas abiertas.';
+    } else {
+        const urgCount = data.filter(r => (r.desc || '').toLowerCase().includes('urgente')).length;
+        statusBar.className = 'criticas-status ' + (urgCount > 0 || total > 5 ? 'warn' : 'ok');
+        statusBar.innerHTML = total + ' cr&iacute;ticas abiertas' + (urgCount > 0 ? ' (' + urgCount + ' urgentes)' : '') + ' &middot; Ordenadas por d&iacute;as abiertos (menor a mayor)';
+    }
+    // Render table - mark only truly new rows
+    const tbody = document.getElementById('criticasBody');
+    tbody.innerHTML = data.map(r => {
+        const isNew = newIds.includes(r.id);
+        const dias = r.diasAbierta || 0;
+        return '<tr' + (isNew ? ' class="critica-nueva"' : '') + '>' +
+            '<td><strong>' + escHtml(r.id.replace('IN','')) + '</strong></td>' +
+            '<td style="text-align:center;font-weight:' + (dias > 30 ? '700;color:#c0392b' : dias > 14 ? '600;color:#e67e22' : '400') + '">' + dias + 'd</td>' +
+            '<td>' + escHtml((r.desc||'').substring(0, 200)) + '</td>' +
+            '<td style="white-space:nowrap">' + escHtml(r.provincia||'—') + '</td>' +
+            '<td style="white-space:nowrap">' + escHtml(r.clase||'—') + '</td>' +
+            '<td style="white-space:nowrap">' + escHtml(r.tipo||'—') + '</td>' +
+            '<td style="white-space:nowrap;font-size:.7rem">' + escHtml(r.fechaApertura||'—') + '</td>' +
+            '</tr>';
+    }).join('');
+    // Render resolved
+    renderCriticasResueltas();
+}
+
+function renderCriticasResueltas() {
+    const section = document.getElementById('criticasResueltasSection');
+    const count = document.getElementById('criticasResueltasCount');
+    const body = document.getElementById('criticasResueltasBody');
+    count.textContent = _criticasResueltas.length;
+    if (_criticasResueltas.length === 0) {
+        section.style.display = 'none';
+        return;
+    }
+    section.style.display = '';
+    body.innerHTML = _criticasResueltas.sort((a, b) => new Date(b._resuelta) - new Date(a._resuelta)).map(r => {
+        return '<tr>' +
+            '<td style="color:#999;text-decoration:line-through">' + escHtml(r.id.replace('IN','')) + '</td>' +
+            '<td style="text-align:center;color:#999">—</td>' +
+            '<td style="color:#999;font-style:italic">' + escHtml(r.desc) + '</td>' +
+            '<td style="color:#999">—</td>' +
+            '<td style="color:#999">—</td>' +
+            '<td style="color:#999">—</td>' +
+            '<td style="white-space:nowrap;color:#999">' + formatDate(r._resuelta) + '</td>' +
+            '</tr>';
+    }).join('');
+}
+
+// Force reload analysis
+document.getElementById('forceReloadBtn').addEventListener('click', function() {
+    if (allData.length > 0) {
+        detectColumns(allData[0]);
+        refreshAll();
+    }
+});
+
+// Close alert bar
+document.getElementById('alertClose').addEventListener('click', function() {
+    document.getElementById('alertBar').classList.remove('show');
+});
+
+// ===== HelpDesk Online =====
+
+const HD_API = 'http://localhost:8080/api/helpdesk';
+let _hdCache = null;
+let _hdInterval = null;
+
+function initHelpdesk() {
+    document.getElementById('hdRefreshBtn').addEventListener('click', fetchHelpdesk);
+    document.getElementById('hdRetryBtn').addEventListener('click', fetchHelpdesk);
+    document.getElementById('hdDetailClose').addEventListener('click', function() {
+        document.getElementById('hdDetailPanel').classList.remove('open');
+    });
+    // Tab click: re-fetch if cache is old
+    document.getElementById('tabHelpdeskBtn').addEventListener('click', function() {
+        if (!_hdCache) fetchHelpdesk();
+    });
+    // Auto-poll every 120s
+    fetchHelpdesk();
+    _hdInterval = setInterval(fetchHelpdesk, 120000);
+}
+
+function setHdStatus(state, msg) {
+    const el = document.getElementById('hdStatus');
+    el.className = 'hd-status ' + state;
+    el.textContent = msg;
+}
+
+function fetchHelpdesk() {
+    setHdStatus('loading', 'Cargando...');
+    document.getElementById('hdLoading').style.display = '';
+    document.getElementById('hdContent').style.display = 'none';
+    document.getElementById('hdError').style.display = 'none';
+
+    fetch(HD_API)
+        .then(r => {
+            if (!r.ok) {
+                if (r.status === 503) return r.json().then(d => { throw new Error(d.msg || 'Servidor ocupado') });
+                throw new Error('HTTP ' + r.status);
+            }
+            return r.json();
+        })
+        .then(d => {
+            if (d.ok && d.data) {
+                _hdCache = d;
+                setHdStatus('ready', d.count + ' incidencias');
+                document.getElementById('hdTimestamp').textContent = 'Actualizado: ' + (d.updated || formatDate(Date.now()));
+                renderHelpdesk(d.data);
+            } else {
+                throw new Error(d.msg || 'Respuesta invalida');
+            }
+        })
+        .catch(e => {
+            setHdStatus('error', 'Error');
+            document.getElementById('hdLoading').style.display = 'none';
+            document.getElementById('hdError').style.display = '';
+            document.getElementById('hdErrorMsg').textContent = e.message;
+        });
+}
+
+function renderHelpdesk(entries) {
+    document.getElementById('hdLoading').style.display = 'none';
+    document.getElementById('hdContent').style.display = '';
+    document.getElementById('hdCount').textContent = entries.length + ' incidencias';
+    document.getElementById('helpdeskBadge').textContent = entries.length;
+    document.getElementById('helpdeskBadge').style.display = entries.length > 0 ? '' : 'none';
+
+    const tbody = document.getElementById('hdBody');
+    tbody.innerHTML = entries.map(e => {
+        const info = extractDescInfo(e.desc);
+        return '<tr class="hd-row" data-id="' + escHtml(e.id) + '">' +
+            '<td><strong>' + escHtml(e.id.replace('IN','')) + '</strong></td>' +
+            '<td>' + escHtml(info.estado) + '</td>' +
+            '<td>' + escHtml(info.provincia) + '</td>' +
+            '<td>' + escHtml(info.clase) + '</td>' +
+            '<td>' + escHtml(info.tipo) + '</td>' +
+            '<td>' + escHtml((e.desc || '').substring(0, 250)) + '</td>' +
+            '</tr>';
+    }).join('');
+
+    // Click handler for detail
+    tbody.querySelectorAll('.hd-row').forEach(row => {
+        row.addEventListener('click', function() {
+            const id = this.dataset.id;
+            // Highlight selected
+            tbody.querySelectorAll('.hd-row').forEach(r => r.classList.remove('selected'));
+            this.classList.add('selected');
+            fetchHelpdeskDetail(id);
+        });
+    });
+}
+
+function extractDescInfo(desc) {
+    // Try to extract estado, provincia, clase, tipo from the fixed-width Description
+    const estado = (desc.match(/(Asignada|Abierta|En curso|Pendiente|Resuelta|Cerrada)/i) || ['',''])[0];
+    return { estado, provincia: '', clase: '', tipo: '' };
+}
+
+function fetchHelpdeskDetail(id) {
+    const panel = document.getElementById('hdDetailPanel');
+    const body = document.getElementById('hdDetailBody');
+    const title = document.getElementById('hdDetailTitle');
+    title.textContent = 'Cargando ' + id + '...';
+    body.innerHTML = '<div style="text-align:center;color:#999;padding:24px">Cargando datos de Remedy...</div>';
+    panel.classList.add('open');
+
+    fetch(HD_API + '/' + id)
+        .then(r => r.json())
+        .then(d => {
+            if (d.ok && d.data) {
+                title.textContent = d.data.id;
+                renderHelpdeskDetail(d.data);
+            } else {
+                body.innerHTML = '<p style="color:#c0392b">' + escHtml(d.msg || 'Error') + '</p>';
+            }
+        })
+        .catch(e => {
+            body.innerHTML = '<p style="color:#c0392b">Error: ' + escHtml(e.message) + '</p>';
+        });
+}
+
+function renderHelpdeskDetail(d) {
+    const fields = [
+        { label: 'ID', value: d.id, full: false },
+        { label: 'Estado', value: d.estado, full: false },
+        { label: 'Nivel', value: d.nivel, full: false },
+        { label: 'Grupo', value: d.grupo, full: false },
+        { label: 'Asignado a', value: d.asignado, full: false },
+        { label: 'Prioridad', value: d.prioridad, full: false },
+        { label: 'Clase', value: d.clase, full: false },
+        { label: 'Tipo', value: d.tipo, full: false },
+        { label: 'Subtipo', value: d.subtipo, full: false },
+        { label: 'Provincia', value: d.provincia, full: false },
+        { label: 'Localidad', value: d.localidad, full: false },
+        { label: 'Nombre contacto', value: d.nombre, full: false },
+        { label: 'DNI / Usuario', value: d.dni, full: false },
+        { label: 'Teléfono', value: d.telefono, full: false },
+        { label: 'Descripción', value: d.descripcion, full: true },
+        { label: 'Diario', value: d.diario, full: true },
+    ];
+    const body = document.getElementById('hdDetailBody');
+    body.innerHTML = fields.map(f => {
+        if (!f.value) return '';
+        const val = escHtml(f.value);
+        return '<div class="field' + (f.full ? ' full' : '') + '">' +
+            '<span class="label">' + f.label + '</span>' +
+            '<span class="value">' + val.replace(/\n/g, '<br>') + '</span></div>';
+    }).filter(Boolean).join('');
+}
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        document.getElementById('hdDetailPanel').classList.remove('open');
+    }
+});
+document.querySelector('.header').addEventListener('dblclick', function() {
+    const keys = window._debugKeys;
+    const cols = window._cols;
+    const msg = 'Columnas originales:\n' + (keys ? keys.original.join('\n') : 'N/A')
+        + '\n\nColumnas limpias:\n' + (keys ? keys.clean.join('\n') : 'N/A')
+        + '\n\nDetección:\n' + (cols ? Object.entries(cols).map(([k,v]) => k+' = "'+v+'"').join('\n') : 'N/A')
+        + '\n\nTotal filas: ' + allData.length;
+    alert(msg);
+});
+
+</script>
+</body>
+</html>

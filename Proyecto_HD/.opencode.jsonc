@@ -1,0 +1,19 @@
+{
+  // Proyecto_HD — Configuración de opencode
+  // Dashboard de análisis de incidencias Helpdesk (Junta de Andalucía)
+
+  "customInstructions": {
+    "system": "Proyecto_HD es un dashboard web HTML+JS+Chart.js para analizar CSV de incidencias del CAU. NO tiene npm, NO tiene build system, NO tiene tests automatizados. Es un único archivo HTML autónomo. La futura integración con AutoHotkey está documentada en docs/AHK_integration_roadmap.md. El sistema de macros de referencia está en C:\\Users\\CAU\\CAU\\Macro Remedy\\CAU_GUI - BETA.ahk",
+    "agent": {
+      "mode": "build",
+      "allowedTools": ["read", "write", "edit", "glob", "grep", "bash", "task", "webfetch"],
+      "lintCommands": []
+    }
+  },
+
+  "fileAssociations": {
+    "*.html": { "description": "Dashboard web de análisis de incidencias" },
+    "*.md": { "description": "Documentación del proyecto" },
+    "*.ahk": { "description": "Script AutoHotkey (futura integración)" }
+  }
+}
