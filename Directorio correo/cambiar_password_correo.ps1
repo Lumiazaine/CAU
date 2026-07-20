@@ -6,8 +6,9 @@ param(
     [switch]$Interno
 )
 
-$script:LOG_FILE = Join-Path $PSScriptRoot "cambiar_password_correo.log"
-$script:DEBUG_DIR = Join-Path $PSScriptRoot "debug"
+$script:SCRIPT_DIR = if ($PSScriptRoot) { $PSScriptRoot } else { (Get-Location).Path }
+$script:LOG_FILE = Join-Path $script:SCRIPT_DIR "cambiar_password_correo.log"
+$script:DEBUG_DIR = Join-Path $script:SCRIPT_DIR "debug"
 $script:BASE = "https://directorio.juntadeandalucia.es/myServlets/es.sadesi.admdirectorio.servlets"
 $script:ENV_FILE = Join-Path $env:USERPROFILE ".env"
 
@@ -42,7 +43,7 @@ function Write-Log {
     $prefix = "[$time] [$Level]"
     switch ($Level) {
         "OK"    { Write-Host "$prefix $Message" -ForegroundColor Green }
-        "ERROR" { Write-Host "$prefix $Message" -ForegroundColor Red; $global:ERROR_COUNT++ }
+        "ERROR" { Write-Host "$prefix $Message" -ForegroundColor Red; $script:ERROR_COUNT++ }
         "WARN"  { Write-Host "$prefix $Message" -ForegroundColor Yellow }
         "INFO"  { Write-Host "$prefix $Message" -ForegroundColor Cyan }
         default { Write-Host "$prefix $Message" }
@@ -65,7 +66,7 @@ function Extract-FormField {
     return ""
 }
 
-$global:ERROR_COUNT = 0
+$script:ERROR_COUNT = 0
 
 if (-not $NewPassword) {
     $month = Get-Date -Format "MM"
@@ -253,9 +254,9 @@ Write-Host ""
 Write-Host "============================================" -ForegroundColor Yellow
 if ($WhatIf) {
     Write-Host "  WHATIF - No se realizaron cambios" -ForegroundColor Yellow
-} elseif ($global:ERROR_COUNT -eq 0) {
+} elseif ($script:ERROR_COUNT -eq 0) {
     Write-Host "  PROCESO COMPLETADO" -ForegroundColor Green
 } else {
-    Write-Host "  PROCESO CON ERRORES ($global:ERROR_COUNT)" -ForegroundColor Red
+    Write-Host "  PROCESO CON ERRORES ($script:ERROR_COUNT)" -ForegroundColor Red
 }
 Write-Host "============================================" -ForegroundColor Yellow
