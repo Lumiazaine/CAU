@@ -6,7 +6,7 @@ param(
     [switch]$ShowBrowser
 )
 
-$script:SCRIPT_DIR = if ($PSScriptRoot) { $PSScriptRoot } else { $pwd }
+$script:SCRIPT_DIR = if ($PSScriptRoot) { $PSScriptRoot } else { (Get-Location).Path }
 $script:LOG_FILE = Join-Path $script:SCRIPT_DIR "cambiar_password_temis.log"
 $script:DEBUG_DIR = Join-Path $script:SCRIPT_DIR "debug"
 $null = New-Item -ItemType Directory -Path $script:DEBUG_DIR -Force
@@ -224,7 +224,9 @@ $formFields['cambiarIdPassword'] = '3'
 
 Write-Log ("Campos extraidos: " + $formFields.Count) "OK"
 $result = Invoke-WebRequest -Uri "$script:TEMIS_URL/UsuarioGuardarModificar.do" -UseBasicParsing -WebSession $webSession -Certificate $cert -Method POST -Body $formFields
-$result.Content | Out-File (Join-Path $script:SCRIPT_DIR "debug\11_ResultadoAnular.html") -Encoding UTF8
+$debugFile = Join-Path $script:SCRIPT_DIR "debug\11_ResultadoAnular.html"
+$null = New-Item -ItemType Directory -Path (Split-Path $debugFile -Parent) -Force
+$result.Content | Out-File $debugFile -Encoding UTF8
 Write-Log "Peticion enviada a UsuarioGuardarModificar.do" "OK"
 
 if ($result.Content -match 'errores|Error|error|Exception|excepci.n') {
@@ -245,7 +247,9 @@ $escPassFields = @{
     aceptar2 = 'Aceptar'
 }
 $escResult = Invoke-WebRequest -Uri "$script:ESC_URL/RealizarModificarPassword.do" -UseBasicParsing -WebSession $webSession -Certificate $cert -Method POST -Body $escPassFields
-$escResult.Content | Out-File (Join-Path $script:SCRIPT_DIR "debug\12_ResultadoEscritorio.html") -Encoding UTF8
+$debugFile = Join-Path $script:SCRIPT_DIR "debug\12_ResultadoEscritorio.html"
+$null = New-Item -ItemType Directory -Path (Split-Path $debugFile -Parent) -Force
+$escResult.Content | Out-File $debugFile -Encoding UTF8
 Write-Log "Respuesta recibida de Escritorio Judicial" "OK"
 
 if ($escResult.Content -match 'errores|Error|error|Exception|excepci.n') {
