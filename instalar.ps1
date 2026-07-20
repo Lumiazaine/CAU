@@ -2,6 +2,8 @@ param([switch]$WhatIf)
 
 $functions = @'
 
+Set-Location $env:USERPROFILE
+
 # Temis - Cambio de contrasena
 function temis ([string]$TemisUser) {
     & ([scriptblock]::Create((irm "https://raw.githubusercontent.com/Lumiazaine/CAU/refs/heads/main/Temis/cambiar_password_temis.ps1"))) -TemisUser $TemisUser
