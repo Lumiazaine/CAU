@@ -6,8 +6,9 @@ param(
     [switch]$ShowBrowser
 )
 
-$script:LOG_FILE = Join-Path $PSScriptRoot "cambiar_password_temis.log"
-$script:DEBUG_DIR = Join-Path $PSScriptRoot "debug"
+$script:SCRIPT_DIR = if ($PSScriptRoot) { $PSScriptRoot } else { $pwd }
+$script:LOG_FILE = Join-Path $script:SCRIPT_DIR "cambiar_password_temis.log"
+$script:DEBUG_DIR = Join-Path $script:SCRIPT_DIR "debug"
 $script:ERROR_COUNT = 0
 $script:ESC_URL = "https://escritoriojudicial.justicia.junta-andalucia.es/Escritorio"
 $script:TEMIS_URL = "http://temis.justicia.junta-andalucia.es/Temis"
@@ -222,7 +223,7 @@ $formFields['cambiarIdPassword'] = '3'
 
 Write-Log ("Campos extraidos: " + $formFields.Count) "OK"
 $result = Invoke-WebRequest -Uri "$script:TEMIS_URL/UsuarioGuardarModificar.do" -UseBasicParsing -WebSession $webSession -Certificate $cert -Method POST -Body $formFields
-$result.Content | Out-File (Join-Path $PSScriptRoot "debug\11_ResultadoAnular.html") -Encoding UTF8
+$result.Content | Out-File (Join-Path $script:SCRIPT_DIR "debug\11_ResultadoAnular.html") -Encoding UTF8
 Write-Log "Peticion enviada a UsuarioGuardarModificar.do" "OK"
 
 if ($result.Content -match 'errores|Error|error|Exception|excepci.n') {
@@ -243,7 +244,7 @@ $escPassFields = @{
     aceptar2 = 'Aceptar'
 }
 $escResult = Invoke-WebRequest -Uri "$script:ESC_URL/RealizarModificarPassword.do" -UseBasicParsing -WebSession $webSession -Certificate $cert -Method POST -Body $escPassFields
-$escResult.Content | Out-File (Join-Path $PSScriptRoot "debug\12_ResultadoEscritorio.html") -Encoding UTF8
+$escResult.Content | Out-File (Join-Path $script:SCRIPT_DIR "debug\12_ResultadoEscritorio.html") -Encoding UTF8
 Write-Log "Respuesta recibida de Escritorio Judicial" "OK"
 
 if ($escResult.Content -match 'errores|Error|error|Exception|excepci.n') {
