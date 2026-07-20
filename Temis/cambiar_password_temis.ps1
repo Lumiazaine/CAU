@@ -9,6 +9,7 @@ param(
 $script:SCRIPT_DIR = if ($PSScriptRoot) { $PSScriptRoot } else { $pwd }
 $script:LOG_FILE = Join-Path $script:SCRIPT_DIR "cambiar_password_temis.log"
 $script:DEBUG_DIR = Join-Path $script:SCRIPT_DIR "debug"
+$null = New-Item -ItemType Directory -Path $script:DEBUG_DIR -Force
 $script:ERROR_COUNT = 0
 $script:ESC_URL = "https://escritoriojudicial.justicia.junta-andalucia.es/Escritorio"
 $script:TEMIS_URL = "http://temis.justicia.junta-andalucia.es/Temis"
