@@ -27,6 +27,16 @@ function Get-Credentials {
     return $null
 }
 
+function Save-Credentials {
+    param([string]$User, [string]$Pass)
+    $lines = @(
+        "ADMIN_USER=$User",
+        "ADMIN_PASS=$Pass"
+    )
+    $lines | Set-Content -Path $script:ENV_FILE -Encoding UTF8
+    Write-Log "Credenciales guardadas en $($script:ENV_FILE)" "OK"
+}
+
 function Get-CredentialsInteractive {
     Write-Log "Solicitando credenciales manualmente..." "WARN"
     $user = Read-Host "Usuario administrador"
@@ -34,6 +44,10 @@ function Get-CredentialsInteractive {
     $ptr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($pass)
     $plainPass = [System.Runtime.InteropServices.Marshal]::PtrToStringBSTR($ptr)
     [System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR($ptr)
+    $save = Read-Host "Guardar credenciales para proxima vez? (s/N)"
+    if ($save -eq 's' -or $save -eq 'S') {
+        Save-Credentials -User $user -Pass $plainPass
+    }
     return @{ User = $user; Pass = $plainPass }
 }
 
