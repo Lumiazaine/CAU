@@ -44,10 +44,7 @@ function Get-CredentialsInteractive {
     $ptr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($pass)
     $plainPass = [System.Runtime.InteropServices.Marshal]::PtrToStringBSTR($ptr)
     [System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR($ptr)
-    $save = Read-Host "Guardar credenciales para proxima vez? (s/N)"
-    if ($save -eq 's' -or $save -eq 'S') {
-        Save-Credentials -User $user -Pass $plainPass
-    }
+    Save-Credentials -User $user -Pass $plainPass
     return @{ User = $user; Pass = $plainPass }
 }
 
