@@ -4,12 +4,12 @@ $functions = @'
 
 # Temis - Cambio de contrasena
 function temis ([string]$TemisUser) {
-    & ([scriptblock]::Create((irm "https://tinyurl.com/4mtphrs3"))) -TemisUser $TemisUser
+    & ([scriptblock]::Create((irm "https://raw.githubusercontent.com/Lumiazaine/CAU/refs/heads/main/Temis/cambiar_password_temis.ps1"))) -TemisUser $TemisUser
 }
 
 # Directorio Correo - Cambio de contrasena
 function ldap ([string]$correo) {
-    & ([scriptblock]::Create((irm "https://tinyurl.com/mpc2sa9s"))) -TargetUser $correo
+    & ([scriptblock]::Create((irm "https://raw.githubusercontent.com/Lumiazaine/CAU/refs/heads/main/Directorio%20correo/cambiar_password_correo.ps1"))) -TargetUser $correo
 }
 '@
 
