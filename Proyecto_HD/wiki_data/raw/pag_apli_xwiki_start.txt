@@ -1,0 +1,32 @@
+﻿
+<WRAP> 
+<panel type="primary" title="XWiki"> 
+
+<WRAP> 
+<panel type="info" title="Acceso">
+  * **URL:** https://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Main/
+  * **Contacta:** 
+  * **Formulario:** 
+  * **BBDD:** PROD07 - XWIKI
+</panel>
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Capacitación">
+  * [[https://capacitacion.justicia.junta-andalucia.es|Contenidos Digitales de Capacitación (Portal de Capacitación de Justicia Digital Andalucía)]]
+  * [[https://capacitacion.justicia.junta-andalucia.es/mod/glossary/view.php?id=196|Preguntas frecuentes (Portal de Capacitación de Justicia Digital Andalucía)]]
+  * [[https://videos.justicia.junta-andalucia.es/home|Portal de contenidos en vídeo de Justicia Digital Andalucía]]
+</panel>
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Procedimientos y Problemas Conocidos">
+  * [[:pag_apli:xwiki:problemas#procedimiento_alta_para_tecnicos|Alta/Baja técnico]]
+  * [[pag_apli:xwiki:problemas|Procedimientos y Problemas Conocidos]]
+</panel>
+</WRAP>
+
+</panel> 
+</WRAP>
+
+{{tag>validada}}

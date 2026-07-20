@@ -1,0 +1,25 @@
+﻿
+====== Plan de mantenimiento de sistemas HP-UX. ======
+
+===== Objetivo =====
+
+El objetivo de este documento es detallar las medidas de mantenimiento actuales para los sistemas HP-UX.
+
+Hay establecidas tareas de monitorización a través de Zabbix que comprueban varios parámetros de los sistemas activos, y que se revisan a diario.\\
+Las alertas activas son las siguientes:
+
+<code>
+     Processor load is too high on {HOST.NAME}
+     Lack of swap memory on server {HOST.NAME}
+     Hostname was changed on {HOST.NAME}
+     Host information was changed on {HOST.NAME}
+     {HOST.NAME}: Free inodes is less than 10% on volume /var
+     {HOST.NAME}: Free disk space is less than 10% ({ITEM.LASTVALUE1}) on volume /var
+     {HOST.NAME} : Disco X - WWID - Valor modificado
+     {HOST.NAME} : Disco X - Estado modificado
+     Zabbix agent on {HOST.NAME} is unreachable for 5 minutes
+     Processor usage is too high on {HOST.NAME}
+
+</code>
+
+

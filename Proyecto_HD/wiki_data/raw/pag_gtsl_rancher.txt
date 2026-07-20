@@ -1,0 +1,370 @@
+﻿
+# Reinicio Cluster Kubernetes
+
+## Reinicio - Maquina de Salto
+
+Alguna ves tendremos que reiniciar los nodos de un cluster de Kubernetes para que cojan cierta configuración, lo pasos serían los siguientes:
+
+***Este proceso debe realizarse nodo por nodo, nunca todos a la vez***
+
+***Si alguna ves al cambiar el fichero config de .kube no nos reconoce el cluster debemos de volver a descargar el fichero kubeconfig del rancher y pegarlo de nuevo en nuestro respectivo config, para después copiarlo en el fichero config***
+
+1. Antes de reiniciar un nodo, se debe parar la entrada de procesos a dicho nodo:
+`kubectl cordon <nombre-nodo>`
+2. Después movemos los pods a otros nodos. Esto lo haces drenando el nodo, lo que migra los pods sin interrumpir los servicios, se lanza el siguiente comando desde la máquina de salto:
+`kubectl drain <nombre-nodo> --ignore-daemonsets --delete-emptydir-data`
+3. Una vez echo lo anterior te metes en el nodo en concreto que hiciste el drenado y lo reinicias.
+`reboot`
+4. Una vez reiniciado, de nuevo en la máquina de salto, ejecutamos el siguiente comando para volver a habilitarlo para que Kubernetes lo use nuevamente.
+`kubectl uncordon <nombre-nodo>`
+
+## Reinicio - Desde un mismo Nodo
+
+En algunos casos es aconsejable realizar los comandos de kubernetes desde dentro del mismo nodo.
+
+```jsx
+/var/lib/rancher/rke2/bin/kubectl --kubeconfig /var/lib/rancher/rke2/server/cred/admin.kubeconfig get nodes
+```
+
+Para ejecutar cualquier comando de Kubernetes en el nodo, pondríamos la ruta de arriba seguida del comando, por ejemplo: “get nodes”, “cordon”, “uncordon”.
+
+---
+
+# Creación Cluster en Rancher con Vsphere
+
+Este procedimiento esta echo para la versión de rancher 2.12.1, tendríamos que coger de versión de kubernetes la 1.32.7 (la ultima antes de la 33) porque en la 33 aún no es compatible el driver SCI.
+
+![image.png](attachment:403f5bb6-a9f8-4220-bb56-e83c4af93ab7:403f5bb6-a9f8-4220-bb56-e83c4af93ab7.png)
+
+image.png
+
+Le podríamos cambiar los colores principales al cluster.
+
+![image.png](attachment:76132733-a352-4d2e-a156-a34d744d303b:76132733-a352-4d2e-a156-a34d744d303b.png)
+
+image.png
+
+Una vez echo el cluster e incluidos los nodos, pasaremos a configurar el driver SCI.
+
+Habría que solicitar visibilidad desde los nodos del cluster de K8S hacia el vcenter (iusswvcs05.justicia.junta-andalucia.es) por el puerto 443.
+
+Echo esto pasaremos a crear el secret de vsphere:
+
+![image.png](attachment:2cf6071b-5c55-4cb4-ad18-1afafe72d24c:2cf6071b-5c55-4cb4-ad18-1afafe72d24c.png)
+
+image.png
+
+Aquí tenemos la plantilla para importarlo cambiando los nombres:
+
+```bash
+apiVersion: v1
+kind: Secret
+type: Opaque
+metadata:
+  namespace: kube-system
+  name: vsphere-csi-pre
+stringData:
+  csi-vsphere.conf: |
+    [Global]
+        user = "vcadmin@vsphere.local"
+        password = "Admgtss06###"
+        port = "443"
+        insecure-flag = "1"
+        cluster-id = "cluster150925"
+    [VirtualCenter "iusswvcs05.justicia.junta-andalucia.es"]
+        datacenters = "iusdatacenter05"
+```
+
+Pasaríamos a instalar desde “**Charts**” el driver de SCI y seleccionaríamos las siguientes opciones:
+
+![image.png](attachment:a24a1d9a-63ab-46a2-82bf-5c2ba7b2e8f9:a24a1d9a-63ab-46a2-82bf-5c2ba7b2e8f9.png)
+
+image.png
+
+![image.png](attachment:b0539f7b-be35-4f34-8f5c-d7a574da872c:b0539f7b-be35-4f34-8f5c-d7a574da872c.png)
+
+image.png
+
+Echo esto ya tendríamos nuestro Driver CSI funcionando.
+
+---
+
+# Creación Rancher por Comando
+
+## Preparación Inicial de la máquina
+
+Actualizamos la máquina e instalamos algunos paquetes:
+
+`zypper refresh   zypper update -y  reboot  zypper search-packages git  SUSEConnect -p sle-module-desktop-applications/15.5/x86_64  SUSEConnect --product sle-module-development-tools/15.5/x86_64  zypper in git`
+
+## Instalar Kubernetes con K3s
+
+Seguimos los siguientes pasos:
+
+`curl -L https://github.com/k3s-io/k3s/releases/latest/download/k3s -o k3s  chmod +x k3s  mv k3s /usr/local/bin/  mkdir -p /etc/rancher/k3s  vi /etc/systemd/system/k3s.service`
+
+Introducimos el siguientes contenido en el documento:
+
+```bash
+[Unit]
+Description=Lightweight Kubernetes
+Documentation=https://k3s.io
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=notify
+ExecStart=/usr/local/bin/k3s server
+KillMode=process
+Delegate=yes
+LimitNOFILE=1048576
+LimitNPROC=infinity
+LimitCORE=infinity
+TasksMax=infinity
+TimeoutStartSec=0
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+```
+
+## Instalar helm
+
+Instalamos helm con el siguiente procedimiento:
+
+Deshabilita Proxy y recargamos
+`curl -LO https://get.helm.sh/helm-v3.15.4-linux-amd64.tar.gz #La ultima actual estable en nuestro caso, en el futuro revisar#`
+
+`tar -zxvf helm-v3.15.4-linux-amd64.tar.gz`
+
+`mv linux-amd64/helm /usr/local/bin/helm`
+
+`helm version - Para confirmar`
+
+`helm repo add rancher-latest https://releases.rancher.com/server-charts/latest`
+
+`helm repo add jetstack https://charts.jetstack.io`
+
+`helm repo list`
+
+`helm repo update`
+
+`k3s kubectl create namespace cattle-system`
+
+`export KUBECONFIG=/etc/rancher/k3s/k3s.yaml`
+
+`helm upgrade --install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --version v1.18.2`
+
+`k3s kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.18.2/cert-manager.crds.yaml`
+
+`k3s kubectl get pods -n cert-manager - Para confirmar funcionamiento`
+
+`helm upgrade --install rancher rancher-latest/rancher --namespace cattle-system --set`
+
+`hostname="hostname".justicia.junta-andalucia.es --set bootstrapPassword=”Contraseña Web rancher”`
+
+Una vez echo todo esto pondremos acceder a nuestro rancher por la URL anteriormente puesta:
+
+![image.png](attachment:da648293-8b1b-4df7-9e20-22e5724b701b:da648293-8b1b-4df7-9e20-22e5724b701b.png)
+
+image.png
+
+![image.png](attachment:2a3d33e4-a8ed-4313-8ad4-80198f965ced:2a3d33e4-a8ed-4313-8ad4-80198f965ced.png)
+
+image.png
+
+![image.png](attachment:8d49ad13-c3b7-4653-b271-01f1883452cc:8d49ad13-c3b7-4653-b271-01f1883452cc.png)
+
+image.png
+
+---
+
+## Error al crear Clústeres nuevas / Añadir nuevos nodos en el rancher antiguo
+
+Cuando se ejecuta Rancher con **Podman (o Docker)** sin configurar una red fija, cada vez que se reinicia el contenedor:
+
+- Podman asigna una **nueva IP interna** dentro de su red por defecto (`10.88.0.x`).
+- Rancher **usa esa IP interna** para comunicarse con:
+- Los nodos (`system-agent`)
+- Los agentes de clúster
+- El CAPI, RKE2/K3s controllers
+- Webhooks internos
+
+Cuando esa IP cambia:
+
+❌ Los agentes de los nodos siguen intentando conectar a la **IP anterior**
+
+❌ El servidor Rancher pierde visibilidad interna con el clúster de gestión (K3s)
+
+❌ El plan de provisión no puede conectar con los nodos
+
+❌ Se generan continuamente errores como:
+
+```
+invalid bearer token, Token has been invalidatedno route to host
+failed to create cluster accessor
+dial tcp 10.43.xx.xx:443: no route to host
+```
+
+Por eso **los nodos nuevos nunca pasaban a Ready o “no se podían crear nuevos clústeres”**, y algunos existentes tampoco.
+
+Para solucionar el problema, desde la máquina del rancher hay que tirar los siguientes comandos:
+
+```bash
+#Sirve para ver la IP del contenedor.
+podman inspect -f '{{.NetworkSettings.IPAddress}}' rancher
+
+#Sirve para entrar en el contenedor.
+podman exec -it rancher bash
+
+#Sirve para ver la IP del endpoint.
+kubectl get endpoints -n cattle-system rancher -o yaml
+
+#Sirve para editar el fichero del endpoint.
+kubectl edit endpoints rancher -n cattle-system
+```
+
+![image.png](attachment:f758baa2-94ed-4e90-ba1c-043aebddc624:f758baa2-94ed-4e90-ba1c-043aebddc624.png)
+
+image.png
+
+Para que funcionara tendríamos que poner la IP 10.88.0.24 dentro del fichero sustituyendo la IP 10.88.0.3.
+
+Tras esto ya se pueden crear clústeres y añadir nodos.
+
+- ****OJO, si reiniciamos de nuevo el contendor de podman, la ip del contenedor volverá a cambiar y habrá que realizar estos pasos con la nueva IP*****
+
+---
+
+## Script para descargar los Kubeconfig de todos los ranchers
+
+“actualizar_todos_ranchers.sh”
+
+```bash
+#!/bin/bash
+
+# ==============================================================================
+# VARIABLES DE COLOR
+# ==============================================================================
+greenColour="\e[0;32m\033[1m"
+endColour="\033[0m\e[0m"
+redColour="\e[0;31m\033[1m"
+blueColour="\e[0;34m\033[1m"
+yellowColour="\e[0;33m\033[1m"
+purpleColour="\e[0;35m\033[1m"
+turquoiseColour="\e[0;36m\033[1m"
+grayColour="\e[0;37m\033[1m"
+
+# ==============================================================================
+# CONFIGURACIÓN INICIAL
+# ==============================================================================
+TARGET_DIR="/root/.kube"
+FECHA=$(date "+%Y-%m-%d %H:%M:%S")
+
+# Usamos 'echo -e' para que interprete los colores
+echo -e "${purpleColour}>>> Iniciando actualización de clústeres:$FECHA${endColour}"
+
+# ------------------------------------------------------------------------------
+# FUNCIÓN MAESTRA (NO TOCAR)
+# Descarga el kubeconfig de cualquier clúster usando la API
+# ------------------------------------------------------------------------------
+actualizar_cluster() {
+    local RANCHER_URL=$1
+    local TOKEN=$2
+    local CLUSTER_ID=$3
+    local NOMBRE_FICHERO=$4
+
+    # Añadimos "Bearer" si falta
+    if [[ "$TOKEN" != "Bearer "* ]]; then TOKEN="Bearer$TOKEN"; fi
+
+    # Imprimimos el inicio de la línea (sin salto de línea con -n)
+    echo -ne "${grayColour}   -> Bajando${blueColour}$NOMBRE_FICHERO${endColour}${grayColour} ($CLUSTER_ID)...${endColour}"
+
+    # Petición a la API (Silenciosa)
+    RESPONSE=$(curl -s -k -X POST \
+        -H "Authorization:$TOKEN" \
+        -H "Content-Type: application/json" \
+        "$RANCHER_URL/v3/clusters/$CLUSTER_ID?action=generateKubeconfig")
+
+    # Validación
+    if echo "$RESPONSE" | grep -q "baseType"; then
+        echo "$RESPONSE" | jq -r '.config' > "$TARGET_DIR/$NOMBRE_FICHERO"
+        chmod 600 "$TARGET_DIR/$NOMBRE_FICHERO"
+        # OK en VERDE
+        echo -e "${greenColour}OK${endColour}"
+    else
+        # ERROR en ROJO
+        echo -e "${redColour}ERROR${endColour}"
+        # Detalle en AMARILLO
+        echo -e "${yellowColour}      (Detalle: El token puede haber caducado o el ID$CLUSTER_ID es incorrecto)${endColour}"
+    fi
+}
+
+# ==============================================================================
+# RANCHER DESARROLLO - 1 (iusslrancherdes01)
+# ==============================================================================
+echo -e "\n${turquoiseColour}--- Procesando RANCHER 1 (Desarrollo) ---${endColour}"
+URL_1="https://iusslrancherdes01.justicia.junta-andalucia.es"
+TOKEN_1="token-zshmf:7fmqpm8rp7xsrznhbd4mfr8bh4x8lr2fpxd6wtrf6tmk9vfc2xxr95"
+
+actualizar_cluster "$URL_1" "$TOKEN_1" "c-m-7759fnsb" "config_hgis_desa"
+actualizar_cluster "$URL_1" "$TOKEN_1" "c-m-9p9w22kr" "config_sede_desa"
+
+# ==============================================================================
+# RANCHER PRE-PRODUCCIÓN - 1 (iusrancher-pre)
+# ==============================================================================
+echo -e "\n${yellowColour}--- Procesando RANCHER 1 (Preproducción) ---${endColour}"
+URL_2="https://iusrancher-pre.justicia.junta-andalucia.es"
+TOKEN_2="token-dnb28:xx8wqcg2bgnbld4gdxnkrz8zrljm8m66fvhtczwf9v4njwk2kbg54h"
+
+actualizar_cluster "$URL_2" "$TOKEN_2" "c-m-7zpzw2jk" "config_hgis_pre"
+actualizar_cluster "$URL_2" "$TOKEN_2" "c-m-2jq47cx7" "config_sede_pre"
+actualizar_cluster "$URL_2" "$TOKEN_2" "c-m-vrxf9ktg" "config_nija_pre"
+
+# ==============================================================================
+# RANCHER PRODUCCIÓN - 1 (iusrancher)
+# ==============================================================================
+echo -e "\n${redColour}--- Procesando RANCHER 1 (Producción) ---${endColour}"
+URL_3="https://iusrancher.justicia.junta-andalucia.es"
+TOKEN_3="token-kqxvv:bgrr9dkzsfn9szxgks9lczt94p8dwsnl79rfskcfkfjmnrdtqnlszf"
+
+actualizar_cluster "$URL_3" "$TOKEN_3" "c-m-khslshjv" "config_elastic_sede_pro"
+actualizar_cluster "$URL_3" "$TOKEN_3" "c-m-f5wtnbsm" "config_hgis_pro"
+actualizar_cluster "$URL_3" "$TOKEN_3" "c-m-mgrnb5fz" "config_integracion_continua"
+actualizar_cluster "$URL_3" "$TOKEN_3" "c-m-47jnfnpm" "config_nija_pro"
+actualizar_cluster "$URL_3" "$TOKEN_3" "c-m-lj5bxckf" "config_sede_pro"
+
+# ==============================================================================
+# RANCHER DESARROLLO - 2 (iusslrancherdes02)
+# ==============================================================================
+echo -e "\n${turquoiseColour}--- Procesando RANCHER 2 (Desarrollo) ---${endColour}"
+URL_4="https://iusslrancherdes02.justicia.junta-andalucia.es"
+TOKEN_4="token-7httk:kb8mcf8j9zt22fhjxx7q96jzcdqq46hs68652v4t27gnv55df8wrvg"
+
+actualizar_cluster "$URL_4" "$TOKEN_4" "c-m-s7fm47fl" "config_nija_desa"
+actualizar_cluster "$URL_4" "$TOKEN_4" "c-m-htph9x7f" "config_sede_asis_desa"
+actualizar_cluster "$URL_4" "$TOKEN_4" "c-m-hqxtcxbb" "config_sede_eje_desa"
+
+# ==============================================================================
+# RANCHER PRE-PRODUCCIÓN - 2 (iusslrancherpre02)
+# ==============================================================================
+echo -e "\n${yellowColour}--- Procesando RANCHER 2 (Preproducción) ---${endColour}"
+URL_5="https://iusslrancherpre02.justicia.junta-andalucia.es"
+TOKEN_5="token-t45lk:7p8qt4z92mthvwpwhv77k7fmq5rbb7sx64l25xlc4bnrggvrpvr9d5"
+
+actualizar_cluster "$URL_5" "$TOKEN_5" "c-m-28kpcjlk" "config_sede_asis_pre"
+actualizar_cluster "$URL_5" "$TOKEN_5" "c-m-6mlj4kr4" "config_sede_eje_pre"
+
+# ==============================================================================
+# RANCHER PRODUCCIÓN - 2 (iusslrancher02)
+# ==============================================================================
+echo -e "\n${redColour}--- Procesando RANCHER 2 (Producción) ---${endColour}"
+URL_6="https://iusslrancher02.justicia.junta-andalucia.es"
+TOKEN_6="token-spt2z:td4vsssr4njr9j759qgljrdctv6kq65vlvkkr6pbrqhbzxdsjl7q9n"
+
+actualizar_cluster "$URL_6" "$TOKEN_6" "c-m-n9z6vr4d" "config_sede_eje_pro"
+
+echo -e "\n${purpleColour}>>> Fin del proceso.${endColour}"
+```
+
+Este script está en el crontab:

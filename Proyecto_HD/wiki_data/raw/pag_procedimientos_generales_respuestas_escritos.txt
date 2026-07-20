@@ -1,0 +1,298 @@
+﻿
+<html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>RESPUESTAS PREGUNTAS FRECUENTES</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #39546E;
+            margin: 0;
+            padding: 20px;
+            padding-top: 70px;
+            
+        }
+
+        .main-container {
+            max-width: 1550px;
+            margin: 0 auto;
+        }
+
+        .main-header {
+            background-color: #39546E;
+            color: white;
+            padding: 25px 20px;
+            font-size: 2rem;
+            font-weight: bold;
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .block {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 22px;
+            margin-bottom: 25px;
+            border: 1px solid #c5ccd4;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .block h2 {
+            margin-top: 0;
+            color: #39546E;
+            border-bottom: 2px solid #39546E;
+            padding-bottom: 10px;
+            
+        }
+        
+        a, {
+            color: #0051A3;
+            text-decoration: none;
+ 
+            
+        } 
+        
+        .button-bar {
+    display: flex;
+    gap: 10px; /* espacio entre botones */
+    margin-bottom: 5px; /* espacio debajo de los botones */
+    justify-content: flex-start; /* alinea a la izquierda */
+}
+
+/* Botón Volver y botón Índice */
+.btn-volver,
+.btn-indice {
+    background-color: #39546E;
+    color: white;
+    padding: 10px 20px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-volver:hover,
+.btn-indice:hover {
+    background-color: #39546E;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transform: translateY(-2px);
+}
+
+/* Dropdown */
+.dropdown {
+    position: relative; /* necesario para el contenido desplegable */
+}
+
+/* Contenido del dropdown */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%; /* justo debajo del botón */
+    left: 0;
+    background-color: white;
+    min-width: 300px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    border-radius: 8px;
+    overflow: hidden;
+    z-index: 10;
+}
+
+/* Enlaces dentro del dropdown */
+.dropdown-content a {
+    display: block;
+    padding: 6px 16px;
+    color: #000000;
+    text-decoration: none;
+}
+
+.dropdown-content a:hover {
+    background-color: #f2f2f2;
+}
+
+/* Mostrar dropdown al pasar el ratón */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+  /* Margen de desplazamiento para secciones destino */
+  h2[id], h3[id] {
+    scroll-margin-top: 110px;
+}
+        
+    </style>
+</head>
+
+<body>
+
+<div class="button-bar">
+    <a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_procedimientos_generales" class="btn-volver">Volver</a>
+
+    <div class="dropdown">
+        <button class="btn-indice">Índice</button>
+        <div class="dropdown-content">
+            <a href="#contestacion-escritos-sacoep">Instrucciones Para Contestación de Escritos SACOEP</a>
+            <a href="#respuesta-escritos-quejas">Respuesta a Escritos de Quejas</a>
+            <a href="#digitalizacion-registros-civiles">Digitalización Registros Civiles (RRCC)</a>
+            <a href="#gestor-procesal-adriano">Gestor Procesal Adriano</a>
+            <a href="#sede-judicial-electronica">Sede Judicial Electrónica</a>
+            <a href="#incidencias-herramientas-red">Incidencias en el uso de herramientas de la Red Judicial Andaluza</a>
+            <a href="#peticiones-arconte-registros-civiles">Peticiones de Uso del Sistema de Grabaciones en Arconte para Registros Civiles</a>
+        </div>
+    </div>
+</div>
+
+    <div class="main-container">
+
+        <div class="main-header">RESPUESTAS PREGUNTAS FRECUENTES</div>
+        </div>
+
+        <div class="block">
+            <h2 id="contestacion-escritos-sacoep">Instrucciones Para Contestación de Escritos SACOEP</h2>
+            <ul>
+                <li><a href=":pag_procedimientos_generales:instrucciones_para_contestacion_de_escritos.docx">Instrucciones Para Contestación de Escritos</a></li>
+                <p align="center"><img style="margin-top: 10px;" src="/dokuwiki/!ssdj/lib/exe/fetch.php?w=700&tok=d35e94&media=pag_procedimientos_generales:contestacion_escritos.png" width="700"/></p>
+            </ul>
+        </div>
+        
+        <div class="block">
+            <h2 id="respuesta-escritos-quejas">Respuesta a Escritos de Quejas</h2>
+                <p>Los escritos de quejas se reciben en el buzón de justiciadigital (<a href="https://correo.juntadeandalucia.es/">https://correo.juntadeandalucia.es/</a>) o nos los hacen llegar desde administración por correo.</p>
+                <p>Preparar una propuesta de respuesta con las respuestas estandarizadas que se encuentran publicadas en DokuWiki en la siguiente ruta <a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_procedimientos_generales:respuestas_escritos">https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_procedimientos_generales:respuestas_escritos</a></p>
+                <p>Enviar la propuesta de respuesta a Asesoría Procesal para su validación con copia a Maruja (<a href="mailto:xxx@xxx.com">procesal.ius@juntadeandalucia.es</a>)</p>
+                <p>Una vez validada la respuesta se envía a administración para que pase el escrito a firma previa a su envío <span style="color: #0051A3;">(Vanesa Asencio Bejarano <</span><a href="mailto:xxx@xxx.com">vanesa.asencio@juntadeandalucia.es</a><span style="color: #0051A3;">, Escritos ius <<a href="mailto:xxx@xxx.com">escritos.ius@juntadeandalucia.es</a>>)</span></p>
+                <p>La documentación se guardará en la siguiente ruta: <span style="color: grey;">\\iusnas05\sij\Explotacion\800 Informes_Incidencias_Adriano\@DRIANO\QUEJAS@driano</span></p>
+        </div>
+
+        <div class="block">
+            <h2 id="digitalizacion-registros-civiles">Digitalización Registros Civiles (RRCC)</h2>
+                <p><b>Aún no se han puesto en contacto con el Registro Civil para su digitalización:</b></p>
+                <p>En respuesta a la solicitud planteada sobre la fecha de Digitalización de su municipio en el “Expediente 404/2023 ENC 2023/0008 Digitalización de Registros Civiles” le informamos que, esta contratación cuenta con una planificación, la cual se ha establecido hasta noviembre de 2025, el equipo técnico se pondrá en contacto con su organismo y comenzará el proceso comunicándose previamente con ustedes. Informarles, además, que este proyecto de digitalización de libros de los RRCC es independiente de la implantación de DICIREG.</p>
+                
+                 <hr style="border: 0; height: 1px; background-color: #EDEDF0;">
+                 
+                 <p><b>Si solicitan la inclusión de un Registro Civil en el proyecto:</b></p>
+                 <p>En respuesta a la solicitud planteada sobre la fecha de Digitalización de su municipio en el “Expediente 404/2023 ENC 2023/0008 Digitalización de Registros Civiles” le informamos que, esta contratación cuenta con una planificación, la cual se ha establecido hasta noviembre de 2025, el equipo técnico se pondrá en contacto con su organismo y comenzará el proceso comunicándose previamente con ustedes. Informarles, además, que este proyecto de digitalización de libros de los RRCC es independiente de la implantación de DICIREG.</p>
+                 <p>No obstante, tendremos en cuenta su solicitud a los efectos oportunos, añadiéndole a la lista de reserva prioritaria, de la que haremos uso si las estimaciones iniciales no fueran exactas y pudiéramos incluir su municipio en este proceso de digitalización.</p>
+                
+                 <hr style="border: 0; height: 1px; background-color: #EDEDF0;">
+                 
+                 <p><b>¿Pueden venir a digitalizar los libros físicos a mi oficina de Registro Civil?</b></p>
+                 <p>Le informamos que, lamentablemente, no es posible acceder a su petición, dado que los trabajos de digitalización de los libros deben realizarse en instalaciones que cumplan con condiciones específicas y necesarias para la realización de este trabajo, entre otras: espacio de 4 metros cuadrados por escáner, varias tomas de corriente y protección de la luz natural, calibrado continuo y ajuste de los escáneres. Se trata de escáneres de gran precisión y tamaño, no es posible su traslado por las distintas oficinas de los Registros Civiles objeto de este proyecto.</p>
+                 <p>No obstante, contamos con transportes seguros y la devolución de sus libros al Registro Civil se hará según los plazos acordados, utilizando cajas de transporte homologadas para ese fin y otras medidas de seguridad.</p>
+                
+                  <hr style="border: 0; height: 1px; background-color: #EDEDF0;">
+                  
+                  <p><b>Si solicitan la inclusión de libros anteriores a 1950:</b></p>
+                  <p>En respuesta a la solicitud planteada de la inclusión de sus libros anteriores a 1950 en el “Expediente 404/2023 ENC 2023/0008 Digitalización de Registros Civiles” le informamos que, lamentablemente, estos libros no son objeto de esta contratación.</p>
+
+         </div>
+         
+         <div class="block">
+            <h2 id="gestor-procesal-adriano">Gestor Procesal Adriano</h2>
+                <p>En el siguiente enlace se recopilan las respuestas estandarizadas que se utilizan para la contestación de escritos de quejas relativas al Gestor Procesal Adriano recibidas en el buzón de justiciadigital o reenviadas por el Departamento de Administración.</p>
+                <li><a href=":pag_procedimientos_generales:respuestas_estandarizadas_quejas_v1.1.odt">Respuestas estandarizadas quejas</a></li>
+        </div>
+        
+        <div class="block">
+            <h2 id="sede-judicial-electronica">Sede Judicial Electrónica</h2>
+                <p><b>Cualquier error técnico (indisponibilidad de la Sede, error en la presentación de escritos…)</b></p>
+                <p>Cuando se recibe:</p>
+                <p>Se informa que se están produciendo algunas anomalías en el servicio electrónico de (indicar motivo si se considera necesario) en Sede Judicial Electrónica, en cuya urgente resolución estamos trabajando.</p>
+                <p style="margin-bottom: 20px;">Reciba un cordial saludo.</p>
+                
+                <p>Cuando se soluciona:</p>
+                <p>Se informa que el servicio (indicar motivo si se hizo en el mensaje de aviso) de Sede Judicial Electrónica ha quedado restaurado.</p>
+                <p>Reciba un cordial saludo.</p>
+                
+                 <hr style="border: 0; height: 1px; background-color: #EDEDF0;">
+                 
+                 <p><b>Consulta funcionales (estado de procedimientos, presentación de copias, tipos de procedimientos disponibles, cambio domicilio…)</b></p>
+                 <p>En respuesta a su consulta interpuesta a través del formulario de contacto de Sede Judicial Electrónica, le informamos que se está dirigiendo usted a un equipo para consultas o incidencias técnicas de la Sede Judicial Electrónica.</p>
+                 <p>Para consultas de índole procesal, debe contactar con las Oficinas de Atención a la Ciudadanía de los juzgados y tribunales, ya que atienden a las peticiones de información así como las quejas de los ciudadanos en relación al funcionamiento de la jurisdicción y a las dilaciones en la marcha de los procedimientos a través del siguiente enlace:.</p>
+                 <li><a href="https://juntadeandalucia.es/organismos/justiciaadministracionlocalyfuncionpublica/consejeria/transparencia/relaciones-ciudadania/atencion-ciudadania.html">Atención ciudadanía</a></li>
+                 <p style="margin-top: 10px;">Reciba un cordial saludo.</p>
+                 
+                 <hr style="border: 0; height: 1px; background-color: #EDEDF0;">
+                 
+                 <p><b>Consulta sobre Trámites y Presentación Escritos</b></p>
+                 <p>En respuesta a su consulta interpuesta a través del formulario de contacto de Sede Judicial Electrónica, los trámites y servicios que se pueden realizar, así como la guía para la presentación de escritos en la Sede Judicial Electrónica los tiene detallados en la sección “Trámites y Servicios Presentación de Escritos Guías de Escritos”, al cual puede usted acceder a través de este enlace:</p>
+                 <li><a href="https://sede.justicia.juntadeandalucia.es/portal/export/sites/sedeelectronica/.content/galleries/downloads/GuiaPresentacionEscritosSede.pdf">Trámites y Servicios Presentación de Escritos Guías de Escritos</a></li>
+                
+                  <hr style="border: 0; height: 1px; background-color: #EDEDF0;">
+                  
+                  <p><b>Respuesta servicio solicitud Cita Previa</b></p>
+                  <p>En respuesta a su consulta interpuesta a través del formulario de contacto de Sede Judicial Electrónica el servicio de solicitud de Cita Previa por internet de la Administración de Justicia en Andalucía está disponible en la siguiente dirección web:</p>
+                  <li><a href="https://juntadeandalucia.es/organismos/justiciaadministracionlocalyfuncionpublica/areas/justicia/atencion-ciudadania/tramites-registro-civil/registro-civil.html">Cita Previa</a></li>
+                  
+                  <hr style="border: 0; height: 1px; background-color: #EDEDF0;">
+                  
+                  <p><b>Consulta Justicia Gratuita</b></p>
+                  <p>En respuesta a su consulta interpuesta a través del formulario de contacto de Sede Judicial Electrónica relativa a “Asistencia jurídica gratuita” puede encontrar en la web de la Junta de Andalucía en el apartado de “Justicia” toda la información relativa a <a href="https://juntadeandalucia.es/organismos/justiciaadministracionlocalyfuncionpublica/areas/justicia/gratuita.html">Justicia gratuita</a></p>                    
+                  <hr style="border: 0; height: 1px; background-color: #EDEDF0;">
+                  
+                  <p><b>Consulta requisitos técnicos (Versión de Java, Navegador)</b></p>
+                  <p>En respuesta a su consulta interpuesta a través del formulario de contacto de Sede Judicial Electrónica, los requisitos técnicos los tiene detallados en la sección “Requisitos Técnicos de Sede Judicial Electrónica”, al cual puede usted acceder a través de este enlace:</p>
+                  <li><a href="https://sede.justicia.juntadeandalucia.es/portal/adriano/es/informacion-general/requisitos/">Requisitos técnicos</a></li>
+                  
+                  <hr style="border: 0; height: 1px; background-color: #EDEDF0;">
+                  
+                  <p><b>Incidencia al descargar vídeos en Arconte</b></p>
+                  <p>En respuesta a su consulta interpuesta a través del formulario de contacto de Sede Judicial Electrónica le informamos que en caso de tener alguna incidencia con el Servicio de Descarga de Vistas Judiciales, debe ponerse en contacto con su colegio profesional.</p>
+                  
+                  <hr style="border: 0; height: 1px; background-color: #EDEDF0;">
+                  
+                  <p><b>Solicitud eliminación procedimientos en la SJE</b></p>
+                  <p>En respuesta a su consulta interpuesta a través del formulario de contacto de Sede Judicial Electrónica, le informamos que actualmente la actual SJE muestra los expedientes con una antigüedad de 10 años, no permitiendo filtrar por estado de los mismos, sin que estos además puedan ser eliminados de la base de datos.</p> 
+                  <p>Sin embargo, próximamente, con el despliegue de la plataforma de la Nueva Sede Judicial Electrónica, prevista para el presente año, se dispondrá de la opción de filtrado por el estado del expediente, permitiendo así la visualización de los procedimientos que se encuentren en trámite.</p>     
+                  
+                  <hr style="border: 0; height: 1px; background-color: #EDEDF0;">
+                  
+                  <p><b>Sitio no seguro</b></p>
+                  <p>En respuesta a su consulta interpuesta a través del formulario de contacto de Sede Judicial Electrónica, le indicamos los pasos a realizar para solucionar el error reportado:</p>
+                  <p>1. Borre la caché y las cookies de su navegador.</p>
+                  <p>2. Si es posible, utilice el navegador Microsoft Edge para acceder a https://sede.justicia.juntadeandalucia.es/portal/adriano/es/acceso/index.html</p>
+                  <p>3. En caso de que en la url se muestre el texto 'El sitio no es seguro' debe pulsar en 'Configuración avanzada' y aceptar el mensaje.</p>
+         </div> 
+         <div class="block">
+            <h2 id="incidencias-herramientas-red">Incidencias en el uso de herramientas de la Red Judicial Andaluza</h2>
+                <p><b>Gestión de alta usuarios:</b></p>
+                <p>En relación con las incidencias descritas, comunicarles que durante todo el mes de julio y agosto se ha estado trabajando en su resolución por parte del Servicio de Sistemas Digitales para la Justicia, priorizando especialmente todas aquellas relativas a la gestión del alta de las nuevas personas usuarias surgidas a raíz del último concurso de traslados. Debe tenerse en cuenta el periodo estival, que complica el contacto con los usuarios, la carga de trabajo que ha supuesto la implantación de la Fase I del NUMO y la activación de las guardias de verano. A pesar de todo ello, se ha dado respuesta en unos tiempos razonables.</p>
+                
+                 <hr style="border: 0; height: 1px; background-color: #EDEDF0;">
+                 
+                 <p><b>Incidencias relativas a Teletrabajo:</b></p>
+                 <p>En cuanto a las incidencias sobre el Teletrabajo, el número de usuarios a los que éste se ha concedido ha aumentado de forma considerable, y salvo que los propios usuarios instalen Checkpoint en sus ordenadores personales, se está trabajando para calcular el equipamiento corporativo necesario (con Checkpoint ya instalado) para poder atender a la demanda, por lo que estaría en vías de solucionarse.</p>
+                
+                 <hr style="border: 0; height: 1px; background-color: #EDEDF0;">
+                 
+                 <p><b>Inoperatividad de impresoras y escáneres</b></p>
+                 <p>Sobre las impresoras y escáneres, las incidencias han sido provocadas por los trabajos de adaptación al NUMO. Actualmente podemos afirmar que la ADA ha diagnosticado el problema y se está trabajando en su solución.</p>
+                
+                  <hr style="border: 0; height: 1px; background-color: #EDEDF0;">
+                  
+                  <p><b>Fallos en el fichaje en Hermes:</b></p>
+                  <p>Sobre la incidencia masiva en HERMES, ésta ha sido causada por un problema derivado de la actualización de la Agenda interna de esta aplicación, que ya ha sido subsanado..</p>
+                  
+                  <hr style="border: 0; height: 1px; background-color: #EDEDF0;">
+                  
+                  <p><b>Mal funcionamiento y cuelgues frecuentes de Adriano:</b></p>
+                  <p>Por lo que respecta a las restantes incidencias sobre Adriano, también están siendo atendidas y se está tratando de tenerlas todas resueltas en el menor tiempo posible para que todo esté a punto para la apertura del año judicial</p>
+         </div>
+         
+         <div class="block">
+            <h2 id="peticiones-arconte-registros-civiles">Peticiones de Uso del Sistema de Grabaciones en Arconte para Registros Civiles</h2>
+                <p>El uso de Adriano para otros fines que no sean la tramitación de expedientes judiciales no está permitido porque no incluye el mínimo de garantías de trazabilidad, fehaciencia, firma electrónica, tramitación guiada, cumplimiento normativo, protección de datos, seguridad de la información ni accesibilidad entre otros, propios de la construcción de sistemas de información para la Administración Digital.</p>
+                <p>Como consecuencia, habilitar el uso de Adriano a los Registros Civiles para la grabación de Audiencias Reservadas implicaría el incumplimiento de las garantías anteriores y no pueden generarse credenciales por este motivo.</p>
+                <p>El uso que se pueda estar haciendo de credenciales de Adriano pre-existentes para la función solicitada igualmente no está permitido, y no se asume por los servicios técnicos de la Agencia Digital de Andalucía ninguna responsabilidad de mantenimiento, asistencia, custodia de la información, continuidad de la funcionalidad entre otros servicios y garantías.</p>
+        </div>
+    </div>
+
+</body>
+</html>
+ 
+
+{{tag>novalidada}}

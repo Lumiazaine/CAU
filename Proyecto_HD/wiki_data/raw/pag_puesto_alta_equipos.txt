@@ -1,0 +1,99 @@
+﻿
+
+ALTA DE EQUIPOS
+El alta de equipos viene siempre asociada a un nuevo expediente de compra.
+
+    TEMIS: 
+       Alta Manual: Módulo Gestión de inventario / equipos /nuevo. Se rellenan los siguientes campos:
+
+       -    Nº de serie
+       -    Tipo de equipo
+       -    Marca / Modelo
+       -    Contrato
+       -    Observaciones
+       -    Organismo propietario
+       -    Ubicación
+       -    Cargo
+       -    Nombre_ad (si se conoce) 
+
+    Alta Masiva (más de un equipo):
+       Dar de alta contrato:
+         1.    Gestión contrato / Contratos / Nuevo
+              -    Nº Expediente / Año: el nº de expediente lo obtenemos de dos posibles formas:
+                     1.    En carpeta "Contratos" (nº de contrato y año)
+                     2.    Si no hay codificación en carpeta Contratos, ponemos mismo código de Infocor (este caso ocurre en ocasiones con expedientes de Delegaciones).
+              -    Nº Contrato : es el mismo nº de expediente
+              -    Estado: normalmente lo ponemos "En trámite" (no es relevante para inventario).
+            1.1    Tipo de contrato. Nos regimos por tipología según código de Infocor (no es relevante para inventario).
+            1.2    Lote : Se incluirán tantos lotes como diferentes empresas tenga el contrato (Selecciona el contrato / Nuevo)
+                  -    Empresa
+                  -    Fecha recepción
+                  -    Garantía        
+                 1.2.1    Gestión elementos contratados: Se incluirán todos los elementos que se hayan contratado de un mismo lote. (Selecciona el lote / elementos contratados / nuevo)
+                            -    Tipo de equipo
+                            -    Marca / Modelo
+                            -    Nº Unidades
+                            -    Importe Unidad
+                            -    Garantía
+
+       Generar plantilla de alta masiva de equipos:
+          •    Ruta: \\iusnas05\sij\Planificacion\PLANIFICACIÓN-INVENTARIO\Plantillas
+          •    Fichero: ALTA MASIVA EQUIPOS INCLUYENDO LOT_X_LOTE y ORG_X_ORGANISMO con Fecha de Garantía.xls
+
+X_MUNICIPIO    X_EDIFICIO    X_ORGANISMO    X_LOTE    X_ELEMENTO    X_TIPOEQUIPO    X_MODELO    Nº SERIE
+
+    CRIHJA: 
+        Si el expediente de compra es de catálogo de bienes homologados (CAT), el alta de los equipos las da la empresa adjudicataria.
+        Si el expediente de compra es de fuera de catálogo (INF) hemos de completar y enviar el fichero de creación de activos con los datos que nos requieren para poder crear la estructura en la que el proveedor deberá posteriormente, volcar los datos.
+
+           •    Ruta: \\iusnas05\sij\Planificacion\PLANIFICACIÓN-INVENTARIO\Plantillas\CRIJA
+           •    Plantilla: Fichero de Creación de activos - Plantilla.xls
+
+           Ejemplo: Remedy nº: IN0000001874005
+
+BAJA DE EQUIPOS
+
+La decisión de baja de equipos la toman las Delegaciones (enviando listado con los nº de serie a eliminar y el motivo) ó SSCC.
+Los casos en los que se da de baja equipos pueden ser los siguientes:
+-    Duplicidad
+-    Error de formato
+-    Equipo obsoleto
+
+    TEMIS: 
+        Baja individual: Gestión de inventario / equipos. Se busca el equipo, seleccionar “Modificar” e indicar la fecha de baja.
+        Baja masiva: Crear petición remedy con plantilla de baja de equipos adjunta, donde se indique los nº de serie de los equipos a dar de baja. Asignar a Sistemas / GTBD.
+                  •    Ruta de plantilla de baja de equipos: \\iusnas05\sij\Planificacion\PLANIFICACIÓN-INVENTARIO\Plantillas
+                  •    Nombre plantilla: BAJA EQUIPOS CON T_OBSERVACIONES
+
+MODIFICACIÓN DE UBICACIONES DE EQUIPOS
+
+    Individual: Gestión de inventario / equipos, SELECCIONAR EQUIPO, “Modificar” los campos:
+•    Nombre_ad
+•    Organismo propietario
+
+    Masivo: Crear petición remedy con plantilla de modificación de equipos adjunta, donde se indique los campos de los equipos que se van a actualizar. Asignar a Sistemas / GTBD.
+
+                 •    Ruta de plantilla de modificación de equipos: \\iusnas05\sij\Planificacion\PLANIFICACIÓN-INVENTARIO\Plantillas
+                 •    Nombre plantilla: MODIFICACION ORG_X_ORGANISMO, T_OBSERVACIONES y T_NOMBRE_AD
+
+SUSTITUCIÓN DEFINITIVA DE EQUIPO
+
+    TEMIS: 
+         Seleccionar equipo a sustituir (Gestión de Inventario / Equipos), y pulsar “Sustitución Definitiva”:
+         Escribir nuevo "Nº de Serie"
+         Seleccionar Marca / Modelo
+         Dar a botón "Sustituir"
+            El equipo nuevo hereda el campo de nombre_ad, ubicación y RFID, dejando el anterior equipo con campo RFID=0 y con fecha de baja.
+
+    CRIJA: 
+Las sustituciones definitivas de equipos se comunican a CRIJA vía petición remedy. Tras hacer la sustitución en temis reasignamos a Nivel 3/CAU Mantenimiento poniendo en diario lo siguiente:
+
+      "A CRIJA: 
+      Es necesario duplicado de etiqueta RFID: XXXXXXXXXX  por sustitución definitiva de equipo:
+      * Equipo retirado con s/n: XXXXXX 
+      * Equipo sustituto con s/n: XXXXXX
+      Quedamos a la espera. Gracias!"
+
+Este texto debe copiarse, además de en Diario de remedy en la parte de Diario de Nivel 3. Posteriormente, se asigna a Nivel 3/CAU Mantenimiento.
+
+** Los equipos en garantía tendrán la misma etiqueta RFID original mientras que los sustituidos por ST CRIJA (en mantenimiento) vienen etiquetados desde la empresa de ST.

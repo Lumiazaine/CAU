@@ -1,0 +1,216 @@
+﻿
+====== Índice Maestro ======
+
+Este índice recoge las acciones habituales en CPD, Sala de Vistas, redes y seguridad.  
+Se organiza por bloques temáticos para facilitar la búsqueda y la consulta.
+
+----
+
+===== 1. Redes =====
+  * Alta/Baja Switch
+  * Configuración básica switch HP ProCurve / Aruba
+  * Configuración avanzada (VLANs, STP, LACP, QoS)
+  * Devolver el switch a los valores de fábrica
+  * Recuperación de switches bloqueados o con LEDs encendidos
+  * SSH en switch / gestión vía Telnet/CLI
+  * Parámetros de configuración de los switches Blade
+  * Hibridación de puertos en switches
+  * VLAN Videoconferencias / VLAN temporales
+  * Procedimiento alta nueva IP Adriano
+  * Alta línea de datos
+  * Solicitud de incidencia para Switches HP
+  * Incidencias switches RED.ES
+  * Crear túnel entre sedes
+  * Pérdida de enrutamiento
+  * Sustitución física de switches (RMA, ampliación)
+  * Configuración de SPAN / Port-Mirroring (para análisis tráfico)
+  * Revisión de tablas ARP y Routing
+  * Configuración de routing estático y dinámico
+  * Configuración de NTP en equipos de red
+  * Procedimiento de actualización de firmware en switches HP / Aruba
+  * Procedimiento de ampliación de puertos (stacking, módulos)
+  * Documentación de puertos (patching, etiquetado)
+
+----
+
+===== 2. Firewalls (Fortinet / Palo Alto) =====
+  * Backup FortiManager
+  * FortiManager – Operaciones básicas y avanzadas
+  * Sustitución VPN Fortinet
+  * Configuración de túnel GRE en FortiGate
+  * Configuración de túneles IPsec site-to-site
+  * Switchover HA FortiGates
+  * Eliminación de objetos obsoletos
+  * Alta sede VPN
+  * Manual de usuario VPN
+  * Procedimiento de migración de políticas Fortinet → Palo Alto
+  * Revisión de logs de seguridad
+  * Renovación de certificados SSL en firewall
+  * Gestión de roles y accesos en firewall
+  * Procedimiento de actualización de firmware FortiGate
+  * Creación y revisión de políticas de seguridad
+  * Revisión periódica de reglas obsoletas o temporales
+  * Gestión de objetos y grupos de direcciones
+  * Procedimiento de troubleshooting IPsec (fase 1/2, DPD, claves)
+  * Procedimiento de troubleshooting SSL-VPN
+  * Activación/Desactivación de interfaces en firewall
+  * Creación de NAT estática y dinámica
+  * Revisión periódica de HA y failover controlado
+  * Gestión de certificados de usuario (VPN)
+  * Procedimiento de cambio de contraseñas de administrador
+  * Configuración de filtrado web / URL
+  * Integración con LDAP/RADIUS para autenticación
+
+----
+
+===== 3. Balanceadores F5 BIG-IP =====
+  * Publicar aplicaciones en balanceadores F5 BIG-IP
+  * Aplicaciones en Balanceador F5
+  * Importar certificado en Balanceador
+  * Procedimiento de actualización de firmware en F5
+  * Monitores de salud (health monitors) – buenas prácticas
+  * Configuración de persistencia de sesiones
+  * Failover HA en F5
+  * Backup y restore de configuración en F5
+  * Procedimiento de automatización de backup en F5
+  * Creación y modificación de Pools y Nodes
+  * Procedimiento de troubleshooting en Virtual Servers
+  * Gestión de iRules
+  * Procedimiento de deshabilitar/habilitar servidores en pool
+  * Pruebas de servicio con tcpdump en F5
+  * Procedimiento de rotación de certificados en F5
+  * Gestión de licencias y activación
+  * Procedimiento de limpieza de objetos obsoletos
+  * Configuración de SNAT, NAT y routing interno
+  * Integración con DNS / GTM
+  * Procedimiento de clusterización en F5
+
+----
+
+===== 4. Monitorización =====
+  * Nagios GTSR
+  * Smokeping
+  * Zabbix – Gestión de alertas críticas
+  * Revisión de disponibilidad de servicios
+  * Monitorización de túneles IPsec
+  * Monitorización de balanceadores F5
+  * Monitorización de Fortinet / Palo Alto
+  * Validación periódica de SNMP en switches
+  * Alta/Baja de hosts en Zabbix
+  * Configuración de triggers y dependencias
+  * Resolución de falsos positivos
+  * Integración de alertas con correo / mensajería
+  * Limpieza de históricos en Zabbix
+  * Revisión de logs en Syslog centralizado
+  * Monitorización de backups (OK/KO)
+  * Procedimiento de creación de mapas de red en Zabbix
+  * Procedimiento de integración con FortiSIEM
+
+----
+
+===== 5. Backups =====
+  * Backup FortiManager
+  * Backup de switches
+  * Backup de balanceadores F5
+  * Backup de máquinas virtuales
+  * Verificación periódica de restauración de backups
+  * Automatización de backups (scripts, cron jobs)
+  * Gestión de copias offsite (rotación de cintas)
+  * Backup de directorios compartidos y datos críticos
+
+----
+
+===== 6. CPD / Operaciones =====
+  * Chequeo Visual Equipamiento CPD
+  * Operativa de mantenimiento diaria
+  * Programación de tarjetas de acceso
+  * Procedimiento de RMA (switches, firewalls, balanceadores)
+  * Plan de contingencia ante caída de sede
+  * Gestión de inventario de red y servidores
+  * Etiquetado y cableado estructurado
+  * Control de energía y climatización CPD
+  * Procedimiento de apertura/cierre de incidencias hardware
+  * Gestión de racks y cableado (alta/baja de equipos)
+  * Procedimiento de pruebas eléctricas y SAI
+  * Revisión de cámaras de videovigilancia CPD
+  * Control de accesos físicos CPD
+  * Procedimiento de visitas al CPD (externos/proveedores)
+  * Procedimiento de parada programada de sistemas
+  * Gestión de almacenamiento en librerías y NAS
+
+----
+
+===== 7. Seguridad =====
+  * Manual de usuario VPN
+  * Gestión de usuarios VPN
+  * Grupo vpns_jueces_disabled (procedimiento automático)
+  * Renovación de certificados SSL
+  * Alta/Baja de usuarios en AD
+  * Revisión de cuentas inactivas
+  * Escaneos de vulnerabilidades internos/externos
+  * Procedimiento de respuesta ante incidentes de seguridad
+  * Simulacro de phishing y concienciación
+  * Gestión de roles administrativos
+  * Control de accesos a CPD
+  * Gestión de contraseñas privilegiadas
+  * Configuración de MFA / 2FA
+  * Procedimiento de análisis de tráfico sospechoso
+  * Revisión de logs antivirus/EDR
+  * Procedimiento de contención de incidentes (aislar host)
+  * Integración con SIEM (FortiSIEM)
+  * Procedimiento de gestión de auditorías externas
+  * Cumplimiento normativo (RGPD, ENS)
+
+----
+
+===== 8. Herramientas / Servicios =====
+  * Instalación, Configuración y Administración de GestioIP
+  * URLs RCJA
+  * Directorio Activo (AD/LDAP) – gestión de usuarios y grupos
+  * Integración con Radius/TACACS+
+  * Servicio de correo corporativo (alta, baja, incidencias)
+  * Alta de nuevas aplicaciones web
+  * Publicación de aplicaciones en eDMZ
+  * Gestión de certificados en IIS / Apache / Nginx
+  * Procedimiento de despliegue de parches en WSUS
+  * Procedimiento en VMware/Hyper-V (alta VM, snapshot, backup)
+  * Administración de almacenamiento NAS/SAN
+  * Creación de shares y permisos
+  * Procedimiento de actualización de Wiki / documentación
+  * Gestión de DNS internos y externos
+  * Procedimiento de NTP en servidores
+
+----
+
+===== 9. Incidencias / Pruebas Técnicas =====
+  * Incidencias RadioEnlaces WiMAX
+  * Prueba de SNIFFER
+  * Pruebas de IPERF
+  * Incidencias switches RED.ES
+  * Troubleshooting VPN (SSL / IPsec)
+  * Diagnóstico de caídas en túneles
+  * Análisis de logs en firewalls
+  * Escalado a fabricante (Fortinet, HP, F5)
+  * Prueba de failover HA en firewalls
+  * Pruebas de rendimiento en enlaces WAN
+  * Validación de incidencias con usuarios
+  * Procedimiento de simulación de desastre (DRP)
+  * Prueba de restauración de backups en laboratorio
+
+----
+
+===== 10. Personal y Operaciones =====
+  * Personal Informático DDPP / Guardia
+  * Asignación de roles de usuario
+  * Control de accesos y permisos
+  * Procedimiento de guardias técnicas
+  * Checklist de documentación trimestral en la Wiki
+  * Actualización de diagramas de red
+  * Procedimiento de formación interna
+  * Procedimiento de comunicación de cambios (CAB)
+  * Gestión de incidencias recurrentes
+  * Procedimiento de cierre de incidencias
+  * Generación de informes mensuales de disponibilidad
+  * Gestión de relación con proveedores
+  * Procedimiento de auditorías internas
+

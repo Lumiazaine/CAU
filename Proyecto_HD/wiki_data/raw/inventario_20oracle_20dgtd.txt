@@ -1,0 +1,42 @@
+﻿
+====== Inventario Oracle DGTD ======
+
+Es preciso mantener la hoja de inventario de bbdd ante cada cambio en servidores con oracle, CPUs asignadas, versiones de bbdd, actualizaciones, creaciones (incluso standbies) y bajas.
+
+La hoja está en:\\
+"[[\\iusnas05\SIJ\Sistemas\00\03-SERVICIOS\S09-BBDD\05-Inventario|]] licencias DGPD\"\\
+Se debe crear petición y pasar a Coordinación con cada actualización de la hoja.
+
+Los pasos a seguir son:
+
+  - Crear una nueva carpeta con el formato "4 - Actualización Abr19" donde "4 -" es el numero de veces que se ha enviado la plantilla y agregaremos el mes y año en el que se revisa.
+  - Copiar la hoja excel de la actualización anterior
+  - Limpiar todos los "Modificado" "Alta" de "servidores" y "Oracle database"
+  - Borrar todas las líneas con "Baja"
+
+===== Pestaña SERVIDORES =====
+
+  * Los IDs no se tocan ni se rellenan
+  * Hay que poner TODOS los datos que veis, marca, modelo, tipo de CPU, nº procesadores, cores por procesador, virtualizado, S.O., arquitectura, cluster, tipo de cluster.
+  * En una migración de servidor se actualizan su nombre y datos, y se pone "Modificado"
+  * En una creación de servidor se crea la línea completa y se marca "Alta"
+  * Una baja solo se marca "Baja"
+
+Nos podemos ayudar de la siguiente sentencia lanzada en PROD02 para rellenar los datos del servidor.
+
+select SERVIDOR,MODELO, NUMEROCPU,NUMEROCOREXCPU , IP,SISTOP, CPU,MEMORIA , s.id_servidor from servidores s \\ where servidor like '%HU1CH2%';
+
+===== Pestaña ORACLE DATABASE =====
+
+  * Los IDs no se tocan ni se rellenan.
+
+  * Hay que poner TODOS los datos que veis, nombre (NombreTNS-SID), servidor (combo seleccionable), versión, entorno, infraestructura de AD, tipo de nodo, instancias relacionadas (nombre de la standby), respaldo, partitioning (NO), criticidad (dudas a Coordinación), disponibilidad. TI y observaciones fijaos como están rellenos, es probable que nos hagan cambiar esto.
+  * En una migración de bbdd se actualizan su nombre y datos, y se pone "Modificado".
+  * En una creación de bbdd se crea la línea completa y se marca "Alta"
+  * Una baja solo se marca "Baja"
+
+Nos podemos ayudar de la siguiente sentencia lanzada en PROD02 para rellenar los datos de la BBDD.
+
+SELECT BASE_DATOS,s.servidor, SID, VERSION FROM BASES_DATOS B ,SERVIDORES s WHERE B.SID LIKE 'SEOS' and \\ s.id_servidor=b.b_x_servidor
+
+

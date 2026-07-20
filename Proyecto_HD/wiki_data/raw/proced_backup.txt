@@ -1,0 +1,125 @@
+﻿
+====== Procedimiento de restauración de datos. ======
+
+===== Objetivo =====
+
+El objetivo de este documento es detallar la forma de restauración de datos.
+
+======   ======
+
+Procedimientos de restauración
+
+======   ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/incidenciasComunes/Restauracion de Backup?section=3|Editar]]
+
+A continuación enumeraremos los distintos procedimientos que tenemos hasta la fecha.
+
+Tanto uno como otro se realiza bajo consola y no se utiliza el modo gráfico, ya que el browser puede recargar el servidor.
+
+Si la restauración es muy grande, es necesario pasar la petición a Coordinación o consultarlo con ellos.
+
+NOTA: Si necesitamos navegar por los directorios, se realizará via red con //[[\\servidor\unidad$\ruta|]].//**NUNCA** se navegará desde el propio cliente en los directorios de forma local, ya que se pueden cambiar los permisos, salvo en la unidad C: del sistema y E:\Datos.
+=====   =====
+
+Restauración Standard
+
+=====   =====
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/incidenciasComunes/Restauracion de Backup?section=4|Editar]]
+
+Una restauración est
+ <font inherit/MS PGothic, sans-serif;;inherit;;inherit>á</font> ndar es aquella que se pide por una pérdida de documentos (ficheros o directorios) por parte del usuario y siempre viene (o debe venir) acompañada de un FAX con la fecha, ubicación y documentos a recuperar.
+
+1º - La petición debe venir de Coordinación. Si viene del CAU hay que devolverla para que la reasignen adecuadamente.
+
+2º - No dejar ficheros ¿basura¿ obtenidos por restauraciones a medias en directorios que luego van al Backup.
+
+Hay que **restaurar** en **E(DATOS, Comunes):\RESTAURADO\IN-xxx** (No se restaura nunca en discos de Sistema Operativo). CRIP o CAU moverá los archivos a su sitio cuando se confirme que son los correctos con el usuario. Cuando terminen deberán devolvernos la petición con la conformidad del usuario para que eliminemos cualquier rastro de la restauración, y cerrar la petición.
+
+3º - Cuando se pide una restauración de una fecha determinada, suele obtenerse del backup del día siguiente al pedido, salvo que pidan la restauración por la tarde y el backup se haya hecho por la mañana. La fecha de restauración hay que indicarla en la petición.
+
+4º - Deben de indicarnos si la fecha es de restauración, de creación de ficheros, de posible borrado, etc¿ Si no es así pedirlo. Devolver la petición no conforme, si no.
+
+5º - No se recuperarán directorios o ficheros de índole personal.
+
+Estos se podrán detectar por el espacio que ocupa la restauración o porque existen directorios denominados: "Recetas", "Libros", "Pelis", "Series", "Fotos Viajes", "Copias de teléfonos", "Whatsapp".
+
+NOTA 1 : Se buscarán en 1<sup>er</sup>  nivel de directorio y por encima o en el log de recuperación al 2º <sup> </sup>  y 3 <sup>er </sup>  nivel.
+
+NOTA 2 : Por parte de coordinación se irá ampliando esta relación de directorios.
+
+6º - Si la cantidad de datos a recuperar es grande y no se detecta información personal (directorios con nombres indicados anteriormente), se reasignará la petición a Coordinación para revisen lo restaurado.
+
+7º - Las restauraciones deben venir acompañadas del listado de ficheros restaurado.
+
+8º - Para estar completamente seguros no basta con mirar en 3 días sueltos de un periodo para ver si un fichero existió algún día de él. Si no se encuentra, hay que sacar el listado completo y pasadlo al usuario para que verifique si son esos. Para ello se ejecutaría:
+
+Para localizar un directorio:
+
+//**nsrinfo** // // cliente | grep "directorio\\\\directorio\\\\," //
+
+Para localizar ficheros en concreto:
+
+//**nsrinfo** // // cliente | grep "directorio\\\\directorio" | egrep "fichero1|fichero2|fichero3" //
+
+NOTA: Cuidado con los caracteres como la \ y caracteres especiales de regexp como el ¿+¿.
+
+Ejemplo: Restaurar los ficheros:
+
+//[[\\justiciacajf2h3\JSOCIAL\EMITIDOS\1102044003\2016000685\870274|09/03/2016 \\justiciacajf2h3\JSOCIAL\EMITIDOS\1102044003\2016000685\870274]]+ //
+
+//[[\\justiciacajf2h3\JSOCIAL\EMITIDOS\1102044003\2016000685\870308|09/03/2016 \\justiciacajf2h3\JSOCIAL\EMITIDOS\1102044003\2016000685\870308]]+0.rtf //
+
+//[[\\justiciacajf2h3\JSOCIAL\EMITIDOS\1102044003\2016000685\875277|05/04/2016 \\justiciacajf2h3\JSOCIAL\EMITIDOS\1102044003\2016000685\875277]]+0.rtf //
+
+//[[\\justiciacajf2h3\JSOCIAL\EMITIDOS\1102044003\2016000685\875399|05/04/2016 \\justiciacajf2h3\JSOCIAL\EMITIDOS\1102044003\2016000685\875399]]+0.rtf //
+
+//[[\\justiciacajf2h3\JSOCIAL\EMITIDOS\1102044003\2016000685\877449|12/04/2016 \\justiciacajf2h3\JSOCIAL\EMITIDOS\1102044003\2016000685\877449]]+0.rtf //
+
+// <font 0.8em/inherit;;inherit;;inherit>nsrinfo justiciacajf2h3.cadiz.justicia.junta-andalucia.es | grep "1102044003\\\\2016000685" | egrep "870274|870308|875277|875399|877449"</font> //
+
+Aunque tarde lo suyo en sedes grandes, va a buscar en toda la bbdd de ficheros.
+
+Otra cosa sería si ya ha pasado su //browse time//. Esto no valdría.
+
+En ese caso, se haría un bucle por todos los SSID del periodo generando un script del estilo:
+
+// <font 0.8em/NewsGotT;;inherit;;inherit>recover -s oragrid -S $SSID -d C:\RESTAURADO\incXXXXX\$FECHA_$SSID F:\JSOCIAL\EMITIDOS\1102044003\2016000685\</font>  //
+
+// <font 0.8em/NewsGotT;;inherit;;inherit>recover ….</font>  //
+
+y comprobaría después los ficheros
+
+==== Notas a tener en cuenta ====
+
+Hay Clientes como justiciamacjh, el cual tienen asignado punto de montajes sin letras (E: D:¿) estas carpetas son distribuidas por la cabina de almacenamiento correspondiente, en el caso de justiciamacjh la MSA 2040 San.
+
+Para poder acceder a dichas carpetas, suelen estar en la ruta C:\MountPoints, como acceso directo.
+
+En el //administrador del servidor del sistema > Almacenamiento > Administrador de disco//, se desplegará los distintos discos que tiene añadidos el sistema operativo.
+
+Si pulsamos botón derecho en la ventana que indica el espacio reservado del disco y elegimos la función propiedades. Nos mostrará la Lun de la cabina de almacenamiento en el volumen del disco.
+ <font 14px font-weight: 700/inherit;;inherit;;inherit>3.3 RESTAURACIÓN DE MÁQUINA VIRTUAL</font>
+
+1º - Arrancamos el VSphere desde el Networker:
+
+Configuration → VMWare Backup Appliances → Boton Derecho sobre iusslnsrproxy02 → Launch VSphere Web Client
+
+2º - Desde el VSphere, en el menú izquierdo → EMC Backup and Recovery y conectamos con la VBA:
+
+EBR appliance: IUSSLNRPROXY02 –> Connect
+
+3º - En la pestaña "Getting Started" –> Restore Backup
+
+4º - Seleccionamos: La VM que queremos restaurar
+
+La fecha de restauración, pulsamos en Restore
+
+Los discos virtuales a restaurar
+
+5º - Pinchamos en el botón "Restore".
+
+Esto nos dá paso a las opciones de restauración, donde podremos seleccionar: fecha de nuevo, la ubicación de destino (si lo queremos en el original u otra ubicación), el DataStore y si queremos que la MV se arranque tras la restauración.
+
+

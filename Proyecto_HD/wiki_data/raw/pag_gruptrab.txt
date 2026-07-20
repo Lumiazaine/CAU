@@ -1,0 +1,10 @@
+﻿
+====== Grupos de Trabajo ======
+
+  * **GTAB**: Grupo de trabajo de Almacenamiento y Backup. Administra además la tecnología HP-UX.
+  * **GTBD**: Grupo de trabajo que gestiona las Bases de Datos.
+  * **[[:pag_gtsl|GTSL]]** : Grupo de trabajo servidores Linux.
+  * **GTSR**: Grupo de trabajo de seguridad y redes. Administra infraestructura y servicios relacionados con las comunicaciones, así como proporcionar servicios relacionados con la Seguridad.
+  * **GTSW**: Grupo de trabajo servidores Windows. Administran infraestructura y servicios de negocio relativos a tecnología Windows. Administran además la plataforma de virtualización VMWARE.
+
+

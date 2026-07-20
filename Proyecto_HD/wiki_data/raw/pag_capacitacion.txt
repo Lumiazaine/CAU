@@ -1,0 +1,38 @@
+﻿
+
+
+<WRAP info round box>
+
+====== Equipo de formación ======
+</WRAP>
+
+
+
+<panel type="info">
+===== Procedimientos =====
+
+  - Procedimiento de Petición de Formación
+  - Procedimiento de Petición de Creación de Contenidos Formativos
+  - Procedimiento de Petición de publicación de contenidos
+
+</panel>
+
+<panel type="info">
+===== Plataforma =====
+
+</panel>
+
+
+<panel type="info">
+===== Programación y Calendario Formativo =====
+
+</panel>
+
+<panel type="info">
+===== Gestión de tickets =====
+
+  * [[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_formu:plantillas#correos_de_soporte_formativo|Correos informativos al usuario]]
+
+</panel>
+
+

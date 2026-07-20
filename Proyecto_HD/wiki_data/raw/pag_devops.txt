@@ -1,0 +1,78 @@
+﻿
+<panel type="primary" title="Explotación - DevOps">
+
+<WRAP> <panel type="info" title="Contacta">
+
+  * [[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_contactos#explotaci%C3%B3n-devops|Contacto Explotación - DevOps]]
+
+</panel> </WRAP>
+
+<WRAP> <panel type="info" title="Tus Primeros Pasos"> 1. Tu responsable debe hacerte llegar las credenciales de usuario de Active Directory, LDAP y usuario Remedy.
+
+2. Necesitas una licencia de Microsoft Teams, contactar con [[:pag_contactos#personal-ssdj|Paco Belmonte]] para que te incluya en la organización del SSDJ.
+
+3. Necesitas tener Certificado digital actualizado.
+
+4. Necesitas descargar el cliente de VPN para trabajar desde casa, ruta: \\iusnas05.justicia.junta-andalucia.es\SIJ\10. Proyectos en curso\04 CiberJ\01 Seguridad\01 S5-Securización Puestos de Trabajo\Manuales de usuario\
+
+5. Usuario de HGP para meter las horas de trabajo, contactar con [[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_contactos#oficina-t%C3%A9cnica-sacoep|Maruja Martínez Camacho]]
+
+6. Necesitas tener acceso a la maquina de salto con la que trabajamos: IP 10.241.253.78
+
+</panel> </WRAP>
+
+<WRAP><panel type="info" title="Permisos BBDD"> 1. Abrir un ticket a Sistemas > GTBD indicando lo siguiente:
+
+2. Para que pueda ser atendido por Sistemas, el tique, debe ser autorizado previamente por Paco Belmonte.
+
+3. Se solicitan permisos de select, insert, update y delete para todas las tablas de los esquemas:
+
+**TEMIS PROD02 - HERMES PROD04 - JARA PROD02 - PFIRMAMG_V3_1 PROD07 - CORE_OWNER**
+
+Usuario AD: amherrerae (Es un ejemplo) \\ Usuario de referencia: amherrerae (Usuario que tenga los accesos y permisos que solicitas)
+
+</panel></WRAP>
+
+<WRAP><panel type="info" title="Conexiones a BBDD">
+
+Ir a la máquina de salto 10.241.253.78, pulsar en inicio y escribir sqlplus.exe \\ Ejecutar el comando: sqlplus usuario_BBDD@BBDD \\ Un ejemplo sería: sqlplus fjgarciac@prod02, (Prod02 es Temis). \\ Una vez ejecutamos el comando nos pedirá cambiar la contraseña.
+
+**Core Owner**: \\ Si queremos acceder a la BBDD de core_owner tenemos que acceder al sql developer de Oracle y pulsar en el símbolo de suma verde para crear una nueva conexión. \\ {{:devops1.png?700}} \\ **En el apartado "Nombre de host" escribimos lo siguiente:**  iusolbd-scan.justicia.junta-andalucia.es \\ **El Puerto:**  1521 \\ **En "Nombre de Servicio:**" core \\ **¡Esto es importante!**, una vez terminemos de rellenar los datos pulsamos en el boton inferior izquierdo "Guardar". \\ En la parte izquierda del Oracle nos va a aparecer en "Conexiones" nuestra base de datos guardada, clic derecho y pulsamos en "Restablecer contraseña." \\ {{:devops2.png?300}}
+
+**TEMIS** \\ Volvemos a crear una conexión dándole al botón verde de más y hay que tener la configuración como se indica en la captura siguiente: \\ {{:devops3.png?600}} \\ El nombre de la conexión puedes poner el que quieras y el **TNS**  hay que elegir "prod02". \\  \\ **Clon** \\ Para poder tener está conexión es exactamente igual que en el apartado anterior **"Temis"**, pero en el **TNS**  elegimos el alias de red **Clon**.
+
+</panel> </WRAP>
+
+<WRAP> <panel type="info" title="Usuario Perfil Admin"> <html>
+
+<b>Mantenimiento-Temis:</b> Se crea el usuario Temis y a partir de ahí un administrador nos da permiso en Mantenimiento-Temis para poder acceder a todas las opciones de esta aplicación. Desde este apartado podemos hacer acciones como dar de alta a un usuario en un puesto diferente, dar acceso a un aplicativo en concreto etc..<br><br>
+
+<b> Jara:</b> Un Administrador tendrá que dirigirse hacia aplicaciones en Mantenimiento-Temis y buscar el aplicativo Jara, ahí nos tendrá que dar acceso a el aplicativo con perfil Super Administrador para poder realizar las labores que desempeñamos de manera habitual. Desde aquí podemos realizar varias acciones como la Gestión de firmantes, relaciones de transferencias, gestión de solicitudes de préstamo etc.. <br><br>
+
+<b> PortafirmasNG:</b> En PortafirmasNG primero deberemos solicitar el acceso al aplicativo y iniciar sesión para que nos reconozca el sistema, una vez realizado este proceso debemos solicitar a un Administrador que nos otorgue perfil Administrador para poder realizar las labores que desempeñamos de forma correcta. Desde aquí podemos cambiar el perfil de un usuario dependiendo de lo que solicite o se necesite en cada caso como dar de alta la funcionalidad de "Redacción", añadir el cargo al usuario etc..<br><br> <b> Hermes:</b> Un Administrador de Hermes nos tendrá que configurar nuestro perfil como administrador. Con este perfil lo que podremos hacer seria solucionar incidencias de absentismo, modificar perfiles etc…<br><br>
+
+</html> </panel> </WRAP>
+
+<WRAP><panel type="info" title="Remedy"> ¿Qué es Remedy? \\ **Remedy**  es una herramienta que utilizan todos los departamentos para gestionar incidencias de manera centralizada. Cada área y cada trabajador dispone de un usuario individual al que se le pueden asignar incidencias, lo que permite organizar, dar seguimiento y mantener un control eficiente del trabajo realizado. \\ **Como acceder a Remedy:** \\ En la máquina de salto 10.241.253.78 tendremos que tener un icono en el escritorio con la aplicación Remedy, pero si por un casual no aparece haremos lo siguiente: \\ 1. Buscar la siguiente ruta en el explorador de archivos "C:\Program Files (x86)\AR System\User". \\ 2. Hacer click derecho con el ratón y crear un acceso directo en el programa que se llama **"aruser"** \\ 3. El acceso directo lo guaras en el escritorio y ya podrías usarla.
+
+[[:pag_apli:remedy:guia|Guia básica de uso de Remedy]] </panel> </WRAP>
+
+
+
+<WRAP> 
+<panel type="info" title="Sauron"> 
+ \\ 
+**Sauron** es una herramienta donde se pueden realizar varias funciones: poder asignar roles a un usuario, sincronización Temis-Core_owner, eliminar relación de envió a Junta de expurgo, hacer uso de la automatización para desbloqueos 6.1 o consultar logs. \\ \\
+
+**¿Como levantar Sauron para su uso?** \\
+Dentro de la máquina de salto 10.241.253.78 tienes que pulsar en inicio y buscar **XAMPP Control Panel**. Una vez dentro pulsamos en los botones de start de los módulos **Apache** y **Mysql**. \\ \\
+{{:sauron.png?550|}} \\
+Para poder acceder hay que buscar en el navegador con la siguiente url: http://localhost/index.php
+
+
+
+
+</panel>
+</WRAP>
+
+{{tag>validada}}

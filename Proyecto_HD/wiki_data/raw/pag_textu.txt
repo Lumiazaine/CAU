@@ -1,0 +1,39 @@
+﻿
+<WRAP> 
+<panel type="primary" title="Textualización">
+
+La aplicación "Textualización" se trata de una herramienta que textualiza (transpone a texto) las grabaciones de las vistas judiciales grabadas con el sistema Arconte Aurea, lo que permite agilizar los procedimientos judiciales.
+
+Esta herramienta unicamente será de apoyo a la grabación firmada electrónicamente por el Letrado/a de la Administración de Justicia que es el ACTA a todos los efectos (artículo 146 LEC) de la que en ningún caso dicho archivo de textualización forma parte y a la que bajo ningún concepto sustituirá.
+
+<WRAP> 
+<panel type="info" title="Acceso">
+
+  * **URL:**
+  * **Contacta:** * [[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_contactos#textualizaci%C3%B3n|Contactos Textualización]]
+  * **Formulario:**
+  * **BBDD:**
+
+</panel>
+ 
+</WRAP>
+
+<WRAP>
+<panel type="info" title="Capacitación">
+
+  * [[https://capacitacion.justicia.junta-andalucia.es|Contenidos Digitales de Capacitación (Portal de Capacitación de Justicia Digital Andalucía)]]
+  * [[https://videos.justicia.junta-andalucia.es/home|Portal de contenidos en vídeo de Justicia Digital Andalucía]]
+
+</panel>
+ </WRAP>
+
+<WRAP> <panel type="info" title="Procedimientos y Problemas Conocidos">
+
+  * [[:pag_procedimientos_textualizacion|Procedimientos Textualización]]
+
+</panel> </WRAP>
+
+
+{{tag>novalidada}}
+
+

@@ -1,0 +1,61 @@
+﻿
+====== Procedimiento de Gestión de Vulnerabilidades ======
+
+==== 🎯 Objeto y Misión ====
+Establecer una metodología clara y repetible para la gestión de vulnerabilidades. La misión principal es detectar, evaluar, mitigar o aceptar los riesgos asociados a dichas vulnerabilidades, en coordinación con el equipo de Seguridad de OTPCS.
+
+==== 🔁 Frecuencia y Responsables ====
+  * **Frecuencia:** Revisión semanal.
+  * **Responsables:**
+    * OTPCS – Seguridad: Encargado de reportar las vulnerabilidades detectadas semanalmente.
+    * DGIJMD: Encargado de analizar el impacto, gestionar su resolución o aceptar el riesgo.
+    * Contactos clave:
+      * Adjunto del servicio: ''David Navarro''
+      * Asesor de seguridad: ''Rafael Pérez''
+
+==== 🧭 Mecánica del procedimiento ====
+  - **Recepción del informe semanal**
+    * OTPCS-Seguridad entrega un informe con las vulnerabilidades detectadas.
+    * Este informe incluye nivel de criticidad, posibles sistemas afectados y recomendaciones.
+  - **Análisis de impacto**
+    * Se analiza cada vulnerabilidad para determinar si afecta o no la DGIJMD.
+    * En caso de no aplicar, se documenta la justificación en el Excel de seguimiento.
+  - **Registro y seguimiento**
+    * Si la vulnerabilidad es relevante, se crea un ticket en Remedy.
+    * Se actualiza el Excel de seguimiento ubicado en: **//\\iusnas05.justicia.junta-andalucia.es\sij\OFICINA TECNICA PCS\02. Ejecución\05. Seguridad\15. Avisos de Seguridad//**
+  - **Mitigación o aceptación del riesgo**
+    * Se implementan medidas de mitigación (parches, cambios de configuración, bloqueos, etc.).
+    * Si no se puede mitigar, se documenta una aceptación del riesgo justificada.
+  - **Reporte semanal**
+    * Se actualiza el Excel con el estado actualizado.
+    * Se envía reporte resumen a:
+      * ''David Navarro'' (Adjunto del servicio)
+      * ''Rafael Pérez'' (Asesor de seguridad)
+
+==== 📊 Criterios de clasificación de vulnerabilidades ====
+(*Basado en CVSS u otro marco similar*)
+
+  * **Críticas**: Explotación remota sin autenticación, acceso a datos sensibles.
+  * **Altas**: Requiere autenticación o interacción del usuario.
+  * **Medias**: Impacto limitado o mitigado por configuración.
+  * **Bajas**: Poco probables o sin impacto real.
+
+==== 🛡️ Herramientas y fuentes utilizadas ====
+  * Informes OTPCS
+  * CVE / CVSS / NVD
+  * Remedy (gestión de tickets)
+  * Excel interno para seguimiento
+
+==== 📁 Documentación asociada ====
+  * Excel de seguimiento de vulnerabilidades
+  * Tickets de Remedy
+  * Reportes semanales archivados
+
+==== ✅ Buenas prácticas complementarias ====
+  * Aplicar parches críticos lo antes posible.
+  * Priorizar vulnerabilidades en sistemas críticos o expuestos.
+  * Documentar excepciones con su justificación.
+  * Mantener trazabilidad de todos los cambios aplicados.
+
+
+

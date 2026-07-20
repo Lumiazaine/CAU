@@ -1,0 +1,78 @@
+﻿
+====== Procedimiento de Preparación e Instalación de Rancher ======
+
+=== 🎯 Objetivo ===
+Disponer de una máquina con **SUSE Linux Enterprise** lista para operar **Rancher**, plataforma de gestión de *Kubernetes*, mediante Helm.
+
+=== 🧭 Alcance ===
+Este procedimiento aplica a todas las instalaciones de **Rancher** nuevas sobre entornos basados en **SUSE Linux Enterprise 15**, con el objetivo de garantizar un despliegue estandarizado y seguro.
+
+=== 🚀 Flujo general de instalación ===
+
+==== 1. Preparación inicial del sistema ====
+  * Sincronizar repositorios del sistema para garantizar acceso a todos los paquetes y módulos necesarios:
+    ```
+    zypper ref
+    ```
+  * Actualizar todos los componentes instalados:
+    ```
+    zypper update -y
+    ```
+  * Reiniciar el sistema para aplicar los cambios:
+    ```
+    reboot
+    ```
+
+==== 2. Instalación de componentes base ====
+  * Registrar extensiones y módulos requeridos.
+  * Instalar dependencias necesarias para el despliegue de Rancher:
+    ```
+    zypper install docker helm kubectl -y
+    systemctl enable docker
+    systemctl start docker
+    ```
+
+==== 3. Configuración del entorno de orquestación ====
+  * Desplegar versión ligera de *Kubernetes* (k3s o RKE2, según el entorno).
+  * Configurar *Helm* para la gestión de aplicaciones:
+    ```
+    helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
+    helm repo update
+    ```
+
+==== 4. Configuración de certificados ====
+  * Configurar el sistema de gestión de certificados (interno o externo).
+  * Verificar que el certificado y la clave privada estén correctamente instalados y accesibles.
+
+==== 5. Instalación de Rancher ====
+  * Instalar Rancher en el clúster de Kubernetes:
+    ```
+    helm install rancher rancher-stable/rancher \
+      --namespace cattle-system \
+      --create-namespace \
+      --set hostname=<FQDN-Rancher> \
+      --set bootstrapPassword=<ContraseñaInicial>
+    ```
+  * Validar que todos los *pods* de Rancher estén en estado **Running**:
+    ```
+    kubectl get pods -n cattle-system
+    ```
+
+==== 🔍 Verificación de la instalación ====
+  
+  - Confirmar que la interfaz web de Rancher es accesible mediante `https://<FQDN-Rancher>`.
+  - Iniciar sesión usando las credenciales iniciales y cambiar la contraseña por una segura.
+  - Revisar que todos los servicios estén operativos antes de iniciar tareas de administración.
+
+=== 📌 Aspectos a considerar ===
+
+  * Es imprescindible disponer de las credenciales utilizadas para el primer acceso.
+  * Revisar que no existan errores en los *logs* antes de comenzar a operar:
+
+    kubectl logs <pod> -n cattle-system
+
+=== 📚 Referencias ===
+
+  * Documentación oficial de Rancher: https://ranchermanager.docs.rancher.com/
+  * Guías de despliegue de Rancher sobre *SUSE Linux Enterprise*.
+

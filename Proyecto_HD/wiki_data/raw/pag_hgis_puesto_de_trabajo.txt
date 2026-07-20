@@ -1,0 +1,222 @@
+﻿
+<WRAP> <panel type="primary" title="Categoría de Servicio: PUESTO DE TRABAJO">
+
+\\
+<WRAP> <panel type="info" title="1. Introducción y Alcance">
+Esta categoría abarca todas las solicitudes, **Incidencias (INC)** y **Órdenes de Trabajo (WO)** relacionadas con el hardware, software base (no judicial específico), periféricos, telefonía, impresoras, red local y recursos de internet utilizados tanto por el usuario final como por el personal interno en su puesto de trabajo.
+</panel> </WRAP>
+
+<WRAP> 
+<panel type="info" title="2. Flujo de Categorización General (BMC Helix)">
+La clasificación se realiza en dos niveles:
+
+  * **Categoría Operacional N1:** Puesto de trabajo.
+  * **Categoría Operacional N2:** Define el tipo de problema o solicitud (Ej: Avería, Instalación, Error).
+  * **Categoría de Producto N1:** Puesto de Trabajo
+  * **Categoría de Producto N2:** Define el componente afectado (Ej: Aplicaciones en el puesto de trabajo, Impresoras y Escáneres, Ordenadores, periféricos y accesorios).
+
+
+<WRAP round box>
+
+===== 2.1. Categorías Operacionales N2 =====
+</WRAP>
+  * Actualización/Revisión
+  * Asistencia funcional
+  * Avería
+  * Configuración
+  * Error
+  * Fallo de Red
+  * Instalación
+  * Lentitud/Bloqueo
+  * Montaje/Cambio Ubicación
+  * Problema de Acceso
+  * Entrega de equipo
+<WRAP round box>
+===== 2.2. Categorías de Producto N2 =====
+</WRAP>
+  * Aplicaciones en el puesto de trabajo
+  * Archivos y carpetas
+  * Correo electrónico corporativo
+  * Impresoras y Escáneres
+  * Ordenadores, periféricos y accesorios
+  * Otros
+  * Recursos de internet
+  * Telefonía corporativa
+  * Trabajo remoto
+</panel> 
+
+<WRAP> <panel type="danger" title="3. Asignación de Tickets (Grupos Resolutores) - INFORMACIÓN CLAVE ">
+La asignación (al Grupo Resolutor) depende del Producto (N3 o Elemento) y si es INC o WO.
+
+^ Producto N2 (Componente) ^ Producto N3 (Elemento) ^ Tipo de Ticket ^ Grupo Resolutor Asignado ^ Notas de Asignación ^
+| **Aplicaciones en el puesto de trabajo** | Abby Transformer | Solo WO | Servicios Internos/Puesto de trabajo | INC va a DT_Provincia (Ver Notas 4.1). |
+| **Aplicaciones en el puesto de trabajo** | Acrobat | INC / WO | DT_Provincia | Asignación unificada. |
+| **Aplicaciones en el puesto de trabajo** | Alfresco | INC / WO | Sistemas/GTSW | Asignación unificada. |
+| **Aplicaciones en el puesto de trabajo** | Antivirus | INC / WO | DT_Provincia | Asignación unificada. |
+| **Aplicaciones en el puesto de trabajo** | Autofirma | INC / WO | DT_Provincia | Asignación unificada. |
+| **Aplicaciones en el puesto de trabajo** | Certificado Digital | INC / WO | DT_Provincia | Asignación unificada. |
+| **Aplicaciones en el puesto de trabajo** | Dragon Speaking | Solo WO | Servicios Internos/Puesto de trabajo | INC va a DT_Provincia (Ver Notas 4.1). |
+| **Aplicaciones en el puesto de trabajo** | Gestor de correo electrónico | INC / WO | DT_Provincia | Asignación unificada. |
+| **Aplicaciones en el puesto de trabajo** | Libre Office | INC / WO | DT_Provincia | Asignación unificada. |
+| **Aplicaciones en el puesto de trabajo** | Mantenimiento temis | INC / WO | Servicios internos/RunTime | Asignación unificada. (Cambio de Explotación a RunTime) |
+| **Aplicaciones en el puesto de trabajo** | Navegador | INC / WO | DT_Provincia | Asignación unificada. |
+| **Aplicaciones en el puesto de trabajo** | Office 365 | INC / WO | DT_Provincia | Asignación unificada. |
+| **Aplicaciones en el puesto de trabajo** | OpenOffice | INC / WO | DT_Provincia | Asignación unificada. |
+| **Aplicaciones en el puesto de trabajo** | Procesador de texto | INC / WO | DT_Provincia | Asignación unificada. |
+| **Aplicaciones en el puesto de trabajo** | Web externas | INC / WO | DT_Provincia | Asignación unificada. |
+| **Aplicaciones en el puesto de trabajo** | Webex | INC / WO | Nivel 1/Centro de servicio al usuario | Asignación unificada N1. |
+| **Aplicaciones en el puesto de trabajo** | Zoom | INC / WO | Nivel 1/Centro de servicio al usuario | Asignación unificada N1. |
+|---|---|---|---|---|
+| **Archivos y carpetas** | Mapeo Unidades | INC / WO | Nivel 1/Centro de servicio al usuario | Asignación unificada N1. |
+| **Archivos y carpetas** | Acceso a carpetas | INC / WO | Nivel 1/Centro de servicio al usuario | Asignación unificada N1. |
+| **Archivos y carpetas** | Recuperación de Archivos y documentos | Solo WO | Sistemas/GTAB | Incidencias NO EXISTEN. |
+|---|---|---|---|---|
+| **Correo electrónico corporativo** | Correo electrónico corporativo | INC / WO | Nivel 1/Centro de servicio al usuario | Asignación unificada N1. |
+|---|---|---|---|---|
+| **Impresoras y Escáneres** | Atasco de papel | Solo INC | Servicios/SIG | Peticiones NO EXISTEN. |
+| **Impresoras y Escáneres** | Fuente de Alimentación | Solo INC | Servicios/SIG | Peticiones NO EXISTEN. |
+| **Impresoras y Escáneres** | Fusor | Solo INC | Servicios/SIG | Peticiones NO EXISTEN. |
+| **Impresoras y Escáneres** | Impresión a doble cara | Solo INC | Servicios/SIG | Peticiones NO EXISTEN. |
+| **Impresoras y Escáneres** | Kit de Mantenimiento | INC / WO | **VER DETALLE 3.1** | WO (Servicios Internos/Puesto de trabajo valida, luego a SIG). INC (DT_Provincia). |
+| **Impresoras y Escáneres** | Memoria Interna de la impresora | Solo INC | Servicios/SIG | Peticiones NO EXISTEN. |
+| **Impresoras y Escáneres** | Panel de control/ Pantalla táctil | Solo INC | Servicios/SIG | Peticiones NO EXISTEN. |
+| **Impresoras y Escáneres** | Placa base de la impresora | Solo INC | Servicios/SIG | Peticiones NO EXISTEN. |
+| **Impresoras y Escáneres** | Puerto USB impresora | Solo INC | Servicios/SIG | Peticiones NO EXISTEN. |
+| **Impresoras y Escáneres** | Rodillos Alimentación | Solo INC | Servicios/SIG | Peticiones NO EXISTEN. |
+| **Impresoras y Escáneres** | Sensor de papel | Solo INC | Servicios/SIG | Peticiones NO EXISTEN. |
+| **Impresoras y Escáneres** | Tambor | Solo INC | Servicios/SIG | Peticiones NO EXISTEN. |
+| **Impresoras y Escáneres** | Tarjeta Red impresora | Solo INC | Servicios/SIG | Peticiones NO EXISTEN. |
+| **Impresoras y Escáneres** | Tóner/Cartucho de tinta | Solo WO | Servicios/SIG | Incidencias NO EXISTEN. |
+| **Impresoras y Escáneres** | No imprime/escanea | Solo INC | DT_Provincia | Peticiones NO EXISTEN. (Ver Notas 4.2 sobre reasignación). |
+| **Impresoras y Escáneres** | Unidad de Imagen | Solo WO | Servicios Internos/Puesto de trabajo | INC va a DT_Provincia (Ver Notas 4.1). |
+| **Impresoras y Escáneres** | Escáneres | INC / WO | DT_Provincia | Asignación unificada. |
+|---|---|---|---|---|
+| **Ordenadores, periféricos y accesorios** | Altavoces | INC / WO | DT_Provincia | Asignación unificada. |
+| **Ordenadores, periféricos y accesorios** | Batería Portátil | INC / WO | DT_Provincia | Asignación unificada. |
+| **Ordenadores, periféricos y accesorios** | CD - ROM | Solo WO | Servicios Internos/Puesto de trabajo | INC va a DT_Provincia (Ver Notas 4.1). |
+| **Ordenadores, periféricos y accesorios** | DVD | Solo WO | Servicios Internos/Puesto de trabajo | INC va a DT_Provincia (Ver Notas 4.1). |
+| **Ordenadores, periféricos y accesorios** | Disco Duro/SSD | Solo WO | Servicios Internos/Puesto de trabajo | INC va a DT_Provincia (Ver Notas 4.1). |
+| **Ordenadores, periféricos y accesorios** | Fuente de Alimentación | INC / WO | DT_Provincia | Asignación unificada. |
+| **Ordenadores, periféricos y accesorios** | Monitor | INC / WO | DT_Provincia | Asignación unificada. |
+| **Ordenadores, periféricos y accesorios** | Ordenador | INC / WO | DT_Provincia | Asignación unificada. |
+| **Ordenadores, periféricos y accesorios** | Pila | Solo INC | DT_Provincia | Peticiones NO EXISTEN. |
+| **Ordenadores, periféricos y accesorios** | Placa Base | Solo INC | DT_Provincia | Peticiones NO EXISTEN. |
+| **Ordenadores, periféricos y accesorios** | Portátil | INC / WO | DT_Provincia | Asignación unificada. |
+| **Ordenadores, periféricos y accesorios** | Ratón | Solo WO | DT_Provincia | Incidencias NO EXISTEN. |
+| **Ordenadores, periféricos y accesorios** | Tarjeta de Red | Solo INC | DT_Provincia | Peticiones NO EXISTEN. |
+| **Ordenadores, periféricos y accesorios** | Tarjeta de Video | Solo INC | DT_Provincia | Peticiones NO EXISTEN. |
+| **Ordenadores, periféricos y accesorios** | Lectores/ Grabadora | INC / WO | DT_Provincia | Asignación unificada. |
+| **Ordenadores, periféricos y accesorios** | Teclado | Solo WO | DT_Provincia | Incidencias NO EXISTEN. |
+| **Ordenadores, periféricos y accesorios** | Ventilador | Solo INC | DT_Provincia | Peticiones NO EXISTEN. |
+|---|---|---|---|---|
+| **Telefonía corporativa** | Centralita telefónica | INC / WO | DT_Provincia | Asignación unificada. |
+| **Telefonía corporativa** | Teléfono Fijo | INC / WO | DT_Provincia | Asignación unificada. |
+| **Telefonía corporativa** | Teléfono Móvil | INC / WO | DT_Provincia | Asignación unificada. |
+| **Telefonía corporativa** | e_Fax/Fax | INC / WO | DT_Provincia | Asignación unificada. |
+|---|---|---|---|---|
+| **Recursos de internet** | Acceso a internet | INC / WO | DT_Provincia | Asignación unificada. |
+| **Recursos de internet** | Latiguillo Roseta | INC / WO | DT_Provincia | Asignación unificada. |
+|---|---|---|---|---|
+| **Trabajo remoto** | VPN | INC / WO | Nivel 1/Centro de servicio al usuario | Asignación unificada N1. |
+|---|---|---|---|---|
+| **Otros** | el usuario ha escrito lo que sea | INC / WO | Nivel 1/Centro de servicio al usuario | Asignación unificada N1. |
+
+</panel> 
+
+<WRAP> 
+
+
+
+<panel type="info">
+<WRAP round box>
+===== 2.3 Peticiones de baja y cambio de ubicación de activos CI =====
+</WRAP>
+
+<WRAP important round box>
+
+  - En primer lugar SIEMPRE nos solicitará la ubicación del CI, de esta forma acota el listado de CI que muestra, solo aparecerán los relacionados con la ubicación elegida.
+  - Si la ubicación no dispone de CI asociados no va a aparecer nada. El CI debe aparecer en el listado de los CI asociados a la ubicación.
+</WRAP>
+
+Estas gestiones se realizan desde DIGITAL WORK PLACE [[https://cau-dwp.justicia.junta-andalucia.es/dwp/app/#/page/kq20uilo]]
+<WRAP tip round box>
+Entramos en "Catálogo" y seleccionamos Realizar petición
+</WRAP>
+
+{{:pag_hgis:cambio_de_ubicacionci1.png?800|}}
+ 
+
+  - **Cambio de ubicación del CI**: Utilizamos este ejemplo: 70SPEBS350K10833 MONITOR HYUNDAI L70S+ (TFT 17"). 
+ 
+
+{{:pag_hgis:cambio_de_ubicacionci2.png?700|}}
+
+
+Rellenamos los datos para realizar el cambio, y enviamos petición.
+
+
+{{:pag_hgis:cambio_de_ubicacionci15.png?700|}}
+
+
+Se crea una Orden de trabajo en el ITSM.
+
+Asignado a Puesto de trabajo a Coordinación (WO0000000461101)
+
+
+{{:pag_hgis:cambio_de_ubicacionci4.png?700|}}
+
+
+Si pinchamos en la REQ000000244901 aparecen los datos de la petición de cambio completa.
+ 
+
+{{:pag_hgis:cambio_de_ubicacionci5.png?700|}}
+
+
+Para que se ejecute el cambio, el usuario técnico asignado debe de poner el ticket en estado “**En Curso**” y se realiza el cambio:
+
+{{:pag_hgis:cambio_de_ubicacionci6.png?700|}}
+
+
+
+
+- **Baja de CI**: Utilizamos este ejemplo: 70SPEBS350K10833 MONITOR HYUNDAI L70S+ (TFT 17").
+
+
+{{:pag_hgis:cambio_de_ubicacionci7.png?700|}}
+
+En el ITSM se crea la orden de trabajo WO0000000461102 con el REQ000000244902 donde se pueden consultar el movimiento.
+
+
+{{:pag_hgis:cambio_de_ubicacionci8.png?700|}}
+
+
+Pongo “En curso” la orden de trabajo para que se realice el cambio. 
+
+
+{{:pag_hgis:cambio_de_ubicacionci9.png?700|}}
+
+
+- **Baja de CI Y sustitución por otro**: Utilizamos este ejemplo: 891212 lo vamos a dar de abaja y lo sustituimos por 857678.
+ 
+
+
+
+{{:pag_hgis:cambio_de_ubicacionci10.png?700|}}
+ 
+
+Se crea una orden de trabajo y el usuario técnico asignado lo pone “En curso”
+ 
+
+  * El CI 891212 se queda en Fin de la vida útil
+  * El CI 857678se queda aplicado con la nueva ubicación, se puede consultar en el activo el cambio de ubicación.
+
+
+{{:pag_hgis:cambio_de_ubicacionci11.png?700|}}
+
+{{:pag_hgis:cambio_de_ubicacionci12.png?700|}}
+ 
+
+ 
+</panel>
+
+

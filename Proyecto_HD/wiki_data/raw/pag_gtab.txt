@@ -1,0 +1,18 @@
+﻿
+====== Grupo de Trabajo de Almacenamiento y Backup. ======
+
+  * [[:proced_backups|Procedimiento de realización de copias de seguridad]]
+  * [[:proced_restaurac|Procedimiento de restauración de datos]]
+  * [[:esquema_infra_backup|Esquema de infraestructura de almacenamiento]]
+  * [[:plan_mantenimiento_hp-ux|Plan de mantenimiento de sistemas HP-UX]]
+  * [[:gestion_cambios_gtab|Procedimiento de gestión de cambios]]
+  * [[:procedimiento_instalacion_sw_backup|Procedimiento de instalación de software relacionado con almacenamiento]]
+  * [[:tpgtab|Tareas programadas]]
+  * [[:agtab|Alertas GTAB]]
+  * [[:mantenimiento_multimarca|Mantenimiento de Hardware antiguo]]
+  * [[:soporte_multimarca|Soporte multimarca]]
+  * [[:mantenimiento_gtab|Tareas de mantenimiento]]
+  * [[:ogtab|Operativas GTAB]]
+  * [[:varios|Varios]]
+
+

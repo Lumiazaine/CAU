@@ -1,0 +1,67 @@
+﻿
+====== Procedimiento de Hardening de Dispositivos de Red ======
+
+===== 1. Objetivo =====
+Establecer un procedimiento estandarizado para aplicar medidas de **bastionado (hardening)** a dispositivos de red con el fin de reducir la superficie de ataque, asegurar la disponibilidad, integridad y confidencialidad de los servicios, y cumplir con las políticas de seguridad corporativas.
+
+===== 2. Alcance =====
+Aplica a todos los equipos de red gestionables: switches, routers, firewalls, balanceadores, etc., ya sean de los fabricantes Aruba, Fortinet, Cisco, etc.
+
+===== 3. Responsables =====
+  * **Administrador de red**: Ejecuta las tareas técnicas de bastionado.
+  * **Auditor interno**: Verifica controles y revisa trazabilidad de cambios.
+
+===== 4. Procedimiento =====
+
+==== 4.1 Accesos y autenticación ====
+  * Deshabilitar **cuentas predeterminadas** o cambiar sus contraseñas.
+  * Configurar **autenticación con AAA (RADIUS o TACACS+)**.
+  * Usar **contraseñas seguras**, sin cifrados reversibles.
+  * Habilitar **autenticación multifactor (MFA)** si se accede desde fuera.
+  * Aplicar **timeouts de sesión** y logout por inactividad.
+
+==== 4.2 Acceso remoto y protocolos seguros ====
+  * Deshabilitar **Telnet**. Usar **SSH v2** únicamente.
+  * Deshabilitar HTTP. Usar solo **HTTPS** para interfaz web.
+  * Limitar acceso de administración con **ACLs** o **IP de gestión**.
+  * Cambiar los **puertos por defecto** si es posible.
+
+==== 4.3 Actualizaciones y parches ====
+  * Instalar la **penúltima versión estable del firmware**.
+  * Revisar periódicamente **boletines de seguridad del fabricante**.
+  * Registrar fecha y cambios realizados.
+
+==== 4.4 Políticas de firewall y control de tráfico ====
+  * Aplicar el principio de **mínimo privilegio**: solo permitir tráfico necesario.
+  * Registrar los cambios en las políticas con su justificación.
+  * Aplicar **inspección de tráfico (stateful)** si está disponible.
+
+==== 4.5 Protección de puertos y red ====
+  * Activar **Port Security** en switches.
+  * Activar **Spanning Tree (STP)** y **BPDU Guard**.
+  * Configurar **DHCP Snooping** y **ARP Inspection** si están disponibles.
+  * Desactivar puertos no usados y marcarlos como shutdown.
+
+==== 4.6 SNMP y monitorización ====
+  * Deshabilitar **SNMPv1/v2c**, usar solo **SNMPv3**.
+  * Configurar monitorización con **Zabbix, Nagios o similar**.
+  * Registrar logs en servidor **Syslog** centralizado.
+  * Sincronizar con servidor **NTP** corporativo.
+
+==== 4.7 Auditoría y trazabilidad ====
+  * Habilitar **logs de acceso y comandos** ejecutados.
+  * Enviar logs a un **servidor externo (SIEM/Syslog)**.
+  * Documentar todos los cambios con fecha y técnico responsable.
+
+==== 4.8 Copias de seguridad ====
+  * Programar **copias automáticas de configuración**.
+  * Almacenar en ubicaciones **seguras y redundantes**.
+  * Verificar regularmente los backups.
+
+===== 5. Registro de cambios =====
+
+| Versión | Fecha       | Responsable  | Descripción                  |
+|---------|-------------|---------------|------------------------------|
+| 1.0     | 17/07/2025  | GTSR PN| Creación del procedimiento   |
+
+

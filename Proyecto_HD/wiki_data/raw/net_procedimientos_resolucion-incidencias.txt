@@ -1,0 +1,119 @@
+﻿
+===== Procedimientos Recuperación y Atención Incidencias Red Judicial =====
+
+==== 1.Línea de datos - Pérdida de servicio ====
+Recoger operatoria para recuperación de línea de datos caída en sede.
+
+  1. Comprobar ping hacia equipo o cortes.  
+     - Si hay ping, monitorizar estabilidad.
+
+  2. Si persiste pérdida:  
+     - Crear ticket Remedy (si no existe) con:  
+       * Descripción: "Hemos perdido la conectividad con el router de la sede."  
+       * Diario: "Comprobad equipamiento. Reiniciad si procede."
+
+  3. Reasignar ticket a Servicios/SPU-CRIP.
+
+  4. Contactar técnico DP o JEFE DPTO.  
+     - Fuera de horario (8-15h), contactar técnico guardia provincial.  
+     - Técnico acude a sede.  
+     - Teléfonos DP: `\\iusnas05\sij\Comun\Teléfonos y correos Informática\Personal Informática DD.PP..xls`
+
+  5. Técnico debe:  
+     - Verificar alimentación eléctrica (diferencial rack).  
+     - Reiniciar router.  
+     - Revisar LEDs (foto si posible).
+
+  6. Si sigue incidencia:  
+     - Solicitar teléfono y horario técnico, horario sede y teléfono guardia (si sede cerrada).  
+     - Abrir ticket RCJA (si no existe), enviando mail a cau.rcja@juntadeandalucia.es o llamar 300001 indicando código sede (JUST-XXX-XXX).  
+     - Se abrirá REQ.  
+     - Llamar a Rocío Marín (670943261) o pedir a técnico CRIP llamar 300001 y solicitar paso a CGT.
+
+== Niveles de atención ==
+
+| Nivel | Contacto                            | Teléfono          | Email                                           |
+| 0     | Servicios de Datos                 | 300001 / 955061035|                                                |
+| 1     | sop.comunicaciones24x7.sandetel@juntadeandalucia.es | 671598888         | sop.comunicaciones24x7.sandetel@juntadeandalucia.es |
+| 2     | Javier Algaba / Daniel Torezano   | 609588693         | javier.algaba@juntadeandalucia.es / daniel.torezano@juntadeandalucia.es |
+| 3     | Rocío Marín                       | 670943261         |                                                |
+
+  7. Notificar en Remedy:  
+     - Incidencia RCJA HD000000XXXXXX: "Caída línea datos sede [CÓDIGO EDIFICIO]".  
+     - Reasignar a SISTEMAS > PENDIENTE CAUSA EXTERNA > PENDIENTE RCJA.
+
+==== 2.Línea de datos - Degradación ====
+
+  1. Comprobar pérdida paquetes hacia:  
+     - Router, VPN IP externa/interna, servidor sede/equipo para pruebas.
+
+  2. Si pérdida en router, gestionar como incidencia pérdida servicio (ticket SIO).  
+     Si en otro elemento, revisar conexionado y estado.
+
+  3. Si no hay pérdida, realizar pruebas IPERF desde servidor sede (o portátil DP).  
+     - Primero contra Sandetel, luego SSCC.
+
+  4. Si pruebas negativas, reiniciar router y electrónica de red.
+
+  5. Repetir pruebas; si persiste, abrir ticket SIO a RCJA con:  
+     "Degradación LINEA DATOS [CÓDIGO EDIFICIO]. Reiniciado router y conversor sin éxito. Adjuntamos pruebas IPERF."
+
+  6. Anotar ticket SIO en Remedy y poner pendiente causa externa RCJA.
+
+==== 3. FW-VPN - Pérdida de servicio ====
+Recoger operatoria para recuperación de fw-vpn caído en sede.
+
+  1. Crear ticket Remedy (si no existe):  
+     - Descripción: "Hemos perdido la conectividad con el FW de la sede."  
+     - Diario: "Comprobad equipamiento. Reiniciad si procede."
+
+  2. Reasignar ticket a DP.
+
+  3. Contactar técnico DP o JEFE DPTO; técnico acude a sede.  
+     Teléfonos DP: `\\iusnas05\sij\Comun\Teléfonos y correos Informática\Personal Informática DD.PP..xls`
+
+  4. Técnico reinicia y revisa cableado, luces, conexión.  
+     - Si sigue sin responder, abrir caso Fortinet y reemplazar con FW-VPN disponible en DP siguiendo procedimiento.
+
+==== 4. Balanceador - Pérdida de servicio ====
+Recoger operatoria para atender una incidencia de **pérdida de servicio en balanceador**.
+
+  1. Los sistemas de monitorización (Nagios / iMC) notifican la pérdida de servicio en alguno de los nodos.  
+
+  2. Crear incidencia en **Remedy** (si no existe):  
+     - Descripción: "Pérdida de servicio en balanceador detectada por monitorización."  
+     - Diario: "Se revisan nodos, reinicio y logs."  
+
+  3. Comprobar si alguno de los nodos está activo y prestando servicio.  
+
+  4. Si un nodo no responde, proceder a **reiniciarlo**.  
+
+  5. Revisar **logs del equipo** y el **conexionado**.  
+
+  6. Si la incidencia persiste:  
+     - Abrir **ticket de soporte a F5**.  
+     - Comunicar el caso a **Comparex**.  
+
+----
+
+==== 4.1 Balanceador - Degradación ====
+Recoger operatoria para atender una incidencia de **degradación de servicio en balanceador**.
+
+  1. Recibir incidencia que indica degradación en alguno de los servicios prestados por el balanceador.  
+
+  2. Comprobar el **estado de los nodos del pool del Virtual Server**, si no es una incidencia generalizada.  
+     - En caso necesario, escalar a **GTSL**.  
+
+  3. Verificar el **estado de CPU y memoria** del nodo activo:  
+     - Si los valores son muy altos, conmutar al nodo en standby.  
+     - Abrir caso con **F5**.  
+
+  4. Revisar el **tráfico individual hacia el Virtual Server** en caso de degradación de un único servicio.  
+
+  5. Revisar el **tráfico global de red** en el nodo activo.  
+
+  6. Si la incidencia persiste:  
+     - Conmutar el nodo.  
+     - Abrir caso con **F5**.  
+
+

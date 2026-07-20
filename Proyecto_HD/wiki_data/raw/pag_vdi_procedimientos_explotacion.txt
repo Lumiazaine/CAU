@@ -1,0 +1,833 @@
+﻿
+<wrap>
+<panel type="success" title="Resumen de página">
+
+En esta página se encuentra información de interés, con respecto a los procesos operativos y de despliegue relacionados con el Puesto de Trabajo Virtual.
+
+^Sección  ^Enlace  |
+|Procedimientos implantación / despliegue  |[[:pag_vdi:procedimientos:explotacion#procedimientos-despliegue|Acceso rápido a sección]]  |
+|Procedimientos operativos  |[[:pag_vdi:procedimientos:explotacion#procedimientos-operativos|Acceso rápido a sección]]  |
+|Puestos rotativos  |[[:pag_vdi:procedimientos:explotacion#puestos-rotativos|Acceso rápido a sección]]  |
+
+Puede volver a la página general de procedimientos a través del siguiente enlace: [[:pag_vdi:procedimientos:start|Página principal procedimientos]]
+
+</panel>
+</wrap>
+
+<panel type="primary" title="Procedimientos despliegue">
+
+===== Procedimientos de despliegue/implantación =====
+
+<wrap>
+<panel type="warning" title="Resumen sección">
+
+^Procedimientos^Acceso directo  |
+|Criterios selección usuarios|[[:pag_vdi:procedimientos:explotacion#criterios_de_seleccion_usuarios|Ir]]  |
+|Distribución y entrega de terminales ligeros|[[:pag_vdi:procedimientos:explotacion#distribucion_terminales_ligeros|Ir]]  |
+|Entrega equipamiento de repuesto|[[:pag_vdi:procedimientos:explotacion#distribucion_terminales_ligeros|Ir]]  |
+|Contacto inicial con Órganos Judiciales|[[:pag_vdi:procedimientos:explotacion#contacto_equipo_despliegue_con_organos_judiciales|Ir]]  |
+|Material de Stock|[[:pag_vdi:procedimientos:explotacion#material_de_stock|Ir]]  |
+|Solicitud masiva VPN|[[:pag_vdi:procedimientos:explotacion#solicitud_masiva_vpn|Ir]]  |
+|Calidad y retirada equipos salientes|[[:pag_vdi:procedimientos:explotacion#revisiones_de_calidad_y_retirada_de_equipos|Ir]]  |
+|Verificación y actuaciones pendrives migración|[[:pag_vdi:procedimientos:explotacion#verificacion_y_actuaciones_pendrives_migracion|Ir]]  |
+|Rotación equipos "windows 7"/thinclients y "windows 10"|[[:pag_vdi:procedimientos:explotacion#rotacion_equipos_windows_7_y_windows_10|Ir]]  |
+
+</panel>
+</wrap>
+
+<wrap>
+<panel>
+
+=== Criterios de selección de usuarios ===
+
+  * **Criterio de selección para VDI y para Thin Client:**
+Implantación de Puestos de Trabajos Virtualizados para los siguientes perfiles:
+
+  * Todos los Magistrados y Jueces.
+  * Fiscal Superior, Fiscales Jefes, Tenientes Fiscales y Fiscales.
+  * Todos los Letrados de la Administración de Justicia.
+  * Dos Gestores procesales por Órgano Judicial y Fiscalía.
+  * Un Tramitador procesal por Órgano Judicial.
+  * Directores, Secretarios y Jefes de Servicios del IML.
+  * Todos los Médicos Forenses.
+
+</panel>
+</wrap>
+
+<wrap>
+<panel>
+
+=== Distribución y entrega de terminales ligeros ===
+
+   * Un terminal ligero para cada Fiscal Jefe. 
+   * Dos terminales ligeros por cada Órgano Judicial destinado a los usuarios que seleccione el Letrado de la Admo de Justicia.
+
+El proveedor contactará con las personas de contacto proporcionadas por las Delegaciones Provinciales para acordar cantidad, fecha/hora y lugar/modo de recogida, e informará a Inventario SSDJ de lo acordado.
+La recogida se realizará de forma progresiva según avance el despliegue.
+Con cada entrega se firmará, tanto por parte de la persona que entrega como por parte de la persona que recibe, el Acta de Entrega de equipamiento que os ha remitido el equipo de Inventario SSDJ. Esta acta contendrá el número de serie y RFID de cada terminal que se entregue.
+El Acta de Entrega firmada se remitirá a Servicios Inventario mediante creación de ticket Remedy el mismo día que se entregue el equipamiento.
+El equipo de Inventario SSDJ realizará el seguimiento de las entregas e instalación del equipamiento.
+Con cada Terminal Ligero se debe entregar el kit completo:
+  * Terminal Ligero
+  * Cable de seguridad
+  * Teclado con lector integrado
+  * Ratón
+
+</panel>
+</wrap>
+
+<wrap>
+<panel>
+
+=== Entrega equipamiento de repuesto ===
+
+  * Se debe dotar al proveedor de equipamiento (mini stock) de repuesto para los casos que falle el planchado durante la migración puedan sustituirlos directamente.
+  * El Coordinador de CRIP se ha encargado de la preparación de equipamiento para un stock inicial en cada provincia, pero se necesitará que se continúen preparando equipos para que cada provincia disponga de suficiente stock durante todo el proceso de migración.
+  * El proveedor contactará con Coordinador del CRIP e informará de la necesidad de reposición de stock.
+  * El procedimiento de entrega de equipamiento de repuesto es la siguiente:
+  * El proveedor contactará con Coordinador CRIP para acordar fecha, lugar y modo de recogida de los equipos.
+  * Coordinador CRIP informará a Inventario SSDJ y DP de la necesidad de stock y coordinará con la DP la recogida del equipamiento para su posterior entrega.
+  * Con cada entrega se firmará, tanto por parte de la persona que entrega como por parte de la persona que recibe, el Acta de entrega de equipamiento (Thinclients , Equipos de botiquín [añadir enlaces]). Este acta contendrá el número de serie y RFID de cada terminal que se entregue.
+  * El Acta de Entrega firmada se remitirá a Servicios / Inventario mediante creación de ticket Remedy el mismo día que se entregue el equipamiento.
+  * El equipo de Inventario SSDJ realizará el seguimiento de las entregas e instalación del equipamiento.
+
+</panel>
+</wrap>
+
+<wrap>
+<panel>
+
+=== Contacto equipo despliegue con Órganos Judiciales. ===
+
+* **Modo de trabajo**  El equipo de implantación VDI contacta previamente con el Letrado del órgano, Fiscal SIMJ o Director IML para confirmar la fecha de migración del órgano y los datos de los usuarios que se van a migrar.
+
+El día de la migración, el técnico de implantación en primer lugar contacta con el Letrado del Órgano para informar sobre el proceso de migración y seleccionar los usuarios a los que se les va sustituir el equipo por el thintclient.
+
+</panel>
+</wrap>
+
+<wrap>
+<panel>
+
+=== Material de Stock Despliegue ===
+
+* Los técnicos encargados de la implantación de VDI llevan el siguiente material para su uso si es necesario durante la migración del puesto :
+
+  * Grabadoras CD/DVD externas
+  * HUB
+  * Lector externo y tarjeta criptográfica
+  * Cables DVI-DVI
+  * Cables DVI-HDMI
+  * Conversor VGA – HDMI
+  * Pilas thinclient
+
+Si el usuario solicita a DP/CRIP o CAU algunos de estos materiales una vez ha finalizado la migración de su organismo, la petición debe gestionarse mediante **Remedy a Servicios/Planificación**.
+
+</panel>
+</wrap>
+
+<wrap>
+<panel>
+
+=== Solicitud masiva VPN ===
+
+Con la intención de agilizar y mejorar la eficiencia de los procesos de migración, se va a proceder a la solicitud masiva de VPN para los usuarios cuya migración a VDI esté planificada a una semana vista según el siguiente procedimiento:
+
+1.- **Todos los martes**, el equipo de puesto de trabajo, en base a las planificaciones facilitadas por el implantador, preparará un documento estándar alojado en iusnas05. Mediante ticket Remedy realizará al CAU la solicitud semanal.
+
+  * Ruta archivos: \\iusnas05.justicia.junta-andalucia.es\SIJ\10. Proyectos en curso\00 VDI\14. Despliegue\Usuarios VPN\VPNs_masivas\maestros\ :
+  * Fichero **maestroVPN-v5**: Seleccionando la semana planificada a solicitar se genera la información suficiente para completar el documento plantilla alta_masvia_CAU_V2.
+  * Fichero **alta_masiva_CAUV_2**: Este documento es el entregable a CAU para que coordine con Red Corporativa la solicitud y gestión masiva de altas VPN.
+
+Los criterios para la selección de usuarios que necesitan VPN son los siguientes:
+
+  - El usuario está planificado para la semana indicada
+  - El usuario no tiene ya VPN activa
+  - El usuario tiene a lo largo del año 2025 conexiones mediante ISL
+
+2.- Por parte del CAU se gestionará pertinentemente la solicitud a Red Corporativa. Entorno a los __tres días__, se recibe respuesta estándar y CAU devuelve vía Remedy el mismo archivo que se le envió (alta_masiva_CAUV_2) con la respuesta de red corporativa. Este documento está preparado para gestionar dicha respuesta de forma automática, de forma que se vincule IP asignada al usuario ldap para el que se ha realizado la solicitud. **No es necesario procesar manualmente la respuesta de red corporativa**.
+
+3.- El equipo de puesto de trabajo __solucionará y cerrará__  el ticket. y deberá abrir uno nuevo al equipo de sistemas con los UPDATES necesarios para la carga de información relativa a la IP asignada a cada usuario. Estos UPDATES se generan **automáticamente**  en el archivo que devuelve CAU incluyendo la respuesta de red corporativa.
+
+4.- El equipo de sistemas gestionará la carga masiva de información y con esto termina el proceso.
+
+**__Consideraciones:__  **
+
+Las solicitudes de usuario que surjan en el día a día por el motivo que sea deberán tratarse con el procedimiento habitual.
+
+<WRAP round important> Es necesario revisar en la respuesta a cada solicitud que se generan de forma automática el mismo número de registros y UPDATES que de solicitudes. </WRAP>
+
+</panel>
+</wrap>
+
+<wrap>
+<panel>
+
+=== Revisiones de calidad y retirada de equipos ===
+
+<WRAP round tip>Se va a realizar un piloto para validar los procedimientos establecidos para la gestión de la calidad en el proceso de implantación VDI en Ciudad de la justicia en Málaga y Priego y Cabra en Córdoba.</WRAP>
+
+El equipo de securización, se encargará de realizar revisiones de calidad de la implantación así como de la retirada y custodia de los equipos salientes VDI. Se establece el siguiente procedimiento:
+
+  - Según planificación, en órganos terminados, el técnico se pone en contacto a su llegada con el LAJ del órgano.
+  - Se identifican los equipos a retirar en la sede, independientemente de que se encuentren en el órgano en el que se va a hacer QA o no.
+  - Se procede a la revisión de calidad, según formularios validados por la gestión del proyecto.
+
+En cuanto a las implicaciones de esta operativa:
+
+**__Actuaciones previas:__**  SACOEP informará a las delegaciones de los procedimientos pertinentes y solicitará a éstas que habiliten un puesto de trabajo suficientemente amplio a los técnicos de securización para que puedan proceder al almacenaje y plataformado de los equipos que sean de interés para este proyecto. Estas ubicaciones estarán idealmente en sedes capitales.
+
+__**Custodia:**__  Los equipos que se recojan por parte del equipo de securización quedan bajo su custodia desde su recogida hasta su entrega según se determine. Cualquier entrega de equipos no planificada deberá ser comunicada y aprobada por el equipo de seguimiento de proyecto.
+
+__**Periodo de cuarentena:**__  Se define una cuarentena de 30 días naturales. No se podrá formatear, reutilizar o hacer uso de cualquier tipo de los equipos en cuarentenas salvo por autorización expresa del equipo de seguimiento del proyecto. En el supuesto en el que un usuario necesite recuperar información de un equipo que se encuentra en cuarentena, deberá ser notificado al equipo de seguimiento del proyecto. No se podrá hacer entrega del equipo al usuario sin más, la cuarentena se gestiona para salvaguardar los datos, el usuario no tiene por qué recuperar su anterior equipo en ningún caso, salvo se autorice expresamente.
+
+__**Entregables y documental:**__
+
+El equipo de securización deberá registrar e inventariar adecuadamente (SN/RFID/Lugar recogida/Ubicación/Entregado a:, fecha, etc..) todos los equipos que recoja. Semanalmente, los viernes, se deberá alojar las las hojas de cálculo y actas de entrega pertinentes actualizadas en iusnas en la ruta indicada y notificar a servicios inventario (planificacion.inventario.ius@juntadeandalucia.es).
+
+La entrega de equipamiento deberá, en cualquier caso, ir precedida de la firma de acta de entrega correspondiente, indicando claramente persona responsable de la recogida y el destino previsto de los equipos.
+
+**__Procedimientos:__  **
+
+__1.- Recogida equipamiento.__
+
+El equipo de securización se encargará de recoger los equipos de las sedes u órganos judiciales que hayan finalizado su migración a VDI. El equipo de implantación deberá dejar los equipos a retirar, correctamente etiquetados y señalados en un único sitio en dicha sede.
+
+Se contempla la posibilidad de que los técnicos DP/CRIP, de tener que acudir a alguna sede judicial, se coordinen con el equipo de securización para la recogida y entrega de los equipos evitando así desplazamientos innecesarios del equipo de securización.
+
+SACOEP informará al coordinador del equipo de securización de las sedes finalizadas semanalmente.
+
+__2.- Plataformado y limpiado de equipos.__
+
+Los equipos "windows 7" que hayan cumplido el periodo de cuarentena establecido se instalarán con SO ttlOS y quedarán disponible para el uso que se determine.
+
+Los equipos "windows 10" que hayan cumplido el periodo de cuarentena establecido, pasarán a ser "limpiados" (eliminaciones de perfiles de usuarios) lógica y físicamente (pegatinas personales, etc.). El equipo de securización se hará cargo de la custodia de estos equipos hasta nuevo aviso. NO se destinan estos equipos a ningún uso por el momento.
+
+__3.- Entrega equipamiento.__
+
+No está previsto por el momento el destino de los equipos retirados. Se definirá más adelante a excepción de un pequeño botiquín a DP/CRIP para reemplazos si es necesario. Este pequeño stock se intentará mantener en 2/3 unidades de equipos plataformados con ttlOS.
+
+__4.- Inventariado equipos.__
+
+El equipo de securización deberá mantener un inventario exhaustivo de los equipos que recoja y éste deberá reflejar el estado de los mismos (en cuarentena, disponible, etc.) en todo momento mientras se encuentren bajo su custodia. Una vez se reciba el listado actualizado del estado del equipamiento, inventario tendrá que, semanalmente, actualizar el inventario Temis.
+
+</panel>
+</wrap>
+
+<wrap>
+<panel>
+
+=== Verificación y actuaciones pendrives migración ===
+
+Dado que se están presentado diversas incidencias con el uso de memorias USB (pendrives) en puestos virtualizados, por parte del SSDJ se ha definido una operativa cuyo objetivo es garantizar la seguridad de la información que manejan los Jueces y Fiscales de Andalucía en aquellos casos donde se produce avería, inaccesibilidad o afectación al funcionamiento del pendrive tras una migración al puesto de trabajo virtualizado (PTV).
+
+El adjudicatario se encuentra en vías de diagnóstico y resolución del problema, que si bien, no es un problema generalizado, si se presentan algunos casos.
+
+__**Copia de seguridad de la información del pendrive pre-migración**__  :
+
+El técnico CRIP realizará una copia seguridad del contenido del pendrive del usuario en el Escritorio del puesto físico en una carpeta llamada 'Pendrive'. Estas actuaciones se deben realizar presencialmente con el usuario y con antelación a la migración al puesto de trabajo virtual, bien el mismo día de la migración o un/os día/s antes.
+
+Semanalmente (todos los viernes) se remite la planificación de migraciones previstas de la semana siguiente: En el primer día de migración en una sede, ya estaba prevista la asistencia de un técnico CRIP. En las sedes donde ya están migrando usuarios, los técnicos de VDI se coordinarán con los técnicos CRIP.
+
+Por otro lado, está establecido que el tamaño de la información que el usuario seleccione para trasladar a la nueva plataforma no debe superar los 12Gb, teniendo en cuenta que el tamaño máximo de cuota por usuario son 20GB. En caso de que, incluida la copia de seguridad del pendrive, se supere dicho umbral, deberá contactar con el equipo Sistemas SSDJ para ampliar dicha cuota. El equipo de Sistemas SSDJ gestionará la ampliación de cuota con la mayor agilidad posible. Los trabajos se registrarán en Remedy por sede informando de las actuaciones realizadas y los usuarios a los que se han realizado copias de seguridad y a los que no.
+
+**__Durante la migración del perfil a PTV, por parte del implantador VDI, se ejecutarán las siguientes actividades__**  :
+
+Trasferencia de la carpeta 'Pendrive' al puesto virtualizado, junto con los datos del perfil y la carpeta ‘A Salvar’ con la información recopilada por el usuario, de modo, que el usuario dispondrá de la carpeta ‘Pendrive’ en el Escritorio del puesto virtual.
+
+__**Realización de pruebas básicas de uso pendrive con el usuario**__  :
+
+  * Conectar el pendrive al equipo.
+  * Abrir un fichero desde el dispositivo, editar y guardar los cambios.
+  * Reiniciar la máquina virtual.
+  * Conectar nuevamente el pendrive, abrir el fichero, verificar la edición previa y guardar nuevos cambios si fuese necesario.
+
+__**Actuación por parte del implantador VDI en caso de fallo del pendrive**__  :
+
+El técnico VDI deberá contactar de forma urgente con CRIP a fin de analizar la situación y proceder con las medidas correctivas necesarias.
+
+__**Medidas correctivas a realizar por parte del técnico CRIP en caso de fallo del pendrive**__  :
+
+  * Dotación de un pendrive nuevo al usuario.
+
+El equipo Suministros SSDJ está gestionado la compra de nuevos pendrives que distribuirán por todas las provincias para la entrega al equipo de CRIP.
+
+  * Transferencia al nuevo pendrive del contenido de la carpeta ‘Pendrive’ salvaguardada previa a la migración.
+  * Probar funcionamiento del pendrive nuevo con el usuario.
+  * Si no es posible realizar la entrega del pendrive nuevo en ese momento por no disponer de existencias, como alternativa hasta recibir el pendrive, se informa al usuario la forma de trabajar con los documentos de la carpeta recuperada ‘Pendrive’.
+  * Si no existe ya una incidencia abierta relacionada con el problema, generar una nueva en Remedy para su seguimiento.
+
+</panel>
+</wrap>
+ 
+<wrap>
+<panel>
+
+=== Rotación equipos "windows 7" y thinclients por "windows 10" ===
+
+Para contar con equipos disponibles y poder satisfacer las posibles demandas a cubrir (nuevos usuarios, guardias, etc.) se va a proceder a la sustitución de equipos "windows10" con ttlOS instalado y en puestos de trabajo por equipos "windows7" o thinclients salientes de VDI, también con ttlOS.
+
+Para ello, el técnico llevará consigo "windows7" o thinclient ya preparados y cuando sea pertinente, cambiará el equipo al usuario. El cambio para el usuario debe ser transparente y rápido y el técnico se encargará de realizar comprobaciones básicas del funcionamiento normal del puesto de trabajo (resolución pantallas, etc.).
+
+Será imprescindible que el usuario se encuentre presente cuando se realice esta tarea y el equipo de securización se encargará de la gestión documental pertinente.
+
+</panel>
+</wrap>
+
+</panel>
+
+<panel type="primary" title="Procedimientos operativos">
+
+===== Procedimientos operativos =====
+
+<wrap>
+<panel type="warning" title="Resumen sección">
+
+^ Procedimientos                                     ^ Acceso directo                                                                                ^
+| Sustitución thinclients y averías                  | [[:pag_vdi:procedimientos:explotacion#criterios_de_seleccion_usuarios|Ir]]                    |
+| Garantía thinclients                               | [[:pag_vdi:procedimientos:explotacion#distribucion_terminales_ligeros|Ir]]                    |
+| Gestión de usuarios (alta, baja, traslados)        | [[:pag_vdi:procedimientos:explotacion#contacto_equipo_despliegue_con_organos_judiciales|Ir]]  |
+| Solicitudes VPN trabajo remoto                     | [[:pag_vdi:procedimientos:explotacion#material_de_stock|Ir]]                                  |
+| Solicitudes evolución y cambios de la maqueta VDI  | [[:pag_vdi:procedimientos:explotacion#solicitudes-evolucion-y-cambios-de-la-maqueta-vdi|Ir]]  |
+|                                                    |                                                                                               |
+
+</panel>
+</wrap>
+
+<wrap>
+<panel>
+
+=== Sustitución del thinclient o averías ===
+
+  * El equipo de VDI utilizará los equipos retirados por la instalación de un thinclient como ‘botiquín’ mientras se encuentren en la sede realizando las migraciones.
+  * Una vez migrada la sede, los equipos que no se han utilizado como ‘botiquín’ serán situados en el almacén de cada sede o en el lugar que indique el técnico in situ DP/CRIP que asiste el primer día de migración.
+  * Los equipos deberán ser recogidos por los técnicos de CRIP/DP/Securización.
+  * El listado de equipos retirados y su nueva ubicación se remitirá a Servicios / Inventario mediante creación de ticket Remedy el mismo día que se recojan (salvo en los procedimientos expresos establecidos para securización).
+
+<WRAP round tip>Una vez finalizada la sede, DP/CRIP deberá contar con un pequeño botiquín para sustituciones según procedimiento habitual. Este botiquín lo proveerá el equipo de securización.</WRAP>
+
+</panel>
+</wrap>
+
+<wrap>
+<panel>
+
+=== Trámite garantías Thinclient. ===
+
+Cuando un thinclient en garantía se averíe, se deberá crear un Ticket Remedy con la siguiente catalogación:
+
+  * Asignado A Grupo: **Nivel 3**
+  * Asignado A: **Tecknoservice**
+  * Clase: **Puesto de trabajo**
+  * Tipo: **Elementos de PC**
+  * Categoría: Indicar aquí lo que está averiado aparentemente (Disco duro, placa, puerto USB, etc.)
+
+Será necesario en la descripción del incidente indicar los problemas detectados, así como que se inicia la petición de trámite de garantía si aplica.
+
+</panel>
+</wrap>
+
+<wrap>
+<panel>
+
+=== Gestión de usuarios VDI ===
+
+=== Altas y bajas VDI ===
+<wrap round warning> En ningún caso se autoriza a superar la cantidad de 5250 usuarios con permiso para conectar a VDI. Por ello, no se podrá dar un alta de usuario sin una baja asociada</wrap>
+
+
+<wrap round info> Las gestión de usuarios VDI (altas, bajas, traslados) deberán gestionarse vía tique Remedy realizando la solicitud al igual que si de un puesto de trabajo físico se tratara (Nivel 1 /CSU)</wrap>
+
+Los grupos AD del dominio VDI que dan acceso a un escritorio virtual son los que empiezan por "GVDIEscPTV", dentro de GRP_Publicaciones. Para que un usuario tenga acceso a uno o más de un puesto de trabajo virtual, es suficiente con que su usuario del dominio esté incluido en alguno o más de uno de los grupos indicados.
+\\
+
+  * GVDIEscPTVActividades:Pool para Personal técnico, laboratorio y pruebas
+  * GVDIEscPTVFormacion: Pool de escritorios para necesidades formativas
+  * GVDIEscPTVContingencia: Pool para usos sobrevenidos, emergencias, etc.
+  * GVDIEscPTVEscala: Pool para previsión de escala y poder absorver desajustes en la gestión de usuarios
+  * GVDIEscPTVPiloto: Pool de Homologación, parar pilotar versiones en pruebas de la plataforma estándar
+  * GVDIEscPTV: Pool de producción, para la mayoría de usuarios
+
+
+=== Traslado de usuarios ===
+
+<wrap round tip> VDI está asociado al puesto de trabajo y no al usuario vinculado al mismo. </wrap>
+
+Tenemos **4 escenarios de traslado**:
+
+A) __Usuario con origen no VDI y destino no VDI__: Se sigue el procedimiento habitual, no es relevante en el contexto VDI.
+
+B) __Usuario con origen VDI y destino VDI__: Poco problemático. El usuario ya tendrá las herramientas y aplicativos en portátil corporativo.
+
+C) __Usuario con origen VDI y destino no VDI__: Probablemente el más problemático, el usuario es probable que reclame su puesto virtualizado, hay que indicarle que su operativa será la anterior a la migración de su puesto de trabajo en origen.
+
+D) __Usuario con origen no VDI y destino VDI__: Será necesaria la capacitación del usuario, instalación herramientas en portátil corporativo si existe, etc.
+
+**Dos procesos**:
+
+**1.- BAJA**:
+
+  * __Origen VDI (B, C)__: CAU es capaz de identificar que es un equipo destinado a PTV. La baja (en relación con VDI), se escala a Servicios/VDI para la desvinculación del usuario a VDI. No requiere asignación a DP/CRIP, el resto del proceso sigue de forma habitual.
+  * __Origen NO VDI (A, D)__: Proceso habitual.
+La **identificación del equipo VDI por parte del CAU**:
+
+Aunque se puede detectar por la nomenclatura del Nombre del Equipo en AD, lo más fiable y rápido, es acceder a la plataforma HORIZON y verificar si el Usuario Temis está o No virtualizado.
+
+En verde se reflejaría si le Usuario está Virtualizado y la captura en rojo si el usuario NO está Virtualizado. \\ {{  :baja_vdi_traslado_identificacion_equipo.png?400  }}
+
+ \\ **2.- ALTA**:
+
+  * __Destino VDI (B, D)__: Tiene que identificar DP/CRIP cuando vayan a preparar puesto trabajo. Escalado del ticket a Servicios/VDI para gestión alta de usuario. Se devuelve incidencia a Nivel1/CSU. Si el usuario tiene autorizado trabajo remoto es necesario gestionar alta VPN.
+  * __Destino NO VDI (A, C)__: Proceso habitual. Hay que hacer hincapié en el caso C) al usuario de que debe volver a trabajar como lo hacía antes de la migración a VDI. Es posible que sea necesario gestionar la licencia ISL en el caso en el que el usuario tenga autorizado trabajo remoto.
+**Cuestiones relativas al trabajo remoto:**
+
+  * **__VDI NO IMPLICA TRABAJO REMOTO.__ **
+  * Trabajo remoto implica medio de conexión remota:
+      * Medio en VDI: **VPN**
+      * Medio en No VDI: **ISL**
+
+ \\ La gestión de los medios (altas y bajas) para el trabajo remoto debe realizarse en cualquier caso con los mismo criterios, tan sólo cambia el medio de conexión remota. Especial atención a ISL (consume licencia) y es posible que haya que gestionar el alta de nuevo.
+
+DP/CRIP deberá instalar los clientes Chekpoint (VPN) y Horizon (PTV) en el caso de ser un portátil corporativo si no lo estaban previamente. Si se utiliza un equipo personal, el usuario realizará la autoinstalación del cliente VPN y del cliente para el PTV Horizon (ver instrucciones en: [[https://capacitacion.justicia.junta-andalucia.es/|Portal Capacitación]])
+
+</panel>
+</wrap>
+
+<wrap>
+<panel>
+
+=== Solicitud VPN Trabajo Remoto ===
+
+  * Las herramientas para acceder al puesto virtualizado desde fuera de la red judicial son: Checkpoint para conexión a la VPN y Horizon para conexión al Escritorio Virtual.
+  * Tras confirmación de los usuarios a migrar de cada Órgano, Inventario SSDJ coteja si tiene trabajo remoto concedido con los listados remitidos por el Servicio de Gestión de Recursos Humanos de la Administración de Justicia.
+  * Inventario SSDJ crea petición Remedy a ‘Nivel 1 Centro Servicio Usuario’ solicitando alta VPN y baja emparejamiento ISL con los datos de los usuarios del órgano. (Las bajas en ISL se tramitarán con posterioridad a la migración)
+  * CSU se encarga de las gestiones con RCJA para el alta de VPN y la baja en ISL. La baja en ISL se realizará transcurrido un tiempo de la fecha de migración prevista.
+  * Una vez se gestione el alta de la VPN, siguiendo el procedimiento habitual, CAU enviará por correo el [[https://capacitacion.justicia.junta-andalucia.es/|enlace del portal capacitación]] al manual de configuración de VPN y Horizon y asignará el ticket a DT correspondiente para su información.
+
+</panel>
+</wrap>
+
+<wrap>
+<panel title="Solicitudes evolución y cambios de la maqueta VDI">
+==== Solicitudes evolución y cambios de la maqueta VDI ====
+
+Los tipos de solicitud que se contemplan son los siguientes
+  * Actualización aplicaciones (nuevas, eliminar, actualizar)
+  * Cambiar alguna configuración por defecto de la maqueta
+  * Cambiar alguna cuestión relacionada con la persistencia de configuraciones (porque no persisten, o se desea que no persistan) en la maqueta
+
+El proceso de cambios consiste en:
+
+^Acción del flujo^Acceso directo  |
+|1) Realizar la solicitud de cambio|[[:pag_vdi:procedimientos:explotacion#criterios_de_seleccion_usuarios|Ir]]  |
+|2) Actuaciones técnicas en la maqueta/entorno|[[:pag_vdi:procedimientos:explotacion#criterios_de_seleccion_usuarios|Ir]]  |
+|3) Validación cambios en la maqueta|[[:pag_vdi:procedimientos:explotacion#criterios_de_seleccion_usuarios|Ir]]  |
+|4) Pilotaje de los cambios|[[:pag_vdi:procedimientos:explotacion#criterios_de_seleccion_usuarios|Ir]]  |
+|5) Despliegue masivo|[[:pag_vdi:procedimientos:explotacion#criterios_de_seleccion_usuarios|Ir]]  |
+
+
+
+===  1) Realizar la solicitud de cambio.  ===
+
+
+Se deberá realizar solicitud de cambio vía herramienta de gestión de tiques, en la asignación SACOEP / GProyectos
+Esta solicitud deberá contener, al menos, la siguiente información aplantillada:
+
+  * **Tipo solicitud:** Aplicaciones/Configuración/Persistencia
+  * **Usuarios afectados:** Todos/Grupo concreto
+  * **Cambio solicitado:**
+  * **Motivación del cambio:**
+  * **Plan de pruebas específico del cambio:**
+  * **Duración pilotaje necesaria:**
+  * **Usuarios a pilotar:**
+  * **Información adicional:**
+
+
+
+\\
+SACOEP, tras validar el cambio con Jefatura de Servicio del SSDJ, derivará la tarea a quien corresponda si se aprueba el cambio.
+\\
+\\
+
+===  2) Actuaciones técnicas en la maqueta/entorno  ===
+
+Una vez reciba el tique, el equipo encargado de la administración de las maquetas, deberá antes de nada validar técnicamente la tarea. Tras comprobar que es viable, deberá realizar las actuaciones técnicas pertinentes para acometer estas tareas.
+Estas tareas, a rasgos generales, se pueden en los siguientes componentes del entorno: [[:pag_vdi:procedimientos:administracion-tecnica|Ver procedimientos administración del entorno VDI]]
+  * **Gestión de la maqueta:** Plantilla a partir de la que se crean todos los escritorios virtuales. Es común a todos los usuarios
+  * **App Volumes:** A través de App Volumes es posible "inyectar" a un usuario o grupo de usuarios concretos, en tiempo real, una aplicación concreta
+  * **Dynamic Enterprise Manager:** Se encarga de gestionar los perfiles de usuario y sus configuraciones individuales. Permite, por ejemplo, que cada usuario tenga una configuración en una aplicación diferente 
+  * **Dominio activo:** Encargado principalmente de la gestión de usuarios y grupos de usuarios. A través del AD se vinculan usuarios a grupos y estos grupos a su vez a perfiles DEM o App Volumes, por ejemplo
+  * **ttlOS:** Sistema operativo instalado en los equipos físicos que levantan la conexión al Escritorio Virtual
+
+\\
+===  3) Validación cambios en la maqueta  ===
+\\
+El equipo que administre y gestione las maquetas, deberá una vez realizadas las actuaciones técnicas que corresponda, realizar las siguientes validaciones por parte del equipo encargado de la administración de las maquetas:
+  * Si es posible, realizará pruebas funcionales sobre los cambios realizados. Es probable que en algunos casos esto no sea posible debido a las herramientas a las que afectan los cambios (@driano, Fortuny, etc.)
+  * Deberá comprobar que, en el caso en el que aplique, persisten las configuraciones vinculadas al cambio, sobre todo cuando se trate de aplicaciones que sean configurables por el usuario
+
+Además de las comprobaciones relativas al cambio, será necesario comprobar que no se ha perdido ninguna funcionalidad de forma no controlada en los escritorios virtuales. De forma general, habrá que comprobar:
+
+Usabilidad del PTV en general:
+  * Ofimática. Comprobar funcionamiento básico LibreOffice y LibreCalc
+  * Comprobar que se pueden visionar y editar PDFs a través de PDFXCHange
+  * Login vía certificado en aplicaciones corporativas y firma de documentos
+  * Cualquier otra que sea pertinente
+
+Se mantienen configuraciones de usuario:
+  * Perfil y configuración de aplicaciones. Chorme, Thunderbird, LibreOffice, y cualquire otro almcenado en el perfil del usuario.
+  * ítems del escritorio
+  * Almacén de certificados y credenciales
+  * Cualquier otro que deba persistir
+
+No hay pérdida de información:
+  * Documentos
+  * Correo electrónico local
+  * Cualquier otra información que sea persistente
+
+
+El equipo que haya realizado la solicitud de cambio, sea cual sea, deberá validar que el objetivo del cambio satisface las necesidades a cubrir si esto es viable.
+
+\\
+<WRAP warning>
+Una vez cerrado el snapshot a pilotar, no se podrán añadir cambios en la maqueta hasta que se despliegue y habrá que empezar el proceso de evolución de nuevo.
+</WRAP>
+\\
+
+\\
+===  4) Pilotaje de los cambios  ===
+
+indicar al equipo encargado de la administración y gestión de la maqueta
+Una vez el cambio ha sido validado, el equipo que haya solicitado el cambio, deberá:
+
+  * Fecha piloto (se aplicará siempre un lunes)
+
+  * Notificar a los usuarios afectados por el piloto, además de a la delegación pertinente, CRIP, CAU, coordinación Puesto de Trabajo, Coordinación Sistemas, SACOEP y Jefatura SSDJ. ([[:pag_vdi:procedimientos:administracion-tecnica|Ver procedimientos comunicados masivos]]. Esta notificación deberá incluir:
+      * Cambios que se van a realizar
+      * Fechas de aplicación
+      * Comportamiento esperado
+      * Método de comunicación de incidencias
+      * Asistencia técnico in situ (si aplica) para asistencia el primer día
+
+
+  * El día antes del piloto, el equipo encargado de la gestión de la maqueta deberá realizar una copia de seguridad de los perfiles de los usuarios a pilotar y vincular sus usuarios AD a la maqueta de pruebas (Ver [[:pag_vdi:procedimientos:administracion-tecnica|Ver procedimientos administración del entorno VDI]])
+
+  * El día del piloto:
+Deberá en el caso en que sea pertinente asistir un técnico in situ para prestar asistencia e instar a los usuarios a realizar las pruebas pertinentes (plan de pruebas indicado en solicitud específico del cambio)
+El técnico que asista, deberá estar en contacto directo con el equipo encargado de la administración y gestión de la maqueta y notificar cualquier incidencia que se suceda.
+
+<WRAP warning>
+Si se detecta que la actualización degrada el funcionamiento del sistema hasta el punto de impedir el trabajo ordinario de los usuarios, será necesarionotificar inmediatamente a la administración VDI y dar marcha atrás, dejando los PTV tal y como estaban antes de pilotar con la maqueta de producción.
+</WRAP>
+\\
+
+===  5) Despliegue masivo  ===
+
+Una vez se determine que el cambio es efectivo y válido durante el pilotaje, se tomará la decisión de desplegar masivamente. Para ello:
+  * Deberán registrarse y documentarse todos los cambios realizados en la página [[:pag_vdi:procedimientos:administracion-tecnica|administración del entorno VDI]]
+
+  * Deberá notificarse masivamente a los usuarios afectados según el procedimiento de ([[:pag_vdi:procedimientos:administracion-tecnica| comunicados masivos]]. la siguiente información:
+      * Cambios llevados a cabo
+      * Fechas de aplicación
+      * Comportamiento esperado
+      * Método de comunicación de incidencias
+
+  * Se realizará una difusión de los cambios realizados a través del Portal de Capacitación y se añadirá una nota en el escritorio judicial según el procedimiento [[:pag_vdi:procedimientos:administracion-tecnica| comunicados masivos]]
+
+</panel>
+</wrap>
+
+</panel>
+
+<panel type="primary" title="Puestos rotativos">
+
+===== Puestos rotativos =====
+
+<wrap>
+<panel type="warning" title="Resumen sección">
+
+Se consideran puestos rotativos aquellos que no son ocupados por usuarios, generalmente con un carácter temporal y todos aquellos para los que el entorno VDI está especialmente diseñado, minimizando las necesidades de equipos físicos y la deslocalización del puesto de trabajo.
+
+
+^Procedimientos^Acceso directo  |
+|Formaciones|[[:pag_vdi:procedimientos:explotacion#formaciones_iaap|Ir]]  |
+|Puestos UCI. Emergencias y necesidades especiales|[[:pag_vdi:procedimientos:explotacion#puestos_uci|Ir]]  |
+|Personal SSDJ, Sistemas, PdT y Delegaciones|[[:pag_vdi:procedimientos:explotacion#personal_ssdj|Ir]]  |
+|Otras necesidades|[[:pag_vdi:procedimientos:explotacion#otras necesidades|Ir]]  |
+
+</panel>
+<wrap>
+<panel>
+==== Procedimiento Activación de Puestos VDI para Formación ====
+
+=== 1. Inicio del procedimiento – Solicitud formal al CAU ===
+
+La unidad organizadora de la formación deberá remitir solicitud formal al CAU, indicando como mínimo:
+
+  * Denominación del curso
+  * Fecha de inicio y fin
+  * Horario
+  * Identificación de asistentes
+  * Perfil funcional requerido (Alumno, Profesor)
+  * Aplicaciones necesarias
+  * Necesidad de acceso a red corporativa o recursos específicos
+  * Información de red e identificación de las salas de formación
+
+=== 2. Validación técnica por parte del CAU ===
+
+El CAU realizará una validación preliminar que incluirá:
+
+Verificación de disponibilidad de capacidad en el pool de formación.
+Confirmación de que las aplicaciones requeridas están publicadas en el entorno VDI.
+Evaluación de necesidades especiales (perfiles diferenciados, accesos excepcionales, etc.).
+Si la solicitud resulta viable, el CAU asignará la petición al equipo de Sistemas para la ejecución técnica.
+
+=== 3. Actuaciones técnicas – Sistemas ===
+
+3.1 Configuración de visibilidades y accesos de red
+
+El equipo de Sistemas verificará y, en su caso, ajustará:
+
+  * Visibilidades de red necesarias para la formación.
+  * Accesos a aplicaciones específicas.
+  * Segmentación adecuada respecto al entorno productivo.
+  * Se garantizará que el entorno formativo no impacte en producción ni comprometa la seguridad corporativa.
+
+3.2 Habilitación de usuarios genéricos de formación
+
+El modelo de gestión se basará en usuarios genéricos preexistentes:
+
+  * ALUMNO_XX
+  * PROFESOR_XX
+
+Estos usuarios:
+
+  * Existirán de forma permanente en el dominio.
+  * Permanecerán integrados en un grupo base VDI de formación.
+  * No tendrán acceso activo salvo habilitación expresa.
+
+El control de acceso se realizará mediante:
+
+  * Habilitación temporal de la cuenta.
+  * Inclusión en grupo de acceso activo durante el periodo formativo.
+  * Configuración de expiración programada cuando sea posible.
+
+Este modelo evita altas y bajas nominales masivas y facilita la reutilización controlada de credenciales formativas.
+
+4. Medidas de restricción y control (Pendiente validación HPE)
+
+Se valorará técnicamente la implementación de políticas de dominio (GPO) específicas para usuarios o grupos de formación que permitan:
+
+  * Impedir el montaje y acceso a carpetas de red corporativas.
+  * Bloquear acceso a determinadas URLs.
+  * Restringir redirección de unidades locales.
+  * Limitar copia/pegado entre entornos.
+  * Restringir impresión local y remota.
+
+El objetivo es configurar un entorno acotado, orientado exclusivamente a la actividad formativa, minimizando riesgos de seguridad o uso indebido.
+
+La viabilidad técnica y el impacto operativo deberán ser evaluados antes de su implantación.
+
+5. Comunicación a los participantes
+
+Previo al inicio del curso, el CAU o la unidad organizadora enviará:
+
+  * Instrucciones de conexión a Horizon.
+  * Credenciales asignadas.
+  * Manual básico de uso.
+  * Recordatorio de carácter temporal del acceso.
+
+6. Finalización de la formación y reversión
+
+Concluida la acción formativa, se procederá de forma inmediata a:
+
+6.1 Deshabilitación de usuarios genéricos
+
+  * Deshabilitar cuentas ALUMNO y PROFESOR utilizadas.
+  * Retirar pertenencia a grupos de acceso activos.
+  * Revocar accesos específicos temporales.
+
+6.2 Eliminación de perfiles VDI
+
+  * Borrado del perfil de usuario en el entorno VDI.
+  * Eliminación de datos generados durante la sesión formativa.
+  * Limpieza de entornos persistentes si los hubiera.
+
+6.3 Cierre administrativo
+
+Registro de finalización.
+Liberación formal de capacidad en el pool de formación.
+
+Consideraciones de Gobierno
+
+  * La duración máxima de habilitación no podrá exceder el periodo formativo autorizado.
+  * No se permitirá el uso de usuarios genéricos fuera del contexto formativo.
+  * El pool de formación no podrá destinarse a uso estructural ordinario.
+  * Deberá mantenerse trazabilidad de accesos para auditoría.
+
+</panel>
+</wrap>
+
+<wrap>
+<panel>
+
+==== Procedimiento Activación de Puestos VDI por contingencia ====
+
+===  1. Inicio del procedimiento – Solicitud formal a SACOEP  ===
+
+1.1 Activación
+
+La delegación afectada deberá cursar solicitud formal a SACOEP, indicando:
+
+  * Naturaleza de la contingencia.
+  * Alcance estimado (sede, colectivo, número de usuarios).
+  * Fecha prevista de inicio.
+  * Duración estimada.
+
+La activación requerirá validación expresa de SACOEP antes de iniciar cualquier actuación técnica.
+
+===  2. Identificación de usuarios y necesidades  ===
+
+2.1 Identificación de usuarios (Delegación solicitante)
+
+La delegación deberá remitir una hoja de cálculo maestra normalizada, similar al utilizado en procesos de VPN masivas, incluyendo como mínimo:
+
+  * Nombre y apellidos
+  * DNI/Usuario Temis
+  * Tipo de usuario (IML, Fiscalía, Gestión, etc.)
+  * Usuario AD
+  * LDAP
+  * Correo electrónico corporativo
+  * Sede de adscripción
+  * Fecha inicio prevista
+  * Fecha fin estimada
+
+El fichero deberá validarse antes de su remisión a los equipos técnicos.
+
+2.2 Identificación de necesidades
+
+La delegación deberá indicar:
+
+  * Duración prevista de la medida.
+  * Necesidad de acceso completo o restringido.
+  * Requerimientos especiales (aplicaciones críticas, perfiles específicos).
+
+2.3 Limitaciones
+
+  * La duración máxima inicial no podrá superar 3 meses.
+  * En caso de necesidad de prórroga, deberá solicitarse con 15 días de antelación, justificando la continuidad.
+  * El número máximo de usuarios activados bajo este procedimiento no podrá exceder 150 usuarios simultáneos.
+  * Transcurrido el plazo autorizado, se procederá a la revocación automática de accesos, salvo aprobación expresa de ampliación.
+  * Este mecanismo actúa como sistema de “autodestrucción administrativa”, evitando consolidaciones indebidas.
+
+===  3. Gestión masiva de VPN (CAU / RCJA)  ===
+
+3.1 Obtención del estado actual
+
+El CAU descargará el estado actualizado de las VPN existentes para:
+
+  * Verificar usuarios ya habilitados.
+  * Evitar duplicidades.
+  * Optimizar asignaciones.
+
+3.2 Consolidación en Excel maestro
+
+Se integrará en la hoja de cálculo:
+
+  * Estado VPN actual.
+  * LDAP validado.
+  * Correo electrónico.
+
+El fichero consolidado será la referencia única de gestión.
+
+3.3 Alta / ajuste VPN
+
+RCJA procederá a:
+
+  * Alta masiva o habilitación de accesos VPN Check Point.
+
+El proceso finalizará con el envío a los usuarios de:
+
+  * Manual de conexión Horizon.
+  * Manual de conexión VPN Check Point.
+  * Instrucciones básicas de uso.
+
+===  4. Alta en pools VDI y configuración de acceso  ===
+
+4.1 Asignación a grupos de dominio (CAU)
+
+El CAU procederá a:
+
+  * Alta del usuario en grupo de dominio VDI habilitado para acceso a pools de escritorio.
+  * Alta en grupo DEM específico cuando proceda (escritorio diferenciado por perfil funcional).
+  * Configuración con atributo de temporalidad.
+
+4.2 Comunicación al usuario
+
+El usuario recibirá:
+
+  * Confirmación de activación.
+  * Instrucciones de acceso.
+  * Recordatorio expreso de la temporalidad del servicio.
+  * Fecha prevista de desactivación.
+
+===  5. Equipamiento hardware  ===
+
+5.1 Evaluación de necesidad
+
+Deberá valorarse si:
+
+  * El usuario dispone de equipo personal adecuado.
+  * Se requiere portátil corporativo.
+
+5.2 En caso de portátil corporativo
+
+Si se autoriza dotación:
+
+  * CRIP instalará cliente Horizon.
+  * CRIP instalará cliente VPN Check Point.
+  * Se deberá registrar el préstamo conforme a procedimiento habitual.
+
+===  6. Migración o acceso a datos  ===
+
+Se contemplan dos escenarios:
+
+6.1 Escenario 1 – Sin migración
+
+El usuario accede a:
+
+  * Aplicaciones corporativas.
+  * Unidades de red habituales.
+  * No se realiza traslado adicional de información.
+
+6.2 Escenario 2 – Volcado temporal
+
+Cuando proceda o sea posible:
+
+  * Usuario o CRIP realizará volcado temporal de información relevante a carpeta de red corporativa.
+  * El almacenamiento será considerado transitorio.
+
+===  7. Seguimiento y control de vigencia  ===
+
+  * SACOEP mantendrá registro de activaciones.
+  * Se revisará mensualmente el estado de usuarios activos.
+  * 15 días antes del vencimiento se solicitará confirmación de continuidad o desactivación.
+
+**En ausencia de respuesta formal, se procederá a la baja automática.**
+
+===  8. Procedimiento de reversión (“Deshacer el cambio”)  ===
+
+Finalizada la contingencia:
+
+  * Baja en grupos VDI y DEM.
+  * Revocación de acceso VPN, si aplica.
+  * Recuperación de portátil corporativo (si procede).
+  * Eliminación de pertenencia a grupos temporales.
+
+Archivo del expediente de activación.
+
+</panel>
+</wrap
+</wrap>
+
+</panel>

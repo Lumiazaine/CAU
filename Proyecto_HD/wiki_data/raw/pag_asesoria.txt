@@ -1,0 +1,36 @@
+﻿
+<panel type="primary" title="Asesoría Procesal">
+
+<WRAP> <panel type="info" title="Contacta">
+
+  * [[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_contactos#explotaci%C3%B3n-devops|Página Contacto (Reemplazar nombre con nombre de departamento)]]
+
+</panel> </WRAP>
+
+<WRAP> <panel type="info" title="Tus Primeros Pasos"> 1. Tu responsable debe hacerte llegar las credenciales de usuario de Active Directory, LDAP y usuario Remedy.
+
+2. Necesitas una licencia de Microsoft Teams, contactar con [[:pag_contactos#personal-ssdj|Paco Belmonte]] para que te incluya en la organización del SSDJ.
+
+3. Necesitas tener Certificado digital actualizado.
+
+4. Necesitas descargar el cliente de VPN para trabajar desde casa, ruta: \\iusnas05.justicia.junta-andalucia.es\SIJ\10. Proyectos en curso\04 CiberJ\01 Seguridad\01 S5-Securización Puestos de Trabajo\Manuales de usuario\
+
+5. Usuario de HGP para meter las horas de trabajo, contactar con [[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_contactos#oficina-t%C3%A9cnica-sacoep|Tu responsable]]
+
+6. Necesitas tener acceso a la maquina de salto con la que trabajamos:
+
+</panel> </WRAP>
+
+<WRAP><panel type="info" title="Título">
+
+</panel></WRAP>
+
+<WRAP><panel type="info" title="Título">
+
+</panel> </WRAP>
+
+<WRAP><panel type="info" title="Título"> </panel> </WRAP>
+
+{{tag>validada}}
+
+

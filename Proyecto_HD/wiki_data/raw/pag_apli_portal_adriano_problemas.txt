@@ -1,0 +1,87 @@
+﻿
+<WRAP> 
+<panel type="primary" title="Procedimientos y Problemas Conocidos de Portal Adriano">
+
+[[start|Volver atrás]]
+
+<WRAP> 
+<panel type="info">
+
+====== Soporte Portal Adriano ======
+
+El día 16/07/25 se procedió a la puesta en Producción del Nuevo Portal Adriano, el cual ha quedado integrado en el Portal de la Junta de Andalucía. 
+
+El alta de usuarios editores de contenido es un proceso que esta distribuido en los distintos organismos integrados en el portal JdA. En este caso, los usuarios de la Consejería de Justicia, Administración Local y Función Pública son gestionados por el **Sv de Documentación, Información y Publicaciones**, u otro Servicio, SG con las competencias, según el contenido.
+
+Las **solicitudes para incorporar contenido** al Portal de Justicia, debe enviarse por correo a docupubli.cjalfo@juntadeandalucia.es.
+
+A nivel de incidencias, existe un protocolo establecido a través de **NAOS** donde se da soporte a cualquier incidencia de la herramienta. Se abren en la línea **Descripción Portal Institucional y Transparencia: Solicitudes relacionadas con el Portal Institucional y Transparencia**, o bien, se envía un correo a **cau.transparenciayportal@juntadeandalucia.es**
+
+
+</panel> 
+</WRAP>
+
+<WRAP> 
+<panel type="info">
+
+====== Problemas detectados a partir de la migración (16/7/25) ======
+
+<WRAP alert>
+
+**Problema 1:**
+  * Los usuarios no acceden a los formularios de usuarios.
+**Solución 1:**
+  * Se está trabajando en subirlos al [[https://capacitacion.justicia.junta-andalucia.es|Portal de Capacitación]]. Mientras tanto se han subido a [[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_formu|Formularios y Plantillas de la Dokuwiki]]
+
+</WRAP>
+
+<WRAP alert>
+
+**Problema 2:**
+  * Los enlaces que envía el CSU a los usuarios para teletrabajo con la VPN, para su configuración, han dejado de funcionar.
+
+Ejemplo del mensaje enviado al usuario: 
+
+//Le adjuntamos los enlaces a los manuales de configuración de VPN y Horizon para que pueda seguir ejerciendo la modalidad de teletrabajo que tiene concedida. Debe descargar y activar primero CheckPoint para, posteriormente, descargar y conectar Horizon:
+
+\\
+
+**Manual Checkpoint**
+https://portaladriano.justicia.junta-andalucia.es/portal/adriano/.content/recursosexternos/ManualdeUsuarioCheckPointVPN.pdf
+
+\\
+
+**Manual Horizon**
+https://portaladriano.justicia.junta-andalucia.es/portal/adriano/.content/recursosexternos/ManualdeUsuarioHorizonv1.pdf.pdf
+
+\\
+
+Dispone de información relevante sobre teletrabajo en la web de Portal Adriano Inicio > Personal de la administración de Justicia > Aplicaciones Judiciales > Kit de Teletrabajo
+ 
+Gracias y un saludo.//
+ 
+**Solución parcial 2:** 
+  * El **manual de CheckPoint** se encuentra en [[https://capacitacion.justicia.junta-andalucia.es/course/view.php?id=37|Portal de Capacitación - CheckPoint]]
+
+</WRAP>
+
+<WRAP alert>
+
+**Problema 3:**
+  * Se han perdido los accesos a esta página por parte del usuario.
+
+{{:pag_apli:portal_adriano:kit_teletrabajo.png?1200|}}
+
+**Solución 3:**
+  * Pendiente de solución.
+
+</WRAP>
+
+</panel> 
+</WRAP>
+
+[[start|Volver atrás]]
+
+{{tag>novalidada}}
+
+

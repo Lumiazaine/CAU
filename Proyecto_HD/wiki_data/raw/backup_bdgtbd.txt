@@ -1,0 +1,41 @@
+﻿
+====== BACKUP_BDGTBD ======
+
+**Directriz Coordinación**
+ 
+
+**"La directiva es no inventarse nada. Cuanto más normalizadas sean las instalaciones, más facilidad de administración. Si el script es el mismo en todas las sedes (variando solo las variables) controlando uno se controlan todos."**
+
+**Ubicación - Rutas**
+
+Los scripts de backup en sedes se encuentra %ORACLE_HOME%/Mantenimiento.
+
+
+
+**Existen dos casos:**
+
+
+Cluster: El %ORACLE_HOME% suele estar en la unidad C: o E:, los ficheros de la instancia en una unidad especifica y los ficheros de backup en una unidad de backup para la instancia siendo esta ultima con la siguiente estructura:
+[UNIDAD BACKUP ]:\%SID%\export\
+
+[UNIDAD BACKUP ]:\%SID%\rman\
+
+Instancias standalone: El %ORACLE_HOME% suele estar en la unidad G: con todos los ficheros de base de datos y los fichero de backup en la misma unidad siguiendo la siguiente estructura:
+[UNIDAD BD]:\Oracle\oradata\%SID%\backup\export
+
+[UNIDAD BD]:\Oracle\oradata\%SID%\backup\rman
+
+Se adjunta scripts ejemplos para ambos casos. Para el uso de estos scripts es necesario adaptarlos con los datos de la instancia.
+
+
+**Programación**
+
+Actualmente las tareas Programadas en sedes para GTBD son tres:
+
+Mantenimiento, agendado con periodicidad diaría entorno a las 19:00 - 19:30 según el entorno.
+Lanza un export full.
+Rota el alert log de la instancia.
+Limpia archivos antiguos de la BBDD con una semana de antiguedad
+Envia el log por ftp.
+Rman incremental lvl1, diario incremental, se ejecuta a las 20:00, al terminar envia el resultado por ftp.
+Rman incremental lvl0, backup semanal lvl 0, sirve de base para las recuperaciones. Se ejecuta el sabado a ultima hora de la mañana entre las 12 y las 14 H. Al finalizar envia el resultado por FTP.

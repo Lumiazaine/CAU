@@ -1,0 +1,9 @@
+﻿
+====== NW - Retenciones ======
+
+Las retenciones de Networker tanto en Cinta como en Disco lo establecerá Coordinacion.
+
+Actualmente están todas centralizadas en el siguiente documento:
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/download/Sistemas/NW - Retenciones/Networker-ConfSSCCSEDES.xlsx|NW Retenciones]]
+
+

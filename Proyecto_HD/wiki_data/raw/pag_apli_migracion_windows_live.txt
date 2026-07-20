@@ -1,0 +1,111 @@
+﻿
+<WRAP> 
+<panel type="primary" title="Procedimientos y Problemas Conocidos de Windows Live">
+
+[[:pag_apli:windows_live:|Volver atrás]]
+
+<WRAP> <panel type="info" >
+
+===== Cómo importar correos de Microsoft Outlook Express a Windows Live Mail =====
+
+**Para importar los correos electrónicos de Outlook Express a Windows Live Mail, sigue estos pasos:\\     
+  
+\\
+ <font 16px/inherit;;inherit;;inherit>**Forma de proceder**.</font> \\
+\\
+**En el explorador de Windows XP, haz clic en Herramientas y luego en Opciones de
+carpeta…\\
+{{:pag_apli:configuracion4.png?nolink&400|}}\\
+
+Ahora haz clic en Mostrar todos los archivos y carpetas ocultos. Luego haz clic\\
+en Aplicar
+
+{{:pag_apli:configuracion5.png?nolink&400|}}
+
+En el explorador, navega hasta C: \ Documents and Settings \
+<<NombreDeUsuario>> \ Local Settings \ Application Data \ Identities \
+{F2BDD94A-05F2-4401-8838-C61C1D603EB5} \ Microsoft \.
+Nota: el nombre de la carpeta {F2BDD94A-05F2-4401-8838-
+C61C1D603EB5} puede variar según el equipo, de modo que es normal que el
+número sea diferente.
+
+Haz clic con el botón secundario del mouse en la carpeta Outlook Express y haz
+clic en Copiar. A continuación, pégala en algún medio de almacenamiento extraíble
+(por ejemplo, una unidad de memoria extraíble o un disco duro portátil).
+
+{{:pag_apli:configuracion6.png?nolink&400|}}
+
+Ahora copia la carpeta de Outlook Express en el equipo con Windows vista/7 donde instalaste Windows Live Mail.
+Ejecuta Windows Live Mail. Para ello, haz clic en Inicio y luego en **Todos los
+programas**.
+
+{{:pag_apli:configuracion7.png?nolink&400|}}
+
+Haz clic en **Windows Live** y luego en **Windows Live Mail**.
+
+{{:pag_apli:configuracion8.png?nolink&400|}}
+
+En Windows Live Mail, haz clic en el **icono de menús** y luego en **Mostrar barra de
+menús**.
+
+{{:pag_apli:configuracion9.png?nolink&400|}}
+
+Ahora, haz clic en el **menú Archivo**, posiciona el mouse sobre **Importar** y haz clic
+en **Mensajes** en el menú desplegable. Se ejecutará el asistente para importación de
+Windows Live Mail.
+
+{{:pag_apli:configuracion10.png?nolink&400|}}
+
+Selecciona **Microsoft Outlook Express** 6 y haz clic en **Siguiente**
+
+{{:pag_apli:configuracion11.png?nolink&400|}}
+
+Haz clic en **Examinar**.
+
+{{:pag_apli:configuracion12.png?nolink&400|}}
+
+Busca la carpeta **Outlook Express** (que copiaste anteriormente desde Windows XP)
+y haz clic en **Aceptar**.
+
+{{:pag_apli:configuracion13.png?nolink&400|}}
+
+Una vez seleccionada la carpeta, haz clic en **Siguiente**.
+
+{{:pag_apli:configuracion14.png?nolink&400|}}
+
+Ahora puedes elegir entre importar todas las carpetas que tenías en Outlook Express
+o importar solo las que deseas. En este ejemplo importaremos todas las carpetas.
+Para ello, marcaremos la opción **Todas las carpetas**. A continuación, haz clic
+en **Siguiente**.
+
+{{:pag_apli:configuracion15.png?nolink&400|}}
+
+**Nota:** para importar solo algunas carpetas, marca la opción **Las carpetas seleccionadas** y
+elige las carpetas que desees importar.
+
+El asistente indicará que la importación ha finalizado. Haz clic en **Finalizar** para
+terminar. Ahora los mensajes de las carpetas seleccionadas deberán estar
+disponibles en Windows Live Mail.
+
+{{:pag_apli:configuracion16.png?nolink&400|}}
+
+
+
+
+
+
+
+\\
+\\
+
+<WRAP> <panel type="info" >
+
+====== Otra entrada ======
+
+Otro problema conocido 2
+
+</panel> </WRAP>
+
+[[:pag_apli:windows_live:|Volver atrás]]
+
+

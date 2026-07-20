@@ -1,0 +1,33 @@
+﻿
+<WRAP> <panel type="primary" title="Procedimiento para la gestión de contratos con suministros">
+
+<WRAP> 
+<panel type="info" title="Gestión de contratos o encargos con suministros"> 
+
+{{ :gestion_de_contratos_con_sumnistros_v01r07.odt |Procedimiento para la gestión de contratos con suministros}}
+
+
+**A continuación se muestra el procedimiento, para su descarga hacer link en el enlace anterior**
+
+{{::small_3.jpg?1000|}}
+{{::small_4.jpg?1000|}}
+{{::small_5.jpg?1000|}}
+{{::small_6.jpg?1000|}}
+{{::small_7.jpg?1000|}}
+{{::small_8.jpg?1000|}}
+{{::small_9.jpg?1000|}}
+{{::small_10.jpg?1000|}}
+{{::small_11.jpg?1000|}}
+{{::small_12.jpg?1000|}}
+{{::small_13.jpg?1000|}}
+{{::small_14.jpg?1000|}}
+{{::small_15.jpg?1000|}}
+
+
+</panel>
+ </WRAP>
+
+
+
+
+</panel> </WRAP>

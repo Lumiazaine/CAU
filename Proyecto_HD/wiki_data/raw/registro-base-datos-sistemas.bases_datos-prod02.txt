@@ -1,0 +1,61 @@
+﻿
+====== Registro-base-datos-sistemas.bases_datos-PROD02 ======
+
+Toda Base de datos que se cree debe registrarse en sistemas.bases_datos (PROD02), tal que:
+
+  - **Dar de alta en el tnsnames: Añadir (y testear) en: \\ - Unix: /NFS_BACKUP/BBDD/TNSNAMES/tnsnames.ora \\ - Windows: [[\\iusnas05\SIJ\Comun\TNSNAMES\tnsnames|]].ora 2. **Comprobar que el host en el que se ubica esta dado de alta en sistemas.servidores (PROD02):
+  * Ej. La base de datos a añadir está en el servidor IUSSWADRISTBY01:
+
+select ID_SERVIDOR from SISTEMAS.SERVIDORES where SERVIDOR='IUSSWADRISTBY01';
+
+En este caso el resultado es **ID_SERVIDOR: 1497**
+
+  * Si no diera resultado alguno habría que solicitar a GTSW el alta del servidor, en el caso del ejemplo, el servidor IUSSWADRISTBY01
+
+**3.**  Proceder al alta en sistemas.bases_datos:
+
+  * Comprobar que el id de la última base de datos coincide con el valor de la secuencia asociada a sistemas.bases_datos:
+
+select ** LAST_NUMBER**  from dba_sequences where SEQUENCE_owner='SISTEMAS' and SEQUENCE_NAME='SQ_BASES_DATOS'
+
+En esta caso el resultado es**271**
+
+  * Comprobamos el valor máximo en sistemas.bases_datos de X_BASE_DATOS
+
+SELECT** MAX(X_BASE_DATOS)**  FROM sistemas.bases_datos;
+
+En este caso el resultado es **270**, es correcto. En el valor ha de ser el uno menos que el seleccionado en el punto anterior. **271 ****270**Consultar con responsable, lo normal sería que el valor de la secuencia (last_number) fuera uno mas que el id de base de datos (MAX(X_BASE_DATOS)).
+
+  * Una vez realizadas las comprobaciones anteriores
+
+Insertad los siguientes valores en sistemas.bases_datos:
+
+X_BASE_DATOS, BASE_DATOS,PUERTO, SID, VERSION, DB_LINK, B_X_SERVIDOR,BAJA, ORAHOME, EXPDIR,RMANDIR
+
+Donde:
+
+- X_BASE_DATOS: valor correspondiente a SISTEMAS.SQ_BASES_DATOS.nextval
+
+- BASE_DATOS: valor correspondiente al valor de la referencia en el tnsnames
+
+- PUERTO: valor correspondiente al puerto de conexión a BBDD. Por defecto 1521
+
+- SID: valor correspondiente al sid de la bbdd
+
+- VERSION: valor correspondiente a la versión del motor oracle
+
+- DB_LINK: valor correspondiente al dblink que utilizaría ADRIANO para conectar a esta bbdd.
+
+- B_X_SERVIDOR: valor correspondiente a **ID_SERVIDOR: 1497**- BAJA: valor correspondiente al estado del servidor. Al dar alta el valor es N
+
+- ORAHOME: valor correspondiente al valor del home de oracle de la instación de oracle.
+
+- EXPDIR: valor correspondiente al valor del directorio de volcado de export.
+
+- RMANDIR: valor correspondiente al valor del directorio de volcado de RMAN
+
+- RUTA_ARCH: ruta del los ficheros archivelog, si tiene varias se pondrá la principal
+
+- STANDBY_EN: ID_SERVIDOR en el que tiene su standby. En el caso de tenerla
+
+

@@ -1,0 +1,2699 @@
+﻿
+[[start|Volver atrás]]
+ 
+<panel type="primary" title="Procedimientos y manuales para técnicos de BMC HELIX (REMEDY).">
+
+
+
+
+
+<WRAP info round box center>
+===== Configuración de usuario, licencias de usuario y permisos BMC Helix =====
+
+</WRAP>
+
+Esta información describe los distintos tipos de **licencias en BMC Helix ITSM** y su aplicación en la configuración de accesos.  
+
+Incluye:
+
+  * Diferencias entre licencias **Suite** y **Service Desk**. 
+ 
+  * Requisitos de permisos por aplicación.  
+
+  * Casos prácticos de asignación de permisos desde la pestaña *“Permiso de Aplicación”*.  
+
+**Nota:** Este contenido está orientado a **personal técnico** y **administradores funcionales**.
+
+
+<WRAP tip round box>
+==== Tipos de Licencias ===
+</WRAP>
+
+
+__**Suite User License:**__
+
+**Dirigido a:** perfiles superiores como **administradores de la plataforma** y personal que gestiona múltiples módulos (incidentes, cambios, activos, CMDB, etc.).  
+
+**Ruta:**  
+Consola de Administración → Personas → Detalles de inicio de sesión/acceso`
+
+**Configuración:**
+
+  * **Tipo de Licencia:** `En paquetes`  
+  * **Tipo de licencias agrupada:** `Agregar Agrupada` → seleccionar **2015 Pricing Model**  
+  * Elegir: **Remedy Service Management Suite - User License**
+
+Esto asigna una licencia a un **usuario nombrado** (*Named User*) con acceso completo a los módulos principales de la suite ITSM de BMC.
+
+__**Licencia Flotante:**__  
+
+Remedy Service Management - Concurrent User License` → compartida entre varios usuarios según disponibilidad.  
+⚠️ No aplica a la suite completa.
+
+{{:pag_apli:remedy_itsm:l1.png?400|:permiso1_1761832232961.png?direct&600}}
+
+**Importante:** Tener una licencia Suite **no implica permisos automáticos**.  
+Es necesario configurar los **Permisos de Aplicación** de forma individual.
+
+{{:pag_apli:remedy_itsm:l3.png?400|}}
+
+
+__**Remedy Service Desk:**__
+
+**Dirigido a:**  
+Roles de **soporte técnico** y agentes que gestionan incidencias o solicitudes.  
+Tienen acceso operativo diario, pero no a todos los módulos de la suite completa.
+
+**Tipos disponibles:**
+
+  * **User License (Fija):** garantiza que ese técnico tenga siempre una licencia asignada.  
+  * **Concurrent User License:** licencias **flotantes**, compartidas entre varios técnicos.
+
+{{:pag_apli:remedy_itsm:l2.png?400|}}
+
+{{:pag_apli:remedy_itsm:l3.png?400|}}
+
+
+Al igual que las licencias Suite, requieren asignar los **Permisos de Aplicación** específicos.
+
+</panel>
+
+
+<panel type="info">
+<WRAP info round box>
+===== ¿Cómo se clasifican y asignan los permisos por módulo en BMC Helix - ITSM? =====
+</WRAP>
+
+Este artículo proporciona una guía estructurada de los permisos y roles disponibles en **BMC Helix ITSM**, organizados por módulo funcional.
+
+**Incluye**:
+
+  * Clasificación por tipo de acceso (**User, Viewer, Config, Admin, etc.**)
+
+  * Descripción de los permisos mínimos recomendados para un técnico de soporte
+
+  * Descripción de los módulos con roles especiales.
+
+**Orientado a:** Administradores del sistema, Gestores de procesos y Equipos de Soporte que necesiten comprender, asignar o revisar permisos de forma controlada y eficiente.
+
+
+==== 1. Tipos de permisos generales ====
+
+
+Esta tabla resume los tipos de permisos más comunes que se repiten en la mayoría de los módulos de **BMC Helix ITSM**, descritos en el punto 3.
+Cada módulo puede tener variantes como *User, Viewer, Config, Admin*, etc., que siguen un patrón similar y que se describen a continuación:
+
+(//Esta clasificación permite entender rápidamente el nivel de acceso asociado a cada rol sin necesidad de repetir definiciones en todos los módulos//.)
+
+^ Tipo de Permiso ^ Descripción Breve ^
+| **User** | Gestiona elementos asignados o creados (tickets, tareas, solicitudes..) |
+| **Viewer** | Acceso en sólo lectura |
+| **Submitter** | Puede crear registros, pero no gestionarlos |
+| **Config** | Permite configurar aspectos funcionales del módulo |
+| **Admin / Administrator** | Acceso completo: configuraciones globales, reglas, flujos |
+| **Master / Manager / Coach** | Gestión total o supervisión de tickets o procesos |
+
+
+
+
+==== 2. Permisos mínimos para un técnico de soporte ====
+
+
+Estos son los permisos operativos básicos recomendados para perfiles de soporte técnico (como **CAU, Nivel 1 o Nivel 2**).
+Permiten trabajar con incidencias, solicitudes, tareas, órdenes de trabajo y consultar activos.
+
+(//La asignación de estos roles garantiza que el técnico pueda ejecutar su trabajo diario sin exponer configuraciones críticas del sistema//.)
+
+^ Permiso ^ Función Principal ^
+| **Incident User** | Gestiona incidentes asignados |
+| **Service Request User** | Crear y consultar peticiones de servicio |
+| **Task User** | Trabajar tareas asignadas |
+| **Work Order User** | Ejecutar órdenes de trabajo asignadas |
+| **Asset Viewer** | Consultar activos y su información relacionada |
+
+
+==== 3. Permisos por módulo ====
+
+
+En esta sección se listan los módulos principales de **BMC Helix ITSM**, diferenciando en cada uno de ellos por tipo de permisos:
+
+  * **Permisos generales** mencionados en el nº1 con carácter general.
+  * **Permisos específico**s adicionales por cada módulo.
+
+
+__**3.1 ACTIVITY**__:
+
+Este módulo está relacionado con el registro y seguimiento de actividades dentro de tickets, es decir la gestión asociada a los tickets como tareas dentro de incidencias, cambios, etc.
+  * **Permisos generales** mencionados anteriormente: `Activity User`, `Activity Viewer`, `Activity Config`.
+
+
+__**3.2 AR SYSTEM (orientado a administradores técnicos y desarrollo)**__:
+
+Estos permisos están más orientados a usuarios con roles técnicos o de administración avanzada que gestionan formularios, estructuras y funcionamiento interno del sistema.
+
+  * **Administrator:** Acceso total al sistema (formularios, workflows, reglas).
+  * **Browser:** Solo lectura.
+  * **Customize:** Modifica vistas personales.
+  * **Struct Admin / Subadmin:** Modifica o crea objetos técnicos del sistema.
+  * **Sub Administrator:** Admin limitado a ciertas áreas (sin acceso estructural).
+
+
+__**3.3 ASSET**__:
+
+Se refiere a la gestión de activos dentro de BMC Helix ITSM. Este módulo se usa para el control de inventario, configuración de elementos de infraestructura (CI) y su ciclo de vida.
+  * Todos los **permisos** siguen el esquema **general**: `Admin`, `Config`, `User`, `Viewer`.
+
+
+__**3.4 CHANGE**__:
+
+Enfocado en la gestión del cambio (*Change Management*) dentro de ITSM.
+  * **Permisos generales**: `Change Config`, `Change Master`, `Change User`, `Change Viewer`.
+  * **Permiso específico**: `Infrastructure Change Submit` → solo permite crear solicitudes de cambio (RFCs).
+
+
+__**3.5 FINANCIAL**__:
+
+Módulo enfocado al análisis de costes asociados a servicios o activos.
+
+  * **Cost Manager:** Gestiona y analiza los costes de servicios o activos.
+
+
+__**3.6 FOUNDATION**__:
+
+Aquí se definen estructuras organizativas, usuarios, ubicaciones, roles, reglas de negocio, etc. Es el manejo de datos base de todo el ecosistema ITSM.
+
+  * **Approval Admin:** Administra reglas de aprobación.
+  * **Config Categorization Admin:** Configura estructura Categoría/Tipo/Producto.
+  * **Contact Admins (People, HR, Location, Org):** Gestionan usuarios y datos organizativos.
+  * **DMT Admin / User:** Importación masiva de datos.
+  * **DSL Master / User / Viewer:** Gestión del catálogo de servicios.
+  * **Cognitive Service Config:** Configuración de clasificación automática (IA).
+  * **Progressive Views Config:** Diseño de formularios modernos (Smart IT).
+  * **Email Rule Config:** Reglas de automatización por correo.
+  * **Security / Notification / Licensing Admin:** Gestión de acceso, licencias y notificaciones.
+
+
+__**3.7 IDENTITY REQUEST (IRM)**__:
+
+Forma parte de IRM (**Identity Request Management**) en BMC Helix. Este módulo se enfoca en gestionar solicitudes relacionadas con accesos, identidades, perfiles y autorizaciones.
+
+  * **IRM Admin:** Control total del sistema de solicitudes.
+  * **IRM Configuration Manager:** Define catálogos, atributos y políticas.
+  * **IRM Delegated Admin:** Admins con alcance restringido por unidad.
+  * **IRM Manager:** Aprueba o rechaza solicitudes.
+  * **IRM Request Submitter / IRM User:** Crean y hacen seguimiento de solicitudes.
+
+
+__**3.8 INCIDENT**__:
+
+Este módulo se usa para el registro, seguimiento, resolución y cierre de incidencias (según ITIL).
+  * **Permisos generales**: Incident Config, Incident Master, Incident User, Incident Viewer.
+  * **Permisos específicos**:
+-**Compliance Sensitive Data View:** Permiso para acceder a datos sensibles.
+-**Incident Submitter:** Puede crear tickets, pero no gestionarlos.
+
+
+__**3.9 KNOWLEDGE (alineado a KCS)**__:
+
+Gestiona la base de conocimiento (*Knowledge Base*) en BMC Helix ITSM, alineado con prácticas **KCS (Knowledge-Centered Service)**.
+  * **Permisos generales**: Knowledge Admin, Knowledge Config, Knowledge User, Knowledge Viewer.
+  * **Permisos específicos**:
+
+-**KCS Candidate:** En formación, crea borradores.
+
+-**KCS Contributor:** Crea y edita artículos (requiere aprobación).
+
+-**KCS Publisher:** Publica artículos directamente.
+
+-**KCS Coach:** Supervisa y aprueba contenido.
+
+-**Knowledge Config:** Configura aspectos funcionales del módulo.
+
+-**Knowledge Submitter / User / Viewer:** Participa en el ciclo de vida o consulta artículos.
+
+
+
+__**3.10 MyIT/DWP**__:
+
+En este módulo, ahora conocido como *Digital Workplace*, el permiso visible es:
+
+  * **MyIT Admin:** Administra el portal de autoservicio (servicios, catálogos, reglas de visibilidad). Es esencial para gestores del portal de usuario o equipo de experiencia digital.
+
+
+
+__**3.11 PROBLEM**__:
+
+Encargado de la gestión de problemas dentro del ciclo de vida ITIL. Se usa para identificar causas raíz, documentar **workarounds** y prevenir recurrencia de incidentes.
+  * **Permisos generales**: `Problem Config`, `Problem Master`, `Problem User`, `Problem Viewer`.
+  * **Permiso específico**:
+
+-**Problem Submitter:** Crea problemas, sin acceso a gestión posterior.
+
+
+
+__**3.12 PROCESS DESIGNER**__:
+
+Permite modelar flujos de trabajo (**workflows**) para ITSM: incidentes, cambios, tareas, etc., mediante lógica visual y automatizaciones.
+
+  * **Process Designer Admin:** Crea y publica workflows.
+  * **Process Designer Sub Admin:** Puede editar procesos asignados (sin publicar).
+
+
+__**3.13 RELEASE**__:
+
+Orientado a la gestión de versiones y despliegues dentro del ciclo de vida ITIL (**Release Management**).
+Es clave para planificar, coordinar y desplegar cambios en entornos de producción.
+
+  * **Permisos generales**: Release Config, Release Master, Release User, Release Viewer.
+
+
+__**3.14 REQUEST/SRM**__:
+
+Gestiona las peticiones de servicio (*SRM - Service Request Management*) en BMC Helix.
+Incluye Work Orders, flujos guiados de solicitud y autoservicio.
+
+  * **Permisos generales**: `Work Order User`, `Work Order Viewer`.
+  * **Permisos específicos**:
+
+-**Business Analyst:** Diseña y prueba flujos de solicitud.
+
+-**Business Manager:** Supervisa métricas y SLAs.
+
+-**Entitlement Administrator:** Define visibilidad y acceso.
+
+-**Request Catalog Manager:** Administra el catálogo de servicios.
+
+-**Service Request User:** Usuario general de SRM (crear y consultar solicitudes).
+
+-**SRM Administrator:** Configuración total del módulo SRM.
+
+-**Work Order Config:** Configura el módulo de Work Orders.
+
+-**Work Order Master:** Gestión completa de Work Orders.
+
+-**Work Order Submitter:** Crea solicitudes sin capacidad de edición posterior.
+
+
+__**3.15 ROI**__:
+
+Se refiere al **Return on Investment Dashboard** o análisis de valor para ITSM.
+Más orientado a la medición de impacto y eficiencia del uso de la plataforma.
+
+  * **ROI Admin:** Configura el módulo de métricas.
+  * **ROI Viewer:** Consulta dashboards.
+
+
+__**3.16 SLM (Service Level Management)**__:
+
+Permite definir, medir y supervisar acuerdos de nivel de servicio (*SLAs, OLAs y UCs*) en BMC Helix ITSM.
+  * **Permisos generales**: SLM Config.
+  * **Permisos específicos**:
+
+-**SLM Console and Dashboard User:** Visualiza métricas de SLAs.
+
+-**SLM Customer:** Consulta SLAs asignados.
+
+-**SLM Manager / Unrestricted Manager:** Gestiona acuerdos activos (con/sin restricciones).
+
+
+
+__**3.17 TASK**__:
+
+Permite gestionar tareas (**Tasks**) asociadas a otros procesos como Incidents, Changes, Work Orders, etc.
+Este sistema de tareas ayuda a descomponer el trabajo en pasos individuales, asignables y rastreables.
+  * **Permisos generales**: `Task Administrator`, `Task User`, `Task Viewer`.
+  * **Permisos específicos**:
+
+-**Task Application Config:** Configura tareas según módulo.
+
+-**Task Process Config:** Define flujos de tareas.
+
+-**Task Manager:** Puede reasignar y gestionar todas las tareas.
+
+
+
+__**3.18 VIRTUAL AGENT (chatbot y soporte conversacional) — __NO APLICA__**__
+
+Corresponde al componente de chatbot e inteligencia artificial conversacional dentro de BMC Helix (*Helix Virtual Agent o Live Chat*).
+
+-**ESChat_Admin:** Configura bots, horarios y canales.
+
+-**ESChat_Agent:** Actúa como agente humano.
+
+-**ESChat_AlertAdmin:** Gestiona alertas del sistema de chat.
+
+-**ESChat_Supervisor:** Supervisa sesiones en vivo y desempeño de agentes.
+
+</panel>
+
+
+<panel type="info">
+
+<WRAP info round box>
+===== Perfil Administrador =====
+</WRAP>
+
+💡 Se recomienda que los técnicos con **perfil de Administrador** utilicen **licencia fija (Fixed)** para evitar bloqueos o denegaciones de acceso.
+
+**Características:**
+
+  * Acceso permanente a la consola de administración.  
+  * Visibilidad sobre todas las aplicaciones del sistema.  
+  * Capacidad de personalización, gestión de licencias, permisos e integraciones.
+
+Según las necesidades del técnico, el perfil **Administrador** puede asignarse tanto a:
+  * **Suite User License**, como  
+  * **Remedy Service Desk**,  
+
+ya que este rol se otorga desde la pestaña *“Permiso de Aplicación”*, **independientemente del tipo de licencia**.
+
+{{:pag_apli:remedy_itsm:l4.png?400|}}
+
+
+
+
+
+<panel type="info">
+
+<WRAP>
+==== Usuarios Finales ====
+
+</WRAP>
+Los usuarios finales disponen de una licencia de **solo lectura**.
+
+No requieren configuración de permisos ni les aplica lo indicado anteriormente.
+
+Los accesos se adquieren al ser dados de alta en TEMIS.
+
+
+</panel>
+
+
+
+
+
+
+
+
+
+
+<panel type="info">
+
+<WRAP info round box>
+====== Procedimiento alta para técnicos  ======
+</WRAP>
+
+<WRAP help round box>
+===  Creación de Usuarios ===
+</WRAP>
+La creación de usuarios se realiza desde el formulario **CTM:People** en Mid Tier.  
+Ruta:  
+`Aplicaciones > Consola de Administrador > Consola de Administración de Aplicaciones > Personas – Crear`  
+o  
+`Personas – Ver + Nueva Petición`.
+
+**Campos obligatorios:**
+  * Nombre  
+  * Apellidos  
+  * Tipo de cliente (Empleado que trabaja desde la oficina por defecto)  
+  * Estado del perfil (Activado)  
+  * Sensibilidad del cliente (Estándar)  
+  * Personal de soporte (Estándar)  
+  * Empresa  
+  * Ubicación  
+  * ID de inicio de sesión (pestaña “Detalles de inicio de sesión/acceso”)
+
+Tras completar los campos, pulsa **Guardar**.
+
+<WRAP help round box>
+==  Permisos de Acceso a Smart IT ==
+</WRAP>
+Smart IT es el aplicativo donde los técnicos gestionan los tickets.  
+Un usuario técnico debe contar, al menos, con los siguientes permisos:
+
+  * **Tipo de licencia:** Flotante  
+  * **Permisos de aplicación:**
+    - Incident User  
+    - Service Request User  
+    - Task User  
+    - Work Order User  
+
+Para operar sobre tickets:
+  * En la pestaña *Detalles de inicio de sesión/acceso*, marca **Personal de soporte = Sí**.  
+  * Activa **Disponibilidad de asignación = Sí**.  
+  * En *Grupos de soporte*, añade el usuario al grupo correspondiente.
+
+
+
+
+</panel>
+ 
+
+
+<panel type="info">
+<WRAP info round box>
+====== Manuales técnicos ======
+</WRAP>
+**BMC Helix ITSM – Entorno On-Premise**
+
+Este manual recoge los procedimientos y tareas necesarias para la administración, operación y mantenimiento del sistema **BMC Helix ITSM**.  
+Su objetivo es garantizar la correcta explotación de la plataforma, la disponibilidad del servicio y la trazabilidad de todas las acciones técnicas realizadas por el personal responsable.
+
+===== Índice general =====
+
+  * [[#bloque_i_explotacion_del_sistema|BLOQUE I – Explotación del Sistema]]
+    * [[#1.1_politicas_de_backups_rotacion_de_logs_y_demas_tareas_programadas|1.1 Políticas de Backups, Rotación de Logs y Demás Tareas Programadas]]
+    * [[#1.2_procedimiento_de_paradas_programadas|1.2 Procedimiento de Paradas Programadas]]
+    * [[#1.3_carga_y_descarga_de_datos_masiva|1.3 Carga y Descarga de Datos Masiva]]
+    * [[#1.4_acuerdo_de_nivel_de_servicio_de_explotacion|1.4 Acuerdo de Nivel de Servicio de Explotación]]
+    * [[#1.5_monitorizacion_y_gestion_de_la_capacidad|1.5 Monitorización y Gestión de la Capacidad]]
+    * [[#1.6_referencias_complementarias|1.6 Referencias Complementarias]]
+    * [[#1.7_revision_de_logs|1.7 Revisión de Logs]]
+
+  * [[#bloque_ii_consola_de_administracion|BLOQUE II – Consola de administración]]
+    * [[#2.1_organizacion|2.1 Organización]]
+    * [[#2.2_ubicacion|2.2 Ubicación]]
+    * [[#2.3_grupos_de_soporte|2.3 Grupos de soporte]]
+    * [[#2.4_personas|2.4 Personas]]
+    * [[#2.5_categoria_de_producto|2.5 Categoría de producto]]
+    * [[#2.6_categoria_operacional|2.6 Categoría operacional]]
+    * [[#2.7_asignacion|2.7 Asignación]]
+    * [[#2.8_Extracción de informes|2.8 Extracción de informes]]
+    * [[#2.9_Reglas_de_correo|2.9 Reglas de correo]]
+    * [[#2.10_Activar_consola|2.10 Activar consola]]
+    * [[#2.11_Activar_categorías_en_nueva_consola_|2.11 Activar categorías en nueva consola]]
+  * [[#bloqueIII|BLOQUE III – CONSOLA DE GESTIÓN DE PETICIÓN DE SERVICIO ]]
+    * [[#3.1_gestion_y_configuracion_desde_la_consola_del_gestor_de_catalogo_de_servicios|3.1 Gestión y configuración desde la Consola del Gestor de Catálogo de Servicios]]
+    * [[#3.2_modificar_desde_catalogo_de_peticiones|3.2 Modificar desde Catálogo de peticiones]]
+  * [[#bloque_iv_cmdb|BLOQUE IV – CMDB]]
+    * [[#4.1_gestion_de_activos|4.1 Gestión de activos]]
+    * [[#4.2_gestion_de_datos|4.2 Gestión de datos]]
+    * [[#4.3_developers_estudio|4.3 Developers estudio]]
+  * [[#bloque_v_Administrador de correo "AR Sistem Email|BLOQUE V – Administrador de correo "AR Sistem Email]]
+  * [[#bloque_vi_Actualización de la configuración|BLOQUE VI – Actualización de la configuración]]
+  * [[#bloque_vii_Administrador de Digital Workplace|BLOQUE VII – Administrador de Digital Workplace]]
+  * [[#bloque_viii_Innovate Studio|BLOQUE VIII – Innovate Studio]]
+
+
+
+
+
+</panel>
+ 
+
+
+
+
+<WRAP round box>
+===== BLOQUE I – Explotación del Sistema =====
+
+</WRAP>
+
+<panel type="info">
+En este bloque se describen las tareas y procedimientos que deben seguirse para asegurar el funcionamiento óptimo del sistema, incluyendo políticas de backup, restauración, rotación de logs, paradas programadas y operaciones de carga y descarga de datos.
+
+
+<panel type="info">
+==== 1.1 Políticas de Backups, Rotación de Logs y Demás Tareas Programadas ====
+
+
+En este epígrafe se abordan las recomendaciones de programación de **backups**, tanto de base de datos como de máquinas virtuales, así como las políticas de rotación de logs y otras tareas periódicas de mantenimiento.
+
+
+
+**1.1.1 Política de Backups**
+
+**Sistema:** Base de datos del entorno BMC Helix On-Premise  
+**Base de Datos:** Oracle Database  
+**Utilidad:** Herramienta de backup de base de datos (por ejemplo, *Oracle Recovery Manager – RMAN*)
+
+**Estrategia de Backup:**  
+La estrategia se basa en una combinación de copias de seguridad completas (full) e incrementales, con el fin de optimizar el tiempo de ejecución y el espacio de almacenamiento.
+
+
+
+**1.1.1.1 Política de Backups de Base de Datos**
+
+**Backup Completo (Full):**
+  * **Frecuencia:** Cada fin de semana.  
+  * **Horario:** Durante la ventana de mantenimiento programada, cuando la actividad de los usuarios es mínima (por ejemplo, sábado o domingo por la mañana).  
+  * **Método:** Se utilizará RMAN para realizar una copia de seguridad completa de los *datafiles*, el *control file* y el *spfile*.  
+  * **Realización:** El backup puede realizarse en caliente.  
+  * **Período de Retención:** Se conservarán las últimas 4 copias de seguridad completas (equivalentes a 1 mes de histórico).  
+
+**Backup Incremental Diario:**
+  * **Frecuencia:** De lunes a viernes.  
+  * **Horario:** Programado fuera del horario laboral pico (por ejemplo, después de la medianoche).  
+  * **Método:** RMAN realizará una copia de los bloques de datos modificados desde el último backup de nivel 0.  
+  * **Realización:** Puede realizarse en caliente.  
+  * **Período de Retención:** 30 días.  
+
+
+
+**1.1.1.2 Política de Backups de Máquinas Virtuales (VMs)**
+
+**Copia de Seguridad del Plano de Control y Nodos Master**
+
+^ Elemento ^ Frecuencia ^ Retención ^ Mecanismo ^ Justificación ^
+| Estado del Clúster (etcd) | Diario | 15 días | `etcdctl snapshot save` | Garantiza la consistencia transaccional. Permite reconstruir el clúster en caso de falla. |
+
+Este procedimiento se ejecuta únicamente en uno de los nodos de control (Master Node).
+
+**Procedimiento:**
+
+1. **Definir la ruta del binario**
+
+%%bash
+# Buscar la ruta al binario crictl sudo find / -name crictl
+
+# Definir la ruta completa del binario crictl obtenida en el paso anterior CRICTL_PATH="/var/lib/rancher/rke2/data/v1.28.15-rke2r1-cfade09fe202/bin/crictl"
+
+# Definir variables TIMESTAMP=$(date +%Y%m%d%H%M) SNAPSHOT_FILE="/var/lib/etcd/etcd-snapshot-$TIMESTAMP.db" %%
+
+2. **Identificar el ID del contenedor etcd**
+
+%%bash ETCD_ID=$(sudo $CRICTL_PATH ps -a | grep etcd | grep Running | awk '{print $1}' | head -n 1) echo "ID del Contenedor de etcd: $ETCD_ID" %%
+
+3. **Tomar Snapshot dentro del contenedor**
+
+%%bash sudo $CRICTL_PATH exec -i $ETCD_ID etcdctl snapshot save $SNAPSHOT_FILE %%
+
+4. **Extraer y proteger el archivo**
+
+%%bash sudo $CRICTL_PATH cp $ETCD_ID:$SNAPSHOT_FILE /tmp/etcd-backup-$TIMESTAMP.db ls -lh /tmp/etcd-backup-$TIMESTAMP.db scp /tmp/etcd-backup-$TIMESTAMP.db usuario_backup@servidor_externo:/backups/etc
+%%
+
+
+
+**Copia de Seguridad de los Nodos Master**
+
+^ Elemento ^ Frecuencia ^ Retención ^ Mecanismo ^ Justificación ^
+| Configuración de VM (Nodos Master) | Semanal | 2 copias | Snapshot de la VM completa (hipervisor) | Permite restaurar rápidamente el nodo si falla el SO o el disco. |
+
+**Copia de Seguridad de los Nodos Worker**
+
+^ Elemento ^ Frecuencia ^ Retención ^ Mecanismo ^ Justificación ^
+| Estado de las VMs (Worker Nodes) | Semanal | 2 copias | Snapshot de la VM completa (hipervisor) | Permite restaurar rápidamente un nodo worker en caso de fallo. |
+
+
+**1.1.2 Procedimiento de Restauración**
+
+Este plan describe los pasos a seguir en caso de pérdida total de la base de datos o fallo de las máquinas virtuales.
+
+== 1.1.2.1 Restauración de Base de Datos ==
+
+**Escenario de Falla:** Corrupción de datos o pérdida de datafiles.
+
+**Procedimiento de Recuperación:**
+
+1. Parar el aplicativo (ver sección 2.2).  
+2. Abrir el menú de navegación y seleccionar *Oracle Database*.  
+3. Seleccionar el servicio de base de datos afectado.  
+4. Escoger el entorno correspondiente:
+
+^ Entorno ^ Servidor ^ Base de Datos ^
+| DEV | iusslbddesa05.justicia.junta-andalucia.es | desa05 |
+| QA | iusslbdpre05.justicia.junta-andalucia.es | pre05 |
+| PROD | iusslbdcw01.justicia.junta-andalucia.es | procw01 |
+
+5. Seleccionar “Restaurar” y una de las siguientes opciones:
+   - Restaurar a la última versión.  
+   - Restaurar a un registro de hora.  
+   - Restaurar a SCN (System Change Number).  
+6. Ejecutar la restauración y validar el proceso.  
+7. Realizar pruebas de conexión y verificación de datos.  
+8. Informar a los equipos de negocio y aplicaciones sobre la disponibilidad del servicio.
+
+
+
+**1.1.2.2 Restauración de Máquinas Virtuales**
+
+**Restauración de un Nodo Worker**
+
+1. Aislar el nodo fallido:  
+   %%bash kubectl cordon <nombre-del-nodo> %%
+2. Apagar la VM fallida desde vSphere.  
+3. Restaurar el snapshot deseado.  
+4. Iniciar la VM y verificar su estado: %%bash kubectl get nodes %%
+5. Desbloquear el nodo: %%bash kubectl uncordon <nombre-del-nodo> %%
+
+**Restauración de un Nodo Master**
+
+⚠️ La restauración de un nodo de control es sensible, ya que contiene la base de datos distribuida *etc*.
+
+**Escenario A – Recuperación del SO de un solo Maestro:**
+  - Apagar la VM afectada.  
+  - Restaurar snapshot.  
+  - Verificar que el directorio `/var/lib/rancher/rke2/server/db/etcd` no haya sido revertido.  
+  - Iniciar la VM; RKE2 se sincronizará automáticamente con los demás nodos.
+
+**Escenario B – Falla Catastrófica (Pérdida de Quórum):**
+  - Apagar todos los nodos maestros.  
+  - Copiar el último backup `.db` de etcd al nodo a restaurar.  
+  - Detener el servicio RKE2: %%bash sudo systemctl stop rke2-server %%
+  - Ejecutar restauración: %%bash sudo rke2 server --cluster-reset --cluster-reset-restore-path=/tmp/etcd-backup-YYYYMMDDHHMM.db %%
+  - Eliminar la bandera *cluster-reset* del archivo `/etc/rancher/rke2/config.yaml`.  
+  - Iniciar RKE2: %%bash sudo systemctl start rke2-server %%
+  - Comprobar el clúster y reactivar los nodos restantes: %%bash kubectl get nodes %%
+
+
+**1.1.3 Rotación de Logs. Periodicidad**
+
+En BMC Helix ITSM está configurada la **rotación automática de logs**, la cual puede revisarse y modificarse desde el formulario:
+
+**Ruta:**  
+
+Aplicaciones > AR System Administration > AR System Administration Console > Server > General > Server Information > pestaña Log Files
+
+En la parte inferior del formulario se configuran los siguientes parámetros:
+  * Tamaño máximo del archivo de log.
+  * Número máximo de backups a mantener.
+
+**Política de rotación:**
+  * La rotación se ejecuta automáticamente cuando se alcanza el tamaño configurado o el intervalo de tiempo establecido.
+  * Los logs antiguos se conservan según las reglas de almacenamiento definidas para auditoría.
+  * Se recomienda mantener una política de rotación semanal con un tamaño máximo ajustado al uso del sistema.
+
+**Ejemplo de configuración:**
+
+^ Parámetro ^ Descripción ^ Valor recomendado ^
+| Tamaño máximo de log | Tamaño máximo antes de iniciar la rotación | 100 MB |
+| Número máximo de backups | Cantidad de archivos de log antiguos conservados | 10 |
+| Periodicidad | Intervalo entre rotaciones automáticas | 24 h |
+
+{{:pag_apli:remedy_itsm:1.1.3.png?600|}}
+
+
+**1.1.4 Otras Tareas Programadas**
+
+Cualquier otra tarea programada del sistema debe ser documentada con el mismo nivel de detalle que las políticas de backup y rotación de logs.  
+Estas pueden incluir:
+  * Limpieza de archivos temporales del sistema.  
+  * Actualización de estadísticas de base de datos.  
+  * Reindexado de catálogos de búsqueda.  
+  * Sincronización de directorios LDAP o servicios externos.  
+
+Cada tarea deberá especificar:
+  * Frecuencia.  
+  * Responsable.  
+  * Mecanismo de ejecución (manual o automatizado).  
+  * Logs de verificación de la ejecución.  
+</panel>
+
+<panel type="info">
+==== 1.2 Procedimiento de Paradas Programadas ====
+
+Es necesario mantener un control estricto sobre las **paradas del sistema**, de forma que exista un procedimiento formal que defina:
+  * Roles implicados.  
+  * Situaciones de parada y reinicio.  
+  * Acciones a ejecutar en cada caso.  
+  * Comunicación a los equipos afectados.  
+
+
+**1.2.1 Arranque, Rearranque y Parada del Sistema**
+
+**Parada del sistema**
+
+El entorno de BMC Helix está diseñado para operar 24x7.  
+El despliegue sobre Kubernetes **no está pensado para “apagarse”** completamente, ya que la destrucción de un *pod* genera automáticamente otro *pod* idéntico para mantener el servicio.
+
+Si se desea parar el entorno completamente, es necesario **poner a cero la escala de los Deployments y StatefulSets** de los namespaces `helix-is` y `helix-common`.
+
+**Conceptos clave:**
+
+  * **Deployment:** recurso de Kubernetes para gestionar aplicaciones *stateless* (sin estado).  
+    - Mantiene el número deseado de réplicas.  
+    - Reemplaza pods de forma controlada (rolling update / rollback).  
+    - Todos los pods son idénticos y reemplazables.  
+
+  * **StatefulSet:** recurso para aplicaciones *stateful* (con estado).  
+    - Asigna nombre único y estable a cada pod (por ejemplo `redis-0`, `redis-1`).  
+    - Mantiene orden de creación y terminación.  
+    - Soporta volúmenes persistentes independientes (PVCs).  
+
+Para detener completamente el despliegue:
+  * Poner a cero todos los valores de réplicas (`replicas: 0`) de los Deployments y StatefulSets.  
+  * Con ello los pods se destruirán y **no se volverán a crear** automáticamente.
+
+{{:pag_apli:remedy_itsm:1.2.1.png|}}                   
+
+{{:pag_apli:remedy_itsm:1.2.1_2.png?800|}} 
+
+{{:pag_apli:remedy_itsm:1.2.1_3.png?800|}} 
+
+{{:pag_apli:remedy_itsm:1.2.1_4.png?800|}} 
+
+{{:pag_apli:remedy_itsm:1.2.1_5.png?800|}} 
+
+{{:pag_apli:remedy_itsm:1.2.1_6.png?800|}} 
+
+
+**Inicio ordenado**
+
+Si el entorno ha sido detenido por completo, el orden correcto para el arranque es el siguiente:
+
+1. Devolver el número de réplicas original a **todos los Deployments y StatefulSets del namespace `helix-common`**.  
+2. Esperar a que todos los pods estén en estado `Running`.  
+3. En el namespace `helix-is`, devolver las réplicas a los StatefulSets `platform-*`.  
+4. Esperar entre 7 y 8 minutos hasta que estén completamente operativos.  
+5. Devolver el número de réplicas original al resto de Deployments y StatefulSets del namespace `helix-is`.  
+
+
+
+**Reinicio ordenado**
+
+El reinicio implica la destrucción (borrado) y recreación automática de los pods.  
+Debe realizarse **en un orden concreto** para evitar inconsistencias en los servicios dependientes.
+
+^ Aplicativo ^ Pod ^ Orden de reinicio ^
+| RSSO | `rsso-*` | 1 |
+| ARS | `platform-fts-*` (primer pod) | 2 *(esperar 1–2 minutos)* |
+| ARS | `platform-fts-*` (siguiente) | 3 *(esperar 5–7 minutos)* |
+| Atrium Integrator WS | `atriumwebsvc*` | 4 |
+| Catalog ITSM Plugin | `catalog-itsm-plugin` | 5 |
+| Staledata | `staledata*` | 6 |
+| Openfire | `openfire*` | 7 |
+| Virtualchat Server | `virtualchatserver*` | 8 |
+| Virtualchat Plugin | `virtualchatplugin*` | 9 |
+| Midtier | `midtier-*` | 10 |
+| Smart IT | `smartit-*` | 10 |
+| Digital Workplace | `dwp-tomcat*` | 10 |
+
+Los aplicativos más críticos (RSSO y ARS) deben reiniciarse primero.  
+Para realizar el reinicio, **borrar el pod correspondiente** y esperar a que el nuevo se encuentre en estado `Running` antes de continuar con el siguiente.
+
+**Comando de borrado:**
+
+%%bash kubectl delete pod <nombre-del-pod> -n <namespace> %%
+
+
+
+**1.2.2 Listas de Correo de Aviso de Paradas**
+
+Todas las personas o grupos afectados por una parada, arranque o rearranque del sistema deben ser notificadas con antelación mediante **listas de correo** específicas.
+
+Cada lista de correo deberá incluir:
+  * Nombre del grupo o servicio afectado.  
+  * Dirección de correo principal.  
+  * Usuarios o responsables incluidos en cada lista.  
+
+**Ejemplo:**
+
+^ Lista de correo ^ Descripción ^ Usuarios asociados ^
+| `helix-admin@justicia.junta-andalucia.es` | Equipo técnico de administración de Helix | Administradores principales |
+| `cau@justicia.junta-andalucia.es` | Centro de Atención al Usuario (CAU) | Técnicos de primer nivel |
+| `infraestructuras@justicia.junta-andalucia.es` | Área de Infraestructuras Judiciales | Coordinadores de sistemas |
+
+Cada vez que se planifique una intervención, el aviso debe enviarse con:
+
+  * Descripción del motivo de parada.  
+  * Servicios impactados.  
+  * Fecha y hora estimada de inicio y fin.  
+  * Responsable técnico de la operación.  
+  * Confirmación posterior de restablecimiento de servicio.
+
+
+</panel>
+
+<panel type="info">
+==== 1.3 Carga y Descarga de Datos Masiva ====
+
+Esta sección describe los procedimientos para la exportación e importación masiva de datos en BMC Helix ITSM, así como las herramientas disponibles y los formatos soportados.
+
+
+
+**1.3.1 Crear archivos .arx, .xml y .csv con artext**
+
+La utilidad **artext** permite generar archivos en formato **.arx**, **.xml** o **.csv** para ser utilizados en operaciones de importación y localización de datos dentro de AR System.
+
+**Formatos soportados:**
+  * **AR Export (.arx)** – formato nativo de AR System.  
+  * **AR XML (.xml)** – archivo XML que cumple con la especificación AR XML.  
+  * **CSV (.csv)** – archivo de valores separados por comas.  
+  * **ASCII (.asc)** – archivo de texto plano genérico.
+
+**Recomendaciones al crear archivos ASCII externos:**
+  * Usa una cadena separadora única (hasta 32 caracteres).  
+  * Evita que el separador aparezca en nombres de campo o datos.  
+  * Los caracteres especiales no se aceptan como separadores de columnas.
+
+**Archivos adjuntos exportados en formato AR Export:**  
+Al exportar desde un navegador, se genera un archivo `.zip` que contiene:
+  - El archivo `.arx`.  
+  - Todos los archivos adjuntos exportados.
+
+
+
+**1.3.2 Exportar un Informe Personalizado de AR System**
+
+Puedes guardar o exportar datos desde AR System a distintos formatos para su reutilización en formularios, hojas de cálculo u otras aplicaciones.
+
+**Formatos de exportación disponibles:**
+  * `.arx` – AR Export  
+  * `.xml` – AR System XML  
+  * `.csv` – Valores separados por comas  
+
+**Pasos:**
+  1. Selecciona el informe en la lista.  
+  2. En *Destination*, elige si se envía a pantalla, archivo o impresora.  
+  3. En *Format*, selecciona el formato de salida deseado.  
+  4. Ejecuta el informe.  
+
+**Notas:**
+  * Los adjuntos no se incluyen en archivos CSV (solo se exporta el nombre del archivo).  
+  * Si eliges destino “Screen” con formato CSV, el informe no se muestra, pero podrás descargarlo.
+
+
+
+**1.3.3 Importación de Datos en Formularios mediante Data Import**
+
+La utilidad **Data Import** carga datos desde un archivo fuente hacia un formulario de AR System.
+
+**Pasos generales:**
+  1. Ejecutar *Data Import*.  
+  2. Exportar los datos fuente a un archivo compatible (`.arx`, `.csv`, `.xml`, `.asc`).  
+  3. Crear un archivo de mapeo (*mapping file*).  
+  4. Asociar los campos origen y destino.  
+  5. Guardar y ejecutar la importación.
+
+**Campos del cuadro de diálogo “Nuevo Mapeo”:**
+
+^ Campo ^ Descripción ^
+| *Source Data File* | Archivo de datos a importar (.arx, .csv, .xml, .asc). |
+| *Contains Field Titles* | Indica si la primera línea contiene los títulos de los campos. |
+| *Field Separator* | Separador de campos (solo formato ASCII). |
+| *Source Form Name* | Formulario de origen de los datos. |
+| *Target Server* | Servidor de destino. |
+| *Target Form Name* | Formulario al que se importarán los datos. |
+| *Custom Options File* | Archivo `custom_options.xml` (opcional). |
+
+**Opciones adicionales:**
+  * Asociación automática de campos (`Auto Map`).  
+  * Definición de valores por defecto (*fallback mappings*).  
+  * Configuración avanzada en pestaña *Options* (tratamiento de fechas, separadores, etc.).  
+
+
+**1.3.4 Importación de Datos con DMT (Data Management Tool)**
+
+La herramienta **Data Management** permite importar grandes volúmenes de datos desde versiones anteriores o sistemas externos a BMC Helix ITSM.  
+Se gestiona a través de la consola web *Data Management > Job Console*.
+
+**Niveles de datos soportados:**
+  * *Foundation*  
+  * *Configuración de procesos (Process Setup)*  
+  * *Transaccional (Transactional)*  
+
+**Ventajas principales:**
+  * Plantillas de trabajo (*Job Templates*) preconfiguradas.  
+  * Hojas de cálculo y mapeos listos para usar.  
+  * Ejecución simultánea de múltiples trabajos.  
+  * Multi-tenencia por compañía.  
+  * Validación y manejo centralizado de errores.  
+  * Carga de datos desde varias fuentes (LDAP, AR Export, XML, JDBC, Excel).  
+
+**Creación de un Job:**
+  1. En *Data Management > Job Console*, selecciona **Create > New**.  
+  2. Completa los campos *Job Name*, *Description*, *Company* y *Job Owner*.  
+  3. Define si se validarán y reemplazarán alias (*Replace Case/Alias = Yes/No*).  
+  4. Guarda con estado *Draft*.  
+  5. Una vez creado, puedes programar su ejecución (Schedule Once, Daily, etc.).  
+
+**Ejecución y Control de Jobs:**
+  * Desde *Job Console*, selecciona el trabajo y pulsa **Run**.  
+  * Los pasos cambian de estado (*Queued → Running → Completed*).  
+  * Se envía notificación automática al propietario cuando:  
+    - El job inicia.  
+    - Un paso entra en *Wait* o presenta error.  
+    - El job finaliza.  
+  * Puedes volver a ejecutar (*Re-Run from Validate*) o duplicar el job (*Create as New Job*).
+
+**Importante:**  
+  * *Asset Management* no admite importación de SVT o SLA a través de DM.  
+  * *Service Request Management* usa un método distinto (ver documentación oficial de BMC).  
+
+**Más información:**  
+[https://docs.bmc.com/xwiki/bin/view/Service-Management/Innovation-Suite/BMC-Helix-Innovation-Suite/is233/Developing-an-API-program/Integrating-AR-System-forms-with-a-third-party-application-by-using-the-REST-API/](https://docs.bmc.com/xwiki/bin/view/Service-Management/Innovation-Suite/BMC-Helix-Innovation-Suite/is233/Developing-an-API-program/Integrating-AR-System-forms-with-a-third-party-application-by-using-the-REST-API/)
+
+{{:pag_apli:remedy_itsm:1.3.4.png?400|}}
+
+</panel>
+<panel type="info">
+
+==== 1.4 Acuerdo de Nivel de Servicio de Explotación ====
+
+En caso de existir un **Acuerdo de Nivel de Servicio (ANS)** aplicable a la explotación del sistema, sus términos deben describirse con precisión para evitar ambigüedades.  
+Se documentarán tanto los compromisos de servicio como los mecanismos de medición, las penalizaciones y los responsables de su supervisión.
+
+
+
+**1.4.1 Términos Requeridos de ANS**
+
+Cada acuerdo o condición incluida en el ANS debe definirse de forma completa y clara, indicando:
+
+^ Elemento ^ Descripción ^
+| **Definición del servicio** | Qué cubre el acuerdo (por ejemplo: disponibilidad del sistema Helix ITSM). |
+| **Ámbito de aplicación** | Ambientes a los que se aplica (Producción, QA, Preproducción, etc.). |
+| **Niveles comprometidos** | Porcentaje de disponibilidad, tiempos máximos de resolución, etc. |
+| **Mecanismos de medición** | Herramientas y métricas utilizadas para comprobar el cumplimiento. |
+| **Penalizaciones** | Medidas o descuentos aplicables en caso de incumplimiento. |
+| **Responsables** | Personas o equipos encargados del seguimiento del ANS. |
+
+Ejemplo de métricas habituales:
+
+  * **Disponibilidad del servicio:** 99,8 % mensual.  
+  * **Tiempo medio de resolución (MTTR):** ≤ 4 h para incidencias críticas.  
+  * **Tiempo máximo de respuesta ante aviso de parada:** ≤ 15 min.  
+  * **Revisión periódica:** Mensual, con informe de seguimiento.  
+
+</panel>
+<panel type="info">
+
+==== 1.5 Monitorización y Gestión de la Capacidad ====
+
+Esta sección detalla los requisitos de monitorización y gestión de capacidad del entorno BMC Helix ITSM.  
+Todas las métricas relevantes deben estar definidas y registradas, incluyendo umbrales, responsables de supervisión y acciones correctivas.
+
+
+
+**1.5.1 Pruebas Funcionales de Correcto Funcionamiento**
+
+Existen diversas **pruebas funcionales** para verificar el correcto funcionamiento del aplicativo.  
+Aunque BMC Helix no incluye una herramienta integrada para estas comprobaciones, pueden realizarse mediante herramientas de terceros.
+
+**Aspectos a monitorizar:**
+
+  * **Disponibilidad de URLs:** permite detectar pérdida de servicio web.  
+    Ejemplos de URLs a supervisar (según entorno):
+
+    - Helix Portal → https://justicia-helix-&lt;ENVIRONMENT&gt;.justicia.junta-andalucia.es  
+    - RSSO → https://rsso&lt;ENVIRONMENT&gt;.justicia.junta-andalucia.es  
+    - Atrium Webservice → https://incidencias-&lt;ENVIRONMENT&gt;-atws.justicia.junta-andalucia.es  
+    - DWP Catalog → https://incidencias-&lt;ENVIRONMENT&gt;-dwpcatalog.justicia.junta-andalucia.es  
+    - MidTier → https://incidencias-&lt;ENVIRONMENT&gt;.justicia.junta-andalucia.es  
+    - API → https://incidencias-&lt;ENVIRONMENT&gt;-restapi.justicia.junta-andalucia.es  
+    - Innovation Suite → https://incidencias-&lt;ENVIRONMENT&gt;-is.justicia.junta-andalucia.es  
+    - DWP → https://incidencias-&lt;ENVIRONMENT&gt;-dwp.justicia.junta-andalucia.es  
+    - Smart IT → https://incidencias-&lt;ENVIRONMENT&gt;-smartit.justicia.junta-andalucia.es  
+    - Chat → https://incidencias-&lt;ENVIRONMENT&gt;-chat.justicia.junta-andalucia.es  
+    - Live Chat → https://incidencias-&lt;ENVIRONMENT&gt;-vchat.justicia.junta-andalucia.es  
+
+  * **Autenticación:** comprobar la autenticación mediante API para asegurar que el motor AR System funciona correctamente, incluso si las interfaces web están operativas.
+
+Ejemplo de autenticación vía REST:
+Método: POST
+URL: https://<host>/api/jwt/login
+Cabecera: x-www-form-urlencoded
+Cuerpo: username=<LoginID>&password=<Password>
+
+
+Respuesta esperada (token JWT):
+HTTP/1.1 200 OK
+eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...
+
+
+El token tiene una validez aproximada de **1 hora**.
+
+  * **Creación de ticket automatizada:** crear periódicamente un ticket de prueba para validar base de datos, API y motor de procesos.
+
+Ejemplo de creación por API:
+POST https://<host>/api/arsys/v1/entry/HPD:IncidentInterface_Create
+Authorization: AR-JWT {Token}
+Content-Type: application/json
+{
+"values": {
+"Company": "HGIS",
+"First_Name": "<nombre>",
+"Last_Name": "<apellido>",
+"Login_ID": "<login id>",
+"Detailed_Decription": "Incidencia de monitorización",
+"Service_Type": "User Service Restoration",
+"Impact": "3-Moderate/Limited",
+"Urgency": "3-Medium",
+"Status": "New",
+"Reported Source": "Direct Input",
+"Description": "Monitorización"
+}
+
+{
+"values": {
+"Company": "HGIS",
+"First_Name": "<nombre>",
+"Last_Name": "<apellido>",
+"Login_ID": "<login id>",
+"Detailed_Decription": "Incidencia de monitorización",
+"Service_Type": "User Service Restoration",
+"Impact": "3-Moderate/Limited",
+"Urgency": "3-Medium",
+"Status": "New",
+"Reported Source": "Direct Input",
+"Description": "Monitorización"
+}
+
+</panel>
+<panel type="info">
+==== 1.6 Referencias Complementarias ====
+
+Esta sección incluye información adicional, de apoyo o referencia, que complementa los apartados anteriores del manual.
+
+
+
+**1.6.1 Matriz de Relaciones**
+
+La siguiente tabla muestra las relaciones existentes en el sistema entre componentes, parámetros monitorizados y valores máximos establecidos.
+
+^ Elemento A ^ Relación ^ Elemento B ^
+| Componente de aplicación | Genera | Parámetro monitorizado |
+| Parámetro monitorizado | Se compara con | Valor umbral definido |
+| Valor umbral | Asocia a | Acción correctiva en ANS |
+
+
+
+**1.6.2 Plan de Contingencia**
+
+El **Plan de Contingencia** define las actuaciones necesarias para restaurar el servicio ante situaciones anómalas tales como:
+
+  * Caídas del sistema o de componentes críticos.  
+  * Corte de suministro eléctrico o fallo de red.  
+  * Pérdida o corrupción de datos.  
+  * Incidentes de seguridad o accesos no autorizados.  
+
+**Acciones generales:**
+  1. Evaluar el impacto y alcance del incidente.  
+  2. Activar el procedimiento de recuperación correspondiente.  
+  3. Restaurar servicios siguiendo el orden de criticidad.  
+  4. Verificar la integridad de datos tras la restauración.  
+  5. Documentar el incidente y las medidas aplicadas.  
+
+**Responsables del plan:**
+  * Administradores de sistema.  
+  * Responsables de seguridad.  
+  * Coordinadores del servicio CAU.  
+  * Responsable de explotación.  
+
+</panel>
+<panel type="info">
+
+==== 1.7 Revisión de Logs ====
+
+La revisión de logs en el cluster se realiza por *pod*.  
+En caso de necesitar acceder a los logs de un pod específico, puede hacerse mediante la interfaz **Rancher** o por línea de comandos con `kubectl`.
+
+> **Importante:**  
+> Para el acceso por comandos, el usuario que ejecute `kubectl` debe disponer del archivo `kubeconfig` renombrado a `config` en `/home/<usuario>/.kube/`  
+> (o `/root/.kube/` si es el usuario root).
+
+
+
+**1.7.1 Consulta de Logs de un Pod en Rancher**
+
+1. Accede al cluster a través de Rancher.  
+2. Selecciona el pod sobre el que desees consultar información.  
+3. Haz clic en **View Logs**.  
+4. En la ventana emergente podrás:
+   * Visualizar los logs en tiempo real.  
+   * Descargar o borrar los logs.  
+   * Aplicar filtros por fecha o contenido.
+
+
+
+**1.7.2 Consulta de Logs de un Pod con kubectl**
+
+Antes de ejecutar los comandos, confirma que el archivo `kubeconfig` está correctamente configurado.
+
+**Listar pods de un namespace:**
+kubectl get pods -n <helix-common/helix-is>
+
+
+**Ver logs de un pod:**
+kubectl logs <nombre-pod> -n <namespace>
+
+
+**Ejemplo:**
+
+kubectl logs platform-fts-0 -n helix-is -c platform
+
+
+Si el pod contiene varios contenedores, puedes listar sus nombres con:
+kubectl get pod <nombre-pod> -n <namespace> -o jsonpath='{.spec.containers[*].name}'
+
+
+y luego consultar el contenedor deseado con:
+kubectl logs <nombre-pod> -n <namespace> -c <contenedor>
+
+
+
+**1.7.3 Revisión de Logs en Procesos Helix**
+
+Los logs de los distintos módulos de Helix pueden consultarse desde la aplicación Mid Tier o directamente en los pods.
+
+Los pods `platform-*` contienen el **motor Helix Remedy (ARS)**.  
+Desde Mid Tier puede accederse al formulario:
+
+AR System Server Group Console
+Ruta: Aplicaciones > System Management Console > AR System Server Group Console
+
+
+Desde este formulario se configura y visualiza la actividad de logs mediante la opción **Logs Management**.
+
+
+
+**1.7.4 Logs Management**
+
+En la consola se visualizan los logs activos y sus nombres, además de poder activarlos o desactivarlos.
+
+**Pasos:**
+  1. Selecciona el servidor (botón *Server* y desplegable).  
+  2. Define el alcance del cambio:
+     * *All Servers* – todos los servidores.  
+     * *Server* – uno concreto.  
+     * *Server List* – lista de servidores seleccionados.  
+  3. Marca las casillas:
+     * **Apply Setting** para aplicar cambios.  
+     * **Enable Log** para activar el log.  
+  4. Pulsa **Apply** para confirmar.
+
+> Para depuración (debug) puntual se recomienda habilitar únicamente:  
+> *Filter Log*, *SQL Log*, *API Log* y *Escalation Log*.  
+> Evitar mantenerlos activos permanentemente.
+
+
+**1.7.5 View Logs**
+
+Desde el menú **Admin Console > Logs > View Logs** puede visualizarse el contenido de los logs almacenados en `/opt/bmc/ARSystem/db`.
+
+1. Selecciona el **Server Name**.  
+2. Aparecerá la lista de archivos disponibles.  
+3. Selecciona uno y haz clic en **Get File**.  
+4. Para descargarlo, pulsa **Display**.
+
+**Archivos más relevantes:**
+
+^ Archivo ^ Descripción ^
+| `armonitor.log` | Supervisa todos los procesos ejecutados por ARS. |
+| `arerror.log` | Log principal de errores del sistema. |
+| `arjavaplugin.log` | Log del plugin Java. |
+
+
+
+**1.7.6 Logs del Servicio de Correo**
+
+Los logs del servicio de correo se generan dentro de los pods `platform-*` en la ruta:
+/opt/bmc/ARSystem/AREmail/Logs
+
+
+**Archivos:**
+  * `email.log`  
+  * `emaild.sh_log`
+
+Se pueden consultar con:
+
+cat email.log
+tail -f email.log
+
+
+
+
+
+**1.7.7 Borrado de Caché de MidTier y Smart IT**
+
+Los servidores Smart IT y Mid Tier almacenan ciertos datos de configuración en caché.  
+Debe borrarse la caché tras realizar cambios en configuraciones para que surtan efecto.
+
+**1. Desde Smart IT:**
+  1. Inicia sesión con usuario administrador.  
+  2. Accede a *Configuración de pantalla*.  
+  3. Haz clic en **Actualizar caché del servidor**.
+
+**2. Desde Mid Tier:**
+  1. Accede con un usuario administrador a:  
+     `https://<midtier_host>/arsys/shared/config/config.jsp`  
+  2. Dirígete a *Cache Settings*.  
+  3. Pulsa **Flush Cache**.
+
+
+
+**1.7.8 Formulario de Control y Gestión del Entorno**
+
+La consola **AR System Management Console** centraliza la administración del grupo de servidores (`platform*`).  
+Permite:
+  * Ver el estado general del grupo de servidores.  
+  * Controlar colas críticas de sistema.  
+  * Iniciar/detener procesos.  
+  * Activar o desactivar logs.  
+
+Ruta de acceso:  
+Aplicaciones > AR System Management Console > AR System Server Group Console
+
+**Permisos mínimos:**
+  * AR System Administrator  
+  * AR System Configuration Administrator  
+  * Logging Administrator  
+  * Email Administrator  
+
+El panel *Server Group Dashboard* muestra el estado del entorno y las estadísticas de componentes como:
+  * FTS Pending Indexing  
+  * Application Pending Load  
+  * Pending Email Messages  
+  * CAI Events  
+  * Sys Actions  
+  * Longest Not Sent Email in Days  
+
+
+
+**1.7.9 Glosario**
+
+^ Término ^ Descripción ^
+| **Grupo de servidores** | Conjunto de servidores AR System que operan como un único entorno lógico, proporcionando alta disponibilidad y balanceo de carga. |
+| **Pod** | Unidad de ejecución básica en Kubernetes. |
+| **Deployment** | Recurso Kubernetes para gestionar aplicaciones stateless. |
+| **StatefulSet** | Recurso Kubernetes para aplicaciones stateful (con estado persistente). |
+| **Backup Full** | Copia de seguridad completa del sistema o base de datos. |
+| **ANS** | Acuerdo de Nivel de Servicio. |
+
+</panel>
+
+
+
+<WRAP round box>
+===== BLOQUE II – Consola de administración =====
+</WRAP>
+
+<panel type="info">
+
+    * 2.1 Organización
+    * 2.2 Ubicación
+    * 2.3 Grupos de soporte
+    * 2.4 Personas
+    * 2.5 Categoría de producto
+    * 2.6 Categoría operacional
+    * 2.7 Asignación
+    * 2.8 Gestión de Filtros, Columnas y Vistas en BMC Helix (Innovations Studio)
+</panel>
+<panel type="info">
+==== 2.4 Personas ====
+
+Este módulo se utiliza para **gestionar la información de cada persona dentro del sistema**.  
+Esta información es clave para realizar **asignaciones**, definir **accesos**, configurar **workflows** y mantener la **trazabilidad** de las actividades ITSM.
+
+Acceso desde: **Consola de administrador → Consola de administración de aplicaciones**
+
+
+<WRAP centeralign> {{:pag_apli:remedy_itsm:p1.png?400}}</WRAP> <WRAP clear/>
+
+Una vez accedido, pulsamos en **Personas → Ver**.
+
+<WRAP centeralign> {{:pag_apli:remedy_itsm:p2.png?400}}</WRAP> <WRAP clear/>
+
+Para buscar, pulsamos en "**Botón Nueva Búsqueda**" y recomendamos buscar por "**Detalles de Inicio de sesión/acceso**". Desde aqui, buscar por "ID de incicio de sesión" (usuario temis)
+
+ <WRAP centeralign> {{:pag_apli:remedy_itsm:p3.png?400}}</WRAP> <WRAP clear/>
+
+
+
+**2.4.1 Descripción de los Campos Principales**
+
+Esta sección recoge los datos principales del usuario:
+
+  * **Nombre:**
+  - Técnico: aparece el nombre asociado al grupo de trabajo (ejemplo: *CAU_03*).  
+  - Usuario final: aparece su nombre completo.
+
+  * **Apellidos:**
+  - Técnico: en este campo se coloca un punto “.” para que los técnicos aparezcan al principio del listado.  
+    → El nombre completo se muestra en el campo **Apodo**.  
+  - Usuario: muestra sus apellidos reales sincronizados desde **Keycloak**, y deja vacío el campo Apodo.
+
+  * **ID de persona corporativa:** sincronizado con Keycloak (en Temis corresponde a su usuario AD).  
+  * **Tipo de cliente:** seleccionar **Empleado que trabaja desde la oficina**.  
+  * **Estado del perfil:** debe estar siempre en *Activado* para que el usuario pueda interactuar con el sistema.  
+  * **Tipo de contacto:** no aplica (vacío).  
+  * **Sensibilidad del cliente:**
+  - **Estándar:** valor por defecto, sin restricciones.  
+  - **Sensible:** requiere tratamiento especial (flujo o reglas específicas).  
+  - **VIP:** reservado para usuarios finales de nivel 1.  
+  * **Personal de soporte:** “Sí”, para habilitar su asignación en tickets.  
+  * **Disponibilidad de asignación:** “Sí”, para incluirlo en las reglas automáticas de asignación.
+
+<WRAP centeralign> {{:pag_apli:remedy_itsm:p41.png?400}}</WRAP> <WRAP clear/>
+
+
+
+
+**2.4.2 Descripción del apartado “General”**
+
+  * **Empresa:** Siempre **HGIS**.  
+  * **Organización y Departamento:** Campos vacíos (no aplican).  
+  * **Información de contacto:**
+  - Teléfono: precargado desde Keycloak.  
+  - Correo electrónico: importado automáticamente.  
+  - Imagen: no aplica.  
+  - Zona / Grupo de ubicaciones / Dirección: precargados desde Keycloak.  
+  - Ubicación de asistencia y dirección postal: no aplican.
+
+<WRAP centeralign> {{:pag_apli:remedy_itsm:p5.png?400}}</WRAP> <WRAP clear/>
+
+
+
+**2.4.3 Descripción de Apartado “Más detalles”**
+
+Campos no utilizables.  
+No se deben añadir ni modificar valores.  
+Solo visible para revisión o integraciones técnicas.
+
+<WRAP centeralign> {{:pag_apli:remedy_itsm:p6.png?400}}</WRAP> <WRAP clear/>
+
+
+**2.4.4 Descripción de Apartado “Atributos”**
+
+Actualmente **no se utiliza** en esta implementación.  
+Permite almacenar información adicional personalizada (códigos internos, claves externas, etc.) útil en integraciones o desarrollos personalizados.
+<WRAP centeralign> {{:pag_apli:remedy_itsm:p7.png?400}}</WRAP> <WRAP clear/>
+
+
+
+**2.4.5 Descripción de Apartado “Información de trabajo”**
+
+No aplicable en este entorno.  
+
+Está diseñado para registrar datos laborales como cargo, tipo de jornada, horario o turno, lo que podría utilizarse en futuros módulos de **gestión de disponibilidad** o **recursos humanos**.
+
+<WRAP centeralign> {{:pag_apli:remedy_itsm:p8.png?400}}</WRAP> <WRAP clear/>
+
+
+
+
+**2.4.6 Descripción de Apartado “CIs”**
+
+Este apartado muestra los **elementos de configuración (CIs)** asociados a la persona, como:
+  * Equipos asignados (portátiles, móviles).  
+  * Licencias de software o aplicaciones.  
+  * Dispositivos gestionados por CMDB.  
+
+Permite establecer la trazabilidad entre incidencias, activos y usuarios.  
+Los datos se alimentan automáticamente desde la **CMDB**.
+
+<WRAP centeralign> {{:pag_apli:remedy_itsm:p9.png?400}}</WRAP> <WRAP clear/>
+
+
+
+
+**2.4.7 Descripción de Apartado "Finanzas""**
+
+Actualmente no aplica. Este apartado está pensado para registrar relaciones financieras (cost center, facturación de servicios, etc.) en entornos con ITSM + ITFM.
+<WRAP centeralign> {{:pag_apli:remedy_itsm:p10.png?400}}</WRAP> <WRAP clear/>
+
+
+**2.4.8 Descripción de Apartado “Detalles de inicio de sesión / Acceso”**
+
+<WRAP centeralign> {{:pag_apli:remedy_itsm:p11.png?400}}</WRAP> <WRAP clear/>
+
+Este bloque es **crítico** para habilitar el acceso del usuario a la plataforma.
+
+  * **ID de inicio de sesión:** asociado al usuario Temis.  
+  * **Tipo de licencia:** fija o flotante. Más información: [[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_apli:remedy_itsm:problemas#tipos_de_licencias|Configuración de usuario, licencias de usuario y permisos BMC Helix]]
+  - Fija: asignada a un usuario concreto.  
+  - Flotante: compartida entre varios usuarios.  
+  * **Permisos de aplicación:** determinan a qué módulos puede acceder (Smart IT, Mid Tier, DWP, etc.).Más información: [[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_apli:remedy_itsm:problemas#tipos_de_licencias|Configuración de usuario, licencias de usuario y permisos BMC Helix]]
+  - Fija: asignada a un usuario concreto.  
+  * **Restricción de acceso:** siempre “HGIS”.  
+
+<WRAP centeralign> {{:pag_apli:remedy_itsm:p12.png?400}}</WRAP> <WRAP clear/>
+
+**Licencias agrupadas:**
+  * Remedy Service Management Suite – User License  
+  * Remedy Service Desk – User / Concurrent User License  
+  * Más información: [[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_apli:remedy_itsm:problemas#tipos_de_licencias|Configuración de usuario, licencias de usuario y permisos BMC Helix]]
+
+**IS Personas:**
+  * No es aplicable. 
+  * Este módulo permite vincular una persona (registro del módulo Personas) con las aplicaciones específicas desarrolladas o desplegadas dentro del entorno de BMC Helix Innovation Studio (también conocido como Digital Service Management).
+  * Esto se usa principalmente en entornos donde:
+  - Hay módulos personalizados hechos con Innovation Studio.
+  - Se han creado aplicaciones específicas, como com.bmc.dsm.case-lib, com.bmc.dsm.knowledge, etc.
+  - Se requiere controlar qué usuarios acceden a qué aplicación, más allá de los permisos de Helix ITSM clásico.
+
+**Paquetes de acceso IS:**
+| Paquete IS | Propósito |
+|-------------|------------|
+| com.bmc.dsm.itsm-applications | Acceso a ITSM extendido (Change, Incident, Request) |
+| com.bmc.dsm.knowledge | Acceso al módulo de Conocimiento IS |
+| com.bmc.dsm.case-lib | Requerido para gestión de casos DWP |
+| com.bmc.chatbot* | Integraciones con chatbot |
+| com.bmc.arsys.rx.* | Componentes base del motor RX |
+
+**Licencias IS:**
+| Licencia IS | Tipo | Descripción |
+|--------------|------|--------------|
+| com.bmc.dsm.knowledge | User Fixed | Acceso al módulo de conocimiento IS |
+| com.bmc.dsm.case-lib | User Floating | Acceso compartido a gestión de casos |
+| com.bmc.dsm.notification-lib | User Fixed | Recibir notificaciones IS |
+| com.bmc.dsm.attachment-service-lib | User Floating | Subir archivos adjuntos |
+
+
+**2.4.9 Descripción de Apartado “Grupo de Soporte”**
+
+<WRAP centeralign> {{:pag_apli:remedy_itsm:p13.png?400}}</WRAP> <WRAP clear/>
+Asocia a la persona con uno o varios **grupos de soporte**. **IMPORTANTE** para que se le pueda asignar tickets al técnico.
+
+Desde **“Actualizar grupos de soporte y roles”** se configuran:
+
+  * **Organización de soporte:** Nivel 1, DT, Servicios, Sistemas.  
+
+<WRAP centeralign> {{:pag_apli:remedy_itsm:p14.png?400}}</WRAP> <WRAP clear/>
+  * **Grupo de soporte:** se selecciona según la organización elegida, aparecerán los grupos asociados al mismo para su selección. 
+<WRAP centeralign> {{:pag_apli:remedy_itsm:p15.png?400}}</WRAP> <WRAP clear/>
+
+  * **Rol de relación:**
+  - **Miembro**: visibilidad total y asignable en tickets.  
+
+  - **Miembro asociado**: visibilidad parcial (uso en formación o coordinación).
+
+<WRAP centeralign> {{:pag_apli:remedy_itsm:p16.png?400}}</WRAP> <WRAP clear/>
+
+**Actualización del Rol Funcional:**
+<WRAP centeralign> {{:pag_apli:remedy_itsm:p17.png?400}}</WRAP> <WRAP clear/>
+
+  * Accediendo desde el botón “**Actualizar grupos de soporte y roles**”, pestaña “**Actualización del Rol Funcional**”: 
+  * Aparecerá en el listado al grupo de soporte que previamente se le ha asignado, desde aquí, en la pestaña “**Rol funcional**”, hay que diferenciar entre:
+
+**1.Activo**: 
+
+-__Gestor de disponibilidad__: Supervisa la disponibilidad de servicios IT críticos. Es quien se encarga de identificar tendencias de caídas o baja disponibilidad.
+
+**2.Base**:
+
+- __Administrador de grupos de soporte__: Tiene permisos para crear, modificar y eliminar grupos de soporte. También permite administrar miembros dentro del grupo.
+
+-__Gestor de grupos de soporte__: Rol más operativo, es quien supervisa las actividades del grupo y su rendimiento.
+
+-__Remitente de difusiones__: Encargado de enviar comunicaciones masivas dentro del sistema (notas, alertas, paradas de servicio..)
+
+**3.Cambiar (Change Management)**:
+
+- __Autorizador de cambios en la infraestructura__: Aprueba solicitudes de cambio (RFCs) que afectan a sistemas, redes, etc.
+
+- __Coordinador de cambios infraestructura__: Planifica la implementación de cambios aprobados. Supervisa ventanas de mantenimiento y comunicaciones asociadas.
+
+- __Gestor de Cambios de infraestructura__: Responsable de todo el ciclo de vida de los cambios técnicos y su documentación. Participa en CABs (Comités de Cambio).
+
+**4.Knowledge Management**: 
+
+-__Autorizador de gestión de conocimientos__: Valida la publicación o modificación de artículos en la base de conocimiento. Garantiza calidad, formato y utilidad de los contenidos. 
+
+
+**5.Petición (Request Management)**:
+
+-__Autorizador de peticiones__: Valida y aprueba solicitudes de servicio que requieren intervención manual o aprobación formal. 
+
+-__Autorizador de SRD__: Aprueba elementos dentro de los Service Request Definitions (SRD), como formularios o flujos.
+
+-__Gestor de órdenes de trabajo__:  Supervisa tareas operativas derivadas de peticiones. 
+
+-__Usuario asignado a orden de trabajo__: Técnico operativo que ejecuta las órdenes asignadas por un gestor o el sistema.
+
+
+**6.SLM (Service Level Management)**: 
+
+-__Gestor de Nivel de Servicio__: Responsable del seguimiento y cumplimiento de los SLA (acuerdos de nivel de servicio). Puede generar informes, revisar métricas y tomar medidas en caso de incumplimiento.
+
+
+
+**2.4.10 Descripción de Apartado “Notificaciones”**
+
+  * **Usuarios finales:** Desde el campo “IS Notify Mechanism” tendrán establecido por defecto “Alerta and Email”, para recibir configurados con *Alert and Email* (reciben alertas en DWP y correo).  
+  * **Técnicos:** no reciben notificaciones automáticas (configuración por defecto).  
+<WRAP centeralign> {{:pag_apli:remedy_itsm:p18.png?400}}</WRAP> <WRAP clear/>
+
+
+
+**2.4.11 Autorizaciones suplentes**
+
+No aplica en esta implementación.  
+En entornos ampliados se utiliza para definir suplencias temporales en flujos de aprobación o gestión.
+<WRAP centeralign> {{:pag_apli:remedy_itsm:p19.png?400}}</WRAP> <WRAP clear/>
+
+
+
+**2.4.12 Asignación**
+
+Campo informativo.  
+Las reglas de asignación automática se gestionan desde el módulo de **Asignación**, no desde aquí.
+<WRAP centeralign> {{:pag_apli:remedy_itsm:p20.png?400}}</WRAP> <WRAP clear/>
+
+</panel>
+<panel type="info">
+
+==== 2.6 Categoría operacional ====
+
+
+
+**2.6.1 Desactivar una categoría**
+
+Desde la consola de Administrador, accedemos a Categoría operacional / Ver
+
+
+{{:pag_apli:remedy_itsm:desactivar_categoria_1.png?nolink&400|}}
+
+Buscamos la categoría.
+
+{{:pag_apli:remedy_itsm:modificar_nombre_de_categoria_en_dw_2.png?nolink&400|}}
+
+{{:pag_apli:remedy_itsm:desactivar_categoria_3.png?nolink&400|}}
+
+Marcas Sin conexión en:
+
+  * Estado de la relación xxx.
+  * Estado de la categoría xxx.
+  * Pulsas guardar
+
+{{:pag_apli:remedy_itsm:desactivar_categoria_4.png?nolink&400|}}
+
+</panel>
+<panel type="info">
+==== 2.8 Extracción de informes ====
+
+Podemos extraer informes desde la consola de administrador.
+<WRAP important round box>
+Hay ciertos datos que solo se pueden extraer realizando informes desde la pestaña "Configuración Avanzada".
+</WRAP>
+
+Vamos a hacer un ejemplo con Categoría de producto.
+
+
+{{:pag_apli:remedy_itsm:extraccioninforme_a1.png?500|}}
+
+
+
+Seleccionamos "Informe"
+
+
+{{:pag_apli:remedy_itsm:extraccioninforme_a2.png?500|}}
+
+
+
+
+
+
+Creamos el informe seleccionando "Nuevo"
+
+
+
+{{:pag_apli:remedy_itsm:extraccioninforme_a3.png?500|}}
+
+
+<WRAP tip round box>
+WEB solo muestra campos visibles en el formulario y el otro todos.
+</WRAP>
+
+{{:pag_apli:remedy_itsm:extraccioninforme_a4.png?500|}}
+
+{{:pag_apli:remedy_itsm:extraccioninforme_a5.png?500|}}
+
+
+Seleccionas los campos a extraer, puedes añadir y quitar, y guardamos.
+
+
+{{:pag_apli:remedy_itsm:extraccioninforme_a6.png?500|}}
+
+
+Indicamos lo que queremos extraer, en el ejemplo, queremos solo lo que esté "Activo" y guardamos.
+
+
+{{:pag_apli:remedy_itsm:extraccioninforme_a6.png?500|}}
+
+
+{{:pag_apli:remedy_itsm:extraccioninforme_a7.png?500|}}
+
+
+Seleccionamos todo, le damos a informes.
+
+
+{{:pag_apli:remedy_itsm:extraccioninforme_a9.png?500|}}
+
+
+Y le damos a ejecutar.
+
+{{:pag_apli:remedy_itsm:extraccioninforme_a10.png?500|}}
+
+
+
+
+Podemos guardar la extracción, en nuestro caso vamos a exportar.
+
+
+{{:pag_apli:remedy_itsm:extraccioninforme_a11.png?500|}}
+
+
+{{:pag_apli:remedy_itsm:extraccioninforme_a12.png?500|}}
+
+
+
+<WRAP tip round box>
+**Si no aparece el botón “Informe” hay que hacerlo desde la pestaña “Configuración personalizada**
+</WRAP>
+
+
+{{:pag_apli:remedy_itsm:extraccioninforme1.png?500|}}
+
+
+{{:pag_apli:remedy_itsm:extraccioninforme2.png?500|}}
+
+
+{{:pag_apli:remedy_itsm:extraccioninforme3.png?500|}}
+
+
+{{:pag_apli:remedy_itsm:extraccioninforme7.png?500|}}
+
+
+{{:pag_apli:remedy_itsm:extraccioninforme4.png?500|}}
+
+
+
+{{:pag_apli:remedy_itsm:extraccioninforme8.png?500|}}
+
+
+{{:pag_apli:remedy_itsm:extraccioninforme5.png?500|}}
+
+
+{{:pag_apli:remedy_itsm:extraccioninforme6.png?500|}}
+
+
+</panel>
+<panel type="info">
+
+==== 2.9 Reglas de correo  ====
+
+[[http://Consola de configuración de reglas de correo|https://cau.justicia.junta-andalucia.es/arsys/forms/onbmc-s/RBE%3AConsole]] 
+
+1. Acceder a la pantalla principal de Inbound Email Rule Configuration
+
+{{:pag_apli:remedy_itsm:reglasdecorreo1.png?600|}}
+
+En esta pantalla se muestra:
+
+  - Inbound Email Status: Active
+  - Empresa: Global
+  - Secciones disponibles: 
+
+  - o	AR Email Messages
+
+  - o	Messages
+
+  - o	Base Configuration
+
+  - o	Rule Configuration
+
+  - o	Developer Fields
+
+En la parte izquierda aparece el listado "Entradas obtenidas", que contiene los correos entrantes que cumplen o no cumplen las reglas.
+
+En la parte derecha se ve el cuadro RBE Message, donde se muestran los campos básicos del mensaje recibido:
+
+
+  * To
+  * From
+  * Subject
+  * Created
+  * Unique ID
+  * Rule Name
+
+2. Seleccionar la pestaña Base Configuration
+
+{{:pag_apli:remedy_itsm:reglasdecorreo2.png?600|}}
+
+Haz clic en la pestaña Base Configuration.
+
+Esta vista se utiliza para configurar ajustes base que afectan a cómo se procesan los correos entrantes.
+
+Notas visibles:
+
+  - La sección está vacía porque aún no se ha seleccionado una categoría.
+
+3. Elegir la categoría “Use Case” en Base Configuration
+
+{{:pag_apli:remedy_itsm:reglasdecorreo3.png?600|}}
+
+En el desplegable Category, selecciona:
+
+➡️ Use Case
+
+Tras seleccionar esta categoría, aparece un listado de configuraciones ya existentes:
+
+  * Work Order – Add Worklog
+  * Known Error – Add Worklog
+  * Problem – Add Worklog
+  * Incident – Add Worklog
+  * Change Request – Add Worklog
+  * Work Order – Create
+  * Incident – Create
+  * Incident – Create-AndalucíaCERT
+
+…entre otras.
+
+El panel derecho muestra la ayuda Manage Configuration Settings, indicando que puedes:
+
+  - Crear una nueva configuración ("New Setting")
+  - O modificar una existente haciendo doble clic
+
+4. Visualización de la configuración “Incident.Create-AndalucíaCERT”
+
+{{:pag_apli:remedy_itsm:reglasdecorreo4.png?600|}}
+
+
+Aquí se ve la misma lista, pero resaltada la entrada:
+
+➡️ Incident – Create AndalucíaCERT
+
+Esto indica que ya se ha localizado la regla que se quiere consultar o editar.
+
+Incidentes de seguridad: doble click casos de uso
+
+5. Acceder a Rule Configuration
+
+{{:pag_apli:remedy_itsm:reglasdecorreo5.png?600|}}
+
+Haz clic en la pestaña Rule Configuration.
+
+En esta pantalla debes:
+
+
+  * Seleccionar Form Name: Incident
+  * Seleccionar Use Case: (lista desplegable)
+  * Aparece también el campo Rule Name, que se rellenará cuando cargamos una regla existente.
+
+Esta es la sección donde se definen o editan reglas específicas de creación de tickets.
+
+6. Visualizar la configuración de la regla “Incident.Create-AndalucíaCERT”
+
+{{:pag_apli:remedy_itsm:reglasdecorreo6.png?600|}}
+
+La regla aparece completamente cargada.
+
+Se muestran:
+
+  * Campos principales
+  * Form Name: Incident
+  * Use Case: Create AndalucíaCERT
+  * Rule Name: Incident.Create AndalucíaCERT
+
+**Rule Qualification**
+
+Aquí se define la condición que debe cumplirse para que se genere el ticket automáticamente.
+
+La condición visible es:
+
+( 'From' = "MISSING_MAILBOX@MISSING_DOMAIN") AND ('Subject' LIKE "%AndalucíaCERT%")
+
+Es decir, se crea un incidente cuando:
+
+  * El correo procede de una cuenta no identificada (missing mailbox)
+  * Y el asunto contiene la palabra AndalucíaCERT
+
+
+**Action Name**
+
+
+  * Ítem de lista desordenadaCreate
+
+Esto indica que, cuando la condición se cumple, la acción es crear un nuevo incidente en Remedy.
+
+</panel>
+<panel type="info">
+====  2.10 Activar consola ====
+
+**1. Acceder al menú de Administración**
+
+
+
+En la pantalla principal de BMC Helix ITSM:
+
+1.	Haz clic en el menú superior izquierdo.
+
+2.	Selecciona la opción:
+
+**AR System Administration > AR System Administration Console**
+
+En la primera imagen se observa el menú desplegado con las distintas opciones de administración.
+
+{{:pag_apli:remedy_itsm:activarconsola1.png?600|}}
+
+**2. Abrir la AR System Administration Console**
+
+Aquí se centraliza la configuración de todos los componentes del sistema.
+
+**3. Ir a AR System Configuration**
+
+En la columna izquierda de la consola:
+
+
+1.	Selecciona System.
+
+2.	General.
+
+3.	Luego selecciona AR System Configuration.
+
+4.	Haz clic en Component Configuration para acceder al detalle de los componentes del sistema.
+
+{{:pag_apli:remedy_itsm:activarconsola2.png?600|}}
+
+
+
+**4. Seleccionar el Componente a Configurar**
+
+Aparece una ventana titulada:
+
+**AR System Configuration Generic UI**
+
+Aquí se muestra:
+
+•	Una lista de Component Type
+
+•	Una lista de parámetros o componentes individuales
+
+•	Eliges el componente y pinchas en *****
+
+en esta imagen se observa que se selecciona un componente, por ejemplo:
+
+**com.bmc.arsys.smartit**
+
+(Esto puede variar según lo que desees modificar.)
+
+{{:pag_apli:remedy_itsm:activarconsola3.png?600|}}
+
+**5. Modificar los parámetros del Componente**
+
+En esta imagen se visualizan los parámetros configurables:
+
+•	Nombre del parámetro
+
+•	Valor actual
+
+•	Opciones desplegables para modificar
+
+Aquí puedes: 
+
+✔️ Cambiar valores
+
+✔️ Activar/desactivar componentes, por ejemplo, quitar "change,problem" para que se muestren en la opción marcada en la captura Una vez realizados los cambios:
+
+1.	Haz clic en Apply para guardar.
+
+2.	Luego Close para cerrar la ventana.
+
+
+{{:pag_apli:remedy_itsm:activarconsola4.png?600|}}
+
+
+**6. Finalizar**
+
+Después de aplicar los cambios, la consola vuelve al estado inicial.
+
+A partir de aquí puedes continuar configurando otros componentes o salir de la administración.
+
+
+
+</panel>
+<panel type="info">
+
+====  2.11 Activar categorías en nueva consola ====
+
+Desde la consola de administrador:
+
+Seleccionamos la categoría (operacional o de producto) a la que se le va a dar visibilidad en la consola de problemas o peticiones de cambio.
+
+{{:pag_apli:remedy_itsm:activarcategoriasenconsola1.png?600|}}
+
+Buscamos “Nueva búsqueda” la categoría (en este caso del ejemplo “Categoría operacional” “Sistemas”, en estado Activo (como en la imagen) y le damos a buscar. 
+
+<WRAP tip round box>
+Puedes definir el nivel de categoría en el que aplicar el cambio, en nuestro ejemplo solo elegimos categoría operacional 1 ya que queremos realizar la modificación a toda completa.
+
+</WRAP>
+
+{{:pag_apli:remedy_itsm:activarcategoriasenconsola2.png?600|}}
+
+Una vez filtrada:
+
+  - Seleccionar todo
+  - Modificar todo (se marca en rojo el Modo actual: Modificar todo)
+  - Seleccionas el Móds. De soporte del serv. (en nuestro caso “Gestión de problemas y Gestión de cambios”) y Guardas.
+  - Confirmas cambio y actualizas.
+
+{{:pag_apli:remedy_itsm:activarcategoriasenconsola3.png?600|}}
+
+Luego debes hacerlo con la categoría de producto si así se requiere.
+
+{{:pag_apli:remedy_itsm:activarcategoriasenconsola4.png?600|}}
+
+Podrás comprobarlo en la consola ITSM seleccionado “Crear problema”
+
+</panel>
+<panel type="info">
+
+====  2.12 Activar roles de usuarios en nueva consola ====
+
+Desde la consola de administrador:
+
+Seleccionamos Personas.
+
+
+
+</panel>
+
+
+
+<WRAP round box>
+
+
+===== BLOQUE III – CONSOLA DE GESTIÓN DE PETICIÓN DE SERVICIOS =====
+</WRAP>
+
+<panel type="info">
+====  3.1 Gestión y configuración desde la Consola del Gestor de Catálogo de Servicios ==== 
+
+La **Consola del Gestor de Catálogo de Servicios** en BMC Helix Digital Workplace permite a los técnicos responsables //administrar y mantener// actualizados los **servicios ofrecidos en el portal de usuario (DWP)**.
+
+Desde esta consola es posible:
+
+  * Visualizar y editar los servicios activos y visibles para el usuario.
+
+  * Configurar instrucciones específicas para Work Orders.
+
+  * Desconectar elementos del catálogo para habilitar su modificación.
+
+  * Gestionar el flujo de preguntas condicionales que se presentan al usuario.
+
+  * Cambiar textos, tipos de preguntas, valores predeterminados y propiedades (requerido, oculto, solo lectura).
+
+  * Modificar URLs predefinidas y contenidos contextuales de ayuda.
+
+
+Desde: **Catálogo de productos → Consola de gestor de Catálogo de servicios**
+
+{{:pag_apli:remedy_itsm:conso1.png?200|}}
+
+Una vez seleccionado, aparecerá en el menú lateral izquierdo.
+
+Pulsamos sobre: **Vista de consola → Todo**
+
+Dentro de Vista de definición de petición : “Todo”, seleccionamos:
+
+  * **Estado**: Aplicado
+  * Pulsamos **Buscar**
+{{:pag_apli:remedy_itsm:conso2.png?400|}}
+
+En este ejemplo, seleccionaremos Soporte Formativo y pulsamos **Ver**.
+
+{{:pag_apli:remedy_itsm:conso3.png?400|}}
+
+Se abrirá una nueva pestaña con la petición seleccionada.
+</panel>
+<panel type="info">
+==== 3.2 Modificar desde Catálogo de peticiones ====
+
+Accedemos al apartado **Instrucciones** correspondiente a la Work Order asignada.
+
+{{:pag_apli:remedy_itsm:conso4.png?300|}}
+
+Si pulsamos en el apartado instrucciones, se abrirá el apartado de “instrucciones” que tenemos predefinido para las Work Orders de “Soporte Formativo”.
+
+Desde aquí, se modifica este campo, una vez completado, pulsaremos el botón “Aceptar” y, posteriormente “guardar” desde la esquina superior izquierda.
+
+{{:pag_apli:remedy_itsm:conso15.png?400|}}
+
+Ejemplo de cómo se visualiza desde DWP: 
+
+{{:pag_apli:remedy_itsm:conso5.png?400|}}
+
+
+Para **modificar otros campos dentro del catálogo**:
+
+  * Pulsar **Desconectar**
+
+{{:pag_apli:remedy_itsm:conso6.png?400|}}
+
+Una vez pulsado, se muestran los campos del apartado **“Definición”** modificables y seleccionaremos el botón de **“Preguntas y Mapeos”**:
+
+{{:pag_apli:remedy_itsm:conso7.png?400|}}
+
+Se abrirá la ventana de flujo de preguntas (timeline), preconfiguradas para esa petición. 
+
+{{:pag_apli:remedy_itsm:conso8.png?400|}}
+
+Donde se puede:
+
+  * Agregar pregunta: Añade una nueva pregunta al árbol
+
+  * Agregar condición: Establece lógica condicional (ej. si responde "Sí", mostrar campo adicional de ubicación). 
+
+  * Eliminar: Borra la pregunta seleccionada previamente.
+
+  * Aplicar cambios: Guarda los cambios realizados en la pregunta actual.
+
+{{:pag_apli:remedy_itsm:conso9.png?400|}}
+
+  * **Panel derecho** (configuración de la pregunta):
+
+  - “Crear o modificar preguntas” se pueden realizar diferentes modificaciones como:
+
+  * Texto de la pregunta: Texto visible para el usuario final (ej. ¿Quieres indicar una ubicación diferente?).
+  * Formato de la pregunta: Diferentes modalidades como menú, texto, número, fecha, Sí/No, etc.
+  * Categoría: Para organizar internamente la pregunta. 
+  * Instrucciones: Texto explicativo adicional que puede mostrarse bajo la pregunta.
+  * Propiedades: Requerida (obligatoria responder para el usuario), Oculta (sólo visible condicionalmente) o Solo lectura.
+
+
+{{:pag_apli:remedy_itsm:conso10.png?400|}}
+
+  - Opciones de menú:
+Tipo de menú:
+  * Fijo: Lista estática definida en este formulario.
+  * Dinámico: Basado en una fuente de datos externa (como una tabla)
+  * Valor mostrado / almacenado: Valor visible para el usuario y valor interno que se usará en mapeos.
+  * Valor predeterminado: Puedes marcar una opción como preseleccionada.
+
+**Ejemplo de captura para Soporte Formativo**:
+  * Pregunta: ¿Quieres indicar una ubicación diferente?
+  * Tipo: Menú
+  * Opciones: Sí / No
+  * Predeterminado: No
+Si queremos modificar URLs predefinidas:
+  * Tipo de formación: Otra
+  * Tipo de Solicitud: Formación por Reciclaje
+  * ¿Qué necesitas?: Correo electrónico
+Lo buscamos desde el timeline y, una vez seleccionado, pulsamos en el campo **“Respuesta predeterminada”**, donde nos aparecerá la URL para modificar. 
+Modificada:
+  * Pulsar Aceptar
+  * Guardar
+  * Conectar
+
+
+{{:pag_apli:remedy_itsm:conso12.png?400|}}
+{{:pag_apli:remedy_itsm:conso13.png?400|}}
+
+**IMPORTANTE**: Si no pulsamos “Conectar”, el servicio NO aparecerá en DWP, aparecerá el siguiente mensaje:
+
+{{:pag_apli:remedy_itsm:conso14.png?400|}}
+
+</panel>
+<panel type="info">
+==== 3.3 Modificar el nombre de una categoría en DIGITAL WORKPLACE ====
+
+Desde la consola de Administrador accedemos a "Gestión de peticiones del servicio" y seleccionamos En Gestor de catálogo de servicio
+
+{{:pag_apli:remedy_itsm:modificar_nombre_de_categoria_en_dw1.png?nolink&400|}}
+
+  - Le damos a Vista de consola/Todo.
+  - Hacemos doble clic o bien damos al botón ver.
+
+
+{{:pag_apli:remedy_itsm:modificar_nombre_de_categoria_en_dw_2.png?nolink&400|}}
+
+  - Desconectamos (deja de estar visible para los usuarios)
+  - Cambias y guardas
+  - Y pulsa de nuevo **Conectar**
+
+<WRAP tip>
+  * No afecta a la configuración de asignaciones automáticas
+  * Si no conectas el usuario final no podrá ver la opción de esta categoría
+
+</WRAP>
+
+{{:pag_apli:remedy_itsm:modificar_nombre_de_categoria_en_dw_3.png?nolink&400|}}
+
+</panel>
+<panel type="info">
+
+==== 3.4 Añadir nuevos campos a las peticiones de servicio en DIGITAL WORKPLACE ====
+
+Por ejemplo, en la categoría SSVV vamos a incluir la pregunta ¿Puede celebrar vista?
+Queremos que los técnicos tengan esta información, y podrán verla en la REQUEST (req000000xxxxx) que se genera en el ITSM.
+Desde la consola de administración. Entramos en Gestión de Petición de servicios y elegimos consola gestor catálogo servicios.
+
+{{:pag_apli:remedy_itsm:nuevo_campo_dwp1.png?400|CAPTURA 1}}
+
+Seleccionamos Todo, le damos a buscar y nos sale la lista de las categorías visibles para los usuarios. Y le damos a Ver
+
+
+{{:pag_apli:remedy_itsm:nuevo_campo_dwp2.png?400|}}
+
+Desconectamos y se habilita Preguntas y mapeos
+
+{{:pag_apli:remedy_itsm:nuevo_campo_dwp3.png?400|}}
+
+
+{{:pag_apli:remedy_itsm:nuevo_campo_dwp4.png?400|}}
+
+  - Pinchamos en agregar pregunta
+  - Pones el Texto de la pregunta
+  - Rellenas Formato de la pregunta (puede ser menú o botones o texto)
+  - Categoría genérica
+  - Hay que configurar opciones de menú. En este caso vamos a poner opciones de que conteste Si / No
+  - Poner el valor mostrado, por ejemplo, No
+  - Poner el valor de almacenado, igual
+  - Agregar
+  - Y luego volver a hacer lo mismo con Si.
+  - Agregar
+  - Y aplicar
+  - Y Actualizar biblioteca para que se quede guardada la pregunta por si tenemos que volver a utilizar en otro formulario
+
+{{:pag_apli:remedy_itsm:nuevo_campo_dwp5.png?400|}}
+
+La pregunta la podemos mover a la altura que queramos, la movemos con las flechas.
+Cerrar.
+
+Y volver a conectar. 
+
+<WRAP tip>
+  * Si no conectas el usuario final no podrá ver la opción de esta categoría
+
+</WRAP>
+
+
+</panel>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+<WRAP round box>
+===== BLOQUE IV – CMDB =====
+</WRAP>
+
+    * 4.1 Gestión de activos
+    * 4.2 Gestión de datos
+    * 4.3 Developer estudio
+    * 4.4 Crear elemento de configuración. Servicio de Negocio (BMC Helix ITSM)
+
+<panel type="info">
+
+=== 4.4 Crear elemento de configuración. Servicio de Negocio (BMC Helix ITSM) ===
+
+__**1. Acceso a la Consola de Activo**__
+
+1.	Iniciar sesión en BMC Helix ITSM.
+
+2.	En el menú izquierdo, hacer clic en Aplicaciones.
+
+3.	Acceder a Consola de Activo.
+
+{{:pag_apli:remedy_itsm:crearelementodeconfiguracion1.png?600|}}
+
+__**2. Acceder a la gestión de CIs**__ 
+
+{{:pag_apli:remedy_itsm:crearelementodeconfiguracion2.png?600|}}
+
+{{:pag_apli:remedy_itsm:crearelementodeconfiguracion3.png?600|}}
+
+{{:pag_apli:remedy_itsm:crearelementodeconfiguracion4.png?600|}}
+
+__**3. Crear un nuevo CI**__
+
+
+1.	En la parte superior de la tabla de “Elementos de configuración (CI)”, hacer clic en Crea.
+
+2.	En el menú desplegable seleccionar: Componente de sistema → Proceso de negocio → Servicio de negocio
+
+__**4. Pantalla de creación del CI**__
+
+
+4.1 Información del CI
+
+
+•	Nombre del CI: (Ejemplo: Servicio de Justicia Digital)
+
+•	Estado: Aplicado
+
+•	En mantenimiento: Yes
+
+•	Empresa: Seleccionar la empresa correspondiente (ej.: HGIS)
+
+•	Rol del sistema: según corresponda/opcional
+
+•	Usuarios afectados: opcional
+
+•	Impacto, Urgencia y Prioridad: completar según criticidad si se requiere.
+
+
+
+
+
+{{:pag_apli:remedy_itsm:crearelementodeconfiguracion5.png?600|}}
+
+{{:pag_apli:remedy_itsm:crearelementodeconfiguracion6.png?600|}}
+
+
+Podemos comprobar que se ha creado correctamente.
+
+{{:pag_apli:remedy_itsm:crearelementodeconfiguracion7.png?600|}}
+
+
+
+</panel>
+ 
+
+
+
+<WRAP round box>
+===== BLOQUE V – Administrador de correo "AR Sistem Email =====
+</WRAP>
+<panel type="info">
+=== 5.1 AR System Email ===
+
+Desde la consola de Administración
+
+{{:pag_apli:remedy_itsm:reglasdecorreo01.png?600|}}
+
+Accedemos a Email y entramos en Mailbox Configuracion
+
+{{:pag_apli:remedy_itsm:reglasdecorreo02.png?600|}}
+
+Buscamos el servicio configurado, en este caso “Incoming” y le damos a buscar.
+
+{{:pag_apli:remedy_itsm:reglasdecorreo03.png?600|}}
+
+Aparecen las configuraciones que ya tenemos 
+
+{{:pag_apli:remedy_itsm:reglasdecorreo05.png?600|}}
+
+{{:pag_apli:remedy_itsm:reglasdecorreo05.png?600|}}
+
+</panel>
+
+<panel type="info">
+
+=== 5.2 AR System Email: Reglas ===
+
+Desde la consola 
+
+[[https://cau.justicia.junta-andalucia.es/arsys/forms/onbmc-s/RBE%3AConsole]]
+
+**1. Acceder a la pantalla principal de Inbound Email Rule Configuration**
+
+{{:pag_apli:remedy_itsm:reglasdecorreo1.png?600|}}
+
+En esta pantalla se muestra:
+
+  * Inbound Email Status: Active
+  * Empresa: Global / HGIS 
+  * Secciones disponibles: 
+    * AR Email Messages
+    * Messages
+    * Base Configuration
+    * Rule Configuration
+    * Developer Fields
+
+En la parte izquierda aparece el listado "Entradas obtenidas", que contiene los correos entrantes que cumplen o no cumplen las reglas.
+
+En la parte derecha se ve el cuadro RBE Message, donde se muestran los campos básicos del mensaje recibido:
+
+  * To
+  * From
+  * Subject
+  * Created
+  * Unique ID
+  * Rule Name
+  * Rule Request ID
+
+**2. Seleccionar la pestaña Base Configuration**
+
+{{:pag_apli:remedy_itsm:reglasdecorreo2.png?600|}}
+
+Haz clic en la pestaña Base Configuration.
+
+Esta vista se utiliza para configurar ajustes base que afectan a cómo se procesan los correos entrantes.
+
+Notas visibles:
+
+•	La sección está vacía porque aún no se ha seleccionado una categoría.
+
+**3. Elegir la categoría “Use Case” en Base Configuration**
+
+{{:pag_apli:remedy_itsm:reglasdecorreo3.png?600|}}
+
+En el desplegable Category, selecciona:
+
+➡️ Use Case
+
+Tras seleccionar esta categoría, aparece un listado de configuraciones ya existentes:
+
+
+  - Work Order – Add Worklog
+  - Known Error – Add Worklog
+  - Problem – Add Worklog
+  - Incident – Add Worklog
+  - Change Request – Add Worklog
+  - Work Order – Create
+  - Incident – Create
+  - Incident – Create-AndalucíaCERT
+
+…entre otras.
+
+
+El panel derecho muestra la ayuda Manage Configuration Settings, indicando que puedes:
+
+
+  * Crear una nueva configuración ("New Setting")
+  * O modificar una existente haciendo doble clic
+
+**4. Visualización de la configuración “Incident.Create-AndalucíaCERT”**
+
+{{:pag_apli:remedy_itsm:reglasdecorreo4.png?600|}}
+
+Aquí se ve la misma lista, pero resaltada la entrada:
+
+➡️ Incident – Create AndalucíaCERT
+
+Esto indica que ya se ha localizado la regla que se quiere consultar o editar.
+
+Incidentes de seguridad: doble click casos de uso
+
+**5. Acceder a Rule Configuration**
+
+{{:pag_apli:remedy_itsm:reglasdecorreo05.png?600|}}
+
+Haz clic en la pestaña Rule Configuration.
+
+En esta pantalla debes:
+
+
+  - Seleccionar Form Name: Incident
+  - Seleccionar Use Case: (lista desplegable)
+  - Aparece también el campo Rule Name, que se rellenará cuando cargamos una regla existente.
+
+Esta es la sección donde se definen o editan reglas específicas de creación de tickets.
+
+**6. Visualizar la configuración de la regla “Incident.Create-AndalucíaCERT”**
+
+La regla aparece completamente cargada.
+
+Se muestran:
+
+__Campos principales__
+
+
+  * Form Name: Incident
+  * Use Case: Create AndalucíaCERT
+  * Rule Name: Incident.Create AndalucíaCERT
+
+__Rule Qualification__
+
+Aquí se define la condición que debe cumplirse para que se genere el ticket automáticamente.
+
+La condición visible es:
+
+( 'From' = "MISSING_MAILBOX@MISSING_DOMAIN") AND ('Subject' LIKE "%AndalucíaCERT%")
+Es decir, se crea un incidente cuando:
+
+
+  * El correo procede de una cuenta no identificada (missing mailbox)
+  * Y el asunto contiene la palabra AndalucíaCERT: Action Name
+  * Create: Esto indica que, cuando la condición se cumple, la acción es crear un nuevo incidente en Remedy.
+
+
+
+</panel>
+
+<panel type="info">
+
+=== 5.3 Instrucciones para la configurar en log del Email Engine de Remedy ITSM ===
+
+**5.3.1 Introducción a BMC ITSM Email Engine**
+ 
+	El Remedy Email Engine es un componente de la plataforma BMC Remedy AR System, que se utiliza principalmente para gestionar la comunicación por correo electrónico entre los usuarios y las aplicaciones basadas en Remedy.
+
+	Es un servicio que permite enviar y recibir correos electrónicos desde y hacia el sistema Remedy, de modo que las acciones en la aplicación puedan dispararse o gestionarse vía email.
+
+**5.3.2 Funciones principales del Remedy Email Engine**
+
+  - Recepción de correos: Puede procesar emails entrantes y convertirlos en registros dentro de Remedy (por ejemplo, la creación automática de tickets a partir de un correo de soporte).
+
+  - Envío de notificaciones: Envía correos electrónicos automáticos a usuarios o grupos (ejemplo: notificación de ticket creado, asignación de caso, recordatorios).
+  - Integración flexible: Se conecta con servidores de correo compatibles con protocolos estándar como SMTP, POP3 o IMAP.
+
+**5.3.3 Logs del Email Engine**
+
+Los logs del Email Engine se almacenan en la siguiente ruta de todos los PODs cuyo nombre es platform-fts-*
+
+**Ruta:** /opt/bmc/ARSystem/AREmail/Logs
+
+**PODs:** platform-fts-*
+
+	El fichero **email.log** es donde se almacena el log, pero este fichero está configurado para rotar cuando llega a un tamaño determinado por lo que puede haber múltiples ficheros de log
+
+{{:pag_apli:remedy_itsm:emailengenier1.png?600|}}
+
+ 
+
+**5.3.4 Cambiar el nivel de log del Email Engine**
+
+El nivel de log del email engine se puede modificar para diagnóstico y resolución de problemas:
+
+  * Para cambiarlo, es necesario abrir la consola centralizada desde: AR System Administration > AR System Administration Console > System > General > Centralized Configuration
+
+{{:pag_apli:remedy_itsm:emailengenier2.png?600|}}
+ 
+  * Seleccionar el componente com.bmc.arsys.emaildaemon > platform-fts-xxx
+ 
+{{:pag_apli:remedy_itsm:emailengenier3.png?600|}}
+
+<WRAP important round box>
+Nota. Las siguientes configuraciones se deben hacer en todos los servidores platform-fts-xxx
+</WRAP>
+
+  * Identificar el parámetro com.bmc.arsys.emaildaemon.level
+
+{{:pag_apli:remedy_itsm:emailengenier4.png?600|}}
+
+ 
+  * Cambiar el parámetro con el valor adecuado y pulsar Apply
+    *  Posibles valores:
+
+  - OFF
+  - SEVERE (defecto)
+  - WARNING
+  - INFO
+  - CONFIG
+  - FINE
+  - FINER
+  - FINEST 
+
+
+Enlace a la documentación oficial: [[https://docs.bmc.com/xwiki/bin/view/Service-Management/Innovation-Suite/Remedy-Action-Request-System/ars2002/Configuring-after-installation/Configuring-BMC-Remedy-Email-Engine/Performance-and-configuration-settings-for-Email-Engine/Settings-in-the-EmailDaemon-properties-file/#]]
+
+{{:pag_apli:remedy_itsm:emailengenier5.png?600|}}
+ 
+  * Una vez realizado el diagnóstico y la resolución del problema es importante volver a poner el valor por defecto: SEVERE
+
+
+ {{:pag_apli:remedy_itsm:emailengenier6.png?600|}}
+
+{{:pag_apli:remedy_itsm:emailengenier7.png?600|}}
+
+ 
+</panel>
+
+ 
+
+
+
+
+<WRAP round box>
+===== BLOQUE VI – Actualización de la configuración  =====
+
+</WRAP>
+<panel type="info">
+Desde la consola de administrador. ¿Qué cambios de configuración podemos realizar?
+
+  * Los cambios masivos en los nombres de los grupos, categorías operacionales y de producto.
+  * Los cambios también se ejecutan el DigitalWorkplace.
+
+**EJEMPLO**
+
+Queremos cambiar el nombre del grupo Nivel 1 por CAU.
+
+<WRAP important round box>Si el usuario técnico era Nivel 1_01 seguirá siendo Nivel 1_01 por lo que esto hay que cambiarlos a manualmente a cada usuario técnico.</WRAP>
+
+Nos aseguramos de que se realiza el cambio en cualquier elemento de configuración que aparezca, por ejemplo: Asignaciones, flujos de tareas, plantillas de tareas y órdenes de trabajo, etc.
+
+El proceso puede tardar un poco.
+
+  - Entramos en la consola de administrador y seleccionamos: Gestión de datos--> Asistente de datos.
+  - Luego actualizar objetivos y se elige el grupo, en este caso Support Group
+  - Ponemos el nombre del grupo y ponemos el que queremos, marcamos el chect y pulsamos GO y confirmamos.
+
+
+{{:pag_apli:remedy_itsm:cambios_en_la_configuracion.png?nolink&500|}} 
+{{:pag_apli:remedy_itsm:configuracion_masiva_2.png?nolink&500|}}
+{{:pag_apli:remedy_itsm:configuracion_masiva_3.png?nolink&500|}} 
+{{:pag_apli:remedy_itsm:configuracion_masiva_4.png?nolink&500|}}
+
+
+
+</panel>
+[[start|Volver atrás]]
+
+{{tag>novalidada}}
+
+
+
+<WRAP round box>
+===== BLOQUE VII – Administrador de Digital Workplace  =====
+</WRAP>
+<panel type="info">
+==== 7.1. Modificar configuración en DWP ====
+
+     7.1.1 Modificar iconos en DWP
+
+
+Accedemos a la consola de Administrador del DWP
+
+{{:pag_apli:remedy_itsm:icono_dwp_1.1.png?nolink&800|}}
+
+
+  - Entramos en "Solicitudes de servicio".
+  - Configurar: Propiedades de categoría y solicitudes.
+  - Elegimos el elemento que queremos cambiar.
+  - Seleccionamos archivo.
+  - Subir nueva imagen
+  - Botón Cambiar
+  - Elegimos la imagen que hemos subido
+  - Guardar Solicitud.
+
+
+{{:pag_apli:remedy_itsm:icono_dwp_2.png?nolink&400|}}
+
+{{:pag_apli:remedy_itsm:icono_dwp_3.png?nolink&400|}}
+
+</panel>
+
+[[start|Volver atrás]]
+
+{{tag>novalidada}}
+
+
+
+<WRAP round box>
+===== BLOQUE VIII – Innovate Studio  =====
+</WRAP>
+
+<panel type="info">
+=== 8.1 MANUAL INNOVATIONS STUDIO – Filtros y Cambio de Nombre del Filtro ===
+
+
+**Hacer visibles los filtros**
+
+
+<WRAP important round box>
+**IMPORTANTE:****JAMÁS BORRAR COLUMNAS**  
+</WRAP>
+
+Los filtros no tienen por qué coincidir con las columnas mostradas.
+
+
+**8.1.1 Acceso a Innovations Studio**
+
+Accedemos a **Innovations Studio** desde la consola de tickets, desplegando el botón **Más**.  
+
+
+{{:pag_apli:remedy_itsm:filtros1.png?600|}}
+
+En esta consola aparecen los elementos de configuración.  
+Están todos bloqueados y no se pueden editar.  
+
+Para poder modificar un bloque hay que hacer **una copia** del mismo.  
+Por ejemplo, en el cuadro *“Consola de ticket TI”* aparece la posibilidad de **Editar**, y además en la parte superior derecha aparece **Configurado**.  
+
+{{:pag_apli:remedy_itsm:filtros2.png?600|}}
+
+Aparece un cuadro de diálogo **“Copia de la vista”**:  
+
+{{:pag_apli:remedy_itsm:filtros3.png?600|}}
+
+Una vez realizada la copia podemos editar y accedemos a la pantalla con los elementos a modificar.
+
+{{:pag_apli:remedy_itsm:filtros4.png?600|}}
+
+
+**8.1.2 Modificar Filtros**
+
+Al clicar sobre el diseño de **Filtrar** aparecen a la derecha el listado de filtros existentes.  
+Buscamos el que necesitamos.
+
+{{:pag_apli:remedy_itsm:filtros5.png?600|}}
+Marcar:
+  * **Hacer visible**
+  * **Filtrable**
+<WRAP box round tip center>
+Algunos filtros ocultados con sus traducciones
+</WRAP>
+
+<WRAP info shadow box>
+
+  * Aprobado por → Approved by
+  * CI causa → Causal CI / Causal CI name
+  * Clase de cambio → Change class
+  * Coordinador de comunicaciones → Communication coordinator
+  * Coordinador de problemas → Problem coordinator / Problem coordinator name
+  * Departamento afectado por el cambio → Change impacted department
+  * Empresa afectada por jefatura → Change impacted company
+  * Estado de SLM → SLM status
+  * Estatus de aprobación → Approval status
+  * Gestor de cambios → Change manager
+  * Grupo coordinador de problemas → Problem coordinator group / Problem coordinator group name
+  * Grupo de gestores de cambio → Change manager group / Change manager group name
+  * Grupo de sitios afectados por el cambio → Change impacted site group
+  * Grupo de soporte del comunicador de comunicaciones → Communication coordinator support group
+  * Grupo de soporte de técnicos asignados a la incidencia → Assignee group / Assignee group name
+  * Grupo de técnicos asignados → Assignee group / Assignee group name
+  * Hito → Milestone
+  * ID DE PETICIÓN DEL CATÁLOGO → Catalog request Id
+  * Justificación de negocio → Business justification
+  * Modelo/Versión → Model/Version
+  * Motivo del cambio → Change reason
+  * Motivo de investigación → Investigation driver
+  * Nombre completo del usuario → Customer full name
+  * Nombre del técnico asignado → Assignee name / Assignee
+  * Nivel de riesgo → Risk level
+  * Región afectada por el cambio → Change impacted region
+  * Remitente → Submitter
+  * Requiere aprobación de → To be approved by
+  * Service Request ID → Service request Id
+  * Servicio → Service
+  * Sitio afectado por el cambio → Change impacted site
+
+</WRAP>
+
+{{:pag_apli:remedy_itsm:filtros6.png?600|}}
+
+Guardar en la ventana donde se ha realizado el cambio y también en el panel principal.
+
+El nombre del filtro se puede cambiar en **Encabezado de columna**.
+
+Luego es necesario realizar una acción para que el buscador encuentre las opciones del filtro:  
+
+
+**8.1.3 Modificar registro primero**
+
+Para que aparezcan los valores del filtro:  
+
+{{:pag_apli:remedy_itsm:filtros7.png?600|}}
+
+{{:pag_apli:remedy_itsm:filtros8.png?600|}}
+
+{{:pag_apli:remedy_itsm:filtros9.png?600|}}
+
+</panel>
+
+[[start|Volver atrás]]
+
+{{tag>novalidada}}

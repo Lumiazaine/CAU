@@ -1,0 +1,132 @@
+﻿
+<html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>ENLACES DE INTERÉS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #39546E;
+            margin: 0;
+            padding: 20px;
+            padding-top: 70px;
+            
+        }
+
+        .main-container {
+            max-width: 1550px;
+            margin-top: 20px;
+            
+        }
+
+        .main-header {
+            background-color: #39546E;
+            color: white;
+            padding: 25px 20px;
+            font-size: 2rem;
+            font-weight: bold;
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+            margin-bottom: 20px;
+            
+        }
+
+        .block {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 22px;
+            margin-bottom: 25px;
+            border: 1px solid #c5ccd4;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+            
+        }
+
+        .block h2 {
+            margin-top: 0;
+            color: #39546E;
+            border-bottom: 2px solid #39546E;
+            padding-bottom: 10px;
+            
+        }
+        
+        a {
+            color: #0051A3;
+            text-decoration: none;
+            
+        } 
+        
+    </style>
+</head>
+
+<body>
+
+    <div class="main-container">
+
+        <div class="main-header">ENLACES DE INTERÉS</div>
+     
+<!-- Bloque Portal Capacitación -->
+        <div class="block">
+        
+            <h2>Portal Capacitación</h2>
+                        
+            <ul>
+                <li><a href="https://capacitacion.justicia.junta-andalucia.es/">Portal Capacitación</a></li>
+            </ul>
+        </div>     
+        
+<!-- Bloque Analítica y Gobierno del Dato -->
+        <div class="block">
+        
+            <h2>Analítica y Gobierno del Dato</h2>
+            
+            <ul>
+                <li><a href="https://intranet.ada.junta-andalucia.es/serviciostic/servicios-de-apoyo/gobierno-del-dato">Servicios de apoyo Gobierno del Dato</a></li>
+                <li><a href="https://intranet.ada.junta-andalucia.es/serviciostic/servicios-de-apoyo/analitica-de-datos">Servicios de apoyo Analítica de Datos</a></li>
+                <li><a href="https://ssoweb.juntadeandalucia.es/SAML2/SSOService.php">Tableau</a></li>
+            </ul>
+        </div>
+
+<!-- Bloque Portal Adriano -->
+        <div class="block">
+        
+            <h2>Portal Adriano</h2>
+                        
+            <ul>
+                <li><a href="https://portaladriano.justicia.junta-andalucia.es/portal/adriano/index.html">Portal Adriano</a></li>
+            </ul>
+        </div>
+        
+<!-- Bloque Utilidades-->
+        <div class="block">
+        
+            <h2>Utilidades</h2>
+            
+            <ul>
+                <li><a href="https://conversornumeracion-rcja.junta-andalucia.es/conversor-numeracion/conversor">Conversor de Numeración</a></li>
+                <li><a href="https://www.sede.fnmt.gob.es/documents/10445900/10649507/Certificados_pruebas_todas_CAs.rar">Certificados de Pruebas Todas CAs (RSA/ECC)</a></li>
+                <li><a href="https://desarrollo.juntadeandalucia.es/recursos/servicios-apoyo/certificados-electronicos-servidor-y-sello#toc-archivos">Servicio de apoyo para la gestión de certificados electrónicos de servidor y sello</a></li>
+                
+            </ul>
+        </div>
+        
+<!-- Bloque Herramientas ADA-->
+        <div class="block">
+        
+            <h2>Herramientas ADA</h2>
+            
+            <ul>
+                <li><a href="https://extranet.chie.junta-andalucia.es/bandeja/inicio/accesoSSO.action">Bandeja</a></li>
+                <li><a href="https://guia.juntadeandalucia.es/identity/inicio-publico">GUIA</a></li>
+                <li><a href="https://naossuite.juntadeandalucia.es/autogestion/incidencias">NAOS</a></li>
+                <li><a href="https://redprofesional.juntadeandalucia.es/login">Red Profesional</a></li>
+            </ul>
+        </div>
+       
+    </div>
+
+</body>
+</html>
+
+{{tag>validada}}
+

@@ -1,0 +1,48 @@
+﻿
+====== PGGTBD - Procedimientos Generales GTBD ======
+
+===== Descripción =====
+
+Esta sección incluye procedimientos comunes y reutilizables aplicables a la administración y mantenimiento de bases de datos, independientemente del entorno o sistema específico. Se documentan buenas prácticas, pasos detallados y operaciones frecuentes que deben seguirse de forma estandarizada.
+
+===== Procedimientos incluidos =====
+
+  * **Cambio de contraseñas en BBDD**
+      - Pasos para modificar credenciales de usuarios SYS, SYSTEM y aplicaciones.
+      - Validación posterior y propagación en entornos replicados.
+
+  * **Conexión a instancias Oracle y SQL Server**
+      - Métodos de acceso (sqlplus, Toad, SQL Developer, etc.).
+      - Acceso mediante VPN y revisión de listener.
+
+  * **Reinicio controlado de instancia**
+      - Procedimiento para parar y levantar una instancia Oracle.
+      - Consideraciones de red, dependencias y notificación a usuarios.
+
+  * **Creación y asignación de tablespaces**
+      - Alta de nuevos espacios de almacenamiento.
+      - Asignación a usuarios y control de autoextend.
+
+  * **Creación de usuarios**
+      - Script estándar para nuevos usuarios en Oracle/SQL Server.
+      - Asignación de roles, privilegios y perfiles.
+
+  * **Control de bloqueos**
+      - Identificación de sesiones bloqueantes.
+      - Procedimiento para desbloqueo y trazabilidad.
+
+  * **Gestión de trazas**
+      - Localización de ficheros trace y alert logs.
+      - Análisis y depuración de errores.
+
+  * **Validación post-mantenimiento**
+      - Checklist de puntos a revisar tras tareas de impacto.
+      - Verificación de servicios, conexiones y rendimiento.
+
+  * **Revisión de logs de auditoría**
+      - Análisis de accesos y cambios relevantes.
+      - Control de accesos indebidos o no planificados.
+
+=====   =====
+
+

@@ -1,0 +1,52 @@
+﻿
+===== Procedimiento de Incidencias Textualización =====
+
+**Clase**: APLICACIONES 
+**Tipo:** TEXTUALIZACIÓN L2  
+
+
+==== Clasificación ====
+**INCIDENCIA / PETICIÓN**
+
+==== Asignaciones y Alcances ====
+
+ **1. Asignado a Grupo: Nivel 3**
+**Asignado a:** Textualización  
+
+**Alcance:**  
+  * Incidencias en entorno productivo donde el usuario solicita la textualización de vídeos antiguos.  
+    * **IMPORTANTE**: El usuario debe remitir el formulario correctamente cumplimentada.  
+    * Recomendación: Especificar si es posible la horquilla temporal de la grabación.  
+    * Plantilla usada: Formulario_SolicitudvisibilidadTextualizacion_v1  
+      * (ruta: http://portaladriano.justicia.junta-andalucia.es/portal/adriano/personaladmon/Documentacion-de-interes/)  
+      * Pendiente de actualizar: incluir el campo "Fecha grabación" en el apartado "Descripción Solicitud", después de "Número y tipo de Procedimiento".  
+  * Incidencias de entorno productivo donde el usuario informa de la no disponibilidad del Portal de Textualización.  
+  * En general, son incidencias reportadas por usuarios finales a través del CAU.
+
+
+ **2. Asignado a Grupo: Servicios**
+**Asignado a:** Textualización L2 (EM)  
+
+**Alcance:**  
+  * Incidencias técnicas o internas entre equipos, como:  
+    * Configuración  
+    * Rendimiento  
+    * Despliegue  
+    * Documentación del proyecto  
+    * etc.  
+  * En general, son incidencias gestionadas entre equipos técnicos internos (Sistemas, OTPCS, Textualización, Jefatura, etc.).
+
+==== Procedimiento ====
+**Seguimiento operativo:**  
+Responsables principales:  
+  * José Miguel Fdez  
+  * Diego Gallardo
+
+==== Cumplimiento ANS durante periodo de Garantía ====
+  * **ANSG1: Tiempo de respuesta**  
+    * De lunes a viernes, de 8:00 a 20:00  
+    * Respuesta en ≤ 4 horas tras la remisión de la incidencia  
+  * **ANSG2: Tiempo de resolución**  
+    * De lunes a viernes, de 8:00 a 20:00  
+    * Subsanación completa de los fallos en ≤ 2 días laborables tras la remisión
+

@@ -1,0 +1,41 @@
+﻿<body onload="getInfo(); initMoreInfo('infoBlockID');">
+        <div class="mainContent" id="contentContainer">
+            <div class="title" id="mainTitle">No se puede acceder a esta página</div>
+            <div class="taskSection" id="taskSection">
+                <ul class="tasks" id="cantDisplayTasks">
+                    <li id="task1-1">Asegúrate de que la dirección web <span class="webpageURL" id="webpage">https://temis.justicia.junta-andalucia.es </span>sea correcta.</li>
+                    <li id="task1-2"><a href="https://www.bing.com/search?q=https%3A%2F%2Ftemis.justicia.junta-andalucia.es&amp;PC=IENEPB">Buscar este sitio en Bing</a></li>
+                    <li id="task1-3"><a href="javascript:location.reload();">Actualizar la página</a></li>
+                </ul>
+                <ul class="tasks" id="notConnectedTasks" style="display: none;">
+                    <li id="task2-1">Comprueba que todos los cables de red estén conectados.</li>
+                    <li id="task2-2">Comprueba que el modo avión esté desactivado.</li>
+                    <li id="task2-3">Asegúrate de que el interruptor inalámbrico esté activado.</li>
+                    <li id="task2-4">Ve si puedes conectarte con la banda ancha móvil.</li>
+                    <li id="task2-5">Reinicia el enrutador.</li>
+                </ul>
+            </div>
+            <div align="left" id="moreInformationAlign" aria-labelledby="moreInformation">
+                <table>
+                    <tbody><tr>
+                        <td aria-labelledby="infoBlockIDImage" valign="top">
+                            <a onclick="javascript:expandCollapse('infoBlockID', true); return false;" href="#"><img class="actionIcon" id="infoBlockIDImage" alt="Más información" src="down.png" border="0"></a>
+                        </td>
+                        <td valign="top">
+                            <span id="moreInfoContainer"><a href="javascript:expandCollapse('infoBlockID', true);">Más información</a></span>
+                            <noscript>&lt;id id="moreInformation"&gt;Más información&lt;/id&gt;</noscript>
+                        </td>
+                    </tr>
+                </tbody></table>
+                <div class="infoBlock" id="infoBlockID" style="display: none;">
+                    <p class="BodyTextBlockStyle" id="subError" style="margin-left: 20px;">Error de DNS temporal. Intenta actualizar la página.<br></p>
+                    <p class="BodyTextBlockStyle" id="ErrorCode" style="margin-left: 20px;">Código de error: INET_E_RESOURCE_NOT_FOUND</p>
+                </div>
+            </div>
+            <br>
+            <div id="diagnoseOptions"><button class="diagnoseButton" id="diagnose" onclick="javascript:diagnoseConnectionAndRefresh(); return false;">Solucionar problemas de conexión</button></div>
+            <br>
+        </div>
+    
+
+</body>

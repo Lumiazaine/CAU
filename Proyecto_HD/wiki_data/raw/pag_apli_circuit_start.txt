@@ -1,0 +1,24 @@
+﻿
+
+<WRAP> 
+<panel type="primary" title="CIRCUIT"> 
+
+Es una herramienta de comunicación que, de manera intuitiva, permite a los usuarios trabajar en equipo desde cualquier lugar y mediante cualquier dispositivo con acceso a internet.
+
+<WRAP> 
+<panel type="info" title="Acceso">
+
+  * **URL:** https://eu.yourcircuit.com/login
+  * **Contacta:** 
+  * **Formulario:**    Enlace a carpeta de red
+  * **BBDD:** 
+</panel>
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Capacitación">
+  * [[https://capacitacion.justicia.junta-andalucia.es/|Cursos y Manuales de Usuario]]
+  * [[https://videos.justicia.junta-andalucia.es/|Contenidos en video]]
+  * [[https://capacitacion.justicia.junta-andalucia.es/mod/glossary/view.php?id=196|Preguntas frecuentes (Portal de Capacitación)]]
+</panel>
+</WRAP>

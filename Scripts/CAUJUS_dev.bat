@@ -24,6 +24,7 @@ SET "config_UrlFnmtRenovar=https://www.sede.fnmt.gob.es/certificados/persona-fis
 SET "config_UrlFnmtDescargar=https://www.sede.fnmt.gob.es/certificados/persona-fisica/obtener-certificado-software/descargar-certificado"
 
 SET "config_ScriptVersion=JUS-010226"
+SET "LOG_LEVEL=INFO"
 :: --- End Configuration Variables ---
 
 :: Bloqueo para máquina de salto
@@ -42,26 +43,37 @@ IF "%hostname%"=="IUSSWRDPCAU02" (
 ::=============================================================================
 
 :check_initial_setup
-SET "adUser="
-IF NOT DEFINED adUser (
-    SET /P "adUser=introduce tu AD:"
-)
+    :prompt_adUser
+    SET "adUser="
+    SET /P "adUser=introduce tu AD: "
+    IF NOT DEFINED adUser (
+        CALL :LogMessage "WARN - AD user not provided"
+        GOTO prompt_adUser
+    )
+    REM Sanitize: remove whitespace and check for illegal characters
+    FOR /F "tokens=*" %%A IN ("%adUser%") DO SET "adUser=%%A"
+    ECHO %adUser% | FINDSTR /R /C:"[^a-zA-Z0-9_]" >NUL
+    IF %ERRORLEVEL% EQU 0 (
+        CALL :LogMessage "WARN - AD user contains invalid characters: %adUser%"
+        GOTO prompt_adUser
+    )
 
 FOR /F "tokens=2 delims=\" %%i IN ('whoami') DO SET "userProfileName=%%i"
 
 runas /user:%adUser%@JUSTICIA /savecred "cmd /c \"\"\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\isl.exe\" /S\""
+IF %ERRORLEVEL% NEQ 0 (
+    CALL :GetISOTimeStamp
+    ECHO [%ISO_DATE% %ISO_TIME%] - RUNAS - WARNING: ISL Always On install via runas may have failed, exit code: %ERRORLEVEL%
+)
 
 SET "LOG_DIR=%TEMP%\CAUJUS_Logs"
-IF NOT EXIST "%LOG_DIR%" MD "%LOG_DIR%"
+
 
 REM Método seguro y rápido
 SET "currentHostname=%COMPUTERNAME%"
 
-SET "YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-SET "HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-SET "HHMMSS=%HHMMSS: =0%"
-
-SET "LOG_FILE=%LOG_DIR%\%adUser%_%currentHostname%_%YYYYMMDD%_%HHMMSS%.log"
+CALL :GetISOTimeStamp
+SET "LOG_FILE=%LOG_DIR%\%adUser%_%currentHostname%_%ISO_DATE%_%ISO_TIME%.log"
 
 
 
@@ -72,6 +84,10 @@ SET "LOG_FILE=%LOG_DIR%\%adUser%_%currentHostname%_%YYYYMMDD%_%HHMMSS%.log"
     ) ELSE (
         CALL :LogMessage "INFO - Log directory already exists: %LOG_DIR%"
     )
+    
+    REM Add structured log header
+    CALL :WriteLogHeader
+    
     CALL :LogMessage "INFO - Script CAUJUS.bat started. User: %adUser%, Profile: %userProfileName%, Machine: %currentHostname%. Logging to: %LOG_FILE%"
     CLS
     GOTO main_menu
@@ -157,12 +173,14 @@ SET "LOG_FILE=%LOG_DIR%\%adUser%_%currentHostname%_%YYYYMMDD%_%HHMMSS%.log"
 ::=============================================================================
 
 :Batery_test
-    CALL :LogMessage "INFO - Action: Starting Batery_test."
+    CALL :LogMessage "INFO ============================================================"
+    CALL :LogMessage "INFO - Action: Starting Batery_test (full system optimization)."
     CALL :BT_KillBrowsers
     CALL :BT_ClearSystemCaches
     CALL :BT_ApplyVisualEffectRegTweaks
     CALL :BT_SystemMaintenanceTasks
-    CALL :LogMessage "INFO - Action: Prompting for restart in Batery_test."
+    CALL :LogMessage "INFO ============================================================"
+    CALL :LogMessage "INFO - Batery_test completed. Prompting user for restart."
     ECHO Reiniciar equipo (s/n)
     CHOICE /C sn /N
     SET "CHOICE_RESULT=%ERRORLEVEL%"
@@ -177,9 +195,10 @@ SET "LOG_FILE=%LOG_DIR%\%adUser%_%currentHostname%_%YYYYMMDD%_%HHMMSS%.log"
     GOTO :EOF
 
 :mail_pass
-    CALL :LogMessage "INFO - Action: Starting mail_pass. Opening URL."
+    CALL :LogMessage "INFO - Action: Starting mail_pass. Opening MiCuentaJunta URL."
     START chrome "%config_UrlMiCuentaJunta%"
-    CALL :LogMessage "INFO - Script self-deleting and exiting. Triggered in section near/after label: mail_pass_Exit."
+    CALL :LogMessage "INFO - URL opened: %config_UrlMiCuentaJunta%"
+    CALL :LogMessage "INFO - Script self-deleting and exiting."
     CALL :UploadLogFile
     DEL "%~f0"
     EXIT
@@ -187,7 +206,8 @@ SET "LOG_FILE=%LOG_DIR%\%adUser%_%currentHostname%_%YYYYMMDD%_%HHMMSS%.log"
 :print_pool
     CALL :LogMessage "INFO - Action: Starting print_pool. Resetting printer queues."
     CALL :ExecuteWithRunas "cmd /c FOR /F \"tokens=3,*\" %%a IN ('cscript c:\\windows\\System32\\printing_Admin_Scripts\\es-ES\\prnmngr.vbs -l ^| FINDSTR \"Nombre de impresora\"') DO cscript c:\\windows\\System32\\printing_Admin_Scripts\\es-ES\\prnqctl.vbs -m -p \"%%b\""
-    CALL :LogMessage "INFO - Script self-deleting and exiting. Triggered in section near/after label: print_pool_Exit."
+    CALL :LogMessage "INFO - Print queue reset sequence completed (check log above for per-printer results)."
+    CALL :LogMessage "INFO - Script self-deleting and exiting."
     CALL :UploadLogFile
     DEL "%~f0"
     EXIT
@@ -237,6 +257,14 @@ SET "LOG_FILE=%LOG_DIR%\%adUser%_%currentHostname%_%YYYYMMDD%_%HHMMSS%.log"
 
 :Cert_Config_Silent
     CALL :LogMessage "INFO - Action: Starting Cert_Config_Silent. Silent FNMT configuration."
+    IF NOT EXIST "%config_FnmtConfigExe%" (
+        CALL :LogMessage "ERROR - FNMT configurator not found: %config_FnmtConfigExe%"
+        GOTO Cert_Menu
+    )
+    IF NOT EXIST "%config_FnmtConfigExe%\*" (
+        CALL :LogMessage "ERROR - FNMT configurator directory empty: %config_FnmtConfigExe%"
+        GOTO Cert_Menu
+    )
     CD /D %userprofile%\downloads
     CALL :ExecuteWithRunas "\"%config_FnmtConfigExe%\" /S"
     runas /user:%adUser%@JUSTICIA /savecred "cmd /c \"\"\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\Configurador_FNMT_5.1.1_64bits\" /S\""
@@ -244,6 +272,14 @@ SET "LOG_FILE=%LOG_DIR%\%adUser%_%currentHostname%_%YYYYMMDD%_%HHMMSS%.log"
 
 :Cert_Config_Manual
     CALL :LogMessage "INFO - Action: Starting Cert_Config_Manual. Manual FNMT configuration."
+    IF NOT EXIST "%config_FnmtConfigExe%" (
+        CALL :LogMessage "ERROR - FNMT configurator not found: %config_FnmtConfigExe%"
+        GOTO Cert_Menu
+    )
+    IF NOT EXIST "%config_FnmtConfigExe%\*" (
+        CALL :LogMessage "ERROR - FNMT configurator directory empty: %config_FnmtConfigExe%"
+        GOTO Cert_Menu
+    )
     CD /D %userprofile%\downloads
     CALL :ExecuteWithRunas "\"%config_FnmtConfigExe%\""
     runas /user:%adUser%@JUSTICIA /savecred "cmd /c \"\"\\iusnas05\DDPP\COMUN\Aplicaciones Corporativas\Configurador_FNMT_5.1.1_64bits\""
@@ -312,9 +348,10 @@ SET "LOG_FILE=%LOG_DIR%\%adUser%_%currentHostname%_%YYYYMMDD%_%HHMMSS%.log"
 
 :Util_InstallAutofirma
     CALL :LogMessage "INFO - Action: Starting Util_InstallAutofirma. Installing AutoFirma."
-    TASKKILL /IM chrome.exe /F > nul 2>&1
+    TASKKILL /IM chrome.exe /F >> "%LOG_FILE%" 2>&1
     CALL :ExecuteWithRunas "\"%config_AutoFirmaExe%\" /S"
     CALL :ExecuteWithRunas "cmd /c MSIEXEC /i \"%config_AutoFirmaMsi%\" /qn"
+    CALL :LogMessage "INFO - AutoFirma installation sequence completed."
     GOTO main_menu
 
 :Util_InternetOptions
@@ -345,6 +382,7 @@ SET "LOG_FILE=%LOG_DIR%\%adUser%_%currentHostname%_%YYYYMMDD%_%HHMMSS%.log"
     CALL :ExecuteWithRunas "W32TM /register"
     CALL :ExecuteWithRunas "NET START w32time"
     CALL :ExecuteWithRunas "W32TM /resync"
+    CALL :LogMessage "INFO - Date/time sync sequence completed."
     GOTO main_menu
 
 :Util_InstallLibreOffice
@@ -353,20 +391,24 @@ SET "LOG_FILE=%LOG_DIR%\%adUser%_%currentHostname%_%YYYYMMDD%_%HHMMSS%.log"
     GOTO main_menu
 
 :desinstalador_tarjetas
-    CALL :LogMessage "INFO - Action: Starting desinstalador_tarjetas. Uninstalling unknown/reader drivers."
+    SETLOCAL ENABLEDELAYEDEXPANSION
+    CALL :LogMessage "INFO - Action: Starting desinstalador_tarjetas. Scanning for unknown/reader drivers."
     @ECHO OFF
-    :: This loop iterates through installed drivers and uninstalls those matching specific keywords.
-    :remove_drivers_loop
+    SET "driversFound=0"
+    SET "driversRemoved=0"
     FOR /F "tokens=3,*" %%a IN ('PNPUTIL /enum-drivers ^| FINDSTR "Nombre publicado"') DO (
-        REM %%b contiene el identificador del controlador (p.ej. oemXX.inf)
+        SET /A driversFound+=1
         ECHO %%b | FINDSTR /I /C:"desconocido" /C:"lector" >nul
         IF NOT ERRORLEVEL 1 (
-             ECHO Eliminando el controlador %%b...
-             PNPUTIL /delete-driver %%b /uninstall /force
-             CLS
+            CALL :LogMessage "INFO - Removing driver %%b..."
+            PNPUTIL /delete-driver %%b /uninstall /force >> "%LOG_FILE%" 2>&1
+            SET /A driversRemoved+=1
+            CLS
         )
     )
-    CALL :LogMessage "INFO - Script self-deleting and exiting. Triggered in section near/after label: remove_drivers_loop_Exit."
+    CALL :LogMessage "INFO - Driver scan completed: !driversFound! total drivers, !driversRemoved! removed."
+    ENDLOCAL
+    CALL :LogMessage "INFO - Script self-deleting and exiting."
     CALL :UploadLogFile
     DEL "%~f0"
     EXIT
@@ -384,12 +426,48 @@ SET "LOG_FILE=%LOG_DIR%\%adUser%_%currentHostname%_%YYYYMMDD%_%HHMMSS%.log"
 :LogMessage
     SETLOCAL
     SET "logMessage=%~1"
-    SET "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
-    SET "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
-    SET "L_HHMMSS=%L_HHMMSS: =0%"
-    ECHO %L_YYYYMMDD% %L_HHMMSS% - %logMessage% >> "%LOG_FILE%"
+    :: extraer nivel (primer token antes de espacio)
+    FOR /F "tokens=1 delims= " %%L IN ("%logMessage%") DO SET "msgLevel=%%L"
+    :: Normalizar nivel a mayúsculas (solo los 4 primeros caracteres)
+    SET "msgLevel=%msgLevel:~0,4%"
+    :: Determinar si se escribe según LOG_LEVEL
+    SET "write=0"
+    IF /I "%LOG_LEVEL%"=="DEBUG" SET "write=1"
+    IF /I "%LOG_LEVEL%"=="INFO" IF /I NOT "%msgLevel%"=="DEBUG" SET "write=1"
+    IF /I "%LOG_LEVEL%"=="WARN" IF /I "%msgLevel%"=="WARN" SET "write=1"
+    IF /I "%LOG_LEVEL%"=="WARN" IF /I "%msgLevel%"=="ERROR" SET "write=1"
+    IF /I "%LOG_LEVEL%"=="ERROR" IF /I "%msgLevel%"=="ERROR" SET "write=1"
+    IF %write% EQU 1 (
+        SET "L_YYYYMMDD=%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%"
+        SET "L_HHMMSS=%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%"
+        SET "L_HHMMSS=%L_HHMMSS: =0%"
+        ECHO %L_YYYYMMDD% %L_HHMMSS% - %logMessage% >> "%LOG_FILE%"
+    )
     ENDLOCAL
     GOTO :EOF
+
+:GetISOTimeStamp
+    REM Obtiene timestamp ISO (YYYYMMDD y HHMMSS) sin delimitadores
+    FOR /F "skip=1 tokens=2 delims==" %%i IN ('wmic os get LocalDateTime /value') DO (
+        SET "ts=%%i"
+    )
+    SET "ISO_DATE=%ts:~0,8%"
+    SET "ISO_TIME=%ts:~8,6%"
+    EXIT /B
+
+:WriteLogHeader
+    ECHO ======================================== >> "%LOG_FILE%"
+    ECHO CAUJUS LOG HEADER >> "%LOG_FILE%"
+    ECHO ======================================== >> "%LOG_FILE%"
+    ECHO Script Version:   %config_ScriptVersion% >> "%LOG_FILE%"
+    ECHO Log Level:         %LOG_LEVEL% >> "%LOG_FILE%"
+    ECHO User:             %adUser% >> "%LOG_FILE%"
+    ECHO Profile:          %userProfileName% >> "%LOG_FILE%"
+    ECHO Hostname:         %currentHostname% >> "%LOG_FILE%"
+    ECHO Log File:         %LOG_FILE% >> "%LOG_FILE%"
+    ECHO Timestamp:        %ISO_DATE% %ISO_TIME% >> "%LOG_FILE%"
+    ECHO ======================================== >> "%LOG_FILE%"
+    EXIT /B
 
 ::-----------------------------------------------------------------------------
 :: Subroutine: UploadLogFile
@@ -399,16 +477,54 @@ SET "LOG_FILE=%LOG_DIR%\%adUser%_%currentHostname%_%YYYYMMDD%_%HHMMSS%.log"
 ::-----------------------------------------------------------------------------
 :UploadLogFile
     SETLOCAL
-    CALL :LogMessage "INFO - Preparing to upload log file %LOG_FILE% to network."
+    CALL :LogMessage "INFO - Preparing to upload log file to network."
     SET "FINAL_LOG_DIR=%config_RemoteLogDir%"
-    SET "FINAL_LOG_FILENAME=%adUser%_%currentHostname%_%YYYYMMDD%_%HHMMSS%.log"
+    SET "FINAL_LOG_FILENAME=%adUser%_%currentHostname%_%ISO_DATE%_%ISO_TIME%.log"
     SET "FINAL_LOG_PATH=%FINAL_LOG_DIR%\%FINAL_LOG_FILENAME%"
+    CALL :LogMessage "INFO - Source: %LOG_FILE%"
+    CALL :LogMessage "INFO - Destination: %FINAL_LOG_PATH%"
     REM Ensure FINAL_LOG_DIR exists on the network using RUNAS
-    CALL :ExecuteWithRunas "cmd /c IF NOT EXIST "%FINAL_LOG_DIR%" MKDIR "%FINAL_LOG_DIR%""
-    CALL :ExecuteWithRunas "cmd /c COPY /Y "%LOG_FILE%" "%FINAL_LOG_PATH%""
-    CALL :LogMessage "INFO - Log upload attempt finished."
+    SET "retry=0"
+:retry_mkdir
+    SET /A retry+=1
+    CALL :ExecuteWithRunas "cmd /c IF NOT EXIST \"%FINAL_LOG_DIR%\" MKDIR \"%FINAL_LOG_DIR%\""
+    IF %ERRORLEVEL% NEQ 0 (
+        IF %retry% LEQ 3 (
+            CALL :LogMessage "WARN - Retry %retry%/3 to create remote log directory"
+            TIMEOUT /T 5 /NOBREAK >NUL
+            GOTO retry_mkdir
+        )
+    )
+    
+    REM Copy log file with retry logic
+    SET "retry=0"
+:retry_copy
+    SET /A retry+=1
+    CALL :ExecuteWithRunas "cmd /c COPY /Y \"%LOG_FILE%\" \"%FINAL_LOG_PATH%\""
+    SET "COPY_RESULT=%ERRORLEVEL%"
+    IF %COPY_RESULT% NEQ 0 (
+        IF %retry% LEQ 3 (
+            CALL :LogMessage "WARN - Retry %retry%/3 to copy log file to %FINAL_LOG_PATH%"
+            TIMEOUT /T 5 /NOBREAK >NUL
+            GOTO retry_copy
+        )
+    )
+    
+    IF %COPY_RESULT% EQU 0 (
+        CALL :LogMessage "INFO - Log upload succeeded: %FINAL_LOG_PATH%"
+    ) ELSE (
+        CALL :LogMessage "ERROR - Log upload failed after 3 attempts (code %COPY_RESULT%)"
+        REM Fallback: keep log locally
+        SET "fallback=1"
+    )
+    
+    IF DEFINED fallback (
+        SET "UPLOAD_RESULT=1"
+    ) ELSE (
+        SET "UPLOAD_RESULT=0"
+    )
     ENDLOCAL
-    GOTO :EOF
+    EXIT /B %UPLOAD_RESULT%
 
 ::-----------------------------------------------------------------------------
 :: Subroutine: ExecuteWithRunas
@@ -417,12 +533,24 @@ SET "LOG_FILE=%LOG_DIR%\%adUser%_%currentHostname%_%YYYYMMDD%_%HHMMSS%.log"
 :: Usage: CALL :ExecuteWithRunas "command_to_execute_with_args"
 :: Arguments: %1 - The command string to execute.
 ::-----------------------------------------------------------------------------
-:ExecuteWithRunas
+:RunElevated
+    :: Wrapper for ExecuteWithRunas with standardized logging and error handling
     SETLOCAL
     SET "commandToRun=%~1"
-    CALL :LogMessage "RUNAS - Attempting to execute: %commandToRun%"
+    CALL :LogMessage "DEBUG - RunElevated: Executing %commandToRun%"
     runas /user:%adUser%@JUSTICIA /savecred "%commandToRun%" >> "%LOG_FILE%" 2>&1
+    SET "runasExitCode=%ERRORLEVEL%"
+    IF %runasExitCode% NEQ 0 (
+        CALL :LogMessage "ERROR - RunElevated failed with code %runasExitCode%: %commandToRun%"
+    ) ELSE (
+        CALL :LogMessage "DEBUG - RunElevated succeeded: %commandToRun%"
+    )
     ENDLOCAL
+    EXIT /B %runasExitCode%
+    
+:ExecuteWithRunas
+    :: Compatibility wrapper - redirects to RunElevated
+    CALL :RunElevated %*
     GOTO :EOF
 
 ::-----------------------------------------------------------------------------
@@ -436,9 +564,11 @@ SET "LOG_FILE=%LOG_DIR%\%adUser%_%currentHostname%_%YYYYMMDD%_%HHMMSS%.log"
 :: Usage: CALL :BT_KillBrowsers
 ::-----------------------------------------------------------------------------
 :BT_KillBrowsers
-    TASKKILL /IM chrome.exe /F > nul 2>&1
-    TASKKILL /IM iexplore.exe /F > nul 2>&1
-    TASKKILL /IM msedge.exe /F > nul 2>&1
+    CALL :LogMessage "INFO - Action: Killing browser processes."
+    TASKKILL /IM chrome.exe /F >> "%LOG_FILE%" 2>&1
+    TASKKILL /IM iexplore.exe /F >> "%LOG_FILE%" 2>&1
+    TASKKILL /IM msedge.exe /F >> "%LOG_FILE%" 2>&1
+    CALL :LogMessage "INFO - Browser processes kill completed."
     GOTO :EOF
 
 ::-----------------------------------------------------------------------------
@@ -447,12 +577,14 @@ SET "LOG_FILE=%LOG_DIR%\%adUser%_%currentHostname%_%YYYYMMDD%_%HHMMSS%.log"
 :: Usage: CALL :BT_ClearSystemCaches
 ::-----------------------------------------------------------------------------
 :BT_ClearSystemCaches
-    IPCONFIG /flushdns
+    CALL :LogMessage "INFO - Action: Clearing system caches."
+    IPCONFIG /flushdns >> "%LOG_FILE%" 2>&1
     RunDll32.exe InetCpl.cpl,ClearMyTracksByProcess 16
     RunDll32.exe InetCpl.cpl,ClearMyTracksByProcess 8
     RunDll32.exe InetCpl.cpl,ClearMyTracksByProcess 2
     RunDll32.exe InetCpl.cpl,ClearMyTracksByProcess 1
-    DEL /Q /S /F "E:\Users\%userProfileName%\AppData\Local\Google\Chrome\User Data\Default\Cache\*"
+    DEL /Q /S /F "%USERPROFILE%\AppData\Local\Google\Chrome\User Data\Default\Cache\*" >> "%LOG_FILE%" 2>&1
+    CALL :LogMessage "INFO - Cache clearing completed."
     GOTO :EOF
 
 ::-----------------------------------------------------------------------------
@@ -461,6 +593,7 @@ SET "LOG_FILE=%LOG_DIR%\%adUser%_%currentHostname%_%YYYYMMDD%_%HHMMSS%.log"
 :: Usage: CALL :BT_ApplyVisualEffectRegTweaks
 ::-----------------------------------------------------------------------------
 :BT_ApplyVisualEffectRegTweaks
+    CALL :LogMessage "INFO - Action: Applying visual effect registry tweaks (11 keys)."
     CALL :ExecuteWithRunas "cmd.exe /c REG ADD \"HKCU\Control Panel\Desktop\WindowMetrics\" /v MinAnimate /t REG_SZ /d 0 /f"
     CALL :ExecuteWithRunas "cmd.exe /c REG ADD \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\" /v TaskbarAnimations /t REG_DWORD /d 0 /f"
     CALL :ExecuteWithRunas "cmd.exe /c REG ADD \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects\" /v VisualFXSetting /t REG_DWORD /d 2 /f"
@@ -472,6 +605,7 @@ SET "LOG_FILE=%LOG_DIR%\%adUser%_%currentHostname%_%YYYYMMDD%_%HHMMSS%.log"
     CALL :ExecuteWithRunas "cmd.exe /c REG ADD \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects\" /v SelectionFade /t REG_DWORD /d 0 /f"
     CALL :ExecuteWithRunas "cmd.exe /c REG ADD \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects\" /v TooltipAnimation /t REG_DWORD /d 0 /f"
     CALL :ExecuteWithRunas "cmd.exe /c REG ADD \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects\" /v Fade /t REG_DWORD /d 0 /f"
+    CALL :LogMessage "INFO - Visual effect registry tweaks completed."
     GOTO :EOF
 
 ::-----------------------------------------------------------------------------
@@ -480,9 +614,11 @@ SET "LOG_FILE=%LOG_DIR%\%adUser%_%currentHostname%_%YYYYMMDD%_%HHMMSS%.log"
 :: Usage: CALL :BT_SystemMaintenanceTasks
 ::-----------------------------------------------------------------------------
 :BT_SystemMaintenanceTasks
-    CALL :LogMessage "INFO - Action: Running gpupdate /force in Batery_test."
-    GPUPDATE /force
+    CALL :LogMessage "INFO - Action: Starting system maintenance tasks."
+    GPUPDATE /force >> "%LOG_FILE%" 2>&1
+    CALL :LogMessage "INFO - gpupdate /force completed, exit code: %ERRORLEVEL%."
     CALL :ExecuteWithRunas "cmd /c MSIEXEC /i \"%config_IslMsiPath%\" /qn"
+    CALL :LogMessage "INFO - Action: Cleaning system temporary files (18 locations)."
     CALL :ExecuteWithRunas "cmd.exe /c DEL /F /S /Q \"%windir%\*.bak\""
     CALL :ExecuteWithRunas "cmd.exe /c DEL /F /S /Q \"%windir%\SoftwareDistribution\Download\*.*\""
     CALL :ExecuteWithRunas "cmd.exe /c DEL /F /S /Q \"%systemdrive%\*.tmp\""
@@ -501,4 +637,5 @@ SET "LOG_FILE=%LOG_DIR%\%adUser%_%currentHostname%_%YYYYMMDD%_%HHMMSS%.log"
     CALL :ExecuteWithRunas "cmd.exe /c IF EXIST \"%userprofile%\AppData\Local\Temp\" DEL /F /S /Q \"%userprofile%\AppData\Local\Temp\*.*\""
     CALL :ExecuteWithRunas "cmd.exe /c IF EXIST \"%userprofile%\Local Settings\Temp\" RMDIR /S /Q \"%userprofile%\Local Settings\Temp\" & MKDIR \"%userprofile%\Local Settings\Temp\""
     CALL :ExecuteWithRunas "cmd.exe /c IF EXIST \"%windir%\Temp\" RMDIR /S /Q \"%windir%\Temp\" & MKDIR \"%windir%\Temp\""
+    CALL :LogMessage "INFO - System maintenance tasks completed."
     GOTO :EOF

@@ -1,0 +1,48 @@
+﻿
+
+<WRAP> 
+<panel type="primary" title="Procedimientos y Problemas Conocidos de Digalaw">
+
+[[..:digalaw:start|Volver atrás]]
+
+<WRAP> 
+<panel type="info" title="Procedimiento">
+Los fiscales interesados podrán solicitarlo a través del **Gestor de Incidencias** al que pueden acceder a través del [[http://escritoriojudicial.justicia.junta-andalucia.es/Escritorio/Inicio.do|Escritorio Judicial]]
+
+
+  * Formulario de Solicitud de Instalación que se puede descargar del apartado **Formularios de Solicitud para el centro de servicio a usuarios** (CSU-CEIURIS) de [[:pag_formu|Formularios y Plantillas]] bajo la descripción **//Formulario de Solicitud Instalación Aplicaciones no Estándar//**.
+
+Dicha solicitud debe ser cumplimentada y firmada por el Fiscal Jefe o el Fiscal SIMF de la provincia.
+
+
+  *  Datos del usuario:
+
+     o Nombre y apellidos del Fiscal.
+     o Datos de contacto (correo y móvil).
+     o Usuario de Justicia (JUnnnnnn).
+
+  * Datos del PC y portátil:
+
+     o Nombre del equipo (Ejemplo: SE6C-6301-FIS03)
+     o Dirección IP.
+
+</panel>
+ 
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Problema conocido">
+
+Se han gestionado licencias por Remedy para **87 usuarios** distintos, siendo **80 para Fiscalías**.
+
+Aquí estaría el detalle --> \\iusnas05.justicia.junta-andalucia.es\SIJ\00. Proyectos Cerrados\DIGALAW X\05. Seguimiento
+
+**__El 27 de septiembre de 2024 nos informaron desde el Ministerio que la aplicación estaba en desuso__**. "//El porcentaje de los usuarios que realmente la usaban habitualmente era demasiado bajo como para justificar el coste de las licencias. La alternativa es el sistema de Office.//"
+
+</panel>
+ 
+</WRAP>
+
+[[..:digalaw:start|Volver atrás]]
+
+{{tag>novalidada}}

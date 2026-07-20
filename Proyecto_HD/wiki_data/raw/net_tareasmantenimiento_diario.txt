@@ -1,0 +1,88 @@
+﻿
+====== Mantenimiento Diario - Operativa GTSR ======
+
+===== Introducción =====
+En el presente documento se describe la operativa de mantenimiento diario que realiza el equipo de GTSR.  
+Los puntos a revisar son los siguientes:
+
+  * Revisión estado FW SSCC  
+  * Revisión alertas ZABBIX  
+  * Revisión alertas iMC  
+  * Revisión tareas pendientes  
+  * Revisión correo VPNS deshabilitadas jueces  
+  * Revisión conectividad servicios críticos (correo, web, bases de datos)  
+  * Revisión backup diario  
+  * Revisión logs de seguridad y eventos críticos  
+  * Verificación de sincronización de hora (NTP)  
+  * Revisión estado de enlaces WAN y VPNs activas  
+  * Comprobación de uso de recursos (CPU, memoria, disco) en servidores clave  
+  * Comprobación de disponibilidad de servicios en servidores (HTTP, DNS, DHCP, LDAP)  
+  * Comprobación de actualizaciones pendientes o fallidas en sistemas  
+  * Comprobación de tickets abiertos y seguimiento de SLA  
+  * Creación de tique Remedy y anotación en hoja de registro
+
+===== Revisión Estado FW SSCC =====
+Consiste en comprobar los siguientes estados de los FW de SSCC:
+
+  * CPU  
+  * Memoria  
+  * Sesiones  
+  * HA  
+
+===== Revisión de alertas Zabbix =====
+El equipo de GTSR accede a **Monitoring - Dashboard** para ver las alertas en el sistema que no se han resuelto.
+
+  * Toda alerta detectada en el sistema de monitorización requiere tener asociado un **ACK**.  
+  * En dicho ACK debe aparecer el ticket remedy asociado con un breve detalle y, en su defecto, el tratamiento que se está aplicando a la alerta visual.
+
+===== Revisión IMC =====
+En la URL de IMC podemos revisar las alarmas entrando en:  
+**Alarm → Browse → All Alarm**
+
+  * Una vez revisadas las alarmas, si no son por problemas graves, se pueden borrar.
+
+===== Revisión Tareas Pendientes =====
+GTSR recibe diariamente un correo desde **sistemas.ius@juntadeandalucia.es** con asunto **Tickets Pendientes** y adjunto un fichero Excel con las tareas pendientes por cada grupo.
+
+  * Revisar las tareas pendientes de GTSR.  
+  * Actualizarlas o cerrarlas si procede.
+
+===== Revisión VPN Deshabilitadas =====
+Se reciben correos indicando los usuarios VPN que llevan más de 1 año sin utilizar el servicio.
+
+  * Estos usuarios se eliminan automáticamente en el cortafuegos.  
+  * Sólo hay que revisar si efectivamente se han eliminado.
+
+===== Revisión Conectividad Servicios Críticos =====
+  * Verificar que los servicios principales (correo electrónico, portales web, bases de datos) están disponibles y sin incidencias.
+
+===== Revisión Backup Diario =====
+  * Confirmar que los backups de los sistemas críticos se han completado correctamente y sin errores.
+
+===== Revisión Logs de Seguridad y Eventos Críticos =====
+  * Revisar logs para identificar accesos sospechosos o eventos anómalos.
+
+===== Verificación de Sincronización de Hora (NTP) =====
+  * Comprobar que todos los sistemas mantienen la hora correcta sincronizada.
+
+===== Revisión Estado de Enlaces WAN y VPNs Activas =====
+  * Monitorizar el estado y la estabilidad de los enlaces WAN y las conexiones VPN activas.
+
+===== Comprobación de Uso de Recursos en Servidores Clave =====
+  * Revisar uso de CPU, memoria y disco en servidores críticos para anticipar posibles problemas.
+
+===== Comprobación de Disponibilidad de Servicios en Servidores =====
+  * Verificar que servicios como HTTP, DNS, DHCP, LDAP están operativos.
+
+===== Comprobación de Actualizaciones Pendientes o Fallidas =====
+  * Revisar si existen actualizaciones pendientes o fallidas en sistemas operativos o aplicaciones clave.
+
+===== Comprobación de Tickets Abiertos y Seguimiento de SLA =====
+  * Revisar estado de tickets abiertos y confirmar que se cumplen los tiempos de respuesta y resolución.
+
+===== Creación Ticket Remedy =====
+Por último, hay que crear un ticket Remedy resumiendo las tareas indicadas.
+
+  * Se registra el ticket en la bitácora:  
+    `\\iusnas05.justicia.junta-andalucia.es\sij\Sistemas\00\04-Informes\06. Chequeos\Mantenimiento Diario\Operaciones_mantenimiento_20XX.ods`
+

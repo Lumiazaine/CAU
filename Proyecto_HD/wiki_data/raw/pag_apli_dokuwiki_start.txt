@@ -1,0 +1,43 @@
+﻿
+<WRAP> 
+<panel type="primary" title="DokuWiki del SSDJ">
+
+Wiki del Servicio de Sistemas Digitales para la Justicia.
+
+<WRAP> 
+<panel type="info" title="Acceso">
+
+  * **URL:** [[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php]]
+  * **Contacta:** [[coordinacion.explotacion.ius@juntadeandalucia.es]] Asunto: [Dokuwiki]
+  * **Granja de wikis de la ADA:** https://extranet.chap.junta-andalucia.es/dokuwiki/doku.php
+
+  * **Asignación Remedy**: Servicios-> DevOps
+  * **Clase**: APLICACIONES, **Tipo**: DOKUWIKI, **Categoría**: Seleccionar la correspondiente
+
+</panel>
+ 
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Capacitación">
+  * [[https://extranet.chie.junta-andalucia.es/dokuwiki/!playground/doku.php|Zona de Pruebas y Manual de usuario]]
+  * [[https://capacitacion.justicia.junta-andalucia.es|Contenidos Digitales de Capacitación (Portal de Capacitación de Justicia Digital Andalucía)]]
+  * [[https://videos.justicia.junta-andalucia.es/home|Portal de contenidos en vídeo de Justicia Digital Andalucía]]
+</panel>
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Procedimientos y Problemas Conocidos">
+
+  * [[pag_apli:dokuwiki:problemas#altas_y_gestion_de_permisos|Alta/Baja técnico]]
+  * [[pag_apli:dokuwiki:problemas#sintaxis_de_formato|Procedimientos y Problemas Conocidos]]
+  * [[:pag_edicion_doku|Edición de contenidos en DokuWiki]]
+
+</panel>
+ 
+</WRAP>
+
+</panel> 
+</WRAP>
+
+{{tag>validada csu explotacion}}

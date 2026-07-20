@@ -1,0 +1,68 @@
+﻿
+====== Procedimientos de Instalación y Configuración de Dispositivos de Red ======
+
+===== 1. Objetivo =====
+Establecer los pasos y buenas prácticas para la correcta instalación y configuración inicial de dispositivos de red tales como switches, routers, puntos de acceso, firewalls y balanceadores, garantizando seguridad, eficiencia operativa y trazabilidad.
+
+===== 2. Alcance =====
+Este procedimiento se aplica a todos los dispositivos de red gestionados por el Departamento de Redes en las diferentes sedes y CPDs, tanto en entornos de producción como en proyectos de renovación o expansión.
+
+===== 3. Responsables =====
+  * Técnicos del área de Redes y Comunicaciones
+  * Administradores de Seguridad (en configuraciones críticas)
+
+===== 4. Procedimiento Paso a Paso =====
+
+==== 4.1. Preparación previa ====
+  - Verificar el plan de direccionamiento IP.
+  - Identificar VLANs y roles del dispositivo.
+  - Consultar configuración estándar o plantilla de base.
+  - Confirmar versión de firmware recomendada.
+
+==== 4.2. Instalación física ====
+  - Montaje en rack si aplica (cumpliendo normativas de cableado y ventilación).
+  - Alimentación eléctrica redundante (si es compatible).
+  - Conexiones uplink verificadas (troncales o puertos de distribución).
+
+==== 4.3. Configuración básica inicial ====
+  - Asignación de IP de gestión.
+  - Definición de nombre de host.
+  - Habilitación de acceso seguro: SSH / HTTPS.
+  - Configuración de usuarios y credenciales seguros.
+  - Aplicación de ACLs de acceso administrativo.
+
+==== 4.4. Configuración funcional ====
+  - Definición de VLANs.
+  - Enrutamiento estático o dinámico según el rol.
+  - Políticas QoS si aplican.
+  - Enlace a autenticación externa (RADIUS/LDAP/802.1X).
+
+==== 4.5. Verificación y pruebas ====
+  - Conectividad local y remota.
+  - Pruebas de rendimiento básico (ping, throughput).
+  - Prueba de acceso administrativo desde subred autorizada.
+  - Registro de logs de arranque y eventos clave.
+
+==== 4.6. Documentación y traspaso ====
+  - Registro de configuración inicial y backup.
+  - Actualización del inventario de red.
+  - Notificación de disponibilidad a los responsables de servicios.
+
+===== 5. Seguridad y Recomendaciones Técnicas =====
+  - No dejar interfaces de administración expuestas en redes de usuario.
+  - Cambiar las contraseñas predeterminadas antes de conectar el equipo a red.
+  - Aplicar las políticas de bastionado definidas en [[net:seguridad:bastionado]].
+  - Habilitar syslog y SNMPv3 para monitoreo centralizado.
+
+===== 6. Registro de Cambios y Control =====
+  - Las configuraciones deben almacenarse cifradas y con control de versiones.
+  - Toda instalación debe estar asociada a una solicitud o ticket de trabajo.
+
+===== 7. Documentación Relacionada =====
+  * [[net:seguridad:bastionado|Procedimientos de bastionado de dispositivos de red]]
+  * [[net:procedimientos:control-accesos|Control de accesos físicos/lógicos]]
+  * Plantillas de configuración por modelo (Cisco, Aruba, Fortinet, etc.)
+
+===== 8. Historial de cambios =====
+^ Versión ^ Fecha ^ Cambio ^ Autor ^  
+| 1.0 | 2025-07-18 | Creación del documento | GTSR|

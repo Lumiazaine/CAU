@@ -1,0 +1,97 @@
+﻿
+<panel>
+ <font inherit/inherit;;inherit;;transparent>Las licencias de Abbyy OCR NO son nominativas. Son licencias adjudicadas al Órgano.</font>
+ <font inherit/inherit;;inherit;;transparent>**CRITERIOS DE ADJUDICACIÓN**</font>
+
+  * <font inherit/inherit;;inherit;;transparent>Por cada Órgano Judicial unipersonal corresponden 4 licencias: Juez, Letrado y dos para personal funcionario. Si el Juez o el Letrado rechazan dichas licencias, éstas no podrán adjudicarse a personal funcionario.</font>
+
+  * <font inherit/inherit;;inherit;;transparent>Excepciones:</font>
+
+  * <font inherit/inherit;;inherit;;transparent>En los órganos (TSJ, Audiencia,….) que no sean unipersonal, se les puede facilitar un total de 6 licencias OCR independientemente si son para Jueces o funcionarios.</font>
+
+  * <font inherit/inherit;;inherit;;transparent>Los Registros Civiles Únicos de Sevilla y Málaga pueden ser tratados igual que un órgano judicial unipersonal, tendrán derecho a las mismas licencias. El resto de Registros NO son considerados para instalar estas licencias.</font>
+
+  * <font inherit/inherit;;inherit;;transparent>En las Fiscalías sólo se autoriza la instalación de licencias a los Fiscales, no a personal funcionario.</font>
+
+  * <font inherit/inherit;;inherit;;transparent>Sólo se adjudica una licencia por puesto de trabajo (Pc o Portátil: en un equipo o en otro, no en los dos) y usuario.</font>
+
+  * <font inherit/inherit;;inherit;;transparent>En caso de duda para la adjudicación según los datos del órgano que tenemos recopilados en Hoja de Control de licencias Abbyy OCR, solicitamos nos faciliten el inventario de las licencias instaladas en el órgano, actualizado. A partir de la respuesta obtenida, decidimos la conveniencia o no de adjudicar una licencia a dicho órgano.</font>
+ <font inherit/inherit;;inherit;;transparent>**BREVE PROCEDIMIENTO DE INSTALACIÓN Y TRASLADO/LIBERACIÓN**</font>
+ <font inherit/inherit;;inherit;;transparent>Toda petición de instalación, traslado y liberación de licencias debe ser asignada en Remedy, a “**Servicios/Inventario**”, adjuntando la solicitud de licencia, firmada por el Letrado o Juez (en caso de que el usuario destinatario para instalación de licencia sea funcionario). Las solicitudes para Juez, Letrado o Fiscal no requieren de la solicitud formal adjunta, basta la petición remedy de solicitud de instalación. Desde Servicios/Inventario se validará si procede dicha instalación (o traslado y/o liberación), reasignando la petición a personal técnico responsable de instalación.</font>
+
+  * <font inherit/inherit;;inherit;;transparent>**INSTALACIÓN** de licencia: Una vez autorizada la instalación, el técnico debe asignar la petición a “**Servicios/Inventario**" con los siguientes datos completados, en diario</font>
+
+  * <font inherit/inherit;;inherit;;transparent>Nombre completo del usuario</font>
+
+  * <font inherit/inherit;;inherit;;transparent>Cargo</font>
+
+  * <font inherit/inherit;;inherit;;transparent>Nº de serie del equipo</font>
+
+  * <font inherit/inherit;;inherit;;transparent>Nombre Ad del equipo</font>
+
+  * <font inherit/inherit;;inherit;;transparent>Nº de activación de licencia OCR</font>
+
+  * <font inherit/inherit;;inherit;;transparent>**LIBERACIÓN **y/o Desinstalación de licencia: se adjunta " CKGE_TMP_i **Manual para desactivar licencias de Abbyy.pdf** CKGE_TMP_i ".</font>
+
+  * <font inherit/inherit;;inherit;;transparent>**TRASLADO** de licencia: Una vez autorizado el traslado, este debe ser gestionado como 2 procesos: (1º - **LIBERACIÓN** + 2º - **INSTALACIÓN**).</font>
+
+  * <font inherit/inherit;;inherit;;transparent>Fase de **LIBERACIÓN **de licencia: Aplicar pasos descritos en " CKGE_TMP_i **Manual para desactivar licencias de Abbyy.pdf** CKGE_TMP_i ". Una vez confirmada la liberación enviar a “**Servicios/Inventario**" una captura de pantalla del ticket de Abbyy donde se vea que el técnico encargado de dicha máquina ha desactivado la licencia, una vez hecho esto y cuando “**Servicios/Inventario**" responda dando el visto bueno, el técnico responsable puede proceder a instalar. Debe desinstalarse también la aplicación del equipo en el que se ha liberado la licencia.</font>
+
+  * <font inherit/inherit;;inherit;;transparent>Fase de **INSTALACIÓN: **Una vez efectuada la Liberación y la Instalación necesitamos la información de este Traslado:</font>
+
+  * <font inherit/inherit;;inherit;;transparent>Nombre Completo del **usuario** al que se le ha **Desinstalado** la licencia.</font>
+
+  * <font inherit/inherit;;inherit;;transparent>**Nº de serie del equipo** al que se le ha **Liberado/Desinstalado** la licencia</font>
+
+  * <font inherit/inherit;;inherit;;transparent>**Nº de Activación** de licencia OCR **Liberada/Desinstalada**</font>
+
+  * <font inherit/inherit;;inherit;;transparent>Nombre Completo del **usuario** al que se le ha **Instalado** la licencia.</font>
+
+  * <font inherit/inherit;;inherit;;transparent>**Nº de serie del equipo** al que se le ha **Instalado** la licencia</font>
+
+  * <font inherit/inherit;;inherit;;transparent>**Cargo** del nuevo usuario de licencia</font>
+
+  * <font inherit/inherit;;inherit;;transparent>**Nombre _Ad** del equipo</font>
+
+  * <font inherit/inherit;;inherit;;transparent>**Nº de Activación** de licencia OCR **Instalada**</font>
+
+  * <font inherit/inherit;;inherit;;transparent>Casos de traslados de licencias OCR:</font>
+
+  * <font inherit/inherit;;inherit;;transparent>**CAMBIO DE DISCO DURO** de equipo. Si se produce el cambio de HD por avería técnica, lo único que hay que hacer es instalar la aplicación ABBY y activarla en el nuevo HD. El PC debe mantener SIEMPRE el mismo nombre (NOMBRE_AD).</font>
+
+  * <font inherit/inherit;;inherit;;transparent>**RENOVACIÓN DE EQUIPO**. En caso de cambiar al usuario de equipo por renovación, debe instalarse la aplicación ABBY y activar la licencia en el nuevo equipo. El PC debe mantener SIEMPRE el mismo nombre (NOMBRE_AD). Desinstalar la aplicación del equipo saliente mediante " CKGE_TMP_i **Manual para desactivar licencias de Abbyy.pdf** CKGE_TMP_i " (esto lo hace CSU).</font>
+
+  * <font inherit/inherit;;inherit;;transparent>**TRASLADO DE LICENCIA A OTRO USUARIO**. En caso de que la licencia de un usuario (un equipo) deba ser trasladada a otro usuario (otro equipo), deberá comunicarse a “**Servicios/Inventario**” para que indiquen como proceder. Si se indica que puede procederse al traslado, habrá que liberar / desinstalar la licencia e instalarla en el nuevo equipo destinatario.</font>
+ <font inherit/inherit;;inherit;;transparent>Para estos tres casos será necesario informar de todos los datos del equipamiento a “**Servicios/Inventario**"</font>
+ <font inherit/inherit;;inherit;;transparent>**MENSAJE DE ERROR EN LA ACTIVACIÓN**</font>
+
+  * <font inherit/inherit;;inherit;;transparent>Error de activaciones máximas: Esto significa que en ese momento están en uso todas las licencias disponibles de Abbyy, informar a inventario que dejará la petición a la espera de la liberación de licencias.</font>
+
+  * <font inherit/inherit;;inherit;;transparent>Error de reactivación tras cambio de disco duro: En este desactivad la licencia vía web y cuando Abbyy diga que se ha desactivado volver a activarla.</font>
+
+  * <font inherit/inherit;;inherit;;transparent>Otro error: Se ha dado alguna vez un error al querer activar Abbyy que no contempla ninguno de los casos anteriores, en este caso Abbyy nos dijo lo siguiente:*</font>
+ <font inherit/inherit;;inherit;;transparent>To better assist you, please provide us with the following:</font>
+ <font inherit/inherit;;inherit;;transparent>1. Product ID of the computer you're trying to activate the license.</font>
+ <font inherit/inherit;;inherit;;transparent>2. Workstation Index of the machine. \\  \\
+As soon as I receive this information, I will contact you with the next steps for resolving the issue.</font>
+ <font inherit/inherit;;inherit;;transparent>Para sacar el Product ID se hace lo siguiente:</font>
+ <font inherit/inherit;;inherit;;transparent>The Product ID is a unique identification parameter that is generated based on your computer's configuration when you activate an ABBYY Product. This parameter does not contain any information about you or your computer that can be used to identify you. The Product ID parameter and the serial number of the product are used to generate an activation code. \\
+To find this parameter, follow these steps: \\
+1. Start the program you would like to activate. \\
+2. The program will prompt you to activate it. Click the Activate now button. \\
+If the program does not show you the activation prompt, open the Help menu and select the Activate now item to start the Activation Wizard. \\
+3. Enter the serial number of your program. \\
+4. Select the activation method on the website and click Next. \\
+5. The Activation Wizard will show you the Product ID. \\  \\
+As soon as I receive this information, I will create a license file, which you may use for the activation of the license on the machine.</font>
+
+  * <font inherit/inherit;;inherit;;transparent>Una vez hecho lo que se indica en el anterior punto, ellos mismos enviarán en el ticket un archivo con la licencia ya activada para es máquina que tendréis que copiar en la carpeta donde se archivan las activaciones de Abbyy.</font>
+ <font inherit/inherit;;inherit;;transparent>Ejemplos:</font>
+
+
+    1474707 (Traslado de licencia)
+    1851463 (licencia soliitada para un TRAMITADOR, con doc adjunto por firmado por Letrado)
+    1818940 (licencia solicitada que genera dudas en la adjudicación)
+
+
+</panel>

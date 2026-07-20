@@ -1,0 +1,105 @@
+﻿
+====== Procedimiento de Despliegue de una Aplicación ======
+
+=== 🎯 Objetivo ===
+Establecer el procedimiento estándar para desplegar aplicaciones sobre los servidores gestionados, utilizando los artefactos generados por el grupo de Desarrollo (principalmente archivos WAR).
+
+=== 🧭 Alcance ===
+Este procedimiento aplica a todos los despliegues realizados en entornos de **Preproducción** y **Producción**, previa aprobación según el entorno correspondiente.
+
+=== 🚀 Flujo general de despliegue ===
+
+==== 1. Inicio del proceso (Petición Jira) ====
+  * El despliegue comienza con una **petición Jira**.
+    - Si es **Preproducción**, se puede ejecutar directamente.
+    - Si es **Producción**, debe:
+      - Estar **aprobada por Coordinación**.
+      - Tener **fecha de planificación**.
+
+==== 2. Información requerida en la petición Jira ====
+  * Versión de la aplicación.
+  * Entorno destino.
+  * Grupos de sistemas implicados y sus tareas.
+  * Enlace al **Manual de Instalación (MINS)**.
+  * Asignación al grupo de Sistemas correspondiente.
+  * Comentarios con aprobación y detalles relevantes.
+
+==== 3. Preparación del entorno ====
+  * Identificar las máquinas donde está o estará desplegada la aplicación.
+  * Si es una **nueva aplicación**, montar el entorno base.
+  * Revisar el MINS para saber:
+    - Qué hacer.
+    - Versiones necesarias de **JDK** y **Maven**.
+
+==== 4. Backup del WAR existente ====
+  * Copiar la versión actual del WAR.
+  * Conectarse a la máquina de salto y navegar a:
+    `/home/AplicacionesWAR/[NombreAplicación]/[Entorno]/[Versión]`
+  * Si la versión ya existe, renombrarla (ej: `mv 1.1.0 1.1.0b`).
+
+==== 5. Descarga del nuevo código ====
+  * Descargar el WAR desde la URL `tag SVN` indicada en Jira:
+    ```
+    svn export http://iusversion01.justicia.junta-andalucia.es/repos/java/... --username sistemas --password ********
+    ```
+
+==== 6. Revisión del pom.xml ====
+  * Comparar el `pom.xml` con la versión anterior.
+  * Consultar parámetros en:
+    `$TOMCAT_HOME/webapps/[App]/META-INF/Maven/.../pom.xml`
+  * Corregir y ajustar según MINS.
+
+==== 7. Compilación y generación del WAR ====
+  * Limpiar el repositorio local de Maven:
+    ```
+    rm -rf ~/.m2/*
+    mvn37 clean package -P preproduccion -DskipTests=true
+    ```
+
+==== 8. Parada del servicio y despliegue ====
+  * **Parar Tomcat**:
+    ```
+    systemctl stop tomcat-[servicio].service
+    ```
+  * **Enviar el nuevo WAR**:
+    ```
+    scp target/[app].war root@[servidor]:/opt/tomcat-[servicio]/webapps/
+    ```
+  * Cambiar permisos del WAR.
+  * **Eliminar temporales y carpetas anteriores**:
+    - `$TOMCAT_HOME/webapps/[App]`
+    - `$TOMCAT_HOME/conf/Catalina/localhost/[App].xml`
+    - `$TOMCAT_HOME/work/*`
+    - `$TOMCAT_HOME/temp/*`
+  * **Iniciar Tomcat**:
+    ```
+    systemctl start tomcat-[servicio].service
+    ```
+
+==== 🔍 Revisión del despliegue ====
+  * Usar:
+    ```
+    tail -f catalina.out
+    tail -f [App].log
+    ```
+  * Detectar errores en tiempo real.
+
+==== 9. Entorno de Producción ====
+  * Reiniciar todos los Tomcats relacionados.
+  * Limpiar temporales para evitar cacheos.
+
+==== 10. Cierre de la petición Jira ====
+  * Indicar en comentarios que el despliegue ha finalizado y detallar cualquier observación.
+  * Acciones según resultado:
+    - ✅ Éxito → Pulsar "Finalizar".
+    - ❌ Error → Pulsar "Flujo de Trabajo - Rechazar" y detallar el problema.
+
+==== 11. Otros pasos finales ====
+  * Añadir la aplicación al **AWStat**, si aplica.
+  * Acceder a la **CMDB** y actualizar la versión desplegada.
+
+=== 🔁 Cierre y repetición del proceso ===
+  * Una vez finalizado, el despliegue se da por cerrado.
+  * Si hay incidencias, **Desarrollo lo reflejará en comentarios** y volverá a enviar la petición Jira. En ese caso, se **reinicia todo el procedimiento desde el inicio**.
+
+

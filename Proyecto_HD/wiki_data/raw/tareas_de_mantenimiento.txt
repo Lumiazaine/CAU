@@ -1,0 +1,28 @@
+﻿
+===== Tareas de Mantenimiento Diario =====
+
+Página: [[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/MDGTBD|MDGTBD - Mantenimiento Diario]]
+
+Se recomienda realizar las siguientes comprobaciones cada día laboral para garantizar la salud y estabilidad de las bases de datos gestionadas:
+
+  * Verificación del espacio en FRA (Fast Recovery Area)
+  * Revisión del éxito de los backups RMAN de la noche anterior
+  * Comprobación de jobs programados y ejecución correcta (DBMS_SCHEDULER / CRON / OEM)
+  * Validación del uso de TEMP (posibles consumos anómalos)
+  * Comprobación de alertas críticas en Oracle (alert.log, OEM, Zabbix, etc.)
+  * Revisión de sesiones activas y bloqueos prolongados
+  * Monitorización de consumo de CPU y memoria
+  * Seguimiento de crecimiento de datafiles y posibles autoextend
+  * Comprobación de conexiones de auditoría y accesos sospechosos
+  * Validación de espacios en tablespaces (uso alto o llenado completo)
+  * Revisión de exportaciones automáticas (expdp / datapump)
+  * Supervisión de errores ORA-xxx en logs del sistema o de base de datos
+
+Todas las bbdd tienen monitorizada su actividad con Zabbix accesible (acceso con usuario nominal) desde:
+
+https://iusslmonitor06.justicia.junta-andalucia.es/zabbix/zabbix.php?action=dashboard.view
+
+http://iusslzabbixna01.justicia.junta-andalucia.es/zabbix/zabbix.php?action=dashboard.view
+
+
+

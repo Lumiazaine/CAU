@@ -1,0 +1,18 @@
+﻿
+<WRAP> <panel type="primary" title=".....................">
+
+<WRAP> 
+<panel type="info" title="....................................."> 
+
+{{ ::formulario_creacion_oojj_5_.pdf | protocolo documento}}
+
+
+
+**A continuación se muestra un resumen del procedimiento, si desea conocer mas detalles puede descargar una copia del protocolo en el enlace anterior**
+</panel>
+ </WRAP>
+
+
+
+
+</panel> </WRAP>

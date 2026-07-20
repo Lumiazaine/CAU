@@ -1,0 +1,48 @@
+﻿
+<WRAP> <panel type="primary" title="Windows Live"> 
+
+Como consecuencia de la migración de los PC´s de Windows XP a W7, hay que cambiar el cliente
+de correo por defecto Outlook Express a Windows Live Mail.
+Las características, funcionamiento y opciones son prácticamente iguales que en el anterior cliente
+de correo Outlook Express.
+Aunque en esta versión tenemos más funcionalidades como el Calendario.
+
+<WRAP> 
+<panel type="info" title="Acceso">
+
+[[https://directorio.juntadeandalucia.es/|URL Administrador del Directorio Corporativo]]\\
+[[https://correo.juntadeandalucia.es/|URL Correo Corporativo]]\\
+[[https://ayuda-productividad.juntadeandalucia.es/soporte|Soporte al personal informático (Nivel 2)]]
+
+</panel>
+ </WRAP>
+
+<WRAP> 
+<panel type="info" title="Capacitación">
+  * [[https://capacitacion.justicia.junta-andalucia.es|Contenidos Digitales de Capacitación (Portal de Capacitación de Justicia Digital Andalucía)]]
+  * [[https://videos.justicia.junta-andalucia.es/home|Portal de contenidos en vídeo de Justicia Digital Andalucía]]
+</panel>
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Procedimientos y Problemas Conocidos">
+
+[[pag_apli:directorio_corporativo:problemas|Procedimientos y problemas conocidos]]
+
+</panel> </WRAP>
+
+<WRAP> 
+
+<panel type="info" title="Procedimientos">
+
+  - [[:pag_apli:Procedimiento_Windows_Live|Procedimiento Windows Live]]
+  - [[:pag_apli:Migración_Windows_Live|Migración Windows Live]]
+  
+
+</panel>
+</WRAP>
+
+</panel> 
+</WRAP>
+
+{{tag>validada}}

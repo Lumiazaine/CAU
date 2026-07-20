@@ -1,0 +1,49 @@
+﻿
+====== TPGTBD - Tareas Programadas GTBD ======
+
+Descripción
+
+Esta sección recoge y documenta las tareas programadas que se ejecutan periódicamente en las distintas bases de datos gestionadas por el equipo GTBD. Se incluyen tanto jobs internos de Oracle como procesos externos gestionados por sistemas operativos, OEM o herramientas de automatización.
+
+===== Tipos de Tareas Programadas =====
+
+  * **Backups automáticos (RMAN / EXPDP / DMP)**
+      - Programados mediante `DBMS_SCHEDULER`, `cron` o `OEM`.
+      - Validación diaria de éxito y logs asociados.
+
+  * **Reorganización de índices y estadísticas**
+      - Scripts de análisis y mejora del rendimiento.
+      - Tareas de mantenimiento semanales o mensuales.
+
+  * **Verificación de espacio libre en tablespaces y FRA**
+      - Jobs para alertar de umbrales altos o autoextend agotado.
+
+  * **Tareas de monitorización y salud**
+      - Scripts de chequeo que se lanzan cada día en ventanas de bajo uso.
+
+  * **Limpieza y archivado de datos históricos**
+      - Eliminación de trazas antiguas, logs temporales o datos duplicados.
+
+  * **Cargas periódicas de datos**
+  - Automatización de integraciones (importación/exportación).
+  - Uso de utilidades como `sqlldr`, `external tables` o `db links`.
+
+  * **Alertas de control**
+      - Notificaciones por email sobre estados críticos o fallos.
+      - Integración con Zabbix, scripts de correo o tareas en OEM.
+
+===== Revisión y Control =====
+
+  * Todas las tareas deben contar con:
+      - Un log accesible.
+      - Control de errores y notificación.
+      - Registro de última ejecución y próxima programación.
+
+  * Revisión periódica:
+
+  - Semanal: comprobación de éxito de tareas críticas.
+  - Mensual: revisión general de planificación, ventanas y tiempos de ejecución.
+
+=====   =====
+
+

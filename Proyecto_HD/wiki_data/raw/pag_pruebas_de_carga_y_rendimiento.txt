@@ -1,0 +1,96 @@
+﻿
+===== 11. Pruebas de Carga y Rendimiento =====
+
+==== 11.1 Objetivo ====
+Verificar que la infraestructura de red de la sede funciona correctamente bajo condiciones reales de carga, garantizando el rendimiento de los servicios críticos (RDP, aplicaciones corporativas) antes de entrar en producción.
+
+==== 11.2 Componentes a validar ====
+  * Enlace WAN (principal y respaldo si aplica)
+  * Túnel VPN IPsec contra HQ
+  * Switching LAN (core y distribución)
+  * Firewall (uso de CPU, NAT, interfaces)
+  * Servicios internos y conectividad con HQ
+  * Equipos activos (modelo, estado, temperatura, errores)
+
+==== 11.3 Herramientas necesarias ====
+^ Herramienta        ^ Uso principal                            ^ Observaciones                             ^
+|** Speedtest-cli**      | Velocidad hacia Internet                 | 
+|** Ping / Traceroute**  | Latencia, estabilidad y ruta             | 
+|** Zabbix  **           | Monitorización activa de red y sistemas  |
+| **tcpdump**            | Captura CLI en interfaces WAN/LAN       |
+| **Wireshark**          | Análisis de tráfico y retransmisiones   | 
+| **Logging centralizado**| Verificación de logs del firewall       | 
+| **FortiTester**   | Pruebas oficiales de rendimiento y carga certificada Fortinet. |
+| **iPerf3**        | Medición de throughput punto a punto (ideal entre sedes). |
+| **Zabbix**        | Monitorización continua durante y después de las pruebas. |
+| **FortiAnalyzer** | Visualización de logs, flujos, y eventos durante los test. |
+| **WAN Killer**    | Generación de tráfico controlado (SolarWinds / Paessler). |
+| **Nping**         | Test de latencia y paquetes perdidos (parte de Nmap). |
+| **CLI FortiGate** | `diag debug`, `diag sys top`, `diag vpn tunnel` para diagnóstico en tiempo real. |
+
+
+==== 11.4 Criterios mínimos de aceptación ====
+
+^ Elemento                ^ Umbral de aceptación                   ^
+| WAN (fibra principal)  | > 90% del caudal contratado en TCP     |
+| Latencia a HQ          | < 40 ms estable (100 pings)            |
+| Pérdida de paquetes    | 0% durante ping prolongado             |
+| VPN IPsec              | Estable, sin reinicios                 |
+| Switching LAN          | Sin errores CRC ni colisiones          |
+| CPU del firewall       | < 70% durante pruebas de carga         |
+
+==== 11.5 Registro de resultados (ejemplo) ====
+
+^ Parámetro                         ^ Resultado de prueba            ^
+| Fecha de ejecución               | 2025-08-06 10:00               |
+| Sede                             | GRANADA-EDIFICIO-ADMIN-05      |
+| iPerf3 TCP hacia HQ              | 460 Mbps sostenidos            |
+| iPerf3 UDP                       | 440 Mbps / 0% pérdida          |
+| Ping a HQ                        | 26 ms promedio / 0% pérdida    |
+| Traceroute                       | Correcto, sin saltos anómalos  |
+| VPN IPsec                        | Estable, throughput: 310 Mbps  |
+| CPU del firewall durante prueba  | 58%                            |
+| Observaciones                    | Todo conforme. Validado.       |
+
+==== 11.6 Checklist de validación ====
+
+  - [x] Pruebas de carga TCP/UDP realizadas
+  - [x] Ping prolongado sin pérdida
+  - [x] VPN activa y estable
+  - [x] Switching sin errores
+  - [x] CPU firewall dentro de límites
+  - [x] Documentación registrada
+
+==== 11.7 Observaciones adicionales ====
+  * Estas pruebas se deben realizar con la sede conectada a HQ y sin usuarios si es posible.
+  * Es recomendable repetir estas pruebas ante cualquier cambio de proveedor, sustitución de firewall o apertura de sede.
+  * La documentación debe estar disponible en la wiki y firmada por el responsable técnico de validación.
+  * Las pruebas deben realizarse **fuera del horario de producción**, salvo que se necesite validar el comportamiento real con usuarios conectados.
+  * Se recomienda realizar las pruebas de carga **antes de poner la sede en producción**, o tras modificaciones críticas (cambio de proveedor, nueva electrónica, cambios de topología).
+  * Todas las pruebas deben registrarse en un **documento firmado por el técnico responsable**, con evidencias (pantallazos, logs, outputs).
+  * Las pruebas deben incluir siempre una **verificación del túnel IPsec**, asegurando que no hay reinicios, fallos o drops durante el test.
+  * Validar que **no se generan alertas en Zabbix** relacionadas con CPU, memoria, pérdida de paquetes, desconexión de elementos o tráfico anómalo.
+  * En caso de detectar **cambios de ruta, latencias elevadas o caídas**, escalar inmediatamente al operador o al equipo de infraestructura correspondiente.
+  * Toda la electrónica de red debe estar **monitorizada previamente en Zabbix** antes de iniciar cualquier prueba.
+  * Si la sede tiene **enlace de backup**, repetir las pruebas tras el failover manual para validar comportamiento con la línea secundaria.
+  * En sedes con balanceo WAN, validar que se hace **reparto correcto de sesiones** y no hay saturaciones en una línea.
+  * Las **interconexiones entre switches** deben estar en puertos troncales, sin errores ni loops, con STP en estado consistente.
+  * Todos los equipos activos deben tener **NTP sincronizado** para correlacionar logs y alertas.
+  * Validar que no hay **errores CRC, colisiones, ni flapping de puertos**, especialmente en interfaces de salida al firewall o router WAN.
+  * Confirmar que el firewall tiene **recursos suficientes (CPU, RAM, sesiones activas)** durante los test de carga.
+  * La **resolución DNS** debe funcionar sin latencias anómalas; se recomienda usar DNS corporativo y tener uno alternativo configurado.
+  * Si se utilizan **sistemas de autenticación centralizada (LDAP, Radius, SAML)**, comprobar que las respuestas no sufren retrasos durante carga alta.
+  * Si se detecta degradación en servicios bajo carga (Citrix, RDP, SAP), capturar tráfico con `tcpdump` para análisis de retransmisiones o latencias excesivas.
+  * Los logs deben almacenarse durante **mínimo 15 días tras la prueba**, y ser accesibles para auditoría técnica.
+  * En caso de fallo o resultado no conforme, documentar en el wiki con título: `PRUEBA_RENDIMIENTO_FALLIDA_<SEDE>_<FECHA>` y abrir seguimiento técnico.
+  * Verificar, antes de empezar, que todos los **cables están bien conectados y etiquetados conforme al estándar** descrito en el apartado de cableado estructurado.
+  * No deben realizarse estas pruebas si la sede presenta **cortes de energía frecuentes, SAI defectuoso o infraestructura degradada**.
+  * Los resultados deben ser revisados en comité técnico si hay incidencias repetidas en sedes con la misma topología o proveedor.
+
+==== 11.8 Documentación y Recursos ====
+
+  * [[https://docs.fortinet.com/document/fortitester/latest|FortiTester – Documentación Oficial]]
+  * [[https://docs.fortinet.com/document/fortigate/latest|FortiGate – Administración y CLI]]
+  * [[https://iusslmonitor06.justicia.junta-andalucia.es/|Zabbix – Monitorización interna de sedes]]
+  * [[https://iperf.fr/|iPerf3 – Descarga y manual]]
+  * [[https://www.zabbix.com/documentation/current/manual|Zabbix – Documentación]]

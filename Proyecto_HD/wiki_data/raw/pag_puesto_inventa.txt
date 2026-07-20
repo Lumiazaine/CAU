@@ -1,0 +1,65 @@
+﻿
+PROCEDIMIENTO ALTA CONTRATO EN GESTIÓN DE INVENTARIO
+
+1.    Gestión contrato (Contratos / Nuevo): Los datos del contrato se obtienen  de la carpeta de red Z:\contratos\año XXXX\expedientes  (siendo XXXX el año en que se cursa el expediente).
+
+-    Nº Expediente / Año
+-    Nº Contrato : el mismo nº de expediente
+-    Estado
+-    Tipo de contrato 
+-    Descripción (descripción  del expediente en la memoria  justificativa)
+ 
+
+1.1    Lote : Se incluirá tantos lotes como diferentes empresas tenga el contrato (Selecciona el contrato / Nuevo)
+      -    Empresa
+      -    Fecha recepción
+      -    Garantía (la fecha definitiva debe ser la "fecha de expedición" de factura, una vez que esté archivada  en carpeta "Contratos". Coordinación debe confirmar que esta es la fecha correcta para actualizarla en TEMIS y CRIJA).
+
+           * 1.1.1    Elementos contratados: Se incluirán todos los elementos que se hayan contratado, dentro de un mismo lote. (Selecciona el lote / elementos contratados / nuevo)
+
+            -    Tipo de equipo
+                  -    Marca / Modelo
+                  -    Nº Unidades
+                  -    Importe Unidad
+                  -    Garantía
+
+2.    Alta equipos (Equipos / Nuevo)
+
+-    Nº de serie
+-    Tipo de equipo
+-    Marca / Modelo
+-    Contrato
+-    Componente de star – Campo NO UTILIZADO
+-    Fecha de baja, Se indicaría exclusivamente cuando se fuese a dar de baja el equipo
+-    Caducidad de garantía:  se actualiza de forma automática (campo no modificable de forma manual)
+-    Observaciones
+-    Organismo propietario
+-    Ubicación
+-    Cargo – Campo NO UTILIZADO
+
+Las altas de equipo se llevan a cabo de dos formas posibles:
+
+•    MASIVA: coger plantilla en ubicación 
+
+\\iusnas05\Planificacion\PLANIFICACIÓN-INVENTARIO\Plantillas
+
+nombre plantilla:
+
+"ALTA MASIVA EQUIPOS INCLUYENDO LOT_X_LOTE y ORG_X_ORGANISMO con Fecha de Garantía"
+
+Se completa la plantilla con los datos de equipos:
+
+NSERIE
+N_RFID
+C_LICENCIA_SO1
+MOE_X_MODELO star
+ELE_X_ELEMENTO star
+ORG_X_ORGANISMO star
+F_FIN_GARANTIA 
+
+star Estos campos se obtienen de la BBDD Temis  (Consulta DATOS CONTRATO COMPLETO). 
+Los datos de NSERIE y RFID son proporcionados por la empresa suministradora).
+
+Se envía fichero, vía  petición Remedy, a Sistemas / GTBD para que ejecuten script. 
+
+•    ALTA MANUAL: En Gestión de Inventario / Equipos. Se selecciona  botón NUEVO y se introducen los campos a mano, uno a uno.

@@ -1,0 +1,129 @@
+﻿
+<html> <html lang="es"> 
+<head>
+
+  <meta charset="UTF-8">
+  <title>Observabilidad</title>
+  <style>
+     body {
+         font-family: Arial, sans-serif;
+         background-color: #39546E;
+         margin: 0;
+         padding: 20px;
+         padding-top: 70px;
+         
+     }
+
+      .main-container {
+         max-width: 1550px;
+         margin: 0 auto;
+     }
+
+       .main-header {
+            background-color: #39546E;
+            color: white;
+            padding: 25px 20px;
+            font-size: 2rem;
+            font-weight: bold;
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+  
+
+.block {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 22px;
+  margin-bottom: 25px;
+  border: 1px solid #ccc;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+}
+
+
+
+.block h2 {
+  margin-top: 0;
+  color: #39546E;
+  border-bottom: 2px solid #39546E;
+  padding-bottom: 10px;
+}
+
+.block h3 {
+  color: #39546E;
+}
+
+table {
+  border-collapse: collapse;
+  width: 60%;
+  margin: 15px 0;
+  border: 1px solid #ccc;
+}
+
+
+
+th {
+  background-color: #f2f2f2;
+  color: #333;
+  padding: 10px;
+  border: 1px solid #aaa;
+  text-align: left;
+}
+
+
+
+td {
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+li{
+  list-style-type: none;
+}
+
+
+</style>
+</head>
+
+
+
+<body>
+
+
+<div class="main-container">
+     <div class="main-header">Observabilidad</div>
+     <div class="block">
+  <p>En este apartado definiremos los aplicativos definidos por el equipo de interoperabilidad en el NIJA</p>
+  </div>
+
+
+  <div class="block">
+    <h2>1. ELK (ElasticSearch, Logstash, Kibana)</h2>
+<p> Es un conjunto de herramientas de gran potencial de código abierto que se combinan para crear una herramienta de administración de registros permitiendo la monitorización, consolidación y análisis de logs generados en múltiples servidores </p>
+
+
+El equipo de interoperabilidad ha definido lo siguiente: <br>
+
+<li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=PLA_NIJA_Cuadros_de_mandos_KIBANA_v1.0.0.pptx"> Cuadros de mandos definidos de Kibana </a></li>
+<li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=DEF_NIJA_DespliegueDashboardsKibana.pdf"> Despliegue de los dashboards de Kibana PRE/PRO </a>
+<li> <a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=PLA_NIJA_Jenkins_AnálisisPipelines_II_v1.0.0.pdf"> Pipelines de ELK </a>
+<li> <a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=NGP_NIJA_WSO2_Estructura Logs Micro Integrator_v01r01.pdf"> Normativa logs de WSO2 en el stack ELK </a>
+
+</div>
+
+ <div class="block">
+    <h2>2.GRAFANA, JAEGER, PROMETHEUS</h2>
+<p>Grafana, Prometheus y Jaeger son herramientas de código abierto fundamentales para la observabilidad de sistemas modernos. Prometheus recopila y almacena métricas, Grafana las visualiza en paneles, y Jaeger rastrea el flujo de solicitudes distribuidas, permitiendo monitoreo y diagnóstico profundo. </p>
+
+<li> <a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=[202601] [ComponentesObservabilidad] [V1.0.0] ManInstlConfiguración.pdf"> Manual de instalación y configuración </li> </a>
+
+</div>
+</div>
+</body>
+</html>

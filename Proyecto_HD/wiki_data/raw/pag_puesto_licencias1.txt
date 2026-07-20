@@ -1,0 +1,75 @@
+﻿
+<panel type="primary" title="Procedimientos de Puesto de Trabajo sobre licencias de Dragon Speaking"> La licencia Dragon Speaking es una licencia NOMINATIVA (se asigna a nombre y apellido de usuario). Cualquier petición de software de reconocimiento de voz se regirá por esta instrucción:
+
+1.Como criterio general, esta aplicación sólo estará disponible para JUECES/MAGISTRADOS/FISCALES, hasta el límite de licencias disponibles (dejando 8 licencias disponibles para casos especiales). Toda petición de usuario diferente a esta tipología de usuario no debe ser atendida.
+
+1. Si no hubiera licencia disponible (ESTADO = "LIBRE") dentro de esta tipología de usuario:
+
+  - Anotamos los datos en Pestaña "Peticiones sin atender".
+  - Se responde en la remedy : "Ahora mismo no disponemos de licencias Dragon, pasamos petición a pendiente de equipamiento a la espera de comprar nuevas licencias. Se anota en fichero.".
+  - Se reasigna la petición remedy a Servicios/Planificación/Pendiente de Equipamiento
+
+2. Si hay licencia disponible (ESTADO = "LIBRE") y la tipología de usuario es LETRADO:
+
+  - Se responde en la remedy"Ahora mismo no disponemos de licencias Dragon, pasamos petición a pendiente de equipamiento a la espera de comprar nuevas licencias. Se anota en fichero.".
+
+3. Si llegan peticiones de licencias Dragon para usuarios funcionarios se responde en la remedy que sólo están disponibles para JUECES/MAGISTRADOS/FISCALES.
+
+2. La petición de licencia debe ser asignada a Servicios / Inventario quien valorará la adjudicación de esta atendiendo a los criterios siguientes:
+
+  - Verificar que tenemos licencias en ESTADO = "LIBRE".
+  - Verificar la tipologia de usuario.
+  - Verificar si usuario aparece en "Pendiente de Equipamiento" (Pestaña "Peticiones sin atender").
+  - Verificar que el usuario no haya sido objeto de una adjudicación de licencia Dragon anterior.
+  - En caso de que no tenga licencia anterior, no aparezca en pendiente de equipamiento y sea JUEZ/MAGISTRADO/FISCAL, se procede a autorizar la instalación de licencia:
+      - Texto utilizado dentro de la petición Remedy una vez que se asigna la licencia:
+
+Es necesario instalar licencia de Dragon Speaking (Versión de licencia: XX):
+
+  * Nº de Licencia:
+  * Usuario:
+  * Cargo:
+
+Devolver la petición con los siguientes datos:
+
+  * Nº de serie del equipo:
+  * Nombre AD del equipo:
+
+Si dicho usuario tuviese ya instalada una licencia de Dragon Speaking, NO instalar la nueva y devolvernos la petición con los siguientes datos recogidos:
+
+  * Nº de licencia instalada
+  * Nº de serie del pc
+  * Nombre AD
+
+Tiempo de instalación: 1 semana
+
+3. En caso de que se autorice la instalación de la aplicación, Servicios / Inventario facilitará al técnico (CSU) el Nº de licencia (y versión) asignado a dicho usuario y reasignará la petición. 4. Inventario recoge en Hoja de Control de licencias Dragon, el nº de petición remedy, nombre y apellidos de usuario, cargo y pondrá ESTADO = "EN PROCESO" a esperas de que venga devuelta la petición con los datos de:
+
+  - Nº Serie equipo
+  - Nombre_ad equipo
+
+5. Se permite la instalación de la misma licencia asignada a usuario, tanto en su puesto fijio como en su equipo portátil, si es que el usuario así lo solicita.
+
+6. Una vez realizada la instalación y que ha sido reasignada la petición a Servicios / Inventario, se actualizan los datos faltantes en la Hoja de Control de licencias poniendo ESTADO = "INSTALADA". Se procede también a actualizar datos de ficha de equipo en Temis para recoger que dicho equipo lleva la aplicación instalada. En el campo "Otros Soft" de ficha de equipo.
+
+7. Si el usuario dejase su plaza y se desplazase a otro órgano (TRASLADO DE LICENCIA) habría de desinstalarse la aplicación Dragon del puesto fijo (si es que se hubiere instalado aquí) e informar a Servicios/Inventario.
+
+8. Si el usuario hace entrega del portátil por jubilación, cese o abandono de la comunidad autónoma andaluza, habría que desinstalar la aplicación del puesto fijo y de equipo portátil, reportando los datos de la desinstalación, vía remedy, a Servicios / Inventario. Modificar estado de licencia a LIBRE
+
+9. Si el usuario sufre cambio de equipo, por avería o sustitución, debe desintalarse la aplicación del equipo saliente e instalarse en el nuevo equipo, siempre informando a Servicios/Inventario para actualización de los datos.
+
+10. Los datos que deben ser reportados a Servicios / Inventario en caso de traslado o cese de usuario o de cambio de equipo al usuario son:
+
+  * Nombre completo del usuario
+  * Cargo
+  * Nº licencia Dragon Speaking
+  * Nº Serie equipo
+  * Nombre_ad equipo
+
+11. La Hoja de Control de licencias Dragon Speaking se halla ubicada en ruta: [[\\iusnas05\sij\Planificacion\PLANIFICACI|]]ÓN-INVENTARIO\Proyectos 2022\Licencia DRAGON Speaking
+
+Ejemplos: - Asignación de licencia: 1635705 - Pendiente de equipamiento: 1820630
+
+</panel>
+
+

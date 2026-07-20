@@ -1,0 +1,15 @@
+﻿
+====== Despliegue de parches de seguridad de Windows ======
+
+Procedimiento que se sigue para la aplicación de un parche de seguridad acumulativo de Windows:
+
+  - Nos llega el ticket por parte de Sistemas Coordinación, con el correo recibido por Andalucía Cert indicando la salida del parche acumulativo mensual.
+  - Descargamos el parche <font 11.0pt/inherit;;inherit;;inherit>de los links que viene el ticket Remedy, hay que buscar los Monthly Rollup para el sistema operativo 2008 R2 y Windows 7, es un kb común para ambos S.O.</font>
+  - Probamos el parche en uno de nuestros equipos para comprobar que tras la instalación el equipo arranca y no da errores.
+  - A través de directiva realizamos el piloto en SSCC y JA5C, coordinándonos con Felipe González jefe de DP Jaén. En el caso de que haya fallos se desechará el parche.
+  - Si todo va correctamente el parche se aplicará en todo el dominio Jaén.
+  - Una vez comprobemos en OCS que la mayoría de los equipos de Jaén tienen el parche y no se han reportado incidencias, continuamos.
+  - Aplicamos el parche en el dominio de Huelva.
+  - Una vez comprobemos en OCS que la mayoría de los equipos de Huelva tienen el parche y no se han reportado incidencias, desplegamos el parche en el resto de dominios.
+
+

@@ -1,0 +1,151 @@
+﻿
+<WRAP> <panel type="primary" title="Procedimientos y Problemas Conocidos de Jara">
+
+[[:pag_apli:jara:start|Volver atrás]]
+
+<WRAP> <panel type="info" >
+
+====== Entrada 1 ======
+
+Se ha creado una relacion para EXPURGO Última modificación por AM_Explotacion el "jue, 19 ago 2021 11:57:40"
+
+Descripción de la incidencia
+
+Un ejemplo:
+
+Del Juzgado de Primera Instancia e Instruccion nº 1 de Coín se a creado la relacion 132 de DILIGENCIAS PREVIAS para EXPURGO, hay que pasar los expedientes cuya signatura sea inferior a 2.000.000 y fecha de incoacion sea 2001
+
+Solución
+
+1. Buscamos el identificador del órgano origen:
+
+select x_organismo, t_organismo
+
+from TEMIS.ORGANISMOS org
+
+where ORG.T_ORGANISMO like 'Juzgado de Primera Instancia e Instrucción Nº 1 de Coín';
+
+Respuesta: X_Organismo: 457 y T_Organismo: Juzgado de Primera Instancia e Instrucción Nº 1 de Coín
+
+2. Buscamos el identificador del tipo de organismo al que pertenece el órgano origen:
+
+select TOO.C_TIPORG, TOO.T_TIPORG
+
+from TEMIS.TIPO_ORGANISMO too
+
+where lower(TOO.T_TIPORG) like 'juzgado%nstancia e %n';
+
+Respuesta: C_TIPORG: 41 y T_TIPORG: Juzgado de Primera Instancia e Instrucción
+
+3. Buscamos el identificador del tipo de procedimiento al que hace referencia el usuario:
+
+select PR.X_PROCEDIMIENTO, PR.T_TIPO_PROCEDIMIENTO, PR.TIP_C_TIPORG
+
+from jara.ja_procedimiento pr
+
+where lower(PR.T_TIPO_PROCEDIMIENTO) like 'dilige%previas'
+
+and PR.TIP_C_TIPORG='41';
+
+Respuesta: X_PROCEDIMIENTO: 3714, T_TIPO_PROCEDIMIENTO: Diligencias Previas y TIP_C_TIPORG:41
+
+4. Una vez identificados todos los códigos, lanzamos la consulta para recuperar los documentos que cumplen con las condiciones indicadas por el usuario:
+
+select DOC.N_NUMPROC numero_proced, DOC.N_ANOPROC año_proced, DOC.T_SIGNATURA SIGNATURA, DOC.T_OBJETO OBJETO, DOC.F_FINALIZACION FECHA_FINALIZACION
+
+from jara.ja_documentos doc, jara.ja_transferencias tr
+
+where TR.X_TRANSFERENCIA= DOC.TRA_X_TRANSFERENCIA_DOC
+
+and TR.ORG_X_ORGANISMO_ORIG = 457 – Origen: Juzgado de Primera Instancia e Instrucción Nº 1 de Coín
+
+and DOC.PRO_X_PROCEDIMIENTOS= 3714 – Procedimiento: Diligencias Previas
+
+and DOC.T_SIGNATURA < 2000000 – signatura sea inferior a 2.000.000
+
+and doc.N_ANOPROC = 2001 – Año de incoación 2001
+
+and TR.L_ELIMINADA = 0 – Relaciones de Transferencia NO eliminadas
+
+and DOC.ENV_X_ENVIOSJE_EXPURGO is null – Documentos NO expurgados
+
+and TR.T_AFTRANSACCION is not null – Transferencia finalizadas
+
+order by doc.T_SIGNATURA asc ;
+
+Respuesta: Devuelve 2599 Registros. Extraer resultados a documento Excel.
+
+5. Comprobamos a cuántas y a cuáles relaciones de transferencia pertenecen los documentos implicados:
+
+select DOC.TRA_X_TRANSFERENCIA_DOC, ' R' || TR.N_NUMRELACION || '/T' || TR.N_NUMTRANSFERENCIA RELACION, count( * )
+
+from jara.ja_documentos doc, jara.ja_transferencias tr
+
+where TR.X_TRANSFERENCIA= DOC.TRA_X_TRANSFERENCIA_DOC
+
+and TR.ORG_X_ORGANISMO_ORIG = 457 – Origen: Juzgado de Primera Instancia e Instrucción Nº 1 de Coín
+
+and DOC.PRO_X_PROCEDIMIENTOS= 3714 – Procedimiento: Diligencias Previas
+
+and DOC.T_SIGNATURA < 2000000 – Signatura : inferior a 2 millones
+
+and doc.N_ANOPROC = 2001 – Año de incoacion 2001
+
+and DOC.ENV_X_ENVIOSJE_EXPURGO is null – Documentos NO expurgados
+
+and TR.T_AFTRANSACCION is not null – Transferencia finalizadas
+
+group by DOC.TRA_X_TRANSFERENCIA_DOC, TR.N_NUMRELACION, TR.N_NUMTRANSFERENCIA
+
+order by count( * ) desc;
+
+Respuesta: La suma de la columna "count" debe coincidir con el número de documentos obtenidos en la consulta anterior. Extraemos los resultados a un excel.
+
+1.PNG
+
+6. Para poder expurgar un documento, es obligatorio que tenga informado tanto la fecha de finalizacion, como el objeto:
+
+select ' R' || TR.N_NUMRELACION || '/T' || TR.N_NUMTRANSFERENCIA RELACION, count( * ) NUMERO_DOCUMENTOS </panel> </WRAP>
+
+<WRAP> <panel type="info" >
+
+====== Error al firmar transferencia en Jara ======
+
+**__Descripción de la incidencia:__ ** \\
+Usuario indica que al pulsar el botón de firma, se queda dando vueltas y **"no hace nada"**, se queda en bucle. El usuario refleja que ha trabajado de manera normal y de repente no puede firmar.\\
+\\
+{{:pag_apli:jara:jaraprob1.png?400}}\\
+**__Solución:__ ** \\
+1º Revisar el perfil del usuario por parte del equipo **DevOps**, si no se soluciona el problema;\\
+\\
+2º Asignación a **DP**, para asistencia **InSitu** por parte de un técnico para realizar las siguientes comprobaciones:\\
+1· Instalación de Java 7.21\\
+2· Panel de Control (configuración) de Java\\
+2.1· Pestaña General, Configuración de Red, marcamos Usar Configuración del Explorador\\
+2.2· Pestaña Seguridad, añadir web a lista de excepciones de sitios.\\
+2.3· Pestaña Avanzado, marcar todos los TLS\\
+3· Opciones de Internet (propiedades:Internet)\\
+3.1· Pestaña Privacidad, desactivar el bloqueador de elementos emergentes.\\
+3.2· Pestaña Opciones Avanzadas, marcar todos los TLS.\\
+4· En navegador Edge\\
+4.1· Activar visualizado en modo compatibilidad de Internet Explorer\\
+\\
+3º Si esto **no funciona**, el técnico **InSitu**, debe eliminar aplicación Java y sus carpetas (archivos de programas y en appdata) y volver a realizar los pasos anteriores.\\
+**__Ejemplo de incidencia Remedy:__ ** \\
+IN0000002356364
+
+</panel> </WRAP>
+
+<WRAP> <panel type="info" >
+
+====== Entrada 3 ======
+
+Problema conocido 2
+
+</panel></WRAP>
+
+[[:pag_apli:jara:start|Volver atrás]]
+
+{{tag>novalidada}}
+
+

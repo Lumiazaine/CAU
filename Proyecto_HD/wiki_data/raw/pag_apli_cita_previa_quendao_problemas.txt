@@ -1,0 +1,172 @@
+﻿
+<WRAP> 
+<panel type="primary" title="Procedimientos y Problemas Conocidos de Aplicación de Turnos QUENDA">
+
+[[:pag_apli:cita_previa_2030_ateneo:start|Volver atrás]]
+
+<WRAP> <panel type="info" title="Mantenimiento Preventivo">
+
+  * El contrato incluye un mantenimiento preventivo anual con visita a todas las oficinas para revisar el equipamiento.
+  * En Octubre de 2025 se ha realizado el primero de ellos.
+  * El siguiente y último deberá ser realizado en Junio o Julio de 2026, antes de finalizar la garantía.
+
+</panel></WRAP>
+
+<WRAP> 
+<panel type="info" title="Actuaciones preventivo 2026">
+Se darán lo siguientes pasos en este orden:
+
+  - Se comunicará a las Delegaciones la planificación de visitas de cada provincia, incluyendo la necesidad de persona de contacto para acompañamiento así como para transferencia de conocimiento. Ver siguiente apartado "**Comunicaciones a las Delegaciones Territoriales**"
+  - Se informará a los RRCC y sus respectivos LAJ de la fecha de visita para que estén al tanto. Ver siguiente apartado "**Comunicaciones a los Registros Civiles**"
+
+Se muestra la planificación y los técnicos asignados:
+
+^ REGISTRO                                      ^ PROVINCIA  ^ LOCALIDAD                    ^ Fecha preventivo  ^ Técnico            ^ DIRECCIÓN                                                   ^
+| Registro Civil de Granada                     | Granada    | Granada                      | 01/06/2026        | Angel Palomares    | Avenida del Sur, 3 (Telefónica)                             |
+| Registro Civil de Santa Fe                    | Granada    | Santa Fe                     | 01/06/2026        | Angel Palomares    | C\ Pintor Juan Ruiz, s/n                                    |
+| Registro Civil de Motril                      | Granada    | Motril                       | 02/06/2026        | Angel Palomares    | C\ Fielato de la Posta, s/n.                                |
+| Registro Civil de Vélez- Málaga               | Málaga     | Vélez-Málaga                 | 02/06/2026        | Angel Palomares    | C\ Eugenio Morales Jurado, nº 2                             |
+| Registro Civil Exclusivo Nº 1 de Sevilla      | Sevilla    | Sevilla                      | 02/06/2026        | Francisco Estepa   | C\ Vermondo Resta, s/n.                                     |
+| Registro Civil de Dos Hermanas                | Sevilla    | Dos Hermanas                 | 02/06/2026        | Francisco Estepa   | Pza. Escultora Carmen Jiménez, s/n                          |
+| Registro Civil de Estepona                    | Málaga     | Estepona                     | 03/06/2026        | José Manuel Baena  | Juan Carlos I, s/n                                          |
+| Registro Civil de Marbella                    | Málaga     | Marbella                     | 03/06/2026        | José Manuel Baena  | Avda. Arias de Velasco, 15                                  |
+| Registro Civil de Chiclana de la Frontera     | Cádiz      | Chiclana de la Frontera      | 08/06/2026        | Andrés Fernández   | Pza. del Retortillo s/n                                     |
+| Registro Civil de Jerez de la Frontera        | Cádiz      | Jerez de la Frontera         | 08/06/2026        | Andrés Fernández   | Avda. Tomás García Figueras, 14                             |
+| Registro Civil de Almería                     | Almería    | Almería                      | 09/06/2026        | Angel Palomares    | Ctra. de Ronda nº 120                                       |
+| Registro Civil de Ejido (El)                  | Almería    | Ejido (El)                   | 09/06/2026        | Angel Palomares    | C\ Océano Atlántico, nº 8                                   |
+| Registro Civil de Roquetas de Mar             | Almería    | Roquetas de Mar              | 09/06/2026        | Angel Palomares    | Reina Sofía, 11                                             |
+| Registro Civil de Cordoba                     | Cordoba    | Cordoba                      | 09/06/2026        | Juan David Luque   | C/ Isla Mallorca s/n, 3ª Planta.                            |
+| Registro Civil de Ayamonte                    | Huelva     | Ayamonte                     | 10/06/2026        | Francisco Estepa   | Avda. Alcalde Narciso Martín Navarro, 28                    |
+| Registro Civil de Cádiz                       | Cádiz      | Cádiz                        | 11/06/2026        | Andrés Fernández   | Ana de Viya, 4, 1ª planta                                   |
+| Registro Civil de Puerto de Santa María       | Cádiz      | Puerto de Santa María (El)   | 11/06/2026        | Andrés Fernández   | Parque Empresarial Las Salinas, C/ Dr Duarte de Acosta n 9  |
+| Registro Civil de Huelva                      | Huelva     | Huelva                       | 12/06/2026        | Armando Pérez      | C\ Alameda Sundheim, 17                                     |
+| Registro Civil de Jaén                        | Jaén       | Jaén                         | 15/06/2026        | Angel Palomares    | C\ Arquitecto Berges, 16                                    |
+| Registro Civil de Algeciras                   | Cádiz      | Algeciras                    | 16/06/2026        | Andrés Fernández   | Plaza de la Constitución, s/n                               |
+| Registro Civil Exclusivo de Málaga            | Málaga     | Málaga                       | 16/06/2026        | José Manuel Baena  | C\ Fiscal Luis Portero García s/ n                          |
+| Registro Civil de Línea de la Concepción, La  | Cádiz      | Línea de la Concepción (La)  | 19/06/2026        | Andrés Fernández   | C\ Feria, esquina Paseo de la Velada                        |
+| Registro Civil de Fuengirola                  | Málaga     | Fuengirola                   | 23/06/2026        | José Manuel Baena  | Avda. de Mijas, 26                                          |
+| Registro Civil de Torremolinos                | Málaga     | Torremolinos                 | 23/06/2026        | José Manuel Baena  | Pl. Blas Infante, 1 (Ayuntamiento)                          |
+
+
+
+Los datos de los técnicos para gestionar sus autorizaciones son los que siguen:
+
+^ Técnico                  ^ DNI         ^
+| Ángel Palomares          | 77333542-K  |
+| Francisco Manuel Estepa  | 34075469-A  |
+| José Manuel Baena        | 74946071-L  |
+| Andrés Fernández         | 44030225-Z  |
+| Armando Javier Pérez     | 28768946-V  |
+| Juan David Luque         | 30991761-C  |
+
+
+</panel>
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Comunicaciones a las Delegaciones Territoriales - Envío de Correos">
+__**De:**__ Buzón personal
+
+**__Para:__** Delegación Provincial
+
+__**CC:**__  ; Responsable Gabinete; coordinacion.cripjus.sandetel@juntadeandalucia.es
+
+**__Asunto:__** COMUNICADO Visita Mantenimiento Preventivo de la aplicación de Turnos en los RRCC Junta de Andalucía – **PROVINCIA**
+
+**__Cuerpo del correo__**
+
+Buenas tardes,
+
+Informamos que, un año más, se va a realizar el mantenimiento preventivo incluido en el contrato de Turnos de los RRCC, mediante visitas in situ de los técnicos de la empresa Plexus, a las oficinas del Registro Civil que tiene instalado este sistema en su provincia.
+
+A continuación, se indican fechas y técnicos que efectuarán las visitas a cada oficina:
+ 
+| REGISTRO  | PROVINCIA  | LOCALIDAD  | FECHA VISITA  | TÉCNICO  | DNI  |
+|           |            |            |               |          |      |
+ 
+La hora aproximada de llegada de los técnicos siempre será **entre las 8 y las 9 de la mañana aproximadamente**, según cercanía del técnico. En caso de haber una segunda visita en la misma jornada, el horario dependerá del tiempo invertido en la primera actuación. La **duración estimada** por oficina es de **aproximadamente 1 hora**, aunque podría variar ligeramente en función del equipamiento a revisar en cada centro. **No se prevén afectaciones relevantes que generen indisponibilidades**, más allá del tiempo en que se realicen las comprobaciones sobre el equipamiento en cada oficina.
+ 
+El técnico llevará un **acta de servicio** donde se indicará hora de llegada y salida, acciones realizadas... y __deberá ser firmada por el técnico y el responsable de la oficina__. Se enviará comunicado a los responsables de cada Registro Civil, informando de esto.
+ 
+Solicitamos, para todo ello, que se gestionen las __autorizaciones de acceso a las sedes del técnico__: 
+
+   * //**Indicar nombre, apellido y DNI.**//
+
+así como el acompañamiento durante la visita a la oficina. Además, este año, ante la finalización del contrato de mantenimiento con el proveedor, se requiere que se realice transferencia de conocimientos sobre cómo se hace la revisión y las problemáticas e incidencias más habituales:
+
+  * Revisión del estado del HW instalado, la estabilidad y puntos de sujeción de las pantallas, así como el estado y correcto funcionamiento de pantallas y dispensadores. 
+  * Mantenimiento de los equipos (limpieza, conexionado, pasta térmica, ventiladores ...) 
+  * Pruebas de funcionamiento y revisión funcional. 
+  * Explicación de como configurar los equipos (pantallas y dispensadores) así como las DNS.
+  * Verificaciones básicas en el caso de fallos en el funcionamiento de los equipos: dispensadores/quioscos, pantallas e impresoras de tiques.
+  * Actuaciones en caso de traslados (mudanzas) de los equipamientos.
+  * Cumplimentación y actualización del inventario con todos los dispositivos instalados. 
+  * …
+
+Tanto en la DokuWiki como en el Portal de Capacitación se han colgado manuales que pueden servir de apoyo.
+
+Por último, por favor, confirmad las personas de contacto que acompañarán en cada visita. Estas son las registradas del año pasado:
+
+^ Nombre y Apellidos  ^ Teléfono  | E-mail  |
+|                     |           |         |
+|                     |           |         |
+
+Cualquier duda o comentario hacédmela llegar a mi correo.
+
+Un saludo,
+
+
+</panel>
+</WRAP>
+
+<WRAP> <panel type="info" title="Comunicado Visita Mantenimiento Preventivo de la aplicación de Turnos en los RRCC Junta de Andalucía - Envío de Correos">
+Se enviará por el buzón de Justicia Digital
+
+**Para:**
+
+  * **Buzón del RRCC**
+  * **LAJ del RRCC (titular y sustitutos)**
+
+**CC:**
+
+  * **SCOR de la Provincia**
+
+**CCO:**
+
+  * [[dtal.informatica.ius@juntadeandalucia.es]] **(de cada DT)**
+  * **Correo de Gabinete de cada DT**
+  * [[coordinacion.cripjus.sandetel@juntadeandalucia.es]]
+  * [[xavier.bonnet@juntadeandalucia.es]]
+  * [[mariaa.herrera.vega@juntadeandalucia.es]]
+  * [[mbelen.barroso@juntadeandalucia.es]]
+  * [[josemiguel.fernandezfernandez@emeal.nttdata.com]]
+
+**CORREO**
+
+**ASUNTO:**
+
+**COMUNICADO Visita Mantenimiento Preventivo de la aplicación de Turnos en los RRCC Junta de Andalucía – Registro Civil de xxxxxxxxxxxxxxx**
+
+**CUERPO:**
+
+Buenos días,
+
+Informamos que, en el día abajo indicado, un técnico de la empresa Plexus va a visitar las oficinas de su Registro Civil para revisar el equipamiento relacionado con la aplicación de Turnos para ciudadanos: impresora de tiques, dispensador (o kiosko) y monitor.
+
+A continuación, se indica fecha y datos del técnico que efectuará la visita:
+
+{{ :pag_apli:cita_previa_quendao:captura_de_pantalla_2025-11-12_132217.png?direct&500 |}}
+
+La visita se hará en horario de oficina y su duración estimada será de aproximadamente 1 hora, aunque podría variar ligeramente en función de la situación del equipamiento a revisar en cada centro. No se prevén afectaciones relevantes que generen indisponibilidades, más allá del tiempo en que se realicen las comprobaciones sobre el equipamiento de la oficina.
+
+El técnico llevará un acta de servicio donde se indicará hora de llegada y salida y acciones realizadas en cada equipo. __Esta deberá ser firmada por el mismo técnico y el responsable de la oficina.__
+
+Un saludo cordial.
+
+</panel></WRAP>
+
+[[:pag_apli:cita_previa_2030_ateneo:start|Volver atrás]]
+
+{{tag>novalidada}}
+
+

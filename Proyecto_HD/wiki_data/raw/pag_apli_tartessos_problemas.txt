@@ -1,0 +1,35 @@
+﻿
+<WRAP> <panel type="primary" title="Procedimientos y Problemas Conocidos de Tartessos Dynalias">
+
+[[start|Volver atrás]]
+
+<WRAP>
+<panel type="info">
+====== Procedimiento alta para técnicos  ======
+
+Descripción del alta para técnicos en la aplicación.
+
+
+</panel> 
+
+<WRAP>
+<panel type="info">
+
+====== Nombre procedimiento problema conocido 1 ======
+
+Descripción problema conocido 1
+
+</panel> 
+
+<panel type="info">
+
+====== Nombre procedimiento problema conocido 2 ======
+
+Descripción problema conocido 2
+
+</panel> 
+</WRAP>
+
+[[start|Volver atrás]]
+
+{{tag>novalidada}}

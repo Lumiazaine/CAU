@@ -1,0 +1,122 @@
+﻿
+====== Monitorizacion GTAB - NAGIOS ======
+
+======
+**Monitorización en Nagios para activos GTAB**  ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/Monitorizacion GTAB - NAGIOS?section=1|Editar]]
+
+A continuación listaremos las monitorizaciones que se están realizando en GTAB desde el sistema
+[[http://nagios01.justicia.junta-andalucia.es/nagios/|Nagios]] .
+
+  * **Instancias de BBDD y su relación con el Sistema Operativo HP-UX**
+^INSTANCIA ^SERVICIO^RESPUESTA ACTUAL |
+|BDPROD01|UBICACION_BDPROD01|PACKAGE OK - El recurso se encuentra en: iussubd07|
+| |DISCO_BDPROD01|DISK OK - free space: /opt/oracle/oradata/PROD01 50803 MB |
+|BDPROD03|UBICACION_BDPROD03|PACKAGE OK - El recurso se encuentra en: iussubd05|
+| |DISCO_BDPROD03|DISK OK - free space: /opt/oracle/oradata/PROD03 24595 MB |
+|BDPROD04|UBICACION_BDPROD04|PACKAGE OK - El recurso se encuentra en: iussubd06 |
+| |DISCO_BDPROD04|DISK OK - free space: /opt/oracle/oradata/PROD04 53200 MB |
+|BDPROD06|UBICACION_BDPROD06|PACKAGE OK - El recurso se encuentra en: iussubd09|
+| |DISCO_BDPROD06|DISK OK - free space: /opt/oracle/oradata/PROD06 28960|
+|BDFORM01|UBICACION_BDFORM01|PACKAGE WARNING - Estado desconocido del recurso |
+| |DISCO_BDFORM01 |DISK OK - free space: /opt/oracle/oradata/form01 11794 MB (39% inode=99%):|
+|BDDESA01|UBICACION_BDDESA01|PACKAGE WARNING - Estado desconocido del recurso |
+| |DISCO_BDDESA01|DISK OK - free space: /opt/oracle/oradata/desa01 77137 MB (60% inode=99%): |
+|BDPREPRO01|DISCO_BDPREPRO01|DISK OK - free space: /opt/oracle/oradata/prepro01 35906 MB (29% inode=99%):|
+| |UBICACION_BDPREPRO01|PACKAGE WARNING - Estado desconocido del recurso |
+|BDADRIANO|DISCO_BDADRIANO|DISK OK - free space: /opt/oracle 3663 MB (24% inode=93%): |
+| |UBICACION_BDADRIANO|PACKAGE WARNING - Estado desconocido del recurso |
+|BDADRIANOAUX|DISCO_BDADRIANOAUX|DISK OK - free space: /opt/oracle/oradata/BDADRIANOAUX 11462 MB (22% inode=99%): |
+| |UBICACION_BDADRIANOAUX|PACKAGE WARNING - Estado desconocido del recurso|
+
+  * ** <font 14px background-color: rgb(159, 214, 185);/inherit;;inherit;;rgb(159, 214, 185)>Servidores HP-UX</font> **
+^HOST ^SERVICIO ^RESPUESTA ACTUAL |
+|IUSSUBD01|Carga_CPU|OK - CPU usage at 0.75% |
+|IUSSUBD01|RISCO_REMOTO|DISK OK - free space: / 233 MB (41% inode=64%): /stand 87 MB (28% inode=92%): /var-opt-ignite 57375 MB (61% inode=99%): /var 1745 MB (25% inode=48%): /usr 1603 MB (24% inode=53%): /tmp 518 MB (50% inode=91%): /opt-ignite 4387 MB (91% inode=99%): /opt 660 MB (13% inode=76%): /home 9 MB (38% inode=88%): /opt/oracle 3885 MB (25% inode=94%): /opt/oracle/oradata/desa01 77137 MB (60% inode=99%): /opt/oracle/oradata/BDADRIANOAUX 11462 MB (22% inode=99%): /opt/oracle/oradata/BDADRIANOAUX/disco2 42508 MB (87% inode=99%): /opt/oracle/oradata/BDADRIANO 31546 MB (64% inode=99%):|
+|IUSSUBD01|NFS_BACKUP|DISK OK - free space: /NFS_BACKUP 766227 MB (29% inode=98%): |
+|IUSSUBD01|PING|OK - 10.241.130.36: rta 0.557ms, lost 0% |
+|IUSSUBD01|SWAP_REMOTA|SWAP OK - 66% free (7967 MB out of 12257 MB) |
+|IUSSUBD01|Uso_Memoria|Memory OK - 52.3% (4372872 kB) used|
+
+^HOST ^SERVICIO ^RESPUESTA ACTUAL |
+|IUSSUBD03|Carga_CPU|OK - CPU usage at 2.5% |
+|IUSSUBD03|RISCO_REMOTO|DISK OK - free space: / 237 MB (42% inode=64%): /stand 92 MB (30% inode=93%): /var 1705 MB (30% inode=46%): /usr 1180 MB (17% inode=45%): /tmp 349 MB (34% inode=83%): /opt 623 MB (12% inode=80%): /home 4 MB (18% inode=62%): /mnt/nfs/rcda_ext2 71867 MB (93% inode=-): /mnt/nfs/rcda_ext 50336 MB (65% inode=-): /opt/oracle 3662 MB (24% inode=93%): /opt/oracle/oradata/prepro01 35906 MB (29% inode=99%): /opt/oracle/oradata/form01 11794 MB (39% inode=99%): |
+|IUSSUBD03|NFS_BACKUP|DISK OK - free space: /NFS_BACKUP 766227 MB (29% inode=98%): |
+|IUSSUBD03|PING|OK - 10.241.130.36: rta 0.557ms, lost 0% |
+|IUSSUBD03|SWAP_REMOTA|SWAP OK - 56% free (6782 MB out of 12257 MB) |
+|IUSSUBD03|Uso_Memoria|Memory OK - 61.7% (5156180 kB) used |
+
+^HOST ^SERVICIO ^RESPUESTA ACTUAL |
+|IUSSUBD04 |CARGA_DEL_SISTEMA|OK - load average: 0.00, 0.00, 0.00 |
+|IUSSUBD04|Carga_CPU|OK - CPU usage at 2.5% |
+|IUSSUBD04|RISCO_REMOTO|DISK OK - free space: / 237 MB (42% inode=64%): /stand 92 MB (30% inode=93%): /var 1705 MB (30% inode=46%): /usr 1180 MB (17% inode=45%): /tmp 349 MB (34% inode=83%): /opt 623 MB (12% inode=80%): /home 4 MB (18% inode=62%): /mnt/nfs/rcda_ext2 71867 MB (93% inode=-): /mnt/nfs/rcda_ext 50336 MB (65% inode=-): /opt/oracle 3662 MB (24% inode=93%): /opt/oracle/oradata/prepro01 35906 MB (29% inode=99%): /opt/oracle/oradata/form01 11794 MB (39% inode=99%): |
+|IUSSUBD04|NFS_BACKUP|DISK OK - free space: /NFS_BACKUP 766227 MB (29% inode=98%): |
+|IUSSUBD04|PING|OK - 10.241.130.36: rta 0.557ms, lost 0% |
+|IUSSUBD04|SWAP_REMOTA|SWAP OK - 56% free (6782 MB out of 12257 MB) |
+|IUSSUBD04|Uso_Memoria|Memory OK - 61.7% (5156180 kB) used |
+|IUSSUBD04|Total Procesos|PROCS OK: 239 processes |
+|IUSSUBD04|Total Procesos Zombies|PROCS OK: 0 processes with STATE = Z |
+|IUSSUBD04|Uso_Memoria|Memory OK - 13.9% (3049884 kB) used|
+
+^HOST ^SERVICIO ^RESPUESTA ACTUAL |
+|IUSSUBD05 |CARGA_DEL_SISTEMA|OK - load average: 0.00, 0.00, 0.00 |
+|IUSSUBD05|Carga_CPU|OK - CPU usage at 2.5% |
+|IUSSUBD05|RISCO_REMOTO|DISK OK - free space: / 237 MB (42% inode=64%): /stand 92 MB (30% inode=93%): /var 1705 MB (30% inode=46%): /usr 1180 MB (17% inode=45%): /tmp 349 MB (34% inode=83%): /opt 623 MB (12% inode=80%): /home 4 MB (18% inode=62%): /mnt/nfs/rcda_ext2 71867 MB (93% inode=-): /mnt/nfs/rcda_ext 50336 MB (65% inode=-): /opt/oracle 3662 MB (24% inode=93%): /opt/oracle/oradata/prepro01 35906 MB (29% inode=99%): /opt/oracle/oradata/form01 11794 MB (39% inode=99%): |
+|IUSSUBD05|NFS_BACKUP|DISK OK - free space: /NFS_BACKUP 766227 MB (29% inode=98%): |
+|IUSSUBD05|PING|OK - 10.241.130.36: rta 0.557ms, lost 0% |
+|IUSSUBD05|SWAP_REMOTA|SWAP OK - 56% free (6782 MB out of 12257 MB) |
+|IUSSUBD05|Uso_Memoria|Memory OK - 61.7% (5156180 kB) used |
+|IUSSUBD05|Total Procesos|PROCS OK: 239 processes |
+|IUSSUBD05|Total Procesos Zombies|PROCS OK: 0 processes with STATE = Z |
+|IUSSUBD05|Uso_Memoria|Memory OK - 13.9% (3049884 kB) used|
+
+^HOST ^SERVICIO ^RESPUESTA ACTUAL |
+|IUSSUBD06 |CARGA_DEL_SISTEMA|OK - load average: 0.00, 0.00, 0.00 |
+|IUSSUBD06|Carga_CPU|OK - CPU usage at 2.5% |
+|IUSSUBD06|RISCO_REMOTO|DISK OK - free space: / 237 MB (42% inode=64%): /stand 92 MB (30% inode=93%): /var 1705 MB (30% inode=46%): /usr 1180 MB (17% inode=45%): /tmp 349 MB (34% inode=83%): /opt 623 MB (12% inode=80%): /home 4 MB (18% inode=62%): /mnt/nfs/rcda_ext2 71867 MB (93% inode=-): /mnt/nfs/rcda_ext 50336 MB (65% inode=-): /opt/oracle 3662 MB (24% inode=93%): /opt/oracle/oradata/prepro01 35906 MB (29% inode=99%): /opt/oracle/oradata/form01 11794 MB (39% inode=99%): |
+|IUSSUBD06|NFS_BACKUP|DISK OK - free space: /NFS_BACKUP 766227 MB (29% inode=98%): |
+|IUSSUBD06|PING|OK - 10.241.130.36: rta 0.557ms, lost 0% |
+|IUSSUBD06|SWAP_REMOTA|SWAP OK - 56% free (6782 MB out of 12257 MB) |
+|IUSSUBD06|Uso_Memoria|Memory OK - 61.7% (5156180 kB) used |
+|IUSSUBD06|Total Procesos|PROCS OK: 239 processes |
+|IUSSUBD06|Total Procesos Zombies|PROCS OK: 0 processes with STATE = Z |
+|IUSSUBD06|Uso_Memoria|Memory OK - 13.9% (3049884 kB) used|
+
+^HOST ^SERVICIO ^RESPUESTA ACTUAL |
+|IUSSUBD07 |CARGA_DEL_SISTEMA|OK - load average: 0.00, 0.00, 0.00 |
+|IUSSUBD07|Carga_CPU|OK - CPU usage at 2.5% |
+|IUSSUBD07|RISCO_REMOTO|DISK OK - free space: / 237 MB (42% inode=64%): /stand 92 MB (30% inode=93%): /var 1705 MB (30% inode=46%): /usr 1180 MB (17% inode=45%): /tmp 349 MB (34% inode=83%): /opt 623 MB (12% inode=80%): /home 4 MB (18% inode=62%): /mnt/nfs/rcda_ext2 71867 MB (93% inode=-): /mnt/nfs/rcda_ext 50336 MB (65% inode=-): /opt/oracle 3662 MB (24% inode=93%): /opt/oracle/oradata/prepro01 35906 MB (29% inode=99%): /opt/oracle/oradata/form01 11794 MB (39% inode=99%): |
+|IUSSUBD07|NFS_BACKUP|DISK OK - free space: /NFS_BACKUP 766227 MB (29% inode=98%): |
+|IUSSUBD07|PING|OK - 10.241.130.36: rta 0.557ms, lost 0% |
+|IUSSUBD07|SWAP_REMOTA|SWAP OK - 56% free (6782 MB out of 12257 MB) |
+|IUSSUBD07|Uso_Memoria|Memory OK - 61.7% (5156180 kB) used |
+|IUSSUBD07|Total Procesos|PROCS OK: 239 processes |
+|IUSSUBD07|Total Procesos Zombies|PROCS OK: 0 processes with STATE = Z |
+|IUSSUBD07|Uso_Memoria|Memory OK - 13.9% (3049884 kB) used|
+
+^HOST ^SERVICIO ^RESPUESTA ACTUAL |
+|IUSSUBD08 |CARGA_DEL_SISTEMA|OK - load average: 0.00, 0.00, 0.00 |
+|IUSSUBD08|Carga_CPU|OK - CPU usage at 2.5% |
+|IUSSUBD08|RISCO_REMOTO|DISK OK - free space: / 237 MB (42% inode=64%): /stand 92 MB (30% inode=93%): /var 1705 MB (30% inode=46%): /usr 1180 MB (17% inode=45%): /tmp 349 MB (34% inode=83%): /opt 623 MB (12% inode=80%): /home 4 MB (18% inode=62%): /mnt/nfs/rcda_ext2 71867 MB (93% inode=-): /mnt/nfs/rcda_ext 50336 MB (65% inode=-): /opt/oracle 3662 MB (24% inode=93%): /opt/oracle/oradata/prepro01 35906 MB (29% inode=99%): /opt/oracle/oradata/form01 11794 MB (39% inode=99%): |
+|IUSSUBD08|NFS_BACKUP|DISK OK - free space: /NFS_BACKUP 766227 MB (29% inode=98%): |
+|IUSSUBD08|PING|OK - 10.241.130.36: rta 0.557ms, lost 0% |
+|IUSSUBD08|SWAP_REMOTA|SWAP OK - 56% free (6782 MB out of 12257 MB) |
+|IUSSUBD08|Uso_Memoria|Memory OK - 61.7% (5156180 kB) used |
+|IUSSUBD08|Total Procesos|PROCS OK: 239 processes |
+|IUSSUBD08|Total Procesos Zombies|PROCS OK: 0 processes with STATE = Z |
+|IUSSUBD08|Uso_Memoria|Memory OK - 13.9% (3049884 kB) used|
+
+^HOST ^SERVICIO ^RESPUESTA ACTUAL |
+|IUSSUBD09|CARGA_DEL_SISTEMA|OK - load average: 0.00, 0.00, 0.00 |
+|IUSSUBD09|Carga_CPU|OK - CPU usage at 2.5% |
+|IUSSUBD09|RISCO_REMOTO|DISK OK - free space: / 237 MB (42% inode=64%): /stand 92 MB (30% inode=93%): /var 1705 MB (30% inode=46%): /usr 1180 MB (17% inode=45%): /tmp 349 MB (34% inode=83%): /opt 623 MB (12% inode=80%): /home 4 MB (18% inode=62%): /mnt/nfs/rcda_ext2 71867 MB (93% inode=-): /mnt/nfs/rcda_ext 50336 MB (65% inode=-): /opt/oracle 3662 MB (24% inode=93%): /opt/oracle/oradata/prepro01 35906 MB (29% inode=99%): /opt/oracle/oradata/form01 11794 MB (39% inode=99%): |
+|IUSSUBD09|NFS_BACKUP|DISK OK - free space: /NFS_BACKUP 766227 MB (29% inode=98%): |
+|IUSSUBD09|PING|OK - 10.241.130.36: rta 0.557ms, lost 0% |
+|IUSSUBD09|SWAP_REMOTA|SWAP OK - 56% free (6782 MB out of 12257 MB) |
+|IUSSUBD09|Uso_Memoria|Memory OK - 61.7% (5156180 kB) used |
+|IUSSUBD09|Total Procesos|PROCS OK: 239 processes |
+|IUSSUBD09|Total Procesos Zombies|PROCS OK: 0 processes with STATE = Z |
+|IUSSUBD09|Uso_Memoria|Memory OK - 13.9% (3049884 kB) used|
+
+

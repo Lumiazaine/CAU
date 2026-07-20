@@ -1,0 +1,77 @@
+﻿
+# 📄 JARA
+
+## 1️⃣ **Introducción** 📝
+
+La aplicación **JARA** automatiza dos funciones clave entre el Órgano Judicial y el Archivo de la Sede Judicial:  
+  * - **Transferencias**  
+  * - **Servicio de préstamos**  
+
+También gestiona **prórrogas**, **envíos a la Junta de Expurgo** y **homogeneiza la gestión de datos** del Archivo de la Sede Judicial.  
+Es una aplicación web accesible a través del **Escritorio Judicial** para usuarios adscritos.
+
+---
+
+## 2️⃣ **Inventario físico** 🖥️
+
+### **JARA (Producción)**  
+  * - 🌐 **URL:** [http://jara.justicia.junta-andalucia.es/jara](http://jara.justicia.junta-andalucia.es/jara)  
+  * - 🖥 **Host:** `10.241.254.40`  
+  * - 🎯 **FrontEnd:** `F5-BIGIP REPORT`  
+  * - 🖥 **Back Aplicación:**  
+  *   - `IUSSLAPLICPRO16` → `10.241.248.109`  
+  *   - `IUSSLAPLICPRO17` → `10.241.248.110`  
+  * - 💽 **Base de Datos:** `BDProd02` → `10.241.128.23`  
+  * - 📦 **Almacenamiento:** `IUSNAS01` → `10.241.129.10`  
+
+### **JARA-Pre (Preproducción)**  
+  * - 🌐 **URL:** [http://jara-pre.justicia.junta-andalucia.es/jara](http://jara-pre.justicia.junta-andalucia.es/jara)  
+  * - 🖥 **Host:** `10.241.128.252`  
+  * - 🎯 **FrontEnd:** `F5-BIGIP REPORT`  
+  * - 🖥 **Back Aplicación:** `IUSSLAPLICPRE08` → `10.241.129.85`  
+  * - 💽 **Base de Datos:** `Bdprepro01` → `10.241.130.59`  
+
+---
+
+## 3️⃣ **Esquema físico y lógico** 🗂️
+  * - Producción: `jarapro.png`  
+  * - Preproducción: `jarapre.png`  
+
+---
+
+## 4️⃣ **Alcance** 🎯
+  * - **JARA:** Aplicación en producción.  
+  * - **JARA-Pre:** Entorno de preproducción para pruebas y despliegues.
+
+## 5️⃣ **Configuración** ⚙️
+  * **Parada / Arranque del servicio:** `systemctl start|stop tomcat-jara.service`  
+
+---
+
+## 6️⃣ **Configuraciones de Base de Datos** 🗄️
+  * - **JARA (Producción):** `jdbc:oracle:thin:@BDPROD02.justicia.junta-andalucia.es:1521:PROD02`  
+  * - **JARA-Pre:** `jdbc:oracle:thin:@bdpre01.justicia.junta-andalucia.es:1521:prepro01`  
+
+---
+
+## 7️⃣ **Monitorización / Gestión de eventos** 📡
+  * - **Servicios monitorizados en Nagios:**  
+  *   - Acceso JARA  
+  *   - Ping  
+  *   - Tomcat Nodo 01  
+  *   - Tomcat Nodo 02  
+  *   - URL de la aplicación  
+  * - **Notificaciones:**  
+  *   - **GrupoSistemas:** fallos de host (down, recovery, up)  
+  *   - **GrupoGTSL:** fallos de servicios  
+  * - **Procedimiento ante errores:** Reiniciar Tomcat → Revisar logs → Detectar incidencias.  
+
+---
+
+## 8️⃣ **Backup** 💾
+  * - **Herramienta:** NETWORKER  
+  * - **Política principal:** `VM_PROD_2` – `FULL_S-INCR_LMXJV-1Y`  
+  * - **Horario:** Completa → Sábados; Incremental → Lunes a Viernes (22:00)  
+  * - **Retención:** 3 años  
+  * - **Backup de almacenamiento:** Política `IUSNAS01_NDMP`  
+

@@ -1,0 +1,99 @@
+﻿
+# 📄 **Documentación Técnica - Alfresco**
+
+---
+
+## 1️⃣ **Introducción**
+
+**Alfresco** es una aplicación de software para la **gestión documental**, desarrollada bajo la filosofía *opensource*. Como plataforma, cubre y satisface todos los requisitos para la **gestión de contenidos empresariales**.
+
+📌 **Aplicaciones principales:**
+  *  📂 Gestión documental
+  *  ⚙️ Automatización de procesos de negocio
+  *  📁 Gestión de expedientes
+  *  🤝 Colaboración de equipos
+  *  🌐 Publicación de contenidos web
+  *  🔒 Seguridad en documentos compartidos
+  *  📱 Gestión de contenidos móviles
+
+🛠 **Funcionalidades destacadas:**
+  *  🗂 Clasificación por múltiples criterios y propiedades
+  *  🔍 Extracción de metadatos
+  *  🔄 Control de versiones y auditoría
+  *  📑 Búsquedas por contenido, metadatos o categorías
+  *  📜 Creación de flujos de trabajo
+  *  🛡 Seguridad por usuarios, roles y carpetas
+  *  🤖 Automatización de tareas (conversión, formatos, envíos)
+  *  📤 Integración con MS Office y OpenOffice
+  *  🌍 Acceso multi-tecnología al repositorio
+  *  🗃 Gestión de registros
+
+---
+
+## 2️⃣ **Inventario físico**
+
+### 📋 **Tabla de inventario**
+| **Servicio** | **URL** | **Host** | **IP** | **RAM** | **CPU** | **HDD** | **Versión** |
+|--------------|---------|----------|--------|---------|---------|---------|-------------|
+| **Alfresco** | http://alfresco.justicia.junta-andalucia.es/alfresco/ | — | 10.241.130.35 | 4 GB | 2x2.70GHz | 70 GB | 3.4 |
+| FE | iusslai02 | 10.241.131.19 | — | — | — | — |
+| FE | iIusslaip06 | 10.241.128.16 | — | — | — | — |
+| Bck Datos | Bdprod01 | 10.241.130.60 | — | — | — | — |
+| Bck Aplicaciones | Iusslalfresco01 | 10.241.130.52 | — | — | — | — |
+| **Alfresco-Externo** | http://ws138.juntadeandalucia.es/alfresco | — | 10.241.250.84 | 4 GB | 1x2.70GHz | 300 GB | 4.2 |
+| FE | F5 - Nombre Virtual Server | — | — | — | — | — |
+| Bck Aplicaciones | Iusslaplicpro02 | 10.241.254.61 | — | — | — | — |
+| Bck Datos | iusbdmysql | 10.241.131.25 | — | — | — | — |
+| **Alfresco-pfirma** | http://alfresco-pfirma.justicia.junta-andalucia.es/alfresco/ | — | 10.241.128.129 | 5 GB | 2x2.70GHz | 100 GB | 3.4 |
+| FE | Iusslaplicpro03 | 10.241.128.125 | — | — | — | — |
+| Bck Datos | bdprod02 | 10.241.128.23 | — | — | — | — |
+| **Alfresco-Externo-Pre** | http://alfrescoext-pre.justicia.junta-andalucia.es/ | — | 10.241.128.144 | — | — | — | — |
+| FE | F5 - BIGIP REPORT | — | — | — | — | — |
+| Bck Aplicaciones | Iusslaplicpre02 | 10.241.129.81 | — | — | — | — |
+| **Alfresco-pfirma-pre** | http://alfresco-pfirma-pre.justicia.junta-andalucia.es/alfresco/ | — | — | — | — | — | — |
+| FE | F5 - Nombre Virtual Server | — | — | — | — | — |
+| Bck Aplicaciones | Iusslpreapc03 | 10.241.128.116 | — | — | — | — |
+| Bck Aplicaciones | Iusslpreapc04 | 10.241.128.120 | — | — | — | — |
+
+---
+
+## 2️⃣.1️⃣ **Esquema físico y lógico**
+  * 📌 Diagramas: Alfresco → **EsquemaAlfresco1.PNG**, Alfresco-Externo → **Alfrescoexterno.PNG**, Alfresco-Pfirma → **alfresco-pfirma2.PNG**
+---
+
+## 3️⃣ **Alcance**
+  * 📂 **Alfresco**: Repositorio general de gestión documental.  
+  * ✍ **Alfresco-pfirma**: Gestor documental para portafirmas.  
+  * 🌍 **Alfresco 4.2**: Acceso desde portal Adriano (uso judicial y delegación de Granada).
+
+---
+
+## 4️⃣ **Configuración**
+  * 🗑 **Vaciado de papelera (mensual)**: `/usr/local/bin/alfrescoVaciarPapelera.sh`  
+  * 🔌 **Inicio/Parada de servicios**: Alfresco → `/etc/init.d/tomcat-alfresco stop|start` | Alfresco Externo → `/etc/init.d/alfresco stop|start` | Alfresco-pfirma → `/etc/init.d/alfresco stop|start`  
+  * 📂 **Archivos de configuración**: Alfresco → `/opt/tomcat-alfresco-enterprise/shared/classes/alfresco/extension/custom-repository.properties` | Alfresco-Externo → `/opt/alfresco/alfresco-4.2.f/tomcat/shared/classes/alfresco-global.properties` | Alfresco-pfirma → `/opt/alfresco-3.4.e/tomcat/shared/classes/alfresco-global.properties`
+
+---
+
+## 4️⃣.1️⃣ **Añadir Unidad Organizativa**
+Pasos: 
+  * 1️⃣ Acceder a **IUSSLALFRESCO01**  
+  * 2️⃣ Ir a `/opt/tomcat-alfresco-enterprise/shared/classes/alfresco/extension/`  
+  * 3️⃣ Hacer backup de `chaining-authentication-context.xml`  
+  * 4️⃣ Editar para añadir nuevos *beans* de autenticación LDAP.
+
+---
+
+## 5️⃣ **Monitorización y gestión de eventos**
+  * 📡 **Nagios** controla: Ping, Estado Tomcat, URLs de aplicación, CPU, disco, SNMP, SWAP, NTP  
+  * 🔔 **Notificaciones**: Grupo GTSL o Coordinación (según servicio)  
+  * 🛠 **Procedimiento ante error**: Reiniciar Tomcat y revisar logs.
+
+---
+
+## 6️⃣ **Backup**
+  * 💾 **Herramienta**: NETWORKER  
+  * 📅 **Política**: `FULL_S-INCR_LMXJV-1Y`  
+  * ⏰ **Horario**: Completa → Sábados | Incremental → Lunes a Viernes (22:00)  
+  * 📦 **Retención**: 3 años
+

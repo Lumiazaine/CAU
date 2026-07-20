@@ -1,0 +1,72 @@
+﻿
+====== Proceso de paso a producción en servidores Linux ======
+
+==== 🧭 Objetivo ====
+
+Establecer un procedimiento estandarizado para realizar el paso a producción de aplicaciones, servicios o configuraciones en servidores Linux, garantizando seguridad, trazabilidad y estabilidad operativa.
+
+----
+
+==== 🧰 Alcance ====
+
+Aplica a todos los despliegues en servidores Linux gestionados por el área de sistemas.
+
+----
+
+==== ✅ Pre-requisitos ====
+
+  * Validación exitosa en entornos de desarrollo y preproducción.
+  * Aprobación de los equipos implicados.
+  * Revisión de cambios a aplicar (código, configuración, dependencias).
+  * Plan de rollback definido.
+
+----
+
+==== 🔐 Consideraciones de Seguridad ====
+
+  * Acceder únicamente mediante cuentas autorizadas.
+  * No compartir credenciales.
+  * Solo el equipo de sistemas puede/debe trabajar como root directamente.
+  * Registrar cambios relevantes (en ticket o Jira).
+
+----
+
+==== 🧾 Pasos del procedimiento ====
+
+  - **Notificar el despliegue**
+      * Se informa al equipo de sistemas.
+      * Verificar ventana de mantenimiento si aplica.
+  - **Preparar el servidor**
+      * Acceso por SSH.
+      * Validar espacio en disco, servicios activos, y logs.
+  - **Desplegar la aplicación/configuración**
+      * Subir archivos o paquetes.
+      * Aplicar cambios (scripts, configuraciones).
+      * Ejecutar comandos necesarios.
+  - **Verificar el estado**
+      * Confirmar que el servicio está corriendo.
+      * Revisar logs específicos de la app.
+      * Verificar accesibilidad y funcionalidad básica.
+  - **Actualizar documentación o ticket (Jira)**
+      * Registrar fecha, responsable y cambios realizados.
+      * Adjuntar logs, resultados de pruebas o capturas si es necesario.
+  - **Notificar finalización**
+      * Confirmar al equipo que el despliegue fue exitoso.
+      * Escalar cualquier incidencia detectada.
+
+----
+
+==== 🔁 Plan de rollback (si aplica) ====
+
+  * Revertir archivos modificados.
+  * Restaurar base de datos (si fue afectada).
+  * Reiniciar servicios anteriores.
+  * Informar al equipo implicado.
+
+----
+
+==== 📌 Notas adicionales ====
+
+  * Automatizar el proceso con herramientas como Jenkins, Ansible o scripts (si aplica).
+  * Monitorizar en Zabbix.
+

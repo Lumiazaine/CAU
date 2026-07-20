@@ -1,0 +1,14 @@
+﻿
+====== Procedimiento de gestión de cambios relacionados con backups. ======
+
+===== Objetivo =====
+
+El objetivo de este documento es informar de cómo se deben realizar los cambios de las copias de seguridad.
+
+En caso de ser necesario añadir o quitar algo a una copia ya existente, se deberá mandar una petición por Remedy indicando qué es lo que se debe añadir o eliminar, y de qué backup.
+
+Si debe realizarse una copia nueva a una máquina virtual que no estaba teniendo backup, la petición de Remedy solamente debe indicar qué máquina es y el equipo de GTAB creará la copia de seguridad en conformidad con las políticas con las que se hacen el resto de máquinas virtuales.
+
+Si la copia nueva es de un filesystem, habrá que acordar también un horario en el que no se vaya a acceder a los archivos que se desean copiar para poder configurar la copia a esa hora, ya que si se intenta hacer la copia mientras se están modificando los datos, fallará.
+
+

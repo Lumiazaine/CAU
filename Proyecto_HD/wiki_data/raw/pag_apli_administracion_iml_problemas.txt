@@ -1,0 +1,90 @@
+﻿
+<WRAP> <panel type="primary" title="Procedimientos y Problemas Conocidos de Administración IML">
+
+[[:pag_apli:administracion_iml:start|Volver atrás]]
+
+<WRAP> <panel type="info">
+
+====== Forense no aparece, no se le puede certificar guardias ======
+
+Descripción de la incidencia
+
+Solicita se incorpore en la aplicación de Administración IML para que le certifiquen las guardias.
+
+Solución
+
+Se indica al cau el procedimento a seguir para que se lo indique al forense y al secreario/a.
+
+1. Entrar en Guardias → Administración → Médicos forenses\\
+2. Agregar a la forense.\\
+3. Entrar en Guardias → Administración → Organización Zonas\\
+4. Seleccionar Provincia y Zona de programación, y Agregar la forense al grupo al que pertenezca.\\
+\\
+Si el forense está anulado y se quiere sustituir las guardias asignadas a este forense a la nueva, se pueden seguir los siguientes pasos:
+
+1. Anular las certificaciones del forense. (Guardias → Certificaciones)\\
+2. Entrar en el panel de guardias (Guardias → Programación → General Panel). Las guardias estarán habilitadas.\\
+3. Seleccionar las guardias a modificar y con el botón derecho seleccionar Sustituir. Elegir a la nueva forense.\\
+4. Certificar las guardias.
+
+Ejemplo de incidencia Remedy
+
+780116
+
+</panel> </WRAP>
+
+<WRAP> <panel type="info">
+
+====== Usuario no puede acceder: "Usuario no autorizado para esta Aplicación" ======
+
+Descripción:
+
+El usuario indica que está intentando acceder a la aplicación de escritorio "Gestión Administrativa IML" con su usuario de Temis, pero cuando introduce sus credenciales, la aplicación le muestra el mensaje "Usuario no autorizado para esta Aplicación":
+
+{{ :pag_apli:administracion_iml:1632751144775-812.png?nolink |}}
+
+Solución:
+
+Nota:Para que el usuario pueda acceder a la aplicación, debe tener la máquina de salto correctamente configurada para que pueda autenticarse.
+
+1. Accedemos a "Mantenimiento Temis" > "Aplicaciones" > seleccionamos "Administración IML" > "Perfiles":
+
+{{ :pag_apli:administracion_iml:1632751666694-514.png?nolink |}}
+
+2. Le asignamos el perfil que le corresponda según el cargo principal que tenga en su registro de Temis, en el caso de que no lo tuviese (se busca el usuario en la lista de usuarios del perfil antes de asignárselo):
+
+//Ejemplo: un "Jefe de Servicio" debería tener el perfil de "Director/J.Servicio".//
+
+{{ :pag_apli:administracion_iml:1632752221105-896.png?nolink |}}
+
+Nota 1:En el caso de que tuviese otro perfil diferente ya asignado, al asignarle el que le correspondería, el anterior se desvincularía automáticamente.
+
+Nota 2:Desde la opción "Perfiles" del registro del usuario en Temis NO se visualiza el perfil que pueda tener para la aplicación "Administración IML", como sí ocurre con el resto de aplicaciones, a las cuales se acceden desde Escritorio Judicial.
+
+Nota 3:En el caso de que con el perfil que le corresponde siga sin poder acceder, o no sabemos qué perfil le correspondería, se consulta con Coordinación.
+
+INCIDENCIAS:IN0000001726675, IN0000001726892
+
+</panel> </WRAP>
+
+<WRAP> <panel type="info">
+
+====== Al acceder a la aplicación Guardias IML (Gestión administrativa IML) solicita la CADENA DE CONEXIÓN ======
+
+Descripción de la incidencia
+
+Al acceder a la aplicación Guardias IML (Gestión administrativa IML) solicita la CADENA DE CONEXIÓN
+
+Solución
+
+Se pasa la incidencia a Servicios / SPU-CRIP
+
+Ejemplo de incidencia Remedy
+
+1210352
+
+</panel></WRAP>
+
+[[:pag_apli:administracion_iml:start|Volver atrás]]
+
+

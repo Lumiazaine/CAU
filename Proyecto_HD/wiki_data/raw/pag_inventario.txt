@@ -1,0 +1,13 @@
+﻿
+====== Inventario ======
+
+====== 🚧 Página en construcción ======
+
+**Este tema no existe todavía o está en desarrollo.**
+
+Próximamente se añadirá contenido detallado en esta sección.
+
+----
+[[http://cmdb.justicia.junta-andalucia.es/cmdbuild/index.jsp|CMDB Junta de Andalucía]]
+
+[[http://cmdbr2u.justicia.junta-andalucia.es/ready2use/ui/#login|CMDB Ready2Use]]

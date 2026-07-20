@@ -1,0 +1,148 @@
+﻿
+======  ======
+
+====== Tareas Programadas de GTAB ======
+
+===== Introducción =====
+
+Todos los scripts están en /root/scripts/nsr y mediante el comando "crontab -l" podemos ver las diferentes tareas.
+
+crontab
+
+* * * * * comando
+
+=====   =====
+
+===== Clonaciones =====
+
+Ubicacion de los scripts: /root/scripts/nsr/clonado
+
+El clonado a cintas se realiza en el servidor ORAGRID mediante scripts desarrollados por Patricio Mora
+
+Todas envían un correo cuando finaliza al correo "notificaciones.gtab.ius@juntadeandalucia.es"
+
+==== ==== BBDD ==== ====
+
+Tarea: clonado-semanal-BBDD-viernes (X)
+
+Fecha: Todos los Sábados a las 19:13
+
+==== ==== ADRIANO ==== ====
+
+Tarea: clonado-semanal-ADRIANO (FULL)
+
+Fecha: Todos los Lunes a las 3:13
+
+==== ==== COMUNES ==== ====
+
+Tarea: clonado-trimestral-COMUNES
+
+Fecha: Cada 3 meses a las 3:13 el día 3
+
+==== ==== Otros ==== ====
+
+Este script vigila que haya suficiente espacio en cinta disponible para clonado de BBDD y ADRIANO, si no hay espacio manda un correo avisandolo.
+
+Tarea: cintasClonadoDisponibles
+
+Fecha: A las 12:44 los jueves y viernes
+
+Reciclado de SaveSets
+
+Ubicacion de los scripts: /root/scripts/nsr/reciclado
+
+==== ==== BBDD ==== ====
+
+Tarea: recicla-BBDD-4MONTHS-SalvoViernes
+
+Fecha: A las 17:50 los jueves
+
+Tarea: recicla-BBDD-4MONTHS-rman
+
+Fecha: A las 18:50 los jueves
+
+Tarea: recicla-BBDD-8MONTHS
+
+Fecha: A las 19:50 los jueves
+
+==== ==== COMUNES ==== ====
+
+Tarea: recicla-COMUNES-FULL-6MONTHS
+
+Fecha: A las 17:50 los miércoles
+
+Tarea: recicla-COMUNES-L5-4MONTHS
+
+Fecha: A las 18:10 los miércoles
+
+Tarea: recicla-COMUNES-INCR-3MONTHS
+
+Fecha: A las 18:30 los miércoles
+
+==== ==== ADRIANO ==== ====
+
+Tarea: recicla-ADRIANO-FULL-8MONTHS
+
+Fecha: A las 17:50 los martes
+
+Tarea: recicla-ADRIANO-L5-6MONTHS
+
+Fecha: A las 18:10 los martes
+
+Tarea: recicla-INCR-4MONTHS
+
+Fecha: A las 18:40 los martes
+
+==== ==== Index ==== ====
+
+Tarea: recicla-index-bootstrap-4MONTHS
+
+Fecha: A las 10:07 los domingos
+
+=====   =====
+
+==== Otros ====
+
+Ubicacion de los scripts: /root/scripts/nsr/vigila y /root/scripts/nsr/
+
+Tarea: vigila-retries
+
+Descripción: Comprueba que no haya SSID repetidos.
+
+Fecha: A las 8:10 todos los días
+
+Tarea: vigila-comunes-html-v2
+
+Descripción: Comprueba que en las carpetas Comunes de las sedes no haya archivos de índole no profesional.
+
+Fecha: A las 16:30 los domingos, martes, jueves y viernes
+
+Tarea: vigila-adriano-html-v3 (DIARIO)
+
+Descripción: Saca un informe desglosado por tamaño de los archivos de Adriano
+
+Fecha: A las 6:14 de lunes a viernes
+
+Tarea: vigila-adriano-html-v3 (SEMANAL5)
+ <font 14px font-style: normal font-weight: 400; text-align: start;/sans-serif;;inherit;;inherit>Descripción: Saca un informe desglosado por tamaño de los archivos de Adriano</font>
+
+Fecha: A las 6:14 los sábados
+
+Tarea: vigila-adriano-html-v3 (SEMANAL0)
+ <font 14px font-style: normal font-weight: 400; text-align: start;/sans-serif;;inherit;;inherit>Descripción: Saca un informe desglosado por tamaño de los archivos de Adriano</font>
+
+Fecha: A las 6:14 los domingos
+
+Tarea: informeClientesSavesets-InfoSistemas
+
+Descripción: Saca un informe de que es lo que se salva de cada servidor de sede.
+
+Fecha: A las 8:20 de lunes a viernes
+
+Tarea: cruceSavesetsTPath2
+
+Descripción: Comprueba que los saveset que está en Networker existen en el servidor destino.
+
+Fecha: A las 13:40 de lunes a viernes
+
+

@@ -1,0 +1,12 @@
+﻿
+===== Índice de Procedimientos =====
+
+  * [[:procedimientos_gtbd|Procedimientos GTBD]]
+  * [[:cambio_pro_bd_gtbd|Procedimiento de paso a producción de cambios en bases de datos.]]
+  * [[:gestion_versiones_bd_gtbd|Gestión de versiones y cambios en BBDD.]]
+  * [[:backup_restaurar_bd_gtbd|Procedimientos de backup y restauración de bases de datos.]]
+  * [[:vulnerabilidades_bd_gtbd|Gestión de vulnerabilidades específicas de motores de base de datos.]]
+  * [[:despliege_bd_gtbd|Procedimiento de despliegue de soluciones que impliquen cambios en estructuras de datos.]]  
+  * [[:recursos_bastionado_bd_gtbd|Recursos de los fabricantes usados en la configuración y/o bastionado de los equipos.]]  
+  * [[:bastionado_bd_gtbd|Procedimientos de hardening o bastionado.]]
+

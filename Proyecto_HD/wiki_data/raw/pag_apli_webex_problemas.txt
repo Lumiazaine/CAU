@@ -1,0 +1,187 @@
+﻿
+<WRAP> 
+<panel type="primary" title="Procedimientos y Problemas Conocidos de IREUNION (Cisco Webex)">
+
+[[start|Volver atrás]]
+
+<WRAP> 
+<panel type="info" >
+
+====== Procedimiento de Alta de Usuarios en Webex – iReunion ======
+
+{{ :pag_apli:webex:procedimiento_alta-webex.odt |Procedimiento Alta Webex}}
+
+**INICIO DE LA PETICIÓN**
+
+Las incidencias de altas es Webex suelen llegar por Remedy.\\
+Si se debe a la creación de un órgano, suele ser la Oficina Téecnica la que lo solicita.\\
+También puede venir la petición vía CAU directamente del órgano que desea tener cuenta Webex.\\
+Las cuentas Webex tan solo se conceden a  cuentas de órgano, no a cuentas personales.
+
+El primer paso es comprobar si dicho correo ya dispone de cuenta webex asociada. Para eso, o bien se consulta el fichero de seguimiento, o bien CAU hace la consulta a RCJA.
+
+**GESTIÓN DE LA PLANTILLA**
+
+{{ :pag_apli:webex:plantilla_alta_usuarios_webex.ods | Plantilla Alta Usuarios Webex}}
+
+Para solicitar el alta de la cuenta Webex, CAU debe rellenar la plantilla configurada a tal efecto y enviar la solicitud al correo del CAU RCJA ([[mailto:cau.rcja@juntadeandalucia.es|cau.rcja@juntadeandalucia.es]]), con el asunto Alta en Webex-iReunion, con copia [[mailto:coordinación.sacoep.iu@juntadeandalucia.es|coordinación.sacoep.iu@juntadeandalucia.es]].
+
+La plantilla se encuentra en la carpeta Proyecto Webex, disponible en: **iusnas05**\**SIJ**\**15. SSII y aplicaciones**\**Webex**.
+
+Es una plantilla sencilla de rellenar:
+
+- Organismo: Órgano solicitante\\
+- Código de sede: No es necesario\\
+- Centro coste: No es necesario\\
+- Nombre: Usuario\\
+- Apellido 1:\\
+- Apellido 2:\\
+- Usuario LDAP: Usuario LDAP (la parte del correo antes del @juntadeandalucia.es)\\
+- Correo electrónico: Correo electrónico utilizado para la cuenta Webex\\
+- Código Identificador de Tratamiento de Datos: just-jda.webex.com\\
+- NIF: Debe rellenarse con el DNI del responsable del órgano (o sino, de quién abra la solicitud)\\
+
+**GESTIÓN DE LA INCIDENCIA REMEDY**
+
+Una vez enviado el correo a RCJA con la solicitud correspondiente, se debe actualizar la incidencia remedy.
+
+Si la solicitud a RCJA la ha realizado la OT, debe reasignar a Nivel1/CAU para que lo ponga pendiente de causa externa, indicando el nº de solicitud SIO, si ya se tiene, con un mensaje similar a este:
+
+- Se solicita a RCJA alta en Webex-iReunion para la cuenta XXXXXX (por ejemplo, o cualquier otro mensaje similar).
+
+**GESTIÓN DE LA INCIDENCIA POR PARTE DE RCJA**
+
+Una vez que RCJA reciba el correo, lo gestionará a través de la creación de una incidencia en SIO, el gestor que ellos utilizan (sería conveniente que alguien en OT tenga  acceso a SIO para que pueda consultar el estado de las incidencias)
+
+En este gestor pueden leerse los comentario y actualizaciones que los encargados vayan realizando sobre la solicitud y así poder comprobar cuando están solucionadas finalmente.
+
+Puede darse el caso de que RCJA cierre un ticket en SIO antes de que realmente se resuelva. En esos casos, basta con ponerse en contacto con CAU RCJA por teléfono o creo y comentarle el problema, indicando las incidencias de referencia si es necesario.
+
+**GESTIÓN DE LOS FICHEROS DE SEGUIMIENTO**
+
+Los ficheros de seguimiento para la OT se encuentran en: **iusnas05**\**SIJ**\**15. SSII y aplicaciones**\**Webex**
+
+La plantilla cumplimentada, debe guardarse en la carpeta **Enviados**.
+
+La forma para nombralos es, AÑOMESDIA_Plantilla_Alta_iReunion_INCIENCIAREMEDY.ods (20231120_Plantilla_Alta_iReunion_2100986.ods).
+
+Cada vez que se gestiona un alta en Webex conviene actualizar los ficheros de seguimiento (o cada cierto tiempo)
+
+
+En la **carpeta de LISTADO DE USUARIOS** lo que se debe hacer es "sumar" la nueva cuenta webex en su fila correspondiente (según la provincia a la que pertenezca el órgano). De esta forma se va actualizando el total.
+
+En la **carpeta de ALTAS**, debemos añadir una nueva fila por cada nueva cuenta Webex. Se van rellenando los diferentes campos indicados (por ejemplo con la información de Remedy) y en los campos que describen al Responsable, lo suyo es poner el responsable del órgano (LAJ o persona de "más rango"). Finalmente se deben rellenar la columna de "Incidencia SIO" con el número del ticket con el que CAU RCJA ha abierto la petición en SIO y "Petición Remedy", donde especificamos el número de la incidencia original.
+
+Todo esto sirve para llevar un registro de lo que vamos gestionando y así también poder consultar peticiones pasadas sin tanto problema.
+
+**FINAL DE LA PETICIÓN**
+
+- RCJA confirma alta en Webex-iReunion para la cuenta XXXXXX
+
+-Una vez  resuelta la petición por parte de RCAJ, informará al CAU. Éste posteriormente, debe informar a la OT de la resolución para su control, y al usuario para validación. Una vez validado con éste,  CAU debe cerrar.
+
+
+
+</panel> 
+</WRAP>
+
+
+<WRAP> 
+<panel type="info" >
+
+====== Carga de estadísticas WEBEX en InfoSistemas ======
+
+Sobre el día 4 a 6 de cada mes se recibe el correo de RCJA con las estadísticas del mes anterior en la cuenta **proyecto.webex.ius@juntadeandalucia.es.** Contraseña en KeePass Desarrollo.
+
+Procedo a descargar todos los adjuntos:
+
+{{ :pag_apli:webex:1.jpg?nolink |}}
+
+Los salvo en la ruta [["\\IUSNAS05\SIJ\Explotacion\Procedimientos técnicos\Carga estadísticas Webex InfoSistemas\mails proyecto webex"]] {{icon>question-circle}}
+
+Creo nueva carpeta AÑO-MES donde descomprimo todo:
+
+{{ :pag_apli:webex:2.jpg?nolink |}}
+
+Abro con LibreOffice Calc el fichero recién descomprimido: **iReunion_Justicia_0103024_31023024.csv.** Importación en Unicode (UTF-8) y Español.
+
+Abro simultáneamente el último tratado que salvé el mes pasado ya a formato ODS (si el último no copia la función, buscar en archivos más antiguos):
+
+{{ :pag_apli:webex:3.jpg?nolink |}}
+
+Copio las 6 celdas AH2 a AM2 de este ODS (son funciones que rellenan datos automáticamente).
+
+{{ :pag_apli:webex:4.jpg?nolink |}}
+
+Las pego en el CSV recién descargado, en las mismas columnas, en todas las filas con datos:
+
+{{ :pag_apli:webex:5.jpg?nolink |}}
+
+Comprobar que todos los datos son del mes que estamos cargando.
+
+Salvo el CSV como ODS (para el mes que viene) en "Carga estadísticas Webex InfoSistemas".
+
+Una vez ya tengamos los INSERT extraídos en el Excel, lo pasamos a un .sql y lo ponemos en la carpeta: \\iusnas05\SIJ\60. Desarrollo\00 WEBEX creando el nuevo mes.
+
+Después generamos el otro .sql que lo sacamos de la carpeta anteriormente comentada, de algún mes. Lo único que hay que cambiar en el sql es el nombre y el parámetro ANOMES que está al principio.
+
+La carpeta debe de quedar así:
+
+{{:pag_apli:webex:webex.png?|700}}
+
+Antes lo ejecutábamos nosotros con un usuario en específico, pero por razones de seguridad, ahora lo hace sistemas.
+
+Para su realización se ha de abrir un ticket a Sistemas / GTBD con este texto:
+
+<code>
+
+Buenas,
+ 
+Se ha hablado con Paco Belmonte, y se procede a explicar como proceder/ejecutar la incidencia.
+ 
+Los archivos que se han de ejecutar están en la ruta: \\iusnas05\SIJ\60. Desarrollo\00 WEBEX
+ 
+Se debe ejecutar el mes de XXXX.
+ 
+ 
+Paso 1:
+ 
+Ejecutar PRIMERO el archivo IN000000XXXXX_insert_XXXX.sql
+Tras hacer los insert sin errores, hacer commit.
+ 
+Paso 2:
+ 
+Tras el sql de insert, para ese mes en concreto, ejecutar el archivo IN000000XXXXX_nuevosDatos_XXXX.sql de ese mes también.
+Si no aparecen errores, hacer el commit. 
+En caso de que haya error, por favor, no hacer commit y devolver los logs.
+ 
+ 
+Una vez terminada la incidencia, reasignar a Servicios/DNoA para su comprobación.
+ 
+Gracias.
+</code>
+
+Finalmente, comprobar que el mes está introducido en la pagina de [[https://infosistemas.justicia.junta-andalucia.es/consultas-escritos/tecnicos/informe.php?f=statspat&type=WEBEX|Infosistemas]]
+</panel> 
+</WRAP>
+
+<WRAP> 
+<panel type="info" >
+
+====== Migración masiva de cuentas Webex ======
+
+</panel> 
+</WRAP>
+
+<WRAP> 
+<panel type="info" >
+
+====== Errores conocidos ======
+
+</panel> 
+</WRAP>
+
+
+[[start|Volver atrás]]
+
+{{tag>novalidada}}

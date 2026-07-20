@@ -1,0 +1,82 @@
+﻿
+====== Procedimiento de Alta Disponibilidad y Redundancia ======
+
+**Entorno**: 160 sedes con Fortinet + switches multivendor  
+
+**Objetivo**: Mantener continuidad operativa y minimizar interrupciones
+
+===== 1. Infraestructura por Sede =====
+
+==== 1.1. Fortinet (FortiGate) ====
+  * FortiGate en cada sede (FG-40F, FG-60F, etc.).
+  * Configuración HA (activo-pasivo) si hay 2 unidades.
+  * Dual WAN: fibra/MPLS + 4G/5G.
+  * VPN IPsec con redundancia.
+
+==== 1.2. Switches Multimarca ====
+  * VLANs gestionadas desde FortiGate o L3 externo.
+  * Puerto trunk entre switch y FortiGate.
+  * PortFast, STP habilitado.
+  * Configuración de LAG si es posible.
+  * Compatibilidad con:
+    - HP Aruba
+    - D-Link
+
+===== 2. Alta Disponibilidad de Red =====
+
+==== 2.1. Redundancia de Enlace ====
+  * WAN Link Health Monitor en FortiGate.
+  * SD-WAN Fortinet para balanceo automático.
+  
+==== 2.2. Servicios Internos ====
+  * DNS interno redundante o relay.
+  * DHCP gestionado por FortiGate.
+  * Monitorización de servicios mediante ICMP/TCP.
+
+==== 2.3. HA FortiGate ====
+  * HA Activo-Pasivo con heartbeat.
+  * Sincronización de configuración.
+  * Backup automático.
+
+===== 3. Integración con Switches =====
+
+  * Inter-VLAN routing en FortiGate o L3.
+  * FortiLink (si hay FortiSwitch).
+  * Port-security/MAC binding.
+  * Supervisión SNMP.
+
+===== 4. Supervisión, Backups y Failover =====
+
+==== 4.1. Supervisión ====
+  * FortiManager para centralización.
+  * Zabbix/PRTG para túneles, interfaces y latencia.
+  * FortiCloud como alternativa.
+
+==== 4.2. Backups ====
+  * Backup semanal de FortiGate (FortiManager o SSH).
+  * Backup manual de switches tras cambios.
+
+==== 4.3. Simulación de Fallos ====
+  * Fallo WAN principal → comprobar failover.
+  * Caída FortiGate primario (en HA) → comprobar conmutación.
+
+===== 5. Procedimientos Operativos por Sede =====
+
+^ Tarea                       ^ Descripción                                               ^
+| Alta nueva sede            | Checklist: conectividad dual, FortiGate, test de VPN      |
+| Cambio de switch           | Validar VLAN, trunk, compatibilidad con FortiGate         |
+| Configuración de VPN       | Script IPSec vía CLI/API FortiManager                     |
+| Actualización FortiOS      | Desde FortiManager o local (aislado)                      |
+| Integración WiFi           | VLAN tagging y reenvío a FortiGate                        |
+
+===== 6. Recomendaciones =====
+
+  * Estandarizar modelos de switch por zona.
+  * Etiquetado físico y lógico de puertos y enlaces.
+  * Inventario por sede:
+    - FortiGate modelo y versión
+    - ISP principal y backup
+    - Marca/modelo de switches
+    - VLANs y puertos usados
+
+

@@ -1,0 +1,145 @@
+﻿
+<panel type="info">
+<WRAP info round box>
+====== Procedimientos CAU ======
+</WRAP>
+
+  - [[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_ciberseg:problemas|Procedimientos de incidentes de Ciberseguridad]]
+  - [[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_procedimientos_generales:gesti|Procedimientos de Gestión de usuarios]]
+  - [[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_apli:remedy:problemas#procedimiento_para_solucionar_un_tique|Procedimientos REMEDY]]
+  - [[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_audio:problemas#procedimientos-y-problemas-conocidos-sistemas-audiovisuales|Procedimientos de ARCONTE / AUREA]]
+    - [[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_audio:problemas#procedimiento_de_multiconferencia_reserva_de_sala_rcja|Procedimientos de multiconferencia]]
+    - [[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_audio:problemas#procedimiento_de_multiconferencia_reserva_de_sala_rcja|Conexión a centros Penitenciarios]]
+  - [[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_comunicaciones|Comunicaciones]]
+    - ISL
+    - VPN
+    - WIFI
+    - Telefonía fija
+    - Telefonía móvil
+    - Línea de datos
+  - [[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_formu|Formularios y plantilla]]
+    - [[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_formu:plantillas#plantillas_de_correo_informativos_al_usuario|Plantillas informativas de correo]]
+  - [[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_apli:certificado_digital:problemas|Procedimientos de Certificado Digital]]
+
+</panel>
+
+<panel type="info">
+<WRAP info round box>
+====== Tareas CAU  ======
+</WRAP>
+  - Tarea 1
+  - Tarea 2
+  - Tarea 3
+
+</panel>
+
+<panel type="info">
+<WRAP info round box>
+====== Notificaciones de procedimientos  ======
+</WRAP>
+
+====== Asignaciones de ARCONTE======
+De: Juana Ruiz 
+
+**Enviado:** Jueves, 09 de Abril de 2026 12:48
+
+**Para: **Supervisión CAUJUS; Centro Servicio Usuario; M BELEN BARROSO PASTOR; XAVIER BONNET SUAREZ
+
+**CC:** EUGENIO HERRERA VEGA; MARA HERRERA VEGA
+
+**Asunto:** [ARCONTE] Procedimiento de peticiones de formación
+
+Buenas tardes.
+
+En relación con las peticiones de formación para ARCONTE, se establece el siguiente criterio de gestión en CAU:
+Ámbito de aplicación
+
+TODAS peticiones de formación o capacitación de ARCONTE o relacionadas con SSVV deberán seguir el siguiente procedimiento.
+
+  - **Clasificación**: PETICIÓN
+    - **Flujo de la petición**
+  - **TIPIFICACIÓN REMEDY:**
+    - **Clase**: SOPORTE FORMATIVO
+    - **Tipo**: ARCONTE/AUREA
+  - **ASIGNACIÓN**
+    - **Asignada A Grupo:** Servicios
+    - **Asignado A:** Desarrollo
+    - **Asignado Usuario:** Mª Belén Barroso Pastor
+
+  * La petición deberá asignarse previamente a SSDJ **(Mª Belén Barroso Pastor)** para su validación y autorización.
+  * Una vez autorizada, SSDJ la reasignará a Servicios / Planificación / SSVV (categoría equivalente en Remedy).
+  * Tras la impartición de la formación, se procederá al cierre de la petición por parte del equipo de SSVV.
+
+Gracias por vuestra colaboración
+
+
+
+</panel>
+
+
+<panel type="info">
+
+
+====== Actualización de tabla de asignaciones.-Actualizaciones masivas cambio y estado de procedimientos ======
+
+De: Blanca González
+
+**Enviado:** miércoles, 15 de abril de 2026 11:41
+
+**Para:** supervision.caujus.sandetel@juntadeandalucia.es 
+
+Cc: 'procesal.ius@juntadeandalucia.es' ; 'XAVIER BONNET SUAREZ'
+
+**Asunto:** [procesal.ius] Actualización de tabla de asignaciones.-Actualizaciones masivas cambio y estado de procedimientos
+ 
+Buenos días,
+
+ 
+
+De acuerdo, no volvemos a incluir la cuenta csu
+
+ 
+
+La ruta es: \\iusnas05\SIJ\Comun\Transferencia Nuevo Adriano con definición: “Asignaciones Nuevo Adriano V7.04”
+
+
+</panel>
+
+</panel>
+
+
+<panel type="info">
+
+
+====== Contraseña en campo Remedy  ======
+
+**De**: PACO BELMONTE ESPINOSA 
+
+**Enviado**: Lunes, 27 de Abril de 2026 12:19
+
+**Para**: supervision.caujus.sandetel@juntadeandalucia.es ; María Luisa Martínez ; Juana Ruiz 
+
+**CC:** XAVIER BONNET SUAREZ ; M BELEN BARROSO PASTOR
+
+**Asunto**: RE: Contraseña en campo Remedy  IN0000002527855
+
+
+
+
+Buenos días, Marisa.
+
+
+La información de referencia para la gestión de contraseñas ha sido actualizada. A partir de ahora, el documento oficial se encuentra en:
+
+[[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_procedimientos_generales:procedimientos_instrucciones_ssdjes|Gestión de contraseñas]] 
+
+y es el **PRO-602**: Procedimiento de Asignación, Distribución y Almacenamiento de Contraseñas, el cual sustituye al contenido actual de la DokuWiki [[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_ciberseg:problemas#procedimiento_de_cambio_seguro_de_contrasena_en_sistemas_de_informacion|Almacenamiento de contraseña]].
+
+No obstante, para facilitar la transición, vamos a incluir un acceso directo al nuevo PRO-602 dentro del enlace que enviaste.
+
+Si tenéis alguna dificultad con los nuevos procedimientos, házmelo saber, para efectuar los cambios oportunos.
+
+ 
+Saludos.
+
+</panel>

@@ -1,0 +1,292 @@
+﻿
+====== Restauracion de Backup ======
+
+======
+Objetivo  ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/incidenciasComunes/Restauracion de Backup?section=1|Editar]]
+
+El objetivo de este documento es enumerar y detallar las actuaciones periodicas a realizar para el Backup de la Consejería de Justicia e Interior .
+
+======
+Alcance  ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/incidenciasComunes/Restauracion de Backup?section=2|Editar]]
+
+Personal técnico del servicio de informática de la Consejería de Justicia e Interior (CJI) de la Junta de Andalucía.
+
+======
+Procedimientos de restauración  ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/incidenciasComunes/Restauracion de Backup?section=3|Editar]]
+
+A continuación enumeraremos los distintos procedimientos que tenemos hasta la fecha.
+
+Tanto uno como otro se realiza bajo consola y no se utiliza el modo gráfico, ya que el browser puede recargar el servidor.
+
+Si la restauración es muy grande, es necesario pasar la petición a Coordinación o consultarlo con ellos.
+
+NOTA: Si necesitamos navegar por los directorios, se realizará via red con //\\servidor\unidad$\ruta.// **NUNCA** se navegará desde el propio cliente en los directorios de forma local, ya que se pueden cambiar los permisos, salvo en la unidad C: del sistema y E:\Datos.
+=====
+Restauración Standard  =====
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/incidenciasComunes/Restauracion de Backup?section=4|Editar]]
+
+Una restauración est
+ <font inherit/MS PGothic, sans-serif;;inherit;;inherit>á</font> ndar es aquella que se pide por una pérdida de documentos (ficheros o directorios) por parte del usuario y siempre viene (o debe venir) acompañada de un FAX con la fecha, ubicación y documentos a recuperar.
+
+1º - La petición debe venir de Coordinación. Si viene del CAU hay que devolverla para que la reasignen adecuadamente.
+
+2º - No dejar ficheros ¿basura¿ obtenidos por restauraciones a medias en directorios que luego van al Backup.
+
+Hay que **restaurar** en **E(DATOS, Comunes):\RESTAURADO\IN-xxx** (No se restaura nunca en discos de Sistema Operativo). CRIP o CAU moverá los archivos a su sitio cuando se confirme que son los correctos con el usuario. Cuando terminen deberán devolvernos la petición con la conformidad del usuario para que eliminemos cualquier rastro de la restauración, y cerrar la petición.
+
+3º - Cuando se pide una restauración de una fecha determinada, suele obtenerse del backup del día siguiente al pedido, salvo que pidan la restauración por la tarde y el backup se haya hecho por la mañana. La fecha de restauración hay que indicarla en la petición.
+
+4º - Deben de indicarnos si la fecha es de restauración, de creación de ficheros, de posible borrado, etc¿ Si no es así pedirlo. Devolver la petición no conforme, si no.
+
+5º - No se recuperarán directorios o ficheros de índole personal.
+
+Estos se podrán detectar por el espacio que ocupa la restauración o porque existen directorios denominados: "Recetas", "Libros", "Pelis", "Series", "Fotos Viajes", "Copias de teléfonos", "Whatsapp".
+
+NOTA 1
+: Se buscarán en 1<sup>er</sup>   nivel de directorio y por encima o en el log de recuperación al 2º <sup> </sup>
+y 3 <sup>er </sup>
+nivel.
+
+NOTA 2
+: Por parte de coordinación se irá ampliando esta relación de directorios.
+
+6º - Si la cantidad de datos a recuperar es grande y no se detecta información personal (directorios con nombres indicados anteriormente), se reasignará la petición a Coordinación para revisen lo restaurado.
+
+7º - Las restauraciones deben venir acompañadas del listado de ficheros restaurado.
+
+8º - Para estar completamente seguros no basta con mirar en 3 días sueltos de un periodo para ver si un fichero existió algún día de él. Si no se encuentra, hay que sacar el listado completo y pasadlo al usuario para que verifique si son esos. Para ello se ejecutaría:
+
+Para localizar un directorio:
+
+//
+**nsrinfo**  // //
+cliente | grep "directorio\\\\directorio\\\\," //
+
+Para localizar ficheros en concreto:
+
+//
+**nsrinfo**  // //
+cliente | grep "directorio\\\\directorio" | egrep "fichero1|fichero2|fichero3" //
+
+NOTA: Cuidado con los caracteres como la \ y caracteres especiales de regexp como el ¿+¿.
+
+Ejemplo: Restaurar los ficheros:
+
+// <font 0.8em/inherit;;inherit;;inherit>09/03/2016 \\justiciacajf2h3\JSOCIAL\EMITIDOS\1102044003\2016000685\870274+</font> //
+
+// <font 0.8em/inherit;;inherit;;inherit>09/03/2016 \\justiciacajf2h3\JSOCIAL\EMITIDOS\1102044003\2016000685\870308+0.rtf</font> //
+
+// <font 0.8em/inherit;;inherit;;inherit>05/04/2016 \\justiciacajf2h3\JSOCIAL\EMITIDOS\1102044003\2016000685\875277+0.rtf</font> //
+
+// <font 0.8em/inherit;;inherit;;inherit>05/04/2016 \\justiciacajf2h3\JSOCIAL\EMITIDOS\1102044003\2016000685\875399+0.rtf</font> //
+
+// <font 0.8em/inherit;;inherit;;inherit>12/04/2016 \\justiciacajf2h3\JSOCIAL\EMITIDOS\1102044003\2016000685\877449+0.rtf</font> //
+
+// <font 0.8em/inherit;;inherit;;inherit>nsrinfo justiciacajf2h3.cadiz.justicia.junta-andalucia.es | grep "1102044003\\\\2016000685" | egrep "870274|870308|875277|875399|877449"</font> //
+
+Aunque tarde lo suyo en sedes grandes, va a buscar en toda la bbdd de ficheros.
+
+Otra cosa sería si ya ha pasado su //browse time//. Esto no valdría.
+
+En ese caso, se haría un bucle por todos los SSID del periodo generando un script del estilo:
+
+// <font 0.8em/NewsGotT;;inherit;;inherit>recover -s oragrid -S $SSID -d C:\RESTAURADO\incXXXXX\$FECHA_$SSID F:\JSOCIAL\EMITIDOS\1102044003\2016000685\</font> //
+
+// <font 0.8em/NewsGotT;;inherit;;inherit>recover ....</font> //
+
+y comprobaría después los ficheros
+
+=====
+Restauración de EMITIDOS  =====
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/incidenciasComunes/Restauracion de Backup?section=5|Editar]]
+
+La restauración de Emitidos abarca todo lo que no sea una recuperación st
+ <font inherit/MS PGothic, sans-serif;;inherit;;inherit>á</font> ndar.
+
+Se puede identificar porque en el histórico de la petición ha pasado por el dpto. Adriano, se indica directamente en la descripción, o se tratan de datos de PRINST, JINST, AUDIRE, JCONTEN, PENAL, JMERCANTIL, JSOCIAL, VPEN, REGISTRO REPARTO, SEINSIR, SSOCIAL O SCONTEN, todos ellos recursos de Adriano, que se componen de ficheros RTF y Base de Datos y ambos se deben recuperar de la misma fecha, aunque hay excepciones donde solo se pide expresamente el rtf o la bbdd.
+
+La petición **siempre** debe venir de **Servicios** -> **Adriano** -> Raquel Villa, Susana Sisto o Miguel. Si no es así se reasigna para que lo validen.
+
+Una petición tipo sería por ejemplo:
+ <font 0.8em/Courier New;;inherit;;inherit>Se solicita copia de seguridad y EMITIDOS de fecha 25/04/2014 de</font>
+ <font 0.8em/Courier New;;inherit;;inherit>JUSTICIAALROH2 - PRINST, ruta</font>
+ <font 0.8em/Courier New;;inherit;;inherit>\\JUSTICIAALROH4\PRINST\EMITIDOS\0407941003\2014000138\</font>
+ <font 0.8em/Courier New;;inherit;;inherit>Carpetas: ASUNTOS, ACONTECIMIENTOS, ASUNTOS_HISTORIA, RESOLUCIONES.</font>
+
+El primer servidor indicado es donde se encuentra la BBDD (j
+ <font 0.8em/Courier New;;inherit;;inherit>USTICIAALROH2</font> ).
+
+Normalmente, se ubica en un disco llamado //BBDD\XXXX\export\.dmp//, con la excepción de Sevilla y Malaga, donde están en un servidor diferente a los rtf (Linux) en el directorio ///NFS_BACKUP/ XXX/export//
+
+La ruta que se especifica después (
+ <font 0.8em/Courier New;;inherit;;inherit>\\JUSTICIAALROH4\PRINST\EMITIDOS\0407941003\2014000138\</font> ), nos dice el servidor y path donde están los ficheros rtf
+
+Si no se encuentra el directorio o ficheros desde la consola de networker, entramos en oragrid y buscamos con el comando //nsrinfo//:
+ <font 0.8em/Courier New;;inherit;;inherit>oragrid:~ # nsrinfo justiciaalroh4.almeria.justicia.junta-andalucia.es</font>
+ <font 0.8em/Courier New;;inherit;;inherit>grep "1402142007\\\\2016004383" H:\PRINST\Emitidos\1402142007\2016004383\, date=1460773918 Sat Apr 16</font>
+ <font 0.8em/Courier New;;inherit;;inherit>04:31:58 2016</font>
+ <font 0.8em/Courier New;;inherit;;inherit>H:\PRINST\Emitidos\1402142007\2016004383\, date=1460514373 Wed Apr 13</font>
+ <font 0.8em/Courier New;;inherit;;inherit>04:26:13 2016</font>
+ <font 0.8em/Courier New;;inherit;;inherit>H:\PRINST\Emitidos\1402142007\2016004383\5356473+0.PDF, date=1460426577</font>
+ <font 0.8em/Courier New;;inherit;;inherit>Tue Apr 12 04:02:57 2016</font>
+ <font 0.8em/Courier New;;inherit;;inherit>H:\PRINST\Emitidos\1402142007\2016004383\5356473+6.PDF, date=1460426577</font>
+ <font 0.8em/Courier New;;inherit;;inherit>Tue Apr 12 04:02:57 2016</font>
+ <font 0.8em/Courier New;;inherit;;inherit>H:\PRINST\Emitidos\1402142007\2016004383\5356473+7.PDF, date=1460426577</font>
+ <font 0.8em/Courier New;;inherit;;inherit>Tue Apr 12 04:02:57 2016</font>
+ <font 0.8em/Courier New;;inherit;;inherit>H:\PRINST\Emitidos\1402142007\2016004383\5356473+8.PDF, date=1460426577</font>
+ <font 0.8em/Courier New;;inherit;;inherit>Tue Apr 12 04:02:57 2016</font>
+ <font 0.8em/Courier New;;inherit;;inherit>H:\PRINST\Emitidos\1402142007\2016004383\5356473+9.PDF, date=1460426577</font>
+ <font 0.8em/Courier New;;inherit;;inherit>Tue Apr 12 04:02:57 2016</font>
+ <font 0.8em/Courier New;;inherit;;inherit>H:\PRINST\Emitidos\1402142007\2016004383\, date=1460426577 Tue Apr 12</font>
+ <font 0.8em/Courier New;;inherit;;inherit>04:02:57 2016</font>
+
+La recuperación de los ficheros se hará en la Sede correspondiente, carpeta Restaurados.
+
+En el caso de que sea una recuperación de un fichero que el usuario ha borrado se recuperará en la misma ruta donde estaba.
+
+Concretamente, la ruta de BBDD será:
+
+DMP (LINUX)
+ <font inherit/Wingdings;;inherit;;inherit>à</font>
+En oragrid ///NFS_BACKUP/BBDD/_trabajo_/INCXXXXX\//
+
+Las carpetas que se mencionan en la petición, son tablas que luego GTBD tiene que restaurar a partir de los ficheros dmp, por lo que en estos casos la petición hay que reasignarla al grupo GTBD cuando se termine la restauración de ficheros.
+
+IMPORTANTE
+:  Recordar que una vez validen la restauración hay que borrar lo restaurado.
+
+====
+Notas sobre los servidores de las sedes  ====
+
+Lo normal en las sedes principales es encontrar el mismo servidor pero con distinto nombre de cliente, todo ello en función del recurso salvado, por ejemplo:
+
+// <font 0.8em/inherit;;inherit;;inherit>Justiciaalcjad1</font> // <font 0.8em/inherit;;inherit;;inherit></font> -> Servidor de **Justicia** - **Al**mería -**C**iudad de la **J**ustica ¿ **Ad**riano Recurso **1**
+
+// <font 0.8em/inherit;;inherit;;inherit>Justiciaalcjad2</font> // <font 0.8em/inherit;;inherit;;inherit></font> -> Servidor de **Justicia** - **Al**mería -**C**iudad de la **J**ustica ¿ **Ad**riano Recurso **2**
+
+// <font 0.8em/inherit;;inherit;;inherit>Justiciaalcjcm1</font> // <font 0.8em/inherit;;inherit;;inherit></font> -> Servidor de **Justicia** - **Al**mería -**C**iudad de la **J**ustica ¿ **C**omún Recurso **1**
+
+// <font 0.8em/inherit;;inherit;;inherit>Justiciaalcjcm2</font> // <font 0.8em/inherit;;inherit;;inherit></font> -> Servidor de **Justicia** - **Al**mería -**C**iudad de la **J**ustica ¿ **C**omún Recurso **2**
+
+// <font 0.8em/inherit;;inherit;;inherit>Justiciaalcjdb1</font> // <font 0.8em/inherit;;inherit;;inherit></font> -> Servidor de **Justicia** - **Al**mería -**C**iudad de la **J**ustica ¿ **BBDD** Recurso **1**
+
+// <font 0.8em/inherit;;inherit;;inherit>Justiciaalcjdb2</font> // <font 0.8em/inherit;;inherit;;inherit></font> -> Servidor de **Justicia** - **Al**mería -**C**iudad de la **J**ustica ¿ **BBDD** Recurso **2**
+
+// <font 0.8em/inherit;;inherit;;inherit>Justiciaalcjh1</font> // <font 0.8em/inherit;;inherit;;inherit></font> -> Servidor de **Justicia** - **Al**mería -**C**iudad de la **J**ustica ¿ **H**ost **1**
+
+// <font 0.8em/inherit;;inherit;;inherit>Justiciaalcjh2</font> // <font 0.8em/inherit;;inherit;;inherit></font> -> Servidor de **Justicia** - **Al**mería -**C**iudad de la **J**ustica ¿ **H**ost **2**
+
+Según el recurso, encontraremos:
+
+**Adriano**: //JINST, PRINST, PENAL, REPJINST//, JCONTENT, MERCANTIL, JSOCIAL, NAUTIUS¿.
+
+**Comunes**: //Comun-Dec, Comun-rcivil, Comun-Instancias, Comun-Instruccion//,¿
+
+**BBDD**: //export// y //rman// según la instancia, en este caso concreto ALCJDB1/export, ALCJDB2/export
+
+**Host**//: C:\oracle\db10g\database, C:\oracle\db10g\admin//,¿
+
+Por esta razón, hay que tener cuidado con el cliente donde se recupera, ya que si entramos en el cliente del Host 1 (//Justiciaalcjh1//) no vamos a encontrar ningún recurso salvado excepto algún directorio del sistema o del software como puede ser ¿oracle¿.
+====
+Excepciones  ====
+
+Hay ciertas excepciones que hay que tener en cuenta y que se encuentran en Sevilla y Málaga.
+
+Sede SE4C:
+
+ADRIANO1 y ADRIANO2
+ <font inherit/Wingdings;;inherit;;inherit>à</font>
+Recursos de Adriano
+
+SE4CRC2-1
+ <font inherit/Wingdings;;inherit;;inherit>à</font>
+Recurso de Comunes
+
+Sede SE2C:
+
+se2cads
+ <font inherit/Wingdings;;inherit;;inherit>à</font>
+Recurso de Lexnet
+
+se2cgse1
+ <font inherit/Wingdings;;inherit;;inherit>à</font>
+Recursos 1 de BBDD y Adriano (Cliente duplicado pero en distintos grupos)
+
+se2cgse2
+ <font inherit/Wingdings;;inherit;;inherit>à</font>
+Recursos 2 de BBDD y Adriano
+
+se2cnas
+ <font inherit/Wingdings;;inherit;;inherit>à</font>
+Recursos de Comun
+
+En este último hay una peculiaridad y es que se encuentran todos los juzgados de Instrucción salvo el número 6, que está en el cliente justiciase2csv2
+
+Sede MACJ:
+
+En esta sede encontraremos macjaudire, macjcomun1, macjcomun2, macjcomun3, macjcomun4, macjconten, macjdecanato, macjjinst, macjmenores, macjmercantil, macjpenal, macjprinst, macjsocial, macjvpen
+
+====
+Notas a tener en cuenta  ====
+
+Hay Clientes como justiciamacjh, el cual tienen asignado punto de montajes sin letras (E: D:¿) estas carpetas son distribuidas por la cabina de almacenamiento correspondiente, en el caso de justiciamacjh la MSA 2040 San.
+
+Para poder acceder a dichas carpetas, suelen estar en la ruta C:\MountPoints, como acceso directo.
+
+En el //administrador del servidor del sistema > Almacenamiento > Administrador de disco//, se desplegará los distintos discos que tiene añadidos el sistema operativo.
+
+Si pulsamos botón derecho en la ventana que indica el espacio reservado del disco y elegimos la función propiedades. Nos mostrará la Lun de la cabina de almacenamiento en el volumen del disco.
+ <font 14px font-weight: 700;/inherit;;inherit;;inherit>3.3 RESTAURACIÓN DE MÁQUINA VIRTUAL</font>
+
+1º - Arrancamos el VSphere desde el Networker:
+
+Configuration -> VMWare Backup Appliances -> Boton Derecho sobre iusslnsrproxy02 -> Launch VSphere Web Client
+
+2º - Desde el VSphere, en el menú izquierdo -> EMC Backup and Recovery  y conectamos con la VBA:
+
+EBR appliance: IUSSLNRPROXY02  --> Connect
+
+3º - En la pestaña "Getting Started" --> Restore Backup
+
+4º -  Seleccionamos: La VM que queremos restaurar
+
+ La fecha de restauración, pulsamos en Restore
+
+ Los discos virtuales a restaurar
+
+5º - Pinchamos en el botón "Restore".
+
+Esto nos dá paso a las opciones de restauración, donde podremos seleccionar:  fecha de nuevo, la ubicación de destino (si lo queremos en el original u otra ubicación), el DataStore y si queremos que la MV se arranque tras la restauración.
+
+=====
+Restauración por comandos  =====
+
+Nos conectamos al host/sede por RDP o SSH dependiendo del SO y abrimos una terminal (Ejemplos con mfh3):
+
+# recover -c justiciamfh3.sevilla.justicia.junta-andalucia.es
+
+# changetime 01/30/19  [Fecha formato americano en el que queremos buscar el fichero/carpeta]
+
+# relocate E:\Restaurado  [Cambiamos la carpeta destino donde va a guardar los ficheros que queramos, si omitimos este paso se salvaran en el directorio origen]
+
+# detination  [Comprobamos que se ha cambiado correctamente la carpeta destino]
+
+# ls  [Listamos la raiz de las unidades que tiene salvadas]
+
+# cd E:\X\XX\XXX\XXXX  [Nos movemos hasta la ruta que necesitemos]
+
+# add File.doc  [Añadimos a la lista el fichero/carpeta que queremos recuperar]
+
+# list  [Comprobamos que están todos los ficheros, omitid si es una carpeta con muchos ficheros]
+
+# recover  [Empezamos la recuperacion]
+
+

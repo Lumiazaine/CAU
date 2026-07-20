@@ -1,0 +1,410 @@
+﻿
+<WRAP> <panel type="primary" title="Procedimientos y Problemas Conocidos de Agenda de Señalamientos">
+
+[[start|Volver atrás]]
+
+<WRAP>
+<panel type="info">
+
+====== Procedimiento de atención de tiques ======
+
+**Información general**: La Agenda de Señalamientos es una aplicación antigua que presenta un problema de desbordamiento al intentar dar de alta nuevos usuarios, el cual no tiene solución. Aunque el Gestor Procesal Adriano dispone de un módulo de Agenda equivalente, actualmente, la Policía y la Guardia Civil no tienen habilitado un acceso a este sistema. Por esta razón, la Agenda de Señalamientos debe seguir operativa de forma transitoria hasta que se implemente un evolutivo en el Gestor Procesal Adriano que habilite el acceso para estos cuerpos de seguridad.
+
+Es importante destacar que algunos órganos judiciales, como Algeciras, continúan utilizando la Agenda de Señalamientos, aunque la directriz general es que todos los órganos judiciales migren al módulo Agenda del Gestor Procesal Adriano.
+
+Por tanto, se debe gestionar adecuadamente la comunicación con los usuarios y aplicar las siguientes pautas de resolución, según el tipo de caso y usuario:
+
+Casuísticas y respuestas a incidencias o peticiones:
+
+**A. Error Desbordamiento**: Es un error del código de la aplicación y no se dispone de documentación ni código fuente para montar los entornos y solucionarlo. Ver tique Remedy IN0000002414269.\\
+
+**B. Petición Alta**: Se produce el error de desbordamiento mencionado anteriormente.
+
+En ambos casos, se debe reconducir al usuario de OOJJ al módulo Agenda del Gestor Procesal Adriano.
+
+  - **Mensaje a usuarios de OOJJ**: La Agenda de Señalamientos está en desuso. Por tanto, **debe utilizar el módulo Agenda integrado en el Gestor Procesal Adriano**. Se encuentra **en estudio un evolutivo** para la inclusión en Adriano de nuevas funcionalidades que se contemplaban en la Agenda de Señalamientos.
+  - **Mensaje a Policía/Guardia Civil**: La Agenda de Señalamientos está en desuso y debido a limitaciones técnicas lamentamos informarle que no es posible resolver su incidencia. Por tanto, deberá comunicarse con el órgano judicial correspondiente para conocer el estado del agendado.
+**C. Agenda vacía (sin espacio para reservar):**
+
+Esto ocurre cuando el órgano judicial ha dejado de usar la Agenda de Señalamientos y ha migrado al módulo Agenda del Gestor Procesal Adriano, o bien, mirar la siguiente entrada en esta misma página [[pag_apli:agenda_senalamientos:problemas#no_se_han_encontrado_reservas_cuando_intenta_buscar_una_que_ya_fue_creada|No_se_han_encontrado_reservas_cuando_intenta_buscar_una_que_ya_fue_creada]]
+
+  - **Mensaje a usuarios de OOJJ y Policía/Guardia Civil**: El órgano judicial ha dejado de utilizar la Agenda de Señalamientos y está usando el módulo Agenda del Gestor Procesal Adriano. Por tanto, deberá comunicarse con el órgano judicial correspondiente para conocer el estado del agendado.
+</panel> </WRAP>
+
+<WRAP> <panel type="info">
+
+====== Como imprimir una anulación de una reserva ======
+
+**Descripción de la incidencia El usuario consulta como imprimir la anulación de una reserva. **Solución
+
+Nos conectarnos al esquema AGENDA_IML y comprobamos por BBDD (tabla ASAGENDAS) el estado de la reserva (campo ERE_X_ESTRES). También la buscamos por la aplicación (entrando con el perfil del usuario de la incidencia).
+
+En el caso de la incidencia 737698, no la encontramos por la aplicación y en la BBDD el campo ERE_X_ESTRES está a 3, por lo que llegamos a la conclusión de que si la reseva está anulada no se visualiza desde la aplicación y por lo tanto, es imposible imprimirla.
+
+Ejemplo de incidencia Remedy 737698 </panel> </WRAP> \\  \\ <WRAP> <panel type="info">
+
+====== No le muestra reservas disponibles al intentar crear un señalamiento ======
+
+ \\ Descripción: Usuario indica que al intentar realizar una reserva, al buscar hora y lugar para la misma, no le muestra disponibles: {{:pag_apli:agenda_senalamientos:1609102805077-730.png?700|}} \\  \\ Esto no es un error y probablemente se deba porque no hay programaciones disponibles. \\  \\ Nota 1: Confirmar con el usuario la función. Ejemplo; juicios rápidos / juicios rápidos (VM). \\ Nota 2: Puede ser que en el listado que se le muestra al usuario al consultar sólo le aparezcan las primeras designaciones. Es decir, puede que no se visualice lo que busca no porque no exista, sino porque la aplicación tiene un número determinado de registros a mostrar en las búsquedas. Por lo que debe seleccionar el día en concreto por el que está buscando. \\ Nota 3: En el caso de que no nos digan el tipo de reserva que están introduciendo, habría que entrar a la aplicación con el perfil 'Administrador General'. De ésta manera comprobaremos los días que hay para realizar señalamientos y los tipos de reserva que existen. Ejemplo: IN0000000767094 \\  \\ Solución:IMPORTANTE: Si no estamos seguros de si el usuario a realizado bien la búsqueda, o del tipo de función que debe aparecerle al usuario al realizarla, debemos comprobarlo: [[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/QueHacemos/Desarrollo/Resolución de incidencias/Agenda de Señalamiento/No se han encontrado reservas/Comprobación de tipo de reserva buscada por el usuario/|--- ENLACE A LA EXPLICACIÓN ---]] Comprobaremos si hay citas disponibles realizando los siguientes pasos: \\
+ \\
+1ºEntramos en la aplicación con perfil Administrador General (asignado como perfil, no es necesario otros puestos). \\
+ \\
+2ºSeleccionamos Funciones Administrativas: 
+
+{{:pag_apli:agenda_senalamientos:1609103096698-526.png?800|}}
+ \\
+ \\
+3ºEntramos en Partidos Judiciales, seleccionando la provincia y Partido Judicial de la incidencia: 
+
+{{:pag_apli:agenda_senalamientos:1609103122448-998.png?800|}}
+
+4º Filtramos la búsqueda por fecha en el calendario y la función en el desplegable: \\
+
+{{:pag_apli:agenda_senalamientos:1609103164705-542.png?800|}}
+\\
+5ºComprobamos las programaciones abiertas. \\
+ \\
+A. Si no hay, se reasigna a CAU y se responde dependiendo si el Juzgado es de Cádiz o no: Si el Juzgado pertenece a la provincia de Cádiz: //La agenda la abren desde Decanato con la excepción de Cádiz que la abren desde los Juzgados de lo Penal. Informar al usuario que debe ponerse en contacto con el Juzgado de lo Penal para que abran agenda ya que ellos son los encargados.//  Si el Juzgado no pertenece a la provincia de Cádiz: //Se comprueba que no hay programaciones disponibles para el Juzgado XXXXX////. ////(donde XXXXX es el Juzgado donde quiere hacer la reserva)//// Se deberán poner en contacto con Decanato para que abran más reservas.// \\  \\ Nota 4: Las búsquedas solo comprenden 90 días, si por ejemplo un usuario hace una búsqueda el 1 de enero de 2021 solo le aparecerán reservas hasta el 30 de marzo por lo que si la próxima reserva fuera el 5 de abril le aparecería la búsqueda sin ningún resultado. \\  \\ B. Si sí hay, pero posteriores a 90 días del día actual, responder lo siguiente: //Esta es una limitación en la aplicación ya que acota la búsqueda. Ocurre porque no hay reservas en los próximos 90 días, si se pone en el filtro de búsqueda una fecha superior, por ejemplo ////XXXXX ya aparece disponibilidad. (donde XXXXX es una fecha que incluye la reserva, por ejemplo 01/04/2021 siguiendo el ejemplo)// \\  \\ **
+{{:pag_apli:agenda_senalamientos:1609104233520-825.png?800|}}
+** \\  \\ Ejemplo de incidencia Remedy
+
+IN0000000747268, IN0000001554804
+
+</panel> </WRAP>
+
+<WRAP> <panel type="info">
+
+====== No se anula la reserva ======
+
+**Descripción de la incidencia No desaparece el señalamiento de un juicio, el usuario le da a anular la reserva pero no se anula. No le aparece ningun error. **Solución
+
+**1. **consultamos la reserva en la tabla para ver su estado.
+
+Nos conectamos con el usuario **AGENDA_IUS**, a la tabla **ASAGENDA**  consultando el registro de la reserva por **T_NUMPROC **  (número procedimiento) y **F_RESDESDE **  (fecha del señalamiento). Habría que comprobar el estado del campo **ERE_X_ESTRES **para ver el estado de la cita:
+
+  * //**1 → Pendiente de confirmación** //
+  * //**2 → Confirmado** //
+  * //**3 → Anulado** //
+**2. **Una vez comprobado ésto, entramos a la aplicación como el usuario de la incidencia (mismo organismo y perfil) y visualizamos el estado del señalamiento. Si el estado es: "**Toma de razón realizada**" es decir, tiene el siguiente icono en el campo '**Estado**':
+
+{{:pag_apli:agenda_senalamientos:captura1.jpg?800|}}
+
+**3. **Hay que indicar lo siguiente al **CAU**:
+
+Tal y como dice el manual de usuario de la aplicación Agenda de señalamientos (Pág. 26), una vez efectuada la toma de razón por parte del órgano destinatario del señalamiento, será dicho órgano el que único que podrá efectuar la anulación de la reserva. Por tanto, se deberia contactar con el juzgado destinatario de la reserva para que ellos efectuén la anulación.
+
+Se reasigna al CAU para que informe al usuario.
+
+Ejemplo de incidencia Remedy
+
+697309
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== No aparece el año al realizar una reserva ======
+
+**Descripción de la incidencia**
+
+No aparece el año al realizar una reserva
+
+**Solución**
+
+Hay que indicar lo siguiente al **CAU**:
+
+//Los años se cargan por base de datos y cuando se abre el calendario se comprueba que el año actual este cargado, por eso no salen los siguientes.//
+
+//Se reasigna al CAU para que informe al usuario.//
+
+Ejemplo de incidencia Remedy
+
+IN0000001200755
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== No puede iniciar sesión mediante el acceso externo: "Usuario o contraseña incorrecta" ======
+
+**Descripción:**
+
+Esta incidencia está relacionada con la **imposibilidad de acceder por parte de usuarios de las Las Fuerzas y Cuerpos de Seguridad del Estado **  (Policías, Guardias Civiles…)** desde la intranet de las comisarías **a la aplicación Agenda de Señalamientos, dichos usuarios se autentican desde el **acceso externo **de dicha aplicación, la cual se encuentra en **Portal Adriano **  ([[https://www.juntadeandalucia.es/justicia/portal/adriano/personaladmon/Aplicaciones-Judiciales/agendasenalamiento/|https://www.juntadeandalucia.es/justicia/portal/adriano/personaladmon/Aplicaciones-Judiciales/agendasenalamiento/]]).
+
+El error que se muestra es el de que el **usuario o contraseña son incorrectos.**
+
+**Explicación:**
+
+Esto sucede porque ellos acceden a la aplicación de Agenda de Señalamientos con la url:
+
+[[https://www.juntadeandalucia.es/justicia/agenda/login.asp|https://www.juntadeandalucia.es/justicia/agenda/login.asp]]
+
+En lugar de acceder desde Escritorio Judicial.
+
+El problema se debe a que con las nuevas altas, las contraseñas de los nuevos usuarios se encriptan con un algoritmo actual, y para acceder desde dicho enlace, se necesita usar un algoritmo antiguo.
+
+**Solución:**
+
+La solución sería **cifrar la clave que use el usuario y actualizársela**  para que pueda acceder.
+
+Los pasos a seguir serían los siguientes:
+
+**1) **Acceder a un **compilador de java online**, por ejemplo: //[[https://paiza.io/es/projects/new?language=java|https://paiza.io/es/projects/new?language=java]]//
+
+**2) **Pegar el siguiente código:
+
+**//import java.io.UnsupportedEncodingException;//  **
+
+**//import java.security.MessageDigest;//  **
+
+**//import java.security.NoSuchAlgorithmException;//  **
+
+**//import java.util.Base64;//  **
+
+**//public class Main {//  **
+
+**//public static void main(String args[]) {//  **
+
+**//try{//  **
+
+**//byte[] buffer = "//  ****//<CONTRASEÑA DEL USUARIO>//  ****//".getBytes("iso-8859-1");//  **  **// MessageDigest dig = MessageDigest.getInstance("SHA1");//  **  **//dig.update(buffer);//  **  **//String passEncoded = Base64.getEncoder().encodeToString(dig.digest());//  **  **//System.out.println(passEncoded);//  **  **//} catch (Exception e) {//  **  **//System.out.println("mal");//  **  **//}//  **  **//}//  **  **//}//  **  
+
+**3) **En "**<CONTRASEÑA DEL USUARIO>**" del código anterior se introduce la contraseña que va a usar el usuario: No se puede acceder
+
+{{:pag_apli:agenda_senalamientos:1606977838718-453.png?800|}}
+
+**4) **La contraseña encriptada sería lo mostrado en la salida.
+
+
+En la captura de ejemplo, al cifrar la contraseña introducida, nos devuelve la cadena cifrada "kV8rkVRQkC+j8i+kngCRZkENRsw=".
+
+
+**5)**  Cambiar la contraseña encriptada en base de datos del usuario ejecutando el siguiente comando SQL:
+
+//**UPDATE TEMIS.USUARIOS_GLOBAL SET T_PASSWORD='**  ////**<CADENA CIFRADA>**  ////**' WHERE T_USUARIO = '**  ////**<ID USUARIO>**  ////**';**  //
+
+INCIDENCIAS: IN0000001672686 </panel></WRAP> \\  \\ <WRAP> <panel type="info">
+
+====== "No se han encontrado reservas" cuando intenta buscar una que ya fue creada ======
+
+ \\  \\ Descripción de la incidencia
+
+El usuario no encuentra una reserva para un día determinado, nos indican el día que la realizó. \\ Cuando busca la cita le aparece mensaje "No se han encontrado reservas":
+
+{{:pag_apli:agenda_senalamientos:1629709109210-953.png?700|}}
+
+Solución En primer lugar, comprobamos en las bases de datos que la reserva existe: Con el usuario AGENDA_IUS se comprueban los datos de la cita en la tabla: ASAGENDA los campos fecha de la cita, T_NUMPRO (número procedimiento y ERE_X_ESTRES (estado de la cita, anulada o no). \\  \\ Una vez comprobado que todo está correcto, detectamos que el problema es que el usuario tiene seleccionada en la pantalla principal de la aplicación (en la barra superior, a la izquierda) una vista de la agenda que no le permite ver esa cita en concreto. Para llegar a ver esta reserva, el usuario tiene a su disposición dos botones que le ofrecen dos vistas diferentes: \\  \\ - Reservas solicitadas *en* el día seleccionado –> Podrá encontrar la reserva si marca en el calendario el día en que efectuó la solicitud de reserva. \\ - Reservas solicitadas *para* el día seleccionado –> Podrá encontrar la reserva si marca en el calendario el día de la reserva. \\  \\ Se reasigna al 'Centro de Servicio al Usuario' para que se lo comenten al usuario afectado Ejemplo de incidencia Remedy
+
+689724
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== No puede eliminar una reserva programada que está duplicada ======
+
+**Descripción:**
+
+El usuario indica que n**o puede eliminar una reserva que ha programado**  duplicada por error (con la misma fecha y hora):
+
+{{:pag_apli:agenda_senalamientos:1628157805653-552.png|}}
+
+{{:pag_apli:agenda_senalamientos:1628157839374-749.png|}}
+
+//**Esto también puede suceder con cualquier reserva que quiera eliminar el usuario, no tiene por qué estar duplicada.**  //
+
+**Explicación:**
+
+Antes de que la aplicación elimine la reserva de la tabla "ASCALORGJUD", ésta copia el registro de la misma en la tabla "LOGBOR_PROGRAMACION", pero si el campo "T_OBSERVACIONES" de la tabla "ASCALORGJUD" supera los **60 bytes o caracteres**  (que es la limitación que tiene dicho campo en la tabla "LOGBOR_PROGRAMACION"), la aplicación muestra el error de la captura anterior y no elimina la reserva.
+
+El campo "T_OBSERVACIONES" de la tabla "ASCALORGJUD" tiene una restricción de **300 bytes o caracteres**, por lo que el usuario podría introducir una cadena más larga de la que admite el campo de la tabla "LOGBOR_PROGRAMACION" y al intentar eliminar la reserva sucede el error.
+
+**Solución:**
+
+**1.**  Se comprueba en la base de datos "**PROD02**", esquema "**AGENDA_IUS**", tabla "**ASCALORGJUD**" si el campo "**T_OBSERVACIONES**" del registro de la reserva que provoca el error tiene una **cadena de caracteres superior a 60**.
+
+**- **Obtenemos el código del órgano ("**X_ORGANISMO**") del usuario en el esquema "**TEMIS**", tabla "**ORGANISMOS_GLOBAL**":
+
+//**select * from temis.organismos_global where t_organismo ='**  ////**<NOMBRE DEL ÓRGANO>**  ////**';**  //
+
+**- **Con el "**X_ORGANISMO**" y el **día de la reserva**  indicada por el usuario, obtenemos todas reservas de dicho día:
+
+//**select * from agenda_ius.ascalorgjud where oju_x_orgjud = **  ////**<"X_ORGANISMO">**  ////** and f_desde between '**  ////**<DÍA DE LA RESERVA EN FORMATO "DD/MM/YYYY">'**  ////** and '**  ////**<DÍA SIGUIENTE AL DE LA RESERVA EN FORMATO "DD/MM/YYYY">**  ////**';**  //
+
+**- **Buscamos, en la lista de reservas de ese día que nos mostrará la base de datos, la reserva concreta que provoca el error, **filtrando por "F_DESDE" (hora desde) y "F_HASTA" (hora hasta)**. Una vez localizada la reserva, **comprobamos la longitud de la cadena**  que contiene el campo "**T_OBSERVACIONES**" de dicha reserva.
+
+**2.**  En el caso de que dicho campo tenga una cadena** superior a 60 caracteres**, se indica al **CAU**:
+
+//Por favor, indiquen al usuario que modifique el campo de observaciones de la cita duplicada que desea eliminar para que contengan menos de 60 caracteres y posteriormente intente eliminarla, con dicha modificación ya debería poder hacerlo.//
+
+Ejemplos de incidencias Remedy:IN0000001713520
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Las sesiones se cierran de forma repentina ======
+
+**Descripción:**
+
+El usuario indica que se le **cierra la sesión**  de forma repentina en Agenda de Señalamientos, cuando sucede le muestra el siguiente mensaje:
+
+{{:pag_apli:agenda_senalamientos:1633960250409-623.png|}}
+
+**Explicación:**
+
+La aplicación tiene una **función que se ejecuta cada minuto y comprueba la duración de la sesión**. En el minuto 18de sesión (dos minutos antes de caducar, ya que la duración de **la sesión es de 20 minutos**), la aplicación solicita que el **usuario interactúe con un cuadro de diálogo**  para que se renueve la sesión, la cual volverá a ser de 20 minutos a partir de la aceptación del mensaje:
+
+{{:pag_apli:agenda_senalamientos:1633961599306-710.png|}}
+
+Si transcurre más de dos minutos desde la aparición del mensaje hasta que el usuario interactúe, la sesión ya se habrá cerrado de todas formas (aparecerá el mensaje de la descripción) y el usuario tendrá que volver a auntenticarse:
+
+{{:pag_apli:agenda_senalamientos:1633962083985-178.png|}}
+
+Nota: **La sesión de Agenda de Señalamientos no tiene que ver con la de Escritorio Judicial**, por lo que puede caducar la sesión en una de las dos aplicaciones, pero no afectará a la sesión de la otra.
+
+**Solución:**
+
+Se informa al usuario que las sesiones en Agenda de Señalamientos duran 20 minutos y que si, pasados 18 minutos de la sesión, no interactúa con el mensaje que le aparece antes de que pasen otros 2 minutos, la sesión se cerrará automáticamente por cuestiones de seguridad.
+
+INCIDENCIAS: IN0000001733350 \\ </panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Alta en Agenda Senalamientos ======
+
+**Descripción de la incidencia Se solicita el alta en la Agenda de Señalamientos de Juicios Inmediados de Faltas para funcionarios. **Solución
+
+Se procede a dar alta a los usuario indicados en Mantenimiento temis.
+
+**1. **Se entra en el **Escritorio Judicia**l: //[[http://escritoriojudicial.justicia.junta-andalucia.es/Escritorio/Inicio.do|Escritorio Judicial]]//
+
+**2.**  Nos vamos a '**Mantenimiento TEMIS**', '**Usuarios**' y seleccionamos el** partido judicial, tipo de organismo y organismo**  correspondiente a cada caso y pulsamos el botón '**Nuevo**'.
+
+**3. **Rellenamos lo demás campos y pulsamos en '**Aceptar**'
+
+**4.**  Cuando se haya creado nos dará un **código**, que es el nombre de usuario con el que debe entrar el funcionario (su DNI sin letra), debemos** proporcionárselo al usuario**  que ha realizado la petición por remedy.
+
+De esta manera, creando el usuario en el organismo correspondiente, Temis otorgará automáticamente permiso para acceder a la aplicación Agenda de señalamientos por Cargo-Tipo Organismo.
+
+**5. **Para generar una contraseña que permita la aplicación Agenda de Señalamiento, debemos ejecutar la siguiente consulta:
+
+//**select utl_raw.cast_to_varchar2(utl_encode.base64_encode(TEMIS.gnuhash_sha1('**  ////**<T_USUARIO>**  ////**'))) from dual;**  //
+
+Esta consulta devolverá un código que se deberá poner en el campo '**T_PASSWORD**' de **TEMIS.USUARIOS_GLOBAL**.
+
+Indicaremos por lo tanto al solicitante que el usuario y contraseña para acceder a Agenda de señalamiento es su DNI sin letra.
+
+Ejemplo de incidencia Remedy
+
+IN0000001217807: En este caso el cargo es 'Subinsp./Oficial/Policía' y el tipo de organismo 'Policía Nacional' definido en temis para que otorgue el perfil 'Policía/GC' para acceder a Agenda de Señalamientos.
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Error al acceder ======
+
+agenda de señalamientos –>
+
+Acceso externo:
+
+[[https://www.andaluciajunta.es/justicia/agenda|https://www.andaluciajunta.es/justicia/agenda]]
+
+Para la policía nacional se está asignando roles por cargo y tipo de organismo.
+
+Hay un rol creado para ellos –> 1090 (Policía/GC)
+
+Tipo organismo: 11 Policía Nacional
+
+Cargo: 19 Subinsp./Oficial/Policía
+
+Para la provincia de sevilla hay definidos usuarios no personales
+
+Estos usuarios son los que acceden desde SIDENPOL (en el campo T_ACCESO_AUTOMATICO tienen el código de plantilla)
+
+¿Les sale pantalla pidiendo usuario y contraseña? Creo que NO.
+
+CREATE OR REPLACE FORCE VIEW agenda_ius.asusuarios (x_usuario,
+
+t_nombre,
+
+t_apellidos,
+
+f_alta,
+
+f_baja,
+
+car_x_cargo,
+
+t_usuario,
+
+t_password,
+
+org_x_organismo
+
+)
+
+AS
+
+SELECT temis.usuarios.x_usuario, temis.usuarios.t_nombre,
+
+temis.usuarios.t_apellidos, temis.usuarios.f_alta,
+
+temis.usuarios.f_baja,
+
+agenda_ius.asfilcargos.age_x_cargo AS car_x_cargo,
+
+temis.usuarios.t_usuario, temis.usuarios.t_password,
+
+temis.usuarios.org_x_organismo
+
+FROM temis.usuarios, agenda_ius.asfilcargos
+
+WHERE temis.usuarios.car_x_cargo = agenda_ius.asfilcargos.tem_x_cargo
+
+WITH READ ONLY;
+
+….\Fuentes\AGENDA - Agenda de Señalamientos\AGENDA_IUS_F5\html\loginPolicia.asp
+
+….\Fuentes\AGENDA - Agenda de Señalamientos\Instalación Producción\Version20070108\dll\Login.cls
+
+Public Function LoginExternoPolicia(strCSASJR As String, strPlantilla As String) As ADODB.Recordset
+
+…
+
+' 1. Se obtiene el identificador de usuario a partir del identificador de acceso automático
+
+' 2. Se obtienen los datos del usuario
+
+Alfresco:
+
+AGENDA > Análisis > AGENDA-63
+
+–> Significado vector permisos de los distintos roles de la agenda.
+
+AGENDA > Plan de pruebas > AGENDA-52
+
+–> En el se dan ejemplos de perfiles que se utilizan en la aplicación
+
+ASROLES –> Relaciona roles X_ROL (coincide con el de temis)
+
+con CAR_X_CARGO –> ASCARGOS: X_CARGO (coincide con el de temis –> creo que no)
+
+Incidencia: IN0000001273554
+
+Damos de alta 2 organismos del tipo policía nacional en: 41021 Camas 41086 San Juan de Aznalfarache
+
+Nos fijamos de: Policía Nacional de Sevilla. El código del organismo será: NNNNNP2003 (como el resto de las Policía Nacional). DONDE NNNNN es el código INE del municipio.
+
+Se da de alta mediante la aplicación MANTEMIS. Damos de alta 1 usuario en cada uno de los organismos para cada una de las comisarías.
+
+Nos fijamos de una ya creado: COMISARIA MACARENA MOVIL. Se da de alta mediante la aplicación MANTEMIS. Hay que ponerle un sexo y el tipo DNI con el DNI 00000000T. Una vez dado de alta lo vamos a modificar directamente en la BD de TEMIS y lo dejamos como el ya citado COMISARIA MACARENA MOVIL. NOTA: COMO identificador (T_USUARIO) le ponemos iusnnnnnn donde nnnnnn es el campo x_organismo. T_ACCESO_AUTOMATICO: Ponemos los identifcadores que nos han remitido por correo electrónico. "
+
+(…) Buenos Días. El código de plantilla de San Juan de Aznalfarache es: P41757L El de Camas: P41181L (…) ""
+
+</panel></WRAP>
+
+[[start|Volver atrás]]
+
+

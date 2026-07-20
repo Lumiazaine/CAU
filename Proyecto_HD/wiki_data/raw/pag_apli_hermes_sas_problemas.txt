@@ -1,0 +1,33 @@
+﻿
+
+<WRAP> 
+<panel type="primary" title="Procedimientos y Problemas Conocidos de Hermes LEXNET">
+
+[[pag_apli:hermes_sas:start|Volver atrás]]
+
+<WRAP> 
+<panel type="info">
+
+===== ALTA ADMINISTRADORES DE BUZÓN =====
+El procedimiento a realizar es el siguiente:\\
+
+1. Entrar en la página de Lexnet https://lexnet.justicia.es y solicitar el alta como Administrador del buzón solicitado.\\
+2. A continuación, debe entrar en la página https://www.administraciondejusticia.gob.es/lexnet/contacto, pulsando sobre la opción "Alta de entidades, administradores y usuarios" y rellenar el formulario indicado, anexando un oficio firmado donde se solicite la aceptación del alta del/los administrador/es (nombre, apellidos y DNI).\\
+3. El Colectivo indicará a sus usuarios que mediante el acceso web de Lexnet (https://lexnet.justicia.es) soliciten el alta en el sistema.\\
+4. La SGNTJ dará de alta el/los usuario/os administrador/es e informará al solicitante del estado de la solicitud.\\
+5. Los usuarios administradores del Colectivo aceptarán el alta de los usuarios.\\
+6. El Colectivo se coordinará con el Secretario Coordinador Provincial para determinar cómo y cuándo empiezan a relacionarse con los Órganos Judiciales de su provincia y comunicará dicho acuerdo a la cuenta ([[sgntj.cctt@mju.es]]).\\
+
+Les recordamos que para poder solicitar el alta de cualquier usuario se deben de adecuar los puestos de trabajo:\\
+
+» Tener adecuados los puestos de trabajo de sus usuarios (*).\\
+» Dotar a sus usuarios de tarjetas criptográficas con un certificado electrónico reconocido por Industria y aceptado por Lexnet (*).\\
+» Dotar a sus usuarios de escáneres si no dispusieran de documentos electrónicos y fuera necesario digitalizar originales en formato papel. Estos escáneres deberán contar con la funcionalidad de OCR ya que los documentos digitalizados remitidos a las Sedes Judiciales deberán permitir realizar búsquedas por contenido; también deberán estar configurados a blanco y negro y a 200 puntos por pulgada (ppi).\\
+
+(*) La información detallada de configuración de puestos de trabajo y especificaciones de certificados electrónicos se puede consultar en https://www.administraciondejusticia.gob.es/lexnet
+</panel> 
+</WRAP>
+
+[[pag_apli:hermes_sas:start|Volver atrás]]
+
+{{tag>novalidada}}

@@ -1,0 +1,62 @@
+﻿
+====== Manual para revisión previa ante conflicto de IP duplicada ======
+
+**Este manual sirve para que el usuario revise su equipo antes de que intervenga el soporte técnico.**
+
+-----
+
+=== 1. Comprobar configuración de IP automática ===
+
+1. Ve a **Panel de control** → **Centro de redes** → **Cambiar configuración del adaptador**
+
+2. Haz clic derecho sobre tu conexión activa (**Ethernet** o **Wi-Fi**) → **Propiedades**
+
+3. Selecciona **Protocolo de Internet versión 4 (TCP/IPv4)** → **Propiedades**
+
+4. Asegúrate de que estén marcadas estas dos opciones:
+   * Obtener una dirección IP automáticamente
+   * Obtener la dirección del servidor DNS automáticamente
+
+----
+
+=== 2. Liberar y renovar la IP ===
+
+1. Pulsa `Inicio`, escribe `cmd` y abre como **administrador**
+
+2. Escribe los siguientes comandos:
+
+ipconfig /release
+
+ipconfig /renew
+
+
+3. Luego escribe:
+
+ipconfig /all
+
+
+4. Anota la dirección IP que aparece
+
+----
+
+=== 3. Reiniciar el equipo ===
+
+Reinicia el equipo y verifica si sigue saliendo el mensaje de **IP duplicada**.
+
+----
+
+=== 4. Si el problema continúa ===
+
+Envía esta información al soporte técnico:
+
+  * IP actual (de `ipconfig /all`)
+  * ¿Conexión por cable o Wi-Fi?
+  * Mensaje exacto que aparece
+  * Hora aproximada en que ocurrió
+  * Si hay más personas afectadas en tu zona
+
+----
+
+**🔒 Nota:**  
+No realices más cambios después de esto. El equipo técnico se encargará de revisar remotamente si es necesario.
+

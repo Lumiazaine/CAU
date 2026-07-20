@@ -1,0 +1,37 @@
+﻿
+<WRAP> <panel type="primary" title="Traslado órganos judiciales">
+
+<WRAP> <panel type="info" title="Formulario de Traslado_OOJJ y protocolo de Traslado_OJJ detallado"> 
+
+{{ ::formulario_traslado_oojj_2_.pdf | Formulario Traslado órgano judicial}}
+
+{{ ::anexo_i_creacion_organo_oojj.pdf | Anexo I Alta nueva sala de vista }}
+
+{{ ::anexo_i_traslado_oojj.pdf | Anexo II Traslado sala de vista existente }}
+
+{{ ::procedimiento_traslado_oojj_v2.pdf | Protocolo Traslado órgano judicial}}
+
+
+**A continuación se muestra un resumen del procedimiento, si desea conocer mas detalles puede descargar una copia del protocolo en el enlace anterior**
+</panel> </WRAP>
+
+{{::procedimiento_traslado_oojj-06.jpg?1000|}}
+
+{{::procedimiento_traslado_oojj-07.jpg?1000|}}
+
+{{::procedimiento_traslado_oojj-08.jpg?1000|}}
+
+{{::procedimiento_traslado_oojj-09.jpg?1000|}}
+
+{{::procedimiento_traslado_oojj-10.jpg?1000|}}
+
+{{::procedimiento_traslado_oojj-11.jpg?1000|}}
+
+{{:procedimiento_traslado_ojj_bloque_v_1.jpg?1000|}}
+
+{{:procedimiento_traslado_ojj_bloque_v_2.jpg?1000|}}
+
+{{:procedimiento_traslado_ojj_bloque_v_3.jpg?1000|}}
+
+
+</panel> </WRAP>

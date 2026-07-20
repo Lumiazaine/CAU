@@ -1,0 +1,16 @@
+﻿
+
+===== Enlace a calculadora online =====
+
+Para realizar los cálculos directamente en línea, puedes usar la siguiente herramienta externa:  
+
+  * [[https://aprendaredes.com/cgi-bin/ipcalc/ipcalc_cgi1|Calculadora IP en aprendaredes.com]]
+
+
+La Calculadora IP toma los valores de una dirección IP y su máscara de red (netmask) y calcula la direccion broadcast, red, Cisco wildcard mask y el numero de IPs en la red. Introduciendo un segundo valor de máscara de red, podrás diseñar sub- y super redes. Tambien podrás aprender/experimentar introduciendo diferentes valores y viendo el resultado.
+
+El valor de máscara de red (netmask) puede ser introducido en notacion CIDR (/25) o decimal (255.255.255.0)
+
+Si tu red es una red privada de acuerdo con el RFC 1918, la Calculadora IP te informará sobre ello. Si quieres dividir tu red en subredes, introduce tu dirección de red, tu máscara de red y juega con la segunda máscara de red hasta alcanzar el resultado deseado.
+
+Esta página no cumple con el estandar HTML4.0 de W3C.

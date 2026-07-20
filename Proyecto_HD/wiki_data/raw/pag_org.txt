@@ -1,0 +1,75 @@
+﻿
+<html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>DEPARTAMENTOS/ÁREAS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #39546E;
+            margin: 0;
+            padding: 20px;
+            padding-top: 70px;
+            
+        }
+
+        .main-container {
+            max-width: 1550px;
+            margin-top: 20px;
+            
+        }
+
+        .main-header {
+            background-color: #39546E;
+            color: white;
+            padding: 25px 20px;
+            font-size: 2rem;
+            font-weight: bold;
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+            margin-bottom: 20px;
+            
+        }
+
+        .block {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 22px;
+            margin-bottom: 25px;
+            border: 1px solid #c5ccd4;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+            
+        }
+
+        .block h2 {
+            margin-top: 0;
+            color: #39546E;
+            border-bottom: 2px solid #39546E;
+            padding-bottom: 10px;
+            
+        }
+        
+        a {
+            color: #0051A3;
+            text-decoration: none;
+            
+        } 
+        
+    </style>
+</head>
+
+<body>
+
+    <div class="main-container">
+
+        <div class="main-header">SERVICIO DE SISTEMAS DIGITALES PARA LA JUSTICIA</div>
+              <div style="margin: 15px;">
+        
+            <p>El Servicio de Sistemas Digitales para la Justicia (SSDJ) se encuentra en la Subdirección de Sistemas Corporativos y Grandes Sistemas de la Agencia Digital de Andalucía.</p>
+            <p>Ejerce las competencias TIC para el buen funcionamiento de los Sistemas Digitales Judiciales de Andalucía, cuyas competencias tiene la Secretaría General de Infraestructuras Judiciales, Modernización Digital y Regeneración (SGIJMDR) de la Consejería de Justicia, Administración Local y Función Pública (CJALFP).</p>
+            <p align="center"><img style="margin-top: 10px; max-width:100%; height:auto;" src="/dokuwiki/!ssdj/lib/exe/fetch.php?cache=&w=800&h=566&tok=f6a87f&media=cuadro_servicio_ssdj_2023.v08.jpg"></p>
+        </div>
+     </div>
+</body>
+</html>

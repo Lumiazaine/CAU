@@ -1,0 +1,25 @@
+﻿
+====== Información de Contacto - Departamento de Sistemas ======
+
+===== Contactos Generales =====
+
+^Nombre  ^Teléfono  ^Correo Electrónico  ^Rol / Área de responsabilidad  |
+|José Miguel  |621 364 143  |jose.miguel@justicia.junta-andalucia.es|Coordinación GTBD / CRI  |
+|María Ángeles  |955 xxx xxx  |maria.angeles@justicia.junta-andalucia.es|Soporte Bases de Datos Oracle  |
+|Francisco Javier  |955 xxx xxx  |fj.gonzalez@justicia.junta-andalucia.es|Monitorización / Zabbix / RMAN  |
+|Marta Rodríguez  |955 xxx xxx  |marta.rodriguez@justicia.junta-andalucia.es|Gestión de Backups / Networker  |
+|Sergio López  |955 xxx xxx  |sergio.lopez@justicia.junta-andalucia.es|SQL Server / SSIS / Reporting  |
+
+===== Grupos Funcionales =====
+
+  * **GTBD (Gestión Técnica de BBDD):**  soporte técnico y administración de bases de datos Oracle y SQL Server.
+  * **Monitorización:**  alertas, Zabbix, seguimiento de jobs y scripts de control.
+  * **Backups:**  definición, ejecución y validación de copias de seguridad (RMAN, Networker, etc).
+  * **Automatización / Tareas Programadas:**  mantenimiento de procesos periódicos vía OEM, CRON, DBMS_SCHEDULER.
+  * **Auditoría y Seguridad:**  control de accesos, bloqueos, logs y políticas.
+===== Horario de Atención =====
+
+  * **Lunes a Viernes:**  08:00 – 15:00
+  * **Guardias técnicas (en caso de servicio):**  según planificación interna y calendario mensual.
+
+

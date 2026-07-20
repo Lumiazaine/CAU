@@ -1,0 +1,34 @@
+﻿
+====== Creación compartido RecAdriPPNN ======
+
+Cómo crear un nuevo recurso compartido para albergar ficheros de la centralización de RECIBIDOS de ADRIANO.
+
+Creo que ya no son compartidos, porque se comparte ya el directorio padre ADRH_PRO. Pero siguen teniendo una cuota de 2 TB con objeto de racionalizar un poco el backup, para que no haya que hacer backups fulls de los 40 TB todas las semanas de unos datos que, al ser recibidos, tienen muy escaso o ningún nivel de modificación.
+
+Incidencia ejemplo:
+[[http://incidencias.justicia.junta-andalucia.es/arsys/servlet/ViewFormServlet?form=101_INCIDENCIAS&server=iusswaihv01&qual='ID+Incidencia'="IN0000001634643"|163464]]
+
+SISTEMAS **GTSW**:
+
+   * Crear nuevo recursocompartido/directorio RecAdriPPNN al nivel de los demás. PP=provincia, NN=entero incremental 01, 02,...
+  * Propiedades NTFS idénticas a las del que va a sustituir.
+  * Si es un recurso compartido per sé debe tener las propiedades de compartición idénticas a las del que va a sustituir.
+  * Asignación de cuota de 2 TB
+  * Clonado de estructura de directorios del recurso a sustituir (imprescindible que sea este y no otro cualquiera) con Robocopy. Yo lo que hago es montar en Windows origen y destino a través de **admin$**:
+
+net use o: \\iusnas05\admin$\ADRH_PRO\CENT\RecAdriMA02
+
+net use p: \\iusnas05\admin$\ADRH_PRO\CENT\RecAdriMA03
+
+robocopy o:\ p:\ * /s /e /lev:3 /copy:datso /v /np
+
+Esto es válido mientras no cambie la estructura de directorios de RECIBIDOS. Conseguimos así que se precreen todos los directorios de órganos con sus permisos correctos. Esto minimizará las alertas de correo "Clonar permisos en centralizado", que hay que seguir atendiendo prioritariamente cuando lleguen. Esto sucedera ante creación de nuevos órganos o configuración de Adriano de nuevos directorios de RECIBIDOS.
+
+SISTEMAS **GTAB**:
+
+  * Sacar de la política online de backup el directorio a sustituir. Se ha de esperar a tener un último FULL porque si no van a caducar los últimos INCR y no tendríamos último backup válido de muchísima información. Meterlo en la política de backup de históricos.
+  * Incluir el backup del nuevo directorio
+
+Pasad la inc. a** Explotación-Patricio Mora**  para cambiar el destino de la copia en los scripts de centralización en IUSSLJOBS02:/root/scripts/centraliza-docs-adriano-v2. En su día esto debería pasar también a ser tarea de SISTEMAS.
+
+

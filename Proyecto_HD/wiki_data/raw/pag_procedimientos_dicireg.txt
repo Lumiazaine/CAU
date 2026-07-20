@@ -1,0 +1,19 @@
+﻿
+ 
+<panel type="primary" title="Procedimientos DICIREG">
+CSU_Resolución de incidencias_DICIREG
+    • El ordenador estropeado lo debe arreglar el ayuntamiento/diputación.
+    • No hay previsión de dotación para las Oficinas Colaboradoras del PJ de Coria al que pertenece Palomares del Río.
+Con vistas a procedimentar, tenemos un Excel con las OC’s dotadas y las que no:
+    • DICIREG-Dotación Equipamiento en OC's.ods en la carpeta \\iusnas05\SIJ\10. Proyectos en curso\09 DICIREG\03. Dotación de Medios
+El procedimiento sería:
+    • Si se ha dotado de medios y tienen problemas con ellos, debe derivarse a la garantía del proveedor.
+    • Si la Oficina Colaboradora pertenece al PJ de Málaga:
+      * Si el problema es con el PC o periféricos --> Asignar a Nivel 3 - TEKNOSERVICE
+      * Si el problema es con escáneres --> Asignar a Nivel 3 - PAEZ SOLUCIONES INTEGRALES S.L
+    • Si la Oficina Colaboradora pertenece al PJ de Sevilla: Asignar a Nivel 3 - HERBECON SYSTEMS S.L
+    • Para el resto de Oficina Colaboradoras dotadas, asignar a la empresa que se indica en la siguiente tabla según sean PC's o escáneres:
+ {{:adjudicaciones_dicireg.jpg?400|}}
+    • Si no se ha llegado a dotar, “Actualmente, no hay previsión de dotación para su Oficina Colaboradora”.
+
+ </panel>

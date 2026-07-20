@@ -102,12 +102,16 @@ function Generate-SamAccountName {
         [string]$Apellidos
     )
     
-    # Normalizar caracteres especiales
+    # Normalizar caracteres especiales (elimina acentos via Unicode, conserva espacios)
     function Normalize-Text {
         param([string]$Text)
-        $Text = $Text -replace 'á','a' -replace 'é','e' -replace 'í','i' -replace 'ó','o' -replace 'ú','u' -replace 'ñ','n'
-        $Text = $Text -replace 'Á','A' -replace 'É','E' -replace 'Í','I' -replace 'Ó','O' -replace 'Ú','U' -replace 'Ñ','N'
-        return $Text -replace '[^a-zA-Z0-9]', ''
+        $norm = $Text.Normalize('FormD')
+        $sb = New-Object System.Text.StringBuilder
+        for ($i = 0; $i -lt $norm.Length; $i++) {
+            $cat = [System.Globalization.CharUnicodeInfo]::GetUnicodeCategory($norm[$i])
+            if ($cat -ne 'NonSpacingMark') { $null = $sb.Append($norm[$i]) }
+        }
+        return $sb.ToString() -replace '[^a-zA-Z0-9\s]', ''
     }
     
     $NombreNorm = Normalize-Text -Text $Nombre.Trim()
@@ -127,18 +131,21 @@ function Generate-SamAccountName {
         $InicialNombre = $NombresArray[0].Substring(0,1)
     }
     
-    # Estrategia 1: Inicial(es) + primer apellido
-    $BaseSamAccountName = "$InicialNombre$PrimerApellido".ToLower()
+    # Estrategia 1: Inicial(es) + primer apellido + primera letra segundo apellido (convenio oficial)
+    if ($SegundoApellido) {
+        $BaseSamAccountName = "$InicialNombre$PrimerApellido$($SegundoApellido.Substring(0,1))".ToLower()
+    } else {
+        $BaseSamAccountName = "$InicialNombre$PrimerApellido".ToLower()
+    }
     Write-Log "SamAccountName base generado: $BaseSamAccountName" "INFO"
     
-    # Verificar unicidad y generar alternativas si es necesario
     $Candidates = @()
     $Candidates += $BaseSamAccountName
     
-    # Estrategia 2: Si hay segundo apellido, añadir letras gradualmente
-    if ($SegundoApellido) {
-        for ($i = 1; $i -le $SegundoApellido.Length; $i++) {
-            $Candidates += "$BaseSamAccountName$($SegundoApellido.Substring(0,$i))".ToLower()
+    # Estrategia 2: Si hay segundo apellido, añadir letras gradualmente desde la 2ª
+    if ($SegundoApellido -and $SegundoApellido.Length -gt 1) {
+        for ($i = 2; $i -le $SegundoApellido.Length; $i++) {
+            $Candidates += "$InicialNombre$PrimerApellido$($SegundoApellido.Substring(0,$i))".ToLower()
         }
     }
     
@@ -150,8 +157,9 @@ function Generate-SamAccountName {
     }
     
     # Estrategia 4: Numeración secuencial
+    $NumericBase = "$InicialNombre$PrimerApellido".ToLower()
     for ($i = 1; $i -le 99; $i++) {
-        $Candidates += "$BaseSamAccountName$i"
+        $Candidates += "$NumericBase$i"
     }
     
     # Seleccionar el primer candidato disponible
@@ -211,13 +219,13 @@ function Extract-ProvinceFromOffice {
     param([string]$Office)
     
     $ProvinciasMap = @{
-        "almeria" = "almeria"; "almería" = "almeria"
-        "cadiz" = "cadiz"; "cádiz" = "cadiz"
-        "cordoba" = "cordoba"; "córdoba" = "cordoba"
+        "almeria" = "almeria"
+        "cadiz" = "cadiz"
+        "cordoba" = "cordoba"
         "granada" = "granada"
         "huelva" = "huelva"
-        "jaen" = "jaen"; "jaén" = "jaen"
-        "malaga" = "malaga"; "málaga" = "malaga"
+        "jaen" = "jaen"
+        "malaga" = "malaga"
         "sevilla" = "sevilla"
     }
     
@@ -231,66 +239,228 @@ function Extract-ProvinceFromOffice {
     return $null
 }
 
+$script:OU_Cache = @{}
+
+function Get-DomainOU {
+    param([string]$Domain)
+    if ($script:OU_Cache.ContainsKey($Domain)) { return $script:OU_Cache[$Domain] }
+    $SearchBase = "DC=$Domain,DC=justicia,DC=junta-andalucia,DC=es"
+    Write-Log "Descargando OU del dominio $Domain..." "INFO"
+    
+    $OUs = $null
+    
+    # Estrategia 1: Get-ADOrganizationalUnit con Server explicito (evita referrals)
+    try {
+        $domainFqdn = "$Domain.justicia.junta-andalucia.es"
+        $dc = Get-ADDomainController -DomainName $domainFqdn -Discover -ErrorAction SilentlyContinue
+        if ($dc) {
+            Write-Log "Usando DC: $($dc.HostName)" "INFO"
+            $OUs = Get-ADOrganizationalUnit -Filter * -SearchBase $SearchBase -Server $dc.HostName -SearchScope Subtree -Properties Name, DistinguishedName -ErrorAction SilentlyContinue
+        }
+    } catch { }
+    
+    # Estrategia 2: ADSI con ReferralChasing (no requiere Get-ADDomainController)
+    if (-not $OUs) {
+        Write-Log "Intentando via ADSI con ReferralChasing..." "WARN"
+        try {
+            $root = [ADSI]"LDAP://$SearchBase"
+            $searcher = New-Object DirectoryServices.DirectorySearcher($root)
+            $searcher.Filter = "(objectClass=organizationalUnit)"
+            $searcher.PageSize = 1000
+            $searcher.SearchScope = [DirectoryServices.SearchScope]::Subtree
+            $searcher.ReferralChasing = [DirectoryServices.ReferralChasingOption]::All
+            $results = $searcher.FindAll()
+            if ($results -and $results.Count -gt 0) {
+                $OUs = @()
+                foreach ($r in $results) {
+                    $dn = $r.Properties['distinguishedname'][0]
+                    $name = $r.Properties['name'][0]
+                    $ou = New-Object PSCustomObject
+                    $ou | Add-Member -MemberType NoteProperty -Name Name -Value $name
+                    $ou | Add-Member -MemberType NoteProperty -Name DistinguishedName -Value $dn
+                    $OUs += $ou
+                }
+            }
+        } catch {
+            Write-Log ("ADSI fallo: $($_.Exception.Message)") "WARN"
+        }
+    }
+    
+    if ($OUs) {
+        $script:OU_Cache[$Domain] = @($OUs)
+        Write-Log "Cacheadas $($OUs.Count) OU del dominio $Domain" "INFO"
+        return @($OUs)
+    }
+    Write-Log ("No se pudieron obtener OU del dominio $Domain") "WARNING"
+    return @()
+}
+
+function Get-OfficeKeywords {
+    param([string]$Office)
+    $text = $Office.ToLower()
+    $text = $text -replace '[^\w\s]', ' ' -replace '\s+', ' '
+    $words = $text -split '\s+' | Where-Object { $_.Length -gt 2 -and $_ -notin @('los','las','del','de','la','el','en','por','para','con','sin','e','y','o','a','su','nº','num') }
+    return $words | ForEach-Object { $_.Trim() } | Where-Object { $_ -ne '' }
+}
+
+function Score-OU {
+    param([string]$OUDN, [string[]]$Keywords)
+    $ouName = $OUDN.ToLower()
+    $score = 0
+    foreach ($kw in $Keywords) {
+        if ($ouName -match [regex]::Escape($kw)) { $score++ }
+    }
+    return $score
+}
+
 function Find-UOByOffice {
     param([string]$OfficeDescription, [switch]$Interactive = $true)
     
-    Write-Log "Buscando UO para oficina: $OfficeDescription" "INFO"
+    Write-Log "Buscando UO para: $OfficeDescription" "INFO"
     
     $Province = Extract-ProvinceFromOffice -Office $OfficeDescription
     if (-not $Province) {
-        Write-Log "No se pudo identificar la provincia automáticamente" "WARNING"
-        if ($Interactive) {
-            return Select-ProvinceInteractively -OfficeDescription $OfficeDescription
-        }
+        if ($Interactive) { return Select-ProvinceInteractively -OfficeDescription $OfficeDescription }
         return $null
     }
-    
-    Write-Log "Provincia identificada: $Province" "INFO"
+    Write-Log "Provincia: $Province" "INFO"
     
     if (-not $Global:ADAvailable) {
-        # Simulación: generar UO realista
-        $NormalizedOffice = $OfficeDescription -replace '[^\w\s]', '' -replace '\s+', ' '
-        $SimulatedOU = "OU=$NormalizedOffice,OU=Juzgados,OU=$Province-MACJ-Ciudad de la Justicia,DC=$Province,DC=justicia,DC=junta-andalucia,DC=es"
-        Write-Log "SIMULACION: UO generada: $SimulatedOU" "INFO"
-        return $SimulatedOU
+        Write-Log "SIMULACION: UO generada a partir de la oficina" "INFO"
+        $sim = "OU=Usuarios-$($OfficeDescription -replace '[^\w\s]','' -replace '\s+','_'),DC=$Province,DC=justicia,DC=junta-andalucia,DC=es"
+        return $sim
     }
     
-    # Búsqueda real en AD (implementar según necesidades específicas)
-    try {
-        $SearchBase = "DC=$Province,DC=justicia,DC=junta-andalucia,DC=es"
-        
-        # Extraer palabras clave para búsqueda
-        $Keywords = @()
-        if ($OfficeDescription -match "Primera Instancia") { $Keywords += "Primera Instancia" }
-        if ($OfficeDescription -match "Instrucción") { $Keywords += "Instruccion" }
-        if ($OfficeDescription -match "Social") { $Keywords += "Social" }
-        if ($OfficeDescription -match "Penal") { $Keywords += "Penal" }
-        if ($OfficeDescription -match "Audiencia") { $Keywords += "Audiencia" }
-        if ($OfficeDescription -match "Fiscalía") { $Keywords += "Fiscalia" }
-        
-        # Buscar UO que coincida
-        foreach ($Keyword in $Keywords) {
-            try {
-                $OUs = Get-ADOrganizationalUnit -Filter "Name -like '*$Keyword*'" -SearchBase $SearchBase -SearchScope Subtree -ErrorAction SilentlyContinue
-                if ($OUs -and $OUs.Count -gt 0) {
-                    $SelectedOU = $OUs[0]
-                    Write-Log "UO encontrada: $($SelectedOU.DistinguishedName)" "INFO"
-                    return $SelectedOU.DistinguishedName
-                }
-            } catch {
-                continue
-            }
+    $keywords = Get-OfficeKeywords -Office $OfficeDescription
+    Write-Log "Palabras clave: $($keywords -join ', ')" "INFO"
+    if ($keywords.Count -eq 0) {
+        Write-Log "No se pudieron extraer palabras clave de la oficina" "WARNING"
+        return Select-UOInteractively -Domain $Province -Message "No se extrajeron palabras clave de: $OfficeDescription"
+    }
+    
+    $allOUs = Get-DomainOU -Domain $Province
+    if ($allOUs.Count -eq 0) {
+        Write-Log "No hay OU disponibles en el dominio $Province" "ERROR"
+        return Select-UOInteractively -Domain $Province -Message "No se encontraron OU en el dominio $Province"
+    }
+    
+    $scored = @()
+    foreach ($ou in $allOUs) {
+        $s = Score-OU -OUDN $ou.DistinguishedName -Keywords $keywords
+        if ($s -gt 0) { $scored += [PSCustomObject]@{ OU = $ou; Score = $s; DN = $ou.DistinguishedName } }
+    }
+    
+    $scored = $scored | Sort-Object Score -Descending
+    
+    if ($scored.Count -eq 0) {
+        Write-Log "Ninguna OU coincide con las palabras clave" "WARNING"
+        return Select-UOInteractively -Domain $Province -Message "Ninguna OU coincide con: $OfficeDescription"
+    }
+    
+    $bestScore = $scored[0].Score
+    $best = $scored | Where-Object { $_.Score -eq $bestScore }
+    
+    if ($best.Count -eq 1) {
+        Write-Log "UO seleccionada: $($best[0].DN) (score: $bestScore)" "OK"
+        return $best[0].DN
+    }
+    
+    if ($Interactive) {
+        Write-Log "$($best.Count) OU con misma puntuacion. Seleccione:" "WARN"
+        return Select-UOInteractively -Domain $Province -OUs ($best.DN) -Message "Multiples OU para: $OfficeDescription"
+    }
+    
+    Write-Log "Usando primera coincidencia: $($best[0].DN)" "INFO"
+    return $best[0].DN
+}
+
+function Select-UOInteractively {
+    param([string]$Domain, [string[]]$OUs, [string]$Message)
+    
+    if (-not $OUs -or $OUs.Count -eq 0) {
+        $all = Get-DomainOU -Domain $Domain
+        if (-not $all -or $all.Count -eq 0) {
+            Write-Log "No se pudieron obtener OU del dominio $Domain" "ERROR"
+            return $null
         }
         
-        # Si no se encuentra, generar UO por defecto
-        $DefaultOU = "OU=Usuarios,OU=$Province-MACJ-Ciudad de la Justicia,DC=$Province,DC=justicia,DC=junta-andalucia,DC=es"
-        Write-Log "Usando UO por defecto: $DefaultOU" "WARNING"
-        return $DefaultOU
+        Write-Host "`n$Message" -ForegroundColor Yellow
+        Write-Host "Escriba un termino de busqueda para filtrar (o Enter para ver todas): " -ForegroundColor Cyan -NoNewline
+        $filter = (Read-Host).Trim()
         
-    } catch {
-        Write-Log "Error en búsqueda AD: $($_.Exception.Message)" "ERROR"
-        return $null
+        if ($filter) {
+            $filtered = @($all | Where-Object { $_.Name -like "*$filter*" })
+            if ($filtered.Count -eq 0) {
+                Write-Host "Sin resultados. Mostrando todas las OU:" -ForegroundColor Red
+                $filtered = $all
+            } else {
+                Write-Host "Mostrando $($filtered.Count) OU de $($all.Count):" -ForegroundColor Green
+            }
+        } else {
+            $filtered = $all
+        }
+        
+        $cnt = $filtered.Count
+        $pageSize = 50
+        $page = 0
+        $sel = ""
+        
+        do {
+            $start = $page * $pageSize
+            $end = [Math]::Min($start + $pageSize, $cnt)
+            $totalPages = [Math]::Ceiling($cnt / $pageSize)
+            
+            if ($cnt -gt $pageSize) {
+                Write-Host "--- Pagina $($page+1) de $totalPages (OU $($start+1)-$end de $cnt) ---" -ForegroundColor DarkYellow
+            }
+            Write-Host "--- Seleccione (1-$end) | n=pag sig | p=pag ant | b=buscar | 0=cancelar ---" -ForegroundColor Yellow
+            
+            for ($i = $start; $i -lt $end; $i++) {
+                Write-Host "[$($i+1)] $($filtered[$i].Name) [$(($filtered[$i].DistinguishedName -split ',',2)[1])]" -ForegroundColor White
+            }
+            
+            $sel = Read-Host "Seleccione"
+            if ($sel -eq "n" -and $page -lt $totalPages - 1) { $page++ }
+            elseif ($sel -eq "p" -and $page -gt 0) { $page-- }
+            elseif ($sel -eq "b") {
+                Write-Host "Nuevo termino de busqueda: " -ForegroundColor Cyan -NoNewline
+                $newFilter = (Read-Host).Trim()
+                if ($newFilter) {
+                    $filtered = @($all | Where-Object { $_.Name -like "*$newFilter*" })
+                    if ($filtered.Count -eq 0) {
+                        Write-Host "Sin resultados. Mostrando todas las OU:" -ForegroundColor Red
+                        $filtered = $all
+                    } else {
+                        Write-Host "Mostrando $($filtered.Count) OU de $($all.Count):" -ForegroundColor Green
+                    }
+                    $cnt = $filtered.Count
+                    $totalPages = [Math]::Ceiling($cnt / $pageSize)
+                    $page = 0
+                }
+            }
+            elseif ($sel -eq "0") { return $null }
+            else {
+                $num = $sel -as [int]
+                if ($num -and $num -ge 1 -and $num -le $cnt) {
+                    Write-Log "UO seleccionada: $($filtered[$num-1].DistinguishedName)" "INFO"
+                    return $filtered[$num-1].DistinguishedName
+                }
+            }
+        } while ($true)
     }
+    
+    Write-Host "`n$Message" -ForegroundColor Yellow
+    Write-Host "--- Seleccione una OU (0 = cancelar) ---" -ForegroundColor Yellow
+    for ($i = 0; $i -lt $OUs.Count; $i++) {
+        Write-Host "[$($i+1)] $($OUs[$i])" -ForegroundColor White
+    }
+    do {
+        $sel = Read-Host "Seleccione (1-$($OUs.Count)) o 0"
+        if ($sel -eq "0") { return $null }
+        $num = [int]$sel
+    } while ($num -lt 1 -or $num -gt $OUs.Count)
+    Write-Log "UO seleccionada: $($OUs[$num-1])" "INFO"
+    return $OUs[$num-1]
 }
 
 function Select-ProvinceInteractively {
@@ -305,74 +475,18 @@ function Select-ProvinceInteractively {
     for ($i = 0; $i -lt $ProvinciasAndalucia.Count; $i++) {
         Write-Host "[$($i+1)] $($ProvinciasAndalucia[$i].ToUpper())" -ForegroundColor White
     }
-    
     Write-Host "[0] OMITIR" -ForegroundColor Red
     Write-Host ""
     
     do {
         $Selection = Read-Host "Seleccione provincia (1-$($ProvinciasAndalucia.Count)) o 0 para omitir"
-        if ($Selection -eq "0") {
-            return $null
-        }
+        if ($Selection -eq "0") { return $null }
         $SelectionNum = [int]$Selection
     } while ($SelectionNum -lt 1 -or $SelectionNum -gt $ProvinciasAndalucia.Count)
     
     $SelectedProvince = $ProvinciasAndalucia[$SelectionNum - 1]
     Write-Log "Provincia seleccionada: $SelectedProvince" "INFO"
-    
-    # Generar UO por defecto para la provincia
-    $DefaultOU = "OU=Usuarios,OU=$SelectedProvince-MACJ-Ciudad de la Justicia,DC=$SelectedProvince,DC=justicia,DC=junta-andalucia,DC=es"
-    return $DefaultOU
-}
-
-function Find-TemplateUser {
-    <#
-    .SYNOPSIS
-        Busca usuario plantilla según descripción del cargo
-    .DESCRIPTION
-        Busca usuarios con descripción similar en la misma UO para copiar grupos
-    #>
-    param([string]$OUDN, [string]$Descripcion)
-    
-    Write-Log "Buscando usuario plantilla en UO con descripcion: $Descripcion" "INFO"
-    
-    if (-not $Global:ADAvailable) {
-        Write-Log "SIMULACION: Usuario plantilla encontrado (simulado)" "INFO"
-        return @{
-            SamAccountName = "template.user"
-            DisplayName = "Usuario Plantilla Simulado"
-            Description = $Descripcion
-        }
-    }
-    
-    try {
-        # Normalizar descripción para búsqueda
-        $DescripcionNorm = $Descripcion.ToLower()
-        $DescripcionNorm = $DescripcionNorm -replace 'á','a' -replace 'é','e' -replace 'í','i' -replace 'ó','o' -replace 'ú','u'
-        
-        # Buscar usuarios en la misma UO con descripción similar
-        $UsersInOU = Get-ADUser -Filter * -SearchBase $OUDN -Properties Description
-        
-        foreach ($User in $UsersInOU) {
-            if ($User.Description) {
-                $UserDescNorm = $User.Description.ToLower()
-                $UserDescNorm = $UserDescNorm -replace 'á','a' -replace 'é','e' -replace 'í','i' -replace 'ó','o' -replace 'ú','u'
-                
-                # Comprobar similitudes
-                if ($UserDescNorm -like "*$DescripcionNorm*" -or $DescripcionNorm -like "*$UserDescNorm*") {
-                    Write-Log "Usuario plantilla encontrado: $($User.SamAccountName) - $($User.Description)" "INFO"
-                    return $User
-                }
-            }
-        }
-        
-        Write-Log "No se encontró usuario plantilla específico" "WARNING"
-        return $null
-        
-    } catch {
-        Write-Log "Error buscando usuario plantilla: $($_.Exception.Message)" "WARNING"
-        return $null
-    }
+    return Select-UOInteractively -Domain $SelectedProvince -Message "Seleccione UO para provincia $SelectedProvince"
 }
 
 function Process-NormalizedUser {
@@ -425,12 +539,52 @@ function Process-NormalizedUser {
         $Result.Estado = "SIMULADO"
         $Result.Observaciones = "Alta normalizada simulada correctamente"
     } else {
-        # Implementar creación real
         Write-Log "EJECUTANDO ALTA NORMALIZADA:" "INFO"
-        Write-Log "- Se crearia usuario $SamAccountName en AD" "INFO"
-        Write-Log "- Se establecerian propiedades y grupos" "INFO"
-        $Result.Estado = "EXITOSO"
-        $Result.Observaciones = "Usuario creado correctamente en $OUDN"
+        try {
+            $DisplayName = "$($User.Nombre) $($User.Apellidos)"
+            $UserParams = @{
+                Name = $DisplayName
+                SamAccountName = $SamAccountName
+                UserPrincipalName = "$SamAccountName@justicia.junta-andalucia.es"
+                GivenName = $User.Nombre
+                Surname = $User.Apellidos
+                DisplayName = $DisplayName
+                Description = $User.Descripcion
+                Office = $User.Oficina
+                EmailAddress = $EmailAddress
+                Path = $OUDN
+                AccountPassword = (ConvertTo-SecureString $StandardPassword -AsPlainText -Force)
+                Enabled = $true
+                ChangePasswordAtLogon = $true
+                PassThru = $true
+                ErrorAction = "Stop"
+            }
+            $domainFqdn = "$(Extract-DomainFromOU -OUDN $OUDN).justicia.junta-andalucia.es"
+            Write-Log "Usando servidor: $domainFqdn" "INFO"
+            $UserParams.Server = $domainFqdn
+            if ($User.Telefono) { $UserParams.OfficePhone = $User.Telefono }
+            $CreatedUser = New-ADUser @UserParams
+            Write-Log "Usuario $SamAccountName creado en $OUDN" "OK"
+            if ($TemplateUser -and $TemplateUser.Groups -and $TemplateUser.Groups.Count -gt 0) {
+                Write-Log "Copiando $($TemplateUser.Groups.Count) grupos de $($TemplateUser.SamAccountName)..." "INFO"
+                foreach ($Group in $TemplateUser.Groups) {
+                    try {
+                        Add-ADGroupMember -Identity $Group -Members $SamAccountName -Server $domainFqdn -ErrorAction Stop
+                        Write-Log "Grupo $Group asignado a $SamAccountName" "OK"
+                    } catch {
+                        Write-Log "Error asignando grupo $Group a $SamAccountName`: $($_.Exception.Message)" "WARNING"
+                    }
+                }
+            } else {
+                Write-Log "No hay grupos de plantilla para copiar" "INFO"
+            }
+            $Result.Estado = "EXITOSO"
+            $Result.Observaciones = "Usuario $SamAccountName creado en $OUDN"
+        } catch {
+            Write-Log "Error creando usuario: $($_.Exception.Message)" "ERROR"
+            $Result.Estado = "ERROR"
+            $Result.Observaciones = "Error: $($_.Exception.Message)"
+        }
     }
     
     return $Result
@@ -499,10 +653,59 @@ function Process-UserTransfer {
             $Result.Estado = "SIMULADO"
             $Result.Observaciones = "Usuario trasladado a $DestinationOU"
         } else {
+            $domainFqdn = "$DestinationDomain.justicia.junta-andalucia.es"
             Write-Log "EJECUTANDO TRASLADO MISMO DOMINIO" "INFO"
-            # Implementar traslado real aquí
-            $Result.Estado = "EXITOSO"
-            $Result.Observaciones = "Usuario trasladado exitosamente a $DestinationOU"
+            try {
+                # 1. Obtener grupos actuales del usuario
+                $userDetail = Get-ADUser -Identity $ExistingUser.SamAccountName -Server $domainFqdn -Properties MemberOf -ErrorAction Stop
+                $oldGroups = @()
+                foreach ($g in $userDetail.MemberOf) {
+                    $gn = $g -split ',',2 | Select-Object -First 1
+                    $gn = $gn -replace '^CN=',''
+                    if ($gn) { $oldGroups += $gn }
+                }
+                Write-Log "Grupos actuales: $($oldGroups.Count)" "INFO"
+                
+                # 2. Mover usuario a la nueva OU
+                Move-ADObject -Identity $ExistingUser.DistinguishedName -TargetPath $DestinationOU -Server $domainFqdn -ErrorAction Stop
+                Write-Log "Usuario movido a $DestinationOU" "OK"
+                
+                # 3. Eliminar grupos antiguos
+                foreach ($g in $oldGroups) {
+                    try {
+                        Remove-ADGroupMember -Identity $g -Members $ExistingUser.SamAccountName -Server $domainFqdn -Confirm $false -ErrorAction Stop
+                        Write-Log "Grupo antiguo $g eliminado" "INFO"
+                    } catch {
+                        Write-Log "Error eliminando grupo ${g}: $($_.Exception.Message)" "WARNING"
+                    }
+                }
+                
+                # 4. Copiar grupos del template
+                if ($TemplateUser -and $TemplateUser.Groups -and $TemplateUser.Groups.Count -gt 0) {
+                    Write-Log "Copiando $($TemplateUser.Groups.Count) grupos de $($TemplateUser.SamAccountName)..." "INFO"
+                    foreach ($g in $TemplateUser.Groups) {
+                        try {
+                            Add-ADGroupMember -Identity $g -Members $ExistingUser.SamAccountName -Server $domainFqdn -ErrorAction Stop
+                            Write-Log "Grupo $g asignado" "OK"
+                        } catch {
+                            Write-Log "Error asignando grupo ${g}: $($_.Exception.Message)" "WARNING"
+                        }
+                    }
+                }
+                
+                # 5. Actualizar descripción y teléfono
+                $setProps = @{Description = $User.Descripcion}
+                if ($User.Telefono) { $setProps.OfficePhone = $User.Telefono }
+                Set-ADUser -Identity $ExistingUser.SamAccountName -Server $domainFqdn @setProps -ErrorAction Stop
+                Write-Log "Descripción y teléfono actualizados" "OK"
+                
+                $Result.Estado = "EXITOSO"
+                $Result.Observaciones = "Usuario $($ExistingUser.SamAccountName) trasladado a $DestinationOU"
+            } catch {
+                Write-Log "Error en traslado: $($_.Exception.Message)" "ERROR"
+                $Result.Estado = "ERROR"
+                $Result.Observaciones = "Error en traslado: $($_.Exception.Message)"
+            }
         }
     } else {
         Write-Log "TRASLADO ENTRE DOMINIOS: $SourceDomain -> $DestinationDomain" "INFO"
@@ -528,12 +731,59 @@ function Process-UserTransfer {
             $Result.Email = $NewEmailAddress
             $Result.Observaciones = "Nuevo usuario creado en dominio $DestinationDomain, original mantenido en $SourceDomain"
         } else {
+            $domainFqdn = "$DestinationDomain.justicia.junta-andalucia.es"
             Write-Log "EJECUTANDO TRASLADO ENTRE DOMINIOS" "INFO"
-            # Implementar creación de nuevo usuario aquí
-            $Result.Estado = "EXITOSO"
-            $Result.SamAccountName = $NewSamAccountName
-            $Result.Email = $NewEmailAddress
-            $Result.Observaciones = "Nuevo usuario $NewSamAccountName creado en $DestinationDomain"
+            try {
+                # Generar contraseña estándar
+                $CurrentDate = Get-Date
+                $StandardPassword = "Justicia$($CurrentDate.ToString('MM'))$($CurrentDate.ToString('yy'))"
+                
+                # Crear nuevo usuario en dominio destino (manteniendo original)
+                $DisplayName = "$($User.Nombre) $($User.Apellidos)"
+                $UserParams = @{
+                    Name = $DisplayName
+                    SamAccountName = $NewSamAccountName
+                    UserPrincipalName = "$NewSamAccountName@justicia.junta-andalucia.es"
+                    GivenName = $User.Nombre
+                    Surname = $User.Apellidos
+                    DisplayName = $DisplayName
+                    Description = $User.Descripcion
+                    Office = $User.Oficina
+                    EmailAddress = $NewEmailAddress
+                    Path = $DestinationOU
+                    AccountPassword = (ConvertTo-SecureString $StandardPassword -AsPlainText -Force)
+                    Enabled = $true
+                    ChangePasswordAtLogon = $true
+                    PassThru = $true
+                    Server = $domainFqdn
+                    ErrorAction = "Stop"
+                }
+                if ($User.Telefono) { $UserParams.OfficePhone = $User.Telefono }
+                $CreatedUser = New-ADUser @UserParams
+                Write-Log "Nuevo usuario $NewSamAccountName creado en $DestinationDomain" "OK"
+                
+                # Copiar grupos del template
+                if ($TemplateUser -and $TemplateUser.Groups -and $TemplateUser.Groups.Count -gt 0) {
+                    Write-Log "Copiando $($TemplateUser.Groups.Count) grupos de $($TemplateUser.SamAccountName)..." "INFO"
+                    foreach ($g in $TemplateUser.Groups) {
+                        try {
+                            Add-ADGroupMember -Identity $g -Members $NewSamAccountName -Server $domainFqdn -ErrorAction Stop
+                            Write-Log "Grupo $g asignado" "OK"
+                        } catch {
+                            Write-Log "Error asignando grupo ${g}: $($_.Exception.Message)" "WARNING"
+                        }
+                    }
+                }
+                
+                $Result.Estado = "EXITOSO"
+                $Result.SamAccountName = $NewSamAccountName
+                $Result.Email = $NewEmailAddress
+                $Result.Observaciones = "Nuevo usuario $NewSamAccountName creado en $DestinationDomain (original $($ExistingUser.SamAccountName) mantenido en $SourceDomain)"
+            } catch {
+                Write-Log "Error en traslado cross-domain: $($_.Exception.Message)" "ERROR"
+                $Result.Estado = "ERROR"
+                $Result.Observaciones = "Error: $($_.Exception.Message)"
+            }
         }
     }
     
@@ -663,48 +913,61 @@ function Find-TemplateUser {
     }
     
     try {
-        # Extraer dominio de la UO
         $Domain = Extract-DomainFromOU -OUDN $OUDN
         $DomainFQDN = "$Domain.justicia.junta-andalucia.es"
+        Write-Log "Buscando en dominio: $DomainFQDN" "INFO"
         
-        # Buscar usuarios en la UO
-        $UsersInOU = Get-ADUser -Filter * -SearchBase $OUDN -Server $DomainFQDN -Properties Description,MemberOf -ErrorAction SilentlyContinue
+        $UsersInOU = @()
         
-        if (-not $UsersInOU) {
+        # Buscar usuarios con descripción similar en todo el dominio destino
+        # Get-ADUser -Server directo evita referrals; filtramos por OU en PowerShell
+        $DescWords = ($Descripcion -replace '[^\w\s]','' -split '\s+') | Where-Object { $_.Length -gt 2 }
+        $OUPath = ($OUDN -split ',',2)[1]  # parent OU path (todo tras la primera coma)
+        
+        if ($DescWords.Count -gt 0) {
+            try {
+                $keyword = $DescWords[0]
+                Write-Log "Consultando usuarios en $DomainFQDN con filtro: Description like '*$keyword*'" "INFO"
+                $filteredUsers = Get-ADUser -Server $DomainFQDN -Filter "Description -like '*$keyword*'" -Properties Description,MemberOf,DistinguishedName -ErrorAction Stop
+                Write-Log "Encontrados $($filteredUsers.Count) usuarios con '$keyword' en descripcion" "INFO"
+                
+                # Filtrar por OU (misma OU que el destino)
+                $UsersInOU = @($filteredUsers | Where-Object {
+                    $_.DistinguishedName -like "*$OUPath"
+                })
+                Write-Log "Usuarios en la misma UO: $($UsersInOU.Count)" "INFO"
+            } catch {
+                Write-Log "Error consultando dominio $DomainFQDN`: $($_.Exception.Message)" "WARNING"
+            }
+        }
+        
+        if (-not $UsersInOU -or $UsersInOU.Count -eq 0) {
             Write-Log "No se encontraron usuarios en la UO para usar como plantilla" "WARNING"
             return $null
         }
         
-        # Buscar usuario con descripción similar
         $DescripcionNorm = $Descripcion.ToLower() -replace '[^\w\s]', '' -replace '\s+', ' '
         
         foreach ($User in $UsersInOU) {
             if ($User.Description) {
                 $UserDescNorm = $User.Description.ToLower() -replace '[^\w\s]', '' -replace '\s+', ' '
                 
-                # Verificar similitud de descripción (contiene palabras clave)
                 $Similarity = 0
                 $DescWords = $DescripcionNorm -split '\s+'
                 foreach ($Word in $DescWords) {
-                    if ($UserDescNorm -like "*$Word*") {
-                        $Similarity++
-                    }
+                    if ($Word.Length -gt 2 -and $UserDescNorm -like "*$Word*") { $Similarity++ }
                 }
                 
-                # Si hay al menos 50% de similitud, usar como plantilla
                 if ($Similarity -ge ($DescWords.Count * 0.5)) {
-                    Write-Log "Usuario plantilla encontrado: $($User.SamAccountName) - $($User.Description)" "INFO"
-                    
-                    # Obtener grupos del usuario
-                    $UserGroups = $User.MemberOf | ForEach-Object {
+                    Write-Log "Plantilla encontrada: $($User.SamAccountName) - $($User.Description)" "INFO"
+                    $UserGroups = @()
+                    foreach ($g in $User.MemberOf) {
                         try {
-                            $Group = Get-ADGroup -Identity $_ -Server $DomainFQDN -ErrorAction SilentlyContinue
-                            return $Group.SamAccountName
-                        } catch {
-                            return $null
-                        }
-                    } | Where-Object { $_ -ne $null }
-                    
+                            $gn = $g -split ',',2 | Select-Object -First 1
+                            $gn = $gn -replace '^CN=',''
+                            if ($gn) { $UserGroups += $gn }
+                        } catch { }
+                    }
                     return @{
                         SamAccountName = $User.SamAccountName
                         DisplayName = $User.DisplayName
@@ -715,20 +978,17 @@ function Find-TemplateUser {
             }
         }
         
-        # Si no se encuentra por descripción, usar el primer usuario disponible
         if ($UsersInOU.Count -gt 0) {
             $FirstUser = $UsersInOU[0]
-            Write-Log "Usando primer usuario disponible como plantilla: $($FirstUser.SamAccountName)" "INFO"
-            
-            $UserGroups = $FirstUser.MemberOf | ForEach-Object {
+            Write-Log "Usando primer usuario como plantilla: $($FirstUser.SamAccountName)" "INFO"
+            $UserGroups = @()
+            foreach ($g in $FirstUser.MemberOf) {
                 try {
-                    $Group = Get-ADGroup -Identity $_ -Server $DomainFQDN -ErrorAction SilentlyContinue
-                    return $Group.SamAccountName
-                } catch {
-                    return $null
-                }
-            } | Where-Object { $_ -ne $null }
-            
+                    $gn = $g -split ',',2 | Select-Object -First 1
+                    $gn = $gn -replace '^CN=',''
+                    if ($gn) { $UserGroups += $gn }
+                } catch { }
+            }
             return @{
                 SamAccountName = $FirstUser.SamAccountName
                 DisplayName = $FirstUser.DisplayName
@@ -738,7 +998,7 @@ function Find-TemplateUser {
         }
         
     } catch {
-        Write-Log "Error buscando usuario plantilla: $($_.Exception.Message)" "WARNING"
+        Write-Log "Error buscando plantilla: $($_.Exception.Message)" "WARNING"
     }
     
     return $null

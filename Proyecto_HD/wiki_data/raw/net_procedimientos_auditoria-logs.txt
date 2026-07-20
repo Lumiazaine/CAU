@@ -1,0 +1,62 @@
+﻿
+====== Procedimiento de Auditoría de Accesos y Generación/Revisión de Logs ======
+
+===== 1. Objetivo =====
+Establecer un procedimiento estandarizado para auditar los accesos a dispositivos de red y sistemas, así como para la generación, centralización, revisión y conservación de los registros de logs, garantizando trazabilidad, cumplimiento normativo y detección temprana de incidentes.
+
+===== 2. Alcance =====
+Aplica a todos los dispositivos gestionados por el Departamento de Redes (firewalls, switches, routers, sistemas de autenticación, servidores de red) en todos los entornos corporativos.
+
+===== 3. Responsables =====
+  * Técnicos de Redes y Seguridad
+  * Responsable de Seguridad TIC
+
+===== 4. Procedimiento Paso a Paso =====
+
+==== 4.1. Generación y configuración de logs ====
+  - Activar el registro de eventos en todos los dispositivos críticos.
+  - Registrar accesos exitosos y fallidos (SSH, consola, web, APIs).
+  - Habilitar logging detallado para cambios de configuración.
+  - Establecer niveles de severidad adecuados (debug/info/warning/error).
+
+==== 4.2. Centralización y almacenamiento ====
+  - Configurar envío de logs a un servidor centralizado (Syslog/SIEM).
+  - Aplicar mecanismos de cifrado o aislamiento de red para logs sensibles.
+  - Asegurar la sincronización horaria con NTP en todos los equipos.
+
+==== 4.3. Revisión periódica de logs ====
+  - Revisar logs críticos a diario o por turnos.
+  - Programar revisiones semanales para logs operativos.
+  - Utilizar alertas automáticas para eventos anómalos o accesos no autorizados.
+  - Identificar patrones inusuales, intentos de fuerza bruta o cambios fuera de horario.
+
+==== 4.4. Auditorías internas ====
+  - Realizar auditorías mensuales sobre registros de acceso y uso administrativo.
+  - Comparar logs con el inventario de usuarios autorizados.
+  - Documentar hallazgos y acciones correctivas si aplica.
+
+==== 4.5. Conservación de registros ====
+  - Guardar logs durante al menos 12 meses en almacenamiento seguro.
+  - Restringir el acceso a los logs solo a personal autorizado.
+  - Cumplir con la política de retención de datos de la organización.
+
+===== 5. Herramientas y Plataformas Utilizadas =====
+  - Servidor Syslog centralizado o SIEM (Ej. FortiAnalyzer).
+  - NTP corporativo.
+  - Plataforma de gestión de usuarios (LDAP/Active Directory).
+  - Panel de visualización o correlación (SIEM o scripts internos).
+
+===== 6. Revisión y Auditoría del Procedimiento =====
+  - Este procedimiento debe revisarse anualmente o tras la detección de un incidente de seguridad.
+  - Las revisiones deben dejar constancia de la versión y fecha de actualización.
+
+===== 7. Documentación Relacionada =====
+  * [[net:seguridad:bastionado|Procedimiento de bastionado de dispositivos de red]]
+  * [[net:procedimientos:control-accesos|Control de accesos físicos/lógicos]]
+  * [[net:procedimientos:gestion-vulnerabilidades|Gestión de vulnerabilidades técnicas]]
+
+===== 8. Historial de cambios =====
+^ Versión ^ Fecha ^ Cambio ^ Autor ^  
+| 1.0 | 2025-07-18 | Creación del documento | GTSR|
+
+

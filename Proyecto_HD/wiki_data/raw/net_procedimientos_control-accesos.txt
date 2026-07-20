@@ -1,0 +1,87 @@
+﻿
+====== Procedimiento de Control de Accesos Físicos y Lógicos a los Sistemas ======
+
+===== 1. Objetivo =====
+Establecer y aplicar las medidas necesarias para asegurar el control, trazabilidad y autorización de los accesos físicos y lógicos a los sistemas, equipos de red y recursos críticos de la organización.
+
+===== 2. Alcance =====
+Aplica a todos los dispositivos de red (switches, routers, firewalls), sistemas de control (Radius, NAC, Active Directory, VPN), CPDs, salas técnicas, racks, así como al personal con acceso a ellos (interno y externo).
+
+===== 3. Definiciones =====
+  * **Acceso físico:** Entrada a una sala técnica, CPD, armario o instalación que contenga activos críticos.  
+  * **Acceso lógico:** Ingreso a sistemas operativos, firewalls, consolas web, CLI o aplicaciones de gestión.  
+  * **Principio de mínimo privilegio:** Solo se otorgan permisos mínimos necesarios para desempeñar una función.  
+
+===== 4. Responsabilidades =====
+  * **Departamento de Redes:** Gestión de cuentas de red, autorizaciones, registros y auditoría.  
+  * **Soporte Local:** Control de accesos físicos en sedes (armarios de comunicaciones, llaves).  
+  * **Usuarios:** Custodiar sus credenciales y no compartir accesos.  
+
+===== 5. Procedimiento =====
+
+==== 5.1 Control de Accesos Físicos ====
+  - Inventario actualizado de ubicaciones físicas críticas (CPDs, racks, armarios).  
+  - Control de llaves/códigos con registro en sistema (nombres, fechas, motivo).  
+  - Uso obligatorio de cerraduras, tarjetas o candados en racks/salas técnicas.  
+  - Técnicos externos deben tener:
+    * Solicitud previa autorizada  
+    * Registro de entrada/salida  
+    * Acompañamiento si es posible  
+  - Revisión trimestral de accesos físicos registrados.  
+
+==== 5.2 Control de Accesos Lógicos ====
+  * **Altas de usuarios:**
+    - Autorización previa del responsable  
+    - Registro de la solicitud  
+    - Asignación de rol según perfil  
+    - Activación de 2FA si aplica  
+
+  * **Bajas de usuarios:**
+    - Revocación inmediata al fin del contrato o cambio de rol  
+    - Eliminación/bloqueo de credenciales  
+    - Revisión de accesos delegados  
+
+  * **Revisiones periódicas:**
+    - Trimestral de usuarios activos  
+    - Identificación de cuentas inactivas (>90 días)  
+    - Validación de roles y accesos  
+
+  * **Gestión de contraseñas:**
+    - Mínimo 12 caracteres  
+    - Requiere complejidad  
+    - Renovación cada 90 días en sistemas críticos  
+    - Nunca almacenadas en texto plano  
+
+  * **Acceso VPN / ZTNA:**
+    - 2FA obligatorio  
+    - Monitorización de sesiones  
+    - Restricción geográfica o por IP si aplica  
+
+  * **Acceso a sistemas de red (CLI/web):**
+    - Cuentas nominales, no compartidas  
+    - Logging activado (fecha, IP, acción)  
+    - Uso de jump server si aplica  
+    - Auditoría de cuentas privilegiadas  
+
+===== 6. Herramientas de Soporte =====
+  * **Zabbix / SIEM:** Monitorización de accesos lógicos  
+  * **Radius / AD / LDAP:** Autenticación centralizada  
+  * **VPN Gateway / Firewall / NAC:** Control de entrada  
+  * **Gestor de Tickets / CMDB:** Registro de solicitudes  
+  * **Videovigilancia / Control de llaves:** Acceso físico  
+
+===== 7. Registro y Auditoría =====
+  * Logs de acceso retenidos mínimo 1 año (críticos: 3 años)  
+  * Auditorías internas semestrales  
+  * Informes de incidencias relacionadas con accesos  
+  * Verificaciones de cumplimiento durante auditorías externas  
+
+===== 8. Incumplimientos y Medidas Correctivas =====
+  * Accesos no autorizados → investigación, posibles medidas disciplinarias.  
+  * Fallos detectados → plan de acción correctivo y documentación en informe de seguridad.  
+
+===== 9. Historial de cambios =====
+^ Versión ^ Fecha ^ Cambio ^ Autor ^  
+| 1.0 | 2025-07-18 | Creación del documento | GTSR|
+
+

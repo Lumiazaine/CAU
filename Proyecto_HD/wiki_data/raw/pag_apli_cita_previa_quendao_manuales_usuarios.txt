@@ -1,0 +1,55 @@
+﻿
+<WRAP> 
+<panel type="primary" title="Manuales de Administración, CAU, Informes y Plantillas de Parametrización">
+
+[[:pag_apli:cita_previa_2030_ateneo:start|Volver atrás]]
+
+<WRAP> 
+<panel type="info" title="Manuales de Administración, CAU e Informes">
+
+  * {{ :pag_apli:cita_previa_2030_ateneo:quenda_manual_de_cau_v.01.00.pdf | Manual del CAU}}
+  * {{ :pag_apli:cita_previa_quendao:manual_del_perfil_administrador_-_administrador_provincial.pdf | Manual del perfil Administrador y Administrador_provincial}}
+  * {{ :pag_apli:cita_previa_quendao:quenda_manual_de_informes_v.01.00.pdf | Manual de Informes}}
+  * {{ :pag_apli:cita_previa_quendao:turnos_rrcc_manual_evalua_v1.0.odt | Manual módulo de Gestión de Encuestas (herramienta e-Valua)}}
+  * {{ :pag_apli:cita_previa_quendao:turnos_rrcc_anblick_manual_administracion_pantallas_digitales_v.01.00.odt | Manual 	Administración de Pantallas Digitales y Cartelería (Anblick)}}
+
+</panel>
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Procedimiento para peticiones de cambio en el Servicio de Cita Previa y documentación relacionada">
+
+  * {{ :pag_apli:cita_previa_quendao:pro_otpcs_peticiones_sobre_el_sistema_de_cita_previa.odt | Procedimiento para la Gestión de las Peticiones de Modificación en el Servicio de Cita Previa}}
+  * {{ :pag_apli:cita_previa_quendao:operativa_para_crear_un_tramite_en_quenda.odt | Operativa para crear un trámite en QUENDA}}
+  * {{ :pag_apli:cita_previa_quendao:operativa_para_crear_un_tramite_en_ateneo.odt | Operativa para crear un trámite en ATENEO}}
+  * {{ :pag_apli:cita_previa_quendao:cita_previa_tipo_solicitudes.pdf | Listado de Tipo de Solicitudes}}
+
+</panel>
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Módulo antifraude">
+
+La **funcionalidad Antifraude** establece un mecanismo de control en la asignación de las citas como __medida preventiva para el agotamiento o saturación fraudulenta en las asignaciones de citas previas__.
+
+Con esta funcionalidad el sistema controlará la emisión de tickets mediante la identificación de documento de identidad, de modo que un ciudadano podrá solicitar una cita día por día para cada trámite ofertado en cada Registro Civil.
+
+La configuración se aplica a cada trámite de la siguiente forma: 
+
+{{ :pag_apli:cita_previa_quendao:1668442655087-629.png?400 |}}
+
+</panel>
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Plantillas de Parametrización">
+
+  * {{ :pag_apli:cita_previa_quendao:guia_configuracion_turnos_rrcc_ddpp.pdf | Guía configuración Turnos}}
+  * {{ :pag_apli:cita_previa_quendao:plantilla_parametrizacion_turnos_rrcc_rcxxx.ods | Plantilla configuración Turnos}}
+
+</panel>
+</WRAP>
+
+[[:pag_apli:cita_previa_2030_ateneo:start|Volver atrás]]
+
+{{tag>novalidada}}

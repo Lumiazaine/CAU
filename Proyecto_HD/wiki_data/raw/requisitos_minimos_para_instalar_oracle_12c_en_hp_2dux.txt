@@ -1,0 +1,310 @@
+﻿
+Requisitos minimos para instalar Oracle 12c en HP-UX
+  
+1 INTRODUCCIÓN
+
+El presente documento recoge una serie de pautas esquemáticas para que Comparex cree una BBDD Oracle 12c en el nuevo entorno HPUX. El objetivo es tener un entorno de configuración 12c, que permita albergar los esquemas que tenemos en las bases de datos Oracle 10g actuales.
+
+2 Porque elegimos oracle 12c
+
+Oracle 12c permite la creación de una base de datos contenedora (CDB), y una o muchas bases de datos ¿pluggable¿ (PDBs). Esto nos permitirá importar cada uno de los esquemas de Adriano de las sedes de Andalucía en una PDB distinta, conectada a la CDB principal del cluster de máquinas HP.
+
+Permite la separación de tareas de administración, ya que en la nueva versión se ha implementado privilegios administrativos asignados a tareas, y la posibilidad de que hayan usuarios que realicen tareas administrativas que no requieran el privilegio de SYSDBA.
+
+Permite usar hilos de sistema operativo para permitir compartir recursos entre las distintas PDBs. De esta forma se puede redistribuir recursos de una PDB a otra en caso de necesidad, mejorando la productividad.
+
+Introduce el gestor de filtro de ASM (Oracle ASMFD). Este módulo rechaza cualquier solicitud que no haya sido generada por el software de Oracle, eliminando la posibilidad de sobreescrituras en los discos ASM que podrían provocar corrupción. Este filtro además permite bloquear conexiones de entrada/salida de entidades que han dejado de comunicarse con Oracle ASM.
+
+3 Requisitos hardware
+
+Random Access Memory (RAM):
+
+¿ Mínimo 1 GB para cada base de datos
+
+¿ Mínimo 4 GB para una instancia de Grid Infrastructure
+
+Verificar con el comando
+
+# /usr/contrib/bin/machinfo  | grep -i Memory
+Espacio de intercambio RAM para Linux
+
+¿ Si tiene entre 1 GB y 2 GB se necesitan 1.5 Gb
+
+¿ Si tiene entre 2 GB y 16 GB se necesita el mismo espacio en el espacio de intercambio que de RAM
+
+¿ Si tiene más de 16 GB se necesitan 16 GB de espacio de intercambio
+
+Verificar con el comando
+
+# /usr/sbin/swapinfo -a
+
+Hemos abierto un caso con Metalink para que nos confirmen si podemos reducir o eliminar este espacio de intercambio RAM:
+
+SR 3-11623203861 : Can we avoid to have swap space in our HP-UX brand new installation?
+Espacio temporal
+
+Al menos 1 GB en /tmp.
+
+Verificar con el comando
+
+# bdf /tmp
+Hardware de almacenamiento:
+
+SAN o NAS
+
+Requisitos de espacio de disco en Linux x86-64
+
+¿ Oracle Enterprise Edition necesita 8.3 GB
+
+¿ Oracle Grid Infrastructure necesita al menos 6.9 GB
+
+Verificar con el comando
+
+# bdf
+4 Requisitos para instalación en sistemas operativos hp-ux
+
+Versiones soportadas
+
+¿ HP-UX 11.31
+
+¿ HP-UX 11i V3 patch Bundle Sep/ 2008 (B.11.31.0809.326a) or higher
+
+Verificar con el comando
+
+# uname -m
+Importante: la salida debe poner ¿ia64 (itanium)¿, en caso contrario no se puede realizar la instalación.
+
+Debe como mínimo estos parches:
+
+¿ PHCO_43503 - 11.31 diskowner(1M) cumulative patch
+¿ PHKL_38038 - 11.31 vm cumulative patch
+¿ PHKL_38938 - 11.31 SCSI cumulative I/O patch
+¿ PHKL_40941 - 11.31 scheduler cumulative patch
+¿ PHSS_36354 - 11.31 assembler patch 
+¿ PHSS_37042 - 11.31 hppac
+¿ PHSS_37959 - Libcl patch for alternate stack issue fix (QXCR1000818011)
+¿ PHSS_38141 - 11.31 aC++ Runtime
+¿ PHSS_39094 - 11.31 linker + fdp cumulative patch
+¿ PHSS_39100 - 11.31 Math Library Cumulative Patch
+¿ PHSS_39102 - 11.31 Integrity Unwind Library
+
+5 requisitos software
+
+Comprobar que la instalación corresponde con la adecuada con el comando
+
+# uname -a
+HP-UX hostname B.11.31 U ia64 4156074294 unlimited-user license
+Verificar qué compilador tiene la máquina:
+
+# /usr/sbin/swlist -l product | grep -i compiler
+Listar los parches instalados y comprobar que cumplen la lista:
+
+# /usr/sbin/swlist -l patch | more
+Con este comando verificamos que el Quality Pack mínimo se ha instalado en la máquina:
+
+# /usr/sbin/swlist -l bundle |grep QPK
+6 parámetros del kernel
+
+Comprobar si es necesario modificar los parámetros de Kernel de shared memory con los siguientes comandos:
+
+# kctune -v shmmni
+# kctune -v shmseg
+# kctune -v shmmax
+Si hace falta modificarlos seguir este ejemplo
+
+kctune shmmni=1024
+
+7 directorios de la instalación
+
+El usuario propietario de la instalación es ¿oracle¿, el grupo es ¿dba¿.
+
+Siguiendo la estructura Oracle Flexible Architecture y atendiendo a las reglas que hemos seguido en las anteriores instalaciones de Oracle del CIJ, este usuario creará y será propietario de estas carpetas, que tendrán los permisos 775:
+
+¿ Oracle Base
+
+/opt/oracle
+
+¿ Oracle Inventory
+
+/opt/oracle/app/oraInventory
+
+¿ Oracle Home
+
+/opt/oracle/db12.1.0
+
+Un caso especial es la máquina PDB de grid. Si queremos, podemos usar el mismo usuario ¿oracle¿, o si no podemos llamarlo ¿grid¿. También petenecerá al grupo ¿dba¿. Su carpeta home es esta, en función del propietario elegido:
+
+/opt/grid/db12.1.0/grid12.1.0
+
+/opt/oracle/db12.1.0/oracle12.1.0
+
+¿ El resto de carpetas oradata, flash_recovery_area, y admin se crearán dentro de la unidad ASM con la siguiente estructura
+
+/opt/oracle/admin
+
+/opt/oracle/fast_recovery_area
+
+/opt/oracle/oradata/<INSTANCIA_ADRIANO>
+
+/opt/oracle/oradata/<INSTANCIA_ADRIANO>/backup
+
+/opt/oracle/oradata/<INSTANCIA_ADRIANO>/archive
+
+<INSTANCIA_ADRIANO> es una carpeta que habrá que crear para cada una de las instancias de Adriano que se incorporen a estas máquinas.
+
+Podemos elegir entre dejar las carpetas /opt/oracle/oradata/<INSTANCIA_ADRIANO> y /opt/oracle/oradata/<INSTANCIA_ADRIANO> en un filesystem o dentro de ASM. Habría que estudiar con más detalle qué es lo que más conviene, en relación el modo en que es están haciendo las copias de Networker.
+
+/NFS_BACKUP es una unidad física de NAS donde se se depositan las copias de RMAN y export. Habrá que mapear esta unidad dentro de las máquinas HP-UX como se hizo en esta máquina que ponemos como ejemplo:
+
+oracle@iusslbdpro04:~$ df -h /NFS_BACKUP/
+
+S.ficheros Tamaño Usado Disp Uso% Montado en
+
+iusnas01:/vol/Backup_centralizado 2,5T 1,1T 1,5T 44% /NFS_BACKUP
+
+Notas sobre FAST_RECOVERY_AREA:
+
+Habitualmente hemos llamado a esta carpeta flash_recovery_area, por un error históricamente repetido.
+
+La ruta por defecto para la fast recovery area es $ORACLE_BASE/fast_recovery_area. Oracle recomienda mantener este área en un disco separado, distinto a la ruta $ORACLE_BASE/oradata, porque de esta forma podríamos disponer de un sitio alternativo en caso de que oradata se vuelva esté inaccesible por cualquier incidencia.
+
+8 almacenamiento de base de datos asm
+
+Elegimos ASM para guardar los datafiles, controlfiles, redo log, parámetros de servidor y archivo de clave. Todas las bases de datos que instalemos deben escoger esta configuración.
+
+Elegir un tipo de redundancia para ASM
+
+El nivel de redundancia elegido determina como ASM replica los archivos en los grupos de discos, y la mayor o menor espacio de disco que vamos a necesitar usar. Oracle ofrece Redundancia externa, Redundancia normal y Redundancia Alta. Descartamos la normal y la alta, porque los dispositivos de almacenamiento de HP-UX disponen de su propio gestor de redundancia en RAID 5.
+
+¿ Redundancia externa
+
+Esta opción impide que ASM haga mirror del contenido de los grupos de disco. Oracle recomienda elegir este nivel cuando el grupo de disco contiene dispositivos RAID que ofrecen su propio sistema de protección de datos, como es el caso de nuestro entorno.
+
+Requisitos de espacio para la redundancia externa:
+
+Para la redundancia externa necesitamos un mínimo de un disco, 1,8 Gb para los Datafiles y 3,6 Gb para los archivos de recuperación.
+
+Oracle recomienda usar la redundancia normal con grupos de discos para la mayor parte de las instalaciones.
+
+Las bases de datos de ADRIANO suelen ocupar 10Gb. Una cuenta rápida e imprecisa nos indica que necesitaremos un espacio de disco de 170 Tb para albergar los datos de los 170 servidores de la Junta de Andalucía.
+
+Opcionalmente y para mayor protección frente a fallos de hardware podemos usar ¿failure groups¿, asociando un juego de discos físicos adicional a un grupo de fallo. Este debe estar en una tarjeta controladora distinta a los grupos de redundancia normal, porque el controlador es un SPOF (single point of failure).
+
+Los requisitos que deben cumplir los grupos de disco:
+
+¿ Los dispositivos físicos deben de pertenecer al usuario que instala el grid.
+
+¿ Todos los dispositivos físicos pertenecientes a un grupo deben tener el mismo tamaño y similares características de rendimiento.
+
+¿ No se deben hacer particiones múltiples en un mismo disco y ofrecerlo como un grupo de discos en ASM. Cada grupo de discos debe estar en un disco físico distinto al resto.
+
+¿ Oracle recomienda no utilizar volúmenes lógicos, porque añade un nivel de complejidad innecesario. En caso de ser necesario usar un gestor de volúmenes lógicos, Oracle recomienda representar una LUN sin stripping ni mirroring, de forma que se pueda minimizar el efecto adverso en el rendimiento del almacenamiento.
+
+Configuración de los dispositivos de disco para ASM
+
+1. Configurar el discoque usaremos en el grupo.
+
+2. Asegurarse que el disco está disponible con el comando:
+
+# /usr/sbin/ioscan -fun -C disk
+
+3. En caso de que el comando no haya retornado un nombre, usar este comando:
+
+# /usr/sbin/insf -e
+
+4. Asegurarse de que los discos que vamos a añadir al grupo no son parte de un grupo LVM con este comando:
+
+# /sbin/pvdisplay /dev/dsk/cxtydz
+
+5. Asigna el propietario, grupo y los permisos de lectura y escritura correctos a cada disco. Por ejemplo:
+
+# chown oracle:dba /dev/rdsk/cxtydz
+
+# chmod 660 /dev/rdsk/cxtydz
+
+Configurar los grupos de disco ASM con ASMCA
+
+$ cd Grid_home/bin
+
+$ ./asmca
+
+Verificar la instalación ASM
+
+Tras instalar la infraestructura de Oracle Grid para un servidorpodemos usar la utilidad de línea de comando asmcmd
+
+1. Abrir una ventana de línea de comando y asignar las variables ORACLE_SID y ORACLE_HOME para especificar la instancia de Oracle ASM
+
+Por ejemplo, si el SID de la instancia ASM se llama +ASM, usaremos estos comandos:
+
+¿ Bourne, Bash, or Korn shell:
+
+$ ORACLE_SID=+ASM
+
+$ export ORACLE_SID
+
+$ ORACLE_HOME=/u01/app/oracle/product/12.1.0/grid
+
+$ export ORACLE_HOME
+
+¿ C shell:
+
+% setenv ORACLE_SID +ASM
+
+% setenv ORACLE_HOME /u01/app/oracle/product/12.1.0/grid
+
+2. Usar ASMCMD para listar los grupos de discos:
+
+$ORACLE_HOME/bin/asmcmd lsdg
+
+ASMCMD conecta con el usuario SYS con privilegios SYSASM.
+
+Si la instancia ASM no está arrancarla, arrancarla con este comando:
+
+$ORACLE_HOME/bin/asmcmd startup
+
+9 arquitectura propuesta
+
+Tenemos un cluster de HP-UX con 4 máquinas de 384Gb de RAM cada una, donde se creará una instancia virtual WPAR. Queremos instalar en estas máquinas instancias independientes de Oracle12c.
+
+Oracle del entorno de Producción se va a instalar en dos de las máquinas en modo activo/pasivo y no va a haber un cluster rac Oracle. Las otras dos máquinas restantes se van a dedicar a los entornos de Desarrollo y Pruebas.
+
+El modo de funcionamiento del cluster de Producción será el siguiente: cuando una de las 2 máquinas esté encendida, la otra estará apagada.
+
+En cada una de las 4 instancias Oracle 12c instalaremos la base de datos CDB obligatoria, y se irán incorporando aproximadamente 170 bases de datos PDB que tenemos distribuidas entre los entornos de Desarrollo, Pruebas y Producción. Los PDB tendrán un tamaño de SGA aproximado de 3,2 Gb, y un tamaño de datos de 10Gb aproximadamente. Las bases de datos de Producción se incorporarán a PDBs del cluster de dos máquinas Producción, y las de Desarrollo y Pruebas irán a parar una a cada una de las dos máquinas restantes.
+
+Las bases de datos CDB y PDB del cluster de Producción accederan a un oradata almacenado en una instancia ASM, que estará corriendo en una única instancia PDB. Las de Desarrollo y Pruebas accederán a otra instancia ASM, que correrá en un PDB distinto.
+
+En el cluster de Producción sólo habrá una máquina accediendo a los datos al mismo tiempo, para evitar que haya corrupción en los datos. El cambio de instancia operativa con el consiguiente arranque y apagado de las instancias se hará de forma manual, en ventanas horarias administrativas programadas con suficiente antelación.
+
+Hemos aprovechado el caso abierto en Metalink para preguntar lo siguiente:
+
+SR 3-11623203861 : Can we avoid to have swap space in our HP-UX brand new installation?
++ Oracle 12c permite reasignar recursos físicos al vuelo a las PDB, y tenemos disponibles al menos 384Gb para repartir entre los 120 PDB. ¿Podemos prescindir de configurar el espacio de intercambio RAM para Linux desatendiendo a las recomendaciones de la guía de instalación, sin temor a que el entorno sufra paradas abruptas o degradación?. Sabemos que cuando Oracle empieza a utilizar la memoria de swap el sistema comienza a degradar el nivel de servicio y, en última instancia se acaba por reiniciar la base de datos para restaurarlo.
+
++ atendiendo a lo expuesto, que nos confirmen si nuestro plan de arquitectura tiene sentido, que nos digan si detectan algún defecto o exceso en el plan.
+
+10 Configuración de los parámetros de entorno del usuario oracle
+
+El propietario de la instalación ¿oracle¿ en cada uno de los PDBs y en el CDB tendrá estas variables de entorno en el archivo .bash_profile. En el caso del PDB del grid, cambiaremos ¿oracle¿ por ¿grid¿ en el caso de que hayamos decidido utilizar un usuario distinto:
+
+umask 022
+
+export DISPLAY=<ip_local_host>:0.0
+export TMP=/tmp
+export TMPDIR=$TMP
+export ORACLE_BASE=/opt/oracle
+export DB_HOME=$ORACLE_BASE/db12.1.0
+export ORACLE_HOME=$DB_HOME
+export ORACLE_SID=<el que corresponda>
+export BASE_PATH=/usr/sbin
+export PATH=$ORACLE_HOME/bin:$BASE_PATH
+export LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib:$ORACLE_HOME/lib/stubs
+export CLASSPATH=$ORACLE_HOME/JRE:$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib
+if [ $USER = "oracle" ]; then
+  if [ $SHELL = "/bin/ksh" ]; then
+    ulimit -p 16384
+    ulimit -n 65536
+  else
+    ulimit -u 16384 -n 65536
+  fi
+fi

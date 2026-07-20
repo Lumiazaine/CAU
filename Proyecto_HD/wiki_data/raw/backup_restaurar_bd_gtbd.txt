@@ -1,0 +1,68 @@
+﻿
+===== Procedimientos de backup y restauración de bases de datos. =====
+=== Gestión de Backup. ===
+La realización de backup se realiza de forma diara mediante tareas programadas en el corntab de las maquinas contenedoras de las bases de datos.
+Se divide en tres grupos.
+	Producción con modo Archive.
+	Producción con modo No Archive.
+	Entornos no productivos.
+
+Producción con modo Archive.
+Se realiza un full bakcup semanal una vez en semana durante el fin de semana.
+Se realiza un backup de archive e incremental diario durante la noche a partir de las 20:00H.
+Estos backups se almacenan en el NFS_BACKUP y se realiza una limpieza semanal de los directorios por RMAN tras validar el nuevo backup full.
+
+Producción con modo No Archive y Entornos no productivos.
+En los entornos productivos que estan en modo No Archive a causa de su naturaleza, como es PROCW02 con el esquema de Zabbix, se realiza un export diario almacenado en el NFS_BACKUP.
+
+A partir de aquí el equipo de GTAB se encarga de su almacenamiento a largo plazo según politicas de retención del cliente dependiendo del entorno.
+
+=== Restauracion con RMAN. ===
+Paso 1: Preparación del entorno / nueva máquina (o nueva instancia)
+    Se solicita a GTSL el sistema operativo, rutas y volumenes necesarios
+	Instalamos Oracle (mismo ORACLE_HOME y versión compatible).
+    Configuramos el entorno:
+        Definimos ORACLE_SID, ORACLE_HOME, variables PATH, etc.
+    Creamos un archivo PFILE/SPFILE mínimo (o usar uno restaurado desde backup si está disponible).
+
+Paso 2: Inicio de instancia en estado NOMOUNT
+	Cuando no existen SPFILE ni controlfile.
+	Este arranque usa un PFILE mínimo o temporal generado manualmente.
+
+Paso 3: Restauramos SPFILE y Control File
+	Si no tenemos SPFILE ni controlfile:
+		Restauramos SPFILE.
+	Configurar DBID si no vamos a usar el catalogo.
+	Restaurar control file desde autobackup:
+	Montar la base de datos:
+
+Paso 4: Restaurar datos y recuperar la base de datos
+	Una vez montada, restauramos.
+		Si se restauró desde controlfile de backup hay realizar un resetlogs:
+
+Paso 5: Ajustes finales y validación
+	Verificamos que la base de datos abre correctamente y que los archivos están en los paths esperados.
+	Corregimos parámetros del PFILE/SPFILE relacionados con rutas de archivos (CONTROL_FILES, db_create_file_dest, etc.).
+
+Revisa alert log y RMAN logs para confirmar que todo está bien.
+
+Todo este proceso se realiza con la debida supervisión y ticket al Soporte de Oracle.
+Documentación Oficial:
+  * [[https://docs.oracle.com/en/database/oracle/oracle-database/19/bradv/index.html|Backup and Recovery User's Guide]]
+  * [[https://docs.oracle.com/en/database/oracle/oracle-database/19/bradv/getting-started-rman.html|Getting Started with RMAN]]
+  * [[https://docs.oracle.com/en/database/oracle/oracle-database/19/bradv/rman-recovery-advanced.html|Performing RMAN Recovery: Advanced Scenarios]]
+
+
+=== Restauración por Import. ===
+Paso 1: Preparación del entorno / nueva máquina (o nueva instancia)
+    Se solicita a GTSL el sistema operativo, rutas y volumenes necesarios
+	Instalamos Oracle (mismo ORACLE_HOME y versión compatible).
+    Creamós una instancia con el mismo nombre.
+
+Paso 2: Import.
+	Procedemos a realizar una importación full.
+	En caso de que no queramos realizar una importación full será necesario que creemos la estrusctura de tablespaces necesarias.
+
+Este metodo no esta pensado para realizar una restauración completa de una base de datos, aunque se puede utilizar, sino más bien para restauraciones parciales.
+  * [[https://docs.oracle.com/en/database/oracle/oracle-database/19/sutil/oracle-data-pump.html|Documentación Oficial]]
+

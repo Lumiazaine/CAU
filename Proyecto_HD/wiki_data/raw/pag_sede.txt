@@ -1,0 +1,43 @@
+﻿
+
+<WRAP> <panel type="primary" title="Nueva Sede Judicial Electrónica">
+
+<WRAP> 
+<panel type="info" title="Descripción">
+La Nueva Sede Judicial Electrónica de Andalucía (NSJE) consiste en un proyecto para habilitar tanto a la ciudadanía como a los profesionales para efectuar el conjunto completo de operaciones jurídicas telemáticas que las actuales normas y las leyes de eficiencia permiten y fomentan.
+Este contrato también incluye la construcción e implantación de la Herramienta de acceso al Expediente Judicial Electrónico (Acceso al EJE), tanto para la ciudadanía y profesionales de todos los asuntos en los que interviene, como para la Oficial Judicial y Fiscal, facilitando una experiencia de navegación por los documentos del expediente tanto en modo navegable con vista de árbol como la descarga completa. 
+Adicionalmente, el proyecto incorpora el suministro de la infraestructura hardware necesaria para el alojamiento de toda la infraestructura de la Nueva SEDE y la Herramienta de acceso al EJE, así como el desempeño de los trabajos de integración y pruebas.
+El proyecto se compone de tres lotes:
+    • Lote 1 : Servicios para diseñar e implementar la Nueva Sede Judicial Electrónica, y la herramienta de acceso al Expediente Judicial Electrónico, así como el conjunto de productos anexos, junto con la migración de datos desde la actual Sede, todas las interconexiones necesarias para que los dos sistemas puedan cumplir su finalidad completa, consolidar la infraestructura de apoyo y establecer la plataforma de análisis de datos.
+    • Lote 2: Servicios para optimizar la construcción, desde las buenas prácticas del producto ownership/product management (Gestión de Producto), esencialmente de las dos aplicaciones (Nueva Sede y Acceso al EJE) sin limitarse a ellas.
+   • Lote 3: Suministro de las infraestructuras tecnológicas necesarias para operar los sistemas de información
+    
+ </panel>
+
+ </WRAP>
+
+<WRAP> 
+<panel type="info" title="Fechas del proyecto"> 30 de noviembre de 2025 </panel>
+ </WRAP>
+
+<WRAP> 
+<panel type="info" title="Procedimientos">
+  * [[:pag_procedimientos_sede|Procedimientos Nueva Sede Judicial Electrónica]]
+</panel>
+ </WRAP>
+
+<WRAP> <panel type="info" title="Capacitación">
+
+  * [[https://capacitacion.justicia.junta-andalucia.es/|Cursos y Manuales de Usuario]]
+  * [[https://videos.justicia.junta-andalucia.es/|Contenidos en video]]
+  * [[https://capacitacion.justicia.junta-andalucia.es/mod/glossary/view.php?id=196|Preguntas frecuentes (Portal de Capacitación)]]
+
+</panel>
+
+<panel type="info" title="Contacta">
+
+  * [[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_contactos#nueva-sede-judicial-electr%C3%B3nica|Contactos Nueva Sede Judicial Electrónica]]
+
+</panel></WRAP>
+
+{{tag>novalidada}}

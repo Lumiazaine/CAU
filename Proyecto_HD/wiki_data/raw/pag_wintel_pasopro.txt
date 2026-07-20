@@ -1,0 +1,50 @@
+﻿
+====== Procedimiento de Paso a Producción – Máquinas Virtuales y Configuraciones ======
+
+===== 1. Objetivo =====
+Definir los pasos necesarios para pasar a producción máquinas virtuales o cambios de configuración, asegurando calidad, seguridad y trazabilidad.
+
+===== 2. Roles =====
+  * **Solicitante**: Registra y justifica el cambio.
+  * **Administrador de Sistemas**: Ejecuta el despliegue y pruebas.
+  * **Responsable de TI**: Valida y autoriza el cambio.
+  * **Comité de Cambios (CAB)**: Aprueba el paso definitivo a producción.
+
+===== 3. Requisitos Previos =====
+  - Solicitud registrada con plan de implementación y reversión.
+  - Pruebas superadas en entorno de pre-producción.
+  - Backup verificado antes de la ejecución.
+  - Plan de comunicación a usuarios y equipos técnicos.
+
+===== 4. Procedimiento =====
+==== 4.1 Preparación ====
+  - Confirmar recursos y compatibilidad técnica.
+  - Configurar y validar la VM en entorno preproductivo.
+  - Documentar configuración aplicada.
+
+==== 4.2 Paso a Producción ====
+  - Confirmar ventana de mantenimiento.
+  - Realizar snapshot o backup previo.
+  - Implementar la VM o configuración en producción.
+  - Validar funcionamiento y documentar incidencias.
+
+==== 4.3 Cierre ====
+  - Actualizar inventario de activos.
+  - Adjuntar evidencias al registro del cambio.
+  - Aprobación final por CAB.
+  - Activar monitorización.
+
+===== 5. Checklist Operativa =====
+^ Nº  ^ Fase            ^ Tarea                                   ^ Responsable  ^ Estado  ^ Evidencia  ^
+| 1   | Solicitud       | Cambio registrado                       | Solicitante  |         |            |
+| 2   | Solicitud       | Plan de implementación/reversión definido | Solicitante/Admin |   |            |
+| 3   | Pruebas         | Validación en pre-producción            | Admin        |         |            |
+| 4   | Pruebas         | Backup verificado                       | Admin        |         |            |
+| 5   | Implementación  | Ventana confirmada                      | Admin        |         |            |
+| 6   | Implementación  | Snapshot o backup previo                | Admin        |         |            |
+| 7   | Implementación  | Despliegue realizado                    | Admin        |         |            |
+| 8   | Implementación  | Validaciones post-despliegue            | Admin        |         |            |
+| 9   | Cierre          | Inventario actualizado                  | Admin        |         |            |
+| 10  | Cierre          | Evidencias adjuntadas                   | Admin        |         |            |
+| 11  | Cierre          | Aprobación final                        | CAB          |         |            |
+

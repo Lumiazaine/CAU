@@ -1,0 +1,24 @@
+﻿
+
+<WRAP>
+<panel type="primary" title="Ficheros Junta">
+
+<WRAP> 
+<panel type="info" title="Descripción"> Es una herramienta que permite a sus usuarios, almacenar, sincronizar con otros dispositivos, y compartir todo tipo de archivos informáticos, ya sea mediante el propio servicio o mediante el envío de su URL de descarga.</panel>
+ </WRAP>
+
+<WRAP>
+<panel type="info" title="Capacitación">
+
+  * [[https://portaladriano.justicia.junta-andalucia.es/portal/adriano/.content/recursosexternos/ManualFicherosJuntav131R.pdf|Manual de usuario]]
+
+</panel>
+</WRAP>
+
+<WRAP>
+<panel type="info" title="Enlaces">
+
+  * [[https://ficheros.juntadeandalucia.es/login|Enlace a la aplicación]]
+
+</panel>
+</WRAP>

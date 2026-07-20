@@ -1,0 +1,21 @@
+﻿
+
+<WRAP> 
+<panel type="primary" title="Procedimientos y Problemas Conocidos de Navegador Diraya">
+
+[[start|Volver atrás]]
+
+<WRAP> 
+<panel type="info">
+
+====== Preguntas Frecuentes ======
+
+  * **¿Se puede acceder a la Historia de Salud Mental?** No deben existir limitaciones para el acceso a la información de Salud Mental.\\
+  * **¿Se podría acceder a la consulta del historial médico con el DNI / nombre del informado?** El acceso sería nominativo y la búsqueda del paciente, efectivamente se puede hacer por DNI (y otros documentos identificativos) y por nombre y apellidos pero no se limita a qué pacientes se pueden y no se pueden consultar. El acceso es general a todos los pacientes que se busquen.
+
+</panel> 
+</WRAP>
+
+[[start|Volver atrás]]
+
+{{tag>novalidada}}

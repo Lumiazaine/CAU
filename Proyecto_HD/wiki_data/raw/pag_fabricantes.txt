@@ -1,0 +1,163 @@
+﻿
+====== Recursos de Networking por Fabricante ======
+
+===== D-Link Networks =====
+
+Consulta rápida de documentación oficial:
+
+**Manuales D-Link DES-3200-28 **
+
+   * [[https://ftp.dlink.ru/pub/Switch/DES-3200-28/Description/DES-3200_Series_User_Manual_v1.21.pdf|Manual de Usuario]]
+  * [[https://www.dlink.com/-/media/business_products/des/des-3200-series/manual/des_3200_series_cli_ref_guide_4_04.pdf|Guía CLI (comandos por consola)]]
+  * [[https://www.dlinktw.com.tw/temp/dk2support_guide/549/DES-3200_Series_Web_UI_Reference_Guide_R4.02.pdf|Guía Interfaz Web (Web UI)]]
+  * [[https://d-link.manymanuals.com/network-switches/des-3200-28/installation-guide-6164|Guía de Instalación]]
+  * [[https://www.manualslib.com/products/D-Link-Xstack-Des-3200-28-Me-6131820.html|Ficha técnica]]
+  * [[https://www.use-ip.co.uk/datasheets/d-linkDES-3200-28P_Installation_Guide.pdf|Guía Instalación PoE DES-3200-28P]]
+
+**Manuales D-Link DES-3200-52 **
+
+  * [[https://d-link.manymanuals.com/network-switches/des-3200-52p/datasheet-21411/4|Ficha técnica DES‑3200‑52]]
+  * [[https://ftp.dlink.ru/pub/Switch/DES-3200-28/Description/DES-3200_Series_User_Manual_v1.21.pdf|Manual de Usuario (serie DES‑3200)]]
+  * [[https://www.dlink.com/-/media/business_products/des/des-3200-series/manual/des_3200_series_cli_ref_guide_4_04.pdf|Guía CLI (comandos por consola)]]
+  * [[https://www.dlinktw.com.tw/temp/dk2support_guide/549/DES-3200_Series_Web_UI_Reference_Guide_R4.02.pdf|Guía Interfaz Web (Web UI)]]
+  * [[https://support.dlink.com/resource/products/DES-3200-52/REVC/DES-3200-52_REVC_DATASHEET_1.00_EN.PDF|Datash eet oficial DES-3200-52]]
+
+**Manuales D-Link DGS-1210-28P **
+
+  * [[https://support.dlink.com/resource/PRODUCTS/DGS-1210-SERIES/REVF/DGS-1210-SERIES_REVF_DATASHEET_2.10_EN_US.pdf|Ficha técnica DGS‑1210 Series]]
+  * [[https://ftp.dlink.ru/pub/Switch/DGS-1210-10_C1A/Description/DGS-1210_Series_F1_User_Manual_v6.00.pdf|Manual de Usuario (serie DGS‑1210)]]
+  * [[https://www.dlink.eu/support/products/DGS-1210-52_FL/Description/DGS-1210_Series_R1_R2_WEB_UI_Manual_v1.00.pdf|Guía Interfaz Web (Web UI)]]
+  * [[https://www.use-ip.co.uk/datasheets/5181/dlink_dgs121028p_28port_smart_poe_switch.pdf|Datasheet específico DGS‑1210‑28P]]
+
+===== Firewall Fortinet / FortiGate =====
+
+La siguiente tabla incluye los modelos Fortinet utilizados en nuestra infraestructura y enlaces a la documentación técnica oficial o fichas técnicas:
+
+^Modelo  ^Documentación relevante  |
+|**FortiGate 60D**   |[[https://docs.fortinet.com/document/fortigate/5.0.7/fortigate-60d-quickstart-guide|Guía de inicio rápido FortiGate 60D]]|
+|**FortiGate 3600C**   |[[https://docs.fortinet.com/document/fortigate/5.0.7/fortigate-3600c-quickstart-guide|QuickStart Guide FortiGate 3600C]]  |
+|**FortiGate 1500D**   |[[https://haumoun.com/docs/Fortinet/FortiGate/FortiGate_1500D.pdf|Datasheet FortiGate 1500D Series]]  |
+|**FortiManager 300D** |[[https://www.avfirewalls.co.il/datasheets/fortimanager/fortimanager-300d-datasheet.pdf|Datasheet FortiManager 300D]]  |
+|**FortiAnalyzer FAZVM65** |[[https://www.fortinet.com/content/dam/fortinet/assets/data-sheets/fortianalyzer.pdf|Datasheet FortiAnalyzer FAZVM65]]  |
+
+* **Centro de documentación oficial Fortinet (todas las guías y versiones):**  [[https://docs.fortinet.com|docs.fortinet.com]]
+
+* **Guía de bastionado (Hardening Best Practices):**  [[https://docs.fortinet.com/document/fortigate/7.6.0/best-practices/555436/hardening|Hardening FortiGate]]
+
+----
+
+===== FortiSwitch Networking =====
+
+**Manuales FortiSwitch 124F **
+
+  * [[https://docs.fortinet.com/document/fortiswitch/hardware/fortiswitch-124f-series-qsg|Quick Start Guide – FortiSwitch 124F Series]]
+  * [[https://fortinetweb.s3.amazonaws.com/docs.fortinet.com/v2/attachments/781fe0c6-ac48-11ef-98ba-ae1fcf29f169/FortiSwitch_Manager-7.2.5-Administration_Guide.pdf|Administración FortiSwitchOS 7.x (Standalone Mode)]]
+  * [[https://docs.fortinet.com/content/dam/fortinet/assets/data-sheets/og-fortiswitch.pdf|Ordering Guide – FortiSwitch Series]]
+  * [[https://25396221.fs1.hubspotusercontent-eu1.net/hubfs/25396221/Security/Fortinet/Datasheet_FortiSwitch_Secure_Access_Series.pdf|Datasheet Secure Access Series (incl. 124F)]]
+
+**Manuales FortiSwitch 148F **
+
+  * [[https://docs.fortinet.com/document/fortiswitch/hardware/fortiswitch-148f-series-qsg|Quick Start Guide – FortiSwitch 148F Series]]
+  * [[https://docs.fortinet.com/document/fortiswitch/7.2.5/fortiswitchos-administration-guide|Administración FortiSwitchOS 7.x (Standalone Mode)]]
+  * [[https://docs.fortinet.com/document/fortiswitch/7.6.2/fortiswitchos-cli-reference/608648/introduction|CLI Reference FortiSwitchOS 7.6.2]]
+  * [[https://www.fortinet.com/content/dam/fortinet/assets/data-sheets/fortiswitch.pdf|Datasheet FortiSwitch Series]]
+
+----
+
+===== Dell Networking =====
+
+* **Portal de soporte (descargas, manuales, firmwares):**  [[https://www.dell.com/support/home/en-us?app=products|Soporte Dell]]
+
+* **Networking y modelos:**  [[https://www.dell.com/en-us/dt/networking/powerswitch/index.htm|Dell PowerSwitch]]
+
+* **Tramitación Soporte:**  [[https://www.dell.com/support/home/en-us|Portal de soporte Dell]]
+
+* **TOR Dell S4048 - Manual OS9:**  [[https://dl.dell.com/manuals/all-products/esuprt_networking_int/esuprt_networking_operating_systems/dell-emc-os-9_connectivity-guide_en-us.pdf|Guía OS9 S4048]]
+
+----
+
+===== Aruba / HP Networking =====
+
+== Manuales Switches HP / Aruba ==
+
+  * **HP 2530-24G (J9776A)**
+      * [[https://support.hpe.com/hpesc/public/docDisplay?docId=c04623600|Guía instalación y configuración]]
+
+  * **HP 5820AF-24XG (JG219A / JG219B)**
+      * [[https://support.hpe.com/hpesc/public/docDisplay?docId=emr_na-c03115270|Manual CLI & configuración (5820 series)]]
+
+  * **HP Aruba 2530-48G POE+ (J9772A)**
+      * [[https://support.hpe.com/hpesc/public/docDisplay?docId=c04623600|Guía instalación y configuración (2530)]]
+
+  * **HP Aruba 2920-48G (J9728A) / POE+ (J9729A)**
+      * [[https://support.hpe.com/hpesc/public/docDisplay?docId=emr_na-c03958213|Manual de configuración CLI (2920)]]
+
+  * **HP Aruba 2930F-24G / 48G y POE+ (JL259A, JL255A, JL260A, JL256A)**
+      * [[https://support.hpe.com/hpesc/public/docDisplay?docId=emr_na-a00074161en_us|Guía configuración Aruba 2930F]]
+
+  * **HP Aruba 2930M-48G (JL321A)**
+      * [[https://support.hpe.com/hpesc/public/docDisplay?docId=emr_na-a00074161en_us|Guía configuración Aruba 2930M]]
+
+  * **HP Aruba 3800-48G POE+ (J9574A)**
+      * [[https://support.hpe.com/hpesc/public/docDisplay?docId=c03361168|Manual CLI y configuración (3800)]]
+
+  * **HP Aruba 3810M (JL075A / JL072A)**
+      * [[https://support.hpe.com/hpesc/public/docDisplay?docId=emr_na-a00074220en_us|Guía configuración Aruba 3810M]]
+
+===== 3Com (actualmente Aruba / HPE Networking) =====
+
+La línea 3Com está completamente descontinuada y ahora está bajo la familia Aruba CX switches.
+
+* **HPE Aruba Networking (antigua 3Com):**  [[https://www.arubanetworks.com|arubanetworks.com]]
+
+* **Portal de soporte de HPE para productos antiguos de 3Com:**  [[https://support.hpe.com/hpesc/public/home|support.hpe.com]]
+
+* **Archivo histórico de productos 3Com (manuales en PDF):**  [[https://support.hpe.com/hpesc/public/docDisplay?docId=c02663942|Archivo de productos 3Com]]
+
+----
+
+===== EnGenius =====
+
+**Manuales EnGenius Switches **
+
+  * [[https://www.engeniustech.com/wp-content/uploads/2020/09/EWS-Switch-Series-User-Manual.pdf|User Manual – EWS Switch Series]]
+  * [[https://www.engeniustech.com/wp-content/uploads/2022/07/cloud-switch-user-manual.pdf|Cloud Switch User Manual – ECS Series]]
+  * [[https://static.engeniuscdn.com/wp-content/uploads/2022/10/18090004/DS_-Fit-Managed-Switch_V1.1_05102023.pdf|Datasheet – Fit Managed Switch Series]]
+  * [[https://www.solwise.co.uk/downloads/files/el-egs2108p_egs2110p_egs5110p-switch_user_manual_.pdf|User Manual – EGS Gigabit PoE Smart Switch]]
+
+**Manuales EnGenius ECS1552FP **
+
+  * [[https://www.engeniustech.com/wp-content/uploads/2024/07/DS_Cloud_ECS1552FP_v1.3.pdf|Ficha técnica ECS1552FP (v1.3)]]
+  * [[https://docs.engenius.ai/qsq_cloudswitch-l2plus-48-full-poe_ecs1552fp|Guía de inicio rápido (Quick Start Guide)]]
+  * [[https://www.engeniustech.com/wp-content/uploads/2022/07/cloud-switch-user-manual.pdf|Manual de usuario – EnGenius Cloud Switch Series (serie ECS)]]
+  * [[https://static.engeniuscdn.com/wp-content/uploads/2020/12/28102350/ECS-Switch-Series_UM_V1.1_2020.0903.pdf|User Manual v1.1 para la serie ECS]]
+
+===== H3C Networking =====
+
+**Manuales H3C S5120 Series (SI / EI) **
+
+Documentación oficial para switches H3C S5120 (serie SI y EI):
+
+  * [[https://www.manualslib.com/manual/1215149/H3c-S5120-Si-Series.html|Manual de Configuración – S5120‑SI Series]]
+  * [[https://www.manualslib.com/products/H3c-S5120-Ei-Series-Description.html|Manual de Instalación – S5120‑EI Series]]
+  * [[https://www.alternetivo.cz/img.asp?attid=40761|Ficha técnica – S5120‑SI Series (S5120‑20/28/52P‑SI)]]
+  * [[https://www.manualslib.com/manual/1215149/H3c-S5120-Si-Series.html|Referencia de comandos – S5120‑SI Series]]
+
+===== F5 Networks =====
+
+* **Página principal de F5 Networks:**  [[https://www.f5.com|f5.com]]
+
+* **Documentación oficial F5 (BIG-IP y otros):**  [[https://techdocs.f5.com/kb/en-us/products/big-ip.html|F5 TechDocs]]
+
+* **F5 DevCentral (Comunidad y recursos):**  [[https://community.f5.com|F5 DevCentral]]
+
+* **F5 Support (Soporte Técnico):**  [[https://support.f5.com|support.f5.com]]
+
+* **F5 University (Formación y certificaciones):**  [[https://university.f5.com|F5 University]]
+
+===== Historial de cambios =====
+
+^Versión^Fecha^Cambio^Autor|
+|1.0|2025-07-18|Creación del documento|GTSR|
+
+

@@ -1,0 +1,45 @@
+﻿
+<WRAP> 
+<panel type="primary" title="Hermes"> 
+
+**HERMES** es una Aplicación Web para la gestión de permisos y el control horario del personal de Justicia con las siguientes utilidades:
+
+  * Gestión de Control de Presencia, relacionadas con los fichajes, los saldos, la ficha de personal y las incidencias de fichaje.
+  * Gestión de consultas sobre los Permisos y Licencias, relacionadas con solicitudes y permisos.
+  * Gestión de Sustituciones de personal.
+  * Gestión de Informes.
+
+<WRAP> 
+<panel type="info" title="Acceso">
+  * **URL:**  [[https://hermes.justicia.junta-andalucia.es/Hermes/jsp/login/CPPLogin.jsp|Acceso HERMES]]
+  * **Contacta:** [[:pag_apli:hermes:problemas#procedimiento_atencion_incidencias_cau|Ver Procedimiento Atencion Incidencias CAU]]
+  * **BBDD:** PROD04 -> HERMES
+</panel>
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Capacitación">
+  * [[https://capacitacion.justicia.junta-andalucia.es|Contenidos Digitales de Capacitación (Portal de Capacitación de Justicia Digital Andalucía)]]
+  * [[https://videos.justicia.junta-andalucia.es/home|Portal de contenidos en vídeo de Justicia Digital Andalucía]]
+  * {{:pag_apli:hermes:dd_ap_mu_hermesdos-admin-1-5-0_1-0.pdf|Manual de administrador de Hermes}}
+</panel>
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Procedimientos y Problemas Conocidos">
+  * [[pag_apli:hermes:problemas#alta_en_hermes|Alta/Baja usuario]]
+  * [[pag_apli:hermes:problemas#procedimiento_atencion_incidencias_cau|Procedimientos y Problemas Conocidos]] 
+</panel>
+</WRAP>
+
+</panel>
+</WRAP>
+
+<WRAP box 100% center round info> **Documentación asociada y metadatos**  </WRAP>
+
+^Documento^Responsable^Fecha^Versión^Ruta^Motivo de la subida|
+|Manual de administrador de Hermes|Paco Belmonte - coordinacion.explotacion.ius@juntadeandalucia.es|9/7/2025|v-1.5.0|''\\iusnas05\sij\60. Desarrollo\01 Aplicaciones\HERMES\10 Documentacion Tecnica\1.5.0\MU_ADMIN_1_5_0''|Información técnica
+
+<WRAP tip> 🛈 Esta tabla resume los documentos vinculados a esta página. Para mantener la trazabilidad y facilitar el mantenimiento, asegúrese de actualizar esta sección con cada nueva versión o archivo añadido. </WRAP>
+
+{{tag>validada}}

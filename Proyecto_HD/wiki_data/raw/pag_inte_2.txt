@@ -1,0 +1,74 @@
+﻿
+<WRAP> <panel type="primary" title="MODELO DE RELACIÓN CON NIJA">
+
+<WRAP> <panel type="info" title="Descripción:">Forma en la que los equipos interesados puedan contactar con NIJA via tiquet JIRA a través del siguiente enlace [[https://ws149.juntadeandalucia.es/jira2/login.jsp|Registrarse - Servicio de Informática DGIS]], asegurando que todas las peticiones quedan registradas. Se indican los pasos a continuación.
+
+<WRAP> <panel type="info" title="1.Tipo de petición ">
+
+Seleccionar el tipo de petición "Peticiones NIJA", que incluirá los siguientes campos:
+
+**1.1 Línea de Trabajo**
+
+Indique la línea de trabajo correspondiente, seleccionando uno de los siguientes valores:
+
+  * Integraciones
+  * Observabilidad
+  * Gestor de usuarios e identidades (keycloak)
+  * Mejora continua
+  * Arquitectura NIJA
+  * Gobernanza
+
+**1.2 Tipo de Petición**
+
+Seleccione el tipo correspondiente de la siguiente lista:
+
+  * Petición
+  * Incidencia
+  * Cambios
+
+**1.3 Prioridad**
+
+Seleccione el tipo de prioridad real que tiene la solicitud:
+
+  * Lowest/Low: Prioridad baja. Será atendido en función de la carga del equipo NIJA.
+  * Medium. Prioridad media. Será atendido en función de la carga del equipo NIJA.
+  * High/Hightest: Se revisará por el equipo NIJA cuanto esfuerzo conlleva la tarea para dar, en un tiempo lógico, una estimación en fecha para la resolución del ticket para acordar con el solicitante. Atiendo a sus necesidades dentro de la capacidad del equipo NIJA.
+
+En el caso de que el equipo NIJA de respuesta a los tickets con prioridad High/Hightest y el equipo solicitante no responda en un periodo de 3/4 días, se bajará la prioridad a Medium.
+
+**1.4 Fecha objetivo**
+
+Será la fecha en la que el solicitante necesitaría tener resuelto el ticket creado. Esta fecha se tendrá en cuenta por el equipo NIJA, en función de la capacidad del equipo, pero en ningún momento se asegura de que se pueda ejecutar el ticket en la fecha del solicitante. La fecha que estime el equipo NIJA en función de la carga se establecerá bajo el campo "Fecha Envío a despliegue" mencionado en el punto //1.3 Etapa//
+
+Un ejemplo de tipo de petición se observa en la siguiente imagen:
+
+{{:flujo_otij_0.png?nolink&400}}
+
+Como se observa en la imagen anterior, existe el campo 'Entorno NIJA', cuyo valor por defecto al crear el ticket es 'En construcción'. Este campo tiene cuatro valores posibles:
+  * En construcción
+  * Desplegado en DES
+  * Desplegado en PRE
+  * Desplegado en PRO
+
+El equipo de NIJA es responsable de actualizar el valor de este campo a medida que avanza la tarea, lo que permite llevar un seguimiento claro del estado de despliegue en los distintos entornos.
+
+</panel>
+
+</WRAP>
+
+<WRAP> <panel type="info" title="2. Flujo de Trabajo en JIRA"> A continuación se detalla el flujo de estados que sigue una solicitud en Jira:
+
+  * CREADA: estado inicial de la tarea al ser creado por el equipo solicitante.
+  * SOLICITADO A OTIJ: estado asignado por el equipo solicitante cuando quieran que el equipo de NIJA comience con su tarea.
+  * EN PROGRESO: estado asignado por el equipo de NIJA cuando se comienzan los trabajos.
+  * PENDIENTE DE ACEPTACIÓN: estado asignado por el equipo de NIJA cuando se finalizan los trabajos. En este punto el equipo solicitante validará el trabajo realizado y confirmará si cumple con los requisistos establecidos. El equipo NIJA deberá asignar el ticket al solicitante.
+  * RESUELTA: estado asignado por el equipo solicitante cuando se finalizan los trabajos. En este punto el equipo solicitante ya ha validado el trabajo realizado.
+  * CERRADA: estado indicado por el equipo solicitante cuando se finaliza la validación de los trabajos y cumple con los requisitos esperados.
+
+El flujo completo de las peticiones Jira se observa en la siguiente imagen:
+
+{{:flujo_otij.png?nolink&400}}</panel> </WRAP>
+
+<WRAP> <panel type="info" title="Dudas"> Cualquier duda contactar por correo a [[esp.interoperabilidad.ius@juntadeandalucia.es?subject=esp.interoperabilidad.ius@juntadeandalucia.es|esp.interoperabilidad.ius@juntadeandalucia.es]] </panel> </WRAP>
+
+

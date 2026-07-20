@@ -1,0 +1,37 @@
+﻿
+====== Juzgados de Paz – Migración Nerea1 / RCJA ======
+
+Actualmente existe un número de **Juzgados de Paz (JPAZ)** de Andalucía que están migrados a **Red Nerea1** y otros que siguen en **RCJA** (algo más de 500).
+
+La inmensa mayoría de estos JPAZ solo acceden a **INFOREG**, ya que pertenecen a municipios pequeños cuyo secretario no es funcionario de la Consejería.  
+
+Existe, sin embargo, un número de JPAZ en los que el **Secretario Judicial es de la propia Consejería** y necesita acceder a servicios adicionales de la misma:
+
+  * **HERMES** → https://hermes.justicia.junta-andalucia.es
+  * **Escritorio Judicial** → https://escritoriojudicial.justicia.junta-andalucia.es
+  * **Agenda** → https://agenda.justicia.junta-andalucia.es
+  * **AgendaIUS** → https://agendaius.justicia.junta-andalucia.es
+
+===== JPAZ con acceso autorizado =====
+
+Los siguientes JPAZ tienen definidos **SNATs específicos** para permitir el acceso a dichos servicios:
+
+^ JPAZ                           ^ SNAT Origen         ^ IP Traducción (Destino) ^
+| Garrucha (Almería)             | 10.149.0.0/16       | 10.128.2.248 |
+| Álora (Málaga)                 | 10.4.3.0/24         | 10.128.2.75  |
+| El Gastor (Cádiz)              | 192.168.18.0/24     | 10.128.2.56  |
+| Conil (Cádiz)                  | 10.1.0.0/16         | 10.128.2.55  |
+| Trebujena (Cádiz)              | 192.168.37.0/24     | 10.128.2.54  |
+| La Carlota (Córdoba)           | 10.117.0.0/16       | 10.128.1.74  |
+| Puerto Serrano (Cádiz)         | 192.168.29.0/24     | 10.128.2.53  |
+| Algodonales (Cádiz)            | 192.168.5.0/24      | 10.128.2.52  |
+| Castilleja de la Cuesta (Sevilla) | 10.129.1.0/24    | 10.128.1.187 |
+| Villamartín (Cádiz)            | 192.168.41.0/24     | 10.128.2.48  |
+| Jimena de la Frontera (Cádiz)  | 192.168.21.0/24     | 10.128.2.49  |
+| Alhendín (Granada)             | 10.100.12.0/24      | 10.128.2.158 |
+
+===== Documentación relacionada =====
+
+La lista completa de Juzgados de Paz migrados a **Nerea** se encuentra en:  
+**\\iusnas05\sij\Sistemas\GTSR\Inventario\RED SARA-NEREA\JPAZMIGRADOSANEREA.xlsx**
+

@@ -1,0 +1,81 @@
+﻿
+<panel>
+
+CREACIÓN DE NUEVOS ÓRGANOS :
+
+1.    Recibimos de parte de SACOEP el comienzo del arranque mediante email.
+2.    Rellenamos el documento de “Nuevos Organismos 2019-2022”
+                  a.    Ruta: Planificacion-inventario/Proyectos 2022/Nuevos órganos 2022
+                  b.    Archivo: Nuevos Organismos 2019-2022
+                  c.    Preguntamos a las delegaciones el equipamiento que tiene para cubrir las necesidades del órgano y rellenamos las columnas correspondientes con anotaciones en el campo de observaciones.
+3.    Abrimos una carpeta por cada órgano nuevo en:
+                  a.    Ruta: Planificacion-inventario/Proyectos 2022/Nuevos órganos 2022
+                  b.    Archivamos:
+                           i.    Su propio documento de observaciones, donde se lleva el histórico
+                          ii.    Tabla de información Nuevos OOJJ
+                         iii.    Formulario de equipamientos e infraestructura
+4.    Rellenamos los campos de pestaña "Planificación-Inventario" de la "Tabla de Información Nuevos OOJJ”
+                 a.    Ruta: Planificacion-inventario/Plantillas/Creación Nuevos Órganos
+                 b.    Archivo: PRO_OTPCS_Tabla de Información Nuevos OOJJ_v1.0 PLANTILLA
+                 c.    Se archiva en la carpeta correspondiente al nuevo órgano, que hemos creado con anterioridad
+                 d.    Pestaña: Planificación-Inventario
+                 e.    Respondemos al correo inicial de SACOEP (Andrea.de.las.casas.vega@nttdata.com) adjuntando la Tabla de Información rellena por nuestra parte.
+                  f.    SACOEP recopila toda la información de los departamentos implicados en la tabla de información y nos lo devuelve completado (una pestaña de información por cada Dpto. implicado)
+
+5.     Basándonos en los datos de la Tabla de Información completada por todos los Departamentos, gestionamos “Formulario de equipamiento e infraestructura”
+                a.    Ruta: Planificacion-inventario/Plantillas/Creación Nuevos Órganos
+                b.    Archivo: Formulario de equipamiento e infraestructura
+                c.    Se archiva en la carpeta correspondiente al nuevo órgano, que hemos creado con anterioridad
+                d.    Una vez recibido por email la “Tabla de información Nuevos OOJJ” completada por todos los departamentos implicados
+                e.    Rellenamos los siguientes campos del formulario:
+                        i.    Provincia:
+                       ii.    Nombre 
+                      iii.    Municipio
+                      iv.    Dirección
+                       v.    CP
+                      vi.    Persona de contacto /Teléfono
+                     vii.    Motivo 
+                                 1.    Si está publicado en el BOE incluir el Nº de BOE
+                                 2.    Sino está publicado, preguntar a SACOEP qué dato incluir
+                   viii.    Identificadores del cambio
+                                1.    Número de petición asignado: Nº de Remedy de la petición 0
+                    ix.    Datos del órgano judicial a crear (Tabla de Información Nuevos OOJJ / Pestaña procesal)
+                                1.    Código de órgano (CÓDIGO ÓRGANO ADRIANO)
+                                2.    Tipo de órgano CGPJ (TIPO DE ÓRGANO CGPJ)
+                                3.    Código de órgano de CGPJ (CÓDIGO DE ÓRGANO CGPJ)
+                    x.    Datos para el Departamento de sistemas Tabla de Información Nuevos OOJJ / Pestaña Sistemas)
+                                1.    Nombre del Servidor (Tabla de Información Nuevos OOJJ / Pestaña Sistemas  /SERVIDOR DE DOMINIO)
+                                2.    Nombre del Servidor de comunes (Tabla de Información Nuevos OOJJ / Pestaña Sistemas /SERVIDOR DE COMUNES)
+                                3.    Nombre del servidor Adriano (Tabla de Información Nuevos OOJJ / Pestaña Adriano / SERVIDOR)
+                                4.    Nombre Esquema de BD (Tabla de Información Nuevos OOJJ / Pestaña Adriano / ESQUEMA)
+                                5.    Elementos de infraestructura adicional requeridos, preguntamos a las Delegaciones si ya tienen controladas las comunicaciones / sai / servidor, si lo tienen, marcar con una X.
+                  xi.    Datos para el Departamento de Planificación.
+                                1.    Obtenemos los datos de la Tabla de Información Nuevos OOJJ / Inventario.
+                                2.    Observaciones: especificamos las necesidades de la Delegación
+          f.    Una vez rellenado el formulario, se adjunta a la petición 0 y se asigna a “Servicios/Desarrollo”
+6.    Crear en Remedy “Petición 0”
+                 a.    Ejemplo: 1808799
+                 b.    En "Descripción del Incidente" escribir:
+
+                                                      Adjunto se envía formulario de creación de nuevo órgano: SCNE de Lebrija
+                                                Fecha prevista:
+                                                     Rogamos verifiquen los datos. Si hubiera alguna modificación, detallarla también en el diario.
+
+                c.    Tipología: ÓRGANO JUDICIAL SEDE /CREACIÓN
+                d.    Adjuntamos una vez relleno el “Formulario de equipamiento e infraestructura” lo pasamos a la Delegación Provincial correspondiente
+                e.    Realizamos seguimiento a la Delegación para que lo gestione.
+                 f.    Cuando nos dé el ok la Delegación la asignamos a “Servicios/Desarrollo”
+                g.    Dicha petición nos debe llegar, al final de todo el proceso, con el inventario del equipamiento instalado
+                h.    Procedemos a cerrarla una vez tramitados los cambios de inventario.
+
+7.    Gestionamos creación de Petición 1 (Ejemplo 1810908)
+         a.    Se abre cuando reasignamos la petición 0 a Servicios/Desarrollo
+         b.    Tipología: ÓRGANO JUDICIAL SEDE /CREACIÓN
+         c.    En diario escribimos:
+                         NOMBRE DEL ÓRGANO NUEVO
+                    Preparación y dotación al nuevo OOJJ de la Infraestructura y Servicios Básicos. Una vez finalizadas las gestiones de GTSW, reasignar a DP quien a su vez, deberá asegurar la instalación de la infraestructura y servicios informáticos del nuevo OOJJ dentro de las especificaciones del departamento de sistemas. DP debe reasignar a Servicios/Inventario una vez hechas sus comprobaciones.
+        d.    Se le adjunta el Formulario
+        e.    Se asigna a “Sistemas/GSTW”
+        f.    Una vez nos la devuelvan, la cerramos.
+
+</panel>

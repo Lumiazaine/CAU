@@ -1,0 +1,75 @@
+﻿
+==== Procedimiento para alta nueva de IP Adriano ====
+Última modificación por **Administrador Sistemas** el *jue, 12 nov 2020 08:49:03*  
+
+Los pasos a seguir cuando hay una **migración de IP de Adriano** y creación de un **cluster** requieren tener en consideración los siguientes puntos.
+
+----
+
+=== Pasos previos a la migración ===
+
+  * **GTSW (Windows):** debe crear el cluster de servidores siguiendo todos los pasos indicados en la checklist adjunta al final de este documento.  
+
+  * Una vez montado el cluster:
+    - Se obtienen las **IP físicas** de los servidores y la **IP virtual**.  
+    - Se pasa **ticket y checklist a GTSR** con las nuevas IP (físicas y virtual) y las antiguas, para habilitar accesos en el **cortafuego** y revisar/habilitar accesos **Samba**.  
+
+  * Cuando GTSR finalice y valide, se pasa a **GTBD** para:  
+    - Comprobar conexiones ODBC, SQL_1521.  
+    - Crear tablespace y usuarios/roles.  
+
+  * Posteriormente vuelve a **GTSW**, que debe:  
+    - Realizar la réplica entre **SSC** y el nuevo cluster.  
+    - Lanzar sincronización.  
+    - Enviar correo indicando el **día de la migración**.  
+
+⚠️ Todos estos puntos son **indispensables** y deben cumplirse para evitar problemas durante o después de la puesta en marcha del cluster.
+
+----
+
+=== Día de la migración ===
+
+  * **Por parte de GTSW:**  
+    - Informar inicio de migración por **SMS**.  
+    - Lanzar sincronización.  
+    - Seguir todos los pasos de la checklist.  
+
+  * **Por parte de GTBD:**  
+    - Exportar FULL BD (usuario *System*).  
+    - Importar FULL en la nueva BD.  
+    - Actualizar tablas.  
+    - Seguir todos los pasos de la checklist.  
+
+  * Recomendación: presencia coordinada de **GTSW, GTBD y GTSR** para ejecutar procesos y pruebas, asegurando que todo funciona correctamente tras la migración.
+
+----
+
+=== Para GTSR: nueva IP Adriano y acceso Samba ===
+
+  * Uno de los puntos críticos es comprobar el acceso **Samba** para las nuevas IP y añadirlas si es necesario.  
+
+  * En el cortafuego de SSCC existe la regla **"Acceso SAMBA a SEDES"**, que contiene un grupo de servidores Adriano con acceso por puerto Samba.  
+
+  * **Acciones de GTSR:**  
+    - Verificar que la nueva IP esté incluida en el grupo.  
+    - Si no lo está, **añadirla**.  
+    - Realizar pruebas de acceso antes de la migración para evitar incidencias posteriores.  
+
+----
+
+=== Resumen de pasos a seguir ===
+
+  1. Crear un **ticket a GTSR** antes de actuar con la RC, indicando la nueva IP de Adriano.  
+  2. GTSR debe comprobar que la IP esté en el grupo de Samba indicado; si no está, añadirla.  
+  3. Indicar claramente en el ticket **todos los accesos necesarios** para que se revisen y/o añadan.  
+  4. Una vez terminado el trabajo de GTSR, devolver el ticket y continuar con los siguientes pasos de la migración.  
+
+----
+
+=== Checklist relacionada ===
+Todos los pasos detallados se encuentran en la checklist:  
+
+**CHECKLIST-MIGRACIÓN-IP-SERVIDOR-CON-CLUSTER**  
+Ruta:  
+`\\iusnas05\sij\Sistemas\00\02-Actuaciones\036-Distribución equipamiento HP\Checklists\`
+

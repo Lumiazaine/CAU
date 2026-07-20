@@ -1,0 +1,117 @@
+﻿
+====== Accesos Externos – RCJA / Red SARA ======
+
+===== Acceso a PNJ.CGPJ.ES =====
+
+Actualmente se accede a las URLs del PNJ a través de **Red SARA**. Se ha solicitado a Red SARA un **NATeo**, así como la publicación en los **DNS de RCJA**.
+
+   * Las URLs actualizadas se encuentran en:
+      * \\iusnas05.justicia.junta-andalucia.es\sij\Sistemas\00\03-SERVICIOS\S13-Comunicaciones\04-Accesos Externos RCJA\PNJ-AEXT-JUST-008
+
+**Origen:**  Andalucía (todos los juzgados) – IP de presentación **Destino:**  CGPJ – CENDOJ → visible en la Consejería de Justicia de Andalucía con la IP de presentación *10.128.128.1*
+
+Servicios publicados desde CGPJ hacia Andalucía (nateados):
+
+  * **bus-apigateway-apps-desa.justicia.junta-andalucia.es**  → *10.128.127.80 *
+  * **bus-apigateway-apps-pre.justicia.junta-andalucia.es**  → *10.128.127.81*
+Lista de servicios ofrecidos por CGPJ: (pendiente de completar)
+
+----
+
+===== Acceso a Ministerio de Justicia =====
+
+Red SARA ha realizado un **SNAT**  para acceder a los servicios del Ministerio de Justicia desde la Consejería.
+
+  * IP con la que nos verá el Ministerio: * 10.128.128.44*
+  * Resto de la Red Corporativa de la Junta de Andalucía → *10.128.128.30*
+
+Para el acceso desde las **VPNs al dominio "fiscal.es"**, se ha solicitado a Red SARA:
+
+  * NATeo
+  * Publicación en los DNS de RCJA
+  * IP de presentación: **10.128.127.70**
+
+Actualmente existe 1 acceso externo en vías de sustitución:
+
+  * **AEXT-JUST-007: Acceso Ministerio de Justicia (100M/100M)**
+  * Próximamente se comenzará a acceder a través de **Red SARA**
+
+Pendientes:
+
+  * Servicio **LEXNET**  (por parte de Junta)
+  * Servicios **wscargador**  y **bus-servicio**  (por parte del Ministerio)
+
+> Nota: debido a que el Ministerio utiliza un rango de red similar al nuestro, deben realizar un **NATeo adicional**  en sus equipos para garantizar la conectividad. > Sus equipos están ubicados en el **ZOCO de RCJA**.
+
+Listado de NATeos realizados:
+
+  * [[iusnas05\sij\Sistemas\00\03-SERVICIOS\S13-Comunicaciones\04-Accesos|]] Externos RCJA
+
+----
+
+===== Acceso a Internet por RCJA - NIX =====
+
+El acceso a **WWW**  siempre se realiza por **RCJA - NIX**, atravesando la seguridad perimetral (**proxy Symantec Blue Coat**).
+
+**IPs Públicas utilizadas para salida a Internet:**
+
+  * Principales:
+  * 217.12.16.130 - 133*
+  * 217.12.24.130 – 133*
+  * Alternativas:
+  * 217.12.16.56 *
+  * 217.12.16.70 *
+
+Listado:
+
+  * [[\\iusnas05\SIJ\Sistemas\GTSR\Inventario\Ips|]] Publicas Internet NIX.txt
+
+----
+
+===== Contactos =====
+
+**Contacto PNJ (CGPJ)**
+
+  * Yolanda Rodríguez Castillo – Informática Judicial
+  * Tel: 917006229
+  * Email: yolanda.rodriguez@cgpj.es
+  * Dirección: Consejo General del Poder Judicial, C/Marqués de la Ensenada 8, 28071 Madrid
+
+**Contacto Ministerio de Justicia**
+
+  * Asuntos técnicos (comunicaciones):
+
+  - Davinia Zádívar – 913904851 – daviniamaria.zaldivar@empresas.justicia.es / sgntj.oseg.seguridadperimetral@mju.es
+
+  * Asuntos de acceso a aplicaciones:
+
+  - Isabel González Andreu – 606 318 418 – mariaisabel.gonzalezandreu@empresas.justicia.es
+  - Marta De Miguel Moya – marta.demiguel@empresas.justicia.es
+
+  * Contacto para cambio NAT:
+
+  - Tel: 913904851 – Davinia
+  - Email: comapliseg@lista.mju.es
+
+**Contacto RCJA**
+
+  * Email: cgt24x7.comunicaciones.rcja@juntadeandalucia.es
+  * Alberto Verdugo Matías – Centro de Gestión de Operaciones de Telecomunicaciones 24×7
+  * Email: alberto.verdugo@juntadeandalucia.es
+  * Sociedad Andaluza para el Desarrollo de las Telecomunicaciones S.A. – Avda. de la Arboleda s/n
+
+**Contacto Red SARA – Red NEREA**
+
+  * Eduardo – 671 56 93 51 (769351) / 662 65 03 08
+  * Álvaro – 697 95 06 00 (750600)
+  * Email: nerea.sandetel@juntadeandalucia.es
+  * Tfn: 671569341 (769341) – Fax: 955061041
+  * Dirección: 41940 Tomares (Sevilla)
+
+----
+
+===== Esquema gráfico de accesos, NAT y flujo de comunicaciones: =====
+
+[[:imagenes:mi_foto.png?id=accesos_red_sara&media=imagenes:red_sara.jpg|{{:imagenes:red_sara.jpg?800x600|Descripción}}]]
+
+

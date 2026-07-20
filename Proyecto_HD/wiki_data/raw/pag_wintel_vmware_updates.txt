@@ -1,0 +1,3 @@
+﻿
+* [[\\iusnas05\SIJ\Sistemas\Documentacion\Virtualizacion\Actualizar Vcenter.pdf|Actualizacion Vsphere y ESXI]]
+

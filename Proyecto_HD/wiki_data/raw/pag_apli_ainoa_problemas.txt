@@ -1,0 +1,33 @@
+﻿
+
+<WRAP> 
+<panel type="primary" title="Procedimientos y Problemas Conocidos de Actos Procesales Telemáticos">
+
+[[..:ainoa:start|Volver atrás]]
+
+<WRAP> 
+<panel type="info">
+
+====== AINO@ ======
+	
+Sistema de gestión de personal, nómina, gestión presupuestaria y procesos selectivos de los empleados públicos al servicio de la Administración de Justicia. \\
+Remitimos al teléfono del CAU del Ministerio 913859800. 
+caujusticia@.es
+	
+
+</panel> 
+</WRAP>
+
+<WRAP> 
+<panel type="info">
+
+====== Ejemplos ======
+
+Problema conocido 2
+
+</panel> 
+</WRAP>
+
+[[..:ainoa:start|Volver atrás]]
+
+{{tag>novalidada}}

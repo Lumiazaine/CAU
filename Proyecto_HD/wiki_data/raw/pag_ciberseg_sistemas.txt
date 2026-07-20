@@ -1,0 +1,68 @@
+﻿
+<WRAP info round box>
+===== Categoría de Servicio: SISTEMAS / INFRAESTRUCTURAS =====
+</WRAP>
+
+<WRAP round box #E3F2FD>
+=== 1. Introducción y Alcance ===
+</WRAP>
+Esta categoría recoge todas las **Peticiones** relacionadas con Infraestructura, Almacenamiento, Equipamiento, Red, Monitorización, Servicios de Infraestructura y Suministro Eléctrico.
+
+Se asignan al grupo **Sistemas – GTSW**.
+
+
+
+
+<WRAP round box #F5F5F5>
+=== 2. Flujo de Categorización General (BMC Helix) ===
+</WRAP>
+^ Nivel ^ Campo BMC Helix ^ Valor asignado ^
+| Nivel 1 | Categoría Operacional N1 | Sistemas |
+| Nivel 2 | Categoría Operacional N2 | Avería / Baja / Configuración / Copia-Backup-Restauración / Error / Instalación-Aprovisionamiento / Optimización-Rendimiento / Permisos-Accesos / Pruebas |
+| Producto N2 | Categoría de producto N2 | Sist.Almacenamiento / Sist.Salvaguardia / Mantenimiento-Equipamiento / Sistemas de impresión / Monitorización / Red / Servicios infraestructura / Suministro Eléctrico |
+| Producto N3 | Categoría de producto N3 | Según componente (ver tabla inferior) |
+
+
+
+
+<WRAP round box #FFEBEE>
+=== 3. Asignación de Tickets (Grupos Resolutores) – INFORMACIÓN CLAVE ===
+</WRAP>
+Todas las solicitudes de esta categoría se asignan a:  
+**Sistemas – GTSW**
+
+
+
+<WRAP round box #F5F5F5>
+=== 4. Tabla de asignación de tickets ===
+</WRAP>
+^ Tipo de Ticket  ^ Cat. N1  ^ Cat. N2  ^ Producto N2  ^ Producto N3  ^ Grupo Resolutor  ^
+
+
+| Petición  | Sistemas  | Avería  | Sist.Almacenamiento         |                             | Sistemas/GTSB  |
+| Petición  | Sistemas  | Avería  | Sist.Salvaguardia           |                             | Sistemas/GTSB  |
+| Petición  | Sistemas  | Avería  | Mantenimiento/Equipamiento  | Armario Parcheo             | Sistemas/GTSR  |
+| Petición  | Sistemas  | Avería  | Mantenimiento/Equipamiento  | Cabina Almacenamiento       | Sistemas/GTSR  |
+| Petición  | Sistemas  | Avería  | Mantenimiento/Equipamiento  | Cableado                    | Sistemas/GTSR  |
+| Petición  | Sistemas  | Avería  | Mantenimiento/Equipamiento  | Cortafuegos                 | Sistemas/GTSR  |
+| Petición  | Sistemas  | Avería  | Mantenimiento/Equipamiento  | Electrónica de Red          | Sistemas/GTSR  |
+| Petición  | Sistemas  | Avería  | Mantenimiento/Equipamiento  | IPS                         | Sistemas/GTSR  |
+| Petición  | Sistemas  | Avería  | Mantenimiento/Equipamiento  | Librería de Cintas          | Sistemas/GTSR  |
+| Petición  | Sistemas  | Avería  | Mantenimiento/Equipamiento  | Servidor                    | Sistemas/GTSR  |
+| Petición  | Sistemas  | Avería  | Monitorización              | DHCP                        | Sistemas/GTSW  |
+| Petición  | Sistemas  | Avería  | Monitorización              | DNS                         | Sistemas/GTSW  |
+| Petición  | Sistemas  | Avería  | Monitorización              | Proxy                       | Sistemas/GTSW  |
+| Petición  | Sistemas  | Avería  | Monitorización              | VLAN                        | Sistemas/GTSW  |
+| Petición  | Sistemas  | Avería  | Red                         | DHCP                        | Sistemas/GTSW  |
+| Petición  | Sistemas  | Avería  | Red                         | DNS                         | Sistemas/GTSW  |
+| Petición  | Sistemas  | Avería  | Red                         | Proxy                       | Sistemas/GTSW  |
+| Petición  | Sistemas  | Avería  | Red                         | VLAN                        | Sistemas/GTSW  |
+| Petición  | Sistemas  | Avería  | Servicios infraestructura   | Sist.Aplicación             | Sistemas/GTSD  |
+| Petición  | Sistemas  | Avería  | Servicios infraestructura   | Sist.Base Datos             | Sistemas/GTSD  |
+| Petición  | Sistemas  | Avería  | Servicios infraestructura   | Sist.Correo                 | Sistemas/GTSD  |
+| Petición  | Sistemas  | Avería  | Servicios infraestructura   | Sist.Active Directory/LDAP  | Sistemas/GTSD  |
+| Petición  | Sistemas  | Avería  | Servicios infraestructura   | Sist.Fichero                | Sistemas/GTSD  |
+| Petición  | Sistemas  | Avería  | Servicios infraestructura   | Sist.Virtualización         | Sistemas/GTSD  |
+| Petición  | Sistemas  | Avería  | Suministro Eléctrico        | Sai                         | Sistemas/GTSW  |
+
+

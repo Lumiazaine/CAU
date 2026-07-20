@@ -1,0 +1,729 @@
+﻿
+====== HP INTEGRITY BL870C (NPAR,VPAR y Cluster Service Guard) ======
+
+https://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/HP%20INTEGRITY%20BL870C%20%28NPAR%2CVPAR%20y%20Cluster%20Service%20Guard%29
+
+====== Objetivo ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/HP INTEGRITY BL870C (NPAR,VPAR y Cluster Service Guard)?section=1|Editar]]
+
+El objetivo de este documento es el de describir la infraestructura del hardware de HP Integrity (nPAR), junto con las máquinas virtuales que tiene configuradas (vPAR) para poder llevar una mejor gestión de los procesos y servicios que se extienden sobre estos sistemas.
+
+====== Introducción ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/HP INTEGRITY BL870C (NPAR,VPAR y Cluster Service Guard)?section=2|Editar]]
+
+En este documento procederemos a documentar la infraestructura que ofrecen las HP Integrity BL870C.El objetivo de la HP INTEGRITY BL870C es servir la infraestructura de procesamiento para los diferentes cluster oracle (BBDD) sobre sistema operativo HP-UX.
+
+====== Inventario físico ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/HP INTEGRITY BL870C (NPAR,VPAR y Cluster Service Guard)?section=3|Editar]]
+
+Todas las máquinas Integrity BL870C I4 se encuentran configuradas en dos blade C7000. Por nombre, estos Blade tienen C7000B1 y C7000B2. Con el siguiente esquema:
+
+Este cajón tiene las siguentes máquinas instaladas:
+
+1. iusesx15\\
+2. iusesx16\\
+3. iusesx17\\
+4. JUSTICIADCH5\\
+5-6. iusvsp01 (GTAB)\\
+7-8. iusvsp02 (GTAB)\\
+9. iusesx18\\
+10. iusesx19\\
+11. iusesx20\\
+12. iussslges02
+
+Conectados con cada fabric correspondiente por medio de:
+
+  - HP VC FlexFabric 10Gb/24 Port Module 10.241.130.244
+  - HP VC FlexFabric 10Gb/24 Port Module10.241.130.245
+
+{{https://xwiki.justicia.junta-andalucia.es/xwiki/bin/download/Sistemas/HP INTEGRITY BL870C (NPAR,VPAR y Cluster Service Guard)/BLADE1.jpg?nolink&|BLADE1.jpg}}
+
+Este cajón tiene las siguientes máquinas instaladas: \\ 1. iusesx21 \\ 2. iusesx22 \\ 3. iusesx23 \\ 4. iusesx24 \\ 5-6. iusvsp03 (GTAB) \\ 7-8. iusvsp04 (GTAB) \\ 9. iusesx25 \\ 10. iusesx26 \\ 11. iusesx27 \\ 12. iusslnsrsrv01 (GTAB)
+
+Conectados a cada fabric correspondiente por medio de:
+
+  - Hp VC FlexFabric 20Gb/24 ports 10.241.130.246
+  - Hp VC FlexFabric 20Gb/24 ports 10.241.130.247
+
+Este sistema está conectado a una SAN donde podemos encontrarnos con la siguiente información:
+
+====== Configuración Hardware Integrity ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/HP INTEGRITY BL870C (NPAR,VPAR y Cluster Service Guard)?section=4|Editar]]
+
+Disponemos de 4 nPares. Cada nPar se componen de dos particiones físicas unidas por un front panel.
+
+Cada partición física tiene los siguientes componentes hardware:
+
+  * placa base independiente
+  * CPU Intel(R) Itanium(R) Processor 8-core 2.53 GHz with 32MB Last Level Cache 9560 (8 Cores)
+  * 192GB de RAM
+  * varios discos locales (solo se utilizan para el arranque uEFI, luego se continua el arranque con los discos de cabina)
+  * interfaces de red
+  * interfaces de fibra (hba) 10Gigabit.
+
+Por lo que cada nPar dispone del doble de los componentes anteriores, es decir:
+
+  * 2 placa base
+  * 2 CPUs Intel(R) Itanium(R) Processor 8-core 2.53 GHz with 32MB Last Level Cache 9560 (8 Cores). Esto supone un total de 16 cores por nPar.
+  * 384GB de RAM
+  * varios discos locales (solo se utilizan para el arranque uEFI, luego se continua el arranque con los discos de cabina)
+  * interfaces de red
+  * interfaces de fibra (hba) 10Gigabit.
+
+NOTA: Se ha realizado una ampliación de hardware para dos de las cuchillas (Bay 5,6 y 7,8 que corresponde a iusvsp01 y iusvsp04, dejandolas con 32 CPUs a 2527 Mhz y 575.8 GB de RAM
+
+====== Almacenamiento ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/HP INTEGRITY BL870C (NPAR,VPAR y Cluster Service Guard)?section=5|Editar]]
+
+HP 3PAR
+
+Desde donde se presentan las siguentes LUN a los hosts correspondientes
+
+**//Npar - IUSVSP01//**
+
+|**Nombre** |**CPG** |**Tamaño GiB** |
+|iussubd04_FC_R5_VXFS_so|AO_FC_r6|100|
+|iussubd04_NL_R6_VXFS_softoracle|AO_FC_r6|15|
+|iussubd04_NL_R6_VXFS_swap|AO_FC_r6|17|
+|iussubd06_FC_R5_VXFS_so|AO_FC_r6|100|
+|iussubd06_NL_R6_VXFS_softoracle|AO_FC_r6|15|
+|iussubd06_NL_R6_VXFS_swap|AO_FC_r6|40|
+|iussubd08_FC_R6_VXFS_so|AO_FC_r6|100|
+|iussubd08_NL_R6_VXFS_softoracle|AO_FC_r6|15|
+|iussubdcl01_FC_R5_quorum|AO_FC_r6|1|
+|iussubdcl01_SD_R5_VXFS_bdnautiu|SSD_r6_bbdd|1120|
+|iussubdcl01_SD_R5_VXFS_bdprod02|SSD_r6_bbdd|443|
+|iussubdcl01_SD_R5_VXFS_bdprod03|SSD_r6_bbdd|32|
+|iussubdcl01_SD_R6_VXFS_bdprod05|SSD_r6_bbdd|150|
+|iussubdcl02_FC_R5_quorum|AO_FC_r6|1|
+|iussubdcl02_FC_R6_VXFS_form01|AO_FC_r6|55|
+|iussubdcl02_SD_R5_VXFS_bdprod01|SSD_r6_bbdd|190|
+|iussubdcl02_SD_R5_VXFS_bdprod04|SSD_r6_bbdd|80|
+|iussubdcl02_SD_R5_VXFS_bdprod06|SSD_r6_bbdd|174|
+|iussubdcl04_NL_R5_VXFS_bddesa02|AO_FC_r6,AO_NL_r6, AO_SSD_r6|80|
+|iussubdcl06_FC_R6_quorum|AO_FC_r6|1|
+|iussubdcl06_SD_R6_VXFS_bdprod07|SSD_r6_bbdd|80|
+
+// <font 14px text-align:start/sans-serif;;inherit;;inherit>Npar - IUSVSP02</font> //
+
+|** <font inherit/Times New Roman;;inherit;;inherit>Nombre</font> ** |** <font inherit/Times New Roman;;inherit;;inherit>CPG</font> ** |** <font inherit/Times New Roman;;inherit;;inherit>Tamaño GiB</font> ** |
+| <font inherit/Times New Roman;;inherit;;inherit>iussubd06_FC_R5_VXFS_so</font> | <font inherit/Times New Roman;;inherit;;inherit>AO_FC_r6,AO_NL_r6, AO_SSD_r6</font> | <font inherit/Times New Roman;;inherit;;inherit>100</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>iussubd06_NL_R6_VXFS_softoracle</font> | <font inherit/Times New Roman;;inherit;;inherit>AO_FC_r6,AO_NL_r6, AO_SSD_r6</font> | <font inherit/Times New Roman;;inherit;;inherit>15</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>iussubd06_NL_R6_VXFS_swap</font> | <font inherit/Times New Roman;;inherit;;inherit>AO_NL_r6</font> | <font inherit/Times New Roman;;inherit;;inherit>40</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>iussubd10_FC_R5_VXFS_so</font> | <font inherit/Times New Roman;;inherit;;inherit>AO_FC_r6,AO_NL_r6, AO_SSD_r6</font> | <font inherit/Times New Roman;;inherit;;inherit>100</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>iussubd10_NL_R6_VXFS_softoracle</font> | <font inherit/Times New Roman;;inherit;;inherit>AO_FC_r6,AO_NL_r6, AO_SSD_r6</font> | <font inherit/Times New Roman;;inherit;;inherit>15</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>iussubd13_FC_R5_VXFS_so</font> | <font inherit/Times New Roman;;inherit;;inherit>AO_FC_r6,AO_NL_r6, AO_SSD_r6</font> | <font inherit/Times New Roman;;inherit;;inherit>100</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>iussubd13_NL_R6_VXFS_softoracle</font> | <font inherit/Times New Roman;;inherit;;inherit>AO_FC_r6,AO_NL_r6, AO_SSD_r6</font> | <font inherit/Times New Roman;;inherit;;inherit>15</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>iussubd14_FC_R6_VXFS_so</font> | <font inherit/Times New Roman;;inherit;;inherit>AO_FC_r6,AO_NL_r6, AO_SSD_r6</font> | <font inherit/Times New Roman;;inherit;;inherit>10</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>iussubd14_NL_R6_VXFS_softoracle</font> | <font inherit/Times New Roman;;inherit;;inherit>AO_FC_r6,AO_NL_r6, AO_SSD_r6</font> | <font inherit/Times New Roman;;inherit;;inherit>15</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>iussubdcl02_FC_R5_quorum</font> | <font inherit/Times New Roman;;inherit;;inherit>AO_FC_r6,AO_NL_r6</font> | <font inherit/Times New Roman;;inherit;;inherit>1</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>iussubdcl02_FC_R6_VXFS_form01</font> | <font inherit/Times New Roman;;inherit;;inherit>SSD_r6_bbdd</font> | <font inherit/Times New Roman;;inherit;;inherit>190</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>iussubdcl02_SD_R5_VXFS_bdprod01</font> | <font inherit/Times New Roman;;inherit;;inherit>SSD_r6_bbdd</font> | <font inherit/Times New Roman;;inherit;;inherit>80</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>iussubdcl02_SD_R5_VXFS_bdprod04</font> | <font inherit/Times New Roman;;inherit;;inherit>SSD_r6_bbdd</font> | <font inherit/Times New Roman;;inherit;;inherit>174</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>iussubdcl02_SD_R5_VXFS_bdprod06</font> | <font inherit/Times New Roman;;inherit;;inherit>SSD_r6_bbdd</font> | <font inherit/Times New Roman;;inherit;;inherit>190</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>iussubdcl03_FC_R5_quorum</font> | <font inherit/Times New Roman;;inherit;;inherit>AO_NL_r6</font> | <font inherit/Times New Roman;;inherit;;inherit>1</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>iussubdcl03_FC_R6_VXFS_bdadraux</font> | <font inherit/Times New Roman;;inherit;;inherit>AO_FC_r6,AO_NL_r6, AO_SSD_r6</font> | <font inherit/Times New Roman;;inherit;;inherit>215</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>iussubdcl03_FC_R6_VXFS_bdadrian</font> | <font inherit/Times New Roman;;inherit;;inherit>AO_FC_r6,AO_NL_r6, AO_SSD_r6</font> | <font inherit/Times New Roman;;inherit;;inherit>70</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>iussubdcl03_FC_R6_VXFS_desa01</font> | <font inherit/Times New Roman;;inherit;;inherit>AO_FC_r6,AO_NL_r6, AO_SSD_r6</font> | <font inherit/Times New Roman;;inherit;;inherit>130</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>iussubdcl03_FC_R6_VXFS_inadjar</font> | <font inherit/Times New Roman;;inherit;;inherit>AO_FC_r6,AO_NL_r6, AO_SSD_r6</font> | <font inherit/Times New Roman;;inherit;;inherit>80</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>iussubdcl03_FC_R6_VXFS_prepro03</font> | <font inherit/Times New Roman;;inherit;;inherit>AO_FC_r6,AO_NL_r6, AO_SSD_r6</font> | <font inherit/Times New Roman;;inherit;;inherit>30</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>iussubdcl03_SD_R5_VXFS_prepro01</font> | <font inherit/Times New Roman;;inherit;;inherit>AO_FC_r6,AO_NL_r6, AO_SSD_r6</font> | <font inherit/Times New Roman;;inherit;;inherit>120</font> |
+|iussubdcl04_FC_R5_quorum|AO_FC_r6,AO_NL_r6|1|
+|iussubdcl04_NL_R5_VXFS_bddesa02|AO_FC_r6,AO_NL_r6, AO_SSD_r6|80|
+|iussubdcl05_FC_R6_quorum|AO_FC_r6,AO_NL_r6|1|
+|iussubdcl05_NL_R6_VXFS_prepro02|AO_FC_r6,AO_NL_r6, AO_SSD_r6|80|
+
+// <font 14px text-align:start/sans-serif;;inherit;;inherit>Npar - IUSVSP03</font> //
+
+|**Nombre** |**CPG** |**Tamaño GiB** |
+|iussubd11_FC_R5_VXFS_so|AO_FC_r6,AO_NL_r6, AO_SSD_r6|10|
+|iussubd11_NL_R6_VXFS_softoracle|AO_FC_r6,AO_NL_r6, AO_SSD_r6|15|
+|iussubd12_FC_R5_VXFS_so|AO_FC_r6,AO_NL_r6, AO_SSD_r6|100|
+|iussubd12_NL_R6_VXFS_softoracle|AO_FC_r6,AO_NL_r6, AO_SSD_r6|15|
+|iussubd15_FC_R6_VXFS_so|AO_FC_r6,AO_NL_r6, AO_SSD_r6|10|
+|iussubd15_NL_R6_VXFS_softoracle|AO_FC_r6,AO_NL_r6, AO_SSD_r6|15|
+|iussubdcl01_FC_R5_quorum|AO_FC_r6,AO_NL_r6|1|
+|iussubdcl01_SD_R5_VXFS_bdnautiu|SSD_r6_bbdd|1120|
+|iussubdcl01_SD_R5_VXFS_bdprod02|SSD_r6_bbdd|443|
+|iussubdcl01_SD_R5_VXFS_bdprod03|SSD_r6_bbdd|32|
+|iussubdcl01_SD_R6_VXFS_bdprod05|SSD_r6_bbdd|150|
+|iussubdcl02_FC_R6_VXFS_form01|AO_FC_r6,AO_NL_r6, AO_SSD_r6|55|
+|iussubdcl03_FC_R5_quorum|AO_NL_r6|1|
+|iussubdcl03_FC_R6_VXFS_bdadraux|AO_FC_r6,AO_NL_r6, AO_SSD_r6|215|
+|iussubdcl03_FC_R6_VXFS_bdadrian|AO_FC_r6,AO_NL_r6, AO_SSD_r6|70|
+|iussubdcl03_FC_R6_VXFS_desa01|AO_FC_r6,AO_NL_r6, AO_SSD_r6|130|
+|iussubdcl03_FC_R6_VXFS_inadjar|AO_FC_r6,AO_NL_r6, AO_SSD_r6|80|
+|iussubdcl03_FC_R6_VXFS_prepro03|AO_FC_r6,AO_NL_r6, AO_SSD_r6|30|
+|iussubdcl03_SD_R5_VXFS_prepro01|AO_FC_r6,AO_NL_r6, AO_SSD_r6|120|
+|iussubdcl04_FC_R5_quorum|AO_FC_r6,AO_NL_r6|1|
+|iussubdcl04_NL_R5_VXFS_bddesa02|AO_FC_r6,AO_NL_r6, AO_SSD_r6|80|
+|iussubdcl05_FC_R6_quorum|AO_FC_r6,AO_NL_r6|1|
+|iussubdcl05_NL_R6_VXFS_prepro02|AO_FC_r6,AO_NL_r6, AO_SSD_r6|80|
+|TEMPORAL_bck_iusvsp03_disk337|AO_NL_r6|140|
+
+// <font 14px text-align:start/sans-serif;;inherit;;inherit>Npar - IUSVSP04</font> //
+
+|**Nombre** |**CPG** |**Tamaño GiB** |
+|iussubd05_FC_R5_VXFS_so|AO_FC_r6,AO_NL_r6, AO_SSD_r6|100|
+|iussubd05_NL_R6_VXFS_softoracle|AO_FC_r6,AO_NL_r6, AO_SSD_r6|15|
+|iussubd05_NL_R6_VXFS_swap|AO_NL_r6|17|
+|iussubd07_FC_R5_VXFS_so|AO_FC_r6,AO_NL_r6, AO_SSD_r6|100|
+|iussubd07_NL_R6_VXFS_softoracle|AO_FC_r6,AO_NL_r6, AO_SSD_r6|15|
+|iussubd07_NL_R6_VXFS_swap|AO_NL_r6|40|
+|iussubd09_FC_R6_VXFS_so|AO_FC_r6|100|
+|iussubd09_NL_R6_VXFS_softoracle|AO_NL_r6|15|
+|iussubdcl01_FC_R5_quorum|AO_FC_r6|1|
+|iussubdcl01_SD_R5_VXFS_bdnautiu|SSD_r6_bbdd|1120|
+|iussubdcl01_SD_R5_VXFS_bdprod02|SSD_r6_bbdd|443|
+|iussubdcl01_SD_R5_VXFS_bdprod03|SSD_r6_bbdd|32|
+|iussubdcl01_SD_R6_VXFS_bdprod05|SSD_r6_bbdd|150|
+|iussubdcl02_FC_R5_quorum|AO_FC_r6,AO_NL_r6|1|
+|iussubdcl02_FC_R6_VXFS_form01|AO_FC_r6,AO_NL_r6, AO_SSD_r6|55|
+|iussubdcl02_SD_R5_VXFS_bdprod01|SSD_r6_bbdd|190|
+|iussubdcl02_SD_R5_VXFS_bdprod04|SSD_r6_bbdd|80|
+|iussubdcl02_SD_R5_VXFS_bdprod06|SSD_r6_bbdd|174|
+|iussubdcl04_NL_R5_VXFS_bddesa02|AO_FC_r6,AO_NL_r6, AO_SSD_r6|80|
+|iussubdcl06_FC_R6_quorum|AO_FC_r6|1|
+|iussubdcl06_SD_R6_VXFS_bdprod07|SSD_r6_bbdd|80|
+
+NETAPP
+
+Desde donde comparte por NFS la unidad **NFS_BACKUP**.
+
+Un ejemplo del uso del punto de montaje en alguno de los nodos sería el siguiente:
+
+|**Filesystem** |**kbytes** |**used** |**avail** |**%used** |**Mounted on** |
+|iusnas06:/ifs/data/NFS-zone/Backup_centralizado|3489660928|1863790904|1625870024|53%|/NFS_BACKUP|
+
+====== Estructura Integrity nPAR / vPAR ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/HP INTEGRITY BL870C (NPAR,VPAR y Cluster Service Guard)?section=6|Editar]]
+
+A continuación, un modelo esquemático de cómo está estructurado el sistema.
+
+{{https://xwiki.justicia.junta-andalucia.es/xwiki/bin/download/Sistemas/HP INTEGRITY BL870C (NPAR,VPAR y Cluster Service Guard)/EsquemaNParVParbbdd.jpg?nolink&100x100|EsquemaNParVParbbdd.jpg}}
+
+======   ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/HP INTEGRITY BL870C (NPAR,VPAR y Cluster Service Guard)?section=7|Editar]]
+
+Distribución de Vpars entre las NPars: iusvsp01 (10.241.130.131): Contiene la vPAR iussubd04, iussubd06 y iussubd08 iusvsp02 (10.241.130.132): Contiene la vPAR iussubd10, iussubd13 y iussubd14 iusvsp03 (10.241.130.133): Contiene la vPAR iussubd11, iussubd12 y iussubd15 iusvsp04 (10.241.130.134): Contiene la vPAR iussubd05, iussubd07 y iussubd09
+
+  * ** <font 14px/inherit;;inherit;;#9fd6b9>Distribución de Vpars en los Clusters:</font> **
+Cluster: **iussubdcl01**
+
+Nodos (vPAR): iussubd04 (10.241.130.135 - 192.168.101.32)
+
+iussubd05 (10.241.130.136 - 192.168.101.33)
+
+Cluster: **iussubdcl02**
+
+Nodos (vPAR): iussubd06 (10.241.130.125 - 192.168.101.42)
+
+iussubd07 (10.241.130.127 - 192.168.101.43)
+
+Cluster: **iussubdcl03 **
+
+Nodos (vPAR): iussubd10 (10.241.130.137 - 192.168.101.46)
+
+iussubd11 (10.241.130.138 - 192.168.101.47)
+
+Cluster: **iussubdcl04**
+
+Nodos (vPAR): iussubd12 (10.241.247.20 - 192.168.101.48)
+
+iussubd13 (10.241.247.21 - 192.168.101.49)
+
+Cluster: **iussubdcl05**
+
+Nodos (vPAR): iussubd14 (10.241.244.134 - 192.168.101.114)
+
+iussubd15 (10.241.244.135 - 192.168.101.115)
+
+Cluster: **iussubdcl06**
+
+Nodos (vPAR): iussubd08 (10.241.244.8 - 192.168.101.8)
+
+iussubd09 (10.241.244.9 - 192.168.101.9)
+
+La configuración física actual de las vPars en función de la BBDD es la siguiente:
+
+|**Recurso** |**Maquina Virtual Principal** |**Maquina Virtual Secundaria** |**CPU asignada** |**Memoria (GB)** |**Maquina Fisica** |**CPU Libre** |**Entorno** |
+|bdpro03|iussubd04|iussubd05|14|45|iusvsp01|4/31|PRO|
+|bdpro06|iussubd06|iussubd07|11|64|iusvsp01|4/31|PRO|
+|bdpro01|iussubd07|iussubd06|11|64|iusvsp04|4/31|PRO|
+|bdpro02|iussubd05|iussubd04|14|45|iusvsp04|4/31|PRO|
+|bdpro04|iussubd07|iussubd06|11|64|iusvsp04|4/31|PRO|
+|bdnautius|iussubd05|iussubd04|14|45|iusvsp04|4/31|PRO|
+|bdpro05|iussubd04|iussubd05|14|45|iusvsp01|4/31|PRO|
+|bddesa01|iussubd10|iussubd11|4|24|iusvsp02|7/15|DES|
+|bdadriano|iussubd10|iussubd11|4|24|iusvsp02|7/15|DES|
+|bdadrianoaux|iussubd10|iussubd11|4|24|iusvsp02|7/15|DES|
+|bdform01|iussubd06|iussubd07|11|64|iusvsp01|4/31|PRO|
+|bdprepro01|iussubd11|iussubd10|4|24|iusvsp03|7/15|PRE|
+|bdprepro03|iussubd11|iussubd10|4|24|iusvsp03|7/15|PRE|
+|bddesa02|iussubd12|iussubd13|2|10|iusvsp03|7/15|DES|
+|bdprepro02|iussubd14|iussubd15|2|10|iusvsp02|7/15|PRE|
+|bdpro07|iussubd08|iussubd09|2|10|iusvsp01|4/31|PRO|
+ <font 14px/Helvetica;;#010101;;inherit>Ver también el reparto de instancias y recursos:</font>
+
+[[http://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/reparto-instancias-bbdd|http://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/reparto-instancias-bbdd]]
+
+====== Monitorización / Gestión de eventos ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/HP INTEGRITY BL870C (NPAR,VPAR y Cluster Service Guard)?section=8|Editar]]
+
+La monitorización relativa al servicio podemos encontrarla en la sección correspondiente de la [[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/Monitorizacion GTAB - NAGIOS|wiki]],
+
+Frente a una caida de cualquiera de los recursos de los nodos del cluster Service Guard, éste intentará levantarlo de forma automática en el nodo primario, sin necesidad de intervención manual alguna.
+
+====== Políticas de Backup ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/HP INTEGRITY BL870C (NPAR,VPAR y Cluster Service Guard)?section=9|Editar]]
+
+Las Políticas de Backup se están listando en el documento de la [[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/GTAB - Servicio de Backup|Wiki]] correspondiente, cualquier caso particular se listará a continuación.
+
+====== Configuración de red ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/HP INTEGRITY BL870C (NPAR,VPAR y Cluster Service Guard)?section=10|Editar]]
+
+La configuración de la red en las máquinas NPar se compone de dos VLAN llamadas "lan5000" y "lan5001" que se generan a partir de un bonding creado de nombre "lan900" que a su vez agrupa cuatro tarjetas físicas, evitando así la pérdida de servicio.
+
+Una forma de poder diferenciar las interfaces de red dedicadas al bonding es el tipo, //hp_apa//  las identificaría.
+
+**IUSVPS01**
+
+^Name^Number^State^Mode^NamePPA^MAC Address^IPv4 Address|
+|localnet|1|Up|Shared| |N/A|N/A|
+|vSW_Servidores|2|Up|Shared|lan5000|0xc4346b236bde|10.241.130.131|
+|vSW_ServiceGuard|4|Up|Shared|lan5001|0xc4346b236bde|192.168.101.30|
+|vSW_BDProduccion|5|Up|Shared  |lan5002|0xc4346b236be2| |
+
+^Name/ClassInstance^Interface State^Station Address^Sub-system^Interface Type^Bonding|
+|lan0|UP|0xC4346B236BDE|iocxgbe|10GBASE-KR|lan900|
+|lan1|UP|0xC4346B236BE2|iocxgbe|10GBASE-KR| |
+|lan2|DOWN|0xC4346B236BE6|iocxgbe|10GBASE-KR| |
+|lan3|DOWN|0xC4346B236BEA|iocxgbe|10GBASE-KR| |
+|lan4|DOWN|0xF0921C8CA7B4|iocxgbe|10GBASE-KR| |
+|lan5|DOWN|0xF0921C8CA7B8|iocxgbe|10GBASE-KR| |
+|lan6|DOWN|0xF0921C8CA7BC|iocxgbe|10GBASE-KR| |
+|lan7|DOWN|0xF0921C8CA7C0|iocxgbe|10GBASE-KR| |
+|lan900|UP|0xC4346B236BDE|hp_apa|hp_apa| |
+|lan5000|UP|0xC4346B236BDE|vlan|vlan|lan900|
+|lan5001|UP|0xC4346B236BDE|vlan|vlan|lan900|
+|lan5002|UP|0xC4346B236BE2|vlan|vlan|lan900|
+|lan901|DOWN|0x000000000000|hp_apa|hp_apa| |
+|lan902|DOWN|0x000000000000|hp_apa|hp_apa| |
+|lan903|DOWN|0x000000000000|hp_apa|hp_apa| |
+|lan904|DOWN|0x000000000000|hp_apa|hp_apa| |
+
+**IUSVPS02**
+
+^Name^Number^State^Mode^NamePPA^MAC Address^IPv4 Address|
+|localnet|1|Up|Shared| |N/A|N/A|
+|vSW_Servidores|2|Up|Shared|lan5000|0xa0d3c17a49c4|10.241.130.132|
+|vSW_ServiceGuard|3|Up|Shared|lan5001|0xa0d3c17a49c4|192.168.101.40|
+|vSW_Desarrollo|4|Up|Shared|lan5002|0xa0d3c17a49c4| |
+|vSW_Preproduccion|5|Up|Shared|lan5003|0xa0d3c17a49c4| |
+
+^Name/ClassInstance^Interface State^Station Address^Sub-system^Interface Type^Bonding|
+|lan0|UP|0xA0D3C17A49C4|iocxgbe|10GBASE-KR|lan900|
+|lan1|UP|0xA0D3C17A49C8|iocxgbe|10GBASE-KR|lan900|
+|lan6|DOWN|0xA0D3C17A49CC|iocxgbe|10GBASE-KR| |
+|lan7|DOWN|0xA0D3C17A49D0|iocxgbe|10GBASE-KR| |
+|lan12|UP|0x38EAA752A25C|iocxgbe|10GBASE-KR|lan900|
+|lan13|UP|0x38EAA752A260|iocxgbe|10GBASE-KR|lan900|
+|lan18|DOWN|0x38EAA752A264|iocxgbe|10GBASE-KR| |
+|lan19|DOWN|0x38EAA752A268|iocxgbe|10GBASE-KR| |
+|lan900|UP|0xA0D3C17A49C4|hp_apa|hp_apa| |
+|lan5000|UP|0xA0D3C17A49C4|vlan|vlan|lan900|
+|lan5001|UP|0xA0D3C17A49C4|vlan|vlan|lan900|
+|lan5002|UP|0xA0D3C17A49C4|vlan|vlan|lan900|
+|lan5003|UP|0xA0D3C17A49C4|vlan|vlan|lan900|
+|lan901|DOWN|0x000000000000|hp_apa|hp_apa| |
+|lan902|DOWN|0x000000000000|hp_apa|hp_apa| |
+|lan903|DOWN|0x000000000000|hp_apa|hp_apa| |
+|lan904|DOWN|0x000000000000|hp_apa|hp_apa| |
+
+**IUSVPS03**
+
+^Name^Number^State^Mode^NamePPA^MAC Address^IPv4 Address|
+|localnet|1|Up|Shared| |N/A|N/A|
+|vSW_Servidores|2|Up|Shared|lan5000|0xa0d3c17a3c24|10.241.130.133|
+|vSW_ServiceGuard|3|Up|Shared|lan5001|0xa0d3c17a3c24|192.168.101.31|
+|vSW_Desarrollo|4|Up|Shared|lan5002|0xa0d3c17a3c24| |
+|vSW_Preproduccion|5|Up|Shared|lan5003|0xa0d3c17a3c24| |
+
+^Name/ClassInstance^Interface State^Station Address^Sub-system^Interface Type^Bonding|
+|lan0|UP|0xA0D3C17A3C20|iocxgbe|10GBASE-KR|lan900|
+|lan1|UP|0xA0D3C17A3C24|iocxgbe|10GBASE-KR|lan900|
+|lan2|DOWN|0xA0D3C17A3C28|iocxgbe|10GBASE-KR| |
+|lan3|DOWN|0xA0D3C17A3C2C|iocxgbe|10GBASE-KR| |
+|lan4|UP|0xF0921C8CA430|iocxgbe|10GBASE-KR|lan900|
+|lan5|UP|0xF0921C8CA434|iocxgbe|10GBASE-KR|lan900|
+|lan6|DOWN|0xF0921C8CA438|iocxgbe|10GBASE-KR| |
+|lan7|DOWN|0xF0921C8CA43C|iocxgbe|10GBASE-KR| |
+|lan900|UP|0xA0D3C17A3C24|hp_apa|hp_apa| |
+|lan5000|UP|0xA0D3C17A3C24|vlan|vlan|lan900|
+|lan5001|UP|0xA0D3C17A3C24|vlan|vlan|lan900|
+|lan5002|UP|0xA0D3C17A3C24|vlan|vlan|lan900|
+|lan5003|UP|0xA0D3C17A3C24|vlan|vlan|lan900|
+|lan901|DOWN|0x000000000000|hp_apa|hp_apa| |
+|lan902|DOWN|0x000000000000|hp_apa|hp_apa| |
+|lan903|DOWN|0x000000000000|hp_apa|hp_apa| |
+|lan904|DOWN|0x000000000000|hp_apa|hp_apa| |
+
+**IUSVPS04**
+
+^Name^Number^State^Mode^NamePPA^MAC Address^IPv4 Address|
+|localnet|1|Up|Shared| |N/A|N/A|
+|vSW_Servidores|2|Up|Shared|lan5000|0xc4346b2364d6|10.241.130.134|
+|vSW_ServiceGuard|3|Up|Shared|lan5001|0xc4346b2364d6|192.168.101.41|
+|vSW_BDProduccion|4|Up|Shared|lan5002|0xc4346b2364d6| |
+
+^Name/ClassInstance^Interface State^Station Address^Sub-system^Interface Type^Bonding|
+|lan0|UP|0xC4346B2364D6|iocxgbe|10GBASE-KR|lan900|
+|lan1|UP|0xC4346B2364DA|iocxgbe|10GBASE-KR|lan900|
+|lan2|DOWN|0xC4346B2364DE|iocxgbe|10GBASE-KR| |
+|lan3|DOWN|0xC4346B2364E2|iocxgbe|10GBASE-KR| |
+|lan4|UP|0x38EAA752D3DC|iocxgbe|10GBASE-KR|lan900|
+|lan5|UP|0x38EAA752D3E0|iocxgbe|10GBASE-KR|lan900|
+|lan6|DOWN|0x38EAA752D3E4|iocxgbe|10GBASE-KR| |
+|lan7|DOWN|0x38EAA752D3E8|iocxgbe|10GBASE-KR| |
+|lan900|UP|0xC4346B2364D6|hp_apa|hp_apa| |
+|lan5000|UP|0xC4346B2364D6|vlan|vlan|lan900|
+|lan5001|UP|0xC4346B2364D6|vlan|vlan|lan900|
+|lan5002|UP|0xC4346B2364D6|vlan|vlan|lan900|
+|lan901|DOWN|0x000000000000|hp_apa|hp_apa| |
+|lan902|DOWN|0x000000000000|hp_apa|hp_apa| |
+|lan903|DOWN|0x000000000000|hp_apa|hp_apa| |
+|lan904|DOWN|0x000000000000|hp_apa|hp_apa| |
+
+======   ======
+
+Configuración de red VLAN
+
+======   ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/HP INTEGRITY BL870C (NPAR,VPAR y Cluster Service Guard)?section=11|Editar]]
+
+**IUSVSP01 **y** IUSVSP03**
+
+|**Nombre** |**vlan-id** |
+| <font inherit/Times New Roman;;inherit;;inherit>Externa_VC1</font> | <font inherit/Times New Roman;;inherit;;inherit>1</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>DMZ_VC1</font> | <font inherit/Times New Roman;;inherit;;inherit>2</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>Servidores_VC1</font> | <font inherit/Times New Roman;;inherit;;inherit>3</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>Interna_VC1</font> | <font inherit/Times New Roman;;inherit;;inherit>4</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>eDMZ_VC1</font> | <font inherit/Times New Roman;;inherit;;inherit>8</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>Formacion_VC1</font> | <font inherit/Times New Roman;;inherit;;inherit>9</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>Extranet_VC1</font> | <font inherit/Times New Roman;;inherit;;inherit>10</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>Pruebas_VC1</font> | <font inherit/Times New Roman;;inherit;;inherit>11</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>BACKEND-eDMZ_VC1</font> | <font inherit/Times New Roman;;inherit;;inherit>16</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>BACKEND-DMZ_VC1</font> | <font inherit/Times New Roman;;inherit;;inherit>17</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>vMotion_VC1</font> | <font inherit/Times New Roman;;inherit;;inherit>101</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>Desarrollo VC1</font> |18|
+|BDPreProduccion VC1|25|
+|BDProduccion VC1|26|
+
+ \\ **IUSVSP02 y IUSVSP04**
+
+|**Nombre** |**vlan-id** |
+| <font inherit/Times New Roman;;inherit;;inherit>Externa_VC2</font> | <font inherit/Times New Roman;;inherit;;inherit>1</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>DMZ_VC2</font> | <font inherit/Times New Roman;;inherit;;inherit>2</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>Servidores_VC2</font> | <font inherit/Times New Roman;;inherit;;inherit>3</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>Interna_VC2</font> | <font inherit/Times New Roman;;inherit;;inherit>4</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>eDMZ_VC2</font> | <font inherit/Times New Roman;;inherit;;inherit>8</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>Formacion_VC2</font> | <font inherit/Times New Roman;;inherit;;inherit>9</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>Extranet_VC2</font> | <font inherit/Times New Roman;;inherit;;inherit>10</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>Pruebas_VC2</font> | <font inherit/Times New Roman;;inherit;;inherit>11</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>BACKEND-eDMZ_VC2</font> | <font inherit/Times New Roman;;inherit;;inherit>16</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>BACKEND-DMZ_VC2</font> | <font inherit/Times New Roman;;inherit;;inherit>17</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>vMotion_VC2</font> | <font inherit/Times New Roman;;inherit;;inherit>101</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>Desarrollo VC2</font> |18|
+| <font inherit/Times New Roman;;inherit;;inherit>BDPreProduccion VC2</font> | <font inherit/Times New Roman;;inherit;;inherit>25</font> |
+|BDProduccion VC2|26|
+
+======   ======
+
+Configuración de red de almacenamiento
+
+======   ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/HP INTEGRITY BL870C (NPAR,VPAR y Cluster Service Guard)?section=12|Editar]]
+
+Cada una de las nPares dispone de 4 hba conectadas dos a cada una de las dos fabrics. Cada una de estas HBA están configurada para que puedan funcionar entre 4Gb y 8Gb.
+
+Parches requeridos \\
+Editar
+
+En el caso de los parches de seguridad a instalar en cada sistema, es la misma empresa HP la que se encarga de recomendar qué parches faltarían por instalar para estar totalmente actualizado y solucionar los posibles problemas de seguridad en cada momento.
+
+En el interior del resultado generado por el script "getsysinfo.sh" encontramos el fichero sw_inventory.xml que, una vez subido y revisado en la web de soporte de HP nos indica qué parches serían necesario instalar en el sistema.
+
+Existe un Bundle acumulativo que faltaría por instalar en todos los servidores, tanto físicos como virtuales.
+
+El conjunto de paquetes a instalar sería el Bundle QPK1131(B.11.31.1703.429a) que contiene los siguientes parches:
+
+Quality Pack Depot for 11i v3, March 2017 \\
+Recommended for the following reason(s): \\
+latest quality pack patch bundle QPKAPPS B.11.31.1703.429a not installed (quality pack) \\
+latest quality pack patch bundle QPKBASE B.11.31.1703.429a not installed (quality pack) \\
+installed patch with critical warning: PHCO_43464 (critical warnings) \\
+installed patch with critical warning: PHKL_43819 (critical warnings) \\
+installed patch with critical warning: PHKL_44140 (critical warnings) \\
+installed patch with critical warning: PHKL_44189 (critical warnings) \\
+installed patch with critical warning: PHNE_43035 (critical warnings) \\
+installed patch with critical warning: PHNE_43814 (critical warnings) \\
+security patch PHCO_43875 is not installed (security) \\
+security patch PHKL_44278 is not installed (security) \\
+security patch PHNE_44295 is not installed (security) \\
+security patch PHSS_39886 is not installed (security) \\
+security patch PHSS_43690 is not installed (security)
+
+Para los cluster iussubdcl03 se instala el paquete:
+
+PHKL_44384 1.0 esctl cumulative patch
+
+Para los cluster iussubdcl04 se instalan los paquetes:
+<code>
+
+PHCO_44150                    1.0            scsimgr cumulative patch
+
+</code>
+
+<code>
+PHCO_44158                    1.0            iofind(1M) and io_redirect_dsf(1M) cumulative patch
+
+</code>
+
+<code>
+PHKL_43904                    1.0            process management cumulative patch
+
+</code>
+
+<code>
+PHKL_43922                    1.0            esdisk cumulative patch
+
+</code>
+
+<code>
+PHKL_44256                    1.0            io cumulative patch
+
+</code>
+
+<code>
+PHKL_44384                    1.0            esctl cumulative patch
+
+</code>
+
+<code>
+PHKL_44461                    1.0            vm cumulative patch
+
+</code>
+
+<code>
+PHSS_44258                    1.0            Aries cumulative patch
+
+</code>
+
+<code>
+PHSS_44422                    1.0            linker + fdp cumulative patch
+
+</code>
+
+Para los cluster iussubdcl05 se instalan los paquetes:
+
+<code>
+PHCO_44150                    1.0            scsimgr cumulative patch
+
+</code>
+
+<code>
+PHCO_44158                    1.0            iofind(1M) and io_redirect_dsf(1M) cumulative patch
+
+</code>
+
+<code>
+PHKL_43922                    1.0            esdisk cumulative patch
+
+</code>
+
+<code>
+PHKL_44256                    1.0            io cumulative patch
+
+</code>
+
+<code>
+PHKL_44384                    1.0            esctl cumulative patch
+
+</code>
+
+<code>
+PHSS_37042                    1.0            hppac
+
+</code>
+
+NOTA: Los 5 primeros se encientran ya instalados en el temeplate hpux_vparbase_so_3, de la HP 3Par Parametros de kernel nPar Editar
+
+A continuación listamos las diferencias encontradas entre los parámetros configurables del Kernel.
+
+| \\ ** <font 10.0pt/inherit;;white;;inherit>Tunable</font> ** | \\ ** <font 10.0pt/inherit;;white;;inherit>Description</font> ** | \\ ** <font 10.0pt/inherit;;white;;inherit>IUSVSP01</font> ** | \\ ** <font 10.0pt/inherit;;white;;inherit>IUSVSP02</font> ** | \\ ** <font 10.0pt/inherit;;white;;inherit>IUSVSP03</font> ** | \\ ** <font 10.0pt/inherit;;white;;inherit>IUSVSP04</font> ** |
+| \\ | \\ | \\ | \\ | \\ | \\ |
+
+Todos los elementos se encuentran con los mismos valores por lo que la tabla está vacía.
+
+====== Parametros de kernel vPar ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/HP INTEGRITY BL870C (NPAR,VPAR y Cluster Service Guard)?section=15|Editar]]
+
+| \\ ** <font 9.0pt/inherit;;white;;inherit>Tunable</font> ** | \\ ** <font 9.0pt/inherit;;white;;inherit>Description</font> ** | \\ ** <font 9.0pt/inherit;;white;;inherit>IUSSUBD04</font> ** | \\ ** <font 9.0pt/inherit;;white;;inherit>IUSSUBD05</font> ** | \\ ** <font 9.0pt/inherit;;white;;inherit>IUSSUBD06</font> ** | \\ ** <font 9.0pt/inherit;;white;;inherit>IUSSUBD07</font> ** | \\ ** <font 9.0pt/inherit;;white;;inherit>IUSSUBD08</font> ** | \\ ** <font 9.0pt/inherit;;white;;inherit>IUSSUBD09</font> ** |
+|   \\
+ <font 8.0pt/inherit;;inherit;;inherit>filecache_max</font> |   \\
+ <font 7.0pt/inherit;;inherit;;inherit>Maximum amount of physical memory to be used for caching file I/O data</font> |   \\
+ <font 10.0pt/inherit;;inherit;;inherit>11231133696</font> |   \\
+ <font 10.0pt/inherit;;inherit;;inherit>11231129600</font> |   \\
+ <font 10.0pt/inherit;;inherit;;inherit>16337698816</font> |   \\
+ <font 10.0pt/inherit;;inherit;;inherit>16337694720</font> |   \\
+ <font 10.0pt/inherit;;inherit;;inherit>11231129600</font> |   \\
+ <font 10.0pt/inherit;;inherit;;inherit>16337694720</font> |
+|   \\
+ <font 8.0pt/inherit;;inherit;;inherit>filecache_min</font> | \\ |   \\
+ <font 10.0pt/inherit;;inherit;;inherit>1123110912</font> |   \\
+ <font 10.0pt/inherit;;inherit;;inherit>1123110912</font> |   \\
+ <font 10.0pt/inherit;;inherit;;inherit>1633767424</font> |   \\
+ <font 10.0pt/inherit;;inherit;;inherit>1633767424</font> |   \\
+ <font 10.0pt/inherit;;inherit;;inherit>1123110912</font> |   \\
+ <font 10.0pt/inherit;;inherit;;inherit>1633767424</font> |
+|   \\
+ <font 8.0pt/inherit;;inherit;;inherit>max_thread_proc</font> | \\ |   \\
+ <font 10.0pt/inherit;;inherit;;inherit>1200</font> |   \\
+ <font 10.0pt/inherit;;inherit;;inherit>1200</font> |   \\
+ <font 10.0pt/inherit;;inherit;;inherit>1200</font> |   \\
+ <font 10.0pt/inherit;;inherit;;inherit>1200</font> |   \\
+ <font 10.0pt/inherit;;inherit;;inherit>1200</font> |   \\
+ <font 10.0pt/inherit;;inherit;;inherit>1200</font> |
+|   \\
+ <font 8.0pt/inherit;;inherit;;inherit>maxfiles_lim</font> |   \\
+ <font 7.0pt/inherit;;inherit;;inherit>Hard maximum number of file descriptors per 32767process</font> |   \\
+ <font 10.0pt/inherit;;inherit;;inherit>32767</font> |   \\
+ <font 10.0pt/inherit;;inherit;;inherit>32767</font> |   \\
+ <font 10.0pt/inherit;;inherit;;inherit>32767</font> |   \\
+ <font 10.0pt/inherit;;inherit;;inherit>32767</font> |   \\
+ <font 10.0pt/inherit;;inherit;;inherit>32767</font> |   \\
+ <font 10.0pt/inherit;;inherit;;inherit>32767</font> |
+|   \\
+ <font 8.0pt/inherit;;inherit;;inherit>ncsize</font> |   \\
+ <font 7.0pt/inherit;;inherit;;inherit>Number of Directory Name Lookup Cache (DNLC) entries</font> | | | | | | |
+ <font 10.0pt/inherit;;inherit;;inherit>(next boot)</font>  \\
+| \\
+ <font 10.0pt/inherit;;inherit;;inherit>43072</font>
+ <font 10.0pt/inherit;;inherit;;inherit>(next boot)</font>  \\
+| \\
+ <font 10.0pt/inherit;;inherit;;inherit>43072</font>
+ <font 10.0pt/inherit;;inherit;;inherit>(next boot)</font>  \\
+| \\
+ <font 10.0pt/inherit;;inherit;;inherit>43072</font>
+ <font 10.0pt/inherit;;inherit;;inherit>(next boot)</font>  \\
+| \\
+ <font 10.0pt/inherit;;inherit;;inherit>43072</font>  \\
+| \\
+ <font 10.0pt/inherit;;inherit;;inherit>43072</font>  \\
+|
+
+|   \\
+ <font 8.0pt/inherit;;inherit;;inherit>ninode</font> |   \\
+ <font 7.0pt/inherit;;inherit;;inherit>aximum number of HFS file system open inodes that can be in memory.</font> |
+ <font 10.0pt/inherit;;inherit;;inherit>(next boot)</font>  \\
+| \\
+ <font 10.0pt/inherit;;inherit;;inherit>42048</font>
+ <font 10.0pt/inherit;;inherit;;inherit>(next boot)</font>  \\
+| \\
+ <font 10.0pt/inherit;;inherit;;inherit>42048</font>
+ <font 10.0pt/inherit;;inherit;;inherit>(next boot)</font>  \\
+| \\
+ <font 10.0pt/inherit;;inherit;;inherit>42048</font>
+ <font 10.0pt/inherit;;inherit;;inherit>(next boot)</font>  \\
+| \\
+ <font 10.0pt/inherit;;inherit;;inherit>42048</font>  \\
+| \\
+ <font 10.0pt/inherit;;inherit;;inherit>42048</font>  \\
+|
+
+|   \\
+ <font 8.0pt/inherit;;inherit;;inherit>semmni</font> |   \\
+ <font 7.0pt/inherit;;inherit;;inherit>Maximum number of semaphore sets on the system</font> |
+ <font 10.0pt/inherit;;inherit;;inherit>(next boot)</font>  \\
+| \\
+ <font 10.0pt/inherit;;inherit;;inherit>5000</font>
+ <font 10.0pt/inherit;;inherit;;inherit>(next boot)</font>  \\
+| \\
+ <font 10.0pt/inherit;;inherit;;inherit>5000</font>
+ <font 10.0pt/inherit;;inherit;;inherit>(next boot)</font>  \\
+| \\
+ <font 10.0pt/inherit;;inherit;;inherit>5000</font>
+ <font 10.0pt/inherit;;inherit;;inherit>(next boot)</font>  \\
+| \\
+ <font 10.0pt/inherit;;inherit;;inherit>5000</font>  \\
+| \\
+ <font 10.0pt/inherit;;inherit;;inherit>5000</font>  \\
+|
+
+|   \\
+ <font 8.0pt/inherit;;inherit;;inherit>semmns</font> |   \\
+ <font 7.0pt/inherit;;inherit;;inherit>Maximum number of semaphores</font> |
+ <font 10.0pt/inherit;;inherit;;inherit>(next boot)</font>  \\
+| \\
+ <font 10.0pt/inherit;;inherit;;inherit>10000</font>
+ <font 10.0pt/inherit;;inherit;;inherit>(next boot)</font>  \\
+| \\
+ <font 10.0pt/inherit;;inherit;;inherit>10000</font>
+ <font 10.0pt/inherit;;inherit;;inherit>(next boot)</font>  \\
+| \\
+ <font 10.0pt/inherit;;inherit;;inherit>10000</font>
+ <font 10.0pt/inherit;;inherit;;inherit>(next boot)</font>  \\
+| \\
+ <font 10.0pt/inherit;;inherit;;inherit>10000</font>  \\
+| \\
+ <font 10.0pt/inherit;;inherit;;inherit>10000</font>  \\
+|
+
+|   \\
+ <font 8.0pt/inherit;;inherit;;inherit>semmnu</font> |   \\
+ <font 7.0pt/inherit;;inherit;;inherit>Maximum number of processes that can have undo operations pending on a semaphore</font> |
+ <font 10.0pt/inherit;;inherit;;inherit>t)</font>  \\
+| \\
+ <font 10.0pt/inherit;;inherit;;inherit>4996(next boo</font>
+ <font 10.0pt/inherit;;inherit;;inherit>t)</font>  \\
+| \\
+ <font 10.0pt/inherit;;inherit;;inherit>4996(next boo</font>
+ <font 10.0pt/inherit;;inherit;;inherit>t)</font>  \\
+| \\
+ <font 10.0pt/inherit;;inherit;;inherit>4996(next boot)</font>  \\
+| \\
+ <font 10.0pt/inherit;;inherit;;inherit>4996</font>  \\
+| \\
+ <font 10.0pt/inherit;;inherit;;inherit>4996</font>  \\
+|
+
+|   \\
+ <font 8.0pt/inherit;;inherit;;inherit>vpar_guest_ogm_enable</font> | \\ |   \\
+ <font 10pt/inherit;;inherit;;inherit>-</font> |   \\
+ <font 10pt/inherit;;inherit;;inherit>-</font> |   \\
+ <font 10pt/inherit;;inherit;;inherit>1</font> |   \\
+ <font 10pt/inherit;;inherit;;inherit>1</font> |   \\
+ <font 10.0pt/inherit;;inherit;;inherit>-</font> |   \\
+ <font 10.0pt/inherit;;inherit;;inherit>1</font> \\
+   fi|
+
+====== Versiones de Sistema Operativo ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/HP INTEGRITY BL870C (NPAR,VPAR y Cluster Service Guard)?section=16|Editar]]
+
+Todas las nPares y vPares disponen de HP-UX 11i
+
+

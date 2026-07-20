@@ -1,0 +1,935 @@
+﻿
+<html>
+<style>
+.rpa-page {
+            --color-primary: #39546E;
+            --color-primary-light: #5c8a8a;
+            --color-background: #ffffff;
+            --color-card: #ffffff;
+            --color-border: #d7dde3;
+            --color-muted: #f2f5f7;
+            --color-warning: #d9534f;
+            --color-link: #0051A3;
+            --shadow-card: 0 4px 8px rgba(0, 0, 0, 0.12);
+            --radius-card: 8px;
+        }
+
+        .rpa-page,
+        .rpa-page * {
+            box-sizing: border-box;
+        }
+
+        .rpa-page {
+            font-family: Arial, sans-serif;
+            background-color: var(--color-background);
+            margin: 0;
+            padding: 20px 20px 100px;
+            color: #263238;
+            line-height: 1.5;
+        }
+
+        a {
+            color: var(--color-link);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        ul, ol {
+            margin-top: 8px;
+            margin-bottom: 8px;
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+
+        .main-container {
+            max-width: 1500px;
+            margin: 0 auto;
+        }
+
+        .page-title {
+            background-color: var(--color-primary);
+            color: white;
+            padding: 25px 20px;
+            font-size: 2rem;
+            font-weight: bold;
+            border-radius: var(--radius-card) var(--radius-card) 0 0;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .warning-block {
+            background-color: var(--color-warning);
+            color: white;
+            text-align: center;
+            border-radius: var(--radius-card);
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-card);
+        }
+
+        .warning-block h2 {
+            margin: 0 0 6px;
+            color: white;
+            border: 0;
+        }
+
+        .warning-block p {
+            margin: 0;
+        }
+
+        #indice {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(57, 84, 110, 0.96);
+            padding: 10px;
+            border-radius: var(--radius-card);
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropbtn {
+            display: inline-block;
+            background-color: var(--color-primary);
+            color: white;
+            padding: 10px 20px;
+            font-weight: bold;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: var(--radius-card);
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .dropbtn:hover,
+        .dropbtn:focus {
+            background-color: var(--color-primary-light);
+            color: white;
+            text-decoration: none;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 260px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            border-radius: var(--radius-card);
+            z-index: 100;
+            overflow: hidden;
+        }
+
+        .dropdown:hover .dropdown-content,
+        .dropdown:focus-within .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content a {
+            color: #333;
+            padding: 10px 16px;
+            display: block;
+            background-color: white;
+            font-weight: normal;
+            transition: background 0.3s ease;
+        }
+
+        .dropdown-content a:hover,
+        .dropdown-content a:focus {
+            background-color: #eaeaea;
+            text-decoration: none;
+        }
+
+        .section-header {
+            background-color: var(--color-primary);
+            color: white;
+            padding: 22px 20px;
+            font-size: 1.85rem;
+            font-weight: bold;
+            border-radius: var(--radius-card) var(--radius-card) 0 0;
+            text-align: center;
+            margin: 36px 0 20px;
+        }
+
+        .block,
+        .sub-block {
+            background-color: var(--color-card);
+            border-radius: var(--radius-card);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-card);
+        }
+
+        .block h2,
+        .sub-block h3,
+        .sub-block h4 {
+            margin-top: 0;
+            color: var(--color-primary);
+            border-bottom: 2px solid var(--color-primary);
+            padding-bottom: 10px;
+        }
+
+        .sub-block h3 {
+            font-size: 1.5rem;
+        }
+
+        .sub-block h4 {
+            font-size: 1.2rem;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .robot-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .status-badge {
+            display: inline-block;
+            color: white;
+            background-color: var(--color-primary);
+            border-radius: 999px;
+            padding: 4px 12px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .status-dev {
+            background-color: #8a6d3b;
+        }
+
+        .callout {
+            background-color: var(--color-muted);
+            border-left: 5px solid var(--color-primary);
+            border-radius: var(--radius-card);
+            padding: 14px 16px;
+            margin: 16px 0;
+        }
+
+        .placeholder {
+            background-color: #fff8e5;
+            border: 1px dashed #c6a24a;
+            border-radius: var(--radius-card);
+            padding: 14px 16px;
+            margin: 16px 0;
+        }
+
+        .template-box {
+            border: 1px solid #b9c2cc;
+            border-radius: var(--radius-card);
+            background-color: var(--color-muted);
+            padding: 15px;
+            margin: 12px 0 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            table-layout: fixed;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+            word-wrap: break-word;
+        }
+
+        th {
+            background-color: var(--color-primary);
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .table-3col th:nth-child(1),
+        .table-3col td:nth-child(1) { width: 24%; }
+        .table-3col th:nth-child(2),
+        .table-3col td:nth-child(2) { width: 22%; }
+        .table-3col th:nth-child(3),
+        .table-3col td:nth-child(3) { width: 54%; }
+
+        .table-4col th:nth-child(1),
+        .table-4col td:nth-child(1) { width: 20%; }
+        .table-4col th:nth-child(2),
+        .table-4col td:nth-child(2) { width: 20%; }
+        .table-4col th:nth-child(3),
+        .table-4col td:nth-child(3) { width: 30%; }
+        .table-4col th:nth-child(4),
+        .table-4col td:nth-child(4) { width: 30%; }
+
+        .table-5col th:nth-child(1),
+        .table-5col td:nth-child(1) { width: 15%; }
+        .table-5col th:nth-child(2),
+        .table-5col td:nth-child(2) { width: 18%; }
+        .table-5col th:nth-child(3),
+        .table-5col td:nth-child(3) { width: 18%; }
+        .table-5col th:nth-child(4),
+        .table-5col td:nth-child(4) { width: 22%; }
+        .table-5col th:nth-child(5),
+        .table-5col td:nth-child(5) { width: 27%; }
+
+        .centered-img {
+            display: block;
+            margin: 40px auto;
+            width: min(70%, 900px);
+            max-width: 100%;
+        }
+
+        h1[id], h2[id], h3[id], h4[id], section[id], div[id] {
+            scroll-margin-top: 120px;
+        }
+
+        #btnVolver {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 100px;
+            background-color: var(--color-primary);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: var(--radius-card);
+            cursor: pointer;
+            font-size: 14px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s ease;
+            z-index: 1000;
+        }
+
+        #btnVolver:hover,
+        #btnVolver:focus {
+            background-color: var(--color-primary-light);
+        }
+
+        @media (max-width: 900px) {
+            .rpa-page {
+                padding: 10px 10px 90px;
+            }
+
+            #indice {
+                position: static;
+                justify-content: flex-start;
+            }
+
+            .dropdown,
+            .dropbtn {
+                width: 100%;
+            }
+
+            .dropdown-content {
+                position: static;
+                width: 100%;
+                margin-top: 4px;
+            }
+
+            table {
+                table-layout: auto;
+                display: block;
+                overflow-x: auto;
+            }
+
+            #btnVolver {
+                right: 20px;
+            }
+        }
+        .robot-icon {
+            margin-right: 6px;
+        }
+</style>
+<div class="rpa-page">
+<a id="top"></a>
+<div class="main-container">
+<div aria-label="Aviso de página en construcción" class="warning-block" role="note">
+<h2>⚠ Página en construcción ⚠</h2>
+<p>Los procedimientos, actuaciones y documentación que se encuentran en esta página no están validados ni son definitivos.</p>
+</div>
+<header class="page-title">RPA - Procedimientos y documentación operativa</header>
+<nav aria-label="Índice principal" id="indice">
+<div class="dropdown">
+<a class="dropbtn" href="#introduccion">0. Introducción</a>
+</div>
+<div class="dropdown">
+<a class="dropbtn" href="#relacion-ssdj-uai">1. Relación SSDJ-UAI</a>
+<div class="dropdown-content">
+<a href="#relacion-modelo-operativo">Modelo operativo</a>
+<a href="#relacion-solicitudes">Solicitudes a UAI</a>
+<a href="#relacion-incidencias">Incidencias con UAI</a>
+<a href="#relacion-tipificaciones">Tipificaciones Remedy / NAOS</a>
+</div>
+</div>
+<div class="dropdown">
+<a class="dropbtn" href="#escalado-despliegue">2. Escalado y despliegue</a>
+<div class="dropdown-content">
+<a href="#despliegue-flujo">Flujo de implantación</a>
+<a href="#despliegue-checklist">Checklist de despliegue</a>
+<a href="#despliegue-plantilla">Plantilla de alta, baja o modificación</a>
+</div>
+</div>
+<div class="dropdown">
+<a class="dropbtn" href="#robots">3. Robots</a>
+<div class="dropdown-content">
+<a href="#robot-actas-conciliacion">3.1 Actas de Conciliación</a>
+<a href="#robot-acuses-recibo">3.2 Acuses de Recibo</a>
+<a href="#robot-sc-monitorios">3.3 Notificaciones SC Monitorios</a>
+<a href="#robot-rpc">3.4 Consulta Registro Público Concursal</a>
+</div>
+</div>
+</nav>
+<main>
+<section id="introduccion">
+<div class="section-header">0. Introducción: descripción del proyecto</div>
+<div class="block">
+<h2>Objeto de la documentación</h2>
+<p>Durante 2025 se ha puesto en marcha, por primera vez en la justicia andaluza, un conjunto de automatismos basados en tecnología RPA desarrollados en UiPath, orientados a optimizar tareas repetitivas y de alto volumen en distintos procedimientos judiciales.</p>
+<p>Esta página agrupa la documentación operativa de los robots, el modelo de relación entre el Servicio de Sistemas Digitales Judiciales (SSDJ) y la Unidad de Automatización Inteligente (UAI), así como las pautas para escalar, desplegar y dar soporte a las robotizaciones ya desarrolladas.</p>
+<div class="callout">
+<strong>Ámbito documental:</strong> procedimientos técnicos, instrucciones de alta/baja/modificación, soporte funcional y técnico, relación con UAI, manuales de usuario y contenido formativo asociado.
+                    </div>
+<h3>Robots incluidos en el proyecto</h3>
+<ul>
+<li><a href="#robot-actas-conciliacion">Robot de Digitalización de Actas de Conciliación</a></li>
+<li><a href="#robot-acuses-recibo">Robot de Digitalización de Acuses de Recibo</a></li>
+<li><a href="#robot-sc-monitorios">Robot de Digitalización de Notificaciones del Servicio Común para Monitorios</a></li>
+<li><a href="#robot-rpc">Robot DIOR para Consulta del Registro Público Concursal</a></li>
+</ul>
+</div>
+</section>
+<section id="relacion-ssdj-uai">
+<div class="section-header">1. Relación SSDJ-UAI</div>
+<div class="block" id="relacion-modelo-operativo">
+<h2>1.1. Modelo operativo de relación con la UAI</h2>
+<p>La Unidad de Automatización Inteligente de la Agencia Digital de Andalucía presta soporte a los robots RPA. El SSDJ canaliza las solicitudes, valida la información funcional y técnica necesaria, registra las actuaciones y coordina la comunicación entre los órganos judiciales, CAU, CSU-CRIP y UAI.</p>
+<table class="table-4col">
+<thead>
+<tr>
+<th>Actor</th>
+<th>Responsabilidad principal</th>
+<th>Actuaciones habituales</th>
+<th>Evidencia/documentación</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Órgano judicial</td>
+<td>Solicitante y usuario del robot</td>
+<td>Remitir solicitudes, comunicar incidencias y aplicar las instrucciones de uso.</td>
+<td>Formulario, datos del órgano, contacto funcional, evidencias de error.</td>
+</tr>
+<tr>
+<td>CAU</td>
+<td>Recepción, validación inicial y trazabilidad</td>
+<td>Validar formularios, abrir solicitudes NAOS cuando proceda y mantener actualizado el tique Remedy.</td>
+<td>Tique Remedy, número de solicitud/incidencia NAOS, diario de actuaciones.</td>
+</tr>
+<tr>
+<td>SSDJ / CSU-CRIP</td>
+<td>Actuaciones técnicas internas</td>
+<td>Comprobar permisos, rutas, buzones, accesos y requisitos técnicos propios de cada robot.</td>
+<td>Checklist técnico, resolución técnica, validación de requisitos.</td>
+</tr>
+<tr>
+<td>UAI</td>
+<td>Soporte de robotización</td>
+<td>Alta/baja/modificación de configuración, análisis de incidencias, revisión de rendimiento y soporte del proceso automatizado.</td>
+<td>Tique NAOS, diagnóstico, actuación realizada, cierre o petición de información adicional.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="block" id="relacion-solicitudes">
+<h2>1.2. Solicitudes SSDJ-UAI</h2>
+<p>Las solicitudes de adscripción, baja o modificación de órganos judiciales a una robotización se canalizarán mediante NAOS, manteniendo la referencia en el tique Remedy original.</p>
+<div class="template-box">
+<p><strong>Motivo NAOS:</strong> EDT - Automatización inteligente - Nueva robotización - (sin determinar)</p>
+<p><strong>Texto base para la solicitud:</strong></p>
+<ul>
+<li>Se solicita <strong>adscripción/baja/modificación</strong> de órgano judicial a la robotización.</li>
+<li>Motivo: <strong>Adscripción / Baja / Modificación</strong>.</li>
+<li>Robot: nombre del robot y código correspondiente.</li>
+<li>Órgano judicial: nombre completo del órgano judicial.</li>
+<li>Datos técnicos de interés: según robot y actuación requerida.</li>
+<li>Datos de contacto funcional: persona o buzón de referencia.</li>
+<li>Otros datos de interés: observaciones relevantes para UAI o SSDJ.</li>
+</ul>
+</div>
+<p>Todo comentario, petición de información o resolución recibida en NAOS deberá reflejarse también en el tique Remedy para conservar la trazabilidad de la actuación.</p>
+</div>
+<div class="block" id="relacion-incidencias">
+<h2>1.3. Gestión de incidencias SSDJ-UAI</h2>
+<h3>Problemas de rendimiento</h3>
+<p>Cuando se detecte lentitud, degradación del proceso o tiempos de ejecución anómalos, se creará una incidencia NAOS con el motivo:</p>
+<div class="template-box">
+<strong>EDT - Automatización inteligente - Proceso automatizado - Error de rendimiento</strong>
+</div>
+<h3>Problemas de funcionamiento general</h3>
+<p>Cuando el robot no funcione conforme a lo esperado, no procese expedientes, genere errores no imputables a requisitos técnicos locales o requiera diagnóstico de la UAI, se creará una incidencia NAOS con el motivo:</p>
+<div class="template-box">
+<strong>EDT - Automatización inteligente - General - Error</strong>
+</div>
+<p>En ambos casos, la comunicación deberá incluir al menos:</p>
+<ul>
+<li>Robot afectado y código de robotización.</li>
+<li>Órgano judicial afectado.</li>
+<li>Fecha y hora aproximada de la incidencia.</li>
+<li>Descripción precisa del comportamiento observado.</li>
+<li>Datos técnicos relevantes según robot.</li>
+<li>Evidencias disponibles: capturas, trazas, nombres de ficheros, rutas o mensajes de error.</li>
+</ul>
+</div>
+<div class="block" id="relacion-tipificaciones">
+<h2>1.4. Tipificaciones Remedy / NAOS</h2>
+<table class="table-5col">
+<thead>
+<tr>
+<th>Clasificación</th>
+<th>Clase</th>
+<th>Tipo</th>
+<th>Categoría</th>
+<th>Acción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Incidencia</td>
+<td>Automatización - RPA</td>
+<td>Robot correspondiente</td>
+<td>Incidencia técnica</td>
+<td>Validar requisitos técnicos locales y derivar a UAI si procede.</td>
+</tr>
+<tr>
+<td>Incidencia</td>
+<td>Automatización - RPA</td>
+<td>Robot correspondiente</td>
+<td>Incidencia funcional o rendimiento</td>
+<td>Abrir incidencia NAOS a UAI y mantener trazabilidad en Remedy.</td>
+</tr>
+<tr>
+<td>Consulta</td>
+<td>Automatización - RPA</td>
+<td>-</td>
+<td>-</td>
+<td>Resolver consulta o redirigir al apartado documental correspondiente.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="escalado-despliegue">
+<div class="section-header">2. Escalado y despliegue de los robots</div>
+<div class="block" id="despliegue-flujo">
+<h2>2.1. Flujo de implantación de robots ya desarrollados</h2>
+<p>La implantación de robots ya desarrollados se realizará mediante un flujo común de incorporación del órgano judicial, validación de requisitos, configuración del robot, capacitación y pase a explotación.</p>
+<table class="table-3col">
+<thead>
+<tr>
+<th>Paso</th>
+<th>Responsable</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Recepción de solicitud</td>
+<td>CAU</td>
+<td>Validar el formulario recibido en Remedy. El formulario deberá incluir los datos obligatorios y estar firmado por el/la LAJ pertinente. Si no es válido, se informará al solicitante y quedará pendiente de subsanación.</td>
+</tr>
+<tr>
+<td>2. Solicitud NAOS a UAI</td>
+<td>CAU</td>
+<td>Registrar la solicitud NAOS para la actuación pertinente por parte de UAI. El número de tique NAOS deberá consignarse en el diario del tique Remedy.</td>
+</tr>
+<tr>
+<td>3. Actuaciones técnicas SSDJ</td>
+<td>SSDJ / CSU-CRIP</td>
+<td>Ejecutar las tareas técnicas internas requeridas por el robot: permisos, rutas, buzones, accesos, validación de escáneres o comprobaciones de conectividad.</td>
+</tr>
+<tr>
+<td>4. Validación de requisitos</td>
+<td>SSDJ / UAI</td>
+<td>Comprobar que la configuración del órgano judicial y del robot permite la ejecución controlada del automatismo.</td>
+</tr>
+<tr>
+<td>5. Prueba controlada</td>
+<td>Órgano judicial / SSDJ / UAI</td>
+<td>Realizar una prueba de funcionamiento con documentación o casos controlados, verificando resultado, trazabilidad y ausencia de errores.</td>
+</tr>
+<tr>
+<td>6. Capacitación</td>
+<td>SSDJ / Formación</td>
+<td>Facilitar manuales de usuario, instrucciones de uso, restricciones del robot y procedimiento de comunicación de incidencias.</td>
+</tr>
+<tr>
+<td>7. Pase a explotación</td>
+<td>CAU / SSDJ</td>
+<td>Comunicar al órgano judicial la finalización de la actuación, documentar el cierre y dejar identificados los canales de soporte.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="block" id="despliegue-checklist">
+<h2>2.2. Checklist de despliegue</h2>
+<table class="table-4col">
+<thead>
+<tr>
+<th>Bloque</th>
+<th>Comprobación</th>
+<th>Aplica a</th>
+<th>Resultado esperado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Solicitud</td>
+<td>Formulario recibido, completo y firmado.</td>
+<td>Todos los robots</td>
+<td>Solicitud válida o pendiente de subsanación.</td>
+</tr>
+<tr>
+<td>Identificación</td>
+<td>Robot, código, órgano judicial y actuación solicitada identificados.</td>
+<td>Todos los robots</td>
+<td>Datos suficientes para Remedy y NAOS.</td>
+</tr>
+<tr>
+<td>Permisos</td>
+<td>Usuario del robot con permisos en Adriano para el órgano judicial y trámite correspondiente.</td>
+<td>Todos los robots con operación en Adriano</td>
+<td>El robot puede acceder y tramitar en el órgano indicado.</td>
+</tr>
+<tr>
+<td>Entrada documental</td>
+<td>Buzón de correo, ruta UNC o carpeta de entrada configurada según robot.</td>
+<td>Robots de digitalización</td>
+<td>La documentación llega al punto de entrada previsto.</td>
+</tr>
+<tr>
+<td>Equipos de escaneo</td>
+<td>Multifuncionales o escáneres configurados para enviar a la ruta o buzón definido.</td>
+<td>Actas de Conciliación, Acuses de Recibo, SC Monitorios</td>
+<td>El órgano puede digitalizar conforme al procedimiento.</td>
+</tr>
+<tr>
+<td>Notificaciones</td>
+<td>Buzón de avisos o contacto funcional informado.</td>
+<td>Todos los robots</td>
+<td>Existe canal para comunicar errores, avisos o trámites no procesados.</td>
+</tr>
+<tr>
+<td>Capacitación</td>
+<td>Manual de usuario y pautas de uso remitidas al órgano judicial.</td>
+<td>Todos los robots</td>
+<td>Usuarios informados antes del pase a explotación.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="block" id="despliegue-plantilla">
+<h2>2.3. Plantilla para alta, baja o modificación</h2>
+<div class="template-box">
+<ul>
+<li>Actuación solicitada: <strong>Alta / Baja / Modificación</strong>.</li>
+<li>Robot: nombre completo del robot.</li>
+<li>Código de robotización: código correspondiente.</li>
+<li>Órgano judicial: denominación completa.</li>
+<li>Datos técnicos de interés: ruta UNC, buzón, permisos, contacto o dato específico del robot.</li>
+<li>Datos de contacto funcional: nombre, teléfono y/o buzón corporativo.</li>
+<li>Fecha prevista de inicio o fin de la actuación.</li>
+<li>Observaciones adicionales.</li>
+</ul>
+</div>
+<h3>Datos técnicos por robot</h3>
+<table class="table-4col">
+<thead>
+<tr>
+<th>Robot</th>
+<th>Código</th>
+<th>Datos técnicos de interés</th>
+<th>Actuación SSDJ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Robot de Digitalización de Actas de Conciliación</td>
+<td>CR-6013</td>
+<td>Buzón de correo electrónico del órgano judicial para avisos de trámites no procesados correctamente; configuración de escáneres y acceso a ruta de depósito.</td>
+<td><a href="#robot-actas-procedimientos-tecnicos">Ver procedimientos técnicos</a></td>
+</tr>
+<tr>
+<td>Robot de Digitalización de Acuses de Recibo</td>
+<td>CR-6013</td>
+<td>Ruta de red UNC donde se alojarán los documentos PDF para su tramitación automática.</td>
+<td><a href="#robot-acuses-procedimientos-tecnicos">Ver procedimientos técnicos</a></td>
+</tr>
+<tr>
+<td>Robot de Digitalización de Notificaciones del Servicio Común para Monitorios</td>
+<td>CR-6013</td>
+<td>Ruta de red UNC donde se alojarán los documentos PDF para su tramitación automática.</td>
+<td><a href="#robot-sc-monitorios-procedimientos-tecnicos">Ver procedimientos técnicos</a></td>
+</tr>
+<tr>
+<td>Robot DIOR para Consulta del Registro Público Concursal</td>
+<td>CR-6013</td>
+<td>Datos de configuración necesarios para consulta, generación de DIOR e incorporación del justificante al procedimiento.</td>
+<td><a href="#robot-rpc-procedimientos-tecnicos">Ver procedimientos técnicos</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="robots">
+<div class="section-header">3. Robots</div>
+<div class="block">
+<h2>Listado de robots documentados</h2>
+<p>La documentación de cada robot se estructura con una descripción funcional, procedimientos técnicos y manuales de usuario. Los robots con documentación pendiente se identifican expresamente como <strong>[En desarrollo]</strong>.</p>
+<ol>
+<li><a href="#robot-actas-conciliacion">3.1. Robot Actas de Conciliación</a></li>
+<li><a href="#robot-acuses-recibo">3.2. Robot Acuses de Recibo</a></li>
+<li><a href="#robot-sc-monitorios">3.3. Robot Notificaciones del Servicio Común para Monitorios</a> <strong>[En desarrollo]</strong></li>
+<li><a href="#robot-rpc">3.4. Robot DIOR para Consulta del Registro Público Concursal</a> <strong>[En desarrollo]</strong></li>
+</ol>
+</div>
+<article class="block" id="robot-actas-conciliacion">
+<div class="robot-title">
+<h2><span class="robot-icon" aria-hidden="true">🤖</span> 3.1. Robot Actas de Conciliación</h2>
+<span class="status-badge">Documentación base</span>
+</div>
+<p>El objetivo de este proceso es automatizar la incorporación en el Sistema de Gestión Procesal Adriano, a través del trámite correspondiente, de un documento escaneado en un juzgado, concretamente del tipo Acta de Conciliación, siempre que se cumplan unas determinadas condiciones.</p>
+<ul>
+<li>Que el documento escaneado utilice la plantilla estándar del Sistema de Gestión Procesal Adriano.</li>
+<li>Que sea posible identificar correctamente al firmante del documento en el SGP.</li>
+<li>Que el documento escaneado sea remitido desde el equipo multifunción al buzón de correo <strong>digitalizacion.rpa.ius@juntadeandalucia.es</strong>.</li>
+</ul>
+<p>Actualmente, el robot se encuentra desplegado en los siguientes órganos judiciales.</p>
+<ul>
+<li>Juzgado de lo Social Nº 1 de Sevilla</li>
+<li>Juzgado de lo Social Nº 2 de Sevilla</li>
+<li>Juzgado de lo Social Nº 3 de Sevilla</li>
+<li>Juzgado de lo Social Nº 4 de Sevilla</li>
+<li>Juzgado de lo Social Nº 9 de Sevilla</li>
+<li>Juzgado de lo Social Nº 10 de Sevilla</li>
+</ul>
+<div class="sub-block" id="robot-actas-procedimientos-tecnicos">
+<h3>3.1.1. Procedimientos técnicos</h3>
+<p>El robot de digitalización de Actas de Conciliación requiere las siguientes comprobaciones técnicas para su alta, modificación o soporte:</p>
+<table class="table-3col">
+<thead>
+<tr>
+<th>Requisito</th>
+<th>Responsable</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Permisos en Adriano</td>
+<td>SSDJ / CSU-CRIP</td>
+<td>El usuario con el que el robot conecta a Adriano debe tener permisos en el órgano pertinente para poder realizar el trámite.</td>
+</tr>
+<tr>
+<td>Configuración de escáneres</td>
+<td>SSDJ / Soporte técnico</td>
+<td>Los escáneres o equipos multifunción deben poder enviar correos a la cuenta <strong>digitalizacion.rpa.ius@juntadeandalucia.es</strong>.</td>
+</tr>
+<tr>
+<td>Ruta de depósito</td>
+<td>SSDJ / Infraestructura</td>
+<td>El robot debe poder conectar a <strong>\\iusnas05\PRO\RPA\JUSTICIA\Actas conciliación\</strong> para depositar o consultar los documentos escaneados.</td>
+</tr>
+<tr>
+<td>Buzón de avisos</td>
+<td>Órgano judicial / CAU</td>
+<td>Debe informarse el buzón donde se recibirán avisos de trámites no procesados correctamente.</td>
+</tr>
+</tbody>
+</table>
+<h4>Alta, baja o modificación</h4>
+<p>Para cualquier actuación de alta, baja o modificación se seguirá el flujo común definido en el apartado <a href="#escalado-despliegue">2. Escalado y despliegue</a>, incluyendo apertura de petición NAOS a UAI y validación técnica por SSDJ / CSU-CRIP.</p>
+</div>
+<div class="sub-block" id="robot-actas-manuales">
+<h3>3.1.2. Manuales de usuario</h3>
+<p>Material previsto para capacitación y soporte funcional del órgano judicial:</p>
+<ul>
+<li><a href="#">Manual de usuario del Robot Actas de Conciliación</a></li>
+<li><a href="#">Guía rápida de digitalización y envío desde multifunción</a></li>
+<li><a href="#">Preguntas frecuentes y resolución de errores habituales</a></li>
+</ul>
+<div class="placeholder">Pendiente de sustituir los enlaces provisionales por las URLs definitivas de la documentación publicada.</div>
+</div>
+</article>
+<article class="block" id="robot-acuses-recibo">
+<div class="robot-title">
+<h2><span class="robot-icon" aria-hidden="true">🤖</span> 3.2. Robot Acuses de Recibo</h2>
+<span class="status-badge">Documentación base</span>
+</div>
+<p>El objetivo de este proceso es automatizar la incorporación en el Sistema de Gestión Procesal Adriano, a través del trámite correspondiente, de un documento escaneado en un Juzgado de Primera Instancia, concretamente del tipo acuse de recibo de correo postal, siempre que se cumplan unas determinadas condiciones.</p>
+<ul>
+<li>Que el órgano haya cumplimentado el acuse de forma mecanuscrita con los datos relativos al remitente y destinatario del envío, así como el tipo y número/año de procedimiento.</li>
+<li>Que, una vez devuelto el acuse cumplimentado por Correos, se digitalice completamente por el órgano judicial.</li>
+<li>Que el archivo generado se ubique en la carpeta <strong>Digitalización</strong>, dentro de las rutas <strong>Digitalización/SCNE/Positivas</strong> o <strong>Digitalización/SCNE/Negativas</strong>, según corresponda.</li>
+</ul>
+<div class="sub-block" id="robot-acuses-procedimientos-tecnicos">
+<h3>3.2.1. Procedimientos técnicos</h3>
+<p>El robot de Digitalización de Acuses de Recibo requiere las siguientes comprobaciones técnicas:</p>
+<table class="table-3col">
+<thead>
+<tr>
+<th>Requisito</th>
+<th>Responsable</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ruta UNC de entrada</td>
+<td>SSDJ / CSU-CRIP</td>
+<td>Debe estar disponible la ruta de red donde se alojarán los documentos PDF para su tramitación automática.</td>
+</tr>
+<tr>
+<td>Estructura de carpetas</td>
+<td>Órgano judicial / SSDJ</td>
+<td>La documentación deberá depositarse en la estructura prevista: <strong>Digitalización/SCNE/Positivas</strong> o <strong>Digitalización/SCNE/Negativas</strong>.</td>
+</tr>
+<tr>
+<td>Permisos en Adriano</td>
+<td>SSDJ / CSU-CRIP</td>
+<td>El usuario de robotización deberá disponer de permisos suficientes en el órgano judicial y trámite correspondiente.</td>
+</tr>
+<tr>
+<td>Control de incidencias</td>
+<td>CAU / UAI / SSDJ</td>
+<td>Las incidencias funcionales o de rendimiento se comunicarán a la UAI mediante NAOS y se mantendrá la trazabilidad en Remedy.</td>
+</tr>
+</tbody>
+</table>
+<h4>Tipificación específica</h4>
+<table class="table-5col">
+<thead>
+<tr>
+<th>Clasificación</th>
+<th>Clase</th>
+<th>Tipo</th>
+<th>Categoría</th>
+<th>Acción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td rowspan="4">Petición</td>
+<td rowspan="4">Automatización - RPA</td>
+<td rowspan="4">Robot Acuses Recibo</td>
+<td>Alta automatismo</td>
+<td>Aplicar el flujo de despliegue del apartado 2.</td>
+</tr>
+<tr>
+<td>Baja automatismo</td>
+<td>Aplicar el flujo de baja definido para el robot.</td>
+</tr>
+<tr>
+<td>Modificación automatismo</td>
+<td>Aplicar el flujo de modificación y actualizar la configuración afectada.</td>
+</tr>
+<tr>
+<td>Formación</td>
+<td>Remitir manuales y material de capacitación.</td>
+</tr>
+<tr>
+<td rowspan="3">Incidencia</td>
+<td rowspan="3">Automatización - RPA</td>
+<td rowspan="3">Robot Acuses Recibo</td>
+<td>Incidencia técnica</td>
+<td>Comprobar requisitos técnicos y derivar a SSDJ / CSU-CRIP si procede.</td>
+</tr>
+<tr>
+<td>Incidencia funcional</td>
+<td>Comunicar a UAI vía NAOS cuando el robot no funcione como se espera.</td>
+</tr>
+<tr>
+<td>Problemas rendimiento</td>
+<td>Comunicar a UAI vía NAOS cuando se presente lentitud o degradación del trámite.</td>
+</tr>
+<tr>
+<td>Consulta</td>
+<td>Automatización - RPA</td>
+<td>-</td>
+<td>-</td>
+<td>Resolver o redirigir la consulta relacionada con el robot.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sub-block" id="robot-acuses-manuales">
+<h3>3.2.2. Manuales de usuario</h3>
+<p>Material previsto para capacitación y soporte funcional del órgano judicial:</p>
+<ul>
+<li><a href="#">Manual de usuario del Robot Acuses de Recibo</a></li>
+<li><a href="#">Guía rápida de preparación y clasificación de acuses</a></li>
+<li><a href="#">Preguntas frecuentes y errores habituales</a></li>
+</ul>
+<div class="placeholder">Pendiente de sustituir los enlaces provisionales por las URLs definitivas de la documentación publicada.</div>
+</div>
+</article>
+<article class="block" id="robot-sc-monitorios">
+<div class="robot-title">
+<h2><span class="robot-icon" aria-hidden="true">🤖</span> 3.3. Robot Notificaciones del Servicio Común para Monitorios</h2>
+<span class="status-badge status-dev">En desarrollo</span>
+</div>
+<p>El objetivo de este proceso es automatizar la incorporación en el Sistema de Gestión Procesal Adriano, si se dan unas determinadas condiciones y a través del trámite correspondiente, de un documento escaneado en un Juzgado de Primera Instancia, concretamente la diligencia cumplimentada por el Servicio Común de Notificaciones y Embargos sobre la comunicación de la interposición de una demanda de monitorio nacional.</p>
+<p>El Juzgado de Primera Instancia traslada al SCNE la diligencia a practicar. El resultado, positivo o negativo, se devuelve al órgano judicial correspondiente. La incorporación manual al SGP es la actuación que se pretende automatizar cuando se cumplan las condiciones definidas.</p>
+<div class="sub-block" id="robot-sc-monitorios-procedimientos-tecnicos">
+<h3>3.3.1. Procedimientos técnicos</h3>
+<div class="placeholder">[En desarrollo] Pendiente de definir requisitos técnicos específicos, rutas de entrada, permisos, flujo de incidencias y plantilla de despliegue.</div>
+</div>
+<div class="sub-block" id="robot-sc-monitorios-manuales">
+<h3>3.3.2. Manuales de usuario</h3>
+<div class="placeholder">[En desarrollo] Pendiente de incorporar manual de usuario, guía rápida y material de capacitación.</div>
+</div>
+</article>
+<article class="block" id="robot-rpc">
+<div class="robot-title">
+<h2><span class="robot-icon" aria-hidden="true">🤖</span> 3.4. Robot DIOR para Consulta del Registro Público Concursal</h2>
+<span class="status-badge status-dev">En desarrollo</span>
+</div>
+<p>El objetivo de este proceso es detectar en el Sistema de Gestión Procesal Adriano asuntos de tipo Ejecución incoados en un día determinado para automatizar, si se dan determinadas condiciones, la emisión de la DIOR, la consulta de publicidad concursal en el Portal del Registro Público Concursal y la incorporación del justificante obtenido al procedimiento judicial correspondiente.</p>
+<ul>
+<li>Que el procedimiento judicial se haya incoado el día de la fecha en que el robot realiza la consulta de asuntos en Adriano.</li>
+<li>Que se trate de un asunto de tipo <strong>Ejecución</strong> y se encuentre en estado <strong>Trámite</strong>.</li>
+<li>Que no se haya registrado previamente la DIOR correspondiente.</li>
+<li>Que exista al menos un interviniente como <strong>ejecutado</strong>.</li>
+<li>Que el interviniente disponga de identificativo legal en uno de los formatos admitidos por el Registro Público Concursal.</li>
+</ul>
+<div class="sub-block" id="robot-rpc-procedimientos-tecnicos">
+<h3>3.4.1. Procedimientos técnicos</h3>
+<div class="placeholder">[En desarrollo] Pendiente de definir requisitos técnicos específicos, configuración de consulta, permisos de Adriano, trazabilidad, tratamiento de justificantes y flujo de incidencias.</div>
+</div>
+<div class="sub-block" id="robot-rpc-manuales">
+<h3>3.4.2. Manuales de usuario</h3>
+<div class="placeholder">[En desarrollo] Pendiente de incorporar manual de usuario, guía rápida y material de capacitación.</div>
+</div>
+</article>
+</section>
+</main>
+</div>
+</div>
+</html>
+
+{{tag>novalidada}}
+

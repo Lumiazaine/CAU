@@ -1,0 +1,76 @@
+﻿
+==== Procedimiento – Ubicación de Backups en GTSR ====
+
+Las copias de seguridad de los distintos dispositivos y herramientas de red se almacenan de forma centralizada en el servidor de ficheros:  
+
+**\\iusnas05\SIJ\Sistemas\GTSR\Backups**
+
+=== Objetivo ===
+Garantizar la disponibilidad de configuraciones de red y seguridad para poder restaurar de forma rápida los dispositivos en caso de fallo, error humano o sustitución de hardware.  
+
+**=== 1. Switches HP 1000C / 3600C ===**
+  * **Ruta:**  
+    * \\iusnas05\SIJ\Sistemas\GTSR\Backups\HP\1000C  
+    * \\iusnas05\SIJ\Sistemas\GTSR\Backups\HP\3600C  
+  * **Contenido:** Archivos de configuración exportados regularmente mediante RANCID o backup manual (.cfg, .txt).  
+  * **Periodicidad:** Diaria (automática vía RANCID) + bajo demanda tras cambios críticos.  
+
+**=== 2. F5 BIG-IP ===**
+  * **Ruta:** \\iusnas05\SIJ\Sistemas\GTSR\Backups\F5  
+  * **Contenido:**  
+    * Archivos **UCS** (.ucs) → backup completo de configuración.  
+    * Archivos **SCF** (.scf) → backup plano de configuración.  
+  * **Periodicidad:** Automática (tarea programada) + manual tras cambios mayores.  
+  * **Nota:** Antes de actualizar versión/software siempre generar backup manual UCS.  
+
+**=== 3. FortiGate ===**
+  * **Ruta:** \\iusnas05\SIJ\Sistemas\GTSR\Backups\Fortinet\FortiGate  
+  * **Contenido:** Configuraciones (.conf).  
+  * **Periodicidad:** Backup automático desde **FortiManager** + manual tras modificaciones críticas.  
+  * **Nota:** Guardar siempre copia previa a cambios de firmware.  
+
+**=== 4. CICA (Circuito de Comunicaciones) ===**
+  * **Ruta:** \\iusnas05\SIJ\Sistemas\GTSR\Backups\CICA  
+  * **Contenido:** Configuraciones y documentación asociada.  
+  * **Periodicidad:** Manual según intervenciones.  
+
+**=== 5. FortiManager ===**
+  * **Ruta:** \\iusnas05\SIJ\Sistemas\GTSR\Backups\Fortinet\FortiManager  
+  * **Contenido:** Backup de la base de datos y configuración del gestor central.  
+  * **Periodicidad:** Automática (según política de FortiManager).  
+
+**=== 6. mRemoteNG ===**
+  * **Ruta:** \\iusnas05\SIJ\Sistemas\GTSR\Backups\mRemote  
+  * **Contenido:**  
+    * Archivo de conexiones (.xml).  
+    * Copia cifrada de credenciales si aplica.  
+  * **Periodicidad:** Manual tras cambios en la lista de conexiones.  
+
+**=== 7. RANCID ===**
+  * **Ruta:** \\iusnas05\SIJ\Sistemas\GTSR\Backups\Rancid  
+  * **Contenido:** Repositorio de configuraciones versionadas (CVS/GIT).  
+  * **Periodicidad:** Automática (ejecución nocturna).  
+  * **Acceso adicional:** En servidor RANCID → `/usr/local/rancid/var/<grupo>`.  
+  * [[:pag_sist_documentacion|Documentacion Rancid]]
+
+**=== Seguridad y buenas prácticas ===**
+  * Acceso a la carpeta restringido al equipo de **Redes y Seguridad**.  
+  * Evitar almacenar copias en equipos locales.  
+  * No enviar backups por correo electrónico.  
+  * Mantener cifradas las copias que contienen credenciales (mRemoteNG).  
+  * Documentar todos los cambios con enlace al backup asociado.  
+
+=== Nomenclatura estándar ===
+Cada subcarpeta mantiene la siguiente nomenclatura:  
+
+  * **<Fabricante>\<Dispositivo>\<Fecha>_<Host>.ext**  
+
+Ejemplo:  
+
+  * F5\LB01\2025-08-20_LB01.ucs  
+
+===== Historial de cambios =====
+
+^Versión^Fecha^Cambio^Autor|
+|1.0|2025-08-18|Creación del documento|GTSR|
+

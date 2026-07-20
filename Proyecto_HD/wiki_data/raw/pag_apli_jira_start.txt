@@ -1,0 +1,32 @@
+﻿
+====== Jira ======
+<WRAP> 
+<panel type="primary" title="Jira"> 
+
+Es una herramienta de gestión de proyectos y seguimiento de incidencias. Se utiliza por los equipos de desarrollo de software, permite crear, asignar y monitorear tareas (tickets) a través de flujos de trabajo personalizables.
+
+<WRAP> 
+<panel type="info" title="Acceso">
+  * **URL:** https://ws149.juntadeandalucia.es/jira2
+  * **Contacta:** Oficina Técnica (SACOEP)
+</panel>
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Capacitación">
+  * [[=pag_procedimientos_generales:libro_blanco|Manual de Usuario de JIRA en el SSDJ]]
+</panel>
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Procedimientos y Problemas Conocidos">
+  * [[pag_apli:jira:problemas|Procedimientos y Problemas Conocidos]] 
+</panel>
+</WRAP>
+
+</panel> 
+</WRAP>
+
+{{tag>validada}}
+
+

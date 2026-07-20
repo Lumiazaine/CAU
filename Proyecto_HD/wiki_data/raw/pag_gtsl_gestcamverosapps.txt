@@ -1,0 +1,53 @@
+﻿
+====== Gestión de cambios y versiones del sistema operativo y aplicaciones ======
+
+==== 🎯 Objetivo ==== 
+Definir un procedimiento que permita controlar y documentar los cambios en el sistema operativo y aplicaciones instaladas en servidores Linux, asegurando estabilidad, trazabilidad y cumplimiento de buenas prácticas de operación.
+
+==== 🧰 Alcance ====
+Aplica a todos los servidores Linux administrados por el equipo de sistemas, tanto en ambientes de desarrollo, preproducción y producción.
+
+==== 🗂️ Tipos de cambios considerados ====
+  * Actualizaciones del sistema operativo (parches de seguridad, kernel, librerías).
+  * Instalación o eliminación de paquetes.
+  * Cambios en configuraciones del sistema o servicios.
+  * Actualizaciones de aplicaciones internas o de terceros.
+
+==== ✅ Pre-requisitos ====
+  * Identificación clara del cambio.
+  * Evaluación del impacto en el sistema o dependencias.
+  * Plan de ejecución con ventana definida (preferiblemente en horario de baja actividad).
+  * Backup completo (o parcial) del sistema o componente afectado.
+  * Documentación del cambio (en ticket o Jira).
+
+==== 🔄 Procedimiento ====
+  - **Solicitud y evaluación del cambio**
+    * Registrar el cambio en la herramienta correspondiente.
+    * Evaluar el riesgo, impacto y necesidad de aprobación (CAB si aplica).
+  - **Planeación del cambio**
+    * Determinar versiones actuales y destino.
+    * Validar compatibilidad con otras aplicaciones/sistemas.
+    * Preparar plan de acción y rollback.
+  - **Ejecución del cambio**
+    * Acceso al servidor mediante SSH con cuenta autorizada (si aplica).
+    * Ejecutar procedimientos establecidos.
+    * Aplicar configuraciones necesarias (si corresponde).
+  - **Verificación post-cambio**
+    * Validar que el sistema y servicios afectados funcionan correctamente.
+    * Revisar logs de sistema o de la aplicación.
+    * Confirmar versión instalada con el procedimiento indicado.
+  - **Documentación del cambio**
+    * Registrar qué se modificó, en qué servidor, por quién y cuándo.
+    * Adjuntar evidencia (comandos, capturas, logs relevantes).
+  - **Notificación**
+    * Informar al equipo y Jefe de Proyecto sobre la finalización del cambio.
+    * Escalar incidentes si se detectan errores o anomalías.
+
+==== 🛡️ Consideraciones adicionales ====
+  * Priorizar actualizaciones/cambios críticos.
+  * Evitar actualizaciones/cambios automáticos sin revisión.
+
+==== 🔁 Rollback ====
+  * Restaurar backups si el cambio afecta la funcionalidad.
+  * Revertir configuración modificada.
+  * Documentar el motivo y los pasos seguidos.

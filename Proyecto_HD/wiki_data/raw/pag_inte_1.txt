@@ -1,0 +1,74 @@
+﻿
+===== Herramientas de implantación =====
+
+Se presentan las herramientas de implantación por el equipo de la OTIJ. Estas herramientas son fundamentales para la gestión de API, la integración de aplicaciones, la gestión de identidades y la monitorización de servicios.
+
+==== WSO2 API Manager ====
+
+  * Uso: Plataforma para crear, gestionar, proteger y exponer las API de manera segura y eficiente.
+  * Repositorio del proyecto:
+      * [[https://gitea.justicia.junta-andalucia.es/|https://gitea.justicia.junta-andalucia.es/]]
+  * URLs DES:
+      * Carbon: [[https://nija-des.justicia.junta-andalucia.es/carbon|https://nija-des.justicia.junta-andalucia.es/carbon]]
+      * Admin: [[https://nija-des.justicia.junta-andalucia.es/admin/|https://nija-des.justicia.junta-andalucia.es/admin/]]
+      * Publisher: [[https://nija-des.justicia.junta-andalucia.es/publisher|https://nija-des.justicia.junta-andalucia.es/publisher]]
+      * DevPortal: [[https://nija-des.justicia.junta-andalucia.es/devportal|https://nija-des.justicia.junta-andalucia.es/devportal]]
+      * Api Gateway: [[https://api-nija-des.justicia.junta-andalucia.es|https://api-nija-des.justicia.junta-andalucia.es]]
+  * URLs PRE:
+      * Carbon: [[https://nija-pre.justicia.junta-andalucia.es/carbon|https://nija-pre.justicia.junta-andalucia.es/carbon]]
+      * Admin: [[https://nija-pre.justicia.junta-andalucia.es/admin/|https://nija-pre.justicia.junta-andalucia.es/admin/]]
+      * Publisher: [[https://nija-pre.justicia.junta-andalucia.es/publisher|https://nija-pre.justicia.junta-andalucia.es/publisher]]
+      * DevPortal: [[https://nija-pre.justicia.junta-andalucia.es/devportal|https://nija-pre.justicia.junta-andalucia.es/devportal]]
+      * Api Gateway: [[https://api-nija-pre.justicia.junta-andalucia.es|https://api-nija-pre.justicia.junta-andalucia.es]]
+  * URLs PRO:
+      * Carbon: [[https://nija.justicia.junta-andalucia.es/carbon|https://nija.justicia.junta-andalucia.es/carbon]]
+      * Admin: [[https://nija.justicia.junta-andalucia.es/admin/|https://nija.justicia.junta-andalucia.es/admin/]]
+      * Publisher: [[https://nija.justicia.junta-andalucia.es/publisher|https://nija.justicia.junta-andalucia.es/publisher]]
+      * DevPortal: [[https://nija.justicia.junta-andalucia.es/devportal|https://nija.justicia.junta-andalucia.es/devportal]]
+      * Api Gateway: [[https://api-nija.justicia.junta-andalucia.es|https://api-nija.justicia.junta-andalucia.es]]
+      * Usuarios (no incluir contraseña): nija.git
+
+==== WSO2 Micro Integrator ====
+
+  * Uso: Plataforma de integración para despliegue de aplicaciones que permitan la comunicación de aplicaciones, bases de datos y sistemas compartiendo información de manera fluida.
+  * Repositorio del proyecto:
+      * [[https://gitea.justicia.junta-andalucia.es/otij/nija-wso2/|https://gitea.justicia.junta-andalucia.es/otij/nija-wso2]]
+  * URLs DES:
+      * Management micro integrator: [[https://int-nija-des.justicia.junta-andalucia.es/|https://int-nija-des.justicia.junta-andalucia.es/]]
+  * URLs DRE:
+      * Management micro integrator: [[https://int-nija-pre.justicia.junta-andalucia.es/|https://int-nija-pre.justicia.junta-andalucia.es/]]
+  * URLs PRO:
+      * Management micro integrator: [[https://int-nija.justicia.junta-andalucia.es/|https://int-nija.justicia.junta-andalucia.es/]]
+  * Usuarios (no incluir contraseña): nija.git
+
+==== Keycloak ====
+
+  * Uso: Gestor de identidades.
+  * Repositorio del proyecto:
+      * [[https://gitea.justicia.junta-andalucia.es/otij/nija-ide/|https://gitea.justicia.junta-andalucia.es/otij/nija-ide]]
+  * URL DES:
+      * [[https://ide-nija-des.justicia.junta-andalucia.es/auth|https://ide-nija-des.justicia.junta-andalucia.es/auth]]
+  * URLs DRE:
+      * [[https://ide-nija-pre.justicia.junta-andalucia.es/auth|https://ide-nija-pre.justicia.junta-andalucia.es/auth]]
+  * URLs PRO:
+      * [[https://ide-nija.justicia.junta-andalucia.es/auth|https://ide-nija.justicia.junta-andalucia.es/auth]]
+  * Usuarios (no incluir contraseña): nija.git
+
+==== Kibana ====
+
+  * Uso: Uso: Plataforma para monitorizar los servicios de NIJA.
+  * Repositorio del proyecto:
+      * [[https://gitea.justicia.junta-andalucia.es/otij/nija-kibana|https://gitea.justicia.junta-andalucia.es/otij/nija-kibana]]
+      * [[https://gitea.justicia.junta-andalucia.es/otij/nija-logstash|https://gitea.justicia.junta-andalucia.es/otij/nija-logstash]]
+      * [[https://gitea.justicia.junta-andalucia.es/otij/nija-elastic|https://gitea.justicia.junta-andalucia.es/otij/nija-elastic]]
+  * URL DES:
+      * [[https://kibana-nija-des.justicia.junta-andalucia.es/login|https://kibana-nija-des.justicia.junta-andalucia.es/login]]
+  * URLs DRE:
+      * [[https://cdm-nija-pre.justicia.junta-andalucia.es/login|https://cdm-nija-pre.justicia.junta-andalucia.es/login]]
+  * URLs PRO:
+      * [[https://cdm-nija.justicia.junta-andalucia.es/login|https://cdm-nija.justicia.junta-andalucia.es/login]]
+
+
+{{tag>novalidada}}
+
+

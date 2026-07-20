@@ -1,0 +1,33 @@
+﻿
+<WRAP> <panel type="primary" title="Alta nuevos órganos judiciales">
+
+<WRAP> 
+<panel type="info" title="Formulario de Alta_OOJJ y protocolo de Alta_OJJ detallado"> 
+
+{{ ::formulario_creacion_oojj_5_.pdf | Formulario Alta nuevo órgano judicial}}
+
+{{ ::anexo_i_creacion_organo_oojj.pdf | Anexo I Alta nueva sala de vista }}
+
+{{ ::anexo_i_traslado_oojj.pdf | Anexo II Traslado sala de vista existente }}
+
+{{ ::procedimiento_creacion_oojj.pdf | Protocolo Alta nuevo órgano judicial}}
+
+**A continuación se muestra un resumen del procedimiento, si desea conocer mas detalles puede descargar una copia del protocolo en el enlace anterior**
+</panel>
+ </WRAP>
+
+{{ :procedimiento_creacion_oojj-06.jpg?1000|}}
+
+
+{{ :procedimiento_creacion_oojj-07.jpg?1000|}}
+
+{{ :procedimiento_creacion_oojj-08.jpg?1000|}}
+
+{{ :procedimiento_creacion_oojj-09.jpg?1000|}}
+
+{{ :procedimiento_creacion_oojj-10.jpg?1000|}}
+
+{{ :procedimiento_creacion_oojj-11.jpg?1000|}}
+
+
+</panel> </WRAP>

@@ -1,0 +1,94 @@
+﻿
+
+<WRAP> <panel type="primary" title="Paneles Salas de Vista">
+
+<WRAP> 
+<panel type="info" title="Descripción">Proyecto en cogobernanza con el Ministerio de Justicia (proyecto prioritario fondos Next Generation n.º 0). Se encargan de ofrecer, a los ciudadanos y a los profesionales del derecho, de forma rápida y sencilla, la información en tiempo real de la celebración de las vistas judiciales que se realizan en las Salas de Vistas y la agenda prevista para cada una de las salas.
+
+**Despliegue de un conjunto de 260 paneles informativos**
+
+Se ha realizado el despliegue de los 260 paneles previstos. A continuación se indica el número de paneles previstos en cada provincia según PCAP y el que finalmente se ha instalado, indicando la diferencia numérica:
+
+^ PROVINCIA  ^  Paneles según PCAP  ^  Paneles instalados  ^  Diferencia  ^
+| Almería    |  14                  |  14                  |  0           |
+| Cádiz      |  44                  |  42                  |  -2          |
+| Córdoba    |  18                  |  18                  |  0           |
+| Granada    |  26                  |  24                  |  -2          |
+| Huelva     |  24                  |  24                  |  0           |
+| Jaén       |  23                  |  25                  |  2           |
+| Málaga     |  53                  |  53                  |  0           |
+| Sevilla    |  58                  |  60                  |  2           |
+|  **Total** |  **260**             |  **260**             |              |
+
+
+**Nueva funcionalidad de integración de ARCONTE con WebEx**
+
+Arconte permite la presencia remota a través de la videoconferencia embebida, evitando la necesidad de tener a todas las partes presentes en la sala de vistas y grabando de modo y certificado estas sesiones con comparecientes remotos. Esto supone un ahorro en tiempo desplazamientos para los participantes en las vistas y comparecencias, ya sea personal de la propia Administración (jueces, letrados de la Administración de justicia, fiscales, forenses, expertos…) ya sean profesionales de la justicia (abogados, procuradores, graduados sociales) o ciudadanos.
+
+Con esta nueva funcionalidad de integración con WebEx en la aplicación ARCONTE el procedimiento se simplifica. Ya no será necesario acceder desde un navegador a la aplicación Webex del organismo correspondiente, crear la sesión Webex, enviar a cada participante el enlace de acceso y añadir la sala de vistas a la sesión Webex.  A partir de ahora, se permite gestionar de forma única las sesiones entre este sistema y Webex, de manera que se realiza el registro automático en la reunión Webex, así como la invitación de los intervinientes definidos en el acto de ARCONTE. Los pasos a dar pasan a ser:
+
+  - Realizar una reserva en Adriano de una duración mínima de 10 minutos.\\
+  - Parametrizamos esta misma reserva en Arconte activándole la videoconferencia colaborativa, marcamos los participantes de esta reserva colaborativa en la propia sesión de Arconte y automáticamente se crea la sesión de Webex y los participantes son invitados.\\
+  - En el momento de la vista, ya tenemos configurada la llamada a la sesión de Webex (únicamente se ha de pulsar el botón de llamada).
+
+Es importante hacer constar que existe un paso obligatorio que se realiza una única vez por cada cuenta WebEx del órgano judicial que permite la Autorización de Credenciales.\\
+
+**Web Service de integración Arconte-Aurea y Textualización**
+
+El uso de la vista materializada hacía “responsable” al sistema de Textualización de recuperar los vídeos desde Arconte. Para evitar esto, el objetivo de esta integración es permitir que el servicio de textualización sea notificado de la información de los vídeos y sea conocedor en todo momento de los registros de los vídeos nuevos o modificados en Arconte.
+
+**Evolutivo de salas Gesell y en Paneles**
+
+  * Filtros de búsqueda por campo //Tipo de Sala//.
+  * Inclusión del campo //Tipo de Sala// en los informes.
+  * Omitir las salas Gesell de los paneles Arconte --> Esto se realiza en la Configuración de los Paneles.
+</panel>
+
+
+ </WRAP>
+
+<WRAP> 
+<panel type="info" title="Fechas del proyecto">
+
+  -  Inicio del Proyecto (Kick-off) →  26/01/2024 (05/02/2024)
+  -  Suministro de paneles → 23/02/2024 al 08/03/2024
+  -  Validación de paneles por intervención → 05/04/2024
+  -  Despliegue de paneles → 22/04/2024 al 23/08/2024
+  -  Despliegue de sw → 16/08/2024
+  -  Validaciones de sw:
+     * Evolutivos → 23/08/2024
+     * Integración con Webex → 22/08/2024
+     * Integración con Textualización  → 21/08/2024
+  - Fin de contrato → 25/08/2024
+  - Acto de recepción → 02/07/2025
+    
+</panel>
+ </WRAP>
+
+<WRAP> 
+<panel type="info" title="Procedimientos">
+  * [[:pag_procedimientos_paneles|Procedimientos Paneles]]
+</panel>
+ </WRAP>
+<WRAP> 
+<panel type="info" title="Capacitación">
+  * [[https://capacitacion.justicia.junta-andalucia.es|Contenidos Digitales de Capacitación (Portal de Capacitación de Justicia Digital Andalucía)]]
+  * [[https://videos.justicia.junta-andalucia.es/home|Portal de contenidos en vídeo de Justicia Digital Andalucía]]
+</panel>
+ </WRAP>
+
+<WRAP> 
+<panel type="info" title="Contacta">
+
+  * [[pag_contactos#paneles-ssvv|Contactos Paneles SSVV]]
+
+</panel>
+ </WRAP>
+
+
+
+
+
+{{tag>novalidada}}
+
+

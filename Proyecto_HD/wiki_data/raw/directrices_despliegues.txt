@@ -1,0 +1,36 @@
+﻿
+====== Directrices de Despliegues ======
+
+===== Objetivo =====
+
+Definir los pasos, responsabilidades y buenas prácticas a seguir para garantizar que los despliegues en los entornos de sistemas (desarrollo, preproducción y producción) se realicen de forma segura, controlada y trazable.
+
+===== Fases del Despliegue =====
+
+=== 1. Preparación del Entorno ===
+
+  * Verificar disponibilidad de los sistemas implicados.
+  * Confirmar backups recientes y validados.
+  * Notificar ventanas de mantenimiento si aplican.
+  * Verificar el estado del servicio de monitorización.
+
+=== 2. Revisión de Documentación ===
+
+  * Revisar documentación del despliegue entregada por el equipo de desarrollo.
+  * Validar versiones, rutas, credenciales y scripts.
+  * Confirmar que se ha realizado prueba previa en preproducción.
+
+=== 3. Ejecución del Despliegue ===
+
+  * Ejecutar las tareas siguiendo el orden documentado.
+  * Registrar logs de ejecución (pantallazos, salidas de consola, etc.).
+  * Verificar funcionamiento del servicio tras despliegue.
+  * Aplicar rollback inmediato en caso de error crítico.
+
+=== 4. Validación y Cierre ===
+
+  * Comprobar logs de errores y rendimiento.
+  * Validar con el equipo funcional o usuario final.
+  * Informar al equipo de monitorización si hay cambios relevantes.
+
+

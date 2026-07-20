@@ -1,0 +1,12 @@
+﻿
+Para que desde el **MJU** puedan acceder a las URLs del **wscargador** (pre y pro) así como a **bus-servicios** (pre y pro), la **SGNTJ** ha creado varios **NAT** y altas en sus **DNS**, quedando así:
+
+^ Servicio ^ IP JUSTICIA ^ IP AEXT ^ DNS MJU ^ IP SGNTJ ^
+| wscargador-pre.justicia.junta-andalucia.es | 10.241.254.73 | 10.118.83.120 | cargadorpreandalucia.mju.es | 10.12.174.1 |
+| wscargador.justicia.junta-andalucia.es     | 10.241.254.74 | 10.118.83.121 | cargadorproandalucia.mju.es |10.12.174.11 |
+| bus-servicios-pre.justicia.junta-andalucia.es | 10.241.254.148 | 10.118.83.140 |cargadorpreandalucia2.mju.es  | 10.12.174.12 |
+| bus-servicios.justicia.junta-andalucia.es  |10.241.254.197  | 10.118.83.141 | cargadorproandalucia2.mju.es | 10.12.174.13 |
+
+Los usuarios del **MJU** accederán por el nombre **"DNS MJU"** y la **SGNTJ** tiene establecidos el *routing* y **NAT** hacia nuestra red.
+Nosotros tenemos permitido el tráfico **http/https** desde el origen **"IP AEXT"**, que es la IP con la que los vemos llegar.
+

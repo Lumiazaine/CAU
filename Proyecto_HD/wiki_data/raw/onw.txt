@@ -1,0 +1,293 @@
+﻿
+====== Networker Operativa ======
+
+====== Introducción ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/Networker Operativa?section=1|Editar]]
+
+El siguiente documento describe la operativa y políticas aplicadas en networker
+
+======  Abuso de comunes     ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/Networker Operativa?section=2|Editar]]
+ <font 10pt/sans-serif;;inherit;;inherit>Procedimiento a ejecutar diariamente, incluidos los viernes por la tarde, que es cuando es más importante, para que los datos no procedentes no vayan a los FULL y nivel 5 del fin de semana.</font>
+ <font 10pt/sans-serif;;inherit;;inherit>Antes de las 15:00 se debe indicar el SSID en el documento RegistroIncidenciasAbusos, que esta en la ruta:</font>
+ <font 10pt/sans-serif;;inherit;;inherit>\\iussnas05\SIJ\Sistemas\00\04-Informes\07. Cuotas de almacenamiento\AbusoComunes.ods</font>
+ <font 10pt/sans-serif;;inherit;;inherit>En el documento habrá un save set ID en la fecha de ese mismo día.</font>
+ <font 10pt/sans-serif;;inherit;;inherit>Ejemplo:</font>
+ <font 8.5pt/sans-serif;;inherit;;inherit></font>
+ <font 14px/sans-serif;;inherit;;inherit>Por parte de GTSW se creara una petición Remedy, con Descripción "Abuso de Comunes. <tamaño> GB de contenido no profesional en "_RUTA_":</font>
+ <font 14px/sans-serif;;inherit;;inherit>Y en diario se pone algo como por ejemplo:</font>
+ <font 14px/sans-serif;;inherit;;inherit>Propietario de los archivos: Nombre Completo (Usuario AD)</font>
+ <font 14px/sans-serif;;inherit;;inherit>Responsable del órgano: Nombre Completo (Usuario AD)</font>
+ <font 14px/sans-serif;;inherit;;inherit>- Comunicad al RESPONSABLE DEL ÓRGANO que se están contraviniendo los manuales de comportamiento de uso de los sistemas informáticos de la Junta de Andalucía y del CGPJ. El LAJ es el responsable final de los contenidos (LOPD), y el personal que hace este mal uso está copando recursos, lo que acabará (si el Servicio de Informática no interviene, tal y como va a establecerse en las nuevas normas de uso de Comunes que se están redactando) en el colapso total del recurso de Juzgado al completo.</font>
+ <font 14px/sans-serif;;inherit;;inherit>- Comunicadle que se ha imposibilitado la copia de seguridad de todos los comunes de su sede. El backup ha tenido que ser eliminado puesto que no hay capacidad para esta cantidad de datos no procedentes en el sistema de salvaguardia.</font>
+ <font 14px/sans-serif;;inherit;;inherit>- Comunicadle se le activará al usuario infractor una cuota de 500 MB, y que cualquier necesidad de almacenamiento superior a esa cantidad que le surja habrá de tramitarla mediante petición a SISTEMAS a través del CSU.</font>
+ <font 14px/sans-serif;;inherit;;inherit>- Se debe eliminar el contenido inapropiado antes de las 14 horas de HOY para que no vuelva a salir en las copias de seguridad incrementales, ni vaya al backup full del fin de semana.</font>
+ <font 14px/sans-serif;;inherit;;inherit>Devolved a GTSW para activar la cuota.</font>
+ <font 14px/sans-serif;;inherit;;inherit>Por parte de GTAB hay que comprobar que los save set id que hay que eliminar son:</font>
+ <font 14px/sans-serif;;inherit;;inherit>ej:</font>
+ <font 14px/sans-serif;;inherit;;inherit>2547329953</font>
+ <font 14px/sans-serif;;inherit;;inherit>1423257551</font>
+ <font 14px/sans-serif;;inherit;;inherit>3822400635</font>
+ <font 14px/sans-serif;;inherit;;inherit>Con este código accederemos a oragrid para lanza el scripts ¿</font>
+ <font 14px/inherit;;gray;;inherit>./recicla-SSID.sh¿</font>
+ <font 14px/inherit;;inherit;;inherit>y borraremos el SSID con el siguiente comando:</font>
+ <font 14px/sans-serif;;gray;;inherit>oragrid# cd /root/scripts/nsr/reciclado/</font>
+ <font 14px/sans-serif;;gray;;inherit>oragrid# ./recicla-SSID.sh</font>
+ <font 14px/inherit;;#333333;;inherit><SSID></font>
+ <font 14px/inherit;;gray;;inherit>NSRIM-NO</font>
+ <font 14px/sans-serif;;inherit;;inherit>Después de esto, volveremos al documento</font> [[\\iussnas05\Sistemas\00\04-Informes\07.Cuotas|\\iussnas05\SIJ\Sistemas\00\04-Informes\07.Cuotas]]
+ <font 14px/inherit;;inherit;;inherit>de    almacenamiento\RegistroIncidenciasAbusos, y editaremos en el campo de "</font>
+ <font 14px/inherit;;inherit;;inherit>Save set borrado</font>
+ <font 14px/inherit;;inherit;;inherit>" que se ha eliminado con un "</font>
+ <font 14px/inherit;;inherit;;inherit>SI</font>
+ <font 14px/inherit;;inherit;;inherit>".</font>
+ <font 14px/sans-serif;;inherit;;inherit>Y por último se indica la salida de oragrid en la petición.</font>
+ <font 14px/sans-serif;;inherit;;inherit>Cada día se ejecuta un script en oragrid (/root/scripts/nsr/vigila/vigila-comunes-html-v2.sh). Este script comprueba el contenido guardado en cada backups de comunes buscando posibles ficheros personales y/o que ocupen mucho. Esta información genera el correo Vigila COMUNES que se enviará a</font>  [[gtsw.alertas.ius@juntadeandalucia.es|patricio.mora@juntadeandalucia.es y gtsw.alertas.ius@juntadeandalucia.es]]
+<code>
+
+ <font 14px/inherit;;inherit;;inherit></font>
+
+</code>
+
+<code>
+ <font 14px/inherit;;inherit;;inherit>En el podemos ver información similar a la siguiente:</font>
+
+</code>
+
+<code>
+ <font 14px/inherit;;inherit;;inherit>justiciase2csv2.sevilla incr 1373443130 30/03/17 16:20:40 Files= 1884 MB= 45110 MB/file= 23 S:/INSTRUCCION6
+`S:\INSTRUCCION6\Instr6\COMUN\D. P. 2451-16( CALDERINOX)\AUDIO 2451-16\DP 2451-2016 J.ANTONIO CORTES.-JUAN J. SABORIDO.-MIGUEL OCHOA.-PEDRO A. MARTINEZ.wav' : 303 mb
+`S:\INSTRUCCION6\Instr6\COMUN\D. P. 2451-16( CALDERINOX)\AUDIO 2451-16\DP 2451-2016 RAFAEL J. SILVA.- JUAN R. RAMIREZ.- ANDRES RODRIGUEZ.wav' : 302 mb
+`S:\INSTRUCCION6\Instr6\COMUN\D. P. 2451-16( CALDERINOX)\VIDEO 2451-16\DP 2451-2016 J.ANTONIO CORTES.-JUAN J. SABORIDO.-MIGUEL OCHOA.-PEDRO A. MARTINEZ.mkv.zip' : 467 mb
+`S:\INSTRUCCION6\Instr6\COMUN\D. P. 2451-16( CALDERINOX)\VIDEO 2451-16\DP 2451-2016 RAFAEL J. SILVA.- JUAN R. RAMIREZ.-ANDRES RODRIGUEZ.mkv.zip' : 466 mb
+`S:\INSTRUCCION6\Instr6\COMUN\D. P. 2451-16( CALDERINOX)\VIDEO 31-1-17\DANIEL ALBERTO RIVERA DP2451-16.zip' : 355 mb</font>
+
+</file>
+
+<code>
+ <font 14px/inherit;;inherit;;inherit></font>
+
+</code>
+
+<code>
+ <font 14px/inherit;;inherit;;inherit>GTSW evaluará si es necesario aplicar el procedimiento de reciclado sobre este ssid. En este ejemplo el ssid es "1373443130".</font>
+
+</code>
+ <font 14px/sans-serif;;inherit;;inherit>ENLACE PROCEDIMIENTO: \\iusnas05\SIJ\Sistemas\00\05-Procedimientos\03-Abuso de Comunes\Abuso de Comunes.doc</font>
+
+======  Lanzamiento manual backups semanales     ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/Networker Operativa?section=3|Editar]]
+
+=====  ORAGRID   =====
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/Networker Operativa?section=4|Editar]]
+
+[[http://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/relanzado+de+backups+semanal?section=1|Editar]]
+ <font 14px/sans-serif;;inherit;;inherit>No se pueden perder backups de nivel</font>
+ <font 14px/inherit;;inherit;;inherit>FULL o 5 de un grupo de ADRIANO</font>
+ <font 14px/inherit;;inherit;;inherit>, ni un</font>
+ <font 14px/inherit;;inherit;;inherit>nivel FULL de Comunes</font>
+ <font 14px/inherit;;inherit;;inherit>, (los de BBDD están por determinar).</font>
+ <font 14px/sans-serif;;inherit;;inherit>Así que los</font>
+ <font 14px/inherit;;inherit;;inherit>Lunes</font>
+ <font 14px/inherit;;inherit;;inherit>se deberá comprobar que no ha fallado ningún FULL (Adriano/Comunes) ni 5 (Adriano), y si es así, hay que repetirlos, averiguando antes el motivo del fallo.</font>
+ <font 14px/sans-serif;;inherit;;inherit>NOTA: Desde coordinación se ha cambiado el procedimiento y se indica que solo se realicen Reintentos para los grupos de ADRIANO Full (y COMUNES si es poco).</font>
+ <font 14px/sans-serif;;inherit;;inherit>Con respecto al grupo</font>
+ <font 14px/inherit;;inherit;;inherit>SOLO_SEMANAL</font>
+ <font 14px/inherit;;inherit;;inherit>, no hay que repetirlo. Solo se actuará si el fallo es reiterado o por fallo de configuración. En este caso, se corrige el save set y ya se ejecutará la semana siguiente. (No son en absoluto cosas fundamentales, por eso se salvan semanalmente).</font>
+ <font 14px/sans-serif;;inherit;;inherit>Para lanzar de nuevo los clientes que han fallado, se copian dichos clientes integrándolos en uno de los grupos al que corresponde, COMUNES_REINTENTOS o ADRIANO_REINTENOS</font>
+ <font 14px/sans-serif;;inherit;;inherit>Estos grupos están sin "AutoStart" y actualmente no tienen schedule, ya que el cliente puede tener FULL o level 5, así que dicho schedule se configura en el mismo cliente.</font>
+ <font 14px/sans-serif;;inherit;;inherit>Por último, se lanza a mano el mismo lunes por la tarde y se comprueba si se realiza el backup.</font>
+ <font 14px/sans-serif;;inherit;;inherit>NOTA: Hay que solucionar el problema del fallo antes de lanzar de nuevo a mano la tarea.</font>
+ <font 14px/sans-serif;;inherit;;inherit></font>
+
+=====  IUSSLNSRSRV01   =====
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/Networker Operativa?section=5|Editar]]
+
+[[http://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/relanzado+de+backups+semanal?section=2|Editar]]
+ <font 14px/sans-serif;;inherit;;inherit>Al igual que Oragrid, los</font>
+ <font 14px/inherit;;inherit;;inherit>Lunes</font>
+ <font 14px/inherit;;inherit;;inherit>se deberá comprobar que no ha fallado ningún backup FULL ni Level 5 y si es así, hay que repetirlos el mismo Lunes por la tarde, averiguando antes el motivo del fallo.</font>
+ <font 14px/sans-serif;;inherit;;inherit>En el caso de que haya que relanzarlos, se han creado dos grupos para las máquinas físicas, REINTENTO_APLICACIONES_PROD</font> y <font 14px/inherit;;inherit;;inherit>REINTENTO_DATOS_PROD</font> .
+ <font 14px/inherit;;inherit;;inherit>Estos grupos están sin "AutoStart" y hay que definirles en función del cliente que haya fallado:</font>
+ <font 14px/sans-serif;;inherit;;inherit>-</font>
+ <font 14px/inherit;;inherit;;inherit>Clone Pool</font>
+ <font 14px/Wingdings;;inherit;;inherit>à</font>  Semanal o Mensual
+ <font 14px/sans-serif;;inherit;;inherit>-</font> Schedule
+ <font 14px/Wingdings;;inherit;;inherit>à</font>
+ <font 14px/inherit;;inherit;;inherit>"Full every day" o  "Five every day"</font>
+ <font 14px/sans-serif;;inherit;;inherit>-</font> Retención
+ <font 14px/Wingdings;;inherit;;inherit>à</font>  1 o 2 años para "Aplicaciones" y 2 o 3 años para "Datos"
+ <font 14px/sans-serif;;inherit;;inherit></font>
+ <font 14px/sans-serif;;inherit;;inherit>Si falla otro grupo distinto a Aplicaciones o Datos, procederemos de la siguiente forma:</font>
+ <font 14px/sans-serif;;inherit;;inherit>1º- Deshabilitamos todos los clientes del grupo (suelen tener pocos), dejando solo el que ha fallado.</font>
+ <font 14px/sans-serif;;inherit;;inherit>2º- Se modifica el Schedule del grupo para que haga la copia FULL o FIVE ese mismo Lunes.</font>
+ <font 14px/sans-serif;;inherit;;inherit>3º- Se relanza el grupo y cuando termine se deja el Schedule como estaba.</font>
+ <font 14px/sans-serif;;inherit;;inherit></font>
+ <font 14px/sans-serif;;inherit;;inherit>Para las máquinas virtuales, se ha creado una política llamada "REINTENTO_VM_PROD_2</font> ", deshabilitada por defecto, con una retención de 3 años y backup FULL, de tal manera que cuando falle alguna máquina del grupo VM_PROD_2, se le pueda cambiar la política por esta y relanzarla.
+ <font 14px/sans-serif;;inherit;;inherit></font>
+ <font 14px/sans-serif;;inherit;;inherit></font>
+ <font 14px/sans-serif;;inherit;;inherit></font>
+ <font 14px/inherit;;inherit;;inherit>NOTA</font> : Para lanzar un backup extraordinario se ha creado el grupo " <font 14px/inherit;;inherit;;inherit>SOLO_MANUAL</font> ", donde podremos añadir cualquier cliente físico con las propiedades de backup especificadas en el cliente, a diferencia de los anteriores donde las propiedades las llevaba el propio grupo.
+
+======  Expirar/Eliminar un SSID     ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/Networker Operativa?section=6|Editar]]
+ <font 14px/sans-serif;;inherit;;inherit>Objetivo</font>
+ <font 14px/sans-serif;;inherit;;inherit>Liberar espacio en DataDomain o eliminar un dato repetido/corrupto.</font>
+ <font 14px/sans-serif;;inherit;;inherit>Procedimiento</font>
+ <font 14px/sans-serif;;inherit;;inherit>Localizar el SSID mediante el comando mminfo en el servidor Networker donde esté el dato:</font>
+ <font 14px/sans-serif;;inherit;;inherit># mminfo -q client=<nombredelservidor.junta-andalucia.es>,name=<RutaDelFichero> -r ssid</font>
+ <font 14px/sans-serif;;inherit;;inherit>Una vez confirmado el SSID podemos expirarlo con el script recicla-SSID.sh:</font>
+ <font 14px/sans-serif;;inherit;;inherit># /root/scripts/nsr/reciclado/recicla-SSID.sh <SSID> NSRIM-SI</font>
+ <font 14px/sans-serif;;inherit;;inherit>(Si se quiere reciclar muchos savesets de un mismo cliente sin chequear los índices a cada paso, se modificara ¿NSRIM-SI¿ a ¿NSRIM-NO¿).\\
+Networker eliminará el saveset cuando chequee el índice, y el Data Domain borrará los datos en el proceso semanal de "Clear space".</font>
+
+======  Revisión e informe diario     ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/Networker Operativa?section=7|Editar]]
+ <font 14px/sans-serif;;inherit;;inherit>De</font>
+ <font 14px/inherit;;inherit;;inherit>Lunes a Viernes</font>
+ <font 14px/inherit;;inherit;;inherit>se deberá comprobar las copias de seguridad de los servidores Networkers, generando una petición en la herramienta Remedy, donde se indicará el resultado de los backups.</font>
+ <font 14px/sans-serif;;inherit;;inherit>-</font>
+ <font 14px/inherit;;inherit;;inherit>Si todos los backups se han realizado correctamente, se cerrará la petición indicándolo.</font>
+ <font 14px/sans-serif;;inherit;;inherit>-</font>
+ <font 14px/inherit;;inherit;;inherit>Si los fallos han sido por problemas de los clientes, se reasignará al grupo pertinente para que lo solvente.</font>
+ <font 14px/sans-serif;;inherit;;inherit>Para poder hacer un seguimiento de estos backups disponemos de una serie de correos o alertas en Zabbix que envía cada uno de los servidores de Networker.</font>
+ <font 14px/sans-serif;;inherit;;inherit>Oragrid</font>
+ <font 14px/sans-serif;;inherit;;inherit>Remitente => ORAGRID root <root@oragrid.justicia.junta-andalucia.es></font>
+ <font 14px/sans-serif;;inherit;;inherit>Destinatario => notificaciones.gtab.ius@juntadeandalucia.es</font>
+ <font 14px/sans-serif;;inherit;;inherit>IUSSLNSRSRV01</font>
+ <font 14px/sans-serif;;inherit;;inherit>Remitente => root IUSSLNSRSRV01 <root@iusslnsrsrv01.justicia.junta-andalucia.es></font>
+ <font 14px/sans-serif;;inherit;;inherit>Destinatario => notificaciones.gtab.ius@juntadeandalucia.es</font>
+ <font 14px/sans-serif;;inherit;;inherit>CREACIÓN DE INFORME TÉCNICO</font>
+ <font 14px/sans-serif;;inherit;;inherit>============================</font>
+ <font 14px/sans-serif;;inherit;;inherit>Se ha automatizado el Informe técnico de la siguiente manera:</font>
+ <font 14px/sans-serif;;inherit;;inherit>Hay un crontab que ejecuta un script todos los días a las 8:00 en los servidores iusslnsrsrv01 y iusslrdpats01, el script guarda el resultado de las copias en \\iusnas05\sij\Temp\SISTEMAS\GTAB\Informes Backup</font>
+ <font 14px/sans-serif;;inherit;;inherit>Después de las 8:00 se puede abrir la excel "Plantilla Diaria" ubicada en \\iusnas05\sij\Sistemas\GTAB y ejecutar el botón  "Generar Informe"</font>
+ <font 14px/sans-serif;;inherit;;inherit>*Hay que tener mapeado la unidad \\iusnas05\sij  en la letra Z:\</font>
+ <font 14px/sans-serif;;inherit;;inherit></font>
+ <font 14px text-align:start/sans-serif;;inherit;;inherit>Por otro lado, se verifican las alertas en Zabbix referente a las BBDD o los correos que llegan a notificaciones.gtbd o notificaciones.gtab con asunto "Monitorizacion de RMAN ARCH" y "Monitorizacion de EXPORT", para verificar si los exports y Rmans se han creado correctamente y la copia de la bbdd es consistente.</font>
+ <font 14px/sans-serif;;inherit;;inherit>Una vez generado el informe se insertan las imagenes en un email con asunto "Informe técnico de estado de Backup fecha" y  destinatario coordinación con copia a manuel.gonzalez.seco@juntadeandalucia.es, sistemas.gtab.ius@juntadeandalucia.es y a Soporte Sistemas Soporte Sistemas (soporte.sistemas.ius@juntadeandalucia.es)</font>
+
+----
+ <font 14px/sans-serif;;inherit;;inherit>*En el caso de que este proceso falle o no esté operativo*</font>
+ <font 14px/sans-serif;;inherit;;inherit>Los informes los obtenemos desde los reportes de la NMC:</font>
+ <font 14px/sans-serif;;inherit;;inherit>Para Oragrid Sedes - http://iusslrdpats01.justicia.junta-andalucia.es:9000</font>
+ <font 14px/sans-serif;;inherit;;inherit>Para SSCC - http://iusslnsrsrv01.justicia.junta-andalucia.es:9000</font>
+ <font 14px/sans-serif;;inherit;;inherit>Para realizar el informe técnico de las SEDES accedemos al Report de Oragrid:</font>
+ <font 14px/sans-serif;;inherit;;inherit>- NMC Oragrid -> Reports -> Reports -> NetWorker Backup Status -> Group Summary by Client and Server</font>
+ <font 14px/sans-serif;;inherit;;inherit>- Seleccionamos la fecha del día anterior con hora 6:00 y el del día actual con hora actual para los incrementales y desde las 0:00:00 del Sabado hasta las 0:00:00 del Lunes para los backups completos del fin de semana.</font>
+ <font 14px/sans-serif;;inherit;;inherit>- Realizamos dos Reports, uno con todos los Status (failed y succeeded) para contar todos los save sets que hay por grupo.</font>
+ <font 14px/sans-serif;;inherit;;inherit>Si lo exportamos a CSV, solo tenemos que seleccionar en la hoja de cálculo la columna "Number of Save Sets" para que nos de el sumatorio.</font>
+ <font 14px/sans-serif;;inherit;;inherit>También obtenemos la columna de los save sets copiados correctamente.</font>
+ <font 14px/sans-serif;;inherit;;inherit>Todo este informe se copia en la tercera hoja del excel.</font>
+ <font 14px/sans-serif;;inherit;;inherit>Con estos datos rellenamos el informe del día anterior renombrado el archivo con el día de hoy. Este se encuentra en \\iunsas05\sij\Sistemas\00\04-Informes\06. Chequeos\Mantenimiento Diario\Informe Tecnico Backup_fecha.ods</font>
+ <font 14px/sans-serif;;inherit;;inherit>En la primera hoja indicamos los save sets correctos y la sede que han fallado.</font>
+ <font 14px/sans-serif;;inherit;;inherit>Verde: 0 fallos</font>
+ <font 14px/sans-serif;;inherit;;inherit>Amarillo: 1 Dia Fallido</font>
+ <font 14px/sans-serif;;inherit;;inherit>Rojo: mas de un día de fallos</font>
+ <font 14px/sans-serif;;inherit;;inherit>Azul: el backup sigue corriendo</font>
+ <font 14px/sans-serif;;inherit;;inherit>Blanco: Ese día no estaba programado el backup</font>
+ <font 14px/sans-serif;;inherit;;inherit>Para indicar la sede podemos recurrir al servidor de dominio (Usuarios y equipos de Active Directory -> Cambiar dominio -> Examinar -> Se indica el domino de la sede -> y se busca por el nombre de la sede. Por ejemplo justiciacaroh2 -> Dominio Cadiz, Sede Rota-CARO-Celestino Mutis  (CARO)</font>
+ <font 14px/sans-serif;;inherit;;inherit>O a la web http://infosistemas.justicia.junta-andalucia.es/consultas-escritos/tecnicos/informe.php?f=statspat&type=ROE#</font>
+ <font 14px/sans-serif;;inherit;;inherit>En la segunda hoja del excel se guardan los save sets fallidos, que lo obtendremos del reporte "Save Set Details by Client" con la misma fecha del anterior y con el "Status Selected" = "failed"</font>
+ <font 14px/sans-serif;;inherit;;inherit>Para realizar el informe técnico de SSCC accedemos al Report de Iusslnsrsrv01:</font>
+ <font 14px/sans-serif;;inherit;;inherit>- NMC Oragrid -> Reports -> Reports -> Policy Statistics -> Workflow Details  :  Con esto obtenemos el número de save sets fallidos y correctos según el grupo para rellenar la primera hoja del excel</font>
+ <font 14px/sans-serif;;inherit;;inherit>- NMC Oragrid -> Reports -> Reports -> Policy Statistics -> Save Sets Details :  Con esto obtenemos los save sets fallidos para la tercera hoja del excel</font>
+ <font 14px/sans-serif;;inherit;;inherit>Por otro lado, se verifican los correos que llegan a notificaciones.gtbd o notificaciones.gtab con asunto "Monitorizacion de RMAN ARCH" y "Monitorizacion de EXPORT", para verificar si los exports y Rmans se han creado correctamente y la copia de la bbdd es consistente.</font>
+ <font 14px/sans-serif;;inherit;;inherit>Para verificar la consistencia del resto hay que comprobar los correos de Networker que se reciben en notificaciones.gtab, subcarpeta "Networker Oragrid", buscando en el contenido de los correos la frase "size grew during save"</font>
+ <font 14px/sans-serif;;inherit;;inherit>Una vez acabado de rellenar el excel, se capturan las celdas de la primera hoja y se insertan las imagenes en un email con asunto "Informe técnico de estado de Backup fecha" y  destinatario coordinación con copia a manuel.gonzalez.seco@juntadeandalucia.es, sistemas.gtab.ius@juntadeandalucia.es y a Soporte Sistemas Soporte Sistemas (soporte.sistemas.ius@juntadeandalucia.es). Por último se adjunta el excel que mehos generado con los reportes anteriores.</font>
+
+======  Operativa de Cintas         ======
+ <font 14px/sans-serif;;inherit;;inherit>La operativa de cintas consta de varias partes:</font>
+
+  *
+ <font 14px/sans-serif;;inherit;;inherit>Creación de petición en Remedy con el asunto "Cambio de cintas" indicando el servidor de Networker en el que se relizará dicho cambio</font>
+
+  *
+ <font 14px/sans-serif;;inherit;;inherit>Generación de Informe de cintas históricas completas (full) de Networker en Oragrid (Sedes) y Iusslnsrsrv01 (SSCC) clonadas en la MSL6480.</font>
+ <font 14px/sans-serif;;inherit;;inherit>Para realizar el informe, nos basamos en las siguiente consulta:</font>
+ <font 14px/sans-serif;;inherit;;inherit># mminfo -q "Pool=nombre_pool,%used=full,location=MSL6480" -r volume</font>
+ <font 14px/sans-serif;;inherit;;inherit>Esta nos proporcionará un listado de las cintas que pertenecen al pool indicado, que están llenas y que se encuentran en la librería MSL6480.</font>
+ <font 14px/sans-serif;;inherit;;inherit>Un ejemplo de consulta MMINFO para los clones de BBDD, ADRIANO, COMUNES es:</font>
+ <font 14px/sans-serif;;inherit;;inherit>//oragrid:~/scripts/nsr # mminfo -q "Pool=ClonePoolDD2500_COMUNES,%used=full" -r volume</font> // \\ // <font 14px/inherit;;inherit;;inherit>volume</font> // \\ // <font 14px/inherit;;inherit;;inherit>IZ1044L6</font> // \\ // <font 14px/inherit;;inherit;;inherit>IZ3592L6</font> //
+ <font 14px/sans-serif;;inherit;;inherit>Los Pools a utilizar son:</font>
+ <font 14px/sans-serif;;inherit;;inherit>- Para las Sedes: //ClonePoolDD2500_ADRIANO, ClonePoolDD2500_COMUNES</font> //y // <font 14px/inherit;;inherit;;inherit>ClonePoolDD2500_BBDD</font> //
+ <font 14px/sans-serif;;inherit;;inherit>- Para SSCC: //Clone_APLICACIONES_Mensual, Clone_APLICACIONES_Semanal, Clone_DATOS_Mensual</font> //y // <font 14px/inherit;;inherit;;inherit>Clone_DATOS_Semanal</font> //
+ <font 14px/sans-serif;;inherit;;inherit>El resultado de estas consultas se guardan en un fichero al que se le tiene que pasar un scrip para obtener la fecha de inicio y fin de utilización de la cinta, para añadirla al informe del listado anterior.</font>
+ <font 14px/sans-serif;;inherit;;inherit>El informe constará de un fichero general con la lista de cada una de las cintas y su fecha de inicio y fin de escritura, llamado CINTAS.txt y una relación de ficheros txt con el nombre de cada una de las cintas con el contenido de estas. Todo ello se guarda en:</font>
+ <font 14px/sans-serif;;inherit;;inherit>//\\iusnas05\SIJ\Sistemas\Documentacion\Copias de seguridad\SEDES\Seguimientos\Centralizacion\Cintas clonadas_oragrid</font> //
+ <font 14px/sans-serif;;inherit;;inherit>//\\iusnas05\SIJ\Sistemas\Documentacion\Copias de seguridad\SSCC\Seguimientos cintas\Cintas clonadas_iusslnsrsrv01</font> //
+ <font 14px/sans-serif;;inherit;;inherit>Todo esto se notifica en la petición.</font>
+ <font 14px/sans-serif;;inherit;;inherit>Para facilitar este proceso, se han creado varios script:</font>
+ <font 14px/sans-serif;;inherit;;inherit>-// iusslnsrsrv01:/root/scripts/nsr/cintas-full.sh</font> //   ==> Se encarga de generar un fichero txt por cada Pool con la relación de cintas llenas en la librería.
+ <font 14px/sans-serif;;inherit;;inherit>- //iusslnsrsrv01:/root/scripts/nsr/saca_cintas.sh</font> //   ==> Llama al script anterior y lo utiliza para generar el fichero CINTAS.txt volcandolo todo en iusnas05.
+ <font 14px/sans-serif;;inherit;;inherit>Se trabaja con el directorio ///root/historico_cintas</font> //
+  *
+ <font 14px/sans-serif;;inherit;;inherit>Extracción /Introducción de cintas en la librería</font>
+ <font 14px/sans-serif;;inherit;;inherit>Para procededer a la extracción, primero nos aseguramos que no se esté ejecutando ninguna clonación o backup a cinta.Continuamos abriendo el cajón de la librería de cintas desde el menú principal de la interface, //Open Magazine</font> //:
+ <font 14px/sans-serif;;inherit;;inherit></font>
+ <font 14px/sans-serif;;inherit;;inherit>En la siguente pantalla presionamos "Open" en la puerta y módulo que necesitemos:</font>
+ <font 14px/sans-serif;;inherit;;inherit></font>
+ <font 14px/sans-serif;;inherit;;inherit></font>
+ <font 14px/inherit;;inherit;;inherit>NOTA</font> : Antes de abrir, hay que saber en qué módulo y cajón se encuentran las cintas. Para el módulo, hay que tener en cuenta que la librería de cintas tiene 2 Pools y la que utiliza el Oragrid es el Pool formado por el Módulo 1,(el otro Pool está formado por el Modulo 2 o Base y el Modulo 3) . Por otro lado, para identificar si el cajón es el Izquierdo o el Derecho, se recurre a: \\ // <font 14px/inherit;;inherit;;inherit>Status -> Cartridge Inventory -> Graphical View</font> // \\
+Donde podremos ver un gráfico de los cajones y las cintas que contienen:
+ <font 14px/sans-serif;;inherit;;inherit>\\  \\
+Como podemos observar en la imagen, en este caso todas las cintas están en el cajón izquierdo, por lo que abriríamos la puerta izquierda del Módulo 1.</font>
+ <font 14px/sans-serif;;inherit;;inherit>Una vez que la puerta esté abierta, extraemos el cajón y sustituimos las cintas.</font>
+
+  *
+ <font 14px/sans-serif;;inherit;;inherit>Etiquetado</font>
+ <font 14px/sans-serif;;inherit;;inherit>Cada cinta debe tener en una etiqueta con el nombre del Pool (con DD2500_ADRIANO,  DD2500_BBDD o DD2500_COMUNES) y las fechas inicio y fin que aparecen en el informe, con la Dymo.</font>
+
+  *
+ <font 14px/sans-serif;;inherit;;inherit>Guardado</font>
+ <font 14px/sans-serif;;inherit;;inherit>En el Armario Ignifugo del PreCPD se guardarán las cintas extraidas, previamente protegidas contra escritura.</font>
+ <font 14px/sans-serif;;inherit;;inherit>En el Armario Ignifugo con el nombre "Menores" situado en el recinto posterior del CPD (antiguo garaje), se encuentran las cintas históricas de Iusdesa02.</font>
+
+  *
+ <font 14px/sans-serif;;inherit;;inherit>Se cierra la petición de Remedy después de anotarlo todo</font>
+ <font 20.44px border-bottom-style:initial/sans-serif;;inherit;;inherit>ANEXO</font>
+ <font 14px/sans-serif;;inherit;;inherit>- Se ha dado el caso en el que no ha habido cintas suficientes para la clonación full de algún grupo, como por ejemplo de ADRANO, y se ha tenido que comentar la tarea programada en el crontab de Oragrid, para que no intenta salvar nada mas de Adriano a cintas:</font>
+ <font 14px/sans-serif;;inherit;;inherit># Pat. 15oct16. Comentado por falta de cintas \\
+#13 03 * * 1 /root/scripts/nsr/clonado/clonado-semanal-ADRIANO.sh  full DOIT -f 2>&1 | /usr/bin/mailx -s "Clonado semanal ADRIANO full" sistemas.gtab.ius@juntadeandalucia.es</font>
+ <font 14px/sans-serif;;inherit;;inherit>En estos casos, se nos piden introducir más cintas una vez que se extraen y etiquetan las anteriores. Por lo que se procede en Networker a Inventariar y Labelar las nuevas cintas con los Pools que nos indican (ClonePoolDD2500_ADRIANO, ¿BBDD, ¿COMUNES) \\
+Una vez que ya tenemos cintas, se  procede a descomentar la línea de crontab anterior. Y ejecutamos manualmente dicha línea en un job de AT, para que se quede en segundo plano y no de problemas con el script ni el cierre de sesión. (Asegurarse antes que el servicio atd esté arrancado)</font>
+ <font 14px/sans-serif;;inherit;;inherit>//oragrid:~ # at now</font> // \\ // <font 14px/inherit;;inherit;;inherit>warning: commands will be executed using /bin/sh</font> // \\ // <font 14px/inherit;;inherit;;inherit>at> /root/scripts/nsr/clonado/clonado-semanal-ADRIANO.sh  full DOIT -f 2>&1 | /usr/bin/mailx -s "Clonado semanal ADRIANO full" sistemas.gtab.ius@juntadeandalucia.es</font> // \\ // <font 14px/inherit;;inherit;;inherit>at> <EOT></font> // \\ // <font 14px/inherit;;inherit;;inherit>job 309 at 2016-10-19 11:55</font> //
+ <font 14px/sans-serif;;inherit;;inherit>Lo comprobamos:</font>
+ <font 14px/sans-serif;;inherit;;inherit>//oragrid:~ # atq</font> // \\ // <font 14px/inherit;;inherit;;inherit>309  2016-10-19 11:55 = root</font> //
+ <font 14px/sans-serif;;inherit;;inherit>//oragrid:~ # ps -ef | grep clonado-semanal-ADRIANO.sh</font> // \\ // <font 14px/inherit;;inherit;;inherit>root  23002 23001  0 12:17 ?        00:00:00 /usr/local/bin/bash /root/scripts/nsr/clonado/clonado-semanal-ADRIANO.sh full DOIT -f</font> // \\ // <font 14px/inherit;;inherit;;inherit>root  23039 23002  1 12:17 ?        00:00:00 /nsr/networker82/sbin/nsrclone -b ClonePoolDD2500_ADRIANO -S -f /root/scripts/nsr/clonado/log/clonado-semanal-ADRIANO.sh-20161019_1217.ssid</font> //
+
+====== Recuperación desde cliente (ejemplo práctico) ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/Networker Operativa?section=8|Editar]]
+ <font 14px/sans-serif;;inherit;;inherit>Se detalla ejemplo práctico de recuperación de backup de bbdd en iusswadristby01.</font>
+
+  * Se abre el cliente networker:
+ <font 14px/sans-serif;;inherit;;inherit></font>
+
+  * Seleccionar acción:
+ <font 14px/sans-serif;;inherit;;inherit></font>
+
+  * Selecciona el origen:
+ <font 14px text-align:start/sans-serif;;inherit;;inherit></font>
+
+  * Selecciona destino
+ <font 14px/sans-serif;;inherit;;inherit></font>
+
+  * Seleccionar ficheros a restaurar:
+ <font 14px/sans-serif;;inherit;;inherit></font>
+
+  * Ejecutar restauración. Click en:
+ <font 14px text-align:start/sans-serif;;inherit;;inherit></font>
+
+  * Pantalla resultado:
+ <font 14px/sans-serif;;inherit;;inherit></font>
+ <font 14px/sans-serif;;inherit;;inherit>En este punto el backup esta recuperado.</font>
+
+

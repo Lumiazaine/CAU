@@ -1,0 +1,33 @@
+﻿
+
+<WRAP> 
+<panel type="primary" title="IREUNIÓN. (Cisco Webex)
+"> 
+
+iReunión es una solución de videoconferencia online basada en Cisco Webex accesible en la nube a través de Internet, que permite celebrar reuniones, eventos, presentaciones y sesiones de formación online con independencia de la ubicación y distancia entre asistentes.
+<WRAP> 
+<panel type="info" title="Acceso">
+  * **URL:**  [[https://andalucia.webex.com/|Webex]]
+  * **Contacta:** [[https://portal-rcja.junta-andalucia.es/|Portal RCJA]]
+</panel>
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Capacitación">
+  * [[https://capacitacion.justicia.junta-andalucia.es|Contenidos Digitales de Capacitación (Portal de Capacitación de Justicia Digital Andalucía)]]
+  * [[https://videos.justicia.junta-andalucia.es/home|Portal de contenidos en vídeo de Justicia Digital Andalucía]]
+</panel>
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Procedimientos y Problemas Conocidos">
+  * [[pag_apli:webex:problemas|Procedimientos y Problemas Conocidos]] 
+</panel>
+</WRAP>
+
+</panel> 
+</WRAP>
+
+{{tag>validada}}
+
+

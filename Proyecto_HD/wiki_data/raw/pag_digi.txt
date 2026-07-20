@@ -1,0 +1,50 @@
+﻿
+<WRAP> <panel type="primary" title="Digitalización RRCC">
+
+<WRAP> 
+<panel type="info" title="Descripción"> El presente encargo tiene por objeto un servicio integral para la digitalización de los Registros Civiles, desde la identificación, inventariado, digitalización, asociar metadatos, validación en la correspondiente Oficina de Certificación del Ministerio de Justicia (OCERT), e integración del los Registros Civiles (o tomos) en Inforeg o Dicireg. </panel>
+
+</WRAP>
+
+<WRAP>
+<panel type="info" title="Fechas del proyecto">
+
+Comienzo: 30 de diciembre de 2023.
+
+Finalización: fecha máxima 30 de noviembre de 2025, fecha prevista agosto del 2025.
+
+</panel>
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Procedimientos">
+[[:pag_procedimientos_digitalizacion|Procedimientos Digitalización RRCC]]  
+
+{{ :replanteo_20260623.ods |Replanteo de oficinas a digitalizar}}
+</panel>
+ </WRAP>
+
+
+<WRAP> 
+<panel type="info" title="Capacitación">
+  * [[https://capacitacion.justicia.junta-andalucia.es|Contenidos Digitales de Capacitación (Portal de Capacitación de Justicia Digital Andalucía)]]
+  * [[https://videos.justicia.junta-andalucia.es/home|Portal de contenidos en vídeo de Justicia Digital Andalucía]]
+  * [[:pag_procedimientos_generales:respuestas_escritos#digitalizaci%C3%B3n-rrcc| Respuesta a Preguntas Frecuentes (Técnicos)]]
+</panel>
+ </WRAP>
+
+
+
+<WRAP> 
+<panel type="info" title="Contacta">
+
+  * [[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_contactos#digitalizaci%C3%B3n-rrcc|Contactos Digitalización RRCC]]
+
+</panel>
+ </WRAP>
+
+
+
+{{tag>novalidada}}
+
+

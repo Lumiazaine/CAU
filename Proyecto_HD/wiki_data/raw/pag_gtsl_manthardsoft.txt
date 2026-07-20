@@ -1,0 +1,74 @@
+﻿
+====== Procedimiento de Mantenimiento de Hardware/Software ======
+
+=== 🎯 Objetivo ===
+Establecer un procedimiento regular para el mantenimiento de sistemas SUSE gestionados por el equipo de Linux, asegurando la continuidad, disponibilidad y buen estado del hardware y software, conforme a las prácticas ya definidas en tareas de monitorización y control diario.
+
+=== 🧭 Alcance ===
+Aplica a todos los sistemas gestionados por el equipo de sistemas Linux, tanto en entornos físicos como virtualizados, incluyendo tareas de revisión diaria, corrección de incidencias y mantenimiento planificado.
+
+=== 🛠️ Operaciones Diarias ===
+
+==== 1. Revisión de alertas en Zabbix ====
+  * Acceso al panel de control de Zabbix.
+  * Comprobación del estado general de hosts y servicios críticos.
+  * Acknowledgment (ACK) de alertas con el número de tique Remedy asociado y breve explicación del tratamiento.
+  * Identificación de alertas repetitivas o no tratadas que requieran acciones correctivas.
+
+==== 2. Revisión de la cuenta de alertas ====
+  * Buzón: **gtsw.alertas.ius@juntadeandalucia.es**
+  * Clasificación de correos por carpetas:
+    - **Almacenamiento (3PAR, MSA-2040):** revisión de alertas críticas de espacio, fallos de cache o controladoras.
+    - **System State Backup:** comprobación del correcto backup de controladores de dominio u otros sistemas críticos.
+    - **JOBS Vigila Comunes / TPATH2:** verificación de rutas montadas, accesibilidad de directorios compartidos y resultados de tareas automatizadas.
+    - **Otros:** SAIS, Sophos, OCS, Temis, Lexnet, etc.
+
+==== 3. Registro de la actividad diaria ====
+  * Creación de tique en Remedy:
+    - Clase: **Servicios de Infraestructura**
+    - Tipo: **Monitorización**
+    - Categoría: **Configuración**
+  * Registro de la actividad en la bitácora compartida:
+    - Ruta: `\\iusnas05.justicia.junta-andalucia.es\sij\Sistemas\00\04-Informes\06. Chequeos\Mantenimiento Diario\Operaciones_mantenimiento_XXXX.ods`
+
+=== 🔁 Mantenimiento Programado ===
+
+==== Mensual ====
+  * Aplicación de parches de seguridad con `zypper patch --category security`
+  * Limpieza de espacio en disco (`/var/log`, `/tmp`, `/home/usuarios_temporales`)
+  * Verificación de backups (scripts automatizados o supervisión manual).
+  * Comprobación de versiones activas de servicios clave (Java, Tomcat, Apache, etc.)
+  * Control del uso de CPU, memoria y disco mediante herramientas como `top`, `htop`, `df -h`, `iotop`, etc.
+
+==== Trimestral ====
+  * Revisión del estado de discos (S.M.A.R.T., RAID).
+  * Comparación de versiones de paquetes con entornos preproductivos.
+  * Auditoría de usuarios del sistema y claves SSH.
+  * Limpieza del repositorio Maven local (`~/.m2/`) si aplica a entornos de compilación.
+
+==== Anual ====
+  * Verificación física de servidores en CPD.
+  * Revisión de los contratos de mantenimiento hardware (si aplica).
+  * Revisión de CMDB para actualizar las versiones de software/hardware.
+  * Validación completa del proceso de backup y restauración.
+
+=== 📋 Documentación y seguimiento ===
+  * Toda intervención debe reflejarse en el sistema de tickets.
+  * En los comentarios debe constar:
+    - Fecha
+    - Incidencias detectadas
+    - Acciones realizadas
+    - Si ha requerido intervención de terceros
+  * En caso de incidencias graves, debe notificarse a Coordinación y adjuntar los logs relevantes.
+
+=== 🔐 Consideraciones de seguridad ===
+  * Cualquier actualización de software o reinicio debe realizarse fuera de horas críticas.
+  * Validación en entornos de preproducción antes de aplicar en producción.
+  * Usar `screen` o `tmux` al aplicar parches en sesiones remotas para evitar interrupciones.
+
+=== ✅ Recomendaciones ===
+  * Automatizar tareas recurrentes con scripts Bash, Ansible o cronjobs.
+  * Estar atentos a los boletines de seguridad SUSE (SUSE CVEs).
+  * Mantener documentación actualizada en el wiki interno.
+
+

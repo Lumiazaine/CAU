@@ -1,0 +1,23 @@
+﻿
+<panel type="primary" title="Procedimientos Paneles">
+
+La **__monitorización__** de los paneles se realiza mediante la herramienta de gestión remota de los equipos (**CMND**):
+  *  https://10.241.133.84:8443/
+  *  jmfernandezfe / PanelesJMFF01.
+
+En CMND hay 268 paneles de los cuales:
+  *  260 corresponden a los instalados con el CONTR/2023/0000505021
+  *  7 corresponden a instalados con contratos anteriores:
+    *  5 contratos en Córdoba:
+      *  PANELCOCJ1PT002
+      *  PANELCOCJ1PT001
+      *  PANELCOCJ1CAF01
+      *  PANELCOCJ1ABO01
+      *  PANELCOCJ1PT101
+    *  2 en Palmas Altas:
+      *  PANELSECJ1PT001
+      *  PANELSECJ1PT002
+  *  1 de pruebas en la Consejería --> PANELSSCC1PRE01  
+
+</panel>
+

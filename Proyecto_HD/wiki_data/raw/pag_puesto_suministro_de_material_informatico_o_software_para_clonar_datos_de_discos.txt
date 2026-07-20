@@ -1,0 +1,16 @@
+﻿
+
+
+**Depende de cuál es el origen de la información en el dispositivo fuente:**
+
+   - Si de alguna forma hemos participado técnicamente por la Agencia para generar esa información  (es muy inhabitual) habría que estudiar el caso.
+  - Si por el contrario, procede de una de las partes en un procedimiento judicial, o de investigaciones o peritaciones, la obligación de facilitar la información en un formato y tamaño asumible por los medios del órgano judicial recae en quien aporta la información a clonar.
+
+**En todo caso, existen aplicaciones de copia fiable para no depender del proceso de copia-pega del sistema Windows de los puestos de trabajo de Justicia:**
+
+  - Para ello, la primera referencia es la relación de software validado por la Subir de PT y en el wiki de PT.
+  - En caso de no tener aplicación validada para esta función, a veces se ha utilizado cualquier herramienta de sincronización verificada que, una vez instalada, pueda darle autonomía al usuario, porque en lo que conozco, no constituye obligación de los servicios técnicos de la Junta de Andalucía hacer un duplicado de la información de evidencias de un procedimiento judicial, ya que se asumirían responsabilidades que no procede ya que no existe garantía de no manipulación de la información y una actuación mínimamente adecuada ha de ser realizada generando hash del original, creando el clon, y verificando que el hash del clon es el mismo que el del original.
+
+ **Por tanto, y como resumen, correspondería darle al usuario la autonomía de clonar (lo que sería análogo a la función de fotocopiado de originales cuando se le entregan en papel) mediante la instalación de un software de clonado verificado que pueda manejar con una operativa que no requiera de capacitación técnica.**
+
+

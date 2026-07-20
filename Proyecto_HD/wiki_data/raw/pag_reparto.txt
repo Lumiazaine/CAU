@@ -1,0 +1,14 @@
+﻿
+===== Reparto instancias BBDD =====
+
+Esta es la distribución a nivel de configuración. Existe la posibilidad de que podamos encontrar otra distribución debido a que se le haga un failover a otro nodo.
+
+La NPar se queda un CORE para procesos internos.
+
+// 
+hacer tabla en HTML !
+
+
+{{ :reparto_instancias_bbdd.png?1300 |}}
+
+// hacer tabla a mano !

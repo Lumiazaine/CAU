@@ -1,0 +1,136 @@
+﻿
+<html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>PLANTILLA APLICACIONES</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #39546E;
+            margin: 0;
+            padding: 20px;
+            padding-top: 70px;
+            
+        }
+
+        .main-container {
+            max-width: 1550px;
+            margin: 0 auto;
+        }
+
+        .main-header {
+            background-color: #39546E;
+            color: white;
+            padding: 25px 20px;
+            font-size: 2rem;
+            font-weight: bold;
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .block {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 22px;
+            margin-bottom: 25px;
+            border: 1px solid #c5ccd4;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .block h2 {
+            margin-top: 0;
+            color: #39546E;
+            border-bottom: 2px solid #39546E;
+            padding-bottom: 10px;
+            
+        }
+        
+        a {
+            color: #0051A3;
+            text-decoration: none;
+            
+        } 
+        
+        .btn-volver {
+            background-color: #39546E;
+            color: white;
+            padding: 10px 20px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+            
+        }
+
+        .btn-volver:hover {
+            background-color: #39546E; 
+            color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transform: translateY(-2px); 
+            
+        }
+        
+    </style>
+</head>
+
+<body>
+
+<!-- sustituir enlace si se requiere -->
+<a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_apli" class="btn-volver">Volver</a>
+
+    <div class="main-container">
+
+        <div class="main-header">EVID</div>
+
+        <div style="margin: 15px;">
+            <p>La implantación de EVID (Escritorio Virtual de Inmediación Digital) constituye un importante paso en el proceso de <b>modernización de la Administración de Justicia en Andalucía</b>. Con su implantación, se pretende dotar a los órganos judiciales andaluces de una herramienta tecnológica que permite <b>ampliar la celebración telemática</b> de un mayor número de actuaciones al permitir la ejecución de actos procesales que actualmente son presenciales, como ocurre con las aceptaciones de cargo, <b>con garantías de seguridad jurídica para autenticación, reidentificación y presentación de documentación</b> durante el acto procesal telemático. Complementa las soluciones implantadas, esto es, la plataforma de videollamadas y videoconferencias Cisco-Webex y sistema de grabación Áurea, a las que no sustituye ni impacta en sus operativas propias. Esta herramienta, provista por el Ministerio de Justicia, ha sido Pilotada bajo la colaboración del Juzgado de 1ra Instancia Nº 5 de Algeciras, quedando Validada su implantación.</p><br>
+            
+            <p>El órgano judicial podrá escoger qué trámites realizar mediante esta herramienta entre un amplio catálogo de trámites, <a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=pag_apli:evid:catalogo_tramites_v03.pdf">aqui</a> puede consultar este catálogo.</p> <br>
+            
+            <p>EVID se encuentra disponible para todos los Órganos Judiciales (<a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=pag_apli:evid:implantacion_evid_v03f.pdf">Ver Nota Informativa</a>)</p>
+        </div>
+
+        <!-- Bloque Acceso -->
+        <div class="block">
+  <h2>Acceso</h2>
+  <ul>
+    <li>URL: <a href="https://www.administraciondejusticia.gob.es/-/soluciones-escritorio-virtual-de-inmediacion-digital">(ACCEDER AL SERVICIO)</a></li>
+    <li>Contacta:</li>
+    <li>Formulario: Los siguientes Formularios:
+      <ul>
+        <li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=formulariosolicitudinstalacionnoestandar30042025.pdf">Formulario de Solicitud Instalación Aplicaciones no Estándar</a></li>
+        <li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=20231107tomadatosevid110.xlsx">Formulario de Solicitud EVID</a></li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+        <!-- Bloque Capacitación -->
+        <div class="block">
+            <h2>Capacitación</h2>
+            <ul>
+                <li><a href="https://capacitacion.justicia.junta-andalucia.es">Contenidos Digitales de Capacitación (Portal de Capacitación de Justicia Digital Andalucía)</a></li>
+                <li><a href="https://capacitacion.justicia.junta-andalucia.es/mod/glossary/view.php?id=196">Preguntas frecuentes (Portal de Capacitación de Justicia Digital Andalucía)</a></li>
+                <li><a href="https://videos.justicia.junta-andalucia.es/home">Portal de contenidos en vídeo de Justicia Digital Andalucía</a></li>
+                <li><a href="https://evid.pre.councilbox.com/">Acceso entorno de PRUEBAS de EVID</a></li>
+                <li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=pag_apli:evid:ficha_info_evid_v3.pdf">Ficha Informativa</a></li>                                                
+            </ul>
+        </div>
+
+        <!-- Bloque Procedimientos y Problemas Conocidos -->
+        <div class="block">
+            <h2>Procedimientos y Problemas Conocidos</h2>
+            <ul>
+                <li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_apli:evid:problemas">Procedimientos y Problemas Conocidos EVID</a></li>
+            </ul>
+        </div>
+
+    </div>
+
+</body>
+</html>
+
+{{tag>validada}}
+

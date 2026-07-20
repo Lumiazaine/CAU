@@ -1,0 +1,635 @@
+﻿
+<WRAP>
+<panel type="primary" title="Procedimientos y Problemas Conocidos en Remedy">
+
+[[start|Volver atrás]]  
+
+[[pag_apli:remedy:asignaciones_remedy|➡ Ver Asignaciones REMEDY]]
+
+<WRAP>
+<panel>
+
+
+===== Procedimiento de Alta de Usuarios o de Grupos =====
+
+Para proceder al **alta de un usuario** (Nivel 3 / **Asignado Usuario**) se debe acceder a Remedy y pulsar **Control + o** abriéndose la ventana **Lista de objetos**.
+
+{{:pag_apli:remedy:pag_remedy_problemas_01.png?600  }}
+
+A continuación, en la pestaña //Todos// se pulsa sobre la **letra U**(suario) y **Buscar**.
+
+Lo más habitual es que en la incidencia de alta se indique el login de un usuario con los mismos permisos del que queremos crear, en caso contrario, se debe solicitar.
+
+En el formulario que aparece, //Usuario (Buscar)//, en el campo **Nombre de conexión** se teclea el login del usuario a clonar, respetando mayúsculas y se pulsa en buscar. Una vez localizado el usuario se pulsa **Control + T**, abriéndose la ventana **Usuario (Nuevo)** donde se deben realizar las modificaciones para el nuevo usuario, básicamente, Nombre de conexión, Nombre completo, Contraseña, Dirección de correo electrónico.
+
+La licencia será de **Lectura** (Jefatura debe autorizar en los casos de licencia Fija, con un límite de 63.
+
+Tipo Grupo se marca **Nivel 3**, si no lo estuviera.
+
+La contraseña se enviará por correo al usuario y se le indicará que el sistema no permite que el usuario cambie su contraseña.
+
+Finalmente, se pulsa en **Guardar**, parte superior derecha de la ventana, o **Ctrl + Enter**.
+
+----
+
+Para el **alta de un Grupo** (Nivel 2 / **Asignado A**), además de lo indicado en el alta de usuario (Nivel 3), se debe añadir el **Acuerdo de Servicio**, ya que, si no se hace, Remedy no permite hacer asignaciones y reproduce un error. Para ello hay que seguir estos pasos:
+
+1. **Ctrl + o** para abrir la lista de objetos.
+
+2. Buscar **Acuerdos de Servicio** y acceder.
+
+3. En el campo **Nombre** buscamos en la lista o escribimos el Grupo que nos sirva de referencia y pulsamos **Ctrl + T** para copiarlo.
+
+4. En la nueva ventana **Acuerdo de Servicio (Nuevo)** escribimos en **Nombre** el nombre del Grupo.
+
+5. Pulsamos **Guardar**.
+
+</panel> 
+</WRAP>
+
+<WRAP> 
+<panel>
+
+
+===== Guía de priorizaciones =====
+  - Cuadro que describe el proceso de priorización. Quién y cuando puede subir prioridad.
+  - Descripción de prioridades y definición de criticidad.
+  - Orden de gestión según prioridad y fecha de antigüedad.
+  - Listado de cargos VIP.
+    - Secretario de Gobierno
+    - Presidente/Magistrado y Letrado de Audiencias provinciales
+    - Magistrados y letrados de los TSJ
+    - Secretarios coordinadores de los TSJ
+    - Fiscales jefes de cada provincia.
+
+  
+
+^ Origen/Destino  ^ Priorizada            | Crítica                                                                                                       | Cualificada                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Urgente                                                                                                       | Reclamada    | Normal  |
+| Crítica         | Jefatura de Servicio  | --                                                                                                            | --                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | --                                                                                                            | --           | --      |
+| Cualificada     | Jefatura de Servicio  | Cualquier perfil si:Afecta a una o más unidades funcionales, y paraliza el funcionamiento normal del órgano.  | --                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |                                                                                                               | --           | --      |
+| Urgente         | Jefatura de Servicio  | Cualquier perfil si:Afecta a una o más unidades funcionales, y paraliza el funcionamiento normal.             | Pueden priorizar a "Cualificadas" los tickets de su provincia, y en función del ratio de "Cualificadas" asignado, los siguientes perfiles.\\ 1.Secretario de Gobierno. (Todas las provincias con un máximo de 50 en total y según el ratio asignado a la provincia)\\ 2.Presidente/Letrados y Magistrados de la Audiencia Provincial.\\ 3.Magistrados y Letrados de las salas del TSJ.\\ 4.Secretarios Coordinadores de cada provincia.\\ 5.Fiscales Jefes de cada provincia.\\ 6.Cualquier funcionario de la Presidencia del TSJA Granada.  |                                                                                                               | --           | --      |
+| Reclamada       | Jefatura de Servicio  | Cualquier perfil si:Afecta a una o más unidades funcionales, y paraliza el funcionamiento normal.             | --                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | Pueden priorizar a "urgente" los tickets de su sede, los perfiles:\\ 1.Letras.\\ 2.Magistrados.\\ 3.Fiscales  | --           | --      |
+| Normal          | Jefatura de Servicio  | Cualquier perfil si:Afecta a una o más unidades funcionales, y paraliza el funcionamiento normal.             | Pueden priorizar a "Cualificadas" los tickets de su provincia, y en función del ratio de "Cualificadas" asignado, los siguientes perfiles.\\ 1.Secretario de Gobierno. (Todas las provincias con un máximo de 50 en total y según el ratio asignado a la provincia)\\ 2.Presidente/Letrados y Magistrados de la Audiencia Provincial.\\ 3.Magistrados y Letrados de las salas del TSJ.\\ 4.Secretarios Coordinadores de cada provincia.\\ 5.Fiscales Jefes de cada provincia.\\ 6.Cualquier funcionario de la Presidencia del TSJA Granada.  | Pueden priorizar a "urgente" los tickets de su sede, los perfiles:\\ 1.Letras.\\ 2.Magistrados.\\ 3.Fiscales  | Funcionario  | --      |
+
+
+^ Prioridad ^ Descripción ^ Cuándo procede ^
+| **General** | Se suben a *Prioritaria* todas aquellas reclamadas por Jefatura.\\ Se codifican en REMEDY:\\ Campo: **ORIGEN** → "BUZÓN DE VOZ"\\ Campo: **NÚMERO DE PROVEEDOR** → 1. | — |
+| **1º Crítica** | Se consideran críticas las incidencias que provocan errores graves en tramitaciones, actuaciones, sistemas o datos. \\ También aquellas que Jefatura catalogue expresamente, según usuario o servicio afectado.\\  Las incidencias masivas **siempre** son críticas, pero una crítica **no tiene por qué** ser masiva. | Afecta a una o más unidades funcionales y paraliza el funcionamiento normal. |
+| **2º Cualificada** | Se pueden priorizar como “Cualificadas” (máx. 50 por provincia) los siguientes perfiles:\\ 1. Secretario de Gobierno\\ 2. Presidente/Letrados/Magistrados de la Audiencia Provincial\\ 3. Magistrados y Letrados del TSJA\\ 4. Secretarios Coordinadores\\ 5. Fiscales Jefes\\ 6. Funcionarios de la Presidencia del TSJA Granada | Si la incidencia es abierta o reclamada por uno de los perfiles anteriores. |
+| **3º Urgente** | Prioridad aplicable si la incidencia es abierta o reclamada por perfiles de su sede:\\ 1. Letrados\\ 2. Magistrados\\ 3. Fiscales | - Cuando se notifica desde un Juzgado de Guardia\\ - Si está abierta y es reclamada por dichos perfiles |
+| **4º Reclamada** | Incidencia reclamada por un funcionario cualquiera. | Cuando la reclama un funcionario. |
+| **5º Normal** | Error funcional que no implica pérdida o incorrecta gestión de datos/documentos. | Cuando no impide trabajar, pero necesita revisión. |
+</panel>
+
+==== Definición de incidencias como CRÍTICAS====
+
+<panel>
+^ Tipo de Incidencia ^ Descripción ^
+| Registro y reparto | Imposibilidad de realizar el registro y reparto de asuntos o escritos. |
+| Incoación y tramitación | Imposibilidad de incoar asuntos o realizar trámites sobre uno ya incoado, incluida la modificación de fase o estado.\\ Puede ocurrir en tramitación o ejecución. |
+| Acceso al sistema | Imposibilidad de acceder al sistema o cualquiera de sus módulos. |
+| Búsqueda y visualización | Imposibilidad de búsqueda, consulta y visualización de datos o documentos.\\ Aplica tanto a tramitación como a gestión del EJE. Incluye edición, generación e introducción de documentos. |
+| Firma de documentos | Imposibilidad de poner a la firma o firmar documentos o expedientes. |
+| Integración con LEXNET | No funcionamiento del envío o recepción de notificaciones por LEXNET. |
+| Visibilidad de asuntos | No visualización o acceso a asuntos por parte de usuarios. |
+| Agenda Programada | Imposibilidad de consultar o realizar anotaciones en la Agenda Programada. |
+| Juzgados de Guardia | Afectación directa al funcionamiento de los Juzgados de Guardia. |
+
+
+==== Orden de gestión de tickets ====
+
+^ Criterio ^ Aplicación ^
+| Prioridad asignada | Se atienden primero los tickets con mayor prioridad. |
+| Antigüedad | A igual prioridad, se atiende el ticket más antiguo. |
+| Orden de atención | 1. Priorizadas por Jefatura\\ 2. Críticas\\ 3. Urgentes\\ 4. Cualificadas\\ 5. Reclamadas\\ 6. Normales |
+</panel>
+ 
+</WRAP>
+
+<WRAP> 
+<panel>
+
+===== Procedimiento para Solucionar un tique =====
+
+  * Cuando el técnico resolutor resuelve un tique.
+
+**Pasos:**
+
+  - El técnico resolutor anota el trabajo realizado en el campo **Diario**.
+  - Desde la pestaña **Solución** utiliza el botón **Solucionar**.
+  - [[pag_formu:plantillas|Enviar correo]]
+
+{{:pag_apli:remedy:guia:solucionar.png?800|}}
+
+**Nota**: El tique se queda en estado **Solucionada** y en la asignación del técnico.
+
+**Ejemplos:**
+
+  - Un tique de usuario resuelto por un técnico de Procesal, Explotación, SBA...
+  - Un tique de una DT solicita permisos de edición en la dokuwiki asignado al equipo de Explotación.
+
+</panel>
+ 
+</WRAP>
+
+<WRAP> 
+<panel>
+===== Procedimiento de gestión de reclamaciones en tickets en estado “Solucionados” (acción inmediata) =====
+
+== Objetivo ==
+Garantizar que todas las reclamaciones de usuarios en tickets con estado “Solucionado” se detecten y atiendan sin demoras, cerrando conforme cuando proceda o reasignando/derivando la incidencia adecuadamente.
+
+== Causa ==
+Actualmente, cuando un usuario comenta en un ticket en estado “Solucionado”, la notificación de “Nuevo Comentario” se envía al equipo que tiene el ticket asignado, no al CAU. Con el alto volumen de tickets en “Solucionado”, las reclamaciones no se están detectando a tiempo.
+
+== Acción inmediata (para todos los equipos) ==
+  - Revisar a diario la bandeja de entrada de la cuenta asociada a las notificaciones de REMEDY de vuestro grupo.  
+  - Filtrar por asunto que contenga **“Nuevo Comentario”**.  
+  - Aplicar la operativa del escenario correspondiente (ver abajo).  
+
+== Cómo identificar la notificación ==
+  * **Asunto:** ''Nuevo Comentario en la Incidencia IN000000xxxxxx enviado a dd/mm/aaaa hh:mm:ss''  
+  * **Cuerpo:** ''Nuevo Comentario en la Inc nº: IN000000xxxxxx asignada a Help-Desk/Basal Adriano/Adriano/DeVops (...) con prioridad: XXXXXXXX''  
+
+**Quién recibe el correo depende de la asignación actual del ticket:**
+  * Asignada a **Nivel 1 / Centro de servicios al usuario** → recibe ''csu.ius@juntadeandalucia.es''  
+  * Asignada a **Servicios/Adriano** → lo recibe ese equipo  
+  * Asignada a **Servicios/Basal Adriano** → idem  
+  * Asignada a **Sistemas/DeVops** → idem  
+  * Asignada a **Sistemas/xx** → idem 
+
+== Plan de actuación por escenarios ==
+
+**1) El usuario confirma que la incidencia está resuelta**  
+  * **Acción:** Reasignar el ticket a **Nivel 1 / Centro de servicio usuario** y dejarlo en estado “Solucionada”.  
+  * **Objetivo:** Que CAU cierre como CONFORME basándose en el comentario del usuario (no es necesario llamar).  
+
+**2) El usuario indica que la incidencia persiste (no está resuelta)**  
+  * **Acción del equipo resolutor:**  
+    a) Cambiar el estado a “Reasignada” y tratar la incidencia.  
+    b) Una vez resuelta, volver a “Solucionada”, documentar la solución y enviar correo según operativa.  
+
+**3) El comentario corresponde a una incidencia distinta**  
+  * **Acción:** Reasignar a **Nivel 1 / Centro de servicio usuario** para:  
+    a) Contactar con el usuario y verificar el ticket inicial.  
+    b) Abrir un nuevo ticket con la nueva incidencia, si procede.  
+    c) Mantener el histórico correcto separando ambos casos y cerrando el solucionado si procede o reasignándolo.  
+
+== Buenas prácticas** (obligatorias) ==
+  * Documentar siempre la acción realizada en el diario del ticket (qué se hace y por qué).  
+  * Usar plantillas de respuesta breves (p. ej., “Se revisa reclamación en ticket solucionado; se procede según escenario X”).  
+  * Evitar devoluciones circulares: si se reasigna al CAU, dejar claro qué debe hacer (llamar, verificar, abrir nuevo ticket…).  
+  * **Cierre conforme:** cuando el comentario del usuario indique resolución, no demorar el cierre por falta de llamada.  
+
+
+</panel> 
+</WRAP>
+
+<WRAP> 
+<panel>
+
+===== Procedimientos para Cerrar un tique =====
+
+**1.2 Cierre por parte del técnico creador del tique (campo Recogido por) o por Procesal en caso de tique de usuario.**
+
+**Aplicable cuando:**
+
+  * El tique lo crea un técnico y lo asigna a un equipo técnico resolutor.
+  * Tique de usuario asignado a Procesal.
+
+**Pasos:**
+
+  - Una vez realizado el punto **1.1 Solucionado por parte del técnico resolutor**, es decir, el tique está en estado **Solucionada**, el técnico creador del tique comprueba que está conforme con la resolución, usa el botón **Cerrar** desde la pestaña //Solución// (ver imagen anterior) dejando un comentario sobre su conformidad. En caso contrario, si no está de acuerdo con la solución, la dejará en estado reasignada con el comentario pertinente.
+
+{{ :pag_apli:remedy:recogida_por.png?600 |}}
+
+**Ejemplos:**
+
+  - Un técnico de Explotación crea un tique a Sistemas para que le den acceso a una bdd.
+  - Un técnico de la Oficina de Proyectos crea un tique a Explotación para solicitar permisos de edición en la dokuwiki.
+
+----
+
+**1.3 Cierre por parte del Equipo Resolutor (sin intervención del CAU).**
+
+**Aplicable cuando:**
+
+  * El equipo resolutor puede validar directamente con el usuario.
+  * El equipo resolutor puede verificar por sí mismo la resolución del tique.
+
+**Pasos:**
+
+  - El técnico anota el trabajo realizado en el //Diario//.
+  - Usa el botón **Solucionar** desde la pestaña //Solución//. (Ver imágenes anteriores).
+  - Usa el botón **Cerrar** desde la misma pestaña.
+
+**Ejemplos:**
+
+  - Un técnico CRIP soluciona in situ una incidencia con el usuario.
+
+----
+
+**1.4 Cierre con validación del usuario por parte del CAU**
+
+**Aplicable cuando:**
+
+  * El tique está en estado **Solucionada** y requiere validación por parte del usuario.
+
+**Pasos:**
+
+  - CAU filtra tiques en estado **Solucionada** donde el //Cargo// no sea técnico, utilizando el siguiente filtro:
+
+<code>
+'Estado' = "Solucionada" AND 'Cargo' != "Técnico Asistencia Técnica" AND 'Cargo' != "Técnico Informática DP" AND 'Cargo' != "Técnico Informática SS.CC." AND 'Cargo' != "Jefe Informática DP"
+</code>
+
+  - CAU contacta al usuario y actúa según la respuesta:
+
+  * **Usuario confirma solución:** cierra el tique con asignación **Nivel 1 -> 2_Gestión_Cierre -> CAUXX** anotando en el //Diario// la conformidad del usuario.
+  * **Usuario NO conforme:** anota en //Diario// y reasigna al equipo resolutor correspondiente.
+  * **Usuario NO localizable:**  registra intento en la pestaña //Llamadas//, cambia a Nivel 1-> 1_Pendiente_Usuario y mantiene el estado en **Solucionada**.
+
+\\
+{{ :pag_apli:remedy:pendiente_usuario.png?900 |}}
+\\
+
+**Importante.** Al revisar el histórico, el flujo correcto muestra:
+
+\\
+{{ :pag_apli:remedy:historico_02.png?900 |}}
+\\
+
+  - Paso intermedio por **1_Pendiente_Usuario** (como Reasignada).
+  - Mantenimiento del estado **Solucionada** en el grupo técnico.
+  - Envío de correo en cada intento [[pag_formu:plantillas|Enviar correo]]
+  - Cierre realizado finalmente por Nivel 1 -> 2_Gestión_Cierre -> CAUXX.
+
+----
+
+**1.5 Cierre sin contacto por ILOCALIZABLE (tras 3 intentos)**
+
+**Aplicable cuando:**
+
+  * El usuario no responde tras 3 intentos de contacto.
+
+**Acciones:**
+
+  - Registrar los **TRES intentos llamadas** en el campo de "llamadas" (tipo "Saliente" o “Saliente solución” según casuística) y dejar constancia en Diario.
+      * **Registrar el nº de teléfono** al que se ha intentado el contacto. 
+      * **Tipo Saliente**: Cuando se intenta el contacto pero el ticket no está solucionado. 
+      * **Tipo Saliente Solución**: Cuando se intenta el contacto y el ticket se encuentra solucionado.
+  - Enviar **correo tipo** desde “Informar Funcionario”, debe quedar constancia de los **TRES correos**. [[pag_formu:plantillas|Enviar correo]] 
+  - Cerrar con:
+      * **CONFORME/ILOCALIZADO**  si estaba en *Solucionado*.
+      * **NO CONFORME/ILOCALIZADO**  si no se pudo solucionar.
+      
+
+----
+
+**1.6 Cierre de tiques no vigentes (antiguos)**
+
+**Aplicable a tiques de años anteriores que no requieren gestión.**
+
+**Pasos para equipos sin permisos:**
+
+  - Anotar en Diario el motivo del cierre y reasignar a “Centro de Servicio al Usuario”.
+
+**Pasos para equipos con permisos:**
+
+1. Anotar en Diario motivo del cierre. 2. Pulsar “Solucionar”. 3. Reasignar a 2_Gestión_Cierre. 4. Establecer “Conformidad” en “NO CONFORME/ESCALADO”. 5. Pulsar botón “Cerrar” e incluir descripción final.
+
+----
+
+**1.7 Cierre de tiques latentes (obsoletos)**
+
+**Criterios:**
+
+  * Incidencias/peticiones antiguas sin acción pendiente.
+  * Cambios ya contemplados en planes futuros.
+  * Tiques ya resueltos sin contacto con el usuario.
+
+**Reapertura:**
+
+  - Solo si el usuario lo solicita (por teléfono o correo).
+  - Si persiste la incidencia, se reabre el tique original y se tipifica adecuadamente.
+
+**No se reabrirán:**
+
+  * Tiques cerrados con asignaciones como “Nuevo Adriano/Cambio” o “Centro de asistencia Adriano”.
+
+----
+
+
+
+===== Procedimiento de cierre de tiques duplicados =====
+
+Es de obligada gestión por parte del CAU JUSTICIA, que antes de registrar un nuevo incidente, se revise que no exista en dicho órgano, asociada a cualquier usuario una ticket solicitando la misma cuestión.
+
+Es recomendable hacer extracciones periódicas para detectar tiques abiertos duplicados y proceder al cierre.
+
+Tras comprobar que el ticket está duplicado con otro aun abierto, se cierra el duplicado más reciente y se marca como:
+
+NO CONFORME/DUPLICADO.
+
+Ponemos en el campo **Número de caso del proveedor** el número de ticket válido (ticket abierto para su gestión con el que está duplicado el que cerramos, coincidirá con el más antiguo). Esto nos dará visibilidad del ticket con el que está duplicado sin necesidad de entrar en el diario a buscarlo.
+Dejar constancia del cierre y su motivo indicando donde se está gestionando. Para ello enviaremos desde la opción **Informar funcionario** el correo explicándolo.
+Dejar anotado en el ticket original la reclamación del usuario, ticket e información/comentario del usuario.
+Utilizaremos una [[:pag_formu:plantillas#cierre_por_duplicidad|plantilla única de correo]] para informar al usuario.
+
+{{:pag_apli:remedy:duplicados_remedy.jpeg?1000|}}
+
+----
+
+**1.8 Cierre tras reasignación progresiva entre equipos**
+
+**Objetivo:**  Garantizar que un mismo tique pueda ser gestionado de forma secuencial por varios equipos resolutores, sin perder el rastro de resolución de cada grupo y manteniendo la trazabilidad adecuada hasta el cierre final por parte del CAU/DT/CRIP.
+
+**Aplicable en:**
+
+  * Altas de usuario u otras tareas con fases encadenadas.
+  * Tiques que requieren intervención técnica de varios equipos.
+  * Flujo en el que el equipo inicial no es quien cierra.
+
+**Pasos:**
+
+1. **Primer equipo resolutor:**
+
+  - Anota en el Diario la acción técnica realizada.
+  - Cambia el estado a *Solucionada* desde la pestaña "Solución".
+  - Reasigna el tique al siguiente equipo responsable del siguiente paso.
+
+2. **Segundo (y sucesivos) equipos resolutores:**
+
+  - Repiten el mismo proceso:
+      * Revisar la solución previa.
+      * Realizar su parte técnica.
+      * Anotar en el Diario.
+      * Cambiar estado a *Solucionada*.
+      * Reasignar al siguiente grupo.
+
+3. **Último equipo resolutor:**
+
+  - Realiza su parte técnica.
+  - Deja el tique en *Solucionada*.
+
+4. **CAU/DT/CRIP:**
+
+  - Verifica con el usuario final.
+  - Si hay conformidad, cierra el tique.
+  - Si no hay conformidad o el usuario indica incidencia no resuelta, se devuelve al último grupo resolutor en estado *Reasignada*.
+
+**Ejemplo 1 – Alta de usuario:**
+
+  - Equipo 1 (Seguridad): crea usuario → Soluciona y reasigna.
+  - Equipo 2 (Sistemas): configura correo → Soluciona y reasigna.
+  - Equipo 3 (DT): entrega equipo → Soluciona y cierra o reasigna a CAU.
+  - CAU: confirma con usuario y cierra.
+
+**Ejemplo 2 – Error DT escalado a Sistemas:**
+
+  - DT detecta problema → Reasigna a Sistemas.
+  - Sistemas resuelve su parte → Soluciona y reasigna a DT.
+  - DT realiza configuración final → Soluciona y cierra o reasigna a CAU.
+  - CAU verifica con usuario y cierra.
+
+**Importante:**
+
+  * Cada grupo debe dejar constancia clara en el Diario.
+  * Siempre debe usarse el botón “Solucionar” antes de la reasignación.
+  * Este procedimiento mantiene la trazabilidad del trabajo de cada equipo resolutor.
+
+----
+
+===== Procedimiento de Comunicación con el Usuario =====
+
+**Correo informativo tras solución**
+
+**Objetivo:**
+
+  - Informar al usuario de la solución antes del contacto del CAU.
+  - Permitir que el usuario exprese conformidad por su cuenta.
+
+**Procedimiento:**
+
+  - Desde REMEDY, pulsar **Informar Funcionario**.
+  - Usar una de las [[:pag_formu:plantillas|plantillas]] tipo según la resolución:
+
+----
+
+===== Procedimiento de Tipificación de Peticiones de Cambio =====
+
+El equipo de CAU recibe una petición (llamada, correo, gestor de incidencias,...) en la que el usuario solicita un evolutivo del sistema.
+
+Registrará un ticket de clase "NUEVO ADRIANO", que dejará asignado a Servicios/Procesal.
+
+1. CAU registra la petición como “Nuevo Adriano” y asigna a “Servicios/Procesal”. 
+
+2. Procesal evalúa y reasigna a “Nuevo Adriano/Cambio”. 
+
+3. Marca la conformidad como:
+
+{{:pag_apli:remedy:peticiones_cambio.png?1000|}}
+
+  * CONFORME: si se detecta que es un cambio que SÍ tiene sentido realizar.
+  * NO CONFORME: si está pendiente de analizar el cambio.
+
+El tique siempre se va a quedar cerrado en una de estas dos opciones de conformidad.
+
+===== Gestión de Tiques Masivos =====
+
+**Pasos:**
+
+  - Comprobar si ya existe tique abierto para la misma incidencia masiva.
+  - Si no, crear uno con prioridad “Crítica” y asignar a equipo resolutor.
+  - El resto de tiques relacionados:
+      * Tipificar igual.
+      * Indicar en Diario y Descripción que se gestiona en tique INXXXXXXXXXXXX.
+      * Enviar correo informativo al usuario.
+      * Cerrar con “NO CONFORME/ESCALADO” (evitar dejar "Asignado Usuario" vacío).
+
+</panel> 
+</WRAP>
+
+<WRAP> 
+<panel>
+
+====== Error ARWARN [60] al crear un informe ======
+
+Cuando el técnico intenta guardar un informe personalizado:
+
+{{  :pag_apli:remedy:250626_estilos_de_informe.png?600  }}
+
+Aparece el siguiente error:
+
+{{  :pag_apli:remedy:arwarn_60_.png?600  }}
+
+Para solucionarlo se debe cambiar la **Ubicación**  de destino por otra que tenga acceso de escritura.
+
+{{  :pag_apli:remedy:250626_opciones_ubicacion.png?600  }}
+
+</panel> 
+</WRAP>
+
+<WRAP> 
+<panel>
+
+====== Error al cerrar un tique ======
+
+Cuando un ticket no permite ser cerrado y da un error, es un problema del histórico que está en un estado no consistente. Se puede resolver abriendo la pestaña //Histórico//  y observando que el último evento tiene **Fecha Fin**  y **Duración**, cuando deberían estar en blanco.
+
+Se necesita **licencia fija** de Remedy para solucionar este problema.
+
+{{  :pag_apli:remedy:historico.png?600  }}
+
+La solución es dejar en blanco esos campos siguiendo estos pasos:
+
+  * Pestaña **Histórico**
+  * Doble click en última entrada de la lista
+  * Eliminar los campos **Fecha fin**  y **Duración**
+  * **Guardar**  (arriba derecha)
+  * Cerrar ventana //Histórico Incidencia//
+  * F5 para volver a buscar la incidencia, o cerrar sin salvar y buscarla de nuevo
+  * Cerrar la incidencia
+
+</panel> 
+</WRAP>
+
+<WRAP> 
+<panel>
+
+====== Error ARWARN [90] al acceder a Remedy ======
+
+Al intentar acceder a Remedy desde una máquina de salto aparece el siguiente mensaje:
+
+{{ :pag_apli:remedy:arrer_90.png?600 |}}
+
+**Solución**: Hay que crear un tique en Remedy y asignarlo a **Sistemas -> GTSW ** para que habiliten las visibilidades correspondientes.
+
+Tique ejemplo: IN0000002416890 
+
+</panel> 
+</WRAP>
+
+<WRAP> 
+<panel>
+
+====== El usuario NO puede realizar acciones tras acceder a Remedy ======
+
+El usuario informa que:
+  * Ha accedido hoy por primera vez a Remedy.
+  * Al pulsar los botones de la pantalla principal, esta permanece igual, sin cambios.
+
+Confirmar con el usuario que:
+  * Está introduciendo su nombre de usuario respetando las mayúsculas y minúsculas que se utilizó en su creación.
+
+</panel> 
+</WRAP>
+
+<WRAP> 
+<panel>
+
+====== Cierre masivo de tickets Remedy ======
+
+Necesitaremos que nos soliciten en un ticket, un cierre masivo de una serie de incidencias, que por norma general suelen estar Solucionados pero no Cerrados, en "tierra de nadie".
+
+
+Una vez tengamos el listado con las IDs de incidencias, ya se puede ejecutar dicha incidencia.
+
+
+Por razones de seguridad, antes lo ejecutábamos nosotros, ya que lo único que hay que hacer es llamar a un PL/SQL llamado cierre_masivo_latente, ya creado en la BD PROD01 en el esquema CONSREMEDY (CONSREMEDY.cierre_masivo_latente), pero por esto, ahora lo hace Sistemas / GTBD.
+
+
+Adjunto el PL/SQL para saber como funciona:
+
+<code>
+CREATE OR REPLACE procedure CONSREMEDY.cierre_masivo_latente (P_INC IN varchar2)
+is
+    I integer;
+    v_entryid varchar2(15 byte);
+BEGIN    
+    select count(*) into I from aradmin.t50 where c1010000136 = P_INC;
+    if i = 0 then
+        dbms_output.put_line (P_INC || ': *** No existe el ticket');
+    else
+        select c1010000141 into I from aradmin.t50 where c1 = (select max(c1) from aradmin.t50 where c1010000136 = P_INC);
+        if I is not null then
+            dbms_output.put_line (P_INC || ': *** Duracion del último histórico rellena, debe estar ya cerrada');
+        elsif I > 1 then
+            dbms_output.put_line (P_INC || ': *** Más de un histórico sin cerrar ¿¿??');
+        else
+            dbms_output.put_line (P_INC || ': De momento ok, voy a ello...');
+            -- hay que cerrar el último histórico con fecha y duracion. Le pongo misma fecha de creacion, duracion 0 por no liarme a calcular
+            update aradmin.t50 set c1010000141=c1010000140,c1010000142=0 where c1 = (select max(c1) from aradmin.t50 where c1010000136 = P_INC);
+         
+            -- y crear un nuevo histórico Solucionada y cerrada
+            select lpad(CONSREMEDY.SQ_CREAR_HISTORICO.nextval, 15,'0') into v_entryid from dual;
+         
+            insert into aradmin.t50 (C1,C2,C3,C4,C5,C6,C7,C8,
+                C1010000136,C1010000137,C1010000138,C1010000139,C1010000140,C1010000141,C1010000142,
+                C1010000144,C1010000145,C1010000210,C1010000211,C1010000212,C536870913,C1010000173,C1010000174,C1010000175,C1010000151)
+            select v_entryid,C2,C3,C4,C5,C6,C7,C8,
+                P_INC,'Desarrollo_06','Solucionada y Cerrada',C1010000139,ARADMIN.DATE_2_FECHA_REMEDY(sysdate),ARADMIN.DATE_2_FECHA_REMEDY(sysdate),0,
+                C1010000144,C1010000145,C1010000210,C1010000211,C1010000212,C536870913,C1010000173,C1010000174,C1010000175,C1010000151
+            from aradmin.t50
+            where c1 = (select max(c1) from aradmin.t50 where c1010000136 = P_INC);
+         
+            -- Si no se inserta en H50 a la vez que en T50 el cliente da un warning
+            insert into aradmin.h50 (entryid, T0, U0)
+            select v_entryid, fecha_creacion, recogida_por
+            from aradmin.A101_INCIDENCIAS
+            where id_incidencia=P_INC;
+
+            -- y actualizar el estado de la inc.
+            update aradmin.t66
+            set C7=4,C8='Cerrada',
+                C1010000213=ARADMIN.DATE_2_FECHA_REMEDY(sysdate),
+                C1010000227=ARADMIN.DATE_2_FECHA_REMEDY(sysdate), C536870995='Cerrada',C536870996=null,C536870997=1,
+                C536870999=ARADMIN.DATE_2_FECHA_REMEDY(sysdate), C1010000151 =5
+            where c1 = P_INC;
+        end if;
+    end if;
+EXCEPTION
+    WHEN OTHERS THEN
+        dbms_output.put_line('*** Error no controlado: '|| sqlcode || ' - ' || sqlerrm);
+        ROLLBACK;
+END;
+</code>
+
+Una vez que ya sepamos lo que hace el PL/SQL, cogemos las IDs de incidencias a ejecutar, y comprobamos estados antes de ejecutar nada en la tabla T66 de PROD01.
+
+Tras esto, abrir ticket a Sistemas / GTBD para que ejecuten este script de ejemplo:
+
+<code>
+SET SERVEROUTPUT ON;
+DECLARE
+    -- Declaración de un tipo de datos para almacenar incidencias
+    TYPE IncidenciaArray IS TABLE OF VARCHAR2(100);
+    incidencias IncidenciaArray := IncidenciaArray(
+
+'IN0000002227411',
+'IN0000002248382'
+
+    ); -- Array de ejemplo con incidencias
+BEGIN
+    -- Recorrer el array de incidencias
+    FOR i IN incidencias.FIRST .. incidencias.LAST LOOP
+        DBMS_OUTPUT.PUT_LINE('Procesando incidencia: ' || incidencias(i));
+        CONSREMEDY.cierre_masivo_latente(incidencias(i)); -- Llamada a la función/procedimiento
+    END LOOP;
+    -- Confirmar los cambios
+    COMMIT;
+END;
+/
+</code>
+
+Lo mejor ir haciendo pruebas de 10, 100 y ya el resto.
+
+Tras esto ver el estado y compararlo con el estado anterior para ver que se han cerrado.
+</panel> 
+</WRAP>
+
+[[start|Volver atrás]]
+
+{{tag>validada,cau,csu,sistemas,explotacion}}
+
+

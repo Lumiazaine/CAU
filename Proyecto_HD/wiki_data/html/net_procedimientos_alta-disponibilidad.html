@@ -1,0 +1,305 @@
+﻿<!DOCTYPE html>
+<html lang="es" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>net:procedimientos:alta-disponibilidad</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="keywords" content="net,procedimientos,alta-disponibilidad"/>
+<link rel="search" type="application/opensearchdescription+xml" href="/dokuwiki/!ssdj/lib/exe/opensearch.php" title="Servicio de Sistemas Digitales para la Justicia"/>
+<link rel="start" href="/dokuwiki/!ssdj/"/>
+<link rel="contents" href="/dokuwiki/!ssdj/doku.php?id=net:procedimientos:alta-disponibilidad&amp;do=index" title="Índice"/>
+<link rel="manifest" href="/dokuwiki/!ssdj/lib/exe/manifest.php"/>
+<link rel="alternate" type="application/rss+xml" title="Cambios recientes" href="/dokuwiki/!ssdj/feed.php"/>
+<link rel="alternate" type="application/rss+xml" title="Espacio de nombres actual" href="/dokuwiki/!ssdj/feed.php?mode=list&amp;ns=net:procedimientos"/>
+<link rel="alternate" type="text/html" title="HTML sencillo" href="/dokuwiki/!ssdj/doku.php?do=export_xhtml&amp;id=net:procedimientos:alta-disponibilidad"/>
+<link rel="alternate" type="text/plain" title="Etiquetado Wiki" href="/dokuwiki/!ssdj/doku.php?do=export_raw&amp;id=net:procedimientos:alta-disponibilidad"/>
+<link rel="canonical" href="http://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=net:procedimientos:alta-disponibilidad"/>
+<link rel="stylesheet" href="/dokuwiki/!ssdj/lib/exe/css.php?t=bootstrap3&amp;tseed=fade0092c81b3b15be1b7fd1b8394d30"/>
+<link type="text/css" rel="stylesheet" href="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net-fixedheader-dt/css/fixedHeader.dataTables.min.css"/>
+<link type="text/css" rel="stylesheet" href="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net-fixedcolumns-dt/css/fixedColumns.dataTables.min.css"/>
+<link type="text/css" rel="stylesheet" href="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net-bs/css/dataTables.bootstrap.min.css"/>
+<link type="text/css" rel="stylesheet" href="/dokuwiki/!ssdj/lib/plugins/icons/assets/font-awesome/css/font-awesome.min.css"/>
+<link type="text/css" rel="stylesheet" href="/dokuwiki/!ssdj/lib/plugins/icons/assets/material-design-icons/css/materialdesignicons.min.css"/>
+<!--[if gte IE 9]><!-->
+<script >/*<![CDATA[*/var NS='net:procedimientos';var SIG=" --- \/\/[[|JUST9 Sandetel Ext]] 2026\/06\/23 13:04\/\/";var JSINFO = {"confirm_delete":"Seguro desea eliminar esta p\u00e1gina?","doku_base":"\/dokuwiki\/!ssdj\/","cg_rev":"","dw_version":51.3,"chrome_version":0,"hide_captcha_error":"none","ckg_dbl_click":"","ckg_canonical":0,"doku_url":"http:\/\/extranet.chap.junta-andalucia.es\/dokuwiki\/!ssdj\/","has_tags":"Tag","has_wrap":"Wrap","wrapDiv":"WRAP","wrapSpan":"wrap","ckgEdPaste":"off","rel_links":1,"ckg_template":"bootstrap3","plugins":{"edittable":{"default columnwidth":""}},"htmlok":1,"plugin":{"datatables":{"config":[],"enableForAllTables":0}},"isadmin":0,"isauth":1,"move_renameokay":false,"id":"net:procedimientos:alta-disponibilidad","namespace":"net:procedimientos","ACT":"export_xhtml","useHeadingNavigation":0,"useHeadingContent":0};
+/*!]]>*/</script>
+<script charset="utf-8" src="/dokuwiki/!ssdj/lib/exe/jquery.php?tseed=34a552433bc33cc9c3bc32527289a0b2" defer="defer"></script>
+<script charset="utf-8" src="/dokuwiki/!ssdj/lib/exe/js.php?t=bootstrap3&amp;tseed=fade0092c81b3b15be1b7fd1b8394d30" defer="defer"></script>
+<script type="text/javascript" charset="utf-8" src="/dokuwiki/!ssdj/lib/plugins/ckgedit/scripts/mediamgr.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net/js/jquery.dataTables.min.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net-fixedheader-dt/js/fixedHeader.dataTables.min.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net-fixedcolumns-dt/js/fixedColumns.dataTables.min.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net-buttons/js/dataTables.buttons.min.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net-buttons/js/buttons.html5.min.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net-buttons/js/buttons.print.min.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/jszip/dist/jszip.min.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/pdfmake/build/pdfmake.min.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/pdfmake/build/vfs_fonts.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net-bs/js/dataTables.bootstrap.min.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net-buttons-bs/js/buttons.bootstrap.min.js" defer="defer"></script>
+<!--<![endif]-->
+
+    <script type="text/javascript">
+    //<![CDATA[ 
+    function LoadScript( url )
+    {
+     document.write( '<scr' + 'ipt type="text/javascript" src="' + url + '"><\/scr' + 'ipt>' ) ;        
+
+    }
+   function LoadScriptDefer( url )
+    {
+     document.write( '<scr' + 'ipt type="text/javascript" src="' + url + '" defer><\/scr' + 'ipt>' ) ;        
+
+    }
+//]]> 
+
+ </script>
+ </head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc" class="dw__toc">
+<h3 class="toggle">Tabla de Contenidos</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#procedimiento_de_alta_disponibilidad_y_redundancia">Procedimiento de Alta Disponibilidad y Redundancia</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#infraestructura_por_sede">1. Infraestructura por Sede</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#fortinet_fortigate">1.1. Fortinet (FortiGate)</a></div></li>
+<li class="level3"><div class="li"><a href="#switches_multimarca">1.2. Switches Multimarca</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#alta_disponibilidad_de_red">2. Alta Disponibilidad de Red</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#redundancia_de_enlace">2.1. Redundancia de Enlace</a></div></li>
+<li class="level3"><div class="li"><a href="#servicios_internos">2.2. Servicios Internos</a></div></li>
+<li class="level3"><div class="li"><a href="#ha_fortigate">2.3. HA FortiGate</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#integracion_con_switches">3. Integración con Switches</a></div></li>
+<li class="level2"><div class="li"><a href="#supervision_backups_y_failover">4. Supervisión, Backups y Failover</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#supervision">4.1. Supervisión</a></div></li>
+<li class="level3"><div class="li"><a href="#backups">4.2. Backups</a></div></li>
+<li class="level3"><div class="li"><a href="#simulacion_de_fallos">4.3. Simulación de Fallos</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#procedimientos_operativos_por_sede">5. Procedimientos Operativos por Sede</a></div></li>
+<li class="level2"><div class="li"><a href="#recomendaciones">6. Recomendaciones</a></div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1" id="procedimiento_de_alta_disponibilidad_y_redundancia">Procedimiento de Alta Disponibilidad y Redundancia</h1>
+<div class="level1">
+
+<p>
+<strong>Entorno</strong>: 160 sedes con Fortinet + switches multivendor  
+</p>
+
+<p>
+<strong>Objetivo</strong>: Mantener continuidad operativa y minimizar interrupciones
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Procedimiento de Alta Disponibilidad y Redundancia&quot;,&quot;hid&quot;:&quot;procedimiento_de_alta_disponibilidad_y_redundancia&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:1,&quot;range&quot;:&quot;1-201&quot;} -->
+<h2 class="sectionedit2" id="infraestructura_por_sede">1. Infraestructura por Sede</h2>
+<div class="level2">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;1. Infraestructura por Sede&quot;,&quot;hid&quot;:&quot;infraestructura_por_sede&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:2,&quot;range&quot;:&quot;202-242&quot;} -->
+<h3 class="sectionedit3" id="fortinet_fortigate">1.1. Fortinet (FortiGate)</h3>
+<div class="level3">
+<ul>
+<li class="level1"><div class="li"> FortiGate en cada sede (FG-40F, FG-60F, etc.).</div>
+</li>
+<li class="level1"><div class="li"> Configuración HA (activo-pasivo) si hay 2 unidades.</div>
+</li>
+<li class="level1"><div class="li"> Dual WAN: fibra/MPLS + 4G/5G.</div>
+</li>
+<li class="level1"><div class="li"> VPN IPsec con redundancia.</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;1.1. Fortinet (FortiGate)&quot;,&quot;hid&quot;:&quot;fortinet_fortigate&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:3,&quot;range&quot;:&quot;243-452&quot;} -->
+<h3 class="sectionedit4" id="switches_multimarca">1.2. Switches Multimarca</h3>
+<div class="level3">
+<ul>
+<li class="level1"><div class="li"> VLANs gestionadas desde FortiGate o L3 externo.</div>
+</li>
+<li class="level1"><div class="li"> Puerto trunk entre switch y FortiGate.</div>
+</li>
+<li class="level1"><div class="li"> PortFast, STP habilitado.</div>
+</li>
+<li class="level1"><div class="li"> Configuración de LAG si es posible.</div>
+</li>
+<li class="level1 node"><div class="li"> Compatibilidad con:</div>
+<ol>
+<li class="level2"><div class="li"> HP Aruba</div>
+</li>
+<li class="level2"><div class="li"> D-Link</div>
+</li>
+</ol>
+</li>
+</ul>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;1.2. Switches Multimarca&quot;,&quot;hid&quot;:&quot;switches_multimarca&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:4,&quot;range&quot;:&quot;453-706&quot;} -->
+<h2 class="sectionedit5" id="alta_disponibilidad_de_red">2. Alta Disponibilidad de Red</h2>
+<div class="level2">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;2. Alta Disponibilidad de Red&quot;,&quot;hid&quot;:&quot;alta_disponibilidad_de_red&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:5,&quot;range&quot;:&quot;707-749&quot;} -->
+<h3 class="sectionedit6" id="redundancia_de_enlace">2.1. Redundancia de Enlace</h3>
+<div class="level3">
+<ul>
+<li class="level1"><div class="li"> WAN Link Health Monitor en FortiGate.</div>
+</li>
+<li class="level1"><div class="li"> SD-WAN Fortinet para balanceo automático.</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;2.1. Redundancia de Enlace&quot;,&quot;hid&quot;:&quot;redundancia_de_enlace&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:6,&quot;range&quot;:&quot;750-878&quot;} -->
+<h3 class="sectionedit7" id="servicios_internos">2.2. Servicios Internos</h3>
+<div class="level3">
+<ul>
+<li class="level1"><div class="li"> <abbr title="Domain Name System">DNS</abbr> interno redundante o relay.</div>
+</li>
+<li class="level1"><div class="li"> DHCP gestionado por FortiGate.</div>
+</li>
+<li class="level1"><div class="li"> Monitorización de servicios mediante ICMP/TCP.</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;2.2. Servicios Internos&quot;,&quot;hid&quot;:&quot;servicios_internos&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:7,&quot;range&quot;:&quot;879-1036&quot;} -->
+<h3 class="sectionedit8" id="ha_fortigate">2.3. HA FortiGate</h3>
+<div class="level3">
+<ul>
+<li class="level1"><div class="li"> HA Activo-Pasivo con heartbeat.</div>
+</li>
+<li class="level1"><div class="li"> Sincronización de configuración.</div>
+</li>
+<li class="level1"><div class="li"> Backup automático.</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;2.3. HA FortiGate&quot;,&quot;hid&quot;:&quot;ha_fortigate&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:8,&quot;range&quot;:&quot;1037-1164&quot;} -->
+<h2 class="sectionedit9" id="integracion_con_switches">3. Integración con Switches</h2>
+<div class="level2">
+<ul>
+<li class="level1"><div class="li"> Inter-VLAN routing en FortiGate o L3.</div>
+</li>
+<li class="level1"><div class="li"> FortiLink (si hay FortiSwitch).</div>
+</li>
+<li class="level1"><div class="li"> Port-security/MAC binding.</div>
+</li>
+<li class="level1"><div class="li"> Supervisión SNMP.</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;3. Integraci\u00f3n con Switches&quot;,&quot;hid&quot;:&quot;integracion_con_switches&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:9,&quot;range&quot;:&quot;1165-1339&quot;} -->
+<h2 class="sectionedit10" id="supervision_backups_y_failover">4. Supervisión, Backups y Failover</h2>
+<div class="level2">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;4. Supervisi\u00f3n, Backups y Failover&quot;,&quot;hid&quot;:&quot;supervision_backups_y_failover&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:10,&quot;range&quot;:&quot;1340-1388&quot;} -->
+<h3 class="sectionedit11" id="supervision">4.1. Supervisión</h3>
+<div class="level3">
+<ul>
+<li class="level1"><div class="li"> FortiManager para centralización.</div>
+</li>
+<li class="level1"><div class="li"> Zabbix/PRTG para túneles, interfaces y latencia.</div>
+</li>
+<li class="level1"><div class="li"> FortiCloud como alternativa.</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;4.1. Supervisi\u00f3n&quot;,&quot;hid&quot;:&quot;supervision&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:11,&quot;range&quot;:&quot;1389-1543&quot;} -->
+<h3 class="sectionedit12" id="backups">4.2. Backups</h3>
+<div class="level3">
+<ul>
+<li class="level1"><div class="li"> Backup semanal de FortiGate (FortiManager o SSH).</div>
+</li>
+<li class="level1"><div class="li"> Backup manual de switches tras cambios.</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;4.2. Backups&quot;,&quot;hid&quot;:&quot;backups&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:12,&quot;range&quot;:&quot;1544-1665&quot;} -->
+<h3 class="sectionedit13" id="simulacion_de_fallos">4.3. Simulación de Fallos</h3>
+<div class="level3">
+<ul>
+<li class="level1"><div class="li"> Fallo WAN principal → comprobar failover.</div>
+</li>
+<li class="level1"><div class="li"> Caída FortiGate primario (en HA) → comprobar conmutación.</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;4.3. Simulaci\u00f3n de Fallos&quot;,&quot;hid&quot;:&quot;simulacion_de_fallos&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:13,&quot;range&quot;:&quot;1666-1817&quot;} -->
+<h2 class="sectionedit14" id="procedimientos_operativos_por_sede">5. Procedimientos Operativos por Sede</h2>
+<div class="level2">
+<div class="table sectionedit15"><table class="inline">
+	<thead>
+	<tr class="row0">
+		<th class="col0 leftalign"> Tarea                       </th><th class="col1 leftalign"> Descripción                                               </th>
+	</tr>
+	</thead>
+	<tr class="row1">
+		<td class="col0 leftalign"> Alta nueva sede            </td><td class="col1 leftalign"> Checklist: conectividad dual, FortiGate, test de VPN      </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0 leftalign"> Cambio de switch           </td><td class="col1 leftalign"> Validar VLAN, trunk, compatibilidad con FortiGate         </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0 leftalign"> Configuración de VPN       </td><td class="col1 leftalign"> Script IPSec vía CLI/<abbr title="Application Programming Interface">API</abbr> FortiManager                     </td>
+	</tr>
+	<tr class="row4">
+		<td class="col0 leftalign"> Actualización FortiOS      </td><td class="col1 leftalign"> Desde FortiManager o local (aislado)                      </td>
+	</tr>
+	<tr class="row5">
+		<td class="col0 leftalign"> Integración WiFi           </td><td class="col1 leftalign"> VLAN tagging y reenvío a FortiGate                        </td>
+	</tr>
+</table></div>
+<!-- EDIT{&quot;target&quot;:&quot;table&quot;,&quot;name&quot;:&quot;&quot;,&quot;hid&quot;:&quot;table&quot;,&quot;secid&quot;:15,&quot;range&quot;:&quot;1869-2421&quot;} -->
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;5. Procedimientos Operativos por Sede&quot;,&quot;hid&quot;:&quot;procedimientos_operativos_por_sede&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:14,&quot;range&quot;:&quot;1818-2422&quot;} -->
+<h2 class="sectionedit16" id="recomendaciones">6. Recomendaciones</h2>
+<div class="level2">
+<ul>
+<li class="level1"><div class="li"> Estandarizar modelos de switch por zona.</div>
+</li>
+<li class="level1"><div class="li"> Etiquetado físico y lógico de puertos y enlaces.</div>
+</li>
+<li class="level1 node"><div class="li"> Inventario por sede:</div>
+<ol>
+<li class="level2"><div class="li"> FortiGate modelo y versión</div>
+</li>
+<li class="level2"><div class="li"> ISP principal y backup</div>
+</li>
+<li class="level2"><div class="li"> Marca/modelo de switches</div>
+</li>
+<li class="level2"><div class="li"> VLANs y puertos usados</div>
+</li>
+</ol>
+</li>
+</ul>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;6. Recomendaciones&quot;,&quot;hid&quot;:&quot;recomendaciones&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:16,&quot;range&quot;:&quot;2423-&quot;} -->
+<!-- no cachefile used, but created /srv/www/dokuwikifarm/ssdj/data/cache/7/7f16b1b380d0e15c44c4bf2126a1a7e0.xhtml -->
+</div>
+</body>
+</html>
+

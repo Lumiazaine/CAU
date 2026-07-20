@@ -1,0 +1,26 @@
+﻿
+====== Mantenimiento multimarca antiguo ======
+
+Actualmente, los casos con soporte técnico deben abrirse a través de [[https://naossuite.juntadeandalucia.es/autogestion/home|NAOS]] usando nuestro usuario LDAP, y de la siguiente manera.
+
+Podemos abrir una nueva solicitud en la parte superior de la página:
+
+{{:be66561ac13f945a869d2f2c9652aabb.png}}
+
+Y siempre debemos marcarla como petición.
+
+{{:cb10fbe82e610c99b18a5844e225b369.png}}
+
+Después podemos poner las opciones TEMNI y MCH en la búsqueda avanzada y escoger la marca del equipo,
+
+{{:3d2a05dca8f025a2d8561ad6bb5dd39f.png}}
+
+O simplemente buscar la marca en la búsqueda predictiva y seleccionar la opción que corresponda.
+
+{{:80e4df2cbed9c379acd201fcfffcd96d.png}}
+
+En caso de que no nos salgan estas opciones, debemos ponernos en contacto con info.crija@juntadeandalucia.es e indicarles a qué organismo pertenecemos y nuestra cuenta de LDAP para que la puedan habilitar para este tipo de peticiones.
+
+Hecho eso, podemos proceder a dar los detalles de la incidencia para que los revisen desde CRIJA y desde el soporte técnico.
+
+

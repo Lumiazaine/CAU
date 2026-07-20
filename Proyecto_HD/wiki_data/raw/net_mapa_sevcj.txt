@@ -1,0 +1,49 @@
+﻿
+====== Red SEVCJ ======
+
+=== Inventario de Equipamiento ===
+  * **Routers**: 2 (Alta Disponibilidad, conectados al core)
+  * **Firewalls**: 2 (entrada y salida al core)
+  * **Cores**: 2 (HPE 5820AF-24XG JG219B)
+  * **Switches de acceso**: 4 por planta (aprox.)
+  * **Fibra óptica**:
+    * 4 x SFP 1Gb LC-SX para TOR HP (5820AF-24XG)
+    * 40 x Latiguillos F.O. dúplex 50/125 (OM3/OM4)
+    * Transceivers HP SFP+ y Finisar
+
+=== Topología ===
+  * Los 2 routers están en alta disponibilidad.
+  * Los firewalls entran y salen directamente del core.
+  * De cada core salen **4 enlaces troncales** (p0, p1, p2, p3).
+  * Acceso por plantas conectado mediante switches al core.
+
+=== VLANs ===
+  * **VLAN 101** → 10.241.18.0/24
+    * Dirección de red: 10.241.18.0
+    * Rango usable: 10.241.18.1 – 10.241.18.254
+    * Broadcast: 10.241.18.255
+  * **Subred 10.241.18.240/28**
+    * Dirección de red: 10.241.18.240
+    * Usables: 10.241.18.241 – 10.241.18.254 (14 IPs)
+    * Broadcast: 10.241.18.255
+  * **Subred 10.241.17.240/28**
+    * Dirección de red: 10.241.17.240
+    * Usables: 10.241.17.241 – 10.241.17.254
+    * Broadcast: 10.241.17.255
+
+=== Direccionamiento ===
+  * Core B (HPE 5820AF-24XG): 10.241.16.2
+  * VLAN 101 Gateway: 10.241.18.1
+  * Bloques reservados /28:
+    * 10.241.18.240/28 → asignación específica
+    * 10.241.17.240/28 → asignación específica
+
+=== Documentación relacionada ===
+  * [[http://cmdb.justicia.junta-andalucia.es/cmdbuild/index.jsp|CMDB Justicia]]
+  * [[http://cmdbr2u.justicia.junta-andalucia.es/ready2use/ui/#login|CMDB Ready2Use]]
+
+=== Observaciones ===
+  * Los routers y firewalls están en alta disponibilidad.
+  * En apilamiento de switches de core 
+  * Pendiente estandarización de cableado y documentación en CMDB.
+

@@ -1,0 +1,134 @@
+﻿
+===== 10. Monitorización con Zabbix =====
+
+==== 10.1 Objetivo ====
+
+Establecer el estándar de monitorización de red en las sedes mediante la plataforma Zabbix, garantizando visibilidad centralizada, alertas proactivas y trazabilidad de estado de equipos, servicios críticos y enlaces WAN.
+
+==== 10.2 Acceso al sistema de monitorización ====
+
+  * URL oficial Zabbix:
+    * [[https://iusslmonitor06.justicia.junta-andalucia.es/|Zabbix - Junta de Andalucía]]
+  * Acceso restringido a perfiles técnicos con doble autenticación
+  * Permite:
+    - Supervisar estado de sedes y dispositivos
+    - Consultar alertas activas
+    - Acceder a históricos y gráficas
+    - Ver mapas de red y estado de VPNs
+
+==== 10.3 Equipos que deben estar integrados en Zabbix ====
+
+  * Router de borde
+  * Firewall perimetral
+  * Switch principal y switches de acceso
+  * Access Points (vía controlador o como hosts individuales)
+  * SAI / UPS
+  * Cámaras / NVR / equipos auxiliares (si se requiere visibilidad)
+  * Servidores locales (si existen)
+  * Enlaces VPN entre sedes (por item ICMP o script personalizado)
+
+==== 10.4 Parámetros a monitorizar ====
+
+  * Estado de conectividad (ICMP ping)
+  * Estado de túneles VPN (script de verificación o SNMP OID)
+  * Consumo de CPU, RAM, temperatura
+  * Estado de interfaces (up/down, tráfico, errores)
+  * Estado de alimentación en SAI
+  * Latencia hacia HQ y pérdida de paquetes
+  * Estado SNMP de switches (PoE, errores, temperatura)
+  * Alarma de caída de servicios críticos
+
+==== 10.5 Requisitos de configuración en cada equipo ====
+
+  * **SNMP v2c o v3** habilitado (preferencia v3 con autenticación SHA/AES)
+  * Ping habilitado (ICMP)
+  * Clock sincronizado (NTP)
+  * Nombre del equipo (hostname) normalizado:
+    <code>SEDE-TIPO-EQUIPO-XX</code>
+    Ejemplo: VITORIA-FW-01
+
+  * Configurar comunidad SNMP estándar: `zbx_ro_public` (v2) o perfil `zabbix` en v3
+  * Firewall con puerto SNMP y ping abiertos hacia el servidor Zabbix central
+
+==== 10.6 Buenas prácticas en Zabbix ====
+
+  * Utilizar plantillas estándar (templates) por tipo de equipo:
+    - Template SNMP Interfaces
+    - Template SNMP Cisco / Fortinet / Dell
+    - Template UPS (APC / EATON)
+    - Template ICMP Ping Only (para túneles VPN o router remoto)
+  
+  * Agrupar los hosts por:
+    - Grupo sede (ej. G_Sede_Murcia)
+    - Grupo tipo (ej. G_Firewalls, G_Switches)
+
+  * Usar macros por sede:
+    <code>
+    {$SEDE}=MURCIA  
+    {$VPN_REMOTE_IP}=80.80.80.1  
+    </code>
+
+  * Mapas visuales por sede (Zabbix Maps) con estado de red
+
+==== 10.7 Política de alertas y notificaciones ====
+
+^ Nivel de severidad ^ Descripción                                       ^ Tiempo de respuesta       ^  
+| Info                | Cambio de estado no crítico                      | Monitoreo periódico        |
+| Warning             | Umbrales superados (ej. 80% CPU, VPN flapping)   | Intervención en < 24h      |
+| High                | Túnel VPN caído, switch sin respuesta            | Atención inmediata < 1h    |
+| Disaster            | Router, firewall o red completa caída            | Actuación urgente (< 30m)  |
+
+*Notificaciones configuradas vía:*  
+  * Correo electrónico a grupo redes  
+  * Telegram / MS Teams (si aplica integración webhook)  
+  * Escalado automático si el estado persiste más de 30 min
+
+==== 10.8 Elementos adicionales recomendados ====
+
+  * **Mapa de red Zabbix por sede:**  
+    - Mostrar relación entre firewall, switches y APs  
+    - Usar líneas verdes/rojas para visibilidad del estado  
+
+  * **Plantillas personalizadas por fabricante**  
+    - Fortinet, Cisco, Dell, Mikrotik, etc.  
+    - Asignadas automáticamente vía LLD o a mano
+
+  * **Scripts de verificación externa**  
+    - Ping desde Zabbix proxy en sede  
+    - Script para validación VPN (ping remoto + SNMP OID de túnel activo)
+
+  * **Zabbix Proxy** (en sedes grandes o con enlaces inestables)  
+    - Linux mini-PC o contenedor dedicado  
+    - Recolecta y envía datos cuando haya conexión
+
+==== 10.9 Plantilla de documentación por sede (monitorización) ====
+
+^ Campo                         ^ Ejemplo                         ^
+| Sede                         | ZARAGOZA                        |
+| Hosts monitorizados          | ZARAGOZA-FW-01, ZARAGOZA-SW-01 |
+| SNMP versión                 | v3 (SHA/AES)                    |
+| Comunidad SNMP / credencial  | zbx_ro_public / zabbix_user     |
+| IPs monitorizadas            | 192.168.10.1 / 10.10.10.254     |
+| Templates asignadas          | SNMP_Fortigate, SNMP_Switch     |
+| VPN monitorizada             | 100.100.100.1 (HQ)              |
+| Proxy en sede                | No                              |
+| Alerta crítica activa        | No                              |
+| Última revisión en Zabbix    | 06/08/2025                      |
+
+==== 10.10 Revisión y mantenimiento de la monitorización ====
+
+  * Verificación mensual de:
+    - Último dato recibido por cada host
+    - Estado de VPNs y túneles
+    - Equipos sin respuesta
+    - Umbrales mal configurados o sin plantilla
+
+  * Auditoría semestral de:
+    - Hosts duplicados o mal agrupados
+    - Plantillas desactualizadas
+    - Notificaciones incorrectas
+    - Fallos de conexión del proxy
+
+=====  Historial de cambios =====
+^ Versión ^ Fecha ^ Cambio ^ Autor ^  
+| 1.0 | 2025-07-18 | Creación del documento | GTSR|

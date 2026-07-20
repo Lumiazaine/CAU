@@ -1,0 +1,821 @@
+﻿
+<WRAP> 
+<panel type="primary" title="NUMO - Información General">
+<WRAP>  
+<panel type="info" title="INTRODUCCIÓN">
+
+===== Introducción =====
+
+La Ley Orgánica 1/2025, de 2 de enero, de medidas en materia de eficiencia del Servicio Público de Justicia (LO 1/2025) ha modificado el modelo organizativo de la Administración de Justicia, mediante la creación y constitución de los Tribunales de Instancia (TI), compuesto por Secciones, y de las Oficinas judiciales que se redefinen y reestructuran en servicios comunes.
+
+**El nuevo modelo organizativo configura una estructura judicial escalonada en tres niveles**: 
+
+ * Los **órganos judiciales colegiados** que no han sufrido variación en la regulación de la LOPJ tras la modificación operada por la LO 1/2025 (Tribunal Supremo, Tribunales Superiores de Justicia, Audiencia Nacional y Audiencias Provinciales); el **Tribunal de Instancia**, como órgano único que integra a los antiguos juzgados unipersonales y concentra la competencia en las secciones, por ámbito jurisdiccionales (civil, penal, social y contencioso administrativos) o por materias dentro de una misma jurisdicción. Así, en el orden jurisdiccional civil: familia, infancia y capacidad y mercantil. En el orden jurisdiccional penal: violencia sobre la mujer y violencia contra la infancia y adolescencia, además, de la especialidad menores y vigilancia penitenciaria.  El Tribunal de Instancia es una organización colegiada, pero **no** es un tribunal colegiado a efectos de decisión. El referente es la plaza judicial, porque la Ley Orgánica 1/2025 establece que los jueces y magistrados reciben los asuntos vía reparto en función de la plaza que ocupan.
+
+ * Las **Secciones del Tribunal de Instancia**, que actúan como unidades funcionales internas del Tribunal de Instancia, especializadas por orden jurisdiccional y en algunos casos por materias.
+
+ * El **servicio común o los servicios comunes** en los que se estructura la **Oficina Judicial**, que proporcionan el soporte organizativo y administrativo necesario para la tramitación de los procedimientos, garantizando una gestión homogénea y eficiente.  Son "un conjunto de medios" que sirven de manera conjunta a todas las plazas, y son los siguientes: el Servicio Común de Tramitación (SCT), el Servicio Común de Ejecución (SCEJ) y el Servicio Común General (SCG). En los partidos judiciales sede de Audiencia Provincial (o Sección desplazada de la Audiencia Provincial) o de Sala TSJA, estos tribunales tendrá SCT propio diferenciado del SCT del Tribunal de Instancia. Por otro lado, pasan a ser **órganos dependientes del SCG**, los servicios de registro y reparto (antes oficinas de registro y reparto),  y los servicios de actos de comunicación (antes SCNE)” preexistentes.
+
+Esta estructura permite una distribución más flexible del trabajo, una mayor especialización y una respuesta más coordinada dentro de cada jurisdicción y de cada ámbito material de actuación de los órganos judiciales.
+
+Los cambios organizativos han implicado una **redenominación** de todas las unidades funcionales, así como una adaptación del sistema de gestión procesal en el acceso a las plazas judiciales (antiguos juzgados) y a los servicios comunes. Se **redefinen los roles, accesos y dependencias funcionales**: los funcionarios y los letrados de la Administración de Justicia se integran en los servicios comunes y, desde los mismos, prestan asistencia a las plazas judiciales de los Tribunales de Instancia existentes en cada partido judicial y dotadas de un Magistrado o Magistrada y, según el partido judicial, también a los Magistrados de la Audiencia Provincial y del Tribunal Superior de Justicia.
+
+</panel>
+
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="FASES DE IMPLANTACIÓN">
+
+===== Fases de Implantación LO 1/2025 =====
+
+El modelo (**A** en el que la Oficina Judicial solo se sirve de un tipo de servicio común, **B** en el que la Oficina Judicial se sirve de dos tipos de servicios comunes, **C** en el que la Oficina Judicial se sirve de tres tipos de servicios comunes) elegido en Andalucía para cada uno de los partidos judiciales de Andalucía para las tres fases que indica la ley, y que abajo se describen, está publicado en la [[https://juntadeandalucia.es/boja/2025/99/32|Orden de 22 de mayo de 2025, por la que se acuerda el diseño y estructura de la Oficina Judicial para los Tribunales Colegiados y Tribunales de Instancia y la Oficina de la Secretaría de Gobierno del Tribunal Superior de Justicia en la Comunidad Autónoma de Andalucía]]. En el **ANEXO II** de esta Orden figura la relación de partidos judiciales que se transforman en cada una de las fases siguientes así como el modelo elegido para cada uno de ellos.
+
+  * __Fase I__.- 1 de julio de 2025: Juzgados de Primera Instancia e Instrucción y los Juzgados de Violencia sobre la Mujer, en aquellos partidos judiciales donde no exista otro tipo de Juzgados, se transforman, respectivamente, en Secciones Civiles y de Instrucción Únicas y Secciones de Violencia sobre la Mujer. En Andalucía comprende** setenta partidos con juzgados mixtos**.
+  * __Fase II__.- 1 de octubre de 2025: los Juzgados de Primera Instancia, los Juzgados de Instrucción y los Juzgados de Violencia sobre la Mujer, en los partidos judiciales donde no exista otro tipo de Juzgados, se transforman, respectivamente, en Secciones Civiles, Secciones de Instrucción y Secciones de Violencia sobre la Mujer. En Andalucía, **tres partidos judiciales**  (Marbella, Torremolinos, Fuengirola).
+  * __Fase III__.- 31 de diciembre de 2025: se transforman en las respectivas Secciones los restantes Juzgados. **Doce partidos judiciales**, entre los que se encuentran los de estructura más compleja así como las capitales (Almería, Cádiz, Algeciras, Jerez de la Frontera, Puerto de Santa María, Córdoba, Granada, Motril, Huelva, Jaén, Málaga y Sevilla).
+
+**Especialidades de la fase III**:
+
+  * **No** cambia la denominación de los órganos colegiados, esto es, las Secciones de la Audiencia Provincial y las Salas TSJ, si bien tanto la Audiencia Provincial como el Tribunal Superior de Justicia contará con un Servicio Común de Tramitación propio **diferenciado** del Servicio Común de Tramitación del Tribunal de Instancia (que prestará su asistencia exclusivamente a las plazas judiciales correspondientes a los antiguos juzgados u órganos unipersonales). En cambio, el Servicio Común General y el Servicio Común de Ejecución será transversal, prestando asistencia al Tribunal de Instancia y, si existe en el partido judicial, también a la Audiencia Provincial y/o Tribunal Superior de Justicia.
+
+  * **Creación** de las nuevas Secciones de Familia, Infancia y Capacidad del Tribunal de Instancia: los antiguos juzgados exclusivos de familia (26 en Andalucía) establece la LEO que **no** pasan a ocupar la plaza en la Sección respectiva del Tribunal de Instancia con la misma numeración cardinal del Juzgado de procedencia, sino que la numeración cardinal con que se identificará cada plaza dentro de la Sección de Familia, Infancia y Capacidad comenzará por la unidad y seguirá correlativamente, con el mismo orden de los Juzgados de procedencia. La numeración de las plazas de origen quedará sin asignar a otro juez hasta que se amplíe el número de estos, y se vayan cubriendo por el mismo orden. **Importante: en Adriano etapa cero, como solución de contingencia, se renombran los juzgados de familia exclusivos manteniendo código actual (ver apartado explicativo etapa cero)**. 
+
+  * **Creación** de las nuevas Secciones de Violencia, Infancia y Adolescencia del Tribunal de Instancia. En Andalucía se crea en Málaga a 31/12/2025 la "Sección de Violencia contra la Infancia y la Adolescencia del Tribunal de Instancia de Málaga. Plaza nº 1".
+
+  * Los **Servicios Comunes con funciones de tramitación**, esto es, el Servicio Común de Tramitación (SCT) o el Servicio Común de Ejecución (SCEJ), se **desglosan** en Adriano en la fase III en distintos tipos por equivalencia con la Sección del Tribunal de Instancia a cuyas plazas judiciales asisten. En este sentido, a modo de ejemplo, en Málaga para el Servicio Común de Tramitación, además del **supra código** Servicio Común de Tramitación del Tribunal de Instancia de Málaga (2906700400), tendremos: Servicio Común de Tramitación del Tribunal de Instancia de Málaga. Civil (2906700411); Servicio Común de Tramitación del Tribunal de Instancia de Málaga. Mercantil (2906700412); Servicio Común de Tramitación del Tribunal de Instancia de Málaga. Familia, Infancia y Capacidad (2906700413); Servicio Común de Tramitación del Tribunal de Instancia de Málaga. Instrucción (2906700421); etc. Igual el SCEJ.
+
+  *   La Instrucción n.º 4/2025 del Secretario de Gobierno sobre pautas organizativas y operativas previas para la correcta Implantación de la Oficina Judicial incluye en apartado IV Directrices específicas de transición antes del día 31/12/2025.
+{{ :pag_procedimientos_generales:slide3.jpg?1000 |}}
+
+</panel>
+
+</WRAP>
+
+<WRAP>  
+
+<panel type="info" title="NUMO - NUEVA DENOMINACIÓN DE ÓRGANOS JUDICIALES y SERVICIOS COMUNES">
+
+En el momento en el que se inicia cada Fase de implantación de la L.O. 1/2025, se pierde la terminología de estos órganos para pasar a la nueva denominación:
+
+{{:pag_procedimientos_generales:oficina_1.png?600}}
+
+{{:pag_procedimientos_generales:oficina_2.png?600}}
+
+De este modo, conforme al nuevo modelo organizativo planteado por la LO 1/2025, los actuales **órganos judiciales (Juzgados y Tribunales) **se sustituyen por **Plazas Judiciales**, numeradas correlativamente, de la Sección correspondiente del Tribunal de Instancia del partido judicial. Ejemplo: el Juzgado de Primera Instancia e Instrucción nº 1 de Lora del Río, se transforma en Sección Civil y de Instrucción del Tribunal de Instancia de Lora del Río. Plaza nº 1. Con la **excepción **de los Juzgados exclusivos de Familia los cuales, tal y como se describe en la tabla superior, reinician su numeración como Plaza nº 1.
+
+**Consulta de las nuevas denominaciones**:
+
+  * Fuente propia SSDJ:. Vista ORGANOS: [[https://infosistemas.justicia.junta-andalucia.es/TEMIS/informe.php?f=statspat&type=ORGANOS|Estadisticas TEMIS]]
+  * Fuente propia SSDJ: **denominaciones PRE-NUMO y POST-NUMO** {{ :pag_procedimientos_generales:andalucia_-_plazas_judiciales_numo.ods |Descripción Pre-Post NUMO}}
+  * Fuente Ministerio de Justicia Equivalencia_Jdo_vs_Plaza_TI [[https://www.administraciondejusticia.gob.es/buscador-de-organos]]
+  * Fuente CTEAJE. Tablas maestras de la Normativa Técnica CTEAJE[[https://www.administraciondejusticia.gob.es/cteaje/tablas-de-datos-maestros|https://www.administraciondejusticia.gob.es/cteaje/tablas-de-datos-maestros]] Clasificación: Unidades Funcionales. Subcategoría: órganos Judiciales, y Subcategoría: Servicios Comunes y Unidades administrativas.
+
+</panel>
+ </WRAP>
+
+<WRAP> 
+<panel type="info" title="NUMO - OFICINA JUDICIAL (OJ)">
+
+===== NUMO - OFICINA JUDICIAL=====
+
+En **todos **los partidos judiciales existe un Servicio Común de Tramitación y, además, **podrán **crearse otros tipos de servicios comunes tal y como se explica a continuación:
+
+  * Oficina Judicial con **un tipo de Servicio Común (modelo A)**, siendo este: **Servicio Común de Tramitación (SCT)**. Se consideran órganos //dependientes//  del SCT los Servicios de Registro y Reparto y los Servicios de actos de comunicaciones (en el caso de que existan).
+
+{{:pag_procedimientos_generales:partido_1.png?500}}
+
+  * Oficina Judicial con **dos tipos de Servicios Comunes (modelo B)**, siendo estos: **Servicio Común de Tramitación**  (SCT) y** Servicio Común General**  (SCG). Se consideran órganos //dependientes//  del SCG los Servicios de Registro y Reparto y los Servicios de actos de comunicaciones (en el caso de que existan).
+
+{{:pag_procedimientos_generales:ll.png?500}}
+
+  * Oficina Judicial con **tres tipos de Servicios Comunes (modelo C)**, siendo estos: **Servicio Común de Tramitación**  (SCT), **Servicio Común General**  (SCG) y **Servicio Común de Ejecución**  (SCEJ). Se consideran órganos //dependientes//  del SCG los Servicios de Registro y Reparto y los Servicios de actos de comunicaciones. Las sedes de la NOJ (El Ejido y Vélez-Málaga) podrán continuar tramitando las ejecuciones tramitadas en los Servicios Comunes Procesales de Ejecución del anterior modelo organizativo de la NOJ mediante la selección de perfiles en Adriano correspondientes a estos servicios.
+
+{{:pag_procedimientos_generales:dh.png?500}}
+
+===== NUMO - OFICINA JUSTICIA EN EL MUNICIPIO (OJM)=====
+
+Son aquellas unidades que, **sin** estar integradas en la estructura de la Oficina judicial, se constituyen en el ámbito de la organización de la Administración de Justicia para la prestación de servicios a la ciudadanía en los municipios donde no tenga su sede un Tribunal de Instancia existirá una Oficina de Justicia. Los juzgados de paz se convierte en oficinas de justicia en los municipios al constituirse cada Tribunal de Instancia, con el objetivo de evitar que quienes se encuentran en estos municipios tengan que desplazarse a las capitales para realizar aquellas gestiones ante la Administración que actualmente tienen que llevar a cabo presencialmente.
+
+El nuevo modelo regula la previsión de puestos de trabajo para personal funcionario de la Administración de Justicia destinados en la oficina de justicia en el municipio con actividad **compatible** en la oficina judicial del partido (municipios de población superior a 7.000 habitantes, en Andalucía afecta en más de 400 juzgados de paz).
+
+Con la reforma, se podrán realizar una serie de actos y trámites procesales de manera telemática, **superior** a los desarrollados en la actualidad por los Juzgados de Paz, se prestarán tres servicios con carácter **preceptivo**:
+
+  * a) La asistencia al juez o la jueza de paz del municipio en el ejercicio de las funciones que tenga atribuidas legalmente.
+  * b) La práctica de los actos de comunicación procesal con quienes residan en el municipio o municipios para los que presten sus servicios, siempre que los mismos no se hayan podido practicar por medios electrónicos.
+  * c) Los que, en su calidad de oficinas colaboradoras del Registro Civil, se establezcan en la ley o por vía reglamentaria.
+
+Únicamente **cuando el desarrollo de las herramientas informáticas y los medios materiales e instrumentales lo permita**, se prestarán a su vez una otros seis servicios, que van desde la práctica de actuaciones procesales con residentes o personas que desarrollen su profesión o trabajo en el municipio, la recepción de las solicitudes de reconocimiento del derecho a la asistencia jurídica gratuita y su remisión a los Colegios de la Abogacía encargados de su tramitación, así como las restantes actuaciones que puedan servir de apoyo a la gestión de estas solicitudes y su comunicación a los interesados, pasando por las solicitudes o gestión de peticiones de la ciudadanía, dirigidas a las Gerencias Territoriales del Ministerio de Justicia u órganos equivalentes en aquellas comunidades que tienen asumidas competencias en materia de Justicia, así como aquellos otros servicios que figuren en convenios de colaboración entre diferentes Administraciones Públicas.
+
+Adriano está en fase de análisis de adaptación para cubrir las las necesidades de conexión electrónica entre de ambas oficinas para que, desde la oficina de justicia en los municipios, el personal de la Administración de Justicia pueda acceder a los expedientes que sean necesarios para dar el servicio y para la tramitación (basado en el trabajo a distancia) de los procedimientos de la oficina judicial asignados.
+
+[[https://capacitacion.justicia.junta-andalucia.es/course/index.php?categoryid=23|Capacitaciones OFICINA DE JUSTICIA EN EL MUNICIPIO]]
+
+
+</panel></WRAP>
+
+<WRAP> <panel type="primary" title="NUMO - ETAPAS de adaptación de Adriano a NUMO"> <WRAP> <panel type="info" title="Introducción">
+
+===== ETAPA CERO ADRIANO (solución de configuración) =====
+
+A continuación, se muestra el modo de acceso al Sistema de Gestión Procesal Adriano atendiendo a la modificación del modelo organizativo de la Administración de Justicia según la LO 1/2025.
+
+**En esta etapa cero**:
+
+  * El enfoque de la adaptación de Adriano no implica migración de procedimientos, sino que es **por perfiles y visibilidad de expedientes**: El acceso a los expedientes para tramitación es por selección del perfil correspondiente a la plaza judicial del Tribunal de Instancia/ Audiencia Provincial/ TSJ propietario del asunto o procedimiento o, en su ámbito de actuación propio, al perfil del servicio de registro y reparto o servicio de actos de comunicación.
+
+  * No se incluye funcionalidad de conexión de Adriano de la OJ con la OJM.
+
+  * Especialidades en acoplamiento:
+
+    * En **fase I y fase II** se ha dado de alta a los gestores y tramitadores del SCT también en Registro y Reparto Instrucción, para aceptar los atestados telemáticos que pudieran recibirse fuera del horario del SCRR. Esto no se ha hecho en fase III.
+    * En la **fase III**:
+        *   Se aplica solución temporal a los 26 juzgados de familia exclusivos de Andalucía son re-denominados conforme a NUMO pero manteniendo su codificación actual, hasta capacitación de Adriano para migración a los nuevos códigos de Normativa Técnica CTEAJE. Ejemplo: el Juzgado de Primera Instancia Nº 6 de Almería (con código 0401342006) se re-denominará en Adriano como "Sección de Familia, Infancia y Capacidad del Tribunal de Instancia de Almería. Plaza nº 1 (antiguo Juzgado nº6)"; y el Juzgado de Primera Instancia Nº 10 de Almería (con código 0401342010) se re-denominará como "Sección de Familia, Infancia y Capacidad del Tribunal de Instancia de Almería. Plaza nº 2 (antiguo Juzgado nº10)".
+        *   Se han acoplado a todos los auxilios del SCG en todas las plazas para atención de información al público sin dependencia de limitaciones de las consultas centralizadas de Adriano.
+
+</panel></WRAP> 
+
+<WRAP> <panel type="info" title="Acceso usuarios">
+
+==== Acceso usuarios ====
+
+Diferenciaremos el acceso entre: en primer lugar, Jueces/Magistrados y en segundo lugar, Auxilio Judicial, Tramitador procesal, Gestor procesal y Letrado de la Administración de Justicia (LAJ)
+
+  * **Juez/Magistrado**: accederá a la plaza judicial de la Sección del Tribunal de Instancia a la que esté adscrito, así como en aquéllas en que sea sustituto, por lo que su perfil no sufrirá ningún cambio en el sistema.
+  * **LAJs y Personal J (Auxilio Judicial, Tramitador procesal, Gestor procesal)**: al logarse, accederán en primer lugar al **nuevo**  Servicio Común de referencia (SCT,SCG o SCEJ) al que estén adscritos. **Desde el mismo perfil**, accederán a las plazas judiciales o a los servicios que tengan asignados en TEMIS/Adriano en su perfil de usuario. Estos servicios son dependientes de los Servicios Comunes de referencia: Servicio de Registro y Reparto (dependiente del SCG), Servicio de Actos de Comunicación (antiguo SCNE, dependiente del SCG), el Servicio de Ejecución (Civil o Penal) en el caso de las antiguas sedes NOJ de (Vélez- Málaga y El Ejido) o, en fase III, los tipos o unidades en que puede desglosarse el SCT o el SCEJ.
+
+**IMPORTANTE. Para no afectar al servicio público de Justicia, en las actuaciones técnicas en Adriano de la fase III de carga automática y masiva de acoplamientos de LAJs, y de Personal-J, se garantiza el acceso a los órganos de origen**, es decir: 
+
+  * Los LAJs acoplados accederán tanto a los órganos correspondientes a sus nuevos centros de destino, como a aquellos órganos en los que, hasta el 31 de diciembre de 2025 (etapa pre-NUMO), vinieran ejerciendo funciones como titulares o suplentes, sin que se produzca su desacoplamiento automático.
+  * El Personal-J mantiene el acceso al órgano en el que viene prestando servicio hasta el 31 de diciembre (etapa pre-NUMO) sin que se produzca su desacoplamiento automático, y se añadirá el acceso adicional a aquellos órganos que se determinen en el ámbito de su acoplamiento cuando así se requiera.
+  * Todos los accesos actuales y futuros se reajustarán a petición de los LAJs competentes cuando éstos o sus superiores jerárquicos lo soliciten.
+
+<WRAP> 
+<panel type="info" title="Distribución de las carpetas en fase 1">
+==== Distribución de las carpetas en fase 1 ====
+{{:pag_procedimientos_generales:carpetas_numo_page-0001.jpg?800|}}
+</panel>
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Descripción del sistema">
+
+==== Operativa de acceso Adriano por los funcionarios/ LAJ ====
+
+El usuario se identificará en la plataforma como habitualmente, accediendo a través de Certificado o con Usuario y Contraseña.
+
+{{:pag_procedimientos_generales:acceso.png?800}}
+
+Una vez hemos accedido, el Sistema informará el nuevo Servicio Común de referencia (p.e. Servicio Común de Tramitación) al que esté adscrito el usuario, y el perfil de acceso (Auxilio, Gestor, Tramitador o LAJ). Cabe **destacar**  que el Servicio Común que aparece es meramente __informativo__, es decir, si accedemos a Adriano en el perfil "Servicio Común de Tramitación del Tribunal de Instancia" el usuario no puede buscar/ tramitar procedimientos.
+
+{{:pag_procedimientos_generales:1.png?1000}}
+
+{{:pag_procedimientos_generales:gestor_procesal_captura_1.png?1000|}}
+
+A continuación, el usuario deberá seleccionar la plaza o servicio dependiente correspondiente de entre los asignados de entre las opciones que se muestran en el desplegable, como se muestra en la captura inferior. Una vez haya asignado el usuario la unidad, el usuario deberá clicar en el menú lateral izquierdo en "Gestor procesal Adriano", donde se mostrará el Escritorio de la unidad funcional seleccionada. El usuario podrá modificar la jurisdicción **civil**  o **penal**  desde su perfil cuando la plaza o unidad seleccionada sea mixta.
+
+{{:pag_procedimientos_generales:jurisdiccion.png?800}}
+
+Para **cambiar el perfil**  de usuario, deberá clicar en el desplegable donde se mostrarán todas las plazas judiciales y servicios que tiene asignados.
+
+{{:pag_procedimientos_generales:cambio_de_perfil.png?800}}
+
+</panel></WRAP> <WRAP> 
+<panel type="info" title="Mensajes del sistema">
+
+==== Mensajes del sistema ====
+
+**Activación de las funciones del escritorio**  Como primera fase del acceso al sistema de gestión procesal, el usuario debería una vez introducido el certificado o credenciales, indicará el perfil en el desplegable con el que desea trabajar. Posteriormente, accederá a Gestor Procesal Adriano desde la opción que aparece en la sección de menú del escritorio judicial. En caso contrario (usuario accede en primer lugar a Gestor procesal Adriano sin indicar el perfil) aparecerá el siguiente mensaje:
+
+{{:pag_procedimientos_generales:mensaje.png?800}}
+
+luego, el usuario deberá seleccionar el servicio o plaza judicial donde desee tramitar:
+
+**Actualización de la sesión**  Adriano cuenta con la posibilidad de tener **más de una pestaña abierta en el navegador**. Cuando el usuario mantenga en el navegador más de una pestaña será informado al cambiar de pestaña de que la sesión ha sido actualizada. Adriano informará que la aplicación se refrescará de forma acorde al último órgano, puesto y jurisdicción seleccionado en su perfil con el siguiente mensaje: //"La sesión ha sido actualizada desde otra pestaña. La aplicación refrescará de forma acorde al último órgano, puesto y jurisdicción seleccionados en su perfil"//
+
+{{:pag_procedimientos_generales:aviso.png?800}}
+
+Al aceptar el mensaje informativo, se actualizará la sesión y podrá continuar trabajando en el sistema. 
+</panel></WRAP> 
+</panel></WRAP> <WRAP> 
+<panel type="info" title="Preguntas frecuentes">
+===== Preguntas frecuentes =====
+
+**1. Usuario sin acceso al sistema: __Datos a recopilar imprescindibles__ para dar curso a la petición.** En el caso en el que el usuario no tenga acceso al sistema, con el fin de dar curso a la petición recibida se deberán recopilar de forma obligatoria los siguientes datos: 
+
+- Nombre y apellidos del usuario
+
+- DNI
+
+- Cargo 
+
+- Órgano de destino
+
+- Órgano de origen (en el caso de que se haya dado una baja en un órgano y alta en otro distinto)
+
+- ¿Tiene alguna situación especial? Por ejemplo: usuario solicita alta en dos órganos de Partidos Judiciales distintos porque tramita procedimientos en ambos. En este caso, deberemos recopilar información del motivo por el cual el usuario debe estar de alta en dos Partidos Judiciales.
+
+**2. El Servicio Común o plaza donde está destinado el usuario no aparece cuando accede al sistema.** El Servicio Común se mostrará en el escritorio judicial una vez el usuario haya accedido al sistema. Una vez despliegue la pestaña aparecerán las secciones y plazas donde el usuario puede trabajar.
+En el caso de que no aparezca, el usuario deberá ponerse en contacto con el __Centro de Atención de Usuarios__, en el que darán curso a su petición.
+
+**3. Usuario accede a la pantalla principal y no aparecen las opciones del menú del Escritorio**Cuando no aparezca las opciones de menú en el escritorio se mostrará el siguiente mensaje "Seleccione desde el perfil la plaza judicial o el servicio para activar las funciones del escritorio" A continuación, aparece un desplegable donde el usuario seleccionará el perfil y una vez seleccionado, se activarán las funciones del menú situado a la izquierda en el escritorio judicial.
+
+**4. Denominación de cabecera de los documentos** Todos los actos de la unidad funcional se harán con la nueva descripción del órgano, con independencia de la fecha de incoación del procedimiento.
+Por defecto, se insertarán las nuevas denominaciones correspondientes a la plaza judicial del perfil o servicio de ejecución seleccionado en la cabecera de los documentos generados en Adriano mediante las plantillas contenidas en la colección documental del sistema de gestión procesal.
+
+**5. Escritos telemáticos y afectación de comunicaciones LEXNET** En la presentación de __escritos iniciadores__ vía LexNET por los profesionales y colectivos, el destino serán los Servicios Comunes que realizan funciones de registro y reparto, sin que se produzca ningún cambio en la recepción en el buzón de entrada en Adriano.
+
+En la presentación telemática de __escritos de trámite__, se remitirán al procedimiento judicial de la plaza judicial que lo tramite, apareciendo en LexNET la nueva denominación de las plazas judiciales para el profesional.
+
+Las __notificaciones__ vía LexNET realizadas desde la Plaza Judicial irán identificadas con el buzón asociado a este órgano judicial como órgano propietario del procedimiento.
+
+Exclusivamente, para las sedes NOJ de El Ejido y de Vélez-Málaga, durante la etapa adaptativa de Adriano correspondiente a la Fase I de la NUMO, seguirá operativo el buzón LexNET de los Servicios Comunes Procesales de Ejecución, mediante el cual se podrá recibir los escritos de trámite dirigidos directamente a este servicio e, igualmente, la emisión de notificaciones (vía LexNET) del Servicio Común de Ejecución, se podrá realizar mediante los buzones asociados a estos servicios comunes.
+
+**6. Cómo conseguir que un LAJ concreto aparezca como predeterminado en la relación de firmantes.**
+Adriano dispone a nivel de órgano de dos opciones:
+
+Si el LAJ ya se encuentra adscrito a la plaza, el usuario podrá acceder desde “Administración/Gestión de usuarios” y clicar en el LAJ que desea que aparezca como predeterminado en las plantillas y en el envío a firma.
+
+Si el LAJ no se encuentra entre las opciones de menú Administración/Gestión de Usuarios, se deberá dar de alta al mismo desde la opción “Administración/Gestión LAJ”. Una vez dado de alta, deberá realizar las acciones correspondientes indicadas en la “Administración/Gestión de Usuarios”.
+ 
+</panel></WRAP>
+
+<WRAP> 
+<panel type="info" title="Recursos didácticos">
+
+===== Enlaces de interés =====
+
+Con el fin de obtener un **conocimiento efectivo sobre la nueva ley 1/2025 de 2 de enero, de medidas en materia de eficiencia del Servicio Público de Justicia**, recomendamos acceder a la siguiente plataforma: [[https://capacitacion.justicia.junta-andalucia.es/course/index.php?categoryid=24|https://capacitacion.justicia.junta-andalucia.es/course/index.php?categoryid=24]]
+
+   * **Contenidos y sesiones formativas de implantación Tribunales de Instancia y NUMO en Adriano**
+   * Adaptación Adriano al Nuevo Modelo Organizativo (NUMO) - https://capacitacion.justicia.junta-andalucia.es/course/view.php?id=46
+   * Protocolos de actuación y Manuales de organización NUMO - https://capacitacion.justicia.junta-andalucia.es/course/view.php?id=81
+
+  * **Manual de usuario acceso Adriano:**  guía para el acceso a Adriano tras la adaptación a NUMO, y para el cambio de perfil: https://capacitacion.justicia.junta-andalucia.es/pluginfile.php/534/mod_resource/content/13/Acceso_Adriano_NUMO%20%281%29.pdf
+
+  * **Manuales y protocolos de las oficinas judiciales NUMO ANDALUCIA**. Publicados por provincias y partido judicial: 
+https://juntadeandalucia.es/organismos/justiciaadministracionlocalyfuncionpublica/areas/justicia/oficina-judicial-fiscal.html
+
+  * ** Manuales de identidad visual OJ y OJM** [[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_formu#manuales-de-identidad-visual-oj-y-ojm|Manuales de Identidad Visual OJ y OJM]]
+
+  * ** Resoluciones de acoplamiento de la CJALFP respecto del PERSONAL FUNCIONARIO** [[https://juntadeandalucia.es/organismos/justiciaadministracionlocalyfuncionpublica/areas/justicia/personal-administracion/resoluciones-instrucciones.html]]
+
+
+</panel> </WRAP>
+
+<WRAP> 
+
+<panel type="info" title="Procedimiento atención de incidencias">
+
+<WRAP important> 
+==== Gestión de Usuarios: altas, traslados e incidencias de permisos ====
+
+Se pueden tramitar los **tickets NUMO** de Remedy que sean de Gestión de Usuarios, que cumplan alguno de estos requisitos:
+
+  * JUECES / FISCALES TODOS. Lo que soliciten, **con autorización firmada por el competente**.
+  * LETRADOS TODOS. Lo que soliciten, **con autorización firmada por el competente**.
+  * **Cualquier origen -> Destino NO NUMO**: se pueden hacer ya, puesto que no entran en masivo.
+  * ALTAS de personal de nueva incorporación TODOS: se dan de alta con las ubicaciones que venga debidamente autorizadas vía formulario.
+  
+  * **En resumen, los únicos que no se hacen, de momento, son PERSONAL J, con DESTINOS NUMO, ya que, se están haciendo por masiva.**
+
+NOTA: **TODOS significa de NUMO y no NUMO**.
+
+Para consultar el listado de Partidos Judiciales afectados, puede remitirse al **Anexo II** de la [[https://juntadeandalucia.es/boja/2025/99/32|Orden de 22 de mayo de 2025, por la que se acuerda el diseño y estructura de la Oficina Judicial para los Tribunales Colegiados y Tribunales de Instancia y la Oficina de la Secretaría de Gobierno del Tribunal Superior de Justicia en la Comunidad Autónoma de Andalucía.]]
+
+</WRAP>
+<WRAP info>
+
+<WRAP info>
+=== GESTIÓN DE SOLICITUDES – **NUMO FASE III** ===
+
+**LO PRIMERO SIEMPRE**  
+Detectar por dónde entra la solicitud y **clasificar correctamente desde el inicio**.
+
+----
+
+**ENTRADA DE LA SOLICITUD**
+
+  * **Llamadas / Correo**
+    * El técnico gestiona y tipifica directamente conforme a este esquema.
+  * **Help-Desk**
+    * Uso obligatorio del **Excel de palabras clave**.
+    * Priorizar.
+    * Tipificar exactamente igual que el resto de entradas.
+    * Todas las solicitudes de ALTA deben de llevar adjunto el formulario oficial obligatorio. Esto es procedimiento general, no hay excepciones (ojo, no las incidencias NUMO).
+
+</WRAP>
+
+----
+
+=== 1. ¿ES UNA SOLICITUD DE ALTA? ===
+**(Nueva / Traslado / Compaginada)**
+
+<WRAP warning>
+**CONDICIÓN CLAVE**  
+➡ **Destino / Unidad funcional = NUMO FASE III**
+
+**TIPIFICACIÓN BASE (OBLIGATORIA)**  
+  * **Clase:** GESTIÓN DE USUARIOS  
+  * **Diario:** DESTINO NUMO (EN MAYÚSCULAS)
+  * ** No se realizan ni TRASLADO ni COMPAGINADAS cuyo destino sea NUMO FASE III.**
+  * **Jueces y Fiscales se pueden gestionar, NO se pasan a Servicios/Adriano.**
+  * Distinguir entre incidencia NUMO o error de acceso al sistema, que debe ser corregido llamando al usuario.
+  * **Las bajas se pueden tramitar desde CAU, ejemplo IN0000002487750**
+</WRAP>
+
+----
+
+=== 1.1 ¿QUÉ TIPO DE ALTA ES? ===
+
+**✔ ALTA NORMALIZADA – Primer destino**
+  * **Tipo:** ALTA NORMALIZADA  
+  * **Descripción del Incidente:** ALTA NORMALIZADA NUMO  
+  * **Diario:** DESTINO NUMO  
+  * **Acción:**
+    * Alta en órgano principal lo realiza CAU para que exista en TEMIS.
+    * Se asigna a **RunTime** (sincronización de plazas).
+
+----
+
+**✔ TRASLADO**
+  * **Tipo:** ALTA TRASLADO 
+  * **Descripción del Incidente:** ALTA TRASLADO NUMO  
+  * **Diario:** DESTINO NUMO  
+  * **Acción:**
+    * **No se realizan ningún traslado con destino NUMO.**
+    * Dejamos el ticket abierto. Asignamos a Nivel 1/Mantenimiento AD-TEMIS (ya que no se utiliza actualmente para nada)
+    * Cuando Jefatura de por cerrado el acoplamiento en esa plaza/plazas se revisarán.
+    * Deben estar tipificados con la Unidad funcional que pide el usuario para poder clasificar en las extracciones.
+
+----
+
+**✔ COMPAGINADA**  
+*(Puede tratarse de una compaginación real o de una solicitud errónea de alta en todas las plazas, una vez identificado:)*
+
+  * **Tipo:** ALTA COMPAGINADA  
+  * **Descripción del Incidente:** ALTA COMPAGINADA NUMO  
+  * **Diario:** DESTINO NUMO  
+  * ⚠️ **Puede corresponder realmente al caso de INCIDENCIA** (ver siguiente apartado).
+    * **No se realizan ningún alta compaginada con destino NUMO.**
+    * Dejamos el ticket abierto. Asignamos a Nivel 1/Mantenimiento AD-TEMIS (ya que no se utiliza actualmente para nada)
+    * Cuando Jefatura de por cerrado el acoplamiento en esa plaza/plazas se revisarán.
+    * Deben estar tipificados con la Unidad funcional que pide el usuario para poder clasificar en las extracciones.
+
+----
+
+**❌ ALTA EN TODAS LAS PLAZAS (ERROR)**  
+
+  * **Clase:** NUMO  
+  * **Tipo:** CORREO  
+  * **Descripción del Incidente:** INCIDENCIA NUMO  
+  * **Diario:** INCIDENCIA NUMO  
+
+**Acción**
+  * Reasignar a **Servicios / Adriano**, que validarán la gestión.
+  * NUMO realiza la corrección.
+  * El usuario **debe aparecer en listados**.
+    * Si **no aparece**, requiere validación por **Jefatura**. Y Servicios/Adriano lo devolverá al CAU.
+    * Estos casos deben **recopilarse**.
+    * Son: usuario que están en TEMIS en una plaza, no le aparecen todas las plazas, pero no vienen en los archivos de acoplamiento.
+    * ¿Qué hacemos?: para recopilarlos dejamos la tipificación que tiene, y la metemos en Nivel 1/Mantenimiento AD-TEMIS
+
+En resumen, en la asignación Nivel 1/Mantenimiento AD-TEMIS vamos a tener:
+  - Compaginadas destino NUMO
+  - Traslados destino NUMO
+  - Incidencias de acoplamiento y que el usuario no aparecen en los listados.
+
+----
+
+=== 2. ¿PIDEN ACCESO A ARCONTE EN TODAS LAS PLAZAS? ===
+
+<WRAP important>
+**NO dejar estos tickets abiertos**
+</WRAP>
+
+**Tipificación**
+  * **Clase:** NUMO  
+  * **Tipo:** ARCONTE  
+  * **Diario:** ARCONTE NUMO  
+
+**Gestión**
+  * Se realizará de forma **MASIVA**.
+  * Depende de que el **alta NUMO esté previamente realizada**.
+
+**Casos**
+  * ✔ Está en listados → se gestiona cuando corresponda.
+  * ❗ No está en listados → **validación por Jefatura**.
+
+----
+
+=== 3. ¿PIDEN ACCESO A TODAS LAS CARPETAS? ===
+
+**Respuesta estándar al usuario:**  
+> *“Existe un calendario para realizar la gestión y dar acceso a las carpetas. Se realizará entre enero y mediados de febrero.”*
+
+**Tipificación**
+  * **Clase:** NUMO  
+  * **Tipo:** CORREO  
+  * **Diario:** CARPETAS NUMO  
+
+**Gestión**
+  * No dejar el ticket abierto.
+  * Depende de las **Altas NUMO**.
+</WRAP>
+<WRAP info>
+
+=== Solicitudes de alta de usuarios NUMO===
+
+En relación con las solicitudes de alta correspondientes a usuarios NUMO, se informa de las dos vías contempladas para su correcta gestión:
+
+1. **Remisión a través de Jefatura**:  
+
+  * Relacionado con la implantación de las fases NUMO, listados masivos que llegan a través de Jefatura, provenientes únicamente del Secretario de Gobierno y de los 8 SCOR, quienes a su vez centralizan la información remitida por sus respectivos LAJ. 
+ 
+  * En estos casos, la “firma” queda acreditada mediante el correo personal del Secretario de Gobierno o del SCOR dirigido a Jefatura.  
+
+
+2. **Remisión a través de CAU**, diferenciando entre: 
+
+
+2.1 **Formulario individual normalizado**
+ 
+  *  Para solicitudes de un único usuario, la/El LAJ del OOJJ podrá remitir directamente el formulario normalizado, debidamente firmado, solicitando el alta del usuario que proceda.  
+
+  * Estas peticiones continúan tramitándose como hasta ahora, a través de Remedy.  
+
+  * **Siempre se debe facilitar al usuario solicitante el enlace de Capacitación como único punto de acceso al formulario y a la información.**  
+
+2.2 **Formulario específico para alta de varios usuarios NUMO**:  
+
+  * Para los casos que afecten a más de un usuario del mismo partido judicial y que se reciban con posterioridad a la ejecución de los scripts masivos de altas, se ha elaborado un nuevo modelo de formulario adaptado específicamente para NUMO.  
+
+  * Dicho formulario debe presentarse correctamente firmado y cumplimentado con los datos obligatorios, facilitando la gestión y permitiendo que la/El LAJ pueda incorporar a varios usuarios en un único documento, evitando la cumplimentación individualizada de solicitudes.  
+
+  * **Siempre se debe facilitar al usuario solicitante el enlace de Capacitación como único punto de acceso al formulario y a la información** 
+
+  * Esos tickets se **asignarán directamente al equipo DevOps** para su tramitación vía script. En el caso de **usuarios de nueva incorporació**n, será gestionado por **CAU** previamente la **creación en Temis**.
+
+Acceso a los formularios a través del __Portal de Capacitación__: [[https://capacitacion.justicia.junta-andalucia.es/course/section.php?id=261]] 
+
+También se encuentran incorporados en el Listado de formularios a través de la __DocuWiki__: [[:pag_formu|Formularios para solicitar alta]]
+
+
+Se recuerda que, en todo caso, las solicitudes de alta deberán presentarse mediante alguna de estas vías de presentación y con los **formularios cumplimentados y firmados correctamente**, sin lo cual no podrán tramitarse.
+</WRAP>
+
+<WRAP important> 
+==== Casuística especial en las **antiguas** sedes NOJ de EL EJIDO y VELEZ MÁLAGA ====
+
+Los jueces necesitan tener 2 puestos “extra”, además de su Plaza Judicial, para poder acceder y que se les pueda poner directamente los autos a la firma en los procedimientos de ejecución registrados en los siguientes Servicios Comunes de Ejecución (SCEJ):
+
+  * Servicio Común de Ejecución Civil de El Ejido, equivalente el de Vélez Málaga.
+  * Servicio Común de Ejecución de Instrucción de El Ejido, equivalente el de Vélez Málaga.
+
+</WRAP>
+
+<WRAP todo>
+**Pregunta 1:**
+  * **Active Directory**: como AD sigue apareciendo la estructura antigua por juzgados mixtos, ¿Dónde metemos el perfil del LAJ? Si lo metemos en la carpeta, por aproximación, del antiguo mixto que corresponde con el nº de Plaza que va a ocupar ¿le debemos añadir también los grupos de seguridad de todos los antiguos mixtos? Ya que los LAJ también están pidiendo aparecer en todas las Plazas y nuevos SC.
+**Respuesta 1:**
+  * Aún no se ha hecho ninguna actuación en el AD de ninguno de los perfiles, con lo que lo más sensato es actuar replicando como están el resto de LAJ. De esta forma, la actuación masiva que apliquemos se replicará en todos. Si comenzamos a hacer excepciones la masiva que hagamos puede fallar, además de estar dando permisos que el resto de LAJ no tienen.
+</WRAP>
+
+<WRAP todo>
+**Pregunta 2:**
+  * **TEMIS**: En Temis aparecen diferenciados los nuevos SC de las Plazas de los TI. Los LAJ nos están solicitando darse de alta en “Servicio Común de Tramitación de TI”, algunas veces sin indicar Plaza. ¿Cómo gestionamos estas altas en Temis? ¿Los añadimos como puesto principal el SCT? ¿Cómo les aparecen luego las Plazas de su partido judicial? ¿Se les va a añadir con las actualizaciones masivas o se las tenemos que añadir a mano? Entendemos que ellos no van a tener cargas masivas por lo comentado y estamos hablando de un nivel de gestión manual muy alto.
+**Respuesta 2:**
+  * En estos casos, vamos a evitar hacerlo a mano, además del esfuerzo extra, puede acarrear un nivel alto de incidencias posteriores. Lo más operativo es que nos enviéis la plantilla adjunta y realizar nosotros el alta masiva de los LAJ, para no retrasarlo lo suyo sería hacer un envío diario/cada 2 días, según la carga.
+  * En el caso de tratarse de Altas nuevas, debéis crearlo en Temis con los puestos que aparezcan en la solicitud, e incluirlo en la plantilla adjunta para completar con la masiva el resto de puestos del PJ.
+  * Esto último es debido a que el script incluye los puestos faltantes, pero No crea el usuario.
+</WRAP>
+
+<WRAP todo>
+**Pregunta 3:**
+  * **AUREA**: Al igual que en Temis, ¿qué órgano debemos añadir: el SC o la Plaza? ¿Tenemos que añadir todas las Plazas a mano o se va a realizar actualización masiva?
+**Respuesta 3:**
+  * La misma plantilla adjunta que se rellena para Temis, la pasaremos después al equipo de Arconte para que lancen una masiva. **No debéis hacer nada manualmente**.
+</WRAP>
+
+<WRAP todo>
+**Pregunta 4:**
+  * **CAU**: Queremos aprovechar para apuntar que todo lo que suponga realizar por parte del CAU a mano compaginaciones masivas de órganos, va a elevar enormemente los tiempos de gestión, sobre todo teniendo en cuenta el trabajo acumulado que tenemos (actualmente llevamos un retraso en la gestión de altas de 15 días). Con esto lo que queremos evitar es la situación que se vivió cuando se empezó a implantar Adriano en la que los LAJ y MAG empezaron a pedir de manera masiva la compaginación de órganos y ser lo más efectivos posible en las altas.
+**Respuesta 4:**
+  * A priori, todos aquellos usuarios que NO sean Jueces deben estar dados de alta por las masivas, esa es la teoría, el 16/7/25 David y Belén os enviaron el listado de usuarios Temis que ya deben estar dados de alta con sus puestos al completo, usadlo para agilizar en lo posible los cierres de tickets.  Los que no estén NO los hagáis, incluidlos en la plantilla adjunta y los hacemos masivos.
+
+  * **Avisadnos** si veis que hay muchos errores para poder ir haciendo más operativos los procedimientos o crear alguna masiva que os pueda ayudar. Si podemos consultar en BD de Remedy, Temis u otro S.I. y eso agiliza, hagámoslo.
+
+</WRAP>
+
+__Servicios NUMO:__  
+
+  * Incidencias relacionadas con modelos adaptados a la NUMO en etapa cero.
+  * Peticiones/incidencias de plantillas que se encuentren en el listado de modelos adaptados a NUMO en Adriano se asignarán a Servicios NUMO cuando se trate de casuísticas tipo errores de forma o de contenido relacionado con NUMO.
+  * Error de firma de jueces de El Ejido. Este error de firma sólo ocurre en los **Servicios Comunes de Civil y Servicios Comunes de Instrucción**, es decir, en las plazas, en principio, si pueden firmar. Tique de referencia: **IN0000002425211**. **Solucionado**.
+
+  * **IMPORTANTE** No se deben escalar a Servicios/NUMO las incidencias de perfiles Jueces ya que no ven afectados en etapa cero sus modos de acceso actual, salvo la excepción en el punto anterior: Servicios NUMO. 
+
+__Servicios formación:__ 
+
+  * No deben ser asignados a Servicios Formación peticiones de formación sobre NUMO, para ello, se le debe dirigir al usuario a la plataforma de capacitación: https://capacitacion.justicia.junta-andalucia.es/course/view.php?id=46
+
+__Servicios Adriano:__
+
+  * Incidencias funcionales de los jueces que el usuario considera relacionadas con NUMO.
+  * Incidencias y peticiones relacionadas con Normas de Reparto.
+  * Incidencias antiguas sede NOJ (El Ejido, Vélez-Málaga).
+
+\\
+
+**Plantilla NUMO v1**: {{ :pag_procedimientos_generales:numo:00_plantilla_numo_v1.ods |}}
+  
+==== Solución y cierre ====
+En función del grupo resolutor y conforme al procedimiento ya establecido para las incidencias solucionadas, el flujo de devolución podrá ser:
+  * Servicios NUMO –> CAU.
+  * Servicios NUMO–> Servicios Adriano–> CAU.
+
+</panel>
+
+<WRAP> 
+<panel type="info" title="Adaptación de las carpetas de red a la Ley de Eficiencia del Servicio Público de Justicia">
+
+===== CORREO A ENVIAR A LOS PARTIDOS JUDICIALES =====
+
+**Envío de comunicados a los diferentes Partidos Judiciales para informarles sobre la adaptación de las carpetas de red a la Ley de Eficiencia del Servicio Público de Justicia.**
+
+Se informa por el buzón de Justicia Digital el día antes de la actuación prevista.
+Persona de contacto para recibir planificación de los PJ: Rocio Medina Bermudez (Fujitsu) [[rocio.medinabermudez@fujitsu.com]]
+
+Cc: Servicio De Sistemas Digitales Para La Justicia [[justiciadigital.ius@juntadeandalucia.es]]
+
+CCO:
+
+  * Buzón del PJ (incluido en el Excel adjunto en el correo)
+  * LAJ (Información ofrecida en remedy o TEMIS)
+  * Lista de distribución del DDPP que corresponda
+
+[[dtal.informatica.ius@juntadeandalucia.es]] Lista distribución DDPP Almería\\
+[[dtca.informatica.ius@juntadeandalucia.es]] Lista distribución DDPP Cádiz\\
+[[dtco.informatica.ius@juntadeandalucia.es]] Lista distribución DDPP Córdoba\\
+[[dtgr.informatica.ius@juntadeandalucia.es]] Lista distribución DDPP Granada\\
+[[dthu.informatica.ius@juntadeandalucia.es]] Lista distribución DDPP Huelva\\
+[[dtja.informatica.ius@juntadeandalucia.es]] Lista distribución DDPP Jaén\\
+[[dtma.informatica.ius@juntadeandalucia.es]] Lista distribución DDPP Málaga\\
+[[dtse.informatica.ius@juntadeandalucia.es]] Lista distribución DDPP Sevilla\\
+
+  * SCOR de la provincia:
+Almería [[mariaj.canizares.ius@juntadeandalucia.es]]\\
+Cádiz [[josem.seoane.ius@juntadeandalucia.es]]\\
+Córdoba [[josea.guerra.ius@juntadeandalucia.es]]\\
+Granada [[carlota.gomez.ius@juntadeandalucia.es]]\\
+Huelva [[mpastora.gutierrez.ius@juntadeandalucia.es]]\\
+Jaén [[jramon.gomez.ius@juntadeandalucia.es]]\\
+Málaga [[pemilio.jvillarejo.ius@juntadeandalucia.es]]\\
+Sevilla [[felisa.panadero.ius@juntadeandalucia.es]] ; [[mauxiliadora.ariza.ius@juntadeandalucia.es]]\\
+
+  * Gabinete de cada provincia:
+Responsable [[marcoa.lopez@juntadeandalucia.es]]\\
+
+DTAL [[fidel.serradilla@juntadeandalucia.es]]\\
+DTCA [[franciscoj.naranjo.moreno@juntadeandalucia.es]]\\
+DTCO [[juanl.garrido@juntadeandalucia.es]]\\
+DTGR [[juanm.cordoba@juntadeandalucia.es]]\\
+DTHU [[carlos.diaz.motero@juntadeandalucia.es]]\\
+DTJA [[miguel.ortega@juntadeandalucia.es]]\\
+DTMA [[josem.gomez.ruiz@juntadeandalucia.es]]\\
+DTSE [[miguel.orozco.espada@juntadeandalucia.es]]\\
+
+  * Enviar a los siguientes contactos:
+[[pedroj.campoy.ius@juntadeandalucia.es]]\\
+[[xavier.bonnet@juntadeandalucia.es]]\\
+[[supervision.caujus.sandetel@juntadeandalucia.es]]\\
+[[coordinacion.cripjus.sandetel@juntadeandalucia.es]]\\
+[[coordinacion.sistemas.ius@juntadeandalucia.es]]\\
+[[coordinacion.remedy.ius@juntadeandalucia.es]]\\
+[[mariaa.herrera.vega@juntadeandalucia.es]]\\
+[[emilioj.cabezas@juntadeandalucia.es]]\\
+[[josemiguel.fernandezfernandez@emeal.nttdata.com]]\\
+    
+Correo:
+
+Título: Adaptación de las carpetas de red a la Ley de Eficiencia del Servicio Público de Justicia (PJ de XXX)
+
+Cuerpo mensaje:
+
+Buenos días,
+
+Se informa que en cumplimiento de la Ley Orgánica 1/2025, de 2 de enero, de medidas en materia de eficiencia del Servicio Público de Justicia se va a proceder a la adaptación de las carpetas de red y la gestión de permisos de acceso, dentro del Partido Judicial de XXX.
+
+El acceso a todas las carpetas estará permitido para todos los integrantes del Tribunal de Instancia y de la Oficina Judicial del Partido Judicial de XXX, a excepción de las carpetas de “Usuarios” que será de acceso individual.
+
+En las carpetas compartidas no debiera haber información de expedientes judiciales, ya que aquella ha de residir en el Sistema de Gestión Procesal Adriano. Sin embargo, si de manera excepcional se considera que el contenido de alguna carpeta puntual deba ser restringido para un grupo reducido de usuarios, se deberá solicitar a CAU (Centro de Atención a los Usuarios) con escrito firmado por parte del LAJ Director, donde se indicará la ruta concreta de la carpeta a restringir y las personas que deban acceder a dicha carpeta, con su nombre, apellidos, cargo, DNI e identificador de usuario Windows.
+
+Esta actuación está prevista para la tarde del próximo XXX a partir de las 15:00h, en las que no se podrá acceder al contenido de dichas carpetas.
+
+Tras las tareas técnicas, se hace necesario reiniciar los equipos informáticos, o cerrar sesión en los virtualizados, lo cual deberá hacerlo cada persona usuaria en su equipo, para poder así visualizar estos cambios.
+
+Las carpetas actuales serán renombradas según la siguiente tabla:
+
+Ejemplo:
+
+{{:pag_procedimientos_generales:red_carpetas_numo.png?900|}}
+
+Los **accesos directos** quedarán **actualizados** en la carpeta Adriano-Órgano del Escritorio.
+
+Para cualquier **incidencia/consulta** sobre esta nueva funcionalidad, por favor, contacte con CAU/CEIURIS mediante los canales habituales:
+
+1. Aplicación de "Gestión de Incidencias" que tiene a su disposición en el menú Aplicaciones del Escritorio Judicial.
+2. Mediante correo electrónico: [[csu.ius@juntadeandalucia.es]]
+3. O bien, en el teléfono 955040955 (340955).
+   
+Le recordamos que además, puede encontrar información de su interés en el Portal de Capacitación [[https://capacitacion.justicia.junta-andalucia.es/]], donde también existe un apartado “CAU (Centro de Atención al Usuario)” con los formularios.
+
+Se ruega se difunda esta información a los usuarios afectados de sus Órganos Judiciales.
+
+Reciban un cordial saludo.
+
+</panel>
+</WRAP>
+
+<WRAP>
+<panel type="info" title="Redenominación de cuentas de correo electrónico genéricas, eFax y AtPublico">
+
+En cumplimiento de la **Ley Orgánica 1/2025**, de medidas en materia de eficiencia del Servicio Público de Justicia (LEO), se ha procedido a la **redenominación de las cuentas de correo electrónico** asociadas a las **Plazas Judiciales**, incluidas en las **Fases I y II** de implantación.
+
+Esta actuación afecta a:
+  * Cuentas genéricas de correo electrónico (antiguos juzgados).  
+  * Cuentas asociadas al servicio **eFax**.  
+  * Cuentas de **Atención al Público (AtPublico)**, que dejarán de estar operativas.
+
+**Principales cambios:**
+  * Nuevo formato de las cuentas:  
+__Sec.Civil-Instr.PlazaN99.TI.Partido.JUS@juntadeandalucia.es__ 
+(sustituye al anterior //JMixto.99.Partido.JUS@juntadeandalucia.es//)
+
+  * **Redirección automática durante dos meses** desde la emisión del comunicado: los correos enviados a la dirección anterior se redirigen a la nueva e informan del cambio.
+  * **Acceso sin cambios**: se mantiene el acceso vía [https://correo.juntadeandalucia.es] con la misma contraseña y visibilidad de correos previos.
+  * **Fecha límite**: a partir del **22/10/2025** ya no se podrá acceder al buzón antiguo.
+  * Cuentas **eFax** actualizadas al formato  
+__fax.Sec.Civil-Instr.PlazaN99.TI.Partido.JUS@juntadeandalucia.es__.
+  * Cuentas **AtPublico** desactivadas definitivamente el **1 de noviembre de 2025**.
+
+Para más información, consulte los documentos oficiales disponibles en el apartado de **Comunicados Masivos**:
+[[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_procedimientos_generales:comunicados_masivos|Comunicados Masivos > Redenominación de cuentas de correo electrónico genéricas, eFax y AtPublico (21/10/2025)]]
+
+  * {{ :pag_procedimientos_generales:comunicacion_redenominacion_cuentas_de_correo_electronico_fase_i_y_fase_ii_v3.pdf ||Comunicación Redenominación cuentas de Correo electrónico Fases I y II}}
+
+  * {{ :pag_procedimientos_generales:anexo_comunicacion_redenominacion_correos_electronicos_fases_i_y_ii_v3.pdf | Anexo correspondencia de cuentas antiguas y nuevas}}
+
+
+</panel>
+</WRAP>
+
+<WRAP>
+<panel type="info" title="Migración de cuentas Webex adaptadas a la nueva nomenclatura">
+
+En cumplimiento de la **Ley Orgánica 1/2025**, de medidas en materia de eficiencia del Servicio Público de Justicia (LEO), se ha procedido a la **redenominación de las cuentas de correo electrónico** asociadas a las **Plazas Judiciales** y por tanto resulta necesario migrar las cuentas Webex para que, los ldap "antiguos" sean liberados por completo.
+
+El objetivo de este proceso es cambiar la cuenta ldap asociada como principal en  Webex, de forma que se mantengan contactos, agenda, etc. pero deje de emplearse el antiguo correo para su uso. 
+
+Los implicados en este procedimiento son:
+
+  * **Videoconferencias RCJA**: Encargados de cambiar la vinculación cuenta Webex - LDAP y modificar el "Display Name" de las cuentas adaptado a la nueva Agenda. Contacto: Raúl Márquez (626364005 / videoconferencia.rcja@juntadeandalucia.es )
+  * **Directorio**: Encargados de bloquear el acceso al usuario antiguo una vez se realiza la migración. Contacto: Manuel Guisado (671563446 / manuel.guisado@juntadeandalucia.es )
+  * **Equipo Arconte**: Encargados de modificar la vinculación de correo electrónico a cada Plaza Judicial para la integración con Webex. Contactos: Carlos Ramos (carlos.ramos@fujitsu.com ) y Carlos Haya (carlos.haya@fujitsu.com )
+  * **CAU**: Marisa Rojas (647469943)
+  * **CRIP**: Sefe (613752024)
+
+
+**Recursos:**
+
+  * Carpeta de red con hojas de cálculo para planificación e información de migraciones: "\\Iusnas05\sij\10. Proyectos en curso\48 Correos Electronicos, eFAX, WEBEX\WEBEX - Migracion cuentas"
+  * Manuales de usuario y videos informativos en el Portal de Capacitación: https://capacitacion.justicia.junta-andalucia.es/course/view.php?id=19
+
+**Planificación:**
+
+Debido a la criticidad del cambio y el riesgo de suspensión de vistas que impliquen videollamadas, se está realizando la migración de forma paulatina, muy coordinada en cada una de las intervenciones con todos los actores implicados (CAU, CRIP, DPs, RCJA, Arconte, etc.)
+
+Migrado hasta ahora los siguientes PJ, se indica nombre fichero con detalle ubicado en "\\Iusnas05\sij\10. Proyectos en curso\48 Correos Electronicos, eFAX, WEBEX\WEBEX - Migracion cuentas\migrados":
+
+  * Dos Hermanas - Sevilla (SEDH) --> 20260304_DosHermanas_Piloto.ods
+  * La línea de la Concepción - Cádiz (CALL) --> 20260310_Piloto2.ods
+  * Málaga - Fuengirola (MAFU) --> 20260310_Piloto2.ods
+  * Málaga Capital (MACJ) --> 20260317_macj.ods y 20260318_macj.ods
+
+
+**Procedimiento:**
+
+El procedimiento consiste, una vez se ha determinado las cuentas y día a migrar, en estos tres pasos:
+
+1. __Notificar vía telefónica de lo que va a ocurrir a DP informática implicada.__
+
+2. __Notificar a las cuentas de correo genéricas afectadas desde el buzón justiciadigital.ius__
+ 
+     * **From**: justiciadigital.ius
+     * **Para**: justiciadigital.ius
+     * **CCO**:
+        * Cuentas genéricas de las plazas judiciales (Sec.xxx@junta...)
+        * DP informática implicada
+        * CAU
+        * CRIP
+        * Comunicacion.ssdj.ius@juntadeandalucia.es
+        * jorge.amorperea@nttdata.com
+     * **Asunto**: [IMPORTANTE] - Cambio de cuentas Webex en cumplimiento de la LEO en la sede de [//Nombre Municipio//] ([//Código Sede//])
+     * **Cuerpo**: Copiar del documento //**Plantilla Correo Cambios de Cuentas WebEx a Usuarios (LEO).odt**// ubicado en "\\iusnas05\sij\10. Proyectos en curso\48 Correos Electronicos, eFAX, WEBEX\WEBEX - Migracion cuentas\" modificando el texto resaltado en amarillo.
+
+
+3. __Enviar correo interno al resto de participantes__ solicitando confirmación de recepción a todos los incluidos en "Para:"
+
+  * **Para**: Carlos Ramos, Raúl Márquez (videoconferencias), Manuel Guisado
+  * **CC**: Coordinación Sacoep, Coordinación Procesal, Belén Barroso, Jorge Amor, Mara Herrera, DP/CRIP/CAU
+  * **Adjunto**: Cuentas a migrar, archivo ods con formato aaaammdd_sede.ods ("\\Iusnas05\sij\10. Proyectos en curso\48 Correos Electronicos, eFAX, WEBEX\WEBEX - Migracion cuentas\migrados\")
+  * **Asunto**: [Webex] - Migración cuentas //18/03/2026// 
+  * **Cuerpo**: Copiar del documento //**Plantilla Correo Cambios de Cuentas WebEx a Equipos Internos (LEO).odt**// ubicado en "\\iusnas05\sij\10. Proyectos en curso\48 Correos Electronicos, eFAX, WEBEX\WEBEX - Migracion cuentas\" modificando el texto resaltado en amarillo.
+
+**Incidentes conocidos:**
+</panel>
+<panel>
+**1.- El usuario intenta hacer login y da un error del tipo "error ID de sala o número no válido"**
+
+Esto no es un error, simplemente el usuario se está intentando conectar a una sala con un mail, esto no es posible. Para iniciar sesión, el usuario tiene que pulsar en el botón negro "arriba a la derecha".
+</panel>
+
+<panel>
+**2.- Error de login en SSO de La Junta por credenciales.**
+
+Será necesario abrir una incidencia en Remedy para cambio de credenciales. Esta incidencia la tiene que gestionar, al menos, el/la LAJ pertinente.
+</panel>
+
+<panel>
+**3.- Al hacer login, se produce un error del tipo "el usuario para el que está intentando acceder no es el mismo que está autenticado".**
+
+Es un problema con la caché/cookies del navegador, existe una cuenta logada previamente que no es para la que se está intentando iniciar sesión. Necesario borrar y volver a hacer login con la cuenta deseada.
+</panel>
+
+<panel>
+**4.- Una vez realizado el login en Webex vía SSO, la cuenta "no tiene permisos" o no están visibles todos los menús que deberían (calendario fundamentalmente).**
+
+Es un problema relacionado con la licencia de Webex que, en el proceso de migración, no se ha vinculado a la cuenta correctamente. Deberá comunicarse a CAU vía gestor de incidencias para su gestión a través de RCJA y los técnicos de videoconferencias.
+</panel>
+
+<panel>
+**5.- Una vez realizado el login en Webex vía SSO, la cuenta "no está activa" o el usuario no ha recibido el correo de activación de la nueva cuenta.**
+
+En la ventana de error tras hacer login, aparece un enlace para "reenviar" el correo de activación. Pulsar y activar la cuenta. Si hay algún problema, o no se recibe el correo, notificarlo a CAU vía Gestor de incidencias para su gestión con RCJA.
+</panel>
+
+<panel>
+**6.- Se ha creado una cuenta "gratuita" de Webex no administrada por la Junta de Andalucía.**
+
+Es necesario que el usuario elimine la cuenta gratuita y se de de alta formalmente en el tenant Webex de la Junta de Andalucía.
+</panel>
+
+<panel>
+**7.- Al planificar una vista desde el sistema Arconte, tanto los correos de notificación a los intervinientes como la reunión Webex en sí misma se crean en la cuenta de otra Plaza Judicial.**
+
+__Motivo de la incidencia:__
+
+Tal y como se indica en el procedimiento, uno de los pasos que se requieren por parte del usuario es "Autorizar la cuenta para videoconferencias colaborativas". El error indicado se produce debido a una de estas dos posibilidades:
+
+1.- Al autorizar la cuenta en Arconte, salta una ventana para hacer login, puede ocurrir que el usuario introduzca una cuenta que no es.
+2.- Si al autorizar la cuenta en Arconte hay una sesión iniciada con el SSO corporativo, la cuenta se autoriza en la que no toca directamente, sin previo aviso.
+
+__Solución:__
+
+Será necesario abrir una incidencia en Servicios / Planificación / Salas de Vistas para que se desautorice la cuenta y pueda ser re-autorizada con la cuenta correcta.
+
+Para autorizar y vincular correctamente la cuenta, es necesario asegurarse que el navegador del equipo en el que se está realizando, no tiene previamente iniciada ninguna sesión. Para ello es recomendable eliminar cookies/caché antes de la autorización de cada una de las cuentas. Los usuarios pueden también entrar en "micuenta" o el correo corporativo y asegurarse de cerrar la sesión.
+
+Se sugiere asistir a los usuarios en la actuación, ya que es probable que vuelva a suceder lo mismo si no se realizan las acciones antes indicadas. 
+</panel>
+
+</panel>
+</WRAP>
+
+<panel type="info" title="Ejemplos de logos y sellos para las nuevas Oficinas Judiciales">
+
+===== Propuestas de logos y sellos =====
+
+A continuación se muestran las propuestas de sellos que se han elaborado, así como unas etiquetas personalizadas por partido judicial en formato editable.
+
+Adicionalmente, y en relación con la cartelería de Fiscalía, se han definido dos tipos de carteles, dependiendo del texto a incorporar en la parte superior de los mismos: Fiscalía Superior de XXX o Fiscalía Provincial de XXX, de acuerdo con la organización de la propia Fiscalía (Enlace a: Organización Fiscalía)
+
+Por último, se adjuntan también una propuesta de modelo de logotipo de OJM en diferentes formatos, así como una propuesta de sello y sobre para OJM.
+
+{{ :pag_procedimientos_generales:ab.la_roda.docx |}}
+
+{{ :pag_procedimientos_generales:la_roda_albacete_.8.docx |}}
+
+{{ :pag_procedimientos_generales:logotipoeditableojm_powerpoint_.pptx |}}
+
+{{ :pag_procedimientos_generales:sellos_ojm_ejm_v0.10_2025-08-06.docx |}}
+
+{{ :pag_procedimientos_generales:to.illescas-scej.docx |}}
+
+
+
+
+</panel>
+</WRAP>
+
+

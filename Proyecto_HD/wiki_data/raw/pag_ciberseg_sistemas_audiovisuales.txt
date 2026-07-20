@@ -1,0 +1,155 @@
+﻿
+<WRAP> <panel type="primary" title="Categoría de Servicio: SISTEMAS AUDIOVISUALES">
+
+\\
+<WRAP> <panel type="info" title="1. Introducción y Alcance">
+Esta categoría abarca todas las **Solicitudes e Incidencias relacionadas con los Sistemas de Grabación de Vistas**: Arconte Web, equipamiento de videoconferencias, paneles informativos de salas y el portal de descargas de vídeos judiciales. 
+A continuación describimos cómo se clasifica esta categoría en HGIS, teniendo en cuenta que, el Nivel 1 y Nivel 2 de la Categoría Operacional coinciden con la Categoría de Producto.
+</panel> </WRAP>
+
+<WRAP> <panel type="info" title="2. Flujo de Categorización General (BMC Helix)">
+La clasificación se realiza a través de la Categoría de Producto N2 (Componente Principal) y N3 (Acción/Elemento específico).
+
+===== 2.1. Categorías N2 (Coinciden Producto y Operacional) =====
+  * Arconte
+  * Grabación de Vistas
+  * Videoconferencias
+  * Paneles
+  * Portal de Descargas
+
+===== 2.2. OBLIGATORIO (Información Adicional Requerida) =====
+El usuario, al registrar un ticket relacionado desde DWP, aparecerán campos adicionales para proporcionar de forma obligatoria, la siguiente información para la mayoría de tickets:
+  * **Arconte / Grabación de Vistas / Videoconferencias:** Indicar la Sala, órgano y procedimiento afectado.
+  * **Paneles:** Indicar Edificio, planta y Salas cercanas.
+</panel> </WRAP>
+
+<WRAP> <panel type="danger" title="3. Asignación de Tickets (Grupos Resolutores) - INFORMACIÓN CLAVE">
+  * La asignación se realiza a través del Nivel 3 de Producto. 
+  * Los **Grupos Resolutores de WO (Petición) e INC (Incidencia)** son el mismo salvo en casos específicos, donde se diferencia según esta clasificación.
+  * Todos los **tickets que lleven asociados tareas**, generan un workflow de Tareas que **se activa al pasar el ticket principal de estado 'Asignado' a 'En curso'**.
+
+^ Producto N2/N3 ^ Producto N3 (Elemento/Acción) ^ Tipo de Ticket ^ Grupo Resolutor Asignado ^ Tareas Asociadas (ID) ^ Autorización ^
+| **Arconte** | Localización de reservas. | Solo WO | Servicios/SSAA | 1, 13, 15 | NO |
+| **Arconte** | Localización de procedimientos o vídeos | INC / WO | Servicios/SSAA | 1, 13, 15 | NO |
+| **Arconte** | Abrir documentos. | INC / WO | Servicios/SSAA | N/A | NO |
+| **Arconte** | Descargar documentos | Solo INC | Servicios/SSAA | N/A | NO |
+| **Arconte** | Reproducción de vídeos | Solo INC | Servicios/SSAA | N/A | NO |
+| **Arconte** | Descarga de vídeos | INC / WO | Servicios/SSAA | N/A | NO |
+| **Arconte (Interno)** | Desintegración de Procedimientos/reservas | INC / WO | Servicios/SSAA | 1, 13, 15 | NO |
+| **Arconte (Interno)** | Petición de Informes | INC / WO | Servicios/SSAA | N/A | NO |
+| **Arconte** | Otros | INC / WO | Nivel 1/Centro de servicio al usuario | N/A | NO |
+|---|---|---|---|---|---|
+| **Arconte / Firma** | Firmar desde la bandeja de firma | Solo INC | Servicios/SSAA | 1, 11, 12 | NO |
+| **Arconte / Firma** | Firmar desde el detalle del vídeo | Solo INC | Servicios/SSAA | 1, 11, 12 | NO |
+| **Arconte / Firma** | Otros | INC / WO | Nivel 1/Centro de servicio al usuario | N/A | NO |
+|---|---|---|---|---|---|
+| **Arconte / Modificación de Procedimientos** | Movimiento de vídeos (Cambio de órgano, número, año y tipo) | Solo WO | Servicios/SSAA | 15 | NO |
+| **Arconte / Modificación de Procedimientos** | Eliminación de vídeos | Solo WO | Servicios/SSAA | N/A | NO |
+| **Arconte / Modificación de Procedimientos** | Modificación de vídeos | Solo WO | Servicios/SSAA | N/A | NO |
+| **Arconte / Modificación de Procedimientos** | Otros | Solo WO | Servicios/SSAA | N/A | NO |
+|---|---|---|---|---|---|
+| **Grabación de Vistas / Altavoz** | Se escucha alto en videoconferencia | Solo INC | Servicios/SSAA | 2, 3 | NO |
+| **Grabación de Vistas / Altavoz** | No se escucha en videoconferencia | Solo INC | Servicios/SSAA | 2, 3 | NO |
+| **Grabación de Vistas / Altavoz** | Otros | Solo INC | Servicios/SSAA | N/A | NO |
+| **Grabación de Vistas / Audio general** | Mala calidad de la grabación | Solo INC | Servicios/SSAA | 1, 2, 3 | NO |
+| **Grabación de Vistas / Audio general** | Alerta de audio alto | Solo INC | Servicios/SSAA | 1, 2, 3 | NO |
+| **Grabación de Vistas / Audio general** | Alerta de audio bajo | Solo INC | Servicios/SSAA | 1, 2, 3 | NO |
+| **Grabación de Vistas / Audio general** | Otros | Solo INC | Servicios/SSAA | 2, 3 | NO |
+| **Grabación de Vistas / Cableado** | Cableado dañado | Solo INC | Servicios/SSAA | 2, 3 | NO |
+| **Grabación de Vistas / Cableado** | Cableado desconectado | Solo INC | Servicios/SSAA | 2, 3 | NO |
+| **Grabación de Vistas / Cableado** | Otros | Solo INC | Servicios/SSAA | 2, 3 | NO |
+| **Grabación de Vistas / Cámara** | Aparece imagen en azul | Solo INC | Servicios/SSAA | 2, 3 | NO |
+| **Grabación de Vistas / Cámara** | Aparece imagen en negro | Solo INC | Servicios/SSAA | 2, 3 | NO |
+| **Grabación de Vistas / Cámara** | La imagen está difuminada | Solo INC | Servicios/SSAA | N/A | NO |
+| **Grabación de Vistas / Cámara** | Otros | Solo INC | Servicios/SSAA | N/A | NO |
+| **Grabación de Vistas / Micrófonos** | No se enciende el micrófono | Solo INC | Servicios/SSAA | 2, 3 | NO |
+| **Grabación de Vistas / Micrófonos** | No se escucha el micrófono | Solo INC | Servicios/SSAA | 2, 3 | NO |
+| **Grabación de Vistas / Micrófonos** | Se escucha mal el micrófono | Solo INC | Servicios/SSAA | 2, 3 | NO |
+| **Grabación de Vistas / Micrófonos** | Otros | Solo INC | Servicios/SSAA | N/A | NO |
+| **Grabación de Vistas / Pantalla Arconte** | Aparece mensaje “sin señal” | Solo INC | Servicios/SSAA | 2, 3, 6 | NO |
+| **Grabación de Vistas / Pantalla Arconte** | No se enciende con el mando | Solo INC | Servicios/SSAA | 2, 3, 6 | NO |
+| **Grabación de Vistas / Pantalla Arconte** | Imagen distorsionada | Solo INC | Servicios/SSAA | 2, 3, 6 | NO |
+| **Grabación de Vistas / Pantalla Arconte** | Solo aparece el logo de Arconte | Solo INC | Servicios/SSAA | 2, 3, 6 | NO |
+| **Grabación de Vistas / Pantalla Arconte** | Otros | Solo INC | Servicios/SSAA | N/A | NO |
+| **Grabación de Vistas / PC de control** | No se conecta con Arconte Web | INC / WO | DT_Provincial | 1, 2, 3, 11, 12 | NO |
+| **Grabación de Vistas / PC de control** | No se conecta con la Sala para grabar | INC / WO | DT_Provincial | 1, 2, 3 | NO |
+| **Grabación de Vistas / PC de control** | No aparece la imagen de la cámara (en negro) | INC / WO | DT_Provincial | 1, 2, 3, 6 | NO |
+| **Grabación de Vistas / PC de control** | Aparece mensaje “se ha iniciado sesión desde otro dispositivo” | INC / WO | DT_Provincial | 1, 2, 3 | NO |
+| **Grabación de Vistas / PC de control** | Otros | INC / WO | DT_Provincial | N/A | NO |
+| **Grabación de Vistas / Videobox** | Está apagada y no se enciende con el botón azul | Solo INC | Servicios/SSAA | 1, 2, 3, 6 | NO |
+| **Grabación de Vistas / Videobox** | Está encendida pero no carga el sistema | Solo INC | Servicios/SSAA | 1, 2, 3, 6, 7 | NO |
+| **Grabación de Vistas / Videobox** | Carga Arconte pero sale un mensaje de error en pantalla | Solo INC | Servicios/SSAA | 1, 2, 3, 6, 7 | NO |
+| **Grabación de Vistas / Videobox** | No funciona el botón rojo de grabación manual | Solo INC | Servicios/SSAA | 1, 2, 3, 6 | NO |
+| **Grabación de Vistas / Videobox (Interno)** | Petición Instalación Sala nueva | Solo WO | Servicios/SSAA | 1, 2, 3, 4, 6, 8, 9, 10, 13, 16, 17 | SÍ (PT_Coordinador) |
+| **Grabación de Vistas / Videobox (Interno)** | Petición Traslado de Sala | Solo WO | Servicios/SSAA | 1, 2, 3, 4, 6, 8, 9, 10, 13, 16, 17 | SÍ (PT_Coordinador) |
+| **Grabación de Vistas / Videobox (Interno)** | Petición modificación Sala (sistemas de discusión, micros,etc) | Solo WO | Servicios/SSAA | 1, 2, 3, 4, 6, 9, 13 | SÍ (PT_Coordinador) |
+| **Grabación de Vistas / Videobox** | Otros | Solo INC | Nivel 1/Centro de servicio al usuario | N/A | NO |
+| **Videoconferencias / Desde Videobox** | No carga el servicio de videoconferencia | Solo INC | Servicios/SSAA | 1, 2, 3, 5, 7, 9 | NO |
+| **Videoconferencias / Desde Videobox** | Da mensaje de error al llamar | Solo INC | Servicios/SSAA | 1, 2, 3, 5, 7, 9 | NO |
+| **Videoconferencias / Desde Videobox** | Calidad de audio / video deficiente | Solo INC | Servicios/SSAA | 1, 2, 3, 5, 7, 9 | NO |
+| **Videoconferencias / Desde Videobox** | Vídeo se queda en negro | Solo INC | Servicios/SSAA | 1, 2, 3, 5, 7, 9 | NO |
+| **Videoconferencias / Desde Videobox** | No se escucha nada de audio | Solo INC | Servicios/SSAA | 1, 2, 3, 5, 7, 9 | NO |
+| **Videoconferencias / Desde Videobox** | Otros | Solo INC | Nivel 1/Centro de servicio al usuario | N/A | NO |
+| **Videoconferencias / Desde codec de videoconferencia** | No se enciende el codec o la TV con el mando | Solo INC | Servicios/SSAA | 1, 5, 7, 9 | NO |
+| **Videoconferencias / Desde codec de videoconferencia** | Aparecen tachados o ausentes los iconos “GK” y/o “SIP” | Solo INC | Servicios/SSAA | 1, 5, 7, 9 | NO |
+| **Videoconferencias / Desde codec de videoconferencia** | No realiza ninguna llamada | Solo INC | Servicios/SSAA | 1, 5, 7, 9 | NO |
+| **Videoconferencias / Desde codec de videoconferencia** | No hay respuesta desde el destino | Solo INC | Servicios/SSAA | 1, 5, 7, 9 | NO |
+| **Videoconferencias / Desde codec de videoconferencia** | Otros | Solo INC | Nivel 1/Centro de servicio al usuario | N/A | NO |
+| **Videoconferencias / Webex** | Videoconferencia libre | Solo INC | DT_Provincial | 1, 3, 5, 7, 9 | NO |
+| **Videoconferencias / Webex** | Videoconferencia colaborativa | Solo INC | DT_Provincial | 1, 3, 5, 7, 9 | NO |
+| **Videoconferencias / Webex** | Aplicación Webex en el PC de Control | Solo INC | DT_Provincial | 1, 3, 5, 7, 9 | NO |
+| **Videoconferencias / Multiconferencias** | Petición de multiconferencia | INC / WO | DT_Provincial | 1 | NO |
+| **Videoconferencias / Multiconferencias** | Otros | Solo INC | Nivel 1/Centro de servicio al usuario | N/A | NO |
+| **Paneles / Información errónea** | No aparecen reservas de Salas | Solo INC | Servicios/SSAA | 1, 6 | NO |
+| **Paneles / Información errónea** | Aparecen reservas de otras Salas | Solo INC | Servicios/SSAA | 1, 6 | NO |
+| **Paneles / Información errónea** | Otros | Solo INC | Nivel 1/Centro de servicio al usuario | N/A | NO |
+| **Paneles / Asignación de Sala a panel** | Petición para que una Sala parezca en un panel concreto. | INC / WO | Servicios/SSAA | 1, 6 | NO |
+| **Paneles / Asignación de Sala a panel** | Petición para que una Sala no parezca en un panel concreto. | INC / WO | Servicios/SSAA | 1, 6 | NO |
+| **Paneles / Asignación de Sala a panel** | Otros | INC / WO | Nivel 1/Centro de servicio al usuario | N/A | NO |
+| **Paneles / Pantalla Panel** | Pantalla no se enciende | Solo INC | Servicios/SSAA | 1, 6, 7, 9, 10 | NO |
+| **Paneles / Pantalla Panel** | Pantalla aparece con un logo de un signo de admiración | Solo INC | Servicios/SSAA | 1, 6, 7, 9, 10 | NO |
+| **Paneles / Pantalla Panel (Interno)** | Petición Panel nuevo | Solo WO | Servicios/SSAA | 1, 6, 7, 8, 9, 10, 17 | SÍ (PT_Coordinador) |
+| **Paneles / Pantalla Panel (Interno)** | Petición traslado de un panel | Solo WO | Servicios/SSAA | 1, 6, 7, 8, 9, 10, 17 | SÍ (PT_Coordinador) |
+| **Paneles / Pantalla Panel** | Otros | Solo INC | Nivel 1/Centro de servicio al usuario | N/A | NO |
+| **Portal de Descargas / Aplicación Portal** | No carga la web del Portal | Solo INC | Servicios/SSAA | 11 | NO |
+| **Portal de Descargas / Aplicación Portal** | Sale un mensaje que indica que es inseguro. | Solo INC | Servicios/SSAA | 1, 10, 11 | NO |
+| **Portal de Descargas / Aplicación Portal** | Otros. | Solo INC | Nivel 1/Centro de servicio al usuario | N/A | NO |
+| **Portal de Descargas / Catálogo** | No localizo un procedimiento | Solo INC | Servicios/SSAA | 1 | NO |
+| **Portal de Descargas / Catálogo** | No permite “Solicitar” un vídeo. | Solo INC | Servicios/SSAA | 1 | NO |
+| **Portal de Descargas / Catálogo** | No permite “Descargar” un vídeo | Solo INC | Servicios/SSAA | 1 | NO |
+| **Portal de Descargas / Catálogo** | Otros. | INC / WO | Servicios/SSAA | N/A | NO |
+| **Portal de Descargas / Localizador** | No funciona el localizador entregado por el Juzgado | Solo INC | Servicios/SSAA | 1 | NO |
+| **Portal de Descargas / Localizador** | Otros | Solo INC | Servicios/SSAA | 1 | NO |
+| **Portal de Descargas / Usuario de Justicia** | No permite acceder con un usuario de Justicia. | Solo INC | Servicios/SSAA | 1 | NO |
+| **Portal de Descargas / Usuario de Justicia** | Otros | Solo INC | Servicios/SSAA | N/A | NO |
+| **Portal de Descargas / Usuario Profesional** | No permite el acceso siendo usuario Colegiado. | Solo INC | Servicios/SSAA | 1, 14 | NO |
+| **Portal de Descargas / Usuario Profesional** | No permite el acceso siendo usuario No Colegiado. | Solo INC | Servicios/SSAA | 1, 14 | NO |
+| **Portal de Descargas / Usuario Profesional** | Otros | Solo INC | Servicios/SSAA | N/A | NO |
+</panel> </WRAP>
+
+<WRAP> <panel type="info" title="4. Flujo de Tareas (Workflow) Asociadas">
+
+> **Activación del Workflow:** Las tareas asociadas a cada ticket, se encontrará **con Estado: 'Preparado'**, **se activarán a Estado: 'Pendiente'** automáticamente cuando el técnico asignado al ticket principal (INC/WO) cambie el estado de la INC/WO a **'En curso'**.
+
+===== 4.1. Definición y Asignación de Tareas =====
+^ ID Tarea ^ Descripción ^ Grupo Resolutor de la Tarea ^
+| **1** | Revisión aplicación con usuario. | DT |
+| **2** | Revisión VBOX en Sala (estado, conexionado, red) | DT |
+| **3** | Comprobación de audio/vídeo en Sala | DT |
+| **4** | Adecuación de Sala en traslados y altas (red, electricidad, mobiliario, PC control) | DT |
+| **5** | Comprobación de Webex / videoconferencias (PC control, codecs) | DT |
+| **6** | Comprobación de Pantallas de Sala y Paneles | DT |
+| **7** | Revisión electrónica de Red | DT |
+| **8** | Configuración DNS | Sistemas/GTSW |
+| **9** | Configuración electrónica de red (hibridación) | Sistemas/GTSR |
+| **10** | Configuración visibilidades y accesos en FW y VPN | Sistemas/GTSR / GTWS (o GTSL) |
+| **11** | Revisión servidores centrales | SISTEMAS (GTSW / GTSL / GTSR /GTAB / GTBD) |
+| **12** | Revisión máquinas de Salto | SISTEMAS/GTSW |
+| **13** | Alta y modificación de asignaciones de Organismos / Salas | Servicios/RunTime |
+| **14** | Carga de usuarios profesionales | Servicios/RunTime |
+| **15** | Creación de reservas retroactivas | Servicios/RunTime  |
+| **16** | Petición de código de integración de Sala. | Servicios internos/Puesto de trabajo |
+| **17** | Actualización Inventario de Sala (NS, ubicación, RFID) | Servicios internos/Puesto de trabajo |
+| **18** | Otros | GENÉRICO |
+</panel> </WRAP>
+</panel> </WRAP>

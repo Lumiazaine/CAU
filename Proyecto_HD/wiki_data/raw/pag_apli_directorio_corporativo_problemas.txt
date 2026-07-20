@@ -1,0 +1,165 @@
+﻿
+<WRAP> <panel type="primary" title="Procedimientos y Problemas Conocidos del Directorio Corporativo">
+
+[[:pag_apli:directorio_corporativo:start|Volver atrás]]
+
+<WRAP> <panel type="info" >
+
+====== Procedimiento para la Solicitud de Cambio de Contraseña de Correo Genérico Corporativo ======
+
+**Ámbito de aplicación:** Este procedimiento se aplica a todas las cuentas de **correo genérico** corporativo gestionadas por la Junta de Andalucía en el ámbito de las ramas administradas por el equipo técnico correspondiente.
+
+**Objetivo:** Garantizar que el cambio de contraseña de una cuenta de **correo genérico** se realiza de forma segura, conforme al ENS, y con la debida autorización del **responsable de la cuenta o jefatura**.
+
+**Requisitos previos.**
+
+   * La solicitud debe estar **autorizada por la jefatura del SSDJ o por la persona que figure como Identificador del usuario responsable de la cuenta genérica** en el Directorio Corporativo de la Junta de Andalucía.
+
+**Procedimiento.**
+
+1. Recepción de la solicitud.
+
+  * El solicitante crea un tique en Remedy asignándolo a **Nivel 1 → Centro de Servicio al Usuario**.
+
+2. Verificación de identidad y autorizaciones.
+
+  * El equipo técnico verifica que el tique está autorizado por la persona indicada.
+
+3. Generación de nueva contraseña.
+
+  * La nueva contraseña debe cumplir con los requisitos de seguridad establecidos por la Junta de Andalucía y nunca se establecerán dos contraseñas iguales.
+
+4. Entrega segura de la nueva contraseña.
+
+  * La contraseña se entrega al usuario mediante un canal seguro (correo alternativo verificado, SMS, o presencial con acreditación). **Nunca se dejará anotada en Remedy.**
+ 
+**Procedimiento CAU Cambio de contraseña**.
+
+  * Por problemas de ciberseguridad vamos a dejar de utilizar Temporal01
+
+  * Se va a utilizar la siguiente contraseña Justicia.xxxx donde xx= mes en curso y xx= año
+
+  * Por ejemplo este mes sería Justicia0625 y en el caso de correo Justicia.0625
+
+  * Siempre que pongamos esta contraseña se le indica al usuario que debe cambiarla por motivos de seguridad.
+</panel>
+
+
+<WRAP> 
+<panel type="info" >
+
+
+====== Gestión y creación de Correos y usuarios de LDAP de las ramas IUS, IUSE y JUS ======
+
+**Explicación de las tres ramas de correo de la Sectorial de Justicia:**
+
+**.ius** -> Usuarios Jueces, Fiscales y LAJs de la Adm de Justicia, cuentas genéricas y listas de distribución
+
+**.jus** -> Personal-J, Funcionarios de la JdA en SIRHUS: Auxilios, Tramitadores, Gestores y Forenses.
+
+**.iuse** -> Usuarios externos, normalmente TIC del SSDJ para VPNs
+
+Las ramas eran administradas por Sistemas, lo que se ha externalizado a PdT recientemente (2026). No se gestionan directamente por el SSDJ
+
+
+
+
+===== Índice de contenidos =====
+  * [[#1-procedimiento-de-activacion-inicial|1. Procedimiento de Activación Inicial]]
+  * [[#2-procedimiento-de-cambio-de-titular|2. Procedimiento de Cambio de Titular]]
+  * [[#3-procedimiento-de-bloqueo-de-cuenta-generica|3. Procedimiento de Bloqueo de Cuenta Genérica]]
+
+====== 1. Procedimiento de Activación Inicial ======
+
+| **Responsable** | CSU |
+| **Origen de solicitud** | Petición vía Remedy |
+| **Precondición** | Existencia de formulario firmado y sellado por cargo autorizado |
+
+===== 1.1. Recepción de la petición =====
+
+Una vez recibida la solicitud de activación de una cuenta genérica vía **Remedy**, el CSU debe requerir el **formulario firmado y sellado** por uno de los siguientes cargos:
+
+  * los LAJs directores del Servicio Común General
+  * En algunos casos podrán ser: los LAJ director del Servicio Común de Tramitación
+  * Fiscal Jefe
+  * Fiscal Delegado de Menores o Fiscal Coordinador de Menores
+  * Director de I.M.L.
+  * Cargo equivalente responsable del órgano peticionario
+
+> **Modelo de formulario:** Formulario de Petición de Alta de Cuenta Genérica
+
+===== 1.2. Asignación a GTSW =====
+<WRAP important round box>
+> **Nota:** Si el órgano solicitante es un Juzgado de Paz, puede pedir la creación de una cuenta genérica **sin** las nomenclaturas *.ius / .jus / .iuse*.
+
+            En este caso, el CAU asignará la solicitud al grupo **GTSW**.
+</WRAP>
+===== 1.3. Cuentas gestionadas por Correo Corporativo =====
+
+| Tipo | Correo | Ámbito |
+| Correo Corporativo (todo) | sistemas.gtsw.ius@juntadeandalucia.es | IUS / JUS / IUSE |
+| Administrador Ramas IUS | correojus.ius@juntadeandalucia.es | IUS / JUS / IUSE |
+
+
+====== 2. Procedimiento de Cambio de Titular ======
+
+| **Responsable** | CAU|
+| **Origen de solicitud** | Petición vía Remedy |
+| **Precondición** | Acreditación de pertenencia al órgano judicial |
+
+Cualquier persona con cargo de **Secretario, Fiscal Jefe o Director de IML** que acredite pertenencia al juzgado está autorizada para solicitar el cambio de titular sin necesidad de baja previa del titular anterior.
+
+===== 2.1. Recepción de la solicitud =====
+
+Tras recibir la petición vía Remedy, el CAU debe solicitar el **formulario firmado y sellado** del Secretario o cargo equivalente.
+
+> **Modelo de formulario: Oficial** 
+> **Indicar:** "Activación de cuenta genérica del órgano X"
+
+> **Nota:** No es necesario especificar que es un cambio de titular, ya que el nuevo responsable podría desconocer esta situación.
+
+===== 2.2. Ejecución del cambio =====
+
+  - Se cambiará la contraseña de la cuenta en el Directorio Corporativo.
+  - La contraseña se restablecerá a la **contraseña inicial** indicada en el listado de cuentas genéricas. (CAU tiene listado de cuentas genéricas)
+  - El CAU comunicará la contraseña al nuevo responsable.
+
+> **⚠️ Importante:** Si el CAU no dispone de permisos (es el caso de cuentas no pertenecientes a ramas ius / jus, deberá reasignar la petición a **GTSW**.
+
+
+
+====== 3. Procedimiento de Bloqueo de Cuenta Genérica ======
+
+| **Responsable** | CAU|
+| **Origen de solicitud** | Petición vía Remedy |
+| **Precondición** | Acreditación de pertenencia al órgano judicial |
+
+Cualquier Secretario, Fiscal Jefe o Director de IML puede solicitar el **bloqueo** de la cuenta, independientemente del titular actual.
+
+===== 3.1. Recepción de la solicitud =====
+
+El CAU debe solicitar formulario con firma y sello del Secretario o cargo equivalente.
+
+> **Modelo de formulario:** 
+> **Indicar:** "Anulación de cuenta genérica del órgano X"
+
+===== 3.2. Bloqueo de la cuenta =====
+
+  - El CAU procederá al **bloqueo** de la cuenta en la **rama JUS/IUS** del Directorio Corporativo.
+  - Si el CAU no dispone de permisos, deberá reasignar la petición a **GTSW** como **URGENTE**.
+
+
+
+====== Contactos =====
+
+Para consultas o soporte técnico, contactar con:
+  * **GTSW:** sistemas.gtsw.ius@juntadeandalucia.es
+  * **Administrador:** correojus.ius@juntadeandalucia.es
+
+</panel>
+
+[[:pag_apli:directorio_corporativo:start|Volver atrás]]
+
+{{tag>validada CAU GTSW explotación}}
+
+

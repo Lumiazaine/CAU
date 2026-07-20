@@ -1,0 +1,26 @@
+﻿
+====== Ampliación de Discos ======
+
+** <font 22.0pt/inherit;;inherit;;inherit>Capacidad de Disco "Critical"</font>  **
+  - ** **Analizar el disco los datos que contiene y si se puede liberar espacio.
+  - ** **  En caso contrario revisar hay que:
+**Consultar la copia de oragrid con el fin de saber el número de ficheros y las horas tanteo que tarda en hacer la copia, para saber si se puede ampliar el volumen o hay que particionar el recurso. (La decisión pasa por coordinación) {{https://xwiki.justicia.junta-andalucia.es/xwiki/bin/download/Sistemas/Ampliación de Discos/oragrid.jpg?nolink&|oragrid.jpg}} * **  Analizar los discos del servidor o cabina para saber la capacidad disponible. (La decisión la toma coordinación).
+
+  - ** <font 24px/inherit;;inherit;;inherit>3.</font> **  Una vez analizado el recurso y los discos se pueden dar dos casos:
+
+  *
+
+**El disco se puede ampliar, ampliamos los GB indicados por coordinación y extendemos el volumen en caliente. * **  El disco no se puede ampliar, hay que particionar los datos del recurso. En este caso hay que realizar:
+  * Crear un volumen nuevo, si no existe otro ya creado para el mismo fin.
+  * Lanzar una sincro inicial de los datos que vamos a mover con el comando robocopy.
+  * Analizar los logs del robocopy para comprobar que no hay fallo en algún archivo.
+  * Programar un corte en el servicio con la DP.
+  * Cortar el servicio el día acordado y lanzar una sincro final.
+  * Analizar los logs para comprobar que todo ha ido correcto.
+  * Indicar a GTAB la nueva ruta a añadir en el savesets y nos confirme si la copia del día siguiente es correcta.
+  * Indicar a GTSL la nueva unidad a mapear, en el caso de que fuera de nueva creación.
+  * Con el OK de GTAB, proceder a desmontar o eliminar los datos movidos en origen para liberar espacio en el disco afectado.
+
+NOTA: Allí donde ha habido que partir un Adriano en varios discos. Hay que comunicárselo a Coordinación (Patricio) para que lo añada al scripts de "Cruce de savesets con T_PATH2"
+
+

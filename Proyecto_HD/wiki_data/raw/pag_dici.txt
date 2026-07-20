@@ -1,0 +1,51 @@
+﻿
+<WRAP> <panel type="primary" title="Dicireg">
+
+<WRAP> <panel type="info" title="Descripción">
+
+Aplicación de gestión de expedientes en los Registros Civiles dotando de medios materiales a registros civiles de Juzgados de Paz de Andalucía para implantar en ellos DICIREG.
+
+  * __Dotación de OC' del RCE de Málaga__
+  * PC's y lotes de periféricos –> 2023/98947 (TEKNOSERVICE)
+  * Escáneres –> 2023/326127 (PAEZ SOLUCIONES INTEGRALES S.L)
+
+  * __Dotación de OC' del RCE de Sevilla__  –> 2023/1112848 (Herbecon System S.L.)
+  * __Resto de OC's__
+{{:adjudicaciones_dicireg.jpg?400}}
+
+</panel>
+
+</WRAP>
+
+<WRAP>
+
+</WRAP>
+
+<WRAP> <panel type="info" title="Fechas del proyecto"> 20 noviembre 2025 </panel> </WRAP>
+
+<WRAP> <panel type="info" title="Procedimientos">
+
+  * [[:pag_procedimientos_dicireg|Procedimientos Dicireg]]
+
+</panel> </WRAP>
+
+<WRAP> <panel type="info" title="Capacitación">
+
+  * [[https://capacitacion.justicia.junta-andalucia.es|Contenidos Digitales de Capacitación (Portal de Capacitación de Justicia Digital Andalucía)]]
+  * [[https://videos.justicia.junta-andalucia.es/home|Portal de contenidos en vídeo de Justicia Digital Andalucía]]
+
+</panel>
+
+</WRAP>
+
+<WRAP> <panel type="info" title="Contacta">
+
+  * [[:pag_contactos#dicireg|Contactos Dicireg]]
+
+</panel> </WRAP>
+
+</panel> </WRAP>
+
+{{tag>novalidada}}
+
+

@@ -1,0 +1,259 @@
+﻿
+<WRAP> <panel type="primary" title="Procedimientos y Problemas Conocidos de Consumibles">
+
+[[:pag_apli:consumibles:start|Volver atrás]]
+
+<WRAP> <panel type="info">
+
+====== Material ======
+
+**Fotocopiadora Xerox C-123**
+
+Todo lo relacionado con el mantenimiento, facturación, consumibles, etc de la impresora **Xerox C-123 (N/S 3551956341)** que esta en la primera planta del edificio C/ Muñoz Torrero 1, dirigirse a:
+
+   * Para **CONSUMIBLE O MANTENIMIENTO**: **902160236 **  (cuando se llama a este número nos pedira la lectura del contador de la máquina se optiene pulsando el tercer botón horizontal que esta pegado al displey de la misma y que viene representado con un signo de interrogación dentro de un folio.)
+  * Para cualquier otro problema llamar al comercial José Llorente: 606401911 954159509
+
+</panel> </WRAP>
+
+<WRAP> <panel type="info">
+
+====== Facturación ======
+
+Datos aclaratorios
+
+Cuando iniciemos la facturación el primer paso será crear un lote (en la opción nuevo lote de la aplicación consumible) con el archivo xml que hemos recibido del proveedor. En ese proceso realizaremos dos accines que producen:
+
+  * Cuando damos a la opción de CARGAR creamos una tabla en la base de datos denominada ALBARANES XML
+
+  * Cuando damos a la opción de IMPORTAR creamos una tabla en la base de datos denominada LINEA ALBARANES XML
+
+En esas tablas hay un valor de referencia denominado IDALBARANES, este valor es distinto para la tabla ALBARANES del de la tabla ALBARANES XML, por lo que para cualquier modificación en dichas tablas hay que coger el valor IDALBARANES correspondiente.
+
+El IDPEDIDO es el mismo para las tablas ALBARANES que para la tabla ALBARANES.
+
+Cambiar precio de un producto
+
+Coger dato IDALBARAN e IDPEDIDO y ver las tablas siguientes donde modificaremos su precio:
+
+  * LINEA PEDIDO
+  * LINEA ALBARANES
+  * LINEA ALBARANES XML
+
+</panel> </WRAP>
+
+<WRAP> <panel type="info">
+
+====== Error reasignar pedido ======
+
+Cuando el usuario indique que la aplicación le impide realizar un nuevo pedido por que el anterior no esta recepcionado, la solución directa seria que el propio usuario lo recepcionace con el número de albaran, si este no lo tuviese se lo podemos proporcionar nosotros (se lo pediríamos al proveedor) o incluso recepcionarlo desde la misma aplicación, situándonos en el pedido e introduciendo el numero de albaran en el campo con dicho nombre que estará vació o pulsando un doble clic sobre el número de albaran ( que debería estar en blanco o con un numero aleatorio que crea el sistema) y en la pantalla que nos aparece introducir el número de albaran en el campo de albaran.
+
+Si tras esta operación el numero ya estuviese introducido o el usuario indica que le sigue dando error podemos entrar en la base de datos y con el número de pedido y desde la tabla ¿PEDIDOS¿ modificar el estado de dicho registro a el estado 11 (RECEPCIONADO)
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Pedidos pendientes de recepcionar ======
+
+Descripción de la incidencia
+
+Localizar los pedidos pendientes de recepcionar de un usuario realizados desde un Juzgado y asignarlos a su juzgado actual.
+
+Solución
+
+Para consultar los pedidos pendientes de recepcionar ejecutar la siguiente consulta en el esquema SUMINISTROS de la BD PROD02:
+
+//select p.* from suministros.pedidos p where p.x_pedido not in (select r.ped_x_pedido from suministros.recepciones r) and p.ORG_X_ORGANISMO = ////<ORGANISMO ACTUAL>//// and p.usu_x_usuario = ////<USUARIO>////;//
+
+Los pedidos que resulten de la consulta, les cambiamos el ORG_X_ORGANISMO:
+
+//update suministros.pedidos set org_x_organismo=////<organismo que indiquen>//// where x_pedido in(////<x_pedidos de la consulta anterior>////);//
+
+Ejemplo de incidencia Remedy
+
+IN0000001296200
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Cambiar pedido de organismo ======
+
+Descripción de la incidencia
+
+Suministros nos solicita cambiar el organismo de un pedido.
+
+Solución
+
+Acceder a PROD02.
+
+1. Consultamos el organismo actual del pedido. Ejecutando la siguiente consulta en SUMINISTROS PROD02:
+
+//select ORG_X_ORGANISMO from suministros.pedidos where x_pedido = ////<PEDIDO QUE NOS INDICAN>////;//
+
+2. Consultamos el organismo devuelto en la consulta anterior. Ejecutando la siguiente consulta en el esquema TEMIS de la BD PROD02, con ello comprobamos el organismo actual del pedido:
+
+//SELECT * FROM TEMIS.ORGANISMOS_GLOBAL WHERE X_ORGANISMO = ////<X_ORGANISMO DEVUELTO CONSULTA ANTERIOR>////;//
+
+3. Consultamos en TEMIS > PROD02 también el identificador del organismo al que quieren cambiar el pedido:
+
+//SELECT X_ORGANISMO FROM TEMIS.ORGANISMOS_GLOBAL WHERE t_ORGANISMO = '////<JUZGADO DE PRIMERA INSTANCIA Nº XXXX>////';//
+
+4. Se realiza copia de seguridad del pedido antes de realizar el update:
+
+//select * from suministros.pedidos where x_pedido = ////<PEDIDO QUE NOS INDICAN>////;//
+
+5. Solicitamos la ejecución de la sentencia UPDATE a sistemas para hacer el cambio de organismo que nos solicitan en la petición:
+
+//BEGIN//
+
+//UPDATE SUMINISTROS.PEDIDOS//
+
+//SET ORG_X_ORGANISMO = ////<X_ORGANISMO DE LA CONSULTA ANTERIOR>//
+
+//WHERE X_PEDIDO = ////<PEDIDO QUE NOS INDICAN>////;//
+
+//if sql%rowcount<> 2 then//
+
+//raise_application_error(-20000, 'Error');//
+
+//end if;//
+
+//COMMIT; \\ dbms_output.put_line('Ejecución correcta'); \\ EXCEPTION \\ WHEN OTHERS \\ THEN \\ ROLLBACK; \\ DBMS_OUTPUT.put_line ('Error ' || SQLCODE || ' ' || SQLERRM); \\ END; // \\ /
+
+6. Enviar a GTBD la sentencia anterior en un archivo *.sql con el siguiente mensaje:
+
+//"Se solicita la ejecución del script adjunto en PROD02. Verificar que se actualice un único registro, en cuyo caso realizar COMMIT."//
+
+Ejemplo de incidencia Remedy
+
+IN0000001478703, IN0000001589379, IN0000001600024, IN0000001603669, IN0000001611707,
+
+IN0000001617719, IN0000001625434, IN0000001619490, IN0000001631959, IN0000001642104,
+
+IN0000001642013, IN0000001645457, IN0000001649746, IN0000001664929, IN0000001667842,
+
+IN0000001682612, IN0000001685720, IN0000001707963, IN0000001715606, IN0000001715771,
+
+IN0000001718073
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== No puede recepcionar un pedido ======
+
+Descripción de la incidencia
+
+No puede recepcionar el pedido con el nº de albaran facilitado pro el Dpto de Suministros, indica nº de albaran erroneo.
+
+Solución
+
+1) Localizamos el numero del pedido (X_PEDIDOS) :
+
+SELECT * FROM SUMINISTROS.PEDIDOS
+
+WHERE X_PEDIDO = 'X_PEDIDO';
+
+//– Cogemos USU_X_USUARIO//
+
+2) Buscamos el pedido:
+
+SELECT DISTINCT ART_C_ARTICULO, ALB_C_ALBARAN, PED_X_PEDIDO
+
+FROM SUMINISTROS.recepciones r, SUMINISTROS.pedidos p
+
+WHERE r.ped_x_pedido = p.x_pedido
+
+AND p.d_estado !='CAN'
+
+AND p.usu_x_usuario = 'USU_X_USUARIO'
+
+AND r.art_c_articulo = 'C_ARTICULO'
+
+AND r.alb_c_albaran NOT IN
+
+(SELECT a.c_albaran FROM SUMINISTROS.albaranes_ans a, SUMINISTROS.pedidos p1
+
+WHERE a.ped_x_pedido = p1.x_pedido
+
+AND p1.usu_x_usuario = 'USU_X_USUARIO'
+
+AND a.art_c_articulo = 'C_ARTICULO'
+
+AND p1.x_pedido = 'X_PEDIDO');
+
+//—–Si aparece es que NO tiene el albarán subido.//
+
+//Se busca el pedido en la tabla albaranes_ans, si no está, //indicar que no está cargado el albarán del excel, por eso sale ese error.
+
+En el caso que no aparezca seguimos
+
+2) Si se ha subido correctamente tendría que salir en esta tabla
+
+SELECT a.c_albaran FROM SUMINISTROS.albaranes_ans a, SUMINISTROS.pedidos p1
+
+WHERE a.ped_x_pedido = p1.x_pedido
+
+AND p1.usu_x_usuario = 'USU_X_USUARIO'
+
+AND a.art_c_articulo = 'C_ARTICULO'
+
+AND p1.x_pedido = 'X_PEDIDO';
+
+3) Comprobamos el albarán
+
+select * from suministros.albaranes_ans where c_albaran = 'C_ALBARAN';
+
+Si esta indicar que el alabarán esta subido correctamente y que el usuario que pruebe de nuevo para descartar un error puntual.
+
+Ejemplo de incidencia Remedy
+
+IN0000001301368
+
+IN0000002142927
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Quitar de un pedido un articulo ======
+
+Descripción de la incidencia
+
+Quitar de un pedido un articulo.
+
+Solución
+
+1. Consultar las tablas PEDIDOS, LINEAS_PEDIDOS, ARTICULOS_EXPEDIENTES.
+
+2. Para cambiar unidades o estado, consultar LINEAS_PEDIDOS (incidencia: 1329807).
+
+Ejemplo de incidencia Remedy
+
+IN0000001317095
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Cambiar la fecha de aprobacion de un pedido ======
+
+Descripción de la incidencia
+
+Necesitamos cambiar la fecha de aprobación de un pedido.
+
+Solución
+
+Consultar la tabla PEDIDOS del esquema SUMINISTROS y modificar el campo 'F_APROBACION'.
+
+Ejemplo de incidencia Remedy
+
+IN0000001318420
+
+</panel></WRAP>
+
+[[:pag_apli:consumibles:start|Volver atrás]]
+
+

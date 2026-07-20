@@ -1,0 +1,226 @@
+﻿
+====== Firewalls Perimetrales ======
+
+===== 1. Definición =====
+Un **firewall perimetral** es un dispositivo de seguridad ubicado en el límite entre la red interna y externa (Internet u otras redes no confiables).  
+Su función es **controlar, filtrar y registrar el tráfico**, actuando como la primera línea de defensa frente a accesos no autorizados, ataques y amenazas.
+
+> El firewall es la "puerta vigilada" que decide qué entra y qué sale de la organización.
+
+===== 2. Objetivos principales =====
+  * Proteger los sistemas internos frente a amenazas externas.  
+  * Controlar accesos a Internet y servicios internos.  
+  * Segmentar la red en zonas de seguridad (LAN, WAN, DMZ, VPN).  
+  * Registrar eventos y generar trazabilidad.  
+  * Garantizar disponibilidad y redundancia.  
+  * Cumplir normativas (ENS, ISO 27001, GDPR).  
+
+===== 3. Tipos de Firewalls =====
+  * **Packet Filtering:** Filtran cabeceras IP, puertos, protocolos.  
+  * **Stateful Firewall:** Verifican el estado de las conexiones.  
+  * **NGFW (Next-Generation):** Añaden IPS, control de aplicaciones, inspección SSL.  
+  * **Host-based:** Software en servidores/PCs individuales.  
+  * **Perimetrales hardware/software:** Dispositivos dedicados en el borde de red.  
+
+===== 4. Funcionalidades habituales =====
+  * Políticas de acceso (ACLs).  
+  * NAT (Source/Destination, PAT).  
+  * VPN (IPSec Site-to-Site, SSL VPN).  
+  * IPS/IDS integrado.  
+  * Filtrado web / control de aplicaciones.  
+  * Inspección SSL/TLS.  
+  * Alta disponibilidad (HA).  
+  * QoS y shaping.  
+  * Monitorización y logs.  
+
+===== 5. Arquitectura típica =====
+<code>
+                  Internet / WAN
+                         |
+                +----------------+
+                | FIREWALL       |
+                | PERIMETRAL     |
+                +----------------+
+                  |      |     |
+                 DMZ    LAN   VPN
+           (Servidores) (Usuarios) (Acceso remoto)
+</code>
+
+===== 6. Modos de despliegue =====
+
+=== Firewall standalone ===
+Un solo dispositivo que protege la red.  
+Más simple, pero **punto único de fallo**.
+
+<code>
+              Internet
+                 |
+           +-------------+
+           | Firewall    |
+           | Standalone  |
+           +-------------+
+                 |
+                LAN
+</code>
+
+=== Firewall en alta disponibilidad (HA) ===
+Dos firewalls trabajando en cluster (Active-Passive o Active-Active).  
+Proporcionan **redundancia y continuidad de servicio**.
+
+<code>
+              Internet
+                 |
+          +--------------+
+          |  FW1 (Active)|
+          +--------------+
+                 |
+          +--------------+
+          |  FW2 (Standby)|
+          +--------------+
+                 |
+                LAN
+</code>
+
+Ventajas:
+  * Sin punto único de fallo.  
+  * Failover automático.  
+  * Configuración sincronizada.  
+
+===== 7. Buenas prácticas de configuración =====
+  - Política “deny all” por defecto.  
+  - Abrir solo lo necesario.  
+  - Separar zonas de seguridad.  
+  - Acceso de administración restringido (HTTPS/SSH).  
+  - Firmware actualizado.  
+  - Revisiones periódicas de políticas.  
+  - Registro de logs centralizado (SIEM, Zabbix).  
+  - Monitorizar estado de CPU, memoria, interfaces y sesiones.  
+  - Probar con ping/traceroute desde el firewall.  
+  - Configurar HA cuando sea posible.  
+
+===== 8. Integración con monitorización (Zabbix) =====
+**Elementos clave a monitorizar:**
+  * Disponibilidad de interfaces (WAN/LAN).  
+  * Tráfico (ifInOctets, ifOutOctets).  
+  * Sesiones activas.  
+  * Estado de VPNs.  
+  * CPU y memoria.  
+  * Logs de seguridad (ataques, DoS, accesos no autorizados).  
+
+Ejemplo de ítems Zabbix para FortiGate:
+  * `icmpping`  
+  * `fortigate.session.count`  
+  * `fortigate.vpn.ipsec.status`  
+  * `fortigate.cpu.usage`  
+  * `fortigate.mem.usage`  
+
+===== 9. Ejemplo de política básica =====
+<code bash>
+config firewall policy
+    edit 1
+        set srcintf "lan"
+        set dstintf "wan1"
+        set srcaddr "all"
+        set dstaddr "all"
+        set action accept
+        set schedule "always"
+        set service "ALL"
+        set nat enable
+    next
+end
+</code>
+
+===== 10. Alta disponibilidad (HA) en FortiGate =====
+<code bash>
+config system ha
+    set mode a-p
+    set group-name "FGT_HA"
+    set hbdev "port1" 50 "port2" 50
+    set session-pickup enable
+end
+</code>
+
+Ver estado del cluster:
+<code bash>
+get system ha status
+</code>
+
+===== 11. Relación con otros sistemas =====
+  * Routers / Core Switches → Proveen conectividad.  
+  * Balanceadores (F5) → Servicios protegidos por el firewall.  
+  * SIEM / Zabbix → Logs y métricas de seguridad.  
+  * AD / LDAP / Radius → Autenticación de usuarios VPN.  
+
+===== 12. Fabricantes comunes =====
+  * Fortinet (FortiGate 60F, 600E, etc.)  
+  * Palo Alto Networks  
+  * Check Point  
+ 
+
+===== 13. Checklist de revisión periódica =====
+  * [ ] Verificar conectividad WAN/LAN.  
+  * [ ] Revisar estado de VPNs.  
+  * [ ] Confirmar firmware actualizado.  
+  * [ ] Revisar uso de CPU y memoria.  
+  * [ ] Analizar logs de seguridad.  
+  * [ ] Eliminar políticas obsoletas.  
+  * [ ] Probar failover en cluster HA.  
+
+===== 14. Comandos comunes en FortiGate =====
+
+=== Información del sistema ===
+<code bash>
+get system status              # Estado general y versión
+get system performance status  # CPU, memoria, sesiones
+diag sys top                   # Procesos en tiempo real
+get hardware status            # Estado de hardware y sensores
+</code>
+
+=== Interfaces y conectividad ===
+<code bash>
+get system interface                  # Lista de interfaces
+diagnose netlink interface list       # Estado detallado
+execute ping 8.8.8.8                  # Ping externo
+execute traceroute sede.fnmt.gob.es   # Traceroute
+execute telnet 192.168.1.10 443       # Test conexión TCP
+</code>
+
+=== Políticas y sesiones ===
+<code bash>
+show firewall policy                  # Ver políticas
+diagnose firewall proute list         # Policy routing
+diagnose firewall iprope lookup 8.8.8.8  # Política aplicada
+diagnose sys session list             # Sesiones activas
+</code>
+
+=== VPNs ===
+<code bash>
+get vpn ipsec tunnel summary          # Estado túneles IPSec
+diagnose vpn tunnel list              # Detalles IPSec
+get vpn ssl monitor                   # Sesiones SSL VPN
+</code>
+
+=== Logs y debugging ===
+<code bash>
+execute log filter category 1
+execute log display                   # Ver logs de tráfico
+diagnose debug flow filter addr 8.8.8.8
+diagnose debug flow trace start 100
+diagnose debug enable                 # Debug de flujo de paquetes
+</code>
+
+=== Alta disponibilidad (HA) ===
+<code bash>
+get system ha status                  # Estado del cluster
+diagnose sys ha dump-by vcluster      # Info detallada
+execute ha manage 0                   # Acceso a unidad del cluster
+</code>
+
+=== Administración y backups ===
+<code bash>
+execute backup config flash
+execute backup config tftp conf.conf 192.168.1.100
+execute restore config tftp conf.conf 192.168.1.100
+show full-configuration
+</code>
+

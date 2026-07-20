@@ -1,0 +1,780 @@
+﻿
+[[:pag_curso1|Página no creada]]
+
+[[:pag_soport_servid|Página creada]]
+
+====== Título nivel 1 ======
+
+===== Título nivel 2 =====
+
+==== Título nivel 3 ====
+
+=== Título nivel 4 ===
+
+== Título nivel 5 ==
+
+linea normal
+
+===== Contenedores =====
+
+<panel type="success" title="Enlaces"> [[:nombre_de_la_pagina|Enlace interno a una página de la DokuWiki]]
+
+[[https://juntadeandalucia.es/|Enlace externo WEB]]
+
+[[juangd@yahoo.es|]] </panel>
+
+<WRAP group> <WRAP half column> <panel type="warning" title="Numeración">
+
+  * Primer ítem
+  * Segundo ítem
+      * Subítem
+  * Tercer ítem
+
+  - Primer ítem
+  - Segundo ítem
+      - Subítem 1
+      - Subítem 2
+  - Tercer ítem
+
+</panel>
+
+<panel> **Texto en negrita**  Texto en cursiva __Texto subrayado__  </panel></WRAP> </WRAP>
+
+===== Tratamientos de imágenes =====
+
+Establecer diferentes tamaños.
+
+{{:logo.png?70}}{{:logo.png?120}}{{:logo.png?320}}
+
+=== 📍 Imagen centrada con título ===
+
+{{  :pag_apli:adriano:error4.png?600  }}
+
+=== 🧭 Imagen alineada a la izquierda con texto alrededor ===
+
+{{:error4.png?200x150}}Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+
+=== 🔗 Imagen como enlace a otra página ===
+
+[[https://es.wikipedia.org/wiki/Parque_nacional|{{:error4.png?nolink&150x100|Haz clic para saber más sobre esta imagen}}]]
+
+=== 🖼️ Miniaturas en fila (galería horizontal) ===
+
+{{:error4.png?100x100}}{{:error4.png?100x100}}{{:error4.png?100x100}}{{:error4.png?100x100}}
+
+===== Uso de colores en bloque =====
+
+<WRAP note> Este es un bloque de tipo **note**  (nota general). Color típico: gris claro o azul suave. </WRAP>
+
+<WRAP info> Este es un bloque de tipo **info**  (información). Color típico: azul. </WRAP>
+
+<WRAP tip> Este es un bloque de tipo **tip**  (consejo). Color típico: verde. </WRAP>
+
+<WRAP important> Este es un bloque de tipo **important**  (importante). Color típico: naranja. </WRAP>
+
+<WRAP warning> Este es un bloque de tipo **warning**  (advertencia). Color típico: rojo o amarillo fuerte. </WRAP>
+
+<WRAP alert> Este es un bloque de tipo **alert**  (alerta crítica). Color típico: rojo intenso. </WRAP>
+
+<WRAP help> Este es un bloque de tipo **help**  (ayuda). Color típico: azul claro o celeste. </WRAP>
+
+<WRAP todo> Este es un bloque de tipo **todo**  (tarea pendiente). Color típico: púrpura o gris. </WRAP>
+
+<WRAP example> Este es un bloque de tipo **example**  (ejemplo). Color típico: verde claro o beige. </WRAP>
+
+<WRAP quote> Este es un bloque de tipo **quote**  (cita). Color típico: gris claro con borde. </WRAP>
+
+<WRAP question> Este es un bloque de tipo **question**  (pregunta). Color típico: azul o violeta. </WRAP>
+
+<WRAP caution> Este es un bloque de tipo **caution**  (precaución). Color típico: amarillo. </WRAP>
+
+<WRAP> <color red>Texto en rojo</color> <color blue>Texto en azul</color> <color green>Texto en verde</color> <color #FF9900>Texto en color personalizado</color> </WRAP>
+
+^Texto resaltado en color personalizado|
+|<html><div style="background-color:#FFDD99; padding:5px;">Este texto tiene fondo color naranja claro</div></html>|
+
+<html><span style="color:red;">Texto en rojo</span></html> <html><span style="color:green;">Texto en verde</span></html>
+
+**Texto en negrita**  //Texto en cursiva//  __Texto subrayado__  **//__Texto muy destacado__  //  **
+
+===== Tabla usando editor Dokuwiki =====
+
+^Provincia^Directorio Judicial|
+|Almería|[[https://portaladriano.justicia.junta-andalucia.es/portal/adriano/partidosjudiciales|https://portaladriano.justicia.junta-andalucia.es/portal/adriano/partidosjudiciales]]|
+|Cádiz|[[https://portaladriano.justicia.junta-andalucia.es/portal/adriano/partidosjudiciales|https://portaladriano.justicia.junta-andalucia.es/portal/adriano/partidosjudiciales]]|
+|Córdoba|[[https://portaladriano.justicia.junta-andalucia.es/portal/adriano/partidosjudiciales|https://portaladriano.justicia.junta-andalucia.es/portal/adriano/partidosjudiciales]]|
+|Granada|[[https://portaladriano.justicia.junta-andalucia.es/portal/adriano/partidosjudiciales|https://portaladriano.justicia.junta-andalucia.es/portal/adriano/partidosjudiciales]]|
+|Huelva|[[https://portaladriano.justicia.junta-andalucia.es/portal/adriano/partidosjudiciales|https://portaladriano.justicia.junta-andalucia.es/portal/adriano/partidosjudiciales]]|
+|Jaén|[[https://portaladriano.justicia.junta-andalucia.es/portal/adriano/partidosjudiciales|https://portaladriano.justicia.junta-andalucia.es/portal/adriano/partidosjudiciales]]|
+|Málaga|[[https://portaladriano.justicia.junta-andalucia.es/portal/adriano/partidosjudiciales|https://portaladriano.justicia.junta-andalucia.es/portal/adriano/partidosjudiciales]]|
+|Sevilla|[[https://portaladriano.justicia.junta-andalucia.es/portal/adriano/partidosjudiciales|https://portaladriano.justicia.junta-andalucia.es/portal/adriano/partidosjudiciales]]|
+
+==== Tabla en HTML ====
+
+<html> <table style="border-collapse: collapse; width: 70%; margin: auto;">
+<code>
+
+<thead>
+  <tr style="background-color: #f2f2f2;">
+    <th style="border: 1px solid #999; padding: 8px; width: 30%;">Provincia</th>
+    <th style="border: 1px solid #999; padding: 8px; width: 70%;">Directorio Judicial</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td style="border: 1px solid #999; padding: 8px; width: 30%;">Almería</td>
+    <td style="border: 1px solid #999; padding: 8px; width: 70%;">
+      <a href="https://portaladriano.justicia.junta-andalucia.es/portal/adriano/partidosjudiciales" target="_blank">
+        https://portaladriano.justicia.junta-andalucia.es/portal/adriano/partidosjudiciales
+      </a>
+    </td>
+  </tr>
+  <tr style="background-color: #f9f9f9;">
+    <td style="border: 1px solid #999; padding: 8px; width: 30%;">Cádiz</td>
+    <td style="border: 1px solid #999; padding: 8px; width: 70%;">
+      <a href="https://portaladriano.justicia.junta-andalucia.es/portal/adriano/partidosjudiciales" target="_blank">
+        https://portaladriano.justicia.junta-andalucia.es/portal/adriano/partidosjudiciales
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid #999; padding: 8px; width: 30%;">Córdoba</td>
+    <td style="border: 1px solid #999; padding: 8px; width: 70%;">
+      <a href="https://cordobacf.com/" target="_blank">
+        Córdoba C.F.
+      </a>
+    </td>
+  </tr>
+  <tr style="background-color: #f9f9f9;">
+    <td style="border: 1px solid #999; padding: 8px; width: 30%;">Granada</td>
+    <td style="border: 1px solid #999; padding: 8px; width: 70%;">
+      <a href="https://portaladriano.justicia.junta-andalucia.es/portal/adriano/partidosjudiciales" target="_blank">
+        https://portaladriano.justicia.junta-andalucia.es/portal/adriano/partidosjudiciales
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid #999; padding: 8px; width: 30%;">Huelva</td>
+    <td style="border: 1px solid #999; padding: 8px; width: 70%;">
+      <a href="https://portaladriano.justicia.junta-andalucia.es/portal/adriano/partidosjudiciales" target="_blank">
+        https://portaladriano.justicia.junta-andalucia.es/portal/adriano/partidosjudiciales
+      </a>
+    </td>
+  </tr>
+  <tr style="background-color: #f9f9f9;">
+    <td style="border: 1px solid #999; padding: 8px; width: 30%;">Jaén</td>
+    <td style="border: 1px solid #999; padding: 8px; width: 70%;">
+      <a href="https://portaladriano.justicia.junta-andalucia.es/portal/adriano/partidosjudiciales" target="_blank">
+        https://portaladriano.justicia.junta-andalucia.es/portal/adriano/partidosjudiciales
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid #999; padding: 8px; width: 30%;">Málaga</td>
+    <td style="border: 1px solid #999; padding: 8px; width: 70%;">
+      <a href="https://portaladriano.justicia.junta-andalucia.es/portal/adriano/partidosjudiciales" target="_blank">
+        https://portaladriano.justicia.junta-andalucia.es/portal/adriano/partidosjudiciales
+      </a>
+    </td>
+  </tr>
+  <tr style="background-color: #f9f9f9;">
+    <td style="border: 1px solid #999; padding: 8px; width: 30%;">Sevilla</td>
+    <td style="border: 1px solid #999; padding: 8px; width: 70%;">
+      <a href="https://www.alfinaldelapalmera.es/" target="_blank">
+        Al final de La Palmera
+      </a>
+    </td>
+  </tr>
+</tbody>
+
+</code>
+
+</table> </html>
+
+<WRAP group> <WRAP half column> <panel type="success" title="01 Formato"> **Texto en negrita**
+
+//Texto en cursiva//
+
+__Texto subrayado__  </panel>
+
+<panel type="danger" title="02 Salto de línea"> 1. Esto no es un salto de línea.
+
+2. Esto es
+
+un salto de línea.
+
+3. Esto es \\ otro salto de línea usando "\\" </panel> </WRAP>
+
+<WRAP half column> <panel type="info" title="03 Imagen"> {{:logo.png?70}}{{:logo.png?120}}
+
+{{:boton1.png?linkonly|boton1.png}} (Pulsa para ver imagen)
+
+{{:boton1.png?100|Iniciar proceso}}</panel>
+
+<panel type="warning" title="04 cuadro">
+
+  * nivel 1
+      * subnivel 2
+
+</panel> </WRAP> </WRAP>
+
+<html> <body> <div style="text-align: right;">
+<code>
+
+<div style="display: inline-block; border: 1px solid #ccc; padding: 10px 15px; text-align: right; font-style: italic; font-size: 105%; color: #555; margin-top: 20px; border-radius: 8px; background-color: #f9f9f9;">
+  Validado por: Juan Antonio González<br>
+  Fecha: 05/05/2025
+</div>
+
+</code>
+
+</div>
+
+<wrapper> <div style="text-align: right;">
+
+<code>
+<div style="display: inline-block; border: 1px solid #ccc; padding: 10px 15px; text-align: right; font-style: italic; font-size: 105%; color: #555; margin-top: 20px; border-radius: 8px; background-color: #f9f9f9;">
+  Validado por: @USER@<br>
+                @date@<br>
+</div>
+
+</code>
+
+</div> </wrapper> <!– Contenedor principal –> <div style="display: flex; align-items: center; gap: 10px; width: 400px; margin-bottom: 10px;">
+
+<code>
+<label for="estado" style="white-space: nowrap;">Estado Validación:</label>
+<select id="estado" name="estado" style="flex:1; height:30px;" onchange="mostrarInput(); guardarEstado();">
+  <option value="pendiente">Pendiente</option>
+  <option value="hecho">Hecho</option>
+</select>
+
+</code>
+
+</div>
+
+<!– Línea de Nombre (oculta al principio) –> <div id="nombreDiv" style="display: none; align-items: center; gap: 10px; width: 400px;"> </div> </body> </html>
+
+<WRAP center round tip 25%> EN CONSTRUCCIÓN </WRAP> {{:logo-ada-fondo-blanco.png?nolink&100}}{{:jda.png?100}}[[:pag_bienve|{{:boton1.png?nolink&40|DÍA 1 - Bienvenido a la Wiki del Servicio de Sistemas Digitales para la Justicia.}}]]
+
+<panel type="primary" title="Bienvenido a la Wiki del Servicio de Sistemas Digitales para la Justicia.">
+<code>
+
+   Aquí encontrarás toda la información sobre el Servicio:
+
+</code>
+
+<code>
+        Nuestra organización por Áreas y Equipos de trabajo,
+
+</code>
+
+<code>
+        los Proyectos en curso,
+
+</code>
+
+<code>
+        los Recursos disponibles y Herramientas con las que trabajamos,
+
+</code>
+
+<code>
+        así como los Procedimientos y Políticas que seguimos. </panel>
+
+</code>
+
+{{:cuadro_servicio_ssdj_2023.v08.jpg|Organigrama}}
+
+<WRAP group> <WRAP half column>
+
+<panel type="success" title="👥 Organización del SSDJ">
+
+  * [[:pag_jefa|Jefatura]]
+  * SSDJ
+  * [[:pag_admin|Administración]]
+  * [[:pag_desa|Desarrollo / Explotación]]
+  * [[:pag_infra|Infraestructura y Operaciones]]
+  * [[:pag_segu|Seguridad]]
+  * [[:pag_sacoep|Oficina Técnica]]
+  * [[:pag_proce|Asesoría Procesal]]
+  * [[:pag_forma|Formadores]]
+  *  [[:pag_proy|Proyectos]]
+      * [[:pag_sede|Nueva Sede Judicial Electrónica]]
+      * [[:pag_vdi|VDI]]
+      * [[:pag_textu|Textualización]]
+      * [[:pag_hgis|HGIS]]
+      * [[:pag_portal|Portal Adriano]]
+      * [[:pag_digi|Digitalización RRCC]]
+      * [[:pag_dici|Dicireg]]
+      * [[:pag_rpa|RPA]]
+      * [[:pag_inte|Integraciones]]
+      * [[:pag_ciberj|CiberJ]]
+  *  [[:pag_serv|Servicios]]
+      * [[:pag_explo|Explotación - DEVOPS]]
+      * [[:pag_inven|Inventario]]
+      * [[:pag_desa|Desarrollo]]
+      * [[:pag_audio:start|Audiovisuales SSVV]]
+      * [[:pag_sacoep|SACOEP]]
+      * [[:pag_sistemas|Sistemas]]
+      * [[:pag_asesoria|Asesoría Procesal]]
+      * [[:pag_basal|Basal Adriano]]
+      * [[:pag_forma|Formación]]
+      * [[:pag_suministro|Suministro]]
+      * [[:pag_puesto|Puesto de Trabajo: CSU y ATDP]]
+  *  [[:pag_puesto|Puesto de Trabajo]]
+      * [[:pag_cau|CAU]]
+      * [[:pag_crip|CRIP]]
+  * [[:pag_contactos#delegaciones-territoriales|Delegaciones Territoriales]]
+
+  *  [[:pag_puesto|test]]
+      * [[:pag_cau|test]]
+
+
+</panel>
+ </WRAP>
+
+<WRAP half column>
+
+<panel type="warning" title="📝 Procedimientos y Polìticas">
+
+  * Políticas del Servicio
+      * [[:pag_permi|Gestión de accesos y permisos]]
+      * [[:pag_ubi|Ubicaciones en el SSDJ]]
+  * Procedimientos
+      * Sistemas de Informarción
+      * [[:pag_pro1|Procedimientos CAU]]
+      * [[:pag_pro2|Procedimientos Sistemas]]
+      * [[:pag_pro3i|Procedimientos DEVOPS]]
+      *  [[:pag_pro4|Procedimientos Clave]]
+        * [[:pag_pro5|Comunicaciones internas]]
+        * [[:pag_pro6|Incidencias y Soporte]]
+        * [[:pag_pro7|Gestión de cambios]]
+        * [[:pag_pro8|Seguridad]]
+        * [[:pag_pro9|Copias de seguridad y Recuperación]]
+  * [[:pag_norma|Cumplimiento Normativo]]
+
+</panel> <panel type="info" title="🛠 Recursos y Herramientas">
+
+  * [[:pag_planti|Plantillas]]
+  * [[:pag_formu|Formularios]]
+  * [[:pag_herra|Herramientas de trabajo del Servicio]]
+  * [[:pag_cata|Catálogo de Aplicaciones]]
+
+</panel> <panel type="danger" title="📁 Formación y Desarrollo">
+
+  * [[:pag_inter|Procedimientos internos]]
+  * [[:pag_recur|Recursos Formativos]]
+  * [[:pag_manu|Acceso a manuales]]
+
+</panel> </WRAP>
+
+[[https://pictogrammers.com/library/mdi/|https://pictogrammers.com/library/mdi/]]
+
+<panel type="primary" title="Iconos 1"> {{mdi>account-plus}} {{mdi>account-remove}} {{mdi>account-search}} {{mdi>alert}} {{mdi>apps}} {{mdi>archive}} {{mdi>arrow-down}} {{mdi>arrow-left}} {{mdi>arrow-right}} {{mdi>arrow-up}} {{mdi>bike}} {{mdi>book}} {{mdi>bookmark}} {{mdi>briefcase}} {{mdi>bus}} {{mdi>calendar}} {{mdi>camera}} {{mdi>car}} {{mdi>cellphone}} {{mdi>check}} {{mdi>clock}} {{mdi>close}} {{mdi>cloud-download}} {{mdi>cloud-upload}} {{mdi>cogs}} {{mdi>contact-mail}} {{mdi>desktop-classic}} {{mdi>download}} {{mdi>email}} {{mdi>eraser}} {{mdi>eye}} {{mdi>file-document-box-multiple-outline}} {{mdi>file-document}} {{mdi>file-table-outline}} {{mdi>folder}} {{mdi>folder-open}} {{mdi>home}} {{mdi>home-floor-a}} {{mdi>information}} {{mdi>keyboard}} {{mdi>laptop-chromebook}} {{mdi>library-video}} {{mdi>lightbulb}} {{mdi>lock}} {{mdi>login}} {{mdi>logout}} {{mdi>menu}} {{mdi>message}} {{mdi>monitor}} {{mdi>mouse}} {{mdi>music}} {{mdi>network}} {{mdi>pause}} {{mdi>pencil}} {{mdi>phone}} {{mdi>play}} {{mdi>printer}} {{mdi>refresh}} {{mdi>registered-trademark}} {{mdi>run-fast}} {{mdi>search}} {{mdi>server}} {{mdi>settings}} {{mdi>share}} {{mdi>shield-check}} {{mdi>stack-exchange}} {{mdi>stop}} {{mdi>sync}} {{mdi>tablet}} {{mdi>thumb-down}} {{mdi>thumb-up}} {{mdi>toolbox}} {{mdi>trash-can}} {{mdi>upload}} {{mdi>usb}} {{mdi>view-grid}} {{mdi>wifi}} {{mdi>account-group}} {{mdi>alarm}} {{mdi>ambulance}} {{mdi>anchor}} {{mdi>api}} {{mdi>basket}} {{mdi>beaker}} {{mdi>bell}} {{mdi>bluetooth}} {{mdi>briefcase-check}} {{mdi>calculator}} {{mdi>calendar-check}} {{mdi>cash}} {{mdi>chart-bar}} {{mdi>chart-line}} \\ {{mdi>chat}} {{mdi>cloud}} {{mdi>credit-card}} {{mdi>database}} {{mdi>earth}} {{mdi>file-pdf-box}} {{mdi>fire}} {{mdi>flag}} {{mdi>flash}} {{mdi>gift}} {{mdi>google}} {{mdi>heart}} {{mdi>human-male-female}} {{mdi>image}} {{mdi>key}} {{mdi>lamp}} {{mdi>leaf}} {{mdi>map-marker}} {{mdi>microphone}} {{mdi>palette}} {{mdi>percent}} {{mdi>pin}} {{mdi>power}} {{mdi>radio}} {{mdi>robot}} {{mdi>school}} {{mdi>shopping}} {{mdi>snowflake}} {{mdi>star}} {{mdi>sun}} {{mdi>ticket}} {{mdi>train}} {{mdi>truck}} {{mdi>umbrella}} {{mdi>video}} {{mdi>web}} {{mdi>wrench}} </panel>
+
+<panel type="primary" title="Panel 2">⚖️ 🏛️ 👨‍⚖️ 👩‍⚖️ 📜 📑 📂 📕 🛡️ 🔏✍️ 🖊️ 🔒 🔓 🚨 👮‍♂️ 👮‍♀️ 🔗 📢 📬📌 🚔 🏢 🗃️ 📖 🔍 🧐 🎓 🏆 🏅💻 🖥️ 🖲️ ⌨️ 🖱️ 🖴 🎛️ 📡 📶 🔗⚙️ 🔧 🛠️ 🗜️ 🏗️ 🏭 💾 📂 📁 🗂️📊 📈 📉 📡 🔍 🧐 🕵️‍♂️ 🔎 🖋️ 📜🛑 🚫 🚦 🏷️ 🔑 🔓 📋 🗄️ 📎 📛🔎 🏆 🎯 🚦 🏗️ 🛎️ 🎟️ 📢 📬 📥💼 🏠 🏢 🏭 🏗️ 🏛️ ⛪ 🏦 🏤 🏣🛤️ 🚇 🚉 🚀 ✈️ 🚗 🚌 🚚 🚲 🛳️⚙️ 🔩 🏭 🔋 🔌 🔧 🔨 🛠️ 🗜️ 🧰📝 📖 📑 📚 🗃️ 🗄️ 🏷️ 📇 📌 📎🔍 🧐 👓 📊 📈 📉 📆 🕰️ ⏰ ⏳📡 🖥️ 💻 🎛️ 🖲️ ⌨️ 🖱️ 🖴 📡 🔗💡 🔦 🏮 📛 🚸 ⚠️ ☢️ ☣️ 🔥 🏕️⚖️ 🏛️ 👨‍⚖️ 📜 🔏 🔒 ✍️ 📂 🚨 🛡️🛠️ 🔧 💡 📞 🎛 🚀 🏢 ⚙️📊 📁 🗂 🗃 🗄 📅 ⏳ ⏱️ 🔄 🔁👥 🧑‍💼 👔 🤝 📌 ✅ 🚧 📤🖥️ 💻 🖲 ⌨ 🖱 🖴 📡 📶 🛰️ 🔗</panel>
+
+<panel type="success" title="type=success"> </panel>
+
+<panel type="info" title="type=info"> </panel>
+
+<panel type="warning" title="type=warning"> </panel>
+
+<panel type="danger" title="type=danger"> </panel>
+
+<panel type="primary" title="type=primary"> </panel>
+
+<panel title="sin type"> </panel>
+
+<alert type="success" icon="glyphicon glyphicon-user" dismiss="true"> \\ **Bienvenido!**  You successfully read this important alert message. \\ </alert>
+
+<html> <head>
+<code>
+
+<meta charset="UTF-8" />
+<title>Acordeón</title>
+<style>
+  .accordion-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+</code>
+
+<code>
+  .accordion input[type="radio"] {
+    display: none;
+  }
+
+</code>
+
+<code>
+  .accordion label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+  }
+
+</code>
+
+<code>
+  .accordion label::before {
+    content: "+";
+    font-size: 1.4em;
+    transition: transform 0.3s ease;
+  }
+
+</code>
+
+<code>
+  .accordion input[type="radio"]:checked + label::before {
+    content: "–";
+  }
+
+</code>
+
+<code>
+  #item1 + label { background-color: #4a90e2; }
+  #item1 + label:hover { background-color: #357ABD; }
+  #item1:checked + label + .content {
+    background: #e8f0fe;
+    border-left: 4px solid #4a90e2;
+  }
+
+</code>
+
+<code>
+  #item2 + label { background-color: #4CAF50; }
+  #item2 + label:hover { background-color: #3e8e41; }
+  #item2:checked + label + .content {
+    background: #e0f7e9;
+    border-left: 4px solid #4CAF50;
+  }
+
+</code>
+
+<code>
+  #item3 + label { background-color: #f57c00; }
+  #item3 + label:hover { background-color: #e65c00; }
+  #item3:checked + label + .content {
+    background: #fff3e0;
+    border-left: 4px solid #f57c00;
+  }
+
+</code>
+
+<code>
+  #item4 + label { background-color: #9c27b0; }
+  #item4 + label:hover { background-color: #7b1fa2; }
+  #item4:checked + label + .content {
+    background: #f3e5f5;
+    border-left: 4px solid #9c27b0;
+  }
+
+</code>
+
+<code>
+  .accordion .content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    padding: 0 12px;
+    border-radius: 0 0 8px 8px;
+  }
+
+</code>
+
+<code>
+  .accordion input[type="radio"]:checked + label + .content {
+    max-height: 1000px;
+    padding: 10px 12px;
+  }
+
+</code>
+
+<code>
+  .accordion a {
+    display: block;
+    padding: 4px 0 4px 10px;
+    text-decoration: none;
+    color: #333;
+  }
+
+</code>
+
+<code>
+  .accordion a:hover {
+    text-decoration: underline;
+  }
+
+</code>
+
+<code>
+  .subaccordion {
+    margin-left: 10px;
+  }
+
+</code>
+
+<code>
+  .subaccordion input[type="checkbox"] {
+    display: none;
+  }
+
+</code>
+
+<code>
+  .subaccordion label {
+    display: block;
+    font-weight: normal;
+    color: #333;
+    padding-left: 20px;
+    cursor: pointer;
+    position: relative;
+  }
+
+</code>
+
+<code>
+  .subaccordion label::before {
+    content: "▶";
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: transform 0.2s ease;
+  }
+
+</code>
+
+<code>
+  .subaccordion input[type="checkbox"]:checked + label::before {
+    transform: rotate(90deg);
+  }
+
+</code>
+
+<code>
+  .subcontent {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    padding: 0 12px;
+    margin-left: 20px;
+    background-color: #f9f9f9;
+    border-left: 2px solid #ccc;
+    border-radius: 4px;
+  }
+
+</code>
+
+<code>
+  .subaccordion input[type="checkbox"]:checked + label + .subcontent {
+    max-height: 1000px;
+    padding: 5px 12px;
+  }
+</style>
+
+</code>
+
+</head> <body>
+
+<code>
+<div class="accordion-container">
+
+</code>
+
+<code>
+  <div class="accordion">
+    <input type="radio" name="accordion" id="none" checked>
+    <input type="radio" name="accordion" id="item1">
+    <label for="item1">Organización del SSDJ</label>
+    <div class="content">
+      <p><a href="#">Jefatura</a></p>
+      <p><a href="#">Administración</a></p>
+      <p><a href="#">Desarrollo/Explotación</a></p>
+      <p><a href="#">Infraestructuras</a></p>
+      <p><a href="#">Seguridad</a></p>
+
+</code>
+
+<code>
+      <div class="subaccordion">
+        <input type="checkbox" id="sub1">
+        <label for="sub1">Proyectos</label>
+        <div class="subcontent">
+          <p><a href="#">Nueva Sede Judicial Electrónica</a></p>
+          <p><a href="#">VDI</a></p>
+          <p><a href="#">Textualización</a></p>
+        </div>
+      </div>
+
+</code>
+
+<code>
+      <div class="subaccordion">
+        <input type="checkbox" id="sub2">
+        <label for="sub2">Servicios</label>
+        <div class="subcontent">
+          <p><a href="#">Inventario</a></p>
+          <p><a href="#">Formación</a></p>
+        </div>
+      </div>
+
+</code>
+
+<code>
+      <p><a href="#">Delegaciones Territoriales</a></p>
+    </div>
+  </div>
+
+</code>
+
+<code>
+  <div class="accordion">
+    <input type="radio" name="accordion" id="item2">
+    <label for="item2">Procedimientos y Políticas</label>
+    <div class="content">
+      <p><a href="#">Políticas del Servicio</a></p>
+      <p><a href="#">Procedimientos</a></p>
+    </div>
+  </div>
+
+</code>
+
+<code>
+  <div class="accordion">
+    <input type="radio" name="accordion" id="item3">
+    <label for="item3">Recursos y Herramientas</label>
+    <div class="content">
+      <p><a href="#">Plantillas</a></p>
+      <p><a href="#">Formularios</a></p>
+    </div>
+  </div>
+
+</code>
+
+<code>
+  <div class="accordion">
+    <input type="radio" name="accordion" id="item4">
+    <label for="item4">Formación y Desarrollo</label>
+    <div class="content">
+      <p><a href="#">Procedimientos Internos</a></p>
+      <p><a href="#">Recursos Formativos</a></p>
+    </div>
+  </div>
+
+</code>
+
+<code>
+</div>
+
+</code>
+
+</body> </html>
+
+<WRAP center round tip 25%> EN CONSTRUCCIÓN </WRAP>
+
+Parámetros comunes: Parámetro Descripción mode Vista del calendario: AGENDA, WEEK, MONTH height Altura del calendario en píxeles lang Idioma (por ejemplo, es para español)
+
+tu_id_de_calendario
+
+tu_id_de_calendario
+
+<html> [[https://calendar.google.com/calendar/embed?src=TU_ID_DE_CALENDARIO&ctz=Europe%2FMadrid|https://calendar.google.com/calendar/embed?src=TU_ID_DE_CALENDARIO&ctz=Europe%2FMadrid]] </html>
+
+{{tag>validada}}
+
+
+
+<html>
+<code>
+
+<head>
+  <style>
+    /* Estilo para centrar solo el contenedor que queremos */
+    .contenedor-centrado {
+      margin: 0 auto;  /* Centra horizontalmente */
+      width: fit-content; /* Ajusta al ancho del contenido */
+      padding: 0px;
+    }
+
+    /* Estilo para el cuadro del select */
+    .cuadro-select {
+      border: 2px solid #333;
+      padding: 15px;
+      border-radius: 8px;
+      background-color: #f9f9f9;
+      width: 275px;
+    }
+
+    .cuadro-select label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .cuadro-select select {
+      width: 100%;
+      height: 35px;
+      padding: 5px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+
+<body>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const selector = document.getElementById("paginas");
+      if (selector) {
+        selector.addEventListener("change", function () {
+          if (this.value) window.location.href = this.value;
+        });
+      }
+    });
+  </script>
+  <!-- Contenedor centrado SOLO para el cuadro del select -->
+  <div class="contenedor-centrado">
+    <div class="cuadro-select">
+      <label for="paginas" style="display:block; text-align:center;">¿Eres nuevo en el SSDJ?</label>
+
+      <select id="paginas" name="paginas">
+      <option value="">-- Elige tu departamento --</option>
+      <option value="/dokuwiki/!ssdj/doku.php?id=pag_admin">Administración</option>
+      <option value="/dokuwiki/!ssdj/doku.php?id=pag_anal">Analítica del Dato</option>
+      <option value="/dokuwiki/!ssdj/doku.php?id=pag_asesoria">Asesoría Procesal</option>
+      <option value="/dokuwiki/!ssdj/doku.php?id=pag_forma">Capacitación</option>
+      <option value="/dokuwiki/!ssdj/doku.php?id=pag_dnoa">Desarrollo No Adriano</option>
+      <option value="/dokuwiki/!ssdj/doku.php?id=pag_sistemas">Equipo (Sistemas)</option>
+      <option value="/dokuwiki/!ssdj/doku.php?id=pag_devops">Explotación - DEVOPS</option>
+      <option value="/dokuwiki/!ssdj/doku.php?id=pag_sacoep">Oficina Técnica (SACOEP)</option>
+      <option value="/dokuwiki/!ssdj/doku.php?id=pag_puesto">Puesto de Trabajo</option>
+      <option value="/dokuwiki/!ssdj/doku.php?id=pag_seguridad">Seguridad</option>
+      <option value="/dokuwiki/!ssdj/doku.php?id=pag_basal">Servicio Basal Adriano</option>
+      <option value="/dokuwiki/!ssdj/doku.php?id=pag_audio">Sistemas Audiovisuales</option>
+        <!-- Resto de opciones -->
+      </select>
+    </div>
+  </div>
+
+</body>
+
+</code>
+
+</html>
+
+

@@ -1,0 +1,750 @@
+﻿
+====== Distribución y mantenimiento de usuarios, contraseñas y privilegios en sedes ======
+
+1. Introducción
+
+Estos Scripts se encuentran en
+
+**iussljobs02**.
+
+El procedimiento desarrollado cubre una necesidad que se nos presenta en la administración de sistemas de bases de datos con múltiples instancias, como es:
+
+Crear y mantener actualizados y en sincronía de todas las bases de datos de sedes, usuarios, las claves, los estados de validez de la cuenta (caducidades), los roles asignados y los privilegios otorgados sobre otros objetos de esquemas Adriano.
+
+En base a una tabla donde se describe como deben configurarse estos usuarios y roles, la distribución se realiza ejecutando un procedimiento de BBDD (generalmente llamado desde un script en Unix/Linux) que a su vez llama con los parámetros adecuados a otro procedimiento que debe existir en las BBDD de las sedes.
+
+====== 2. Descripción del Procedimiento ======
+
+Incialmente el alcance de la distribución y sincronía se aplica a:
+
+- Usuarios personales del CSU, Procesal, AT-Adriano, e INDRA (AT-Sistemas). En particular se evita que sus contraseñas caduquen asíncronamente en cada bbdd, haciendo regir la caducidad en la bbdd central, PROD02.
+
+- Usuarios de database links utilizados por aplicaciones de SSCC. En particular evita el que tengan permisos distintos en cada bbdd, como sucede ahora, y facilita la creación y concesión de privilegios automática de estos usuarios ante un alta de un esquema o una bbdd de Adriano, simplemente dando de alta los esquemas correctamente en el inventario de SISTEMAS.
+
+- Roles comunes a todas las sedes, R_CEIURIS_RO, R_CEIURIS_RW, R_CEIURIS_CSU, y R_CEIURIS_ADM.
+
+- Se puede aplicar tanto a usuarios específicos, como a nombres de usuario con comodines (%), como a tipos de usuario que se definen en la tabla **SISTEMAS.ESQUEMAS_CLASIFICA**
+
+Actualmente estos son los tipos a los que aplica:
+
+  * PERSONAL CSU
+  * PERSONAL PROCESAL
+  * PERSONAL ADRIANO
+  * PERSONAL INDRA
+  * PERSONAL DESARROLLO (Distr)
+
+Con la siguiente query podemos averiguar los usuarios asignados a los esquemas anteriores:
+
+select tipo, esquema from SISTEMAS.ESQUEMAS_CLASIFICA \\ where tipo in ('PERSONAL CSU','PERSONAL PROCESAL','PERSONAL ADRIANO','PERSONAL INDRA') \\ order by 1,2
+
+Estos usuarios deben estar dados de alta en la bbdd central (PROD02) y su cuenta estar abierta (OPEN) para que sean tenidos en cuenta en el proceso. En este caso la contraseña (VALUES) se obtiene de la vista SYS.USER$.
+
+- Los propietarios sobre los que se conceden privilegios a los usuarios anteriores, también se pueden especificar como usuarios específicos, usuarios con comodines, o tipos de usuario. El procedimiento expandirá el tipo y afectará a todos los esquemas presentes en cada bbdd de ese tipo. Se ha realizado una tipificación no real, sino basada en la experiencia tal que esta:
+ <font 14px background-color: rgb(255, 255, 255)/sans-serif;;inherit;;rgb(255, 255, 255)>select tipo, esquema from SISTEMAS.ESQUEMAS_CLASIFICA</font>   \\
+ <font 14px background-color: rgb(255, 255, 255)/sans-serif;;inherit;;rgb(255, 255, 255)>where tipo in ('ADRIANO SEINSIR','ADRIANO REPARTO','ADRIANO X3','NAUTIUS SEDE')</font>   \\
+ <font 14px background-color: rgb(255, 255, 255)/sans-serif;;inherit;;rgb(255, 255, 255)>order by 1,2</font>
+
+- Los objetos incluídos en el procedimiento son tablas, vistas, secuencias y procedimientos, funciones y paquetes. Solo se admite el nombre exacto del objeto, o un * representando a todos los objetos de esa clase.
+
+- El valor **INICIALIZAR**  en el campo ROL_GRANTED implica la eliminación de todos los roles y privilegios asignados al rol o usuario. Está pensado únicamente para reconstruirlo enteramente a partir de los privilegios especificados en las filas siguientes en el orden establecido por el campo ORDER.
+
+- El campo **ORDER**  de SISTEMAS.GRANTS_EN_SEDES es importante en ciertos casos. Sobre todo cuando una de las directivas dadas en la tabla es INICIALIZAR. Si no se hiciera con el orden establecido en ella, podríamos estar revocando privilegios después de haberlos otorgado.
+
+====== 3. Directivas para su uso. ======
+
+Se podría simplemente ejecutar el procedimiento con todo el contenido de la tabla SISTEMAS.GRANTS_EN_SEDES activado (**DOIT**  ='YES', ver estructura de la tabla de configuración), pero se prefiere, para controlar mejor los errores, hacerlo separadamente por conceptos. En los diversos scripts lanzadores, se actualiza el campo DOIT solo a las filas que nos interesan.
+
+===== 3.1. Roles personales =====
+
+//Script//:
+ <font 1em/NewsGotT;;inherit;;inherit>/NFS_BACKUP/BBDD/scripts/DATABASE-LINKS/SEDES/roles-personales.sh</font>
+
+// <font 1em/NewsGotT;;inherit;;inherit>Acción</font> // <font 1em/NewsGotT;;inherit;;inherit>: Creación de roles personales, R_CEIURIS_RO, R_CEIURIS_RW, R_CEIURIS_ADM y R_CEIURIS_CSU y concesión de privilegios.</font>
+
+// <font 1em/NewsGotT;;inherit;;inherit>Modo</font> // <font 1em/NewsGotT;;inherit;;inherit>: - DOIT = 'YES' en las filas cuyo grantor empieze por 'R_CEIURIS_'.</font>
+ <font 1em/NewsGotT;;inherit;;inherit>- INICIALIZAR='NO'</font>
+
+// <font 1em/NewsGotT;;inherit;;inherit>Programación</font> // <font 1em/NewsGotT;;inherit;;inherit>: crontab de IUSSUBD01 semanalmente, los sábados.</font>
+
+===== 3.2. Usuarios personales =====
+
+//Script//:
+ <font 1em/NewsGotT;;inherit;;inherit>/NFS_BACKUP/BBDD/scripts/DATABASE-LINKS/SEDES/passwords-personales.sh</font>
+
+// <font 1em/NewsGotT;;inherit;;inherit>Acción</font> // <font 1em/NewsGotT;;inherit;;inherit>: Creación de usuarios, sincronización de contraseñas, y concesión de sus roles y privilegios</font>
+
+// <font 1em/NewsGotT;;inherit;;inherit>Modo</font> // <font 1em/NewsGotT;;inherit;;inherit>: - DOIT = 'YES' en las filas cuyo grantor sea 'PERSONAL CSU', 'PERSONAL PROCESAL', 'PERSONAL ADRIANO', 'PERSONAL INDRA'.</font>
+
+INICIALIZAR='NO'
+
+// <font 1em/NewsGotT;;inherit;;inherit>Programación</font> // <font 1em/NewsGotT;;inherit;;inherit>: crontab de IUSSUBD01 lunes, miércoles y viernes.</font>
+ <font 1em/NewsGotT;;inherit;;inherit>Para la creación de un nuevo usuario basta con crear el usuario en PROD02 y realizar un insert en la tabla SISTEMAS.ESQUEMAS_CLASIFICA indicando nombre de usuario creado y tipo al que corresponde, con los pasos anteriores cuando se ejecute el cron se realizara la creación del mismo en las sedes con los permisos correspondiente al tipo indicado. (Si urge la creación se puede ejecutar el script programado en cron en cualquier momento).</font>
+
+===== 3.3. Usuarios de database links de aplicaciones =====
+
+//Script//:
+ <font 1em/NewsGotT;;inherit;;inherit>/NFS_BACKUP/BBDD/scripts/DATABASE-LINKS/SEDES/usuarios-dblinks.sh</font>
+
+// <font 1em/NewsGotT;;inherit;;inherit>Acción</font> // <font 1em/NewsGotT;;inherit;;inherit>: Creación de usuarios, sincronización de contraseñas, y concesión de sus roles y privilegios</font>
+
+// <font 1em/NewsGotT;;inherit;;inherit>Modo</font> // <font 1em/NewsGotT;;inherit;;inherit>: - DOIT = 'YES' en las filas cuyo grantor no sea 'PERSONAL %' y no sea 'R_CEIURIS_%'. Esta condición podrá variar en función de los valores que se introduzcan en la tabla.</font>
+
+  * ** <font 1em/NewsGotT;;inherit;;inherit>INICIALIZAR='NO'</font> **
+// <font 1em/NewsGotT;;inherit;;inherit>Programación</font> // <font 1em/NewsGotT;;inherit;;inherit>: crontab de IUSSUBD01 semanalmente los domingos.</font>
+
+Ejemplo:
+ <font 1em/NewsGotT;;inherit;;inherit>/NFS_BACKUP/BBDD/scripts/DATABASE-LINKS/SEDES/usuarios-dblinks-crea-MANCARGADOR.sh</font>
+ <font 1em/NewsGotT;;inherit;;inherit>Para dar de alta un nuevo usuario, hay que agregar una linea en</font>
+ <font 0.6em font-family: Courier/Courier;;inherit;;inherit>SISTEMAS</font>
+ <font 0.6em color: rgb(0, 0, 255) font-family: Courier;/Courier;;rgb(0, 0, 255) font-family: Courier;;;inherit>.</font> /Courier;;rgb(0, 0, 255) font-family: Courier;/Courier;;rgb(0, 0, 255) font-family: Courier;;;inherit>.</font> ;;inherit>GRANTS_EN_SEDES</font>
+ <font 1em/NewsGotT;;inherit;;inherit>donde indicaremos el rol_granted=INICIALIZAR y en PASSWD indicar la contraseña.</font>
+ <font 1em/NewsGotT;;inherit;;inherit>Esto borrará ( si existiera) y creará el usuario en la base de datos que indicamos(SEDES)</font>
+ <font 1em/NewsGotT;;inherit;;inherit>En la misma ejecución podemos darle los permisos necesarios siempre y cuando estos permisos le asignemos una orden superior, ( las tareas se realizan en orden ascendente)</font>
+
+===== 3.4. Usos discrecionales =====
+ <font 1em/NewsGotT;;inherit;;inherit>/NFS_BACKUP/BBDD/scripts/DATABASE-LINKS/SEDES/usuarios-dblinks-crea-MANWSFIRMADOR.sh):</font>
+
+update SISTEMAS.GRANTS_EN_SEDES set DOIT='NO'; \\
+update SISTEMAS.GRANTS_EN_SEDES set DOIT='YES' where grantee like 'MANWSFIRMADOR'; \\
++++ INCLUYO EL INICIALIZAR, no lo pongo a NO +++ \\
+commit; \\
+exec SISTEMAS.DAR_GRANTS_EN_SEDES (); \\
+# Bucle (Linux) para ejecutar en cada sede el contenido de la tabla GRANTS_EN_SEDES_EJECUTAR (ver script): \\
+for bbdd in `egrep -v "^$" $SPOOL | cut -b 1-20 | sort | uniq`; do \\
+echo === $bbdd === \\
+(echo set serveroutput on size unlimited ; \\
+egrep "^$bbdd" $SPOOL | sed 's/[ ]*$//' | cut -b 21- ) | \\
+sqlplus -S system/`bbddPass ${bbdd}`@${bbdd} \\
+done//
+
+Hay dos prerequisitos imprescindibles para que funcione correctamente:
+ <font 1em/NewsGotT;;inherit;;inherit>- el usuario debe existir en PROD02 y la cuenta estar en estado OPEN</font>
+ <font 1em/NewsGotT;;inherit;;inherit>- el inventario de sistemas ha de estar actualizado. Esto lo podemos conseguir dando de alta a mano el esquema en SISTEMAS.ESQUEMAS, apuntado a PROD02, o, más sencillo, una vez creado el esquema en PROD02, correr el script que actualiza automáticamente el inventario (en el cron de IUSSUBD01), que es:</font>
+
+====== 4. Listado de tablas, procedimientos y scripts ======
+
+4.1 Tabla principal, SISTEMAS.GRANTS_EN_SEDES
+
+Para la recreación sencilla y visual del contenido de esta tabla, se parte de la hoja de cálculo ¿//GRANTS USUARIOS DISTRIBUIDOS - Tabla base.xls//¿, que debe acompañar a esta documentación.
+
+CREATE TABLE SISTEMAS.GRANTS_EN_SEDES
+
+(
+
+ORDEN NUMBER(5),
+
+DOIT VARCHAR2(5 BYTE),
+
+BASE_DATOS VARCHAR2(30 BYTE),
+
+GRANTEE_TYPE VARCHAR2(20 BYTE),
+
+GRANTEE VARCHAR2(40 BYTE),
+
+PASSWD VARCHAR2(100 BYTE),
+
+ROL_GRANTED VARCHAR2(20 BYTE),
+
+GRANTOR VARCHAR2(40 BYTE),
+
+TABLAS VARCHAR2(200 BYTE),
+
+VISTAS VARCHAR2(200 BYTE),
+
+SECUENCIAS VARCHAR2(200 BYTE),
+
+PROCEDIMIENTOS VARCHAR2(200 BYTE),
+
+PRIVILEGIO VARCHAR2(200 BYTE)
+
+)
+
+Tabla temporal de trabajo, SISTEMAS.GRANTS_EN_SEDES_EJECUTAR
+
+CREATE TABLE SISTEMAS.GRANTS_EN_SEDES_EJECUTAR
+
+(
+
+ORDEN NUMBER(5),
+
+BASE_DATOS VARCHAR2(100 BYTE),
+
+COMANDO VARCHAR2(1000 BYTE)
+
+)
+
+===== 4.2. Procedimiento principal SISTEMAS.DAR_GRANTS_EN_SEDES. =====
+
+En PROD02. Recorre la tabla SISTEMAS.GRANTS_EN:_SEDES para tratar fila por fila en el orden indicado.
+
+CREATE OR REPLACE PROCEDURE SISTEMAS.DAR_GRANTS_EN_SEDES
+
+AS
+
+CURSOR C_GRANTS IS
+
+select * from SISTEMAS.GRANTS_EN_SEDES where doit = 'YES' order by orden;
+
+BEGIN
+
+delete from SISTEMAS.GRANTS_EN_SEDES_EJECUTAR;
+
+commit;
+
+FOR R1 IN C_GRANTS LOOP
+
+DAR_GRANTS_EN_SEDES_FILA (R1);
+
+END LOOP;
+
+commit;
+
+EXCEPTION
+
+WHEN OTHERS THEN
+
+dbms_output.put_line('*** ' || SQLERRM || DBMS_UTILITY.FORMAT_ERROR_BACKTRACE); END DAR_GRANTS_EN_SEDES; / ===== 4.3. Procedimiento encasulado de tratamiento de fila, SISTEMAS.DAR_GRANTS_EN_SEDES_FILA ===== [[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/Distribución y mantenimiento de usuarios, contraseñas y  privilegios en sedes?section=12|Editar]] Tratamiento de cada fila de SISTEMAS.GRANTS_EN_SEDES, en PROD02, que es empaquetada en este procedimiento recursivo. Inserta ordenadamente los comandos a ejecutar en sede en la tabla SISTEMAS.GRANTS_EN_SEDES_EJECUTAR. CREATE OR REPLACE PROCEDURE SISTEMAS.DAR_GRANTS_EN_SEDES_FILA (F1 SISTEMAS.GRANTS_EN_SEDES%ROWTYPE) AS F2 SISTEMAS.GRANTS_EN_SEDES%ROWTYPE; Cursor C_EXPANDE_USER_TYPE (vc_tipo varchar2) is select distinct e.esquema from SISTEMAS.BASES_DATOS bd, sistemas.esquemas e, sistemas.esquemas_clasifica ec, sistemas.servidores s where E.E_X_BASE_DATOS = BD.X_BASE_DATOS and EC.ESQUEMA = e.esquema and S.ID_SERVIDOR = BD.B_X_SERVIDOR and ec.tipo = vc_tipo and bd.baja <;>; 'S' and bd.base_datos not like 'ARC%' order by 1; Cursor C_EXPANDE_USER_WILDCARD (template varchar2) is select distinct e.esquema from SISTEMAS.BASES_DATOS bd, sistemas.esquemas e, sistemas.esquemas_clasifica ec, sistemas.servidores s where E.E_X_BASE_DATOS = BD.X_BASE_DATOS and EC.ESQUEMA = e.esquema and S.ID_SERVIDOR = BD.B_X_SERVIDOR and e.esquema like template escape '+' and S.DOMINIO not in ('JUSTICIA', 'IUS') and bd.baja <;>; 'S' and bd.base_datos not like 'ARC%' order by 1; BEGIN F2 := F1; dbms_output.put_line('. Tratando fila # ' || F1.orden ||' - '|| F1.rol_granted ||' - '|| F1.grantee ||' - '|| F1.grantor); IF F1.grantee_type = 'USER_TYPE' then dbms_output.put_line('.. Expando user_type:' || F1.grantee); for R1 in C_EXPANDE_USER_TYPE(F1.grantee) loop F2.grantee_type := 'USER'; F2.grantee := R1.esquema; BEGIN F2.passwd := null; – Las passwords de los usuarios personales se coje la que tengan en PROD02 if F1.grantee like 'PERSONAL %' then select password into F2.passwd from (SELECT u.NAME, u.user#, u.PASSWORD, m.status FROM SYS.user$ u, SYS.user_astatus_map m WHERE u.astatus = m.status# AND u.type# = 1) where name = R1.esquema and status = 'OPEN'; –si no está OPEN no se difunde end if; EXCEPTION WHEN OTHERS THEN dbms_output.put_line('*** ' || SQLERRM || DBMS_UTILITY.FORMAT_ERROR_BACKTRACE);
+
+END;
+
+DAR_GRANTS_EN_SEDES_FILA (F2);
+
+END LOOP;
+
+ELSE
+
+– Expandir ADRIANO SEINSIR, REPARTO, X3 y NAUTIUS SEDE
+
+IF F1.grantor like 'ADRIANO%' or F1.grantor like 'NAUTIUS SEDE' then
+
+dbms_output.put_line('.. Expando grantor:' || F1.grantor);
+
+for R1 in C_EXPANDE_USER_TYPE(F1.grantor) loop
+
+F2.grantor := R1.esquema;
+
+DAR_GRANTS_EN_SEDES_FILA (F2);
+
+END LOOP;
+
+else
+
+– Expandir JINST%, PRINST%,…
+
+IF F1.grantor like '%+%' escape '+' then
+
+dbms_output.put_line('.. Expando grantor:' || F1.grantor);
+
+for R1 in C_EXPANDE_USER_WILDCARD(F1.grantor) loop
+
+F2.grantor := R1.esquema;
+
+DAR_GRANTS_EN_SEDES_FILA (F2);
+
+END LOOP;
+
+else
+
+–todo expandido
+
+– INICIALIZAR: se pasa tipo (ROL, USER), nombre, password, e "inicializar"
+
+if F1.rol_granted = 'INICIALIZAR' then
+
+dbms_output.put_line('… Inserto INICIALIZAR');
+
+insert into GRANTS_EN_SEDES_EJECUTAR
+
+select F1.orden, base_datos, 'exec SYS.GRANTS_EN_SEDE('''||F1.grantee_type||''','''||F1.grantee||''','''|| F1.passwd||''','''||F1.rol_granted||''',,,,,,);'
+
+from SISTEMAS.BASES_DATOS bd, sistemas.servidores s
+
+where S.ID_SERVIDOR = BD.B_X_SERVIDOR and S.DOMINIO not in ('JUSTICIA', 'IUS')
+
+and bd.baja <;>; 'S' and bd.base_datos not like 'ARC%';
+
+else
+
+if F1.grantor is null then
+
+–si no hay grantor, es un rol que hay que dar
+
+dbms_output.put_line('… Inserto FILA sin grantor (todas las bbdd)');
+
+insert into GRANTS_EN_SEDES_EJECUTAR
+
+select F1.orden, base_datos, 'exec SYS.GRANTS_EN_SEDE('''||F1.grantee_type||''','''||F1.grantee||''','''|| F1.passwd||''','''||F1.rol_granted||''','''||F1.grantor||''','''||F1.tablas||''','''|| F1.vistas||''','''||F1.secuencias||''','''||F1.procedimientos||''','''||F1.privilegio||''');'
+
+from SISTEMAS.BASES_DATOS bd, sistemas.servidores s
+
+where S.ID_SERVIDOR = BD.B_X_SERVIDOR
+
+and S.DOMINIO not in ('JUSTICIA', 'IUS')
+
+and bd.baja <;>; 'S' and bd.base_datos not like 'ARC%';
+
+else
+
+–el resto: lo ligo con sistemas.esquemas para insertar cada fila si cada esquema
+
+– existe en cada bbdd
+
+dbms_output.put_line('… Inserto FILA con grantor');
+
+insert into GRANTS_EN_SEDES_EJECUTAR
+
+select F1.orden, base_datos, 'exec SYS.GRANTS_EN_SEDE('''||F1.grantee_type||''','''||F1.grantee||''','''|| F1.passwd||''','''||F1.rol_granted||''','''||F1.grantor||''','''||F1.tablas||''','''|| F1.vistas||''','''||F1.secuencias||''','''||F1.procedimientos||''','''||F1.privilegio||''');'
+
+from SISTEMAS.BASES_DATOS bd, sistemas.servidores s, sistemas.esquemas e
+
+where S.ID_SERVIDOR = BD.B_X_SERVIDOR and e.e_x_base_datos = bd.x_base_datos
+
+and e.esquema = F1.grantor
+
+and S.DOMINIO not in ('JUSTICIA', 'IUS')
+
+and bd.baja <;>; 'S' and bd.base_datos not like 'ARC%';
+
+end if;
+
+end if;
+
+end if;
+
+end if;
+
+END IF;
+
+EXCEPTION
+
+WHEN OTHERS THEN
+
+dbms_output.put_line('*** ' || SQLERRM || DBMS_UTILITY.FORMAT_ERROR_BACKTRACE); end DAR_GRANTS_EN_SEDES_FILA; / =====  4.4. Procedimiento en sede, SYS.GRANTS_EN_SEDE. =====  Editar  CREATE OR REPLACE PROCEDURE SYS.GRANTS_EN_SEDE ( p_Grantee_type varchar2, p_Grantee varchar2, p_Password varchar2, p_Rol_granted varchar2, p_grantor varchar2, p_Tablas varchar2, p_Vistas varchar2, p_Secuencias varchar2, p_Procedimientos varchar2, p_Privilegio varchar2 ) AS tabla_vista_no_existe EXCEPTION; vista_descompilada EXCEPTION; procedimiento_no_existe EXCEPTION; pragma exception_init (tabla_vista_no_existe, -00942); pragma exception_init (vista_descompilada, -04063); pragma exception_init (procedimiento_no_existe, -04042); v_name varchar2(40) := ''; PROF varchar2(20) ; cursor C_REVOKE(cv_grantee varchar2) IS select 'revoke '||privilege||' on '||owner||'.'||table_name||' from '||cv_grantee as comando from dba_tab_privs where grantee = cv_grantee and table_name not like 'BIN$%' UNION ALL select 'revoke '||granted_role||' from '||cv_grantee as comando from dba_role_privs where grantee = cv_grantee and granted_role not in ('CONNECT','CREATE SESSION'); cursor C_TABLAS(cv_grantee varchar2, cv_grantor varchar2, privilege varchar2) is select 'grant '||privilege||' on '||owner||'.'||table_name||' to '||cv_grantee as comando from dba_tables where owner = cv_grantor and table_name not like 'BIN$%'; – no saca las vistas descompiladas cursor C_VISTAS(cv_grantee varchar2, cv_grantor varchar2, privilege varchar2) is select 'grant '||privilege||' on '||v.owner||'.'||view_name||' to '||cv_grantee as comando from dba_views v, dba_objects o where object_name = view_name and o.owner = v.owner and object_type = 'VIEW' and v.owner = cv_grantor and view_name not like 'BIN$%' and status <;>; 'INVALID'; cursor C_PROCEDURES(cv_grantee varchar2, cv_grantor varchar2, privilege varchar2) is select 'grant '||privilege||' on '||owner||'.'||object_name||' to '||cv_grantee as comando from dba_procedures where object_type in ('FUNCTION', 'PROCEDURE', 'PACKAGE') and owner = cv_grantor; cursor C_SECUENCIAS(cv_grantee varchar2, cv_grantor varchar2, privilege varchar2) is select 'grant '||privilege||' on '||sequence_owner||'.'||sequence_name||' to '||cv_grantee as comando from dba_sequences where sequence_owner = cv_grantor; BEGIN –dbms_output.put_line(' ================='); IF p_grantor IS NOT NULL THEN select account_status into v_name from dba_users where username = p_grantor; IF v_name != 'OPEN' then dbms_output.put_line('*** La cuenta esta bloqueada. No doy grants: '||p_grantor); return; END IF; END IF; IF p_grantee_type = 'ROL' THEN dbms_output.put_line('. Comprobando rol: ' || p_grantee); BEGIN select role into v_name from dba_roles where role = p_grantee; dbms_output.put_line('. Rol existe: ' || p_grantee); EXCEPTION WHEN NO_DATA_FOUND THEN dbms_output.put_line('*** Rol no existe: ' || p_grantee || ', creando rol…'); execute immediate ('create role '||p_grantee); END; elsIF p_grantee_type = 'USER' THEN –dbms_output.put_line('. Comprobando usuario: ' || p_grantee); if substr(p_grantee,1,3) = 'MAN' OR substr(p_grantee,1,4) = 'CONS' then PROF := 'DEFAULT'; else PROF := 'USUARIOS'; end if; BEGIN select username into v_name from dba_users where username = p_grantee; –dbms_output.put_line('. usuario existe: ' || p_grantee); EXCEPTION WHEN NO_DATA_FOUND THEN dbms_output.put_line('*** usuario no existe: ' || p_grantee || ', creando usuario… Pass='|| p_password); execute immediate ('create user '||p_grantee||' identified by pepe2393ququ profile '||PROF|| ' default tablespace users temporary tablespace temp account unlock'); execute immediate ('grant connect to '||p_grantee); END; – execute immediate ('alter user '||p_grantee||' default role all'); – if p_password is not null then –dbms_output.put_line('. Comprobando password: ' || p_grantee); select password into v_name from dba_users where username = p_grantee; if v_name <;>; p_password THEN dbms_output.put_line('*** Passwords no coinciden: ' || p_grantee || ', reseteando password…'); execute immediate ('alter profile usuarios limit PASSWORD_REUSE_MAX default'); execute immediate ('alter user '||p_grantee||' identified by values '''||p_password||); execute immediate ('alter profile usuarios limit PASSWORD_REUSE_MAX 5'); end if; –dbms_output.put_line('. Comprobando estado de la cuenta: ' || p_grantee); select account_status into v_name from dba_users where username = p_grantee; if v_name <;>; 'OPEN' THEN –reseteo password para desbloquearlo dbms_output.put_line('*** account not OPEN: ' || p_grantee || ', reseteando cuenta…');
+
+execute immediate ('alter profile usuarios limit PASSWORD_REUSE_MAX default');
+
+execute immediate ('alter user '||p_grantee||' account unlock');
+
+execute immediate ('alter user '||p_grantee||' identified by A2i8'||dbms_random.string('X', 10)); –para quitar el grace
+
+execute immediate ('alter user '||p_grantee||' identified by values '''||p_password||'''');
+
+execute immediate ('alter profile usuarios limit PASSWORD_REUSE_MAX 5');
+
+end if;
+
+end if;
+
+END IF;
+
+–
+
+if p_rol_granted = 'INICIALIZAR' THEN
+
+dbms_output.put_line('. Inicializando rol/usuario: ' || p_grantee);
+
+for R1 in c_revoke(p_grantee) loop
+
+dbms_output.put_line('. ' || R1.comando);
+
+execute immediate R1.comando ;
+
+end loop;
+
+execute immediate ('alter user '||p_grantee||' profile '||PROF);
+
+ELSE
+
+IF p_rol_granted is not null then
+
+dbms_output.put_line('. Dando rol: '||p_rol_granted||' a '||p_grantee);
+
+execute immediate ('grant '||p_rol_granted||' to '||p_grantee);
+
+ELSE
+
+IF p_tablas = '*' then
+
+dbms_output.put_line('. Dando privilegios a tablas * de: '||p_grantor||' a '||p_grantee);
+
+for R1 in c_tablas(p_grantee, p_grantor, p_Privilegio) loop
+
+–dbms_output.put_line('. ' || R1.comando);
+
+execute immediate(R1.comando);
+
+end loop;
+
+else
+
+BEGIN
+
+if p_tablas is not null then
+
+dbms_output.put_line('. Dando privilegios a tabla '||p_tablas||' de: '||p_grantor||' a '||p_grantee);
+
+–dbms_output.put_line('. grant '||p_privilegio||' on '||p_grantor||'.'||p_tablas||' to '||p_grantee);
+
+execute immediate ('grant '||p_privilegio||' on '||p_grantor||'.'||p_tablas||' to '||p_grantee);
+
+end if;
+
+EXCEPTION WHEN tabla_vista_no_existe THEN
+
+dbms_output.put_line('+++ - Error controlado. Tabla '||p_tablas||' no existe en esquema '||p_grantor);
+
+END;
+
+end if;
+
+–
+
+IF p_vistas = '*' then
+
+dbms_output.put_line('. Dando privilegios a vistas * de: '||p_grantor||' a '||p_grantee);
+
+for R1 in c_vistas(p_grantee, p_grantor, p_privilegio) loop
+
+–dbms_output.put_line('. ' || R1.comando);
+
+execute immediate(R1.comando);
+
+end loop;
+
+else
+
+BEGIN
+
+if p_vistas is not null then
+
+dbms_output.put_line('. Dando privilegios a vista '||p_vistas||' de: '||p_grantor||' a '||p_grantee);
+
+–dbms_output.put_line('. grant '||p_privilegio||' on '||p_grantor||'.'||p_vistas||' to '||p_grantee);
+
+execute immediate ('grant '||p_privilegio||' on '||p_grantor||'.'||p_vistas||' to '||p_grantee);
+
+end if;
+
+EXCEPTION WHEN vista_descompilada THEN
+
+dbms_output.put_line('+++ - Error controlado. Vista '||p_vistas||' descompilada en '||p_grantor);
+
+END;
+
+end if;
+
+–
+
+IF p_secuencias = '*' then
+
+dbms_output.put_line('. Dando privilegios a secuencias * de: '||p_grantor||' a '||p_grantee);
+
+for R1 in c_secuencias(p_grantee, p_grantor, p_privilegio) loop
+
+–dbms_output.put_line('. ' || R1.comando);
+
+execute immediate(R1.comando);
+
+end loop;
+
+else
+
+if p_secuencias is not null then
+
+dbms_output.put_line('. Dando privilegios a secuencia '||p_secuencias||' de: '||p_grantor||' a '||p_grantee);
+
+–dbms_output.put_line('. grant '||p_privilegio||' on '||p_grantor||'.'||p_secuencias||' to '||p_grantee);
+
+execute immediate ('grant '||p_privilegio||' on '||p_grantor||'.'||p_secuencias||' to '||p_grantee);
+
+end if;
+
+end if;
+
+–
+
+IF p_Procedimientos = '*' then
+
+dbms_output.put_line('. Dando privilegios a procedures * de: '||p_grantor||' a '||p_grantee);
+
+for R1 in c_procedures(p_grantee, p_grantor, p_privilegio) loop
+
+–dbms_output.put_line('. ' || R1.comando);
+
+execute immediate(R1.comando);
+
+end loop;
+
+else
+
+BEGIN
+
+if p_Procedimientos is not null then
+
+dbms_output.put_line('. Dando privilegios a procedure '||p_Procedimientos||' de: '||p_grantor||' a '||p_grantee);
+
+–dbms_output.put_line('. grant '||p_privilegio||' on '||p_grantor||'.'||p_Procedimientos||' to '||p_grantee);
+
+execute immediate ('grant '||p_privilegio||' on '||p_grantor||'.'||p_Procedimientos||' to '||p_grantee);
+
+end if;
+
+EXCEPTION WHEN procedimiento_no_existe THEN
+
+dbms_output.put_line('+++ - Error controlado. Procedimiento '||p_Procedimientos||' no existe en esquema '||p_grantor);
+
+WHEN tabla_vista_no_existe THEN
+
+dbms_output.put_line('+++ - Error controlado. Procedimiento (exc2) '||p_Procedimientos||' no existe en esquema '||p_grantor);
+
+END;
+
+end if;
+
+–
+
+end if;
+
+END IF;
+
+EXCEPTION WHEN OTHERS THEN
+
+dbms_output.put_line('*** ' || SQLERRM || ' - ' || DBMS_UTILITY.FORMAT_ERROR_BACKTRACE);
+
+end GRANTS_EN_SEDE;
+
+/
+
+===== 4.5. Script /NFS_BACKUP/BBDD/scripts/DATABASE-LINKS/SEDES/passwords-personales.sh. =====
+
+#!/usr/local/bin/bash
+
+# Para cargar el entorno de oracle en el cron:
+
+ORACLE_HOME=/opt/oracle/product/10.2.0; export ORACLE_HOME
+
+PATH=${PATH}:$ORACLE_HOME/bin; export PATH
+
+cd /NFS_BACKUP/BBDD/scripts/DATABASE-LINKS/SEDES
+
+MAILTO=sistemas.gtbd.ius@juntadeandalucia.es
+
+FECHA=`date '+%Y%m%d_%H%M'`
+
+LOG=log/`basename $0`.${FECHA}.log
+
+SPOOL=log/`basename $0`.${FECHA}.lst
+
+rm -f $LOG
+
+touch $LOG
+
+bbddPass() {
+
+case $1 in
+
+JUSTICIAAL*) echo "XXXXXXXX";;
+
+JUSTICIACA*) echo "XXXXXXXX";;
+
+JUSTICIACO*) echo "XXXXXXXX";;
+
+JUSTICIAGR*) echo "XXXXXXXX";;
+
+JUSTICIAHU*) echo "XXXXXXXX";;
+
+JUSTICIAJA*) echo "XXXXXXXX";;
+
+JUSTICIAMA*) echo "XXXXXXXX";;
+
+JUSTICIASE*) echo "XXXXXXXX";;
+
+SE2C*) echo "XXXXXXXX";;
+
+*) echo "XXX_error_XXX";;
+
+esac
+
+}
+
+sqlplus -S SISTEMAS/19ddn44@prod02 <;<; EOF | tee -a $LOG
+
+set serveroutput on size 500000
+
+– Pongo el campo DOIT a YES en las filas que me interesan
+
+update SISTEMAS.GRANTS_EN_SEDES set DOIT='NO';
+
+update SISTEMAS.GRANTS_EN_SEDES set DOIT='YES'
+
+where grantee like 'R_CEIURIS_%' or grantee in ('PERSONAL CSU', 'PERSONAL PROCESAL', 'PERSONAL ADRIANO', 'PERSONAL INDRA');
+
+update SISTEMAS.GRANTS_EN_SEDES set DOIT='NO'
+
+where ROL_GRANTED = 'INICIALIZAR';
+
+commit;
+
+– Rellena la tabla GRANTS_EN_SEDES_EJECUTAR a partir de la GRANTS_EN_SEDES (solo DOIT=YES)
+
+exec SISTEMAS.DAR_GRANTS_EN_SEDES ();
+
+– Vuelco a fichero
+
+set linesize 200 pagesize 0
+
+column base_datos format a20
+
+column comando format a179
+
+set serveroutput off
+
+set echo off head off feedback off
+
+spool $SPOOL
+
+select base_datos, comando from SISTEMAS.GRANTS_EN_SEDES_EJECUTAR order by orden;
+
+spool off
+
+EOF
+
+– Por cada BBDD que aparezca en la primera columna, lanzo un sqlplus con todo
+
+for bbdd in `egrep -v "^$" $SPOOL | cut -b 1-20 | sort | uniq`; do
+
+echo
+
+=== $bbdd ===
+
+(echo set serveroutput on size unlimited ;
+
+egrep "^$bbdd" $SPOOL | sed 's/[ ]*$//' | cut -b 21- ) | sqlplus -S system/`bbddPass ${bbdd}`@${bbdd} done | tee -a $LOG rm -f $SPOOL if [ "$1" = "MAIL" ]; then if [ ! -z "`egrep '\*\*\*' $LOG`" ]; then ( echo "Usuarios personales - Log completo en $LOG" ; echo ; egrep '\*\*\*|=== |ORA-|TNS-' $LOG ) | mailx -s "Usuarios personales - Cambios" $MAILTO fi fi /usr/contrib/bin/gzip $LOG ===== 4.6. Script /NFS_BACKUP/BBDD/scripts/DATABASE-LINKS/SEDES/roles-personales.sh =====  Editar  Específico para sincronización de roles personales (R_CEIURIS_%), en IUSSUBD01, que es llamado desde el cron.  #!/usr/local/bin/bash # Para cargar el entorno de oracle en el cron: ORACLE_HOME=/opt/oracle/product/10.2.0; export ORACLE_HOME PATH=${PATH}:$ORACLE_HOME/bin; export PATH cd /NFS_BACKUP/BBDD/scripts/DATABASE-LINKS/SEDES MAILTO=sistemas.gtbd.ius@juntadeandalucia.es MAILTO=patricio.mora@juntadeandalucia.es FECHA=`date '+%Y%m%d_%H%M'` LOG=log/`basename $0`.${FECHA}.log SPOOL=log/`basename $0`.${FECHA}.lst rm -f $LOG touch $LOG bbddPass() { case $1 in JUSTICIAAL*) echo "XXXXXXXX";; JUSTICIACA*) echo "XXXXXXXX";; JUSTICIACO*) echo "XXXXXXXX";; JUSTICIAGR*) echo "XXXXXXXX";; JUSTICIAHU*) echo "XXXXXXXX";; JUSTICIAJA*) echo "XXXXXXXX";; JUSTICIAMA*) echo "XXXXXXXX";; JUSTICIASE*) echo "XXXXXXXX";; SE2C*) echo "XXXXXXXX";; *) echo "XXX_error_XXX";; esac } sqlplus -S SISTEMAS/19ddn44@prod02 <;<; EOF | tee -a $LOG set serveroutput on size 500000 – Pongo el campo DOIT a YES en las filas que me interesan update SISTEMAS.GRANTS_EN_SEDES set DOIT='NO'; update SISTEMAS.GRANTS_EN_SEDES set DOIT='YES' where grantee like 'R_CEIURIS_%'; update SISTEMAS.GRANTS_EN_SEDES set DOIT='NO' where ROL_GRANTED = 'INICIALIZAR'; commit; – Rellena la tabla GRANTS_EN_SEDES_EJECUTAR a partir de la GRANTS_EN_SEDES (solo DOIT=YES) exec SISTEMAS.DAR_GRANTS_EN_SEDES (); – Vuelco a fichero set linesize 200 pagesize 0 column base_datos format a20 column comando format a179 set serveroutput off set echo off head off feedback off spool $SPOOL select base_datos, comando from SISTEMAS.GRANTS_EN_SEDES_EJECUTAR order by orden; spool off EOF – Por cada BBDD que aparezca en la primera columna, lanzo un sqlplus con todo for bbdd in `egrep -v "^$" $SPOOL | cut -b 1-20 | sort | uniq`; do echo  === $bbdd === (echo set serveroutput on size unlimited ; egrep "^$bbdd" $SPOOL | sed 's/[ ]*$//' | cut -b 21- ) | sqlplus -S system/`bbddPass ${bbdd}`@${bbdd}
+
+done | tee -a $LOG
+
+rm -f $SPOOL
+
+if [ "$1" = "MAIL" ]; then
+
+if [ ! -z "`egrep '\*\*\*' $LOG`" ]; then
+
+( echo "Usuarios personales - Log completo en $LOG" ; echo ; egrep '\*\*\*|===|ORA-|TNS-' $LOG ) |
+
+mailx -s "Usuarios personales - Cambios" $MAILTO
+
+fi
+
+fi
+
+/usr/contrib/bin/gzip $LOG
+
+===== 4.7. Script /NFS_BACKUP/BBDD/scripts/DATABASE-LINKS/SEDES/usuarios-dblinks.sh =====
+
+#!/usr/local/bin/bash
+
+# Para cargar el entorno de oracle en el cron:
+
+ORACLE_HOME=/opt/oracle/product/10.2.0; export ORACLE_HOME
+
+PATH=${PATH}:$ORACLE_HOME/bin; export PATH
+
+cd /NFS_BACKUP/BBDD/scripts/DATABASE-LINKS/SEDES
+
+MAILTO=sistemas.gtbd.ius@juntadeandalucia.es
+
+MAILTO=patricio.mora@juntadeandalucia.es
+
+FECHA=`date '+%Y%m%d_%H%M'`
+
+LOG=log/`basename $0`.${FECHA}.log
+
+SPOOL=log/`basename $0`.${FECHA}.lst
+
+rm -f $LOG
+
+touch $LOG
+
+bbddPass() {
+
+case $1 in
+
+JUSTICIAAL*) echo "XXXXXXXX";;
+
+JUSTICIACA*) echo "XXXXXXXX";;
+
+JUSTICIACO*) echo "XXXXXXXX";;
+
+JUSTICIAGR*) echo "XXXXXXXX";;
+
+JUSTICIAHU*) echo "XXXXXXXX";;
+
+JUSTICIAJA*) echo "XXXXXXXX";;
+
+JUSTICIAMA*) echo "XXXXXXXX";;
+
+JUSTICIASE*) echo "XXXXXXXX";;
+
+SE2C*) echo "XXXXXXXX";;
+
+*) echo "XXX_error_XXX";;
+
+esac
+
+}
+
+sqlplus -S SISTEMAS/19ddn44@prod02 <;<; EOF | tee -a $LOG
+
+set serveroutput on size 500000
+
+– Pongo el campo DOIT a YES en las filas que me interesan
+
+update SISTEMAS.GRANTS_EN_SEDES set DOIT='NO';
+
+update SISTEMAS.GRANTS_EN_SEDES set DOIT='YES'
+
+where grantee not like 'R_CEIURIS_%' and grantee not like 'PERSONAL %';
+
+update SISTEMAS.GRANTS_EN_SEDES set DOIT='NO'
+
+where ROL_GRANTED = 'INICIALIZAR';
+
+commit;
+
+– Rellena la tabla GRANTS_EN_SEDES_EJECUTAR a partir de la GRANTS_EN_SEDES (solo DOIT=YES)
+
+exec SISTEMAS.DAR_GRANTS_EN_SEDES ();
+
+– Vuelco a fichero
+
+set linesize 200 pagesize 0
+
+column base_datos format a20
+
+column comando format a179
+
+set serveroutput off
+
+set echo off head off feedback off
+
+spool $SPOOL
+
+select base_datos, comando from SISTEMAS.GRANTS_EN_SEDES_EJECUTAR order by orden;
+
+spool off
+
+EOF
+
+– Por cada BBDD que aparezca en la primera columna, lanzo un sqlplus con todo
+
+for bbdd in `egrep -v "^$" $SPOOL | cut -b 1-20 | sort | uniq`; do
+
+echo
+
+=== $bbdd ===
+
+(echo set serveroutput on size unlimited ;
+
+egrep "^$bbdd" $SPOOL | sed 's/[ ]*$//' | cut -b 21- ) | sqlplus -S system/`bbddPass ${bbdd}`@${bbdd} done | tee -a $LOG rm -f $SPOOL if [ "$1" = "MAIL" ]; then if [ ! -z "`egrep '\*\*\*' $LOG`" ]; then ( echo "Usuarios personales - Log completo en $LOG" ; echo ; egrep '\*\*\*|===|ORA-|TNS-' $LOG ) | mailx -s "Usuarios personales - Cambios" $MAILTO fi fi /usr/contrib/bin/gzip $LOG Etiquetas: [[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/Distribución y mantenimiento de usuarios, contraseñas y  privilegios en sedes?showTagAddForm=true#xdocTags|[+]]]//
+
+

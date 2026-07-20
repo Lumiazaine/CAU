@@ -1,0 +1,46 @@
+﻿
+
+<WRAP> 
+<panel type="primary" title="Sava"> 
+
+De acuerdo con el artículo 2 del Decreto 375/2011 el Servicio de Asistencia a Víctimas en Andalucía (SAVA) es un servicio  de carácter PÚBLICO, de ámbito ANDALUZ, UNIVERSAL y GRATUITO, integrado por recursos, funciones y actividades, bajo la dirección y coordinación de la Consejeria de Jusiticia, Administración Local y Función Pública (a través de esta Dirección General), dirigido a INFORMAR, ASESORAR, PROTEGER y APOYAR a las víctimas de delitos y faltas, así como a reducir y evitar los efectos de la victimización secundaria, acercando la justicia a la ciudadanía.
+
+La aplicación SAVA es responsabilidad de la Secretaría General de la Consejería de Justicia, Administración Local y Función Pública.
+El nuevo canal para comunicación de incidencias en la aplicación es:
+
+  * E-mail: cau.ctrjal@juntadeandalucia.es
+  * Teléfono: 900927001 (corporativo 763000)
+  * Horario de atención: 8:00 a 20:00 h (lunes a jueves) y 8:00 a 16:00 h (viernes)
+
+Más información en el [[https://juntadeandalucia.es/servicios/sede/tramites/procedimientos/detalle/7110.html | Portal de la Junta de Andalucía]]
+
+<WRAP> 
+<panel type="info" title="Acceso">
+  * **URL:** https://ws199.juntadeandalucia.es/sava/
+  * **Contacta:** 
+  * **Formulario:**    Enlace a carpeta de red
+  * **BBDD:** 
+</panel>
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Capacitación">
+  * [[https://capacitacion.justicia.junta-andalucia.es/|Cursos y Manuales de Usuario]]
+  * [[https://videos.justicia.junta-andalucia.es/|Contenidos en video]]
+  * [[https://capacitacion.justicia.junta-andalucia.es/mod/glossary/view.php?id=196|Preguntas frecuentes (Portal de Capacitación)]]
+</panel>
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Procedimientos y Problemas Conocidos">
+  * [[pag_apli:sava:problemas|Procedimientos y Problemas Conocidos]] 
+</panel>
+</WRAP>
+
+</panel>
+ 
+</WRAP>
+
+{{tag>validada}}
+
+

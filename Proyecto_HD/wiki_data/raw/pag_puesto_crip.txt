@@ -1,0 +1,58 @@
+﻿
+ <font inherit/inherit;;inherit;;transparent>Para gestionar un movimiento (traslado) de equipamiento de una sede a otra hay que crear un ticket de Petición Remedy, con objeto de dejar registro y realizar el seguimiento.</font>
+ <font inherit/inherit;;inherit;;transparent>En la //**petición Remedy**// se debe indicar la siguiente información:</font>
+ <font inherit/inherit;;inherit;;transparent>En //Descripción del Incidente// debe ponerse: **TRASLADO DE MATERIAL**</font>
+ <font inherit/inherit;;inherit;;transparent>En //Diario// poner:</font>
+
+  * <font inherit/inherit;;inherit;;transparent>Origen:</font>
+      * <font inherit/inherit;;inherit;;transparent>Dirección completa</font>
+      * <font inherit/inherit;;inherit;;transparent>Servicio o Departamento donde está el material</font>
+      * <font inherit/inherit;;inherit;;transparent>Nombre y Teléfono de la Persona de Contacto para la recogida.</font>
+      * <font inherit/inherit;;inherit;;transparent>Franja horaria de atención para la recogida del material.</font>
+  * <font inherit/inherit;;inherit;;transparent>Destino:</font>
+      * <font inherit/inherit;;inherit;;transparent>Dirección completa</font>
+      * <font inherit/inherit;;inherit;;transparent>Servicio o Departamento donde se entrega el material</font>
+      * <font inherit/inherit;;inherit;;transparent>Nombre y Teléfono de la Persona de Contacto para la entrega.</font>
+      * <font inherit/inherit;;inherit;;transparent>Franja horaria de atención para la entrega del material.</font>
+  * <font inherit/inherit;;inherit;;transparent>Número de Bultos a recoger y descripción.</font>
+  * <font inherit/inherit;;inherit;;transparent>Medidas de los bultos: Ancho x Alto x Fondo.</font>
+  * <font inherit/inherit;;inherit;;transparent>Peso aproximado de los bultos.</font>
+ <font inherit/inherit;;inherit;;transparent>Rogamos avisen con 24h de antelación tanto para la recogida como para la entrega. Gracias!</font>
+ <font inherit/inherit;;inherit;;transparent>*Esta petición se asigna en remedy a:</font>
+ <font inherit/inherit;;inherit;;transparent>Asignada a Grupo: Servicios</font>
+ <font inherit/inherit;;inherit;;transparent>Asignada a: SPU-CRIP</font>
+ <font inherit/inherit;;inherit;;transparent>Asignada usuario: CRIP Supervisor</font>  \\
+ <font inherit/inherit;;inherit;;transparent>* La petición Remedy debe clasificarse como:</font>  \\
+ <font inherit/inherit;;inherit;;transparent>Clase: PUESTO DE TRABAJO</font>
+ <font inherit/inherit;;inherit;;transparent>Tipo: MONTAJE/CAMBIO UBICACION</font>
+ <font inherit/inherit;;inherit;;transparent>* Las medidas y peso lo solicitan desde el servicio de logística para valorar el tipo de transporte (coche, furgoneta, camión)).</font>
+ <font inherit/inherit;;inherit;;transparent>* Posteriormente, Se envía email a Xavier Bonnet (xavier.bonnet@juntadeandalucia.es) con copia a (coordinacion.cripjus.sandetel@juntadeandalucia.es) y a (planificacion.inventario.ius@juntadeandalucia.es) informando de la petición de traslado creada.</font>  \\
+ <font inherit/inherit;;inherit;;transparent>* __**Email**__ (</font> __Plantilla__  ): \\
+ <font inherit/inherit;;inherit;;transparent>Buenos dias/tardes:</font>
+ <font inherit/inherit;;inherit;;transparent>Se recibe petición de traslado de material informático por parte de DP XXXXX (Provincia)</font>
+
+   * <font inherit/inherit;;inherit;;transparent>Origen:</font>
+      * <font inherit/inherit;;inherit;;transparent>Dirección completa</font>
+      * <font inherit/inherit;;inherit;;transparent>Servicio o Departamento donde está el material</font>
+      * <font inherit/inherit;;inherit;;transparent>Nombre y Teléfono de la Persona de Contacto para la recogida.</font>
+      * <font inherit/inherit;;inherit;;transparent>Franja horaria de atención para la recogida del material.</font>
+  * <font inherit/inherit;;inherit;;transparent>Destino:</font>
+      * <font inherit/inherit;;inherit;;transparent>Dirección completa</font>
+      * <font inherit/inherit;;inherit;;transparent>Servicio o Departamento donde se entrega el material</font>
+      * <font inherit/inherit;;inherit;;transparent>Nombre y Teléfono de la Persona de Contacto para la entrega.</font>
+      * <font inherit/inherit;;inherit;;transparent>Franja horaria de atención para la entrega del material.</font>
+
+  * <font inherit/inherit;;inherit;;transparent>Número de Bultos a recoger y descripción.</font>
+
+  * <font inherit/inherit;;inherit;;transparent>Medidas de los bultos: Ancho x Alto x Fondo.</font>
+
+  * <font inherit/inherit;;inherit;;transparent>Peso aproximado de los bultos.</font>
+ <font inherit/inherit;;inherit;;transparent>Rogamos avisen con 24h de antelación tanto para la recogida como para la entrega. Gracias!</font>
+ <font inherit/inherit;;inherit;;transparent>Se ha creado en Remedy el ticket //INXXXXXXXXXXX// para su gestión.</font>
+
+ <font inherit/inherit;;inherit;;transparent>* Una vez hecho esto se responde a la persona que realizó la petición de traslado informándole de que esta se ha gestionado y dándole el número del ticket remedy en el que se gestiona.</font> 
+
+En ruta: \\iusnas05\sij\Planificacion\PLANIFICACIÓN-INVENTARIO\Proyectos 2022\Proyecto Servicios Logísticos CRIP, hemos creado "Hoja de Control de Servicios Logísticos" con los datos de los servicios logísticos gestionados por Servicios / Inventario. Dimensiones y pesos quedan registrados allí para usos posteriores.  \\
+ <font inherit/inherit;;inherit;;transparent>* Ejemplo de traslado de equipamiento: IN0000001876207</font>
+
+

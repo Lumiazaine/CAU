@@ -1,0 +1,81 @@
+﻿
+# 📄 Documentación Hermes
+
+## 1️⃣ **Introducción** 🕒
+  * Hermes es una aplicación web utilizada por la **Consejería de Gobernación y Justicia** para el **control de presencia y permisos**.  
+  * Los funcionarios, al entrar y salir de su puesto de trabajo, fichan a través de esta herramienta.  
+  * La solicitud de vacaciones y permisos también se gestiona mediante Hermes y es validada por el responsable correspondiente.  
+
+## 2️⃣ **Inventario físico** 🖥️
+  * **Servicio:** Hermes  
+  * **URL Producción:** http://hermes.justicia.junta-andalucia.es/Hermes/  
+  * **Host Producción:** 10.241.254.47  
+  * **FrontEnd:** F5-BIGIP REPORT  
+  * **Back Aplicación:**  
+  * - IUSSLAPLICPRO10 → 10.241.248.65  
+  * - IUSSLAPLICPRO11 → 10.241.248.102  
+  * **Base de Datos:** BdProd04 → 10.241.129.12  
+
+  * **URL Preproducción:** http://hermes2-pre.justicia.junta-andalucia.es/Hermes3/  
+  * **Host Preproducción:** 10.241.128.220  
+  * **FrontEnd:** F5-BIGIP REPORT  
+  * **Back Aplicación:** IUSSLAPLICPRE01 → 10.241.129.80  
+  * **Base de Datos:** Prepro03  
+
+  * **URL Validación-Pre:** http://hermes-pre.justicia.junta-andalucia.es/Hermes  
+  * **Host Validación-Pre:** 10.241.128.20  
+  * **FrontEnd:**  
+  * - IUSSLEP01 → 10.241.129.38  
+  * - IUSSLEP02 → 10.241.129.39  
+  * **Back Aplicación:** IUSSLAPLICPRE10 → 10.241.129.88  
+  * **Base de Datos:** Bdprepro01 → 10.241.130.59  
+
+## 3️⃣ **Esquema físico y lógico** 🗺️
+  * - Hermes → `Hermes.PNG`  
+  * - Hermes-Pre → `Hermes-pre.PNG`  
+  * - Hermes-Validación-pre → `Hermes-validacion.PNG`  
+
+## 4️⃣ **Alcance** 🎯
+  * - **Hermes:** Aplicación en producción para fichaje y solicitud de permisos por parte de todos los funcionarios de justicia.  
+  * - **Hermes-Pre:** Entorno de preproducción para pruebas de despliegues y validaciones.  
+  * - **Hermes-Validación-Pre:** Servidor de validación para usuarios, con base de datos de datos reales ofuscados.  
+
+## 5️⃣ **Configuración** ⚙️
+  * **Parada / Arranque del servicio:** `systemctl start|stop tomcat-hermes.service`  
+
+**Tareas programadas nocturnas:**  
+- **Recálculo de saldos:**  
+  - Actualiza información de los usuarios.  
+  - Job de base de datos programado a las 00:01.  
+- **Sincronización con Temis:**  
+  - Volcado de información desde Temis (repositorio central).  
+  - Ejecutada por Tomcat; configuración en `\$CATALINA_HOME/webapps/Hermes/WEB-INF/classes/schedule.properties`.  
+
+---
+
+## 6️⃣ **Configuraciones de Base de Datos** 🗄️
+  * **Hermes (Producción):** `jdbc:oracle:thin:@BDPROD04.justicia.junta-andalucia.es:1521:PROD04`  
+  * **Hermes-Pre:** `jdbc:oracle:thin:@iusslbdpre01.justicia.junta-andalucia.es:1521:prepro03`  
+  * **Hermes-Validación-Pre:** `jdbc:oracle:thin:@BDPREPRO01.justicia.junta-andalucia.es:1521:PREPRO01`  
+
+---
+
+## 7️⃣ **Monitorización / Gestión de eventos** 📡
+- **Servicios monitorizados en Nagios:**  
+  - Acceso Hermes  
+  - Ping  
+  - Tomcat Nodo 01  
+  - Tomcat Nodo 02  
+  - URL de la aplicación  
+  * **Notificaciones:** GrupoSistemas (todos los departamentos de sistemas)  
+  * **Alertas:** down, recovery, up  
+  * **Procedimiento ante errores:** Reiniciar Tomcat → Revisar logs → Diagnosticar incidencias.  
+
+---
+
+## 8️⃣ **Backup** 💾
+  * **Herramienta:** NETWORKER  
+  * **Política:** `VM_PROD_2` – `FULL_S-INCR_LMXJV-1Y`  
+  * **Horario:** Completa → Sábados; Incremental → Lunes a Viernes (22:00)  
+  * **Retención:** 3 años
+

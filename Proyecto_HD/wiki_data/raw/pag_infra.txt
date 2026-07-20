@@ -1,0 +1,23 @@
+﻿
+<WRAP> <panel type="primary" title="Infraestructura y Operaciones">
+
+El Departamento de Infraestructura y Operaciones es el responsable de …. ……… …………
+
+<WRAP> 
+<panel type="info" title="Equipo de Trabajo">
+
+|**Nombre**   |**Email**   |**Teléfono**   |**Externo/Interno**   |
+|———————————–  |——————————————  |————–  |———————  |
+|Francisco Javier Ruiz Cortés  |[[mailto:fjavier.ruiz.cortes@juntadeandalucia.es|fjavier.ruiz.cortes@juntadeandalucia.es]]  |672988 / 661 108 881  |Interno  |
+|Rocio Medina Bermudez  |[[mailto:rocio.medinabermudez@fujitsu.com|rocio.medinabermudez@fujitsu.com]]  |teléfono  |Externo  |
+|Lista Abierta  |[[mailto:Coordinacion.Sistemas.ius@juntadeandalucia.es|Coordinacion.Sistemas.ius@juntadeandalucia.es]]  |  |  |
+
+</panel>
+
+{{mdi>monitor}} [[:pag_sistemas|Equipo (Sistemas)]]</WRAP>
+
+{{mdi>monitor}} [[:pag_devops|Explotación - DEVOPS]]
+
+{{tag>validada}}
+
+

@@ -1,0 +1,345 @@
+﻿
+<html>
+<html lang="es">
+                                                       <!-- PLANTILLA DE BLOQUES INDEPENDIENTES -->
+
+                                                             <!-- ↓↓↓ ZONA NO EDITABLE ↓↓↓ -->
+<head>
+    <meta charset="UTF-8">
+    <title>EDICIÓN DOKUWIKI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #39546E;
+            margin: 0;
+            padding: 20px;
+            padding-top: 70px;
+            
+        }
+
+        .main-container {
+            max-width: 1550px;
+            margin-top: 20px;
+            
+        }
+
+        .main-header {
+            background-color: #39546E;
+            color: white;
+            padding: 25px 20px;
+            font-size: 2rem;
+            font-weight: bold;
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+            margin-bottom: 20px;
+            
+        }
+
+        .block {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 22px;
+            margin-bottom: 25px;
+            border: 1px solid #c5ccd4;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+            
+        }
+
+        .block h2 {
+            margin-top: 0;
+            color: #39546E;
+            border-bottom: 2px solid #39546E;
+            padding-bottom: 10px;
+            
+        }
+        
+        a {
+            color: #0051A3;
+            text-decoration: none;
+            
+        } 
+        
+        .block h2.default-h2 {
+            margin-top: revert;
+            color: revert;
+            border-bottom: revert;
+            padding-bottom: revert;
+        } 
+        
+    </style>
+</head>
+                                                                <!-- ↑↑↑ FIN DE ZONA NO EDITABLE ↑↑↑ -->
+<body>
+
+    <div class="main-container">
+
+        <div class="main-header">EDITAR DOKUWIKI DESDE 0</div>
+     
+<!-- BLOQUE 1 -->
+        <div class="block">
+        
+            <h2 id="el-editor">El Editor</h2>
+          
+            <p>Para acceder al modo de edición de cualquier página, debemos dirigirnos al icono "Editar esta página" (lápiz) que se encuentra en el menú de la derecha.</p>
+            <p align="center"><img style="margin-top: 10px; max-width:70%; height:auto;" src="/dokuwiki/!ssdj/lib/exe/fetch.php?t=1772708556&w=500&h=130&tok=2f56b4&media=edicion_1.png"></p>
+            
+            <p>Una vez accedemos, el siguiente punto importante es asegurarnos de que estamos en el editor correcto.</p>
+            
+            <p>Debemos trabajar con el editor <b>DW</b> y <b>NO</b> con el editor <b>CKG</b>.</p>
+            <p align="center"><img style="margin-top: 10px; max-width:70%; height:auto;" src="/dokuwiki/!ssdj/lib/exe/fetch.php?t=1772708556&w=500&h=177&tok=bd44ac&media=edicion_2.png"></p>
+            <p align="center"><img style="margin-top: 10px; max-width:70%; height:auto;" src="/dokuwiki/!ssdj/lib/exe/fetch.php?t=1772708556&w=500&h=169&tok=928219&media=edicion_3.png"></p>
+            
+            <p>Para cambiar entre ellos pulsaremos en el siguiente botón:</p>
+            <p align="center"><img style="margin-top: 10px; max-width:70%; height:auto;" src="/dokuwiki/!ssdj/lib/exe/fetch.php?t=1772708556&w=500&h=34&tok=383d1f&media=edicion_4.png"></p>
+            
+            <p><b style='color: #FF0000;'>IMPORTANTE: </b>El cambio entre editores puede dar lugar a que la estructura de la página en la que nos encontramos se "rompa".</p>
+            <p align="center"><img style="margin-top: 10px; max-width:70%; height:auto;" src="/dokuwiki/!ssdj/lib/exe/fetch.php?t=1772710633&w=500&h=230&tok=f048e7&media=edicion_5.png"></p>
+            
+            <p>Siempre que realicemos un cambio entre editores, DokuWiki nos sacará del modo edición automáticamente, este es el momento de comprobar que la página se encuentre en correcto estado y no haya sufrido errores.</p>
+            <p><b>Si no existen errores</b>, podemos volver a acceder al modo edición y comenzar a editar el contenido.</p>
+            <p><b>Si existen errores</b>, debemos acceder al icono "Revisiones antiguas" (reloj).</p>
+            <p align="center"><img style="margin-top: 10px; max-width:70%; height:auto;" src="/dokuwiki/!ssdj/lib/exe/fetch.php?w=90&h=24&t=1772710633&tok=1e9e75&media=edicion_6.png"></p>
+            
+            <p>Una vez dentro, seleccionaremos la última versión antes de que accediéramos y podremos visualizarla.</p>
+            <p align="center"><img style="margin-top: 10px; max-width:70%; height:auto;" src="/dokuwiki/!ssdj/lib/exe/fetch.php?w=90&h=28&t=1772710633&tok=8f9b80&media=edicion_7.png"></p>
+            
+            <p>Cuando comprobemos que esa es la versión que queremos recuperar, pulsaremos sobre el icono "Restaurar" (flecha circular) para confirmar.</p>
+            <p align="center"><img style="margin-top: 10px; max-width:70%; height:auto;" src="/dokuwiki/!ssdj/lib/exe/fetch.php?w=90&h=26&t=1772710633&tok=a666b1&media=edicion_8.png"></p>
+            
+            <p>Finalmente, podemos volver a acceder al modo edición, en el que se abrirá por defecto el editor DW  y podemos comenzar a editar el contenido.</p>
+        </div>     
+              
+<!-- BLOQUE 2 -->
+        <div class="block">
+        
+            <h2  id="sintaxis-dokuwiki">Etiquetas Básicas en Sintaxis DokuWiki</h2>
+            <p>Lo primero y muy importante que debemos tener en cuenta es que todas las etiquetas que utilicemos, deben ir debidamente cerradas. Por ejemplo:</p>
+            <ul>
+            <li>Abrir etiqueta → <b>&lt;WRAP&gt;</b></li>
+            <li>Cerrar etiqueta → <b>&lt;/WRAP&gt;</b></li>
+            </ul>
+            
+            <p><u>Todo el contenido que quede entre la apertura y cierre de una etiqueta, se verá afectado por esta.</u></p>
+            
+            <p>A continuación vamos a ver las etiquetas que más vamos a utilizar en DokuWiki y cómo funcionan.</p>
+            
+                        <hr style="border: 0; height: 1px; background-color: #778799;">
+            
+            <h3 id="etiqueta_wrap">&lt;WRAP&gt;</h3>
+            <p>La etiqueta WRAP sirve para meter contenido dentro de un “contenedor” al que puedes aplicar formato.</p>
+            <p>Este contenedor por si sólo no es visible, debemos aplicarle alguna etiqueta de estilo como por ejemplo:</p>
+            <ul>
+            <li><b>&lt;WRAP centeralign / leftalign / rightalign&gt;</b> → posiciona el texto centrado / izquierda / derecha</li>
+            <p align="center"><img style="margin-top: 10px; max-width:70%; height:auto;" src="/dokuwiki/!ssdj/lib/exe/fetch.php?t=1772799112&w=500&h=13&tok=6fdb3b&media=edicion_9.png"></p>
+            <li><b>&lt;WRAP box&gt;</b> → crea un contenedor gris</li>
+            <p align="center"><img style="margin-top: 10px; max-width:70%; height:auto;" src="/dokuwiki/!ssdj/lib/exe/fetch.php?t=1772799112&w=500&h=18&tok=6ef1a2&media=edicion_10.png"></p>
+            <li><b>&lt;WRAP box centeralign&gt;</b> → combina ambos estilos</li>
+            <p align="center"><img style="margin-top: 10px; max-width:70%; height:auto;" src="/dokuwiki/!ssdj/lib/exe/fetch.php?t=1772799344&w=500&h=17&tok=9bc187&media=edicion_11.png"></p>
+            <li><b>&lt;WRAP info round&gt;</b> → <b>info</b> indica el tipo de panel y <b>round</b> indica que queremos que este sea redondeado</li>
+            <p align="center"><img style="margin-top: 10px; max-width:70%; height:auto;" src="/dokuwiki/!ssdj/lib/exe/fetch.php?t=1773212948&w=500&h=31&tok=799235&media=edicion_12.png"></p>
+            <li><b>&lt;WRAP tip&gt;</b></li>
+            <p align="center"><img style="margin-top: 10px; max-width:70%; height:auto;" src="/dokuwiki/!ssdj/lib/exe/fetch.php?w=90&h=5&t=1773212948&tok=aa5696&media=edicion_13.png"></p>
+            <li><b>&lt;WRAP important&gt;</b></li>
+            <p align="center"><img style="margin-top: 10px; max-width:70%; height:auto;" src="/dokuwiki/!ssdj/lib/exe/fetch.php?w=90&h=5&t=1773212948&tok=809c72&media=edicion_14.png"></p>
+            </ul>
+            
+                        <hr style="border: 0; height: 1px; background-color: #778799;">
+            
+            <h3 id="etiqueta_panel">&lt;panel&gt;</h3>
+            <p>Al contrario que WRAP, esta etiqueta mostrará el contenido en un “contenedor” que sí es visible por si solo y al que también podremos añadir estilos.</p>
+            <ul>
+            <li><b>&lt;panel&gt;</b></li>
+            <p align="center"><img style="margin-top: 10px; max-width:70%; height:auto;" src="/dokuwiki/!ssdj/lib/exe/fetch.php?w=90&h=4&t=1773225559&tok=083dda&media=edicion_15.png"></p>
+            <li><b>&lt;panel title="TÍTULO"&gt;</b></li>
+            <p align="center"><img style="margin-top: 10px; max-width:70%; height:auto;" src="/dokuwiki/!ssdj/lib/exe/fetch.php?w=90&h=7&t=1773225559&tok=2054ab&media=edicion_16.png"></p>
+            <li><b>&lt;panel title="TÍTULO" type="info"&gt;</b></li>
+            <p align="center"><img style="margin-top: 10px; max-width:70%; height:auto;" src="/dokuwiki/!ssdj/lib/exe/fetch.php?w=90&h=7&t=1773225559&tok=f49513&media=edicion_17.png"></p>
+            <li><b>&lt;panel title="TÍTULO" type="success"&gt;</b></li>
+            <p align="center"><img style="margin-top: 10px; max-width:70%; height:auto;" src="/dokuwiki/!ssdj/lib/exe/fetch.php?w=90&h=7&t=1773225559&tok=ca7e94&media=edicion_18.png"></p>
+            <li><b>&lt;panel title="TÍTULO" type="warning"&gt;</b></li>
+            <p align="center"><img style="margin-top: 10px; max-width:70%; height:auto;" src="/dokuwiki/!ssdj/lib/exe/fetch.php?w=90&h=7&t=1773225559&tok=93c972&media=edicion_19.png"></p>
+            <li><b>&lt;panel title="TÍTULO" type="danger"&gt;</b></li>
+            <p align="center"><img style="margin-top: 10px; max-width:70%; height:auto;" src="/dokuwiki/!ssdj/lib/exe/fetch.php?w=90&h=7&t=1773225559&tok=aa62a6&media=edicion_20.png"></p>
+            </ul>
+            
+            <p>Vamos a ver ejemplos del uso de estas etiquetas en DokuWiki anidando paneles: </p>
+            
+            <ul>
+            <li>Panel anidado dentro del panel principal:</li>
+            <ul>
+            <li><b>Estructura:</b></li>
+            </ul>
+            <p style="margin-left: 40px;"><b style='color: #1075E6;'>&lt;panel title="PANEL PRINCIPAL"&gt;</b></p>
+            <p style="margin-left: 40px;"><b style='color: #1075E6;'>Texto del panel principal.</b></p>
+
+            <p style="margin-left: 40px;"><b style='color: #E65E10;'>&lt;WRAP&gt;</b></p>
+            <p style="margin-left: 40px;"><b style='color: #E65E10;'>&lt;panel title="PRIMER PANEL INTERIOR"&gt;</b></p>
+            <p style="margin-left: 40px;"><b style='color: #E65E10;'>Contenido del primer panel interior.</b></p>
+            <p style="margin-left: 40px;"><b style='color: #E65E10;'>&lt;/panel&gt;</b></p>
+            <p style="margin-left: 40px;"><b style='color: #E65E10;'>&lt;/WRAP&gt;</b></p>
+
+            <p style="margin-left: 40px;"><b style='color: #1075E6;'>&lt;/panel&gt;</b></p>
+             
+            <ul>
+            <li><b>Resultado:</b></li>
+            </ul>
+             
+            <p align="center"><img style="margin-top: 10px; max-width:70%; height:auto;" src="/dokuwiki/!ssdj/lib/exe/fetch.php?w=90&h=16&t=1773229826&tok=627db9&media=edicion_21.png"></p>
+            </ul>
+            
+            <ul>
+            <li>Varios paneles anidados:</li>
+            <ul>
+            <li><b>Estructura:</b></li>
+            </ul>
+            
+            <p style="margin-left: 40px;"><b style='color: #1075E6;'>&lt;panel title="PANEL PRINCIPAL"&gt;</b></p>
+            <p style="margin-left: 40px;"><b style='color: #1075E6;'>Texto del panel principal.</b></p>
+
+            <p style="margin-left: 40px;"><b style='color: #E65E10;'>&lt;WRAP&gt;</b></p>
+            <p style="margin-left: 40px;"><b style='color: #E65E10;'>&lt;panel title="PRIMER PANEL INTERIOR"&gt;</b></p>
+            <p style="margin-left: 40px;"><b style='color: #E65E10;'>Contenido del primer panel interior.</b></p>
+            
+            <p style="margin-left: 40px;"><b style='color: #10E649;'>&lt;WRAP&gt;</b></p>
+            <p style="margin-left: 40px;"><b style='color: #10E649;'>&lt;panel title="SEGUNDO PANEL INTERIOR"&gt;</b></p>
+            <p style="margin-left: 40px;"><b style='color: #10E649;'>Contenido del segundo panel interior.</b></p>
+            <p style="margin-left: 40px;"><b style='color: #10E649;'>&lt;/panel&gt;</b></p>
+            <p style="margin-left: 40px;"><b style='color: #10E649;'>&lt;/WRAP&gt;</b></p>
+            
+            <p style="margin-left: 40px;"><b style='color: #E65E10;'>&lt;/panel&gt;</b></p>
+            <p style="margin-left: 40px;"><b style='color: #E65E10;'>&lt;/WRAP&gt;</b></p>
+
+            <p style="margin-left: 40px;"><b style='color: #1075E6;'>&lt;/panel&gt;</b></p>
+             
+            <ul>
+            <li><b>Resultado:</b></li>
+            </ul>
+             
+            <p align="center"><img style="margin-top: 10px; max-width:70%; height:auto;" src="/dokuwiki/!ssdj/lib/exe/fetch.php?w=90&h=25&t=1773229826&tok=0909b8&media=edicion_22.png"></p>
+            </ul>
+            
+            
+            <ul>
+            <li>Un último ejemplo haciendo uso de las etiquetas de estilo:</li>
+            <ul>
+            <li><b>Estructura:</b></li>
+            </ul>
+            
+            <p style="margin-left: 40px;">&lt;panel title="ESTE ES UN PANEL PRINCIPAL CON ESTILO INFO" type="info"&gt;</p>
+
+            <p style="margin-left: 40px;">&lt;WRAP centeralign&gt;</p>
+            <p style="margin-left: 40px;">&lt;panel title="ESTE ES UN PANEL ANIDADO CON ESTILO SUCCESS" type="success"&gt;</p>
+            <p style="margin-left: 40px;">Este panel se encuentra dentro de un WRAP que centra el texto con "centeralign".</p>
+
+            <p style="margin-left: 40px;">&lt;WRAP leftalign important round&gt;</p>
+            <p style="margin-left: 40px;">&lt;panel title="PANEL ANIDADO CON ESTILO WARNING" type="warning"&gt;</p>
+            <p style="margin-left: 40px;">Este panel se encuentra a su vez dentro de un WRAP con texto alineado a la izquierda con "leftalign", estilo "important" y esquinas redondeadas con "round".</p>
+            <p style="margin-left: 40px;">&lt;/panel&gt;</p>
+            <p style="margin-left: 40px;">&lt;/WRAP&gt;</p>
+
+            <p style="margin-left: 40px;">&lt;/panel&gt;</p>
+            <p style="margin-left: 40px;">&lt;/WRAP&gt;</p>
+
+            <p style="margin-left: 40px;">&lt;/panel&gt;</p>
+            
+            <ul>
+            <li><b>Resultado:</b></li>
+            </ul>
+            
+            <p align="center"><img style="margin-top: 10px; max-width:70%; height:auto;" src="/dokuwiki/!ssdj/lib/exe/fetch.php?w=90&h=25&t=1773236872&tok=1a9d85&media=edicion_23.png"></p>
+            
+            </ul>            
+            </div>
+            
+            <!-- BLOQUE 3 -->
+            <div class="block">
+        
+            <h2 id="herramientas-editor">Herramientas del Editor</h2>
+            <p>En el modo edición de DokuWiki podemos encontrar una barra con distintas herramientas útiles para dar formato y añadir otros tipos de contenido tales como enlaces o imágenes.</p>
+            <p align="center"><img style="margin-top: 10px; max-width:100%; height:auto;" src="/dokuwiki/!ssdj/lib/exe/fetch.php?w=90&h=3&t=1773306081&tok=570aec&media=edicion_24.png"></p>
+            <p>Vamos a ver cuáles son y a su vez como usarlas de forma manual, sin necesidad de usar la barra de herramientas.</p>
+            
+                        <hr style="border: 0; height: 1px; background-color: #778799;">
+            
+            <h3 id="estilos-texto">Estilos de Texto</h3>
+            <ul>
+            <li><b>Negrita:</b></li>
+            <p align="left"><img style="margin-top: 10px; max-width:30%; height:auto;" src="/dokuwiki/!ssdj/lib/exe/fetch.php?w=90&h=17&t=1773305976&tok=10d987&media=edicion_25.png">  →  **HOLA**  →  <b>HOLA</b></p>
+            <li><b>Cursiva:</b></li>
+            <p align="left"><img style="margin-top: 10px; max-width:30%; height:auto;" src="/dokuwiki/!ssdj/lib/exe/fetch.php?w=90&h=17&t=1773305976&tok=cbba56&media=edicion_26.png">  →  //HOLA//  →  <i>HOLA</i></p>
+            <li><b>Subrayado:</b></li>
+            <p align="left"><img style="margin-top: 10px; max-width:30%; height:auto;" src="/dokuwiki/!ssdj/lib/exe/fetch.php?w=90&h=17&t=1773306270&tok=dc14f5&media=edicion_27.png">  →  __HOLA__  →  <u>HOLA</u></p>
+            <li><b>Código:</b></li>
+            <p align="left"><img style="margin-top: 10px; max-width:30%; height:auto;" src="/dokuwiki/!ssdj/lib/exe/fetch.php?w=90&h=17&t=1773306270&tok=4b078a&media=edicion_28.png">  →  ''HOLA''  →  <a style="color: red; background-color: #F5DCDC;">HOLA</a></p>
+            <li><b>Tachado:</b></li>
+            <p align="left"><img style="margin-top: 10px; max-width:30%; height:auto;" src="/dokuwiki/!ssdj/lib/exe/fetch.php?w=90&h=17&t=1773306270&tok=08ed04&media=edicion_29.png">  →  &lt;del&gt;HOLA&lt;/del&gt;  →  <s>HOLA</s></p>
+            </ul>
+            
+                        <hr style="border: 0; height: 1px; background-color: #778799;">
+            
+            <h3 id="titulos">Títulos</h3>
+            <ul>
+            <li>
+            <div style="display: flex; align-items: center; gap: 10px;"><img src="/dokuwiki/!ssdj/lib/exe/fetch.php?w=90&h=43&t=1773311543&tok=a42fcf&media=edicion_32.png" style="max-width: 30%; height: auto;"> → ====== TÍTULO 1 ====== → <h1 style="margin: 0;">TÍTULO 1</h1></div>
+            </li>
+            
+            <li>
+            <div style="display: flex; align-items: center; gap: 10px;"><img src="/dokuwiki/!ssdj/lib/exe/fetch.php?w=90&h=43&t=1773311543&tok=dd703a&media=edicion_33.png" style="max-width: 30%; height: auto;"> → ===== TÍTULO 2 ===== → <h2 class="default-h2" style="margin: 0;">TÍTULO 2</h2></div>
+            </li>
+            
+            <li>
+            <div style="display: flex; align-items: center; gap: 10px;"><img src="/dokuwiki/!ssdj/lib/exe/fetch.php?w=90&h=43&t=1773311543&tok=4f0650&media=edicion_34.png" style="max-width: 30%; height: auto;"> → ==== TÍTULO 3 ==== → <h3 style="margin: 0;">TÍTULO 3</h3></div>
+            </li>
+            
+            <li>
+            <div style="display: flex; align-items: center; gap: 10px;"><img src="/dokuwiki/!ssdj/lib/exe/fetch.php?w=90&h=43&t=1773311544&tok=34f2e1&media=edicion_35.png" style="max-width: 30%; height: auto;"> → === TÍTULO 4 === → <h4 style="margin: 0;">TÍTULO 4</h4></div>
+            </li>
+            
+            <li>
+            <div style="display: flex; align-items: center; gap: 10px;"><img src="/dokuwiki/!ssdj/lib/exe/fetch.php?w=90&h=43&t=1773311544&tok=293b56&media=edicion_36.png" style="max-width: 30%; height: auto;"> → == TÍTULO 5 == → <h5 style="margin: 0;">TÍTULO 5</h5></div>
+            </li>
+            
+            </ul>
+            
+                       <hr style="border: 0; height: 1px; background-color: #778799;">
+            
+            <h3 id="enlaces-imagenes">Insertar Enlaces, Documentos e Imágenes</h3>
+            <p>DokuWiki nos permite insertar tanto enlaces internos y externos como incrustar imágenes y documentos.</p>
+            <p>De nuevo, vamos a ver como usar una por una desde la barra de herramientas y de forma manual.</p>
+            
+            <ul>
+            <li><h4>Enlace interno:</h4></li>
+            Este formato sólo puede utilizarse para enlazar páginas de DokuWiki.
+                <ul>
+                <li>Lo primero es saber el nombre interno de la página de DokuWiki a la que queremos que el enlace nos redirija, la buscaremos externamente en una nueva pestaña o ventana, donde podremos comprobar dicho nombre.</li>
+                <p align="center"><img style="margin-top: 10px; max-width:70%; height:auto;" src="/dokuwiki/!ssdj/lib/exe/fetch.php?w=90&h=26&t=1773320899&tok=69753d&media=edicion_38.png"></p>
+                <li>De vuelta al editor, pulsaremos el icono "Enlace interno" el cuál nos abrirá una nueva ventana en la que buscaremos la página.</li>
+                <p align="center"><img style="margin-top: 10px; max-width:70%; height:auto;" src="/dokuwiki/!ssdj/lib/exe/fetch.php?w=90&h=30&t=1773320899&tok=33cf59&media=edicion_37.png"></p>
+                <li>Observaremos que en el editor aparecerá, con nuestro ejemplo → <b>[[pag_puesto|]]</b>. En este punto tenemos dos opciones:</li>
+                  <ol>
+                  <li>No añadir ningún nombre al enlace, de forma que el resultado visual será un enlace con el nombre interno de la página: <b>[[pag_puesto|]]</b> → <a>pag_puesto</a></li>
+                  <li>Añadir tras el icono <b>|</b> el nombre con el que queremos que se visualice el enlace: <b>[[pag_puesto|Puesto de Trabajo]]</b> → <a>Puesto de Trabajo</a></li>
+                  </ol>
+                </ul>
+              
+            <li><h4>Enlace externo:</h4></li>
+            Este formato puede utilizarse tanto para enlazar páginas de DokuWiki como páginas externas.
+              <ul>
+              <li>En este caso necesitaremos la URL de la página a la que queremos que nos redirija el enlace.</li>
+              <p align="center"><img style="margin-top: 10px; max-width:70%; height:auto;" src="/dokuwiki/!ssdj/lib/exe/fetch.php?w=90&h=23&t=1773324068&tok=64c4c1&media=edicion_39.png"></p>
+              <li>De vuelta al editor, pulsaremos el icono "Enlace externo" el cuál nos arrojará en el editor lo siguiente → <b>[[http://example.com|Enlace externo]]</b>. De nuevo disponemos de dos opciones:</li>
+                <ol>
+                  <li>No añadir ningún nombre al enlace, sustituiremos el primer apartado <b>http://example.com</b> por el enlace deseado y eliminaremos el segundo apartado <b>Enlace externo</b> dejándolo en blanco de forma que el resultado visual será el propio enlace: <b>[[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_puesto|]]</b> → <a>https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_puesto</a></li>
+                  <li>Añadir tras el icono <b>|</b> el nombre con el que queremos que se visualice el enlace: <b>[[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_puesto|Puesto de Trabajo]]</b> → <a>Puesto de Trabajo</a></li>
+                  </ol>
+              </ul>
+            </ul>
+            
+            </div>
+            
+        </div>
+ 
+</div>
+</body>
+</html>
+

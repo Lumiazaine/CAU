@@ -1,0 +1,95 @@
+﻿
+====== Revisión diaria de backups ======
+
+De **Lunes a Viernes se deberá comprobar las copias de seguridad de los servidores Networkers, generando una petición en la herramienta Remedy, donde se indicará el resultado de los backups. **
+
+**- Si todos los backups se han realizado correctamente, se cerrará la petición indicándolo. **
+
+**-Si los fallos han sido por problemas de los clientes, se reasignará al grupo pertinente para que lo solvente. **
+
+**Para poder hacer un seguimiento de estos backups disponemos de una serie de correos o alertas en Zabbix que envía cada uno de los servidores de Networker. **
+
+Oragrid** **
+
+** <font 14px/sans-serif;;inherit;;inherit>Remitente ⇒ ORAGRID root <root@oragrid.justicia.junta-andalucia.es></font>  **
+
+** <font 14px/sans-serif;;inherit;;inherit>Destinatario ⇒ notificaciones.gtab.ius@juntadeandalucia.es</font>  **
+
+IUSSLNSRSRV01** **
+
+**Remitente ⇒ root IUSSLNSRSRV01 <root@iusslnsrsrv01.justicia.junta-andalucia.es> **
+
+** <font 14px/sans-serif;;inherit;;inherit>Destinatario ⇒ notificaciones.gtab.ius@juntadeandalucia.es</font>  **
+
+CREACIÓN DE INFORME TÉCNICO**
+
+======   ======
+
+Se ha automatizado el Informe técnico de la siguiente manera:
+
+Hay un crontab que ejecuta un script todos los días a las 8:00 en los servidores iusslnsrsrv01 y iusslrdpats01, el script guarda el resultado de las copias en [[\\iusnas05\sij\Temp\SISTEMAS\GTAB\Informes|]] Backup
+
+Después de las 8:00 se puede abrir la excel "Plantilla Diaria" ubicada en [[\\iusnas05\sij\Sistemas\GTAB|]] y ejecutar el botón "Generar Informe"
+
+*Hay que tener mapeado la unidad [[\\iusnas05\sij|]] en la letra Z:\
+ <font 14px text-align:start/sans-serif;;inherit;;inherit>Por otro lado, se verifican las alertas en Zabbix referente a las BBDD o los correos que llegan a notificaciones.gtbd o notificaciones.gtab con asunto "Monitorizacion de RMAN ARCH" y "Monitorizacion de EXPORT", para verificar si los exports y Rmans se han creado correctamente y la copia de la bbdd es consistente.</font>
+
+Una vez generado el informe se insertan las imagenes en un email con asunto "Informe técnico de estado de Backup fecha" y destinatario coordinación con copia a manuel.gonzalez.seco@juntadeandalucia.es, sistemas.gtab.ius@juntadeandalucia.es y a Soporte Sistemas Soporte Sistemas (soporte.sistemas.ius@juntadeandalucia.es)
+
+----
+
+*En el caso de que este proceso falle o no esté operativo*
+
+Los informes los obtenemos desde los reportes de la NMC:
+
+Para Oragrid Sedes - [[http://iusslrdpats01.justicia.junta-andalucia.es:9000|http://iusslrdpats01.justicia.junta-andalucia.es:9000]]
+
+Para SSCC - [[http://iusslnsrsrv01.justicia.junta-andalucia.es:9000|http://iusslnsrsrv01.justicia.junta-andalucia.es:9000]]
+
+Para realizar el informe técnico de las SEDES accedemos al Report de Oragrid:
+
+- NMC Oragrid → Reports → Reports → NetWorker Backup Status → Group Summary by Client and Server
+
+- Seleccionamos la fecha del día anterior con hora 6:00 y el del día actual con hora actual para los incrementales y desde las 0:00:00 del Sabado hasta las 0:00:00 del Lunes para los backups completos del fin de semana.
+
+- Realizamos dos Reports, uno con todos los Status (failed y succeeded) para contar todos los save sets que hay por grupo.
+
+Si lo exportamos a CSV, solo tenemos que seleccionar en la hoja de cálculo la columna "Number of Save Sets" para que nos de el sumatorio.
+
+También obtenemos la columna de los save sets copiados correctamente.
+
+Todo este informe se copia en la tercera hoja del excel.
+
+Con estos datos rellenamos el informe del día anterior renombrado el archivo con el día de hoy. Este se encuentra en [[\\iunsas05\sij\Sistemas\00\04-Informes\06|]]. Chequeos\Mantenimiento Diario\Informe Tecnico Backup_fecha.ods
+
+En la primera hoja indicamos los save sets correctos y la sede que han fallado.
+
+Verde: 0 fallos
+
+Amarillo: 1 Dia Fallido
+
+Rojo: mas de un día de fallos
+
+Azul: el backup sigue corriendo
+
+Blanco: Ese día no estaba programado el backup
+
+Para indicar la sede podemos recurrir al servidor de dominio (Usuarios y equipos de Active Directory → Cambiar dominio → Examinar → Se indica el domino de la sede → y se busca por el nombre de la sede. Por ejemplo justiciacaroh2 → Dominio Cadiz, Sede Rota-CARO-Celestino Mutis (CARO)
+
+O a la web [[http://infosistemas.justicia.junta-andalucia.es/consultas-escritos/tecnicos/informe.php?f=statspat&type=ROE#|http://infosistemas.justicia.junta-andalucia.es/consultas-escritos/tecnicos/informe.php?f=statspat&type=ROE#]]
+
+En la segunda hoja del excel se guardan los save sets fallidos, que lo obtendremos del reporte "Save Set Details by Client" con la misma fecha del anterior y con el "Status Selected" = "failed"
+
+Para realizar el informe técnico de SSCC accedemos al Report de Iusslnsrsrv01:
+
+- NMC Oragrid → Reports → Reports → Policy Statistics → Workflow Details : Con esto obtenemos el número de save sets fallidos y correctos según el grupo para rellenar la primera hoja del excel
+
+- NMC Oragrid → Reports → Reports → Policy Statistics → Save Sets Details : Con esto obtenemos los save sets fallidos para la tercera hoja del excel
+
+Por otro lado, se verifican los correos que llegan a notificaciones.gtbd o notificaciones.gtab con asunto "Monitorizacion de RMAN ARCH" y "Monitorizacion de EXPORT", para verificar si los exports y Rmans se han creado correctamente y la copia de la bbdd es consistente.
+
+Para verificar la consistencia del resto hay que comprobar los correos de Networker que se reciben en notificaciones.gtab, subcarpeta "Networker Oragrid", buscando en el contenido de los correos la frase "size grew during save"
+
+Una vez acabado de rellenar el excel, se capturan las celdas de la primera hoja y se insertan las imagenes en un email con asunto "Informe técnico de estado de Backup fecha" y destinatario coordinación con copia a manuel.gonzalez.seco@juntadeandalucia.es, sistemas.gtab.ius@juntadeandalucia.es y a Soporte Sistemas Soporte Sistemas (soporte.sistemas.ius@juntadeandalucia.es). Por último se adjunta el excel que mehos generado con los reportes anteriores.
+
+

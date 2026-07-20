@@ -2,6 +2,8 @@
 *.log
 Macro Remedy/nul
 CLAUDE.md
+.env
 
 .gemini/
 gha-creds-*.json
+*.har

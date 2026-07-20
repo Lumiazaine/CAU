@@ -1,0 +1,264 @@
+﻿<!DOCTYPE html>
+<html lang="es" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>net:seguridad:bastionado</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="keywords" content="net,seguridad,bastionado"/>
+<link rel="search" type="application/opensearchdescription+xml" href="/dokuwiki/!ssdj/lib/exe/opensearch.php" title="Servicio de Sistemas Digitales para la Justicia"/>
+<link rel="start" href="/dokuwiki/!ssdj/"/>
+<link rel="contents" href="/dokuwiki/!ssdj/doku.php?id=net:seguridad:bastionado&amp;do=index" title="Índice"/>
+<link rel="manifest" href="/dokuwiki/!ssdj/lib/exe/manifest.php"/>
+<link rel="alternate" type="application/rss+xml" title="Cambios recientes" href="/dokuwiki/!ssdj/feed.php"/>
+<link rel="alternate" type="application/rss+xml" title="Espacio de nombres actual" href="/dokuwiki/!ssdj/feed.php?mode=list&amp;ns=net:seguridad"/>
+<link rel="alternate" type="text/html" title="HTML sencillo" href="/dokuwiki/!ssdj/doku.php?do=export_xhtml&amp;id=net:seguridad:bastionado"/>
+<link rel="alternate" type="text/plain" title="Etiquetado Wiki" href="/dokuwiki/!ssdj/doku.php?do=export_raw&amp;id=net:seguridad:bastionado"/>
+<link rel="canonical" href="http://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=net:seguridad:bastionado"/>
+<link rel="stylesheet" href="/dokuwiki/!ssdj/lib/exe/css.php?t=bootstrap3&amp;tseed=fade0092c81b3b15be1b7fd1b8394d30"/>
+<link type="text/css" rel="stylesheet" href="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net-fixedheader-dt/css/fixedHeader.dataTables.min.css"/>
+<link type="text/css" rel="stylesheet" href="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net-fixedcolumns-dt/css/fixedColumns.dataTables.min.css"/>
+<link type="text/css" rel="stylesheet" href="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net-bs/css/dataTables.bootstrap.min.css"/>
+<link type="text/css" rel="stylesheet" href="/dokuwiki/!ssdj/lib/plugins/icons/assets/font-awesome/css/font-awesome.min.css"/>
+<link type="text/css" rel="stylesheet" href="/dokuwiki/!ssdj/lib/plugins/icons/assets/material-design-icons/css/materialdesignicons.min.css"/>
+<!--[if gte IE 9]><!-->
+<script >/*<![CDATA[*/var NS='net:seguridad';var SIG=" --- \/\/[[|JUST9 Sandetel Ext]] 2026\/06\/23 13:04\/\/";var JSINFO = {"confirm_delete":"Seguro desea eliminar esta p\u00e1gina?","doku_base":"\/dokuwiki\/!ssdj\/","cg_rev":"","dw_version":51.3,"chrome_version":0,"hide_captcha_error":"none","ckg_dbl_click":"","ckg_canonical":0,"doku_url":"http:\/\/extranet.chap.junta-andalucia.es\/dokuwiki\/!ssdj\/","has_tags":"Tag","has_wrap":"Wrap","wrapDiv":"WRAP","wrapSpan":"wrap","ckgEdPaste":"off","rel_links":1,"ckg_template":"bootstrap3","plugins":{"edittable":{"default columnwidth":""}},"htmlok":1,"plugin":{"datatables":{"config":[],"enableForAllTables":0}},"isadmin":0,"isauth":1,"move_renameokay":false,"id":"net:seguridad:bastionado","namespace":"net:seguridad","ACT":"export_xhtml","useHeadingNavigation":0,"useHeadingContent":0};
+/*!]]>*/</script>
+<script charset="utf-8" src="/dokuwiki/!ssdj/lib/exe/jquery.php?tseed=34a552433bc33cc9c3bc32527289a0b2" defer="defer"></script>
+<script charset="utf-8" src="/dokuwiki/!ssdj/lib/exe/js.php?t=bootstrap3&amp;tseed=fade0092c81b3b15be1b7fd1b8394d30" defer="defer"></script>
+<script type="text/javascript" charset="utf-8" src="/dokuwiki/!ssdj/lib/plugins/ckgedit/scripts/mediamgr.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net/js/jquery.dataTables.min.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net-fixedheader-dt/js/fixedHeader.dataTables.min.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net-fixedcolumns-dt/js/fixedColumns.dataTables.min.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net-buttons/js/dataTables.buttons.min.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net-buttons/js/buttons.html5.min.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net-buttons/js/buttons.print.min.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/jszip/dist/jszip.min.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/pdfmake/build/pdfmake.min.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/pdfmake/build/vfs_fonts.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net-bs/js/dataTables.bootstrap.min.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net-buttons-bs/js/buttons.bootstrap.min.js" defer="defer"></script>
+<!--<![endif]-->
+
+    <script type="text/javascript">
+    //<![CDATA[ 
+    function LoadScript( url )
+    {
+     document.write( '<scr' + 'ipt type="text/javascript" src="' + url + '"><\/scr' + 'ipt>' ) ;        
+
+    }
+   function LoadScriptDefer( url )
+    {
+     document.write( '<scr' + 'ipt type="text/javascript" src="' + url + '" defer><\/scr' + 'ipt>' ) ;        
+
+    }
+//]]> 
+
+ </script>
+ </head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc" class="dw__toc">
+<h3 class="toggle">Tabla de Contenidos</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#procedimiento_de_hardening_de_dispositivos_de_red">Procedimiento de Hardening de Dispositivos de Red</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#objetivo">1. Objetivo</a></div></li>
+<li class="level2"><div class="li"><a href="#alcance">2. Alcance</a></div></li>
+<li class="level2"><div class="li"><a href="#responsables">3. Responsables</a></div></li>
+<li class="level2"><div class="li"><a href="#procedimiento">4. Procedimiento</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#accesos_y_autenticacion">4.1 Accesos y autenticación</a></div></li>
+<li class="level3"><div class="li"><a href="#acceso_remoto_y_protocolos_seguros">4.2 Acceso remoto y protocolos seguros</a></div></li>
+<li class="level3"><div class="li"><a href="#actualizaciones_y_parches">4.3 Actualizaciones y parches</a></div></li>
+<li class="level3"><div class="li"><a href="#politicas_de_firewall_y_control_de_trafico">4.4 Políticas de firewall y control de tráfico</a></div></li>
+<li class="level3"><div class="li"><a href="#proteccion_de_puertos_y_red">4.5 Protección de puertos y red</a></div></li>
+<li class="level3"><div class="li"><a href="#snmp_y_monitorizacion">4.6 SNMP y monitorización</a></div></li>
+<li class="level3"><div class="li"><a href="#auditoria_y_trazabilidad">4.7 Auditoría y trazabilidad</a></div></li>
+<li class="level3"><div class="li"><a href="#copias_de_seguridad">4.8 Copias de seguridad</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#registro_de_cambios">5. Registro de cambios</a></div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1" id="procedimiento_de_hardening_de_dispositivos_de_red">Procedimiento de Hardening de Dispositivos de Red</h1>
+<div class="level1">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Procedimiento de Hardening de Dispositivos de Red&quot;,&quot;hid&quot;:&quot;procedimiento_de_hardening_de_dispositivos_de_red&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:1,&quot;range&quot;:&quot;1-65&quot;} -->
+<h2 class="sectionedit2" id="objetivo">1. Objetivo</h2>
+<div class="level2">
+
+<p>
+Establecer un procedimiento estandarizado para aplicar medidas de <strong>bastionado (hardening)</strong> a dispositivos de red con el fin de reducir la superficie de ataque, asegurar la disponibilidad, integridad y confidencialidad de los servicios, y cumplir con las políticas de seguridad corporativas.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;1. Objetivo&quot;,&quot;hid&quot;:&quot;objetivo&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:2,&quot;range&quot;:&quot;66-384&quot;} -->
+<h2 class="sectionedit3" id="alcance">2. Alcance</h2>
+<div class="level2">
+
+<p>
+Aplica a todos los equipos de red gestionables: switches, routers, firewalls, balanceadores, etc., ya sean de los fabricantes Aruba, Fortinet, Cisco, etc.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;2. Alcance&quot;,&quot;hid&quot;:&quot;alcance&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:3,&quot;range&quot;:&quot;385-563&quot;} -->
+<h2 class="sectionedit4" id="responsables">3. Responsables</h2>
+<div class="level2">
+<ul>
+<li class="level1"><div class="li"> <strong>Administrador de red</strong>: Ejecuta las tareas técnicas de bastionado.</div>
+</li>
+<li class="level1"><div class="li"> <strong>Auditor interno</strong>: Verifica controles y revisa trazabilidad de cambios.</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;3. Responsables&quot;,&quot;hid&quot;:&quot;responsables&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:4,&quot;range&quot;:&quot;564-744&quot;} -->
+<h2 class="sectionedit5" id="procedimiento">4. Procedimiento</h2>
+<div class="level2">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;4. Procedimiento&quot;,&quot;hid&quot;:&quot;procedimiento&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:5,&quot;range&quot;:&quot;745-774&quot;} -->
+<h3 class="sectionedit6" id="accesos_y_autenticacion">4.1 Accesos y autenticación</h3>
+<div class="level3">
+<ul>
+<li class="level1"><div class="li"> Deshabilitar <strong>cuentas predeterminadas</strong> o cambiar sus contraseñas.</div>
+</li>
+<li class="level1"><div class="li"> Configurar <strong>autenticación con AAA (RADIUS o TACACS+)</strong>.</div>
+</li>
+<li class="level1"><div class="li"> Usar <strong>contraseñas seguras</strong>, sin cifrados reversibles.</div>
+</li>
+<li class="level1"><div class="li"> Habilitar <strong>autenticación multifactor (MFA)</strong> si se accede desde fuera.</div>
+</li>
+<li class="level1"><div class="li"> Aplicar <strong>timeouts de sesión</strong> y logout por inactividad.</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;4.1 Accesos y autenticaci\u00f3n&quot;,&quot;hid&quot;:&quot;accesos_y_autenticacion&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:6,&quot;range&quot;:&quot;775-1149&quot;} -->
+<h3 class="sectionedit7" id="acceso_remoto_y_protocolos_seguros">4.2 Acceso remoto y protocolos seguros</h3>
+<div class="level3">
+<ul>
+<li class="level1"><div class="li"> Deshabilitar <strong>Telnet</strong>. Usar <strong>SSH v2</strong> únicamente.</div>
+</li>
+<li class="level1"><div class="li"> Deshabilitar HTTP. Usar solo <strong>HTTPS</strong> para interfaz web.</div>
+</li>
+<li class="level1"><div class="li"> Limitar acceso de administración con <strong>ACLs</strong> o <strong>IP de gestión</strong>.</div>
+</li>
+<li class="level1"><div class="li"> Cambiar los <strong>puertos por defecto</strong> si es posible.</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;4.2 Acceso remoto y protocolos seguros&quot;,&quot;hid&quot;:&quot;acceso_remoto_y_protocolos_seguros&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:7,&quot;range&quot;:&quot;1150-1447&quot;} -->
+<h3 class="sectionedit8" id="actualizaciones_y_parches">4.3 Actualizaciones y parches</h3>
+<div class="level3">
+<ul>
+<li class="level1"><div class="li"> Instalar la <strong>penúltima versión estable del firmware</strong>.</div>
+</li>
+<li class="level1"><div class="li"> Revisar periódicamente <strong>boletines de seguridad del fabricante</strong>.</div>
+</li>
+<li class="level1"><div class="li"> Registrar fecha y cambios realizados.</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;4.3 Actualizaciones y parches&quot;,&quot;hid&quot;:&quot;actualizaciones_y_parches&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:8,&quot;range&quot;:&quot;1448-1663&quot;} -->
+<h3 class="sectionedit9" id="politicas_de_firewall_y_control_de_trafico">4.4 Políticas de firewall y control de tráfico</h3>
+<div class="level3">
+<ul>
+<li class="level1"><div class="li"> Aplicar el principio de <strong>mínimo privilegio</strong>: solo permitir tráfico necesario.</div>
+</li>
+<li class="level1"><div class="li"> Registrar los cambios en las políticas con su justificación.</div>
+</li>
+<li class="level1"><div class="li"> Aplicar <strong>inspección de tráfico (stateful)</strong> si está disponible.</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;4.4 Pol\u00edticas de firewall y control de tr\u00e1fico&quot;,&quot;hid&quot;:&quot;politicas_de_firewall_y_control_de_trafico&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:9,&quot;range&quot;:&quot;1664-1948&quot;} -->
+<h3 class="sectionedit10" id="proteccion_de_puertos_y_red">4.5 Protección de puertos y red</h3>
+<div class="level3">
+<ul>
+<li class="level1"><div class="li"> Activar <strong>Port Security</strong> en switches.</div>
+</li>
+<li class="level1"><div class="li"> Activar <strong>Spanning Tree (STP)</strong> y <strong>BPDU Guard</strong>.</div>
+</li>
+<li class="level1"><div class="li"> Configurar <strong>DHCP Snooping</strong> y <strong>ARP Inspection</strong> si están disponibles.</div>
+</li>
+<li class="level1"><div class="li"> Desactivar puertos no usados y marcarlos como shutdown.</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;4.5 Protecci\u00f3n de puertos y red&quot;,&quot;hid&quot;:&quot;proteccion_de_puertos_y_red&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:10,&quot;range&quot;:&quot;1949-2226&quot;} -->
+<h3 class="sectionedit11" id="snmp_y_monitorizacion">4.6 SNMP y monitorización</h3>
+<div class="level3">
+<ul>
+<li class="level1"><div class="li"> Deshabilitar <strong>SNMPv1/v2c</strong>, usar solo <strong>SNMPv3</strong>.</div>
+</li>
+<li class="level1"><div class="li"> Configurar monitorización con <strong>Zabbix, Nagios o similar</strong>.</div>
+</li>
+<li class="level1"><div class="li"> Registrar logs en servidor <strong>Syslog</strong> centralizado.</div>
+</li>
+<li class="level1"><div class="li"> Sincronizar con servidor <strong>NTP</strong> corporativo.</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;4.6 SNMP y monitorizaci\u00f3n&quot;,&quot;hid&quot;:&quot;snmp_y_monitorizacion&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:11,&quot;range&quot;:&quot;2227-2490&quot;} -->
+<h3 class="sectionedit12" id="auditoria_y_trazabilidad">4.7 Auditoría y trazabilidad</h3>
+<div class="level3">
+<ul>
+<li class="level1"><div class="li"> Habilitar <strong>logs de acceso y comandos</strong> ejecutados.</div>
+</li>
+<li class="level1"><div class="li"> Enviar logs a un <strong>servidor externo (SIEM/Syslog)</strong>.</div>
+</li>
+<li class="level1"><div class="li"> Documentar todos los cambios con fecha y técnico responsable.</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;4.7 Auditor\u00eda y trazabilidad&quot;,&quot;hid&quot;:&quot;auditoria_y_trazabilidad&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:12,&quot;range&quot;:&quot;2491-2711&quot;} -->
+<h3 class="sectionedit13" id="copias_de_seguridad">4.8 Copias de seguridad</h3>
+<div class="level3">
+<ul>
+<li class="level1"><div class="li"> Programar <strong>copias automáticas de configuración</strong>.</div>
+</li>
+<li class="level1"><div class="li"> Almacenar en ubicaciones <strong>seguras y redundantes</strong>.</div>
+</li>
+<li class="level1"><div class="li"> Verificar regularmente los backups.</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;4.8 Copias de seguridad&quot;,&quot;hid&quot;:&quot;copias_de_seguridad&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:13,&quot;range&quot;:&quot;2712-2899&quot;} -->
+<h2 class="sectionedit14" id="registro_de_cambios">5. Registro de cambios</h2>
+<div class="level2">
+<div class="table sectionedit15"><table class="inline">
+	<tr class="row0">
+		<td class="col0"> Versión </td><td class="col1 leftalign"> Fecha       </td><td class="col2 leftalign"> Responsable  </td><td class="col3 leftalign"> Descripción                  </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0">———</td><td class="col1">————-</td><td class="col2">—————</td><td class="col3">——————————</td>
+	</tr>
+	<tr class="row2">
+		<td class="col0 leftalign"> 1.0     </td><td class="col1 leftalign"> 17/07/2025  </td><td class="col2"> GTSR PN</td><td class="col3 leftalign"> Creación del procedimiento   </td>
+	</tr>
+</table></div>
+<!-- EDIT{&quot;target&quot;:&quot;table&quot;,&quot;name&quot;:&quot;&quot;,&quot;hid&quot;:&quot;table&quot;,&quot;secid&quot;:15,&quot;range&quot;:&quot;2936-3149&quot;} -->
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;5. Registro de cambios&quot;,&quot;hid&quot;:&quot;registro_de_cambios&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:14,&quot;range&quot;:&quot;2900-&quot;} -->
+<!-- no cachefile used, but created /srv/www/dokuwikifarm/ssdj/data/cache/f/fb96c75917a07e1e3c611e171bc7a10f.xhtml -->
+</div>
+</body>
+</html>
+

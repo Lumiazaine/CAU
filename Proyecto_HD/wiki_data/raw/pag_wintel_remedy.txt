@@ -1,0 +1,24 @@
+﻿
+Servicio de Negocio Remedy
+
+##################Reiniciar Remedy########################
+
+Te conectas a iusswaihv01 y levantas los servicios: son 3 servicios:
+
+-Remedy System Email Engine
+
+-AR System Portmapper
+
+-Remedy Action Request System Server
+
+Software Cliente IUSSWAIHV01 10.241.130.25
+
+Equipos IUSSWAPRO01 IUSSWAPRO02
+
+Si hay problema reiniciar el apache IUSSWAIHV01 IUSSWAPRO01 IUSSWAPRO02
+
+{{:servicios_remedy_web.png?400}}
+
+La configuración de remedy se encuentra en el servidor IUSSWAIHV01 en la ruta E:\Remedy Hay dos servicios "Remedy Email Engine" y "Remedy Action Request System Server" que deben iniciarse ante cualquier reinicio inesperado. La configuración del Cliente Web se encuentra en los servidores IUSSWAPRO01-IUSSWAPRO02 en la ruta E:\Aplicaciones Web\Incidencias La Licencia de Remedy va asociada a una MAC concreta, la cual está asignada a la MV (IUSSWAIHV01). Si no, no arranca Remedy.
+
+

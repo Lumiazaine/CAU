@@ -1,0 +1,61 @@
+﻿
+
+<WRAP> 
+<panel type="primary" title="Procedimientos y Problemas Conocidos de Jira">
+
+[[..:jira:start|Volver atrás]]
+
+<WRAP> 
+<panel type="info">
+
+====== Límite de Licencias ======
+
+<WRAP center round important 60%>
+**IMPORTANTE:** El número máximo de licencias disponibles es **100**.
+</WRAP>
+
+===== Información sobre el límite =====
+
+  * **Licencias totales disponibles:** 100
+  * **Tipo de límite:** Máximo absoluto
+  * **Estado:** Vigente
+
+<WRAP center round info 60%>
+Este límite aplica a todas las instalaciones y no puede ser excedido sin autorización previa.
+</WRAP>
+
+===== Soluciones Alternativas =====
+
+Si ha alcanzado el límite máximo de licencias, considere las siguientes opciones:
+
+==== 1. Optimización de licencias actuales ====
+  * **Auditoría de usuarios:** Revisar usuarios inactivos o que ya no requieren acceso
+  * **Reasignación:** Transferir licencias de usuarios que no las utilizan frecuentemente
+  * **Horarios compartidos:** Implementar turnos para usuarios con uso esporádico
+
+==== 2. Gestión eficiente ====
+  * **Grupos de trabajo:** Crear cuentas compartidas para equipos específicos
+  * **Acceso temporal:** Asignar licencias temporales solo cuando sea necesario
+  * **Priorización:** Establecer criterios claros para la asignación de licencias
+
+==== 3. Monitoreo y control ====
+  * **Reportes de uso:** Generar informes mensuales de utilización
+  * **Alertas automáticas:** Configurar notificaciones cuando se acerque al límite
+  * **Política de inactividad:** Liberar automáticamente licencias no utilizadas en 30 días
+
+<WRAP center round tip 60%>
+**Recomendación:** Implemente un proceso de revisión trimestral para optimizar la distribución de licencias existentes.
+</WRAP>
+
+----
+
+//Última actualización: Agosto 2025//
+```
+
+Las soluciones propuestas se enfocan en la optimización y gestión eficiente de las licencias existentes sin necesidad de aumentar el número disponible.
+</panel> 
+</WRAP>
+
+[[..:jira:start|Volver atrás]]
+
+{{tag>novalidada}}

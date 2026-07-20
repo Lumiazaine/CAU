@@ -1,0 +1,44 @@
+﻿
+====== 3par ======
+
+======
+Introducción  ======
+
+Mantenimiento de la 3par Tune y compact de los discos
+
+======
+Explicación  ======
+ <font 14px font-style: normal; font-weight: 400; text-align: start;/sans-serif;;inherit;;inherit>Tune discos 3par --> Los tunes se realizan antes de compactado, esto lo que hace es realizar un escaneo de los discos.</font>
+
+Compact CPG 3PAR --> Nos permite recuperar el espacio no usado o aquel espacio que no fue recuperado correctamente de forma automática.
+
+======
+Mantenimiento  ======
+
+[[https://10.241.129.158:8443/#/login|Debemos acceder a la 3par (https://10.241.129.158:8443/#/login]] ) usuario en keepass de GTAB
+
+Nos vamos a la sección de common provisioning groups, seleccionamos un grupo y entramos en sus volumenes.
+
+Vamos seleccionando de 3 en 3 para no saturar la 3par, y realizar el Tune.
+
+Una vez realizado volvemos a common provisioning groups y pulsamos Action  y compact.
+
+Este proceso es lento y debemos ir verificando que los tune y compact se realicen correctamente.
+
+Dicho por DELL EMC este proceso hay que realizar lo 3 veces mínimo para que todos los discos que tenemos FC, NL, y SSD se queden balanceados.
+
+Para verificar su balanceo nos vamos a Physical Drives.
+
+A día de 27/07/2020 los discos están al:
+
+Discos  Porcentaje
+
+FC 10K  59%
+
+NL 7K  68%
+
+SSD_150k  57%
+
+SSD_100K  63%
+
+

@@ -1,0 +1,96 @@
+﻿
+<WRAP> <panel type="primary" title="Procedimientos y Problemas Conocidos de Service Manager InterCAUs">
+
+[[start|Volver atrás]]
+
+<WRAP>
+<panel type="info">
+
+====== Procedimiento alta para técnicos ======
+
+Descripción del alta para técnicos en la aplicación. (en construcción)
+"Se proporcionará a los responsables las correspondientes credenciales de acceso
+nominales con perfil InterCAU, así como una formación inicial (telemática) si fuera necesario."
+
+</panel>
+
+<panel type="info">
+
+====== Procedimiento de Apertura de Incidencias INTERCAU ======
+
+===== 1. Atención al usuario final =====
+
+El usuario final contacta con su CAU de referencia (CAU USUARIO).
+
+El CAU USUARIO:
+
+  * Recoge toda la información del usuario y de la incidencia o petición.
+  * Determina si la incidencia puede resolverse internamente.
+  * Si no es de su competencia, se escala al CAU Justicia (SGCSDCO).
+
+===== 2. Comprobaciones previas antes de escalar =====
+
+Antes de escalar una incidencia al CAU SGCSDCO, el CAU USUARIO debe confirmar:
+
+  * Error concreto, descripción y número de usuarios afectados.
+  * Si el usuario está en sede o teletrabajando.
+  * Si se ha probado en otro equipo.
+  * Captura de pantalla y mensaje de error.
+  * Desde cuándo ocurre el problema.
+  * Nombre de la aplicación, URL y funcionalidad afectada.
+  * Horario de disponibilidad del usuario.
+
+===== 3. Apertura del caso en Service Manager (SM) =====
+
+El CAU USUARIO accede a la herramienta Service Manager con credenciales nominales InterCAU.
+
+Datos mínimos a incluir en el ticket:
+
+  * Asunto: [INTERCAU] Nombre CCAA/Organismo
+  * Nombre, apellidos, DNI y cargo del usuario final
+  * Correo electrónico, teléfono y horario
+  * Descripción clara y detallada (con capturas si procede)
+  * Tipo de ticket: Incidencia / Petición / Consulta
+  * Impacto (1–4) y Urgencia (1–4)
+  * Título breve de la incidencia
+
+===== 4. Canal alternativo (solo excepcional) =====
+
+En casos justificados y con acuerdo previo entre CAUs, se puede usar el correo:
+
+  * Dirección: cau@justicia.es
+  * Asunto: SM: InterCau
+  * Adjuntar los datos mínimos definidos en plantilla correspondiente.
+
+===== 5. Seguimiento del caso =====
+
+  * El seguimiento se realiza a través de Service Manager.
+  * Las actualizaciones se notifican por correo electrónico.
+  * Para incidencias masivas, puede habilitarse un canal de comunicación privado entre técnicos de ambos CAUs.
+
+===== 6. Resolución y cierre =====
+
+  * El CAU Justicia (SGCSDCO) resuelve y cierra el ticket en Service Manager.
+  * Se notifica al CAU USUARIO y, si corresponde, al usuario final.
+  * El CAU USUARIO informa al usuario y cierra el caso en su sistema local.
+  * En caso necesario, puede reabrirse la interacción.
+
+===== 7. Herramientas afectadas =====
+
+Las siguientes aplicaciones pueden requerir derivación directa al Ministerio, dependiendo del tipo de incidencia:
+
+  * Orfila:
+  * Aplicaciones a las que remitimos al usuario directamente a ministerios, algunas por las propias aplicaciones.
+    - Dicireg
+    - Siraj
+    - Cuenta de consignaciones
+    - Lexnet
+    - Nueva sede judicial electrónica
+    - Fortuny (distinto de EDOC)
+
+</panel> 
+</WRAP>
+
+[[start|Volver atrás]]
+
+{{tag>validada}}

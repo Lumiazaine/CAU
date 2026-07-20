@@ -1,0 +1,6 @@
+﻿
+===== Páginas en Revisión Continua =====
+
+Aquí tienes todas las páginas etiquetadas con REVISION: 
+
+{{topic>REVISION}}

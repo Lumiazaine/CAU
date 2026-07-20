@@ -1,0 +1,25 @@
+﻿
+<wrap>
+<panel type="primary" title="Resumen de procedimientos">
+
+En esta página se encuentran referenciados procedimientos e información de interés, tanto operativa como técnica y de explotación del entorno VDI y los procesos relacionados con el Puesto de Trabajo Virtual.
+
+^Sección  ^Enlace  |
+|Procedimientos operativos |[[:pag_vdi:procedimientos:explotacion|Acceso a procedimientos operativos]]  |
+|Procedimientos técnicos  |[[:pag_vdi:procedimientos:tecnicos|Acceso a procedimientos técnicos]]  |
+|Procedimientos administración técnica  |[[:pag_vdi:procedimientos:administracion-tecnica|Acceso a procedimientos administración entorno VDI]]  |
+|Incidencias. FAQs & Resolución  |[[:pag_procedimientos_vdi#incidencias-faqs-asignaciones-y-procedimientos|Acceso rápido a sección ]]  |
+
+Los procedimientos e información del proyecto se han dividido según lo que sigue para la comodidad y facilidad a la hora de encontrar información, ya que esta es muy extensa. También se añade un acceso directo a problemas conocidos y, de existir y ser conocida, la solución al mismo:
+  *** Procedimientos operativos:**
+
+Se incluyen en esta sección manuales, procedimientos e información relativa a procesos y cuestiones generalmente **no técnicas**, sino logísticas, de material, políticas de implantación, procedimientos para solicitudes de cambios en la maqueta, etc.
+  *  ** Procedimientos técnicos:**
+
+Se incluyen en esta sección manuales, procedimientos e información relativa a procesos y cuestiones generalmente **técnicas**, en el sentido no de administración y configuración del entorno sino de soporte, y temas relacionadas con la explotación del entorno como puede ser gestión de usuarios, altas y bajas, configuraciones del puesto de trabajo, aplicaciones instaladas, problemas conocidos, etc.
+  *** Procedimientos administración del entorno VDI:**
+
+Se incluyen en esta sección manuales, procedimientos e información relativa a procesos y cuestiones técnicas, en el sentido de **administración y configuración del entorno VDI**. Gestión de maquetas y pools de escritorios, persistencia de configuraciones, y, en genera, cualquier tema que aplique de forma masiva a los usuarios.
+
+</panel>
+</wrap>

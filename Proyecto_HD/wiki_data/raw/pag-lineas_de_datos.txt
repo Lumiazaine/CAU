@@ -1,0 +1,179 @@
+﻿
+====== Conectividad de sedes – Consejería de Justicia e Interior ======
+
+===== Introducción =====
+Las distintas sedes de la Consejería de Justicia e Interior disponen de conexión telemática a través de **líneas de datos corporativas proporcionadas por RCJA**, que a su vez contrata con diferentes operadores (ej. **Telefónica**, **Vodafone**).
+
+Las líneas de datos permiten:  
+  * Conexión con la red corporativa de **RCJA**.  
+  * Acceso a la **Red Judicial** mediante túneles **IPSEC/SSL** gestionados en los cortafuegos.  
+  * Acceso a **Internet** a través del **proxy de SSCC**.  
+
+Se dispone de dos accesos externos principales:  
+  * **AEXT-JUST-007**  
+  * **AEXT-JUST-008**  
+
+Ubicados en **NIX (RCJA)**, que proporcionan acceso tanto a la red del **Ministerio de Justicia** como a la red del **Consejo General del Poder Judicial (CGPJ)**.
+
+El área de sistemas (**GTSR**) es responsable de la **monitorización del servicio** y de la **gestión de incidencias con el operador (RCJA)**, mediante la herramienta **SIO**.
+
+===== Direccionamiento IP de salida =====
+^ Tipo de tráfico ^ Nodo principal ^ Nodo secundario ^
+| HTTP/HTTPS | 217.12.24.130–135 / 217.12.16.130–135 | 217.12.20.130–135 / 217.12.28.130–135 |
+| Otros puertos | 217.12.24.5 | 217.12.28.5 |
+| FNMT | colspan=2 | 217.12.16.56 |
+| Google | colspan=2 | 217.12.27.246 |
+
+===== Inventario físico =====
+*(Última actualización: 29/06/2017)*  
+
+El siguiente inventario recoge los accesos de comunicaciones en las distintas sedes:  
+===== Inventario físico =====
+En este enlace disponemos de documentación de la infraestructura de cada sede.
+
+^ Sede           ^ CodRCJA       ^ IP Router     ^ Tipo Servicio  ^ Tipo Línea     ^ Caudal Bajada  ^ Caudal Subida  ^
+| JUSTICIAAL01C  | JUST-ALM-001  | 10.17.7.3     | BACKUP         | MacroLAN 4M    | 4 Mbps         | 4 Mbps         |
+| JUSTICIAAL01C  | JUST-ALM-001  | 10.17.7.2     | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIAALBE1  | JUST-ALM-008  | 10.17.7.9     | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIAALCJ1  | JUST-ALM-024  | 10.17.7.19    | BACKUP         | MacroLAN 10M   | 10 Mbps        | 10 Mbps        |
+| JUSTICIAALCJ1  | JUST-ALM-024  | 10.17.7.18    | PRINCIPAL      | MacroLAN 1G    | 1 Gbps         | 1 Gbps         |
+| JUSTICIAALEJ1  | JUST-ALM-025  | 10.17.7.25    | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIAALHO1  | JUST-ALM-009  | 10.17.7.33    | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIAALHO2  | JUST-ALM-023  | 10.17.7.41    | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIAALPU1  | JUST-ALM-010  | 10.17.7.49    | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIAALRO2  | JUST-ALM-021  | 10.17.7.57    | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIAALVE1  | JUST-ALM-022  | 10.17.7.65    | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIAALVR1  | JUST-ALM-012  | 10.17.7.73    | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIACA01C  | JUST-CAD-007  | 10.49.7.2     | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIACA01C  | JUST-CAD-007  | 10.49.7.3     | BACKUP         | MacroLAN 10M   | 10 Mbps        | 10 Mbps        |
+| JUSTICIACA02C  | JUST-CAD-005  | 10.49.7.10    | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIACA02C  | JUST-CAD-005  | 10.49.7.11    | BACKUP         | FTTH 30M/3M    | 30 Mbps        | 3 Mbps         |
+| JUSTICIACA04C  | JUST-CAD-008  | 10.49.7.17    | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIACA06C  | JUST-CAD-043  | 10.49.7.25    | PRINCIPAL      | FTTH 100M/10M  | 100 Mbps       | 10 Mbps        |
+| JUSTICIACA07C  | JUST-CAD-044  | 10.49.7.35    | BACKUP         | SHDSL 10M      | 10 Mbps        | 10 Mbps        |
+| JUSTICIACA07C  | JUST-CAD-044  | 10.49.7.34    | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIACA08C  | JUST-CAD-009  | 10.49.7.41    | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIACAAF1  | JUST-CAD-003  | 10.49.7.49    | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIACAAL1  | JUST-CAD-001  | 10.49.7.59    | BACKUP         | FTTH 30M/3M    | 30 Mbps        | 3 Mbps         |
+| JUSTICIACAAL1  | JUST-CAD-001  | 10.49.7.58    | PRINCIPAL      | MacroLAN 1G    | 1 Gbps         | 1 Gbps         |
+| JUSTICIACAAL2  | JUST-CAD-002  | 10.49.7.65    | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIACAAL3  | JUST-CAD-023  | 10.49.7.73    | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIACAAL4  | JUST-CAD-026  | 10.49.7.81    | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIACABA1  | JUST-CAD-004  | 10.49.7.89    | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIACACH1  | JUST-CAD-028  | 10.49.7.97    | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIACAJF1  | JUST-CAD-011  | 10.49.7.107   | BACKUP         | SHDSL 4M       | 4 Mbps         | 4 Mbps         |
+| JUSTICIACAJF1  | JUST-CAD-011  | 10.49.7.106   | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIACAJF2  | JUST-CAD-024  | 10.49.7.114   | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIACAJF2  | JUST-CAD-024  | 10.49.7.115   | BACKUP         | SHDSL 10M      | 10 Mbps        | 10 Mbps        |
+| JUSTICIACAJF3  | JUST-CAD-050  | 10.49.7.201   | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIACALL2  | JUST-CAD-051  | 10.49.7.128   | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIACAPR1  | JUST-CAD-015  | 10.49.7.137   | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIACAPS1  | JUST-CAD-045  | 10.49.7.144   | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIACAPS3  | JUST-CAD-052  | 10.49.7.153   | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIACARO1  | JUST-CAD-016  | 10.49.7.161   | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIACASB1  | JUST-CAD-018  | 10.49.7.169   | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIACASF1  | JUST-CAD-017  | 10.49.7.177   | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIACASR2  | JUST-CAD-019  | 10.49.7.185   | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIACAUB1  | JUST-CAD-021  | 10.49.7.193   | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIACO01C  | JUST-COR-004  | 10.81.7.2     | PRINCIPAL      | MacroLAN 1G    | 1 Gbps         | 1 Gbps         |
+| JUSTICIACO01C  | JUST-COR-004  | 10.81.7.3     | BACKUP         | MacroLAN 10M   | 10 Mbps        | 10 Mbps        |
+| JUSTICIACO02C  | JUST-COR-005  | 10.81.7.9     | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIACO03C  | JUST-COR-021  | 10.81.7.17    | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIACO04C  | JUST-COR-034  | 10.81.7.25    | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIACO05C  | JUST-COR-017  | 10.81.7.33    | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIACO06C  | JUST-COR-028  | 10.81.7.41    | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIACO07C  | JUST-COR-023  | 10.81.7.49    | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIACO08C  | JUST-COR-032  | 10.81.7.59    | BACKUP         | SHDSL 4M       | 4 Mbps         | 4 Mbps         |
+| JUSTICIACO08C  | JUST-COR-032  | 10.81.7.58    | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIACO09C  | JUST-COR-033  | 10.81.7.65    | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIACOAG1  | JUST-COR-001  | 10.81.7.73    | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIACOBA1  | JUST-COR-002  | 10.81.7.81    | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIACOCA1  | JUST-COR-003  | 10.81.7.88    | PRINCIPAL      | FTTH 100M/10M  | 100 Mbps       | 10 Mbps        |
+| JUSTICIACOLU1  | JUST-COR-029  | 10.81.7.96    | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIACOMA1  | JUST-COR-009  | 10.81.7.105   | PRINCIPAL      | MacroLAN 4M    | 4 Mbps         | 4 Mbps         |
+| JUSTICIACOMO1  | JUST-COR-030  | 10.81.7.113   | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIACOPE1  | JUST-COR-024  | 10.81.7.121   | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIACOPG1  | JUST-COR-016  | 10.81.7.129   | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIACOPO1  | JUST-COR-012  | 10.81.7.137   | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIACOPR1  | JUST-COR-015  | 10.81.7.145   | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIACOPZ1  | JUST-COR-013  | 10.81.7.153   | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIAGR01C  | JUST-GRA-007  | 10.113.7.2    | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIAGR01C  | JUST-GRA-007  | 10.113.7.3    | BACKUP         | FTTH 30M/3M    | 30 Mbps        | 3 Mbps         |
+| JUSTICIAGR02C  | JUST-GRA-004  | 10.113.7.9    | PRINCIPAL      | MacroLAN 1G    | 1 Gbps         | 1 Gbps         |
+| JUSTICIAGR03C  | JUST-GRA-005  | 10.113.7.19   | BACKUP         | MacroLAN 10M   | 10 Mbps        | 10 Mbps        |
+| JUSTICIAGR03C  | JUST-GRA-005  | 10.113.7.18   | PRINCIPAL      | MacroLAN 1G    | 1 Gbps         | 1 Gbps         |
+| JUSTICIAGR04C  | JUST-GRA-021  | 10.113.7.25   | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIAGR06C  | JUST-GRA-022  | 10.113.7.33   | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIAGR08C  | JUST-GRA-035  | 10.113.7.41   | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIAGR09C  | JUST-GRA-036  | 10.113.7.130  | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIAGRAL1  | JUST-GRA-001  | 10.113.7.49   | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIAGRBA1  | JUST-GRA-003  | 10.113.7.57   | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIAGRGU1  | JUST-GRA-010  | 10.113.7.65   | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIAGRHU1  | JUST-GRA-011  | 10.113.7.73   | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIAGRLO1  | JUST-GRA-012  | 10.113.7.81   | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIAGRMO1  | JUST-GRA-019  | 10.113.7.90   | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIAGRMO1  | JUST-GRA-019  | 10.113.7.91   | BACKUP         | SHDSL 10M      | 10 Mbps        | 10 Mbps        |
+| JUSTICIAGRMO2  | JUST-GRA-034  | 10.113.7.97   | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIAGROR1  | JUST-GRA-017  | 10.113.7.105  | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIAGROR2  | JUST-GRA-031  | 10.113.7.112  | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIAGRSF1  | JUST-GRA-018  | 10.113.7.121  | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIAHU01C  | JUST-HUE-004  | 10.145.7.3    | BACKUP         | MacroLAN 4M    | 4 Mbps         | 4 Mbps         |
+| JUSTICIAHU01C  | JUST-HUE-004  | 10.145.7.2    | PRINCIPAL      | MacroLAN 1G    | 1 Gbps         | 1 Gbps         |
+| JUSTICIAHU02C  | JUST-HUE-008  | 10.145.7.9    | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIAHU05C  | JUST-HUE-007  | 10.145.7.25   | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIAHU06C  | JUST-HUE-014  | 10.145.7.33   | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIAHU08C  | JUST-HUE-018  | 10.145.7.43   | BACKUP         | MacroLAN 4M    | 4 Mbps         | 4 Mbps         |
+| JUSTICIAHU08C  | JUST-HUE-018  | 10.145.7.42   | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIAHU09C  | JUST-HUE-020  | 10.145.7.49   | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIAHUAR1  | JUST-HUE-001  | 10.145.7.57   | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIAHUAY1  | JUST-HUE-003  | 10.145.7.65   | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIAHUAY2  | JUST-HUE-019  | 10.145.7.73   | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIAHULP1  | JUST-HUE-012  | 10.145.7.81   | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIAHUMO1  | JUST-HUE-011  | 10.145.7.89   | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIAHUVA1  | JUST-HUE-013  | 10.145.7.97   | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIAJA01C  | JUST-JAE-020  | 10.177.7.2    | PRINCIPAL      | MacroLAN 100M  | 100 Mbps       | 100 Mbps       |
+| JUSTICIAJA01C  | JUST-JAE-020  | 10.177.7.3    | BACKUP         | MacroLAN 4     |                |                |
+
+
+> El inventario completo está disponible en la documentación de infraestructura asociada.
+
+
+===== Alcance =====
+Todas las sedes disponen de línea de datos corporativa.  
+
+Las sedes con mayor número de usuarios cuentan además con **línea de respaldo**. Ejemplos:  
+  * AL01C, ALCJ1, CA01C, CA02C, CA07C, CAAL1, CAJF1, CAJF2, CO01C, CO08C, GR01C, GR03C, GRMO1, HU01C, HU08C, JA01C, MA01C, MACJ1, MAFU1, MATO1, SE02C, SE04C, SE05C, SE06C.  
+
+===== Configuración =====
+La configuración de los equipos de comunicaciones es realizada en su totalidad por **RCJA**.  
+
+> Se dispone de una regla solicitada que permite el **enrutamiento de la red interna hacia la Red Judicial**.  
+Si esta regla no se encuentra activa, se produce incidencia de conectividad.  
+
+En **GestioIP** está disponible el inventario de direccionamiento de cada sede.  
+
+Ejemplo de direccionamiento (**SE04C**):  
+
+^ Elemento ^ Dirección IP ^
+| Red Externa | 10.241.7.8/29 |
+| Router Virtual | 10.241.7.9 |
+| Router Principal | 10.241.7.10 |
+| Router Backup | 10.241.7.11 |
+| Firewall | 10.241.7.12 |
+| Red Interna | 10.241.120.0/22 |
+| Firewall (interna) | 10.241.120.1 |
+
+
+
+
+===== Monitorización y gestión de eventos =====
+El servicio se supervisa mediante las siguientes herramientas:  
+  * **Nagios** → Monitorización de disponibilidad (ping) de los routers.  
+  * **Smokeping** → Monitorización de latencia.  
+  * **WISIR RCJA** → Estadísticas de uso de interfaces.  
+  * **SIO** → Gestión y escalado de incidencias.  
+
+===== Backup =====
+Las copias de seguridad de la configuración son responsabilidad de **RCJA**.  
+El área interna **no dispone de acceso directo** a los equipos.
+

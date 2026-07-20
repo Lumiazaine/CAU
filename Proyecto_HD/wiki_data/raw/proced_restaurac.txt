@@ -1,0 +1,30 @@
+﻿
+====== Procedimiento de restauración de datos. ======
+
+=====   =====
+
+===== Objetivo =====
+
+El objetivo de este documento es enumerar y detallar el protocolo de restauración de copias de seguridad.
+
+=====   =====
+
+===== Procedimientos de restauración. =====
+
+A continuación enumeraremos los distintos procedimientos que existen actualmente.
+
+===== Restauración de comunes. =====
+
+Una restauración se pide por una pérdida de documentos (ficheros o directorios) por parte del usuario y siempre debe venir a través de Remedy y acompañada de un documento de solicitud de recuperación firmado que indique la fecha, ubicación y documentos a recuperar.
+
+Los documentos se restaurarán en la carpeta "Restauraciones" pertinente, y CAU moverá los archivos a su sitio cuando confirmen con el usuario que los datos son correctos. Cuando terminen, deberán devolver la petición a GTAB indicando la conformidad del usuario, y recibido esto, eliminaremos cualquier rastro de la restauración.
+
+En ningún momento se recuperarán datos de índole personal, ya que no se deben almacenar en las carpetas Comunes para empezar.
+
+===== Restauración de BBDD. =====
+
+En algunos casos es necesario restaurar una base de datos, y en estos casos deberá llegar una petición de Remedy por parte de los compañeros de GTBD autorizada por Coordinación indicando qué base de datos se ha de restaurar, y la fecha de la restauración.
+
+Una vez recibida la petición, se procederá a restaurar la snapshot de la base de datos del día solicitado y se colocará en iusnas para que GTBD pueda recuperar la BBDD, y se les devolverá la petición.
+
+

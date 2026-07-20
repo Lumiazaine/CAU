@@ -1,0 +1,142 @@
+﻿
+====== Incidencias Switches HP - Aruba ======
+Desde Justicia, para notificar incidencias, pueden llamar al teléfono:  
+**902 877 277**  
+
+O también a través de la web de soporte HPE:  
+ * [[https://support.hpe.com]]
+ * [[https://asp-documents.arubanetworks.com/portals/0/RMA%20Quick%20Reference%20Guide.pdf|📄 Guía rápida de RMA (PDF oficial de Aruba)]]
+ * [[https://support.hpe.com/connect/s/?tab=cases|🌐 Portal de soporte HPE - Gestión de casos]]
+
+===== Incidencias Switches RED.ES =====
+
+*Última modificación por Administrador Sistemas el "jue, 12 nov 2020 08:50:06"*  
+
+Para consulta, actualización del inventario y/o averías hardware/software sobre el equipamiento del Convenio de Red.es, a partir del día 23 de diciembre de 2015, deben dirigirse al Centro de Atención de Usuarios (CAU) de la Red Corporativa de la Junta de Andalucía por alguna de las siguientes vías:
+
+  * **Teléfono:** 955 06 39 36 / (Número corporativo 300010)  
+  * **Ticket SIO:** Generado por el coordinador de datos de su Organismo a la Red Corporativa de la Junta de Andalucía mediante la herramienta sioweb:  
+    https://sioweb.juntadeandalucia.es/rcja/sio/shared/login.jsp?/rcja/sio/  
+  * **Correo electrónico:** cau.rcja@juntadeandalucia.es  
+    - Indicar en el asunto del correo uno de los siguientes formatos:  
+      - `ORGANISMO: Red.es- EXP- 119/14-SV: Avería Equipamiento Convenio`  
+      - `ORGANISMO: Red.es- EXP-119/14-SV: Actualización inventario SIOWEB Equipamiento Convenio`
+
+El equipamiento estará en garantía durante todo el tiempo de vigencia del Convenio y mediante este cauce podrá notificarse cualquier avería hardware o software que surja con los equipos.
+
+===== Incidencias FORTINET =====
+
+El personal de la Consejería o quien esta designe, creará la incidencia en el portal de **Fortinet** con su usuario y contraseña.
+
+Una vez dentro, se creará un **ticket** en la pestaña **SUPPORT**, seleccionando el tipo de servicio (normalmente ante incidencias de hardware será **TECHNICAL SUPPORT TICKET**).
+
+Se introducirá el **número de serie del equipo averiado**, incluyendo toda la información posible del mismo (S.O., síntomas o mensajes, si se han realizado pruebas ante la incidencia, etc). El fabricante deberá responder con una atención **NBD (Next Business Day)**.
+
+Desde Fortinet pedirán que se realicen una serie de pruebas, que ejecutará el **personal técnico asignado** de la Consejería.
+
+Una vez autorizado el **RMA**, Fortinet enviará un equipo de reemplazo a la ubicación indicada en el ticket.
+
+==== Recepción e intercambio de equipo ====
+
+* El personal de la Consejería:
+  - Desinstalará el equipo averiado.
+  - Instalará el equipo nuevo.
+  - Empaquetará el equipo averiado en el mismo embalaje del nuevo.
+
+* Posteriormente, se notificará a **Soltel** por correo a:  
+  `soporte@soltel.es`  
+  solicitando la recogida del equipo averiado. En el correo debe incluirse:
+
+  - **Persona de contacto y teléfono**
+  - **Dirección de recogida**
+  - **Número de RMA**
+
+Desde **Soltel** se enviarán por correo los datos necesarios para generar la **etiqueta de envío**.
+
+====== Procedimiento de Solicitud de Incidencia para Switches 3Com ======
+
+**1. Apertura de incidencia**
+  * Llamar al teléfono de soporte: **902010333**.
+  * Cada incidencia registrada genera un **número de caso**.
+
+**2. Seguimiento de la incidencia**
+  * El seguimiento del caso se realiza por vía telefónica indicando el número asignado.
+
+**3. Asociar la incidencia al equipo**
+  * Cada incidencia se abre contra el **serial number** del equipo.
+  * En caso de que la incidencia afecte a **varios equipos relacionados**, debe informarse al técnico para que lo integre en **una sola incidencia**.
+
+**4. Información requerida**
+  * El técnico solicitará los **datos del equipo** necesarios para:
+    - Dar de alta la incidencia.  
+    - Gestionar la resolución del problema.
+
+----
+
+**Notas:**
+  * Es importante disponer del **serial number del switch** antes de llamar.  
+  * Si el problema afecta a un conjunto (ej. stack de switches), se recomienda indicarlo expresamente en la apertura del caso.
+
+
+> Desde la recepción del equipo nuevo (vía RMA) hasta la devolución del averiado, **no deben transcurrir más de 30 días**, ya que el fabricante debe recibir el equipo dentro de ese plazo.  
+> Por ello, es importante **notificar lo antes posible** la recogida del averiado.
+
+====== Infraestructuras – Contactos y Procedimientos de Soporte ======
+
+===== Información general =====
+  * Para el equipamiento cuyo periodo de garantía ha pasado, se dispone del **mantenimiento corporativo de la Junta de Andalucía**, organizado según proveedor:
+    * [[https://ovctic.i-administracion.junta-andalucia.es/proyectos/mantenimiento/|Portal mantenimiento corporativo]]
+
+  * Conversor de números de RCJA:
+    * [[https://ovctic.i-administracion.junta-andalucia.es/node/2254|Conversor RCJA]]
+
+  * Procedimiento de actuación con los proveedores:
+    * Documentado en enlaces anteriores.
+
+----
+
+===== Contactos de soporte (equipamiento en garantía o con contratos específicos) =====
+
+^ Proveedor ^ Teléfono ^ Contacto/Correo ^ Notas ^
+| **ADA – Telefónica** (F5 y Cortafuegos) | Juan Antonio Moreno 955 065 058 \\ Antonio Manuel Aceituno 647 775 126 \\ Jaime Luis González 616 265 414 | juan.moreno.alvarez@juntadeandalucia.es \\ acortes@ayesa.com \\ jaimeluis.gonzalezabaitua@telefonica.com | Jefe de Proyecto ADA \\ Técnico de Seguridad y Comunicaciones ADA \\ Jefe Proyecto Sistemas Balanceados Telefónica |
+| **CICA** | Enrique Brioso Bernal 670 945 887 \\ Moisés Moreno Suárez 671 421 223 \\ Ignacio Capilla Lobo 671 421 220 \\ David Rodríguez Salguero 671 421 219 \\ Jesús David Herrera 600 919 961 | – | Calendario de guardias |
+| **COMPAREX** | 954 498 282 | moises.gutierrez@comparex.es | – |
+| **ELPRO** | 958 121 012 | sat@elpro.es | – |
+| **EMC – Isilon** | 900 100 805 | soporte.sistemas.ius@juntadeandalucia.es | Keepass Almacenamiento |
+| **EMC (general)** | 900 100 805 | [[http://powerlink.emc.com]] \\ [[https://support.emc.com/myservice360/]] | Keepass Almacenamiento \\ sistemas.gtab.ius@juntadeandalucia.es |
+| **F5** | – | [[https://websupport.f5.com/|Portal Soporte F5]] | Keepass Licencias |
+| **Fortinet** | 900 866 024 | [[http://support.fortinet.com|Portal Soporte Fortinet]] | Keepass GTSR |
+| **IECISA (IBM)** | 912 964 242 | – | Nº contrato: 48761 |
+| **HP – 3PAR** | – | – | – |
+| **Suse Linux** | – | – | – |
+| **HP-IMC** | Soporte HW/SW: 955 064 855 \\ Garantía: 902 010 333 \\ Mantenimiento: 902 220 030 \\ Alternativos: 902 012 959 / 902 012 969 | [[https://www.hpe.com/es/es/contact-hpe.html]] | Usuario: licencias.sistemas.ius@juntadeandalucia.es |
+| **HPUX e Integrity** | HW: 91 631 2505 (L-V 8:30–17:30, agosto hasta 14:30) \\ 91 631 2509 (resto de horas) \\ SW: 91 631 2505 (mismo horario) | [[https://support.hpe.com/hpesc/public/home]] \\ [[https://cf.passport.hpe.com/hppcf/login.do]] | Contrato: 101487390536 \\ SAID: 108238595564 CP 41003 \\ Usuario: licencias.sistemas.ius@juntadeandalucia.es |
+| **HP-Networking** | 902 010 333 | [[https://softwaresupport.hpe.com/]] | Keepass GTSR |
+| **NetApp** | Enrique Duarte – PM Fujitsu 629 158 059 \\ Daniel Mayoral – Técnico 682 741 802 | enriquea.duarte@ts.fujitsu.com \\ daniel.mayoral@netapp.com | Contactos usados en migración NetApp SSCC y MACJ |
+| **Novell / Microfocus** | – | customerresolution@microfocus.com \\ [[https://www.novell.com/customercenter/]] \\ [[https://scc.suse.com/subscriptions/]] | Keepass GTSL |
+| **Oracle (NAOS)** | – | [[https://naossuite.i-administracion.junta-andalucia.es/autoservicio/]] | Usuario corporativo |
+| **Oracle (My Oracle Support)** | – | [[https://support.oracle.com/epmos/faces/MosIndex.jspx]] | Usuario corporativo con identificador de soporte Junta (Keepass GTBD) |
+| **Oracle (Guardia)** | 952 108 484 | – | 24x7 fuera horario normal \\ Horario normal vía NAOS: \\ L-J 9–18, V 8–15 (16/09–14/06) \\ L-V 8–15 (15/06–15/09) |
+| **RCJA, NIX** | – | [[https://intranet.juntadeandalucia.es/rcja/nix/portal/servicios.do?cmd=inicio]] | Keepass GTSR |
+| **RCJA SIO** | 300 001 | [[http://sioweb.juntadeandalucia.es/rcja/sio/shared/login.jsp?/rcja/sio/]] | Contactos: Raquel González Santos, Jesús Morán Montes |
+| **RCJA WISIR** | – | [[https://intranet.juntadeandalucia.es/rcja/WISIR/login.php]] | Keepass GTSR |
+| **Sophos** | 917 938 501 | soporte@sophos.com \\ [[https://secure2.sophos.com/es-es/support/contact-support.aspx]] | Keepass GTSW |
+| **Solutia** | +34 955 51 60 82 \\ Gabriel 627 685 029 | soporte@gruposolutia.com | Soporte Técnico y Servicios IT |
+| **Virtual Print** | 954 711 330 \\ Mar Vilchez 665 26 70 88 | soporte@virtualprint.es \\ mdm.vilchez@virtualprint.es | [[http://www.virtualprint.es|Portal VirtualPrint]] |
+| **VMware** | HP Soporte: 902 012 959 (8–18h) \\ 902 012 969 (resto horas) | vi-hotline@vmware.com \\ [[https://www.vmware.com/support/contacts/us_support.html]] | HP Enterprise Agreement Nº contrato: 108215233497 \\ Keepass GTSW |
+
+----
+
+===== Desarrollo / Aplicaciones =====
+^ Proveedor ^ Teléfono ^ Correo ^ Notas ^
+| **Fujitsu** | 620 413 502 (Carlos Ramos) | carlos.ramos@ts.fujitsu.com | SSVV – Arconte – Aurea |
+| **Indra** | – | atadriano.ius@juntadeandalucia.es | AT Adriano |
+| **Ricoh** | 671 783 802 | soporte.firmaelectronica@ricoh.es | @firma |
+
+
+
+===== Historial de cambios =====
+
+^ Versión ^ Fecha       ^ Cambio                  ^ Autor  ^
+| 1.0      | 2025-07-18 | Creación del documento  | GTSR   |
+

@@ -1,0 +1,23 @@
+﻿
+====== OGTBD - Base de Conocimiento Técnica ======
+
+  * [[:temis.usuarios_global|Actualizar tabla temis.usuarios_global]]
+  * [[:cluster_hp-ux_gtbd|Operaciones sobre cluster HP-UX]]
+  * [[:distribuci_c3_b3n_y_mantenimiento_de_usuarios_2c_contrase_c3_b1as_y_privilegios_en_sedes|Gestión de usuarios y privilegios en sedes]]
+  * [[:baja_20usuario_20de_20bbdd_20en_20sscc|Baja de usuarios en BBDD SSCC]]
+  * [[:inventario_20oracle_20dgtd|Inventario Oracle DGTD]]
+  * [[:ampliar_20diskgroup_20asm|Ampliar discos ASM]]
+  * [[:Estandarizacion de BBDD de SSJJ]]
+
+===== Backup =====
+
+  * [[:recuperaci_c3_b3n_en_bdadrianoaux|Recuperación en BDADRIANOAUX]]
+  * [[:backup_bdgtbd|Directrices backup]]
+
+===== Políticas =====
+
+  * [[:requisitos_minimos_para_instalar_oracle_12c_en_hp_2dux|Requisitos mínimos Oracle 12c en HP-UX]]
+  * [[:registro-base-datos-sistemas.bases_datos-prod02|Alta BBDD nueva en Registro Sistemas.BASES_DATOS]]
+  * [[:administracion_de_tablespaces|Administración de Tablespaces]]
+
+

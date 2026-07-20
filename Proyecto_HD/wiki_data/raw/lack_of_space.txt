@@ -1,0 +1,54 @@
+﻿
+====== Falta de espacio en Discos ======
+
+Hay cuatro tipo de discos, para tratar de manera diferente cada uno
+
+- C: - E: - Disco de Sistema / Datos.\\
+- Discos de Base datos y Backup de Base de Datos. Normalmente suelen tener asignadas las letras G y O\\
+- Discos de Adriano.\\
+- Discos de Comunes.
+
+======
+Discos de Sistemas / Datos  ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/Falta de espacio en Discos/WebHome?section=1|Editar]]
+
+En este caso revisamos los discos, por si hay alguna recuperación ocupando mucho espacio, o recuperaciones antiguas sin borrar. En E normalmente se monta el recurso compartido de Paquetes. Si queda poco espacio, podemos revisar el recurso y eliminar programas que pesen mucho (Como DragonSpeaking) o las imagenes de los equipos W7 - W10, ambos están en IUSNAS05 a disposicón de DP / CRIP.
+
+Es posible que usando la herramienta TreeSize detectemos que la carpeta C:\Windows\System32\spool\PRINTERS o E:\Spool ocupa varios GB. Esto suele ocurrir por una problemática con el servicio de VirtualPrint. En \\iusnas05\SIJ\Sistemas\00\05-Procedimientos\09-Limpiar RAM (VPRINT) se encuentra el procedimiento para parar el servicio y limpiarlo, liberando así espacio en los discos.
+
+======
+Discos de Base de datos y Backup de Base de Datos  ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/Falta de espacio en Discos/WebHome?section=2|Editar]]
+
+Estos discos son competencia de GTBD. Se abre un ticket Remey y se pasa a Sistemas - GTSBD para informarles de la alerta y liberen espacio o preguntar si es necesaria una ampliación de disco. Si piden la ampliación y hay espacio sin asignar disponible, se les asigna y extiende el disco en cuestión.
+
+====== \\
+Discos de Adriano  ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/Falta de espacio en Discos/WebHome?section=3|Editar]]
+
+Discos en los cuales se alojan los archivos de los procedimientos y los binarios del gestor procesal Adriano. Si hay espacio disponible, se asigna más espacio y se extiende el disco sin problema. En caso de que no haya espacio para ampliar, podemos ganar algo de espacio eliminando los archivos de lexnet de meses anteriores (que tienen copia de seguridad y ya no están en uso) . Si estamos actualmente en Octubre, podemos borrar las carpetas relativas a los meses 8 (Agosto) y 9 (Septiembre) dejando la carpeta 10 (Octubre) intacta dado que es el mes en que actualmente nos encontramos.\\
+Las rutas de los backup son las siguientes:\\
+- Backup Entrada: \\servidor$\recursoadriano\Lexnet\codigoorgano\itinera\bck_entrada\año\mes\\
+- Backup Salida: \\servidor$\recursoadriano\Lexnet\codigoorgano\itinera\bck_salida\añomes \\
+Discos de Comunes
+
+Los recursos compartidos de comunes de los juzgados son competencia de la DP/CRIP. Cuando uno de ellos está llegando a su limite de capacidad, se abre ticket Remedy y se pasa a DP para que revisen y liberen espacio en los comunes de los juzgados.
+
+En el caso que nos devuelvan el ticket indicando que es imposible liberar espacio, se valora la posibilidad de la ampliación del disco.
+
+====== \\
+Ampliación del disco  ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/Falta de espacio en Discos/WebHome?section=4|Editar]]
+
+Para ampliar la capacidad el disco lo primero es si el servidor tiene cabina de discos. Normalmente, todos los servidores montados en cluster tienen una cabina de disco que se administra via web. Tras entrar en la web de la cabina y comprobar que podemos ampliarla, se le asigna al disco virtual en cuestión espacio sin asignar de la cabina. Se suele ampliar de 20 a 30 GB los discos de Adriano y Base de Datos. En los discos de comunes se realizan ampliaciones de 10 GB para poder llevar un control sobre el tamaño que alcanzan los comunes. Tras asignar el espacio en la cabina de discos, debemos entrar en el servidor por RDP y extender el disco en cuestión mediante el Administrador de discos del cluster hasta el nuevo tamaño que le hemos otorgado.
+
+Si el servidor no está montado en cluster es poco probable que tenga cabina de discos. Si no tiene cabina de discos, tendremos que conectarnos directamente al servidor por RDP y desde el Administrador de Discos del servidor, comprobar si hay espacio sin asignar y extender los discos si es posible, utilizando la pauta anterior: 20 - 30 GB para Adriano y BBDD y 10GB para discos de Comunes.\\
+Cabinas de discos:
+
+Las cabinas de almacenamiento las gestiona y amplia GTAB.
+
+

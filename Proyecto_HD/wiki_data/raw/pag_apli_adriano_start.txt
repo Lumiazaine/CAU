@@ -1,0 +1,177 @@
+﻿
+<html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestor Procesal Adriano</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #39546E;
+            margin: 0;
+            padding: 20px;
+            padding-top: 70px;
+            
+        }
+
+        .main-container {
+            max-width: 1550px;
+            margin: 0 auto;
+        }
+
+        .main-header {
+            background-color: #39546E;
+            color: white;
+            padding: 25px 20px;
+            font-size: 2rem;
+            font-weight: bold;
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .block {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 22px;
+            margin-bottom: 25px;
+            border: 1px solid #c5ccd4;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .block h2 {
+            margin-top: 0;
+            color: #39546E;
+            border-bottom: 2px solid #39546E;
+            padding-bottom: 10px;
+            
+        }
+        
+        a {
+            color: #0051A3;
+            text-decoration: none;
+        }
+        
+        .btn-volver {
+            background-color: #39546E;
+            color: white;
+            padding: 10px 20px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+            
+        }
+
+        .btn-volver:hover {
+            background-color: #39546E; 
+            color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transform: translateY(-2px); 
+            
+        }
+      
+    </style>
+</head>
+
+<body>
+
+<!-- sustituir enlace si se requiere -->
+<a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_apli" class="btn-volver">Volver</a>
+
+    <div class="main-container">
+
+        <div class="main-header">Gestor Procesal Adriano</div>
+
+        <div style="margin: 15px;">
+            <p>Adriano es el sistema de Gestión Procesal implantado en Andalucía. Este sistema está en continuo desarrollo adaptándose a las nuevas necesidades que van surgiendo, cumpliendo lo establecido en el test de compatibilidad elaborado por el CGPJ.</p>
+<p>
+El Sistema de Gestión Procesal Adriano permite la tramitación de los procedimientos a través de los acontecimientos definidos en el sistema, posibilitando la gestión documental y la gestión de los trabajos necesarios para el desempeño de la labor diaria de los Órdenes Judiciales.
+</p>
+
+Adriano cuenta con distintas especializaciones:<br>
+<ul style="list-style-type: disc;">
+  <li>Instrucción</li>
+  <li>Juzgados de Menores</li>
+  <li>Primera Instancia Civil</li>
+  <li>Penal</li>
+  <li>Contencioso</li>
+  <li>Social</li>
+  <li>Vigilancia Penitenciaria</li>
+  <li>Audiencias Provinciales</li>
+  <li>Sala Contencioso y Social</li>
+  <li>Registro y Reparto</li>
+  <li>Servicio Común de Notificaciones y Embargos</li>
+  <li>Itineraciones</li>
+  <li>Lista Gubernativa del T.S.J.A.</li>
+  <li>Mercantil</li>
+</ul>
+</p>
+         
+        </div>
+
+        <!-- Bloque Acceso -->
+        <div class="block">
+            <h2>Acceso</h2>
+            <p>Para que un usuario pueda acceder por primera vez al Gestor Procesal Adriano debe estar creado en Temis y asignarle los roles de usuario, además, debe contener en “Otros Puestos de Mantemis” los distintos puestos a a los que va a acceder.</p>
+            <ul>
+                <li>Perfiles en Escritorio Virtual: Perfiles asociados a Cargos, no a usuarios.</li>
+                <li>URL: <a href="https://gestorprocesal.justicia.junta-andalucia.es/">Gestor Procesal</a> </li>
+                <li>Contacta: CAU</li>
+                <li>Formulario:</li>
+                <li>BBDD: iusolbd-scan.justicia.junta-andalucia.es Puerto: 1521 Nombre del Servicio: CORE </li>
+            </ul>
+        </div>
+
+        <!-- Bloque Capacitación -->
+        <div class="block">
+            <h2>Capacitación</h2>
+            <ul>
+                <li><a href="https://capacitacion.justicia.junta-andalucia.es">Contenidos Digitales de Capacitación (Portal de Capacitación de Justicia Digital Andalucía)</a></li>
+                <li><a href="https://videos.justicia.junta-andalucia.es/home">Portal de contenidos en vídeo de Justicia Digital Andalucía</a></li>
+                <li><a href="https://capacitacion.justicia.junta-andalucia.es/mod/glossary/view.php?id=196">Preguntas frecuentes (Portal de Capacitación de Justicia Digital Andalucía)</a></li>
+            </ul>
+            
+            
+            <ul>
+              <li><b>Modificaciones Evolutivas de la versión 2.9.5 de Adriano Fase I: </b> <a href="https://portaladriano.justicia.junta-andalucia.es/portal/adriano/.content/recursosexternos/Modificaciones2.9.5_18-10-2017.pdf">https://portaladriano.justicia.junta-andalucia.es/portal/adriano/.content/recursosexternos/Modificaciones2.9.5_18-10-2017.pdf</a></li>
+              <li><b>Modificaciones Evolutivas de la versión 2.9.5 de Adriano Fase II: </b><a href="https://portaladriano.justicia.junta-andalucia.es/portal/adriano/.content/recursosexternos/Modificaciones2_9_5_Fase_II_Parche_0102.pdf">https://portaladriano.justicia.junta-andalucia.es/portal/adriano/.content/recursosexternos/Modificaciones2_9_5_Fase_II_Parche_0102.pdf</a></li>
+              <li><b>Nuevos Modelos de Delitos Leves L.O. 1/2015: </b> Conforme a la nueva reforma del Código Penal por L.O. 1/2015, a continuación se relacionan las plantillas tipo relativas a 'Delitos Leves' remitidas por el Consejo General del Poder Judicial que pueden utilizar y descargar. Estamos trabajando en la adaptación de los modelos para su incorporación en la Aplicación Informática Adriano para su uso común en los Juzgados de Instrucción. En este listado podrán consultar los modelos efectivamente incorporados en Adriano y la fecha de su puesta a disposición <a href="https://portaladriano.justicia.junta-andalucia.es/portal/adriano/.content/recursosexternos/RELACIONMODELOSDELITOSLEVES.pdf">https://portaladriano.justicia.junta-andalucia.es/portal/adriano/.content/recursosexternos/RELACIONMODELOSDELITOSLEVES.pdf</a></li>
+              
+              <li><b>Nuevos Modelos de Ejecuciones Penales L.O. 1/2015: </b>Conforme a la nueva reforma del Código Penal por L.O. 1/2015, a continuación se relacionan las plantillas tipo relativas a 'Ejecuciones Penales' remitidas por el Consejo General del Poder Judicial que podrán utilizar a partir del 01 de Julio de 2015 y que se incorporarán debidamente a la Aplicación Informática Adriano para su uso común en los Órganos Judiciales. Estamos trabajando en la adaptación de los modelos para su incorporación en la Aplicación Informática Adriano para su uso común en los Juzgados de Instrucción. En este listado podrán consultar los modelos efectivamente incorporados en Adriano y la fecha de su puesta a disposición <a href="https://portaladriano.justicia.junta-andalucia.es/portal/adriano/.content/recursosexternos/RELACIONMODELOSEJECUCIONESPENALES.pdf">https://portaladriano.justicia.junta-andalucia.es/portal/adriano/.content/recursosexternos/RELACIONMODELOSEJECUCIONESPENALES.pdf</a>
+              </li>
+            <li><b>Nuevos Modelos Ley 15/2015 de Jurisdicción Voluntaria: </b>Conforme a la nueva Ley de Jurisdicción Voluntaria 15/2015, de 02 de Julio, con entrada en vigor de 23 de Julio, se informa que a la fecha indicada, se ha procedido a la incorporación al Sistema Procesal Adriano de la jurisdicción Civil, de diversos modelos remitidos por el Consejo General del Poder Judicial. En este listado podrán consultar los modelos efectivamente incorporados en Adriano y la fecha de su puesta a disposición <a herf="https://portaladriano.justicia.junta-andalucia.es/portal/adriano/.content/recursosexternos/RELACIONMODELOSJURISDICCIONVOLUNTARIA.pdf">https://portaladriano.justicia.junta-andalucia.es/portal/adriano/.content/recursosexternos/RELACIONMODELOSJURISDICCIONVOLUNTARIA.pdf</a>
+            </li>
+            
+            <li>
+            <b>Nuevos modelos Ley 19-2015 Subastas y Ejecución hipotecaria: </b>Conforme a la nueva Ley de Subastas y Ejecución Hipotecaria 19/2015, de 13 de Julio, se informa que a la fecha indicada, se ha procedido a la incorporación al Sistema Procesal Adriano de la jurisdicción Civil, de diversos modelos remitidos por el Consejo General del Poder Judicial. En este listado podrán consultar los modelos efectivamente incorporados en Adriano y la fecha de su puesta a disposición <a herf="https://portaladriano.justicia.junta-andalucia.es/portal/adriano/.content/recursosexternos/RELACIONMODELOSSUBASTASYEJHIPOTECARIASPORTAL.ods">https://portaladriano.justicia.junta-andalucia.es/portal/adriano/.content/recursosexternos/RELACIONMODELOSSUBASTASYEJHIPOTECARIASPORTAL.ods</a>
+            </li>
+               <li>
+            <b>Nuevos modelos Ley 42/2015 de reforma de la LEC: </b> Conforme a la reforma de la LEC operada por la Ley 42/2015, de 05 de Octubre, se informa que a la fecha indicada, se ha procedido a la incorporación al Sistema Procesal Adriano de la jurisdicción Civil, de diversos modelos remitidos por el Consejo General del Poder Judicial. En este listado podrán consultar los modelos efectivamente incorporados en Adriano y la fecha de su puesta a disposición  <a herf="https://portaladriano.justicia.junta-andalucia.es/portal/adriano/.content/recursosexternos/RelacionModelosVerbales.pdf">https://portaladriano.justicia.junta-andalucia.es/portal/adriano/.content/recursosexternos/RelacionModelosVerbales.pdf</a>
+            </li>
+            
+                   <li>
+            <b>Nuevas Funcionalidades del SGP Adriano Menores (V 2.9.5): </b> <a herf="https://portaladriano.justicia.junta-andalucia.es/portal/adriano/.content/recursosexternos/NuevasFuncionalidadesX3MENORESv.2.9.5.pdf">https://portaladriano.justicia.junta-andalucia.es/portal/adriano/.content/recursosexternos/NuevasFuncionalidadesX3MENORESv.2.9.5.pdf</a>
+            </li>
+            </ul>
+        </div>
+
+        <!-- Bloque Procedimientos y Problemas Conocidos -->
+        <div class="block">
+            <h2>Procedimientos y Problemas Conocidos</h2>
+            <ul>
+            <li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_apli:adriano:problemas_gya">Problemas conocidos de Gestión y Administración</a></li>
+            <li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_apli:adriano:problemas_motor">Problemas conocidos de Motor Tramitación</a></li>
+                <li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_apli:adriano:alta">Alta de usuarios</a></li>
+                <li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_apli:adriano:altanumo">Alta de usuarios NUMO</a> </li>
+                
+            </ul>
+        </div>
+
+    </div>
+
+</body>
+</html>
+
+{{tag>validada}}
+

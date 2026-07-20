@@ -1,0 +1,129 @@
+﻿
+<html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>PLANTILLA APLICACIONES</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #39546E;
+            margin: 0;
+            padding: 20px;
+            padding-top: 70px;
+            
+        }
+
+        .main-container {
+            max-width: 1550px;
+            margin: 0 auto;
+        }
+
+        .main-header {
+            background-color: #39546E;
+            color: white;
+            padding: 25px 20px;
+            font-size: 2rem;
+            font-weight: bold;
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .block {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 22px;
+            margin-bottom: 25px;
+            border: 1px solid #c5ccd4;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .block h2 {
+            margin-top: 0;
+            color: #39546E;
+            border-bottom: 2px solid #39546E;
+            padding-bottom: 10px;
+            
+        }
+        
+        a {
+            color: #0051A3;
+            text-decoration: none;
+            
+        } 
+        
+        .btn-volver {
+            background-color: #39546E;
+            color: white;
+            padding: 10px 20px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+            
+        }
+
+        .btn-volver:hover {
+            background-color: #39546E; 
+            color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transform: translateY(-2px); 
+            
+        }
+        
+    </style>
+</head>
+
+<body>
+
+<!-- sustituir enlace si se requiere -->
+<a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_apli" class="btn-volver">Volver</a>
+
+    <div class="main-container">
+
+        <div class="main-header">PROTOCOLO DE ADICCIONES</div>
+
+        <div style="margin: 15px;">
+            <p>La Sala de Gobierno del Tribunal Superior de Justicia, reunida en comisión y en sesión celebrada el día 20 de Enero de 2009, adoptó un acuerdo según el cual se sientan las bases sobre colaboración entre las Consejerías de Justicia y Administración Pública e Igualdad y Bienestar Social para el intercambio de información en materia de drogas y adicciones.</p>
+            <p>En aquellas causas en las que concurren sujetos con historial de adicciones, cuando de conformidad con el Código Penal, la Ley de Enjuiciamiento Criminal y demás leyes procesales, se solicitará un informe forense por los Juzgados y Tribunales cuya petición deberá dirigirse a un Director/a del Instituto de Medicina Legal.</p>
+            <p>Esta aplicación pretende integrar el procedimiento según el cual un Juez solicita un informe toxicológico acerca de un determinado interviniente en un asunto. Actualmente, dicha solicitud se genera en los Juzgados, se rellena en papel y se envía al Instituto de Medicina Legal correspondiente para que sea atendida por un médico forense. El médico forense registra la entrada en el sistema @ries, donde se establece una comunicación Forense-Terapeuta que proporciona al médico forense los datos necesarios para la elaboración del informe. Protocolo de Adicciones (INFA) es una aplicación web que será accesible desde los Juzgados y que permitirá rellenar el formulario, firmarlo digitalmente de forma opcional, registrar dicha solicitud en el sistema de @ries, enviar la solicitud al sistema Adriano y remitir un aviso al IML correspondiente. Una vez recibidos los informes solicitados, estos pueden ser firmados y enviados al sistema Adriano.</p>
+        </div>
+
+        <!-- Bloque Acceso -->
+        <div class="block">
+            <h2>Acceso</h2>
+            <ul>
+                <li>URL: <a href="http://infa.justicia.junta-andalucia.es/infa/acceso_input.do">http://infa.justicia.junta-andalucia.es/infa/acceso_input.do</a></li>
+                <li>Contacta:</li>
+                <li>Formulario: Enlace a carpeta de red</li>
+                <li>BBDD:</li>
+            </ul>
+        </div>
+
+        <!-- Bloque Capacitación -->
+        <div class="block">
+            <h2>Capacitación</h2>
+            <ul>
+                <li><a href="https://capacitacion.justicia.junta-andalucia.es">Contenidos Digitales de Capacitación (Portal de Capacitación de Justicia Digital Andalucía)</a></li>
+                <li><a href="https://videos.justicia.junta-andalucia.es/home">Portal de contenidos en vídeo de Justicia Digital Andalucía</a></li>
+            </ul>
+        </div>
+
+        <!-- Bloque Procedimientos y Problemas Conocidos -->
+        <div class="block">
+            <h2>Procedimientos y Problemas Conocidos</h2>
+            <ul>
+                <li><a href="https://portaladriano.justicia.junta-andalucia.es/portal/adriano/.content/recursosexternos/protdrogas.pdf">Protocolo General para el Intercambio de Información en Materia de Drogas y Adicciones</a></li>
+                <li><a href="https://portaladriano.justicia.junta-andalucia.es/portal/adriano/.content/recursosexternos/protacuerdocomisionmixta.pdf">Acuerdo Comisión Mixta</a></li>
+             
+            </ul>
+        </div>
+
+    </div>
+
+</body>
+</html>
+
+{{tag>validada}}
+

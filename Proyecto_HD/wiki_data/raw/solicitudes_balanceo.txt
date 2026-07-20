@@ -1,0 +1,47 @@
+﻿
+====== Solicitud de Balanceo de Carga - F5 ======
+
+Este formulario debe ser completado para **realizar una solicitud de balanceo de carga ** en la Red Justicia.  
+
+Se enviará por Remedy al departamento correspondiente para su validación, análisis y aplicación, si procede.  
+
+Es importante detallar correctamente todos los campos para evitar demoras en la gestión.
+
+^ Campo ^ Información ^
+| **Nº ticket solicitud (Remedy):** |  |
+| **Usuario / solicitante:** |  |
+| **E-mail:** |  |
+| **Fecha solicitud:** | (dd/mm/aaaa) |
+| **Motivo / descripción solicitud:** |  |
+| **Servicio / aplicativo relacionado:** |  |
+| **Entorno:** |  |
+
+===== Balanceo – Exterior =====
+
+=== Virtual Servers ===
+
+^ Servicio a publicar ^ URL a Publicar ^ Protocolo ^ Puerto ^
+|  |  |  |  |
+
+===== Balanceo – Interior =====
+
+=== Nodes ===
+
+^ Servidores que contienen el servicio ^ IP ^ Puerto ^
+| Servidor 1 |  |  |
+| Servidor 2 |  |  |
+| Servidor 3 |  |  |
+| Servidor 4 |  |  |
+
+===== Persistencia y Monitorización =====
+
+=== Profiles ===
+
+^ Método de verificación ^ Detalle ^
+| Tipo de Persistencia | Ejemplo: cookie, hash, ... |
+| Certificado SSL | Ejemplo: wildcard de la Junta |
+| Otros |  |
+
+===== Historial de cambios =====
+^ Versión ^ Fecha ^ Cambio ^ Autor ^  
+| 1.0 | 2025-07-18 | Creación del documento | GTSR|

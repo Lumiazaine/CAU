@@ -1,0 +1,22 @@
+﻿
+===== Información =====
+
+Documentación sobre el despliegue de los Sistemas de Videoconferencia:
+
+  * **Ruta compartida:** [[\\iusnas01\sij\Planificacion\Sistemas|]] de Videoconferencia\DOCUMENTACION DESPLIEGUE\Documentacion SEDES
+  * **Incidencias/seguimiento:** [[http://iussltools01.justicia.junta-andalucia.es/redmine/issues/1240|Redmine #1240]]
+===== Configuración Técnica =====
+
+En cada sede se dispone de un puerto del router dedicado a la **VLAN de Videoconferencias**.
+
+  * El puerto del router se conecta **untagged**  a la **VLAN 50**.
+  * La **VLAN 50**  se propaga por los switches que sean necesarios.
+  * Los equipos de videoconferencia se conectan siempre **untagged**  a la **VLAN 50**.
+
+===== Mas información  =====
+
+^ Comunidad   ^ Hostname                ^ Direcciones IP                                          ^ Responsable     ^ Correo electrónico                                      ^ Teléfono   ^
+| ANDALUCÍA   | vcf.juntadeandalucia.es | 217.12.21.100 \\ 217.12.21.101 \\ 217.12.28.56 \\ 217.12.28.70 | David Caparrós | [[mailto:videoconferencia.rcja@juntadeandalucia.es|videoconferencia.rcja@juntadeandalucia.es]] | 955060999 |
+
+
+

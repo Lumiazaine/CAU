@@ -1,0 +1,41 @@
+﻿
+<WRAP> 
+<panel type="primary" title="Service Manager Protocolo InterCAU">
+
+Acuerdo de servicio de CAU con CCAA y otros Organismos. El CAU de la Comunidad Autónoma/Organismo/Prestador (CAU USUARIO) accederá directamente a la herramienta de gestión de tickets utilizada por el CAU de la SGCSDCO (CAU SGCSDCO) y sus equipos resolutores.
+En la fecha de elaboración de este documento, dicha herramienta es Service Manager 9.62 donde se ha implementado el habitual flujo de Gestión de Incidencias basado en ITIL.
+
+<WRAP> 
+<panel type="info" title="Acceso">
+
+  * **URL:** [[https://cauexterno.justicia.es/webtier-9.62|Service Manager]]
+  * **Contacta:** cau@justicia.es
+  * **Información:** {{ :pag_apli:sm_intercau:20260420-prt-protocolo_intercaus_2.4.pdf |Acuerdo de servicio de CAU con CCAA y otros Organismos - Protocolo InterCAU 2.4}}
+
+</panel>
+ 
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Capacitación">
+
+
+
+</panel>
+ 
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Procedimientos y Problemas Conocidos">
+
+  * [[pag_apli:sm_intercau:problemas#procedimiento_alta_para_tecnicos|Alta/Baja técnico]]
+  * [[pag_apli:sm_intercau:problemas|Procedimientos y Problemas Conocidos]]
+
+</panel>
+ 
+</WRAP>
+
+</panel> 
+</WRAP>
+
+{{tag>validada}}

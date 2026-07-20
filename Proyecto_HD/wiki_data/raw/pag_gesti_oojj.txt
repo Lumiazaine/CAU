@@ -1,0 +1,43 @@
+﻿
+BORRAR
+<WRAP center round tip 40%> **EN CONSTRUCCIÓN** </WRAP>
+
+<WRAP> <panel type="primary" title="Gestión de Organismos Judiciales">
+
+<WRAP> <panel type="info" title="Creación de nuevos Órganos Judiciales">
+Cuando se da de alta un nuevo órgano hay que realizar la asignación de permisos a los cargos de ese órgano.
+
+Dado que por órgano y cargo hay que asignar varios permisos, esta configuración resulta más eficiente realizarla **por script en la tabla de TEMIS ROL_CARGO_ORG** teniendo en cuenta: \\
+ 
+**ORG_X_ORGANISMO**: identificador de ORGANISMOS_GLOBAL \\
+**RLA_X_ROLAPLICACION**: identificador del rol a asignar en ROL_APLICACION \\
+**CGO_X_CARGO:** identificador del cargo en la tabla CARGOS \\
+</panel> </WRAP>
+
+<WRAP> <panel type="info">
+====== Traslado de Órganos Judiciales ======
+textotextotextotextotextotextotextotextotexto
+===== Sub Cabecera 1 =====
+textotextotextotextotextotextotextotextotexto
+</panel> </WRAP>
+
+<WRAP> <panel type="info">
+====== ¿¿¿¿Alta en Adriano de Inspectores???? ======
+textotextotextotextotextotextotextotextotexto
+</panel> </WRAP>
+
+
+
+</panel> </WRAP>
+
+
+
+
+
+
+
+
+
+
+
+{{tag>novalidada}}

@@ -1,0 +1,156 @@
+﻿
+<html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Procedimiento de Envío de correo masivo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #39546E;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .main-container {
+            max-width: 1550px;
+            margin: 0 auto;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+            padding-bottom: 10px;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .main-header {
+            background-color: #39546E;
+            color: white;
+            padding: 25px 20px;
+            font-size: 2rem;
+            font-weight: bold;
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .block {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 22px;
+            margin-bottom: 25px;
+            border: 1px solid #c5ccd4;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .block h2 {
+            margin-top: 0;
+            color: #39546E;
+            border-bottom: 2px solid #39546E;
+            padding-bottom: 10px;
+        }
+        
+         a {
+            color: #004080;
+            text-decoration: none;
+        } 
+  
+    </style>
+</head>
+
+<body>
+    <div class="main-container">
+
+        <div class="main-header">Procedimiento de Envío de correo masivo</div>
+
+        <div class="block">
+                <p style="margin-bottom: 20px;"><h2>Por parte del solicitante:</h2> </p>
+                <p>Rellenar la <b><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=plantillaenviosmasivos_2022_v1r1.pdf">plantillaEnviosMasivo_2022_v1r1.dpf</a></b></p>
+                <ul>
+                <li><p><b>URL:</b></p></li>
+                <li><p>Descargar el fichero <a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=20251002_enviomasivo_porcapa.pdf">20251002_enviomasivo_porcapa.pdf</a> </p></li>
+               </ul>
+               <p><b>Abrir tique Remedy con categoria SERVICIOS INFRAESTRUCTURA > SISTEMAS DE CORREO > CORREOS MASIVOS asignar a Servicios > DevOps</b></p>
+       </div>
+        <div class="block">
+                <p style="margin-bottom: 20px;"><h2>Por parte de RunTime:</h2> </p>
+               <ul> <p>Correo a :administracion.ssdj.ius@juntadeandalucia.es se envia correo con el formulario solicitud y el contenido del correo. Se envia a administracion.ssdj.ius@juntadeandalucia.es con copia emilio y mara. Para confirmar la aprobación y poner a la firma de emilio</p>
+               <li>Administración pone a la firma (portafirmas) la solicitud</li>
+               <li>Administración devuelve el adjunto firmado por Jefatura.</li>
+           </ul>
+                <p>Adjuntar en tique Remedy <b>plantillaEnviosMasivo_2022_v1r1.dpf</b> firmado por Emilio.<br>*Si no puede adjuntar archivos usar <a href="https://consigna.juntadeandalucia.es/usuario/login">Consigna</a></p>
+                
+                <p>
+                <ul>
+                Generar correo con Thunderbird creando los ficheros en formato .eml y html.
+                <li>
+                Configurar una cuenta en Thunderbird <b>(No usar Otulook, da error):</b> prueba.correo.informatica.cjalfp@juntadeandalucia.es y generar el fichero .eml en ella
+                </li>
+                
+                <li>
+                Reasingar tique Remedy a Servicios > Planificación > Eugenio Herrera Vega , adjuntar los archivos .eml, .html y .doc o utilizar en su lugar <a href="https://consigna.juntadeandalucia.es/usuario/login">Consigna</a>
+                </li>
+                </ul>
+                </p>
+       </div>
+       
+        <div class="block">
+                <p style="margin-bottom: 20px;"><h2>Por parte de Servicios > Planificación:</h2> </p>
+                <p>-Remitir correo de solicitud de envío de masivo a RCJA a traves de NAOS . Primera prueba. https://naossuite.juntadeandalucia.es/autogestion</p>
+                <p>Enviar correo electrónico a la cuenta: cau.ceis@juntadeandalucia.es, adjuntando los ficheros:</p>
+                <ul>
+                <li>
+                1. Solicitud firmada por Jefe de Servicio (Ejemplo: 20251002_EnvioMasivo_PorCapa-firmada.pdf)
+                </li>
+                   <li>
+                2. Correo en html (Ejemplo:20251002_EnvioMasivo_PorCapa.html)
+                </li>
+                   <li>
+                3. Correo en formato .doc (Ejemplo: <a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=20251002_enviomasivo_porcapa.doc"> 20251002_EnvioMasivo_PorCapa.doc</a>
+                </li>
+                   <li>
+                4. Correo en formato .eml (Ejemplo:20251002_EnvíoMasico_PorCapa.eml)
+                </li>
+                </ul>
+                <p>Asunto: URGENTE. Solicitud de envío de correo masivo para todos los usuarios de Justicia.</p>
+                <p>Buenas tardes,</p>
+                 <p>Se solicita el envío masivo para las direcciones de correo .ius, .iuse, .jus . Fecha de envío: lo antes posible.</p>
+                  <p>Se adjunta también formulario y documento adicional con cuerpo del e-mail (en formato html, y en formato doc por si hiciera falta), así mismo os envío borrador del correo en formato eml.</p>
+                   <p>Por favor, enviar la prueba a: <b>(las personas indicadas para validación en tique remedy)</b></p>
+                    <p>Emilio Juan Cabezas Benitez <emilioj.cabezas@juntadeandalucia.es></p>
+                     <p>coordinacion.planificacion.ius@juntadeandalucia.es</p>
+                      <p>Se solicita que enviéis la prueba cuanto antes para que en cuanto se valide se pueda enviar a los destinatarios.</p>
+                       <p>Saludos</p>
+                       <br>
+                       <p>-Tras recibir el correo de prueba (donde se informa del ticket NAOS generado por RCJA), se deberá validar respondiendo OK.</p>
+                       <p>Crear petición NAOS, para solicitar desactivar filtros de seguridad de los usuarios Office365.</p>
+                       <p>Incidencia NAOS en Servicios TIC - Notificar incidencia - Gestión de Activos Software y Soportes Corporativos - Office 365.</p>
+                       <br>
+                       <p>[SSDJ] Envío masivo desde la cuenta justiciadigital.ius@juntadeandalucia.es</p>
+                        <p>Buenos días,</p>
+                 <p>Se va a enviar un envío masivo de correo desde la cuenta justiciadigital.ius@juntadeandalucia.es.</p>
+                  <p>Los datos del tique donde se ha pedido es: Código de la solicitud de servicio: XXXXX Fecha y hora de apertura: dd/mm/aaaa hh:mm:ss</p>
+                   <p>Solicitante: Emilio Juan Cabezas Benitez</p>
+                    <p>Por lo tanto, solicitamos deshabilitar el filtro para que los usuarios de correo de Office 365 puedan recibirlo.</p>
+                     <p>Un Saludo.</p>
+                     <br>
+                     <br>
+                  
+                     <p>-Tras validación, Enviar correo de solicitud de envío de masivo a RCJA. Envío masivo definitivo.</p>
+                     <p>Destino: cau.ceis@juntadeandalucia.es</p>
+                       <p>Buenos días,</p>
+                 <p>Solicitamos que se realice el envío masivo cuanto antes (según ticket NAOS XXXXX), nos acaban de dar el visto bueno y confirman que la prueba fue correcta.</p>
+                  <p>Saludos.</p><br>
+                   <p>-Crear petición NAOS, para solicitar desactivar filtros de seguridad de los usuarios Office365.</p>
+                   <p>Incidencia NAOS en Servicios TIC - Notificar incidencia - Gestión de Activos Software y Soportes Corporativos - Office 365.</p>
+                   <br>
+                   <p>[SSDJ] Envío masivo desde la cuenta justiciadigital.ius@juntadeandalucia.es</p>
+                   <p>Buenos días,</p>
+                    <p>Se va a enviar un envío masivo de correo desde la cuenta justiciadigital.ius@juntadeandalucia.es.</p>
+                     <p>Los datos del tique donde se ha pedido es: Código de la solicitud de servicio: XXXXX Fecha y hora de apertura: dd/mm/aaaa hh:mm:ss</p>
+                     <p>Solicitante: Emilio Juan Cabezas Benitez</p>
+                     <p>Por lo tanto, solicitamos deshabilitar el filtro para que los usuarios de correo de Office 365 puedan recibirlo.</p>
+                     <p>Un Saludo.</p>
+               
+       </div>
+</body>
+</html>
+
+{{tag>novalidada}}

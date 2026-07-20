@@ -1,0 +1,191 @@
+﻿
+===== Provincia de Almeria=====
+
+^ Provincia  ^ Localidad         ^ Dirección                             ^ Código Sede    ^ Código RCJA     ^\\
+| Almería    | Almería           | C/ Reina Regente                      | JUSTICIAAL1C    | JUST-ALM-001    |\\
+| Almería    | Almería           | Ctra. de Ronda nº 120                 | JUSTICIAALCJ    | JUST-ALM-024    |\\
+| Almería    | Berja             | C/ Faura, 28                          | JUSTICIAALBE    | JUST-ALM-008    |\\
+| Almería    | El Ejido          | C/ Océano Atlántico, nº 8             | JUSTICIAALEJ    | JUST-ALM-025    |\\
+| Almería    | Huércal-Overa     | Florida, 2                            | JUSTICIAALHO1   | JUST-ALM-009    |\\
+| Almería    | Huércal-Overa     | Ctra. Nacional 340 Nº 204             | JUSTICIAALHO2   | JUST-ALM-023    |\\
+| Almería    | Purchena          | Camino Verde, 3                       | JUSTICIAALPU    | JUST-ALM-010    |\\
+| Almería    | Roquetas de Mar   | Reina Sofía, 11                       | JUSTICIAALRO    | JUST-ALM-021    |\\
+| Almería    | Vera              | Carretera de la Águilas, S/N          | JUSTICIAALVE    | JUST-ALM-022    |\\
+| Almería    | Vélez-Rubio       | C/ Carrera del Mercado nº 32         | JUSTICIAALVR    | JUST-ALM-012    |
+
+===== Provincia de Cádiz =====
+
+^ Provincia  ^ Localidad                 ^ Dirección                                                                 ^ Código Sede     ^ Código RCJA     ^
+| Cádiz      | Cádiz                     | C/ Cuesta de las Calesas, s/n                                            | JUSTICIACA1C     | JUST-CAD-007     |
+| Cádiz      | Cádiz                     | C/ Los Balbos, s/n                                                       | JUSTICIACA2C     | JUST-CAD-005     |
+| Cádiz      | Cádiz                     | Av. Ana de Viya, 7                                                       | JUSTICIACA4C     | JUST-CAD-008     |
+| Cádiz      | Cádiz                     | C/ Algodonales, esq. Chiclana de la Frontera                             | JUSTICIACA6C     | JUST-CAD-043     |
+| Cádiz      | Cádiz                     | Edificio Carranza, Fondo Sur, Avda Juan Carlos I, s/n.                   | JUSTICIACA7C     | JUST-CAD-048     |
+| Cádiz      | Cádiz                     | Plaza de España, 19                                                      | JUSTICIACA8C     | JUST-CAD-009     |
+| Cádiz      | Arcos de la Frontera     | C/ Luis García Berlanga (esq. Jaime Chabarri)                            | JUSTICIACAAF     | JUST-CAD-003     |
+| Cádiz      | Algeciras                 | Plaza de la Constitución, s/n                                            | JUSTICIACAAL1    | JUST-CAD-001     |
+| Cádiz      | Algeciras                 | Paseo Victoria Eugenia                                                   | JUSTICIACAAL2    | JUST-CAD-002     |
+| Cádiz      | Algeciras                 | C/ Virgen del Carmen                                                     | JUSTICIACAAL3    | JUST-CAD-023     |
+| Cádiz      | Algeciras                 | C/ Muñoz Cobos                                                           | JUSTICIACAAL4    | JUST-CAD-026     |
+| Cádiz      | Algeciras                 | C/ Muro 3 - Edificio Europa Sur                                          | JUSTICIACAAL5    | JUST-CAD-010     |
+| Cádiz      | Barbate                   | Avda. del Río nº 17                                                      | JUSTICIACABA     | JUST-CAD-004     |
+| Cádiz      | Chiclana de la Frontera  | Pza. del Retortillo s/n                                                  | JUSTICIACACH     | JUST-CAD-028     |
+| Cádiz      | Jerez de la Frontera     | Avda. Tomás García Figueras, 14                                          | JUSTICIACAJF1    | JUST-CAD-011     |
+| Cádiz      | Jerez de la Frontera     | C/ Álvaro Domecq                                                         | JUSTICIACAJF2    | JUST-CAD-024     |
+| Cádiz      | Jerez de la Frontera     | C/ Índico                                                                | JUSTICIACAJF3    | JUST-CAD-050     |
+| Cádiz      | La Línea de la Concepción| C/ Feria, esquina Paseo de la Velada                                     | JUSTICIACALL2    | JUST-CAD-051     |
+| Cádiz      | Puerto Real              | Avda. de la Constitución, esquina con C/ Abeto                           | JUSTCIACAPR      | JUST-CAD-015     |
+| Cádiz      | El Puerto de Santa María | Parque Empresarial Las Salinas, C/ Dr Duarte de Acosta, 9               | JUSTICIACAPS1    | JUST-CAD-045     |
+| Cádiz      | El Puerto de Santa María | CPD - Pol. Industrial Las Salinas, Avda Ingeniero Félix Sánchez, nº 3   | JUSTICIACAPS3    | JUST-CAD-052     |
+| Cádiz      | Rota                     | C/ Celestino Mutis, s/n                                                  | JUSTICIACARO     | JUST-CAD-016     |
+| Cádiz      | Sanlúcar de Barrameda    | Plaza de Antonio Pigafetta s/n                                           | JUSTICIACASB     | JUST-CAD-018     |
+| Cádiz      | San Fernando              | Calle Real, 229                                                          | JUSTICIACASF     | JUST-CAD-017     |
+| Cádiz      | San Roque                 | C/ Batallón de Cazadores de Tarifa, s/n                                  | JUSTICIACASR2    | JUST-CAD-019     |
+| Cádiz      | Ubrique                   | C/ de Elcano s/n                                                         | JUSTICIACAUB     | JUST-CAD-021     |
+
+
+
+===== Provincia de Córdoba =====
+
+^ Provincia  ^ Localidad              ^ Dirección                                               ^ Código Sede     ^ Código RCJA     ^
+| Córdoba    | Aguilar de la Frontera | C/ Carrera, 35                                          | JUSTICIACOAG     | JUST-COR-001     |
+| Córdoba    | Baena                  | C/ Juan Ocaña, 32                                       | JUSTICIACOBA     | JUST-COR-002     |
+| Córdoba    | Cabra                  | C/ Historiador García Montero                          | JUSTICIACOCA     | JUST-COR-003     |
+| Córdoba    | Córdoba                | C/ Isla Mallorca, s/n                                   | JUSTICIACOCJ     | JUST-COR-036     |
+| Córdoba    | Lucena                 | C/ San Pedro, 43                                        | JUSTICIACOLU1    | JUST-COR-029     |
+| Córdoba    | Montilla               | C/ Arcipreste Fernández Casado, 1                      | JUSTICIACOMA     | JUST-COR-009     |
+| Córdoba    | Montoro                | C/ Magistrado Fernando Rubiales Poblaciones            | JUSTICIACOMO     | JUST-COR-030     |
+| Córdoba    | Peñarroya-Pueblonuevo  | C/ Romero Robledo, 10                                   | JUSTICIACOPE     | JUST-COR-024     |
+| Córdoba    | Puente Genil           | C/ La Huerta                                            | JUSTICIACOPG     | JUST-COR-016     |
+| Córdoba    | Posadas                | C/ Pintor Pablo Picasso                                 | JUSTICIACOPO     | JUST-COR-012     |
+| Córdoba    | Priego de Córdoba      | C/ Ronda, 17                                            | JUSTICIACOPR     | JUST-COR-015     |
+| Córdoba    | Pozoblanco             | C/ Doctor Antonio Cabrera, 34       
+
+===== Provincia de Granada =====
+
+^ Provincia  ^ Localidad   ^ Dirección                                                                 ^ Código Sede     ^ Código RCJA     ^
+| Granada    | Granada     | Plaza Nueva, 10                                                           | JUSTICIAGR1C     | JUST-GRA-007     |
+| Granada    | Granada     | Plaza Nueva, 8                                                            | JUSTICIAGR2C     | JUST-GRA-004     |
+| Granada    | Granada     | Avenida del Sur, 3 (Diputación)                                          | JUSTICIAGR3C     | JUST-GRA-005     |
+| Granada    | Granada     | C/ Marqués de la Ensenada, 2                                             | JUSTICIAGR4C     | JUST-GRA-021     |
+| Granada    | Granada     | C/ Molino de la Corteza del Carmen, 10                                   | JUSTICIAGR6C     | JUST-GRA-022     |
+| Granada    | Granada     | Avda. Innovación nº1 (Parque Tecnológico de Ciencias de la Salud)       | JUSTICIAGR8C     | JUST-GRA-035     |
+| Granada    | Granada     | C/ Gran Vía 18                                                            | JUSTICIAGR9C     | JUST-GRA-036     |
+| Granada    | Almuñécar   | C/ Itrabo, 1                                                              | JUSTICIAGRAL     | JUST-GRA-001     |
+| Granada    | Baza        | Avda. de Granada, nº10                                                   | JUSTICIAGRBA     | JUST-GRA-003     |
+| Granada    | Guadix      | Avda. Obispo Medina Olmos, 53                                            | JUSTICIAGRGU     | JUST-GRA-010     |
+| Granada    | Huéscar     | Avda. de Granada, 3                                                      | JUSTICIAGRHU     | JUST-GRA-011     |
+| Granada    | Loja        | C/ Real nº 10                                                             | JUSTICIAGRLO     | JUST-GRA-012     |
+| Granada    | Motril      | C/ Fielato de la Posta, s/n.                                             | JUSTICIAGRMO     | JUST-GRA-019     |
+| Granada    | Motril      | C/ Rafael Alberti                                                        | JUSTICIAGRMO2    | JUST-GRA-034     |
+| Granada    | Órgiva      | C/ Doctor Fleming, 2                                                     | JUSTICIAGROR     | JUST-GRA-017     |
+| Granada    | Órgiva      | C/ Estación, s/n                                                         | JUSTICIAGROR2    | JUST-GRA-031     |
+| Granada    | Santa Fe    | C/ Pintor Juan Ruiz, s/n      
+
+===== Provincia de Huelva =====
+
+^ Provincia  ^ Localidad              ^ Dirección                                                      ^ Código Sede     ^ Código RCJA     ^
+| Huelva     | Huelva                 | C/ Aragón 4, Edificio Aragón                                   | JUSTICIAHU10C    | JUST-HUE-021     |
+| Huelva     | Huelva                 | C/ Alameda Sundheim, 28                                       | JUSTICIAHU1C     | JUST-HUE-004     |
+| Huelva     | Huelva                 | C/ Vázquez López, Nº 19                                       | JUSTICIAHU2C     | JUST-HUE-008     |
+| Huelva     | Huelva                 | C/ Marina, 23                                                  | JUSTICIAHU3C     | JUST-HUE-002     |
+| Huelva     | Huelva                 | C/ Echegaray                                                   | JUSTICIAHU5C     | JUST-HUE-007     |
+| Huelva     | Huelva                 | C/ Echegaray, s/n                                              | JUSTICIAHU6C     | JUST-HUE-014     |
+| Huelva     | Huelva                 | C/ Alameda Sundheim, 17                                       | JUSTICIAHU8C     | JUST-HUE-018     |
+| Huelva     | Huelva                 | Avenida de Alemania, 7                                        | JUSTICIAHU9C     | JUST-HUE-020     |
+| Huelva     | Aracena                | Avda. De Huelva s/n                                           | JUSTICIAHUAR     | JUST-HUE-001     |
+| Huelva     | Ayamonte               | Avda. Alcalde Narciso Martín Navarro, 28                      | JUSTICIAHUAY1    | JUST-HUE-003     |
+| Huelva     | Ayamonte               | Avda. Cayetano Feu, 35                                        | JUSTICIAHUAY2    | JUST-HUE-019     |
+| Huelva     | La Palma del Condado   | Avda. de la Justicia, S/N                                     | JUSTICIAHULP     | JUST-HUE-012     |
+| Huelva     | Moguer                 | C/ San Francisco, 28                                          | JUSTICIAHUMO     | JUST-HUE-011     |
+| Huelva     | Valverde del Camino    | Plaza de la Campana, s/n                              
+
+===== Provincia de Jaén =====
+
+^ Provincia  ^ Localidad           ^ Dirección                                                        ^ Código Sede     ^ Código RCJA     ^
+| Jaén       | Jaén                |                                                                    | JUSTICIAJA10C    | JUST-JAE-024     |
+| Jaén       | Jaén                | Paseo de la Estación, 30                                          | JUSTICIAJA11C    | JUST-JAE-027     |
+| Jaén       | Jaén                | Paseo de la Estación, 27                                          | JUSTICIAJA12C    | JUST-JAE-030     |
+| Jaén       | Jaén                | C/ Arquitecto Berges, 16                                          | JUSTICIAJA1C     | JUST-JAE-020     |
+| Jaén       | Jaén                | C/ Arquitecto Berges, 28                                          | JUSTICIAJA2C     | JUST-JAE-006     |
+| Jaén       | Jaén                | Avda. de Madrid, 70                                               | JUSTICIAJA3C     | JUST-JAE-010     |
+| Jaén       | Jaén                | San Antonio 5-7                                                   | JUSTICIAJA4C     | JUST-JAE-021     |
+| Jaén       | Jaén                | C/ Las Minas, 1                                                   | JUSTICIAJA6C     | JUST-JAE-008     |
+| Jaén       | Jaén                | C/ Carmelo Torres, 16                                             | JUSTICIAJA7C     | JUST-JAE-019     |
+| Jaén       | Jaén                | C/ Obispo Alonso Suárez, 1                                        | JUSTICIAJA8C     | JUST-JAE-017     |
+| Jaén       | Jaén                | C/ Carmelo Torres, 15                                             | JUSTICIAJA9C     | JUST-JAE-023     |
+| Jaén       | Alcalá la Real      | C/ Antonio Machado, s/n                                          | JUSTICIAJAAL     | JUST-JAE-001     |
+| Jaén       | Andújar             | C/ Altozano Arzobispo José Manuel Estepa, s/n                    | JUSTICIAJAAN     | JUST-JAE-002     |
+| Jaén       | Baeza               | Plaza del Pópulo, s/n                                            | JUSTICIAJABA     | JUST-JAE-003     |
+| Jaén       | La Carolina         | C/ Juez Braulio Sena, 7                                          | JUSTICIAJACR     | JUST-JAE-004     |
+| Jaén       | Cazorla             | C/ Mercédes Gómez, s/n                                           | JUSTICIAJACZ     | JUST-JAE-005     |
+| Jaén       | Linares             | C/ Pontón, 49                                                    | JUSTICIAJALI     | JUST-JAE-012     |
+| Jaén       | Linares             | C/ Federico Ramírez                                              | JUSTICIAJALI2    | JUST-JAE-026     |
+| Jaén       | Martos              | Avenida de Europa, 99                                            | JUSTICIAJAMA     | JUST-JAE-013     |
+| Jaén       | Úbeda               | Plaza Vázquez de Molina, 4                                       | JUSTICIAJAUB     | JUST-JAE-022     |
+| Jaén       | Úbeda               | C/ Chiclana de la Frontera, s/n                                 | JUSTICIAJAUB2    | JUST-JAE-014     |
+| Jaén       | Villacarrillo       | C/ Ministro Benavides, 67                                        | JUSTICIAJAVI     | JUST-JAE-015     |
+
+===== Provincia de Málaga =====
+
+^ Provincia  ^ Localidad     ^ Dirección                                                               ^ Código Sede     ^ Código RCJA     ^
+| Málaga     | Málaga        | C/ Fiscal Luis Portero García s/n                                      | JUSTICIAMACJ     | JUST-MAL-039     |
+| Málaga     | Málaga        | Avda. Manuel Agustín Heredia, 16                                       | JUSTICIAMA1C     | JUST-MAL-046     |
+| Málaga     | Málaga        | Almacén Málaga                                                         | JUSTICIAMA9C     | JUST-MAL-033     |
+| Málaga     | Antequera     | Avda. Miguel de Cervantes, S/N                                         | JUSTICIAMAAN     | JUST-MAL-001     |
+| Málaga     | Archidona     | C/ Carrera, 42                                                         | JUSTICIAMAAR     | JUST-MAL-002     |
+| Málaga     | Coín          | C/ Magistrado Miguel García López, S/N                                 | JUSTICIAMACO     | JUST-MAL-003     |
+| Málaga     | Estepona      | Juan Carlos I, s/n                                                     | JUSTICIAMAES     | JUST-MAL-004     |
+| Málaga     | Estepona      | C/ Delfín, Edificio Miramar, s/n                                       | JUSTICIAMAES2    | JUST-MAL-036     |
+| Málaga     | Estepona      | Avda. Puerta del Mar, Nº 45                                            | JUSTICIAMAES3    | JUST-MAL-047     |
+| Málaga     | Fuengirola    | Párroco Juan A. Jiménez Higuero, 28                                    | JUSTICIAMAFU1    | JUST-MAL-006     |
+| Málaga     | Fuengirola    | C/ Miguel Bueno, 26. Esq. Avda. de Mijas                               | JUSTICIAMAFU2    | JUST-MAL-037     |
+| Málaga     | Fuengirola    | C/ Inca, 8                                                             | JUSTICIAMAFU3    | JUST-MAL-045     |
+| Málaga     | Marbella      | Mayorazgo, s/n                                                         | JUSTICIAMAMA1    | JUST-MAL-014     |
+| Málaga     | Marbella      | Avda. Arias de Velasco, 15                                             | JUSTICIAMAMA2    | JUST-MAL-026     |
+| Málaga     | Marbella      | C/ Doha, 5                                                             | JUSTICIAMAMA3    | JUST-MAL-044     |
+| Málaga     | Ronda         | Plaza Carlos Cano, s/n                                                 | JUSTICIAMARO     | JUST-MAL-015     |
+| Málaga     | Torremolinos  | Avda. Palma de Mallorca, 24                                           | JUSTICIAMATO     | JUST-MAL-020     |
+| Málaga     | Torremolinos  | Avda. Palma de Mallorca, 32                                           | JUSTICIAMATO2    | JUST-MAL-049     |
+| Málaga     | Torremolinos  | Avda. Palma de Mallorca, 41                                           | JUSTICIAMATO3    | JUST-MAL-050     |
+| Málaga     | Torremolinos  | Avda. Palma de Mallorca, 40                                           | JUSTICIAMATO4    | JUST-MAL-051     |
+| Málaga     | Torrox        | Plaza de la Hoya, 1                                                    | JUSTICIAMATR     | JUST-MAL-016    |
+| Málaga     | Vélez-Málaga  | C/ Eugenio Morales Jurado, nº 2                                       | JUSTICIAMAVE1    | JUST-MAL-018     |
+
+===== Provincia de Sevilla =====
+
+^Provincia  ^Localidad  ^Dirección  ^Código Sede  ^Código RCJA  |
+|Sevilla  |Sevilla  |Avda. de Carlos V, s/n (Prado de San Sebastián)  |JUSTICIASE2C  |JUST-SEV-018  |
+|Sevilla  |Sevilla  |C/ Vermondo Resta, s/n  |JUSTICIASE4C  |JUST-SEV-017  |
+|Sevilla  |Sevilla  |Avda. de la Buhaira, 29  |JUSTICIASE5C  |JUST-SEV-033  |
+|Sevilla  |Sevilla  |Avda. de la Buhaira, 26  |JUSTICIASE6C  |JUST-SEV-038  |
+|Sevilla  |Sevilla  |C/ Miguel Romero Martínez, nº 2  |JUSTICIASE7C  |JUST-SEV-022  |
+|Sevilla  |Sevilla  |Avda. Buhaira, 31  |JUSTICIASE8C  |JUST-SEV-035  |
+|Sevilla  |Sevilla  |Avn Reina Mercedes  |CICA  |JUST-SEV-043  |
+|Sevilla  |Sevilla  |Palmas Altas  |JUSTICIASECJ  |JUST-SEV-045  |
+|Sevilla  |Sevilla  |C/ Muñoz Torrero  |JUSTICIA_Torerro  |JUST-SEV-040  |
+|Sevilla  |Alcalá de Guadaira  |C/ Rafael de los Santos, esquina calle Gestoso  |JUSTICIASEAG1  |JUST-SEV-024  |
+|Sevilla  |Alcalá de Guadaira  |Plaza del Duque, 12  |JUSTICIASEAG2  |JUST-SEV-001  |
+|Sevilla  |Carmona  |Plaza San José, s/n  |JUSTICIASECA  |JUST-SEV-002  |
+|Sevilla  |Coria del Río  |Avda. Blas Infante, 23  |JUSTICIASECO  |JUST-SEV-004  |
+|Sevilla  |Cazalla de la Sierra|Ctra. El Judío S/N  |JUSTICIASECZ  |JUST-SEV-003  |
+|Sevilla  |Dos Hermanas  |C/ Nuestra Señora del Carmen, s/n  |JUSTICIASEDH1  |JUST-SEV-026  |
+|Sevilla  |Écija  |C/ De la Marquesa, 11  |JUSTICIASEEC  |JUST-SEV-007  |
+|Sevilla  |Estepa  |C/ Castillejo, 32  |JUSTICIASEES  |JUST-SEV-008  |
+|Sevilla  |Lebrija  |C/ Sevilla, 23  |JUSTICIASELE  |JUST-SEV-005  |
+|Sevilla  |Lebrija  |(sin dirección especificada)  |JUSTICIASELE2  |JUST-SEV-006  |
+|Sevilla  |Lora del Río  |Avda. de la Campana, 3  |JUSTICIASELO  |JUST-SEV-010  |
+|Sevilla  |Marchena  |C/ Dr. José Salvador Gallardo, 2  |JUSTICIASEMA  |JUST-SEV-011  |
+|Sevilla  |Morón de la Frontera|C/ Navío, s/n  |JUSTICIASEMF  |JUST-SEV-013  |
+|Sevilla  |Osuna  |C/ Alfareros 27, 29, 31 (Polígono Industrial el Ejido)  |JUSTICIASEOS  |JUST-SEV-014  |
+|Sevilla  |Sanlúcar la Mayor  |C/ Duque de Lerma, 8  |JUSTICIASESM  |JUST-SEV-015  |
+|Sevilla  |Sanlúcar la Mayor  |Avda. de las Doblas  |JUSTICIASESM2  |JUST-SEV-042  |
+|Sevilla  |Utrera  |C/ San Juan Bosco, nº 15  |JUSTICIASEUT1  |JUST-SEV-016  |
+|Sevilla  |Utrera  |Glorieta Pío XII  |JUSTICIASEUT2  |JUST-SEV-039  |
+
+===== Historial de cambios =====
+
+^Versión^Fecha^Cambio^Autor|
+|1.0|2025-07-24|Creación del documento|GTSR|
+
+

@@ -1,0 +1,54 @@
+﻿
+
+======= Normativa =======
+
+
+En esta página se muestra la Normativa aplicable al Servicio de Sistemas Digitales para la Justicia.
+Cada una de las normativas, te lleva a través de un hiperenlace a la publicación en internet de dicha Ley o Norma.
+
+**Normativa estatal básica en materia judicial y digital**
+
+- 1  [[https://www.boe.es/eli/es/lo/2025/01/02/1|Ley Orgánica 1/2025, de 2 de enero]], de medidas para la eficiencia del Servicio Público de Justicia.  Reforma la Ley Orgánica 6/1985 del Poder Judicial e introduce los Tribunales de Instancia, las Oficinas de Justicia en los municipios y la digitalización integral del expediente judicial electrónico. Regula la Administración Judicial Electrónica, el uso de medios telemáticos (videoconferencia, firma, expediente único) y establece controles de tratamiento de datos personales jurisdiccionales bajo la autoridad del CGPJ
+
+- 2  [[https://www.boe.es/eli/es/l/1998/07/13/29/con|Ley 29/1998]], reguladora de la Jurisdicción Contencioso‑Administrativa, y Ley 1/2000, de Enjuiciamiento Civil, con modificaciones de 2023‑2025 en materia de expediente judicial electrónico y notificaciones digitales derivadas del Real Decreto‑ley 6/2023.
+
+-3  [[https://www.boe.es/eli/es/l/2015/10/01/40/con|Ley 40/2015]], de Régimen Jurídico del Sector Público, y [[https://www.boe.es/eli/es/l/2000/01/07/1/con|Ley 39/2015]], del Procedimiento Administrativo Común, aplicables supletoriamente a la actuación administrativa digital de las consejerías y sedes electrónicas.
+
+-4  [[https://www.boe.es/eli/es/rd/2022/05/03/311/con|Real Decreto 311/2022, de 3 de mayo]], por el que se regula el Esquema Nacional de Seguridad (ENS). Norma base de las medidas técnicas de seguridad, estableciendo los principios de seguridad integral, gestión por riesgos, defensa en profundidad, prevención, detección, respuesta y mejora continua. Obliga a las administraciones públicas (incluidas las autonómicas) a definir su Política de Seguridad de la Información, clasificación de activos, gestión de incidentes y auditorías periódicas.
+
+-5  [[https://www.boe.es/eli/es/rd/2021/03/30/203/con|Real Decreto 203/2021]], por el que se aprueba el Reglamento de actuación y funcionamiento del sector público por medios electrónicos, aplicable a las sedes electrónicas judiciales y a la autenticación mediante Cl@ve, certificado electrónico o sede judicial interoperable.
+
+-6   [[https://www.boe.es/eli/es/rdl/2023/12/19/6/con|Real Decreto‑ley 6/2023, de 19 de diciembre]], sobre eficiencia digital en la Administración de Justicia. Desarrolla el expediente judicial electrónico único, la identificación digital de intervinientes y los sistemas de grabación de vistas y comunicaciones seguras para todas las sedes judiciales
+-7   [[https://www.boe.es/eli/es/lo/2021/05/26/7|Ley Orgánica 7/2021], de protección de datos personales tratados con fines de prevención, detección e investigación de infracciones penales, aplicable a sistemas judiciales electrónicos con datos penales
+
+**Normativa autonómica andaluza específica**
+
+-8   [[https://www.juntadeandalucia.es/boja/2025/99/32|Orden de 22 de mayo de 2025]], de la Consejería de Justicia, Administración Local y Función Pública, que aprueba la estructura de la Oficina Judicial para los Tribunales Colegiados, Tribunales de Instancia y la Secretaría de Gobierno del TSJ de Andalucía. Norma básica de organización del sistema judicial andaluz conforme a la LO 1/2025.
+
+-9   [[https://juntadeandalucia.es/boja/2017/110/1|Decreto 70/2017, de 6 de junio]], por el que se modifica el Decreto 1/2011, de 11 de enero, por el que se establece la política de seguridad de las tecnologías de la información y comunicaciones en la Administración de la Junta de Andalucía. Regula la organización y roles de seguridad (responsable de la información, responsable de seguridad, responsable del sistema), conforme al ENS, aplicable a la Sede Judicial Electrónica andaluza.
+
+-10   [[https://www.boe.es/boe/dias/2025/10/08/pdfs/BOE-A-2025-20069.pdf|Resolución de 1 de octubre de 2025]], de la Secretaría de Estado de Función Pública, por la que se publica el Convenio entre la Agencia Estatal de Administración Digital y la Comunidad Autónoma de Andalucía, para la prestación mutua de soluciones básicas de administración digital
+
+
+**Normas de aplicación en seguridad y ciberseguridad**
+
+       
+-11   [[https://www.ccn-cert.cni.es/es/pdf/guias/series-ccn-stic/800-guia-esquema-nacional-de-seguridad?format=html|Normas técnicas de seguridad del Esquema Nacional de Seguridad]], aprobadas por el Centro Criptológico Nacional (CCN), incluyendo ENS‑CCN‑STIC serie 800 (seguridad de aplicaciones judiciales, entornos cloud y comunicaciones seguras).
+
+-12   [[https://cdn.standards.iteh.ai/samples/82875/726bcf58250e43d9a666b4d929c8fbdb/ISO-IEC-27001-2022.pdf|ISO/IEC 27001:2022]] y [[https://webstore.ansi.org/standards/iso/isoiecdis277012023|27701:2023]] (referenciadas en el anexo II del ENS) sobre seguridad y gestión de privacidad de la información, de aplicación en auditorías y certificaciones de la infraestructura judicial.
+
+-13   [[https://www.boe.es/buscar/doc.php?id=DOUE-L-2016-80807|REGLAMENTO (UE) 2016/679 DEL PARLAMENTO EUROPEO Y DEL CONSEJO de 27 de abril]] de 2016 relativo a la protección de las personas físicas en lo que respecta al tratamiento de datos personales y a la libre circulación de estos datos y por el que se deroga la Directiva 95/46/CE (Reglamento general de protección de datos)
+
+-14   [[https://www.boe.es/eli/es/lo/2018/12/05/3|Ley Orgánica 3/2018, de 5 de diciembre]], de Protección de Datos Personales y garantía de los derechos digitales
+
+-15   [[https://www.boe.es/buscar/doc.php?id=DOUE-L-2022-81963|Directiva (UE) 2022/2555 – Directiva NIS2]], transpuesta en 2024 2025, aplicable al sector público autonómico en ciberseguridad y gestión de incidentes significativos. Exige procedimientos de notificación inmediata al CCN CERT y establece obligaciones de supervisión continua y resiliencia digital.
+
+-16   [[https://www.ccn-cert.cni.es/es/guias?format=html|Guías 800]], la Serie CCN-STIC-800 establece las políticas y procedimientos adecuados para la implementación de las medidas contempladas en el Esquema Nacional de Seguridad (RD 3/2010).
+       
+       
+**Aplicación directa a la Sede Judicial Electrónica de Andalucía**
+
+
+-17   Portal Sede Judicial Electrónica de Andalucía (Sistema Adriano): regulado por la propia Consejería de Justicia según el marco de la [[https://www.boe.es/eli/es/l/2015/10/01/40/con|Ley 40/2015]] y [[https://www.boe.es/eli/es/rd/2022/05/03/311/con|Real Decreto 311/2022]], garantizando autenticación por Cl@ve, certificado digital y cifrado de comunicaciones TLS. Cumple los principios de accesibilidad, disponibilidad continua, interoperabilidad y trazabilidad.
+
+-18   La gestión del expediente judicial electrónico y las actuaciones telemáticas de profesionales y ciudadanía se integran conforme a la [[https://www.boe.es/eli/es/lo/2025/01/02/1/con| Ley Orgánica 1/2025]] y la [[https://www.juntadeandalucia.es/boja/2025/104/35|Orden de 22 de mayo de 2025]], coordinadas tecnológicamente con el sistema estatal de la Sede Judicial Electrónica.

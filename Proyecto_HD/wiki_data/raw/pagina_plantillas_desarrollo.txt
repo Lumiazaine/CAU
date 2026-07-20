@@ -1,0 +1,219 @@
+﻿
+<html> <html lang="es"> 
+<head>
+
+  <meta charset="UTF-8">
+  <title>PLANTILLAS VERIFICACIÓN DESARROLLO </title>
+  <style>
+      body {
+          font-family: Arial, sans-serif;
+          background-color: #39546E;
+          margin: 0;
+          padding: 20px;
+          padding-top: 70px;
+          
+      }
+
+
+
+      .main-container {
+          max-width: 1550px;
+          margin: 0 auto;
+      }
+
+
+
+      .main-header {
+          background-color: #39546E;
+          color: white;
+          padding: 25px 20px;
+          font-size: 2rem;
+          font-weight: bold;
+          border-radius: 8px 8px 0 0;
+          text-align: center;
+          margin-bottom: 20px;
+      }
+
+
+
+      .block {
+          background-color: #ffffff;
+          border-radius: 8px;
+          padding: 22px;
+          margin-bottom: 25px;
+          border: 1px solid #c5ccd4;
+          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+      }
+
+
+
+      .block h2 {
+          margin-top: 0;
+          color: #39546E;
+          border-bottom: 2px solid #39546E;
+          padding-bottom: 10px;
+          
+      }
+      
+      a {
+          color: #0051A3;
+          text-decoration: none;
+          
+      } 
+
+  </style>
+
+<title>Tabla HTML</title>
+    <style>
+        /* Estilos para la tabla */
+        table {
+            border-collapse: collapse; /* Para que los bordes se unan */
+            width: 50%; /* Ancho de la tabla */
+            margin: 20px auto; /* Centrar la tabla */
+            border: 1px solid #ccc; /* Borde general de la tabla */
+        }
+        /* Estilos para las celdas de encabezado (primera fila) */
+        th {
+            background-color: #f2f2f2; /* Color de fondo para los títulos */
+            color: #333; /* Color de texto */
+            padding: 10px; /* Espaciado interno */
+            border: 1px solid #aaa; /* Borde para las celdas de título */
+            text-align: left; /* Alineación del texto */
+        }
+        /* Estilos para las celdas de datos */
+        td {
+            padding: 8px; /* Espaciado interno */
+            border: 1px solid #ddd; /* Borde para las celdas de datos */
+            text-align: left; /* Alineación del texto */
+        }
+        /* Estilo para filas pares (opcional, para mejor lectura) */
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+
+</head>
+
+<body>
+
+  <div class="main-container">
+
+      <div class="main-header">PLANTILLAS DESARROLLO</div>
+
+      <div style="margin-bottom: 20px;">
+          <p>En esta página aparecerán todas las plantillas que utilizará el equipo de desarrollo del servicio de la OTIJ.</p>
+          
+           <table>
+  <thead> <!-- Encabezados de la tabla -->
+    <tr>
+      <th>Código Entregable</th>
+      <th>Descripción</th>
+      <th>Plantilla</th>
+    </tr>
+  </thead>
+  <tbody> <!-- Cuerpo de la tabla -->
+    <!-- Fila 1 (ya es el encabezado) -->
+    <!-- Fila 2 -->
+    <tr>
+      <td>FT</td>
+      <td><strong>Ficha técnica</strong><br>
+      Se incluye la plantilla de una petición de trabajo.
+      </td>
+      <td><a target="_blank" href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=0 PLA_[PROY]_FichaTecnica_[Codigo peticion].odt">Ficha técnica</a></td>
+    </tr>
+    <!-- Fila 3 -->
+    <tr>
+      <td>ASI</td>
+      <td><strong>Análisis del sistema</strong><br>
+      Se incluye la plantilla del análisis del sistema. Clases, casos de uso e interfaces.
+      </td>
+      <td><a target="_blank" href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=ASI_[PROY]_[MOD]_[COMP]_Analisis_Sistema.odt">Análisis del sistema</a></td>
+    </tr>
+    <!-- Fila 4 -->
+    <tr>
+      <td>DEN</td>
+      <td><strong>Descripción de la entrega</strong><br>
+      Se incluye la plantilla con los procedimientos y datos de la entrega.
+      </td>
+      <td><a target="_blank" href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=DEN_[PROY]_[MOD]_[COMP]_Descripcion_Entrega.odt">Descripción de la entrega</a></td>
+    </tr>
+    <!-- Fila 5 -->
+    <tr>
+      <td>ERQ</td>
+      <td><strong>Especificación de los requisitos</strong><br>
+      Se incluye la plantilla con los requisitos del sistema a desarrollar.
+      </td>
+      <td><a target="_blank" href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=ERQ_[PROY]_[MOD]_[COMP]_Especificacion_Requisitos.odt">Especificación de los requisitos</a></td>
+    </tr>
+    <!-- Fila 6 -->
+    <tr>
+      <td>FDE</td>
+      <td><strong>Ficha de despliegue</strong><br>
+      Se incluye la ficha con el procedimiento de despliegue
+      </td>
+      <td><a target="_blank" href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=FDE_[PROY]_[MOD]_[COMP]_Ficha_de_despliegue (NextGen).odt">Ficha de despliegue</a></td>
+    </tr>
+    <!-- Fila 7 -->
+    <tr>
+      <td>MAC</td>
+      <td><strong>Manual de actualización</strong><br>
+      Se incluye la plantilla del proceso de actualización del sistema
+      </td>
+      <td><a target="_blank" href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=MAC_[PROY]_[MOD]_[COMP]_Manual_Actualizacion.odt">Manual de actualización</a></td>
+    </tr>
+    <!-- Fila 8 -->
+    <tr>
+      <td>MIC</td>
+      <td><strong>Manual de instalación y configuración</strong><br>
+      Se incluye la plantilla de manual de instalación-configuración de herramientas
+      </td>
+      <td><a target="_blank" href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=MIC_[PROY]_[MOD]_[COMP]_Manual_de_Instalacion_y_Configuracion.odt">Manual de instalación y configuración</a></td>
+    </tr>
+    <!-- Fila 9 -->
+    <tr>
+      <td>MIT</td>
+      <td><strong>Manual de integración</strong><br>
+      Se incluye la plantilla del proceso de integración
+      </td>
+      <td><a target="_blank" href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=MIT_[PROY]_[MOD]_[COMP]_Manual_Integracion.odt">Manual de integración</a></td>
+    </tr>
+    <!-- Fila 10 -->
+    <tr>
+      <td>MUS</td>
+      <td><strong>Manual de usuario</strong><br>
+      Se incluye la plantilla para especificar al usuario como usar un sistema.
+      </td>
+      <td><a target="_blank" href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=mus_proy_mod_comp_manual_usuario.odt">Manual de usuario</a></td>
+    </tr>
+    <!-- Fila 11 -->
+    <tr>
+      <td>PLA</td>
+      <td><strong>Plantilla de entregables genérica</strong><br>
+      Se incluye la plantilla de entregables genéricos
+      </td>
+      <td><a target="_blank" href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=pla__proy___mod___comp__plantillaentregablegenerica_ng.odt">Plantilla de entregables genérica</a></td>
+    </tr>
+    <!-- Fila 12 -->
+    <tr>
+      <td>PLAE</td>
+      <td><strong>Plantilla de entregables genérica (excel)</strong><br>
+      Se incluye la plantilla de entregables genéricos en formato excel
+      </td>
+      <td><a target="_blank" href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=PLA_PROY_PlantillaEntregableGenerica (NextGen).ods">Plantilla de entregables genérica (excel)</a></td>
+    </tr>
+    <!-- Fila 13 -->
+    <tr>
+      <td>PDP</td>
+      <td><strong>Plan de pruebas</strong><br>
+      Se incluye la plantilla con el excel en el cual se encuentra el plan de pruebas en los cuales se ejecutan los casos de prueba de un servicio o componente
+      </td>
+      <td><a target="_blank" href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=pdp__proy___mod___comp___plan_de_pruebas.ods">Plan de pruebas</a></td>
+    </tr>
+  </tbody>
+</table>
+             
+      
+      </div>
+
+</body> 
+</html>

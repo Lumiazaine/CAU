@@ -1,0 +1,74 @@
+﻿
+<WRAP> <panel type="primary" title="PUESTO DE TRABAJO - COMPRAS">
+
+<WRAP> <panel type="info" title="Procedimiento de compra de equipos Fujitsu ARCONTE para DDTT">
+
+  * **Detección de la necesidad: **La sectorial de Justicia de Andalucía pone de manifiesto la necesidad, a veces por cauces informales, Delegados provinciales, Consejero, SGIJMDR, Decanos, etc, que se le traslada por la SGIJMDR a su Coordinador. La necesidad, __en todo caso__ ha de llegar al correo institucional de la SGIJMDR (sg.infraestructuras.cjalfp) para ser considerada
+  * **Coordinador de SGIJMDR**  envía correo con necesidad a RTIC del SSDJ y anticipa con RTIC la cobertura de la misma a grandes rasgos. Para concretarla:
+  * **SSDJ **pide colaboración a ADA Territorial para concretar la necesidad, aportando modelos de pliegos (apartados técnicos) MJ ó PPT,información de coordinación, del proyecto, a veces presupuesto orientativo, etc.
+  * **ADA Territorial**
+      * redacta, supervisa y actualiza si fuera necesario los apartados técnicos MJ ó PPT, conjuntamente con SSDJ
+  * **SSDJ**  remite consideración técnica sobre el suministro a SGIJMDR con cantidades concretas, para que se aprovisione crédito para el suministro
+  * **SGIJMDR transfiere crédito a DTs**
+  * **SSDJ comunica a ADA Territorial** la decisión de suministro de la SGIJMDR
+  * **ADA Territorial **apoya al Secretario General de cada una de ellas en las competencias ADA (redacción técnica, responsables de contrato, supervisión de la ejecución, etc.)
+  * **SSDJ**, revisa:
+      * costes, idoneidad y adecuación del equipamiento y la actuación,
+      * que __el plano__  va en la MJ ó PPT,
+      * que __el mantenimiento__  está incluido en el presupuesto,
+      * y que __el periodo incluido en el mismo__  permite alcanzar el final del encargo: //junio 2025 a agosto 2027//
+
+//Se trata de la especificación del periodo de mantenimiento, el encargo va a ejecutarse desde septiembre de de 2025 a agosto de 2027. //
+
+//Cuando en la MJ dice: "Una vez finalizada la garantía, el mantenimiento y el soporte software se prestarán por la inclusión de este sistema en el contrato central del SSJD." \\  \\ …debe sustituirse por: "El mantenimiento y el soporte software que han de realizarse sobre este suministro una vez finalizada la garantía (a los X meses de la ejecución del suministro) están incluidos en el coste del mismo y no se aplicará coste a los mismos al ser incluido el suministro dentro del conjunto de equipamientos Arconte en el Encargo 10/2025 de la Agencia Digital de Andalucía (SERVICIO PARA EL SOPORTE COMPLETO Y ADMINISTRACIÓN DE LOS SISTEMAS AUDIOVISUALES DE LAS SALAS DE VISTAS, DESPACHOS, GESELL Y PANELES DE LAS SEDES JUDICIALES DE ANDALUCÍA) gestionado por el SSDJ como marco de ejecución de los sistemas audiovisuales de salas de vistas y equipamiento relacionado". \\  \\ Y posteriormente, donde dice: "cuyo uso está “cedido” a la Junta de Andalucía en virtud del contrato CONTR 2018-83071 de SUMINISTRO, MANTENIMIENTO Y ADMINISTRACIÓN DE SISTEMAS AUDIOVISUALES PARA LOS ÓRGANOS JUDICIALES DE ANDALUCÍA". \\  \\ …debe completarse con: "cuyo uso está “cedido” a la Junta de Andalucía en virtud del contrato CONTR 2018-83071 de SUMINISTRO, MANTENIMIENTO Y ADMINISTRACIÓN DE SISTEMAS AUDIOVISUALES PARA LOS ÓRGANOS JUDICIALES DE ANDALUCÍA y siguientes hasta el actual Encargo 10/2025 de la Agencia Digital de Andalucía antes citado"//
+  * que la __cláusula de exclusividad__  de Fujitsu España sobre Arconte es incluida expresamente,
+  * que hay designación de __responsable del contrato__  a personal de ADA,
+  * y que si hay PPT, __el personal de ADA responsable del contrato firme el PPT__
+  * **SSDJ**, si se cumple lo anterior,
+  * tramita INFOCOR (comunicado o informe técnico vinculante) y
+  * devuelve INFOCOR a ADA Territorial (ya que esta contratación es descentralizada, con créditos de los servicios periféricos de la SGIJMDR: Deleg Territorial de la Consejería en la provincia correspondiente)
+  * si no hay INFOCOR, a petición de la SGIJMDR, no se integrará el nuevo equipamiento en los sistemas multimedia de Justicia Digital
+  * **Firmantes**:
+  * __En un menor__, la MJ la firma la SG de la DT y el DT la orden de encargo
+  * __En un contrato ordinario__, la MJ la firma la SG de la DT, el PPT lo firma el personal ADA y el contrato el DT
+  * **ADA Territorial **gestionan la ejecución el contrato en coordinación con SSDJ
+</panel> </WRAP>
+
+<WRAP> <panel type="info" title="[PLANIFICACIÓN-INVENTARIO]PROCEDIMIENTO DE GESTIÓN DE EXPEDIENTE DE COMPRA DE EQUIPAMIENTO MICROINFORMÁTICO">
+
+Creamos fichero excell de distribución dentro de nuestra carpeta, en el cual se incluye:
+
+  - Provincia, municipio, dirección, organismo, unidades, persona de contacto, teléfono y observaciones de entrega.
+
+Ej: [[\\iusnas05\sij\Planificacion\PLANIFICACI|]]ÓN-INVENTARIO\Proyectos 2022\Expte. 572909-2022 Webcams (400 uds)\ Distribución webcams 542909-2022
+
+  - Contactamos con el proveedor
+
+  * 1. Verificamos que hayan recibido la orden de encargo
+  * 2. Concretamos fecha prevista de disponibilidad del equipamiento
+  * 3. Comprobamos si disponen de las etiquetas RFID, si no gestionamos las impresiones de las mismas con Crijha.
+
+  - Creamos el contrato en Temis introduciendo todos los datos que nos pide.
+  - Se contacta con el proveedor para solicitarle el fichero con la relación de Número de Serie y etiqueta RFID para poder realizar el alta masiva del equipamiento en Temis.
+  - Se anota el expediente de compra con todos los datos del mismo en el excel de expedientes del compra localizado en: [[\\iusnas05\sij\Planificacion\PUESTO|]] TRABAJO\Inventario
+  - Se anota el expediente de compra con los datos necesarios en el excel de cuadro de mando localizado en: [[\\iusnas05\sij\Planificacion\PUESTO|]] TRABAJO\Inventario
+
+</panel> </WRAP>
+
+<WRAP> <panel type="info" title="Nombre del procedimiento 3">
+
+Texto3
+
+</panel> </WRAP>
+
+<WRAP> <panel type="info" title="Nombre del procedimiento 4">
+
+Texto 4
+
+</panel> </WRAP>
+
+</panel> </WRAP>
+
+{{tag>validada}}
+
+

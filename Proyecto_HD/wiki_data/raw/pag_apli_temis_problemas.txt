@@ -1,0 +1,1177 @@
+﻿
+\\
+
+\\ \\
+* Instrucciones para resolución de incidencias. \\
+
+\\ \\
+* [[#alta-organismo|Alta Organismo]] \\ \\
+* [[#alta-edificio|Alta Edificio]] \\ \\
+* [[#alta-roe|Alta ROE]] \\ \\
+* [[#roe-anadir-jurisdiccion|ROE - Añadir Jurisdicción a organismo]] \\ \\
+* [[#modificacion-datos|Modificación de datos (Teléfono, FAX, dirección)]] \\ \\
+* [[#modificar-planta|Modificar planta del organismo]] \\ \\
+* [[#eliminar-organismo|Eliminar organismos]] \\ \\
+* [[#activar-organismo|Activar organismo]] \\ \\
+* [[#noticia-escritorio|Poner noticia en Escritorio Judicial]] \\
+
+\\ \\
+* [[#permisos-usuarios|Permisos usuarios]] \\ \\
+* [[#subir-manuales|Subir manuales]] \\ \\
+* [[#permisos-organismo|Permisos por organismo]] \\
+
+\\ \\
+* [[#alta-usuario|Alta usuario]] \\ \\
+* [[#solicitud-baja|Solicitud baja]] \\ \\
+* [[#reactivar-usuario|Reactivar usuario anulado por error]] \\ \\
+* [[#modificar-id-usuario|Modificar identificador de un usuario]] \\
+
+\\ \\
+* [[#alta-festivo|Alta Festivo]] \\
+
+\\ \\
+* [[#puestos-no-cubiertos|Organismo con puestos no cubiertos]] \\ \\
+* [[#no-permite-cambios|Temis no permite cambiar los datos de un usuario]] \\ \\
+* [[#error-ipvpn|Error al introducir una IPVPN1v4 en un usuario]] \\
+
+\\ \\
+* [[#recodificacion|Recodificación en Adriano de un procedimiento]] \\
+
+\\ \\
+* [[#lista-usuarios-permisos|Lista de usuarios con permisos en determinada aplicación]] \\
+
+\\ \\
+* [[#tablas-procedimientos|Distribución de tablas de procedimientos]] \\
+
+\\ \\
+* [[#crear-redes|Crear redes en Temis]] \\
+
+\\ \\
+* [[#sincronizacion-roe|SINCRONIZA ROE RESTO APP]] \\
+
+\\
+
+==== Alta Organismo ====
+
+Descripción de la incidencia:
+
+\\
+Nos indican que no existe una unidad funcional. Nos facilitan datos como el nombre, dirección, teléfono…
+
+\\
+Solución:
+
+\\
+Para dar de alta en TEMIS a nuevos órganos Judiciales, entramos en el Escritorio Judicial > Temis, en el menú de la izquierda pulsamos sobre la opción 'Organismos', seleccionamos la provincia y municipio del organismo, a continuación pulsamos en 'Nuevo', se abrirá una ventana como esta:
+
+\\
+altaorganismo.bmp
+
+\\
+IMPORTANTE: Antes de hacer crear el órgano Judicial es necesario llamar al teléfono que nos han dado para asegurarnos que los datos a grabar son correctos, así como para facilitarnos otros datos como teléfono 2 o FAX.
+
+\\
+Se consultan en la tablas los datos a introducir (EJEMPLO):
+
+\\
+1. En tipo de Organismo elegimos entre la lista al que nos indican en la incidencia, en este caso 'Decanato - Juzgado de Guardia'.
+
+\\
+2. Buscamos en la base de datos "PROD02" qué código tiene el tipo de organismo (TOR_X_TIPORG) a crear:
+
+\\
+select * from organismos where c_organismo like '0401301%' and t_organismo like '%Juzgado%Guardia%Almer%';
+
+\\
+3. Con este "TOR_X_TIPORG" obtenido en la consulta anterior, consultamos en la tabla "TIPO_ORGANISMO" el campo 'C_TIPORG':
+
+\\
+select C_TIPORG from tipo_organismo where x_tiporg= 26;
+
+\\
+Para incluirlo en el campo código:
+
+\\
+4. Introducimos teléfonos, fax, etc y le damos a "Ubicar".
+
+\\
+5. Para ubicar el edificio buscamos en la tabla edificios donde tenga la dirección que nos han dado:
+
+\\
+select * from edificios where t_direccion like '%Ronda%';
+
+\\
+Y seleccionamos en Temis la correcta.
+
+\\
+6. Una vez hecho todo, se debe ejecutar el script ubicado en la siguiente ruta:
+
+\\
+[[file://///iusnas05/SIJ/Desarrollo/Proyectos/Portal|\\iusnas05\SIJ\Desarrollo\Proyectos\Portal]] Adriano\Actualizaciones Portal\Export\actualizacion_temis.bat
+
+\\
+Ruta antigua: [[file://///iusnas05/sij/Proyectos/Portal|\\iusnas05\sij\Proyectos\Portal]] Adriano\Actualizaciones Portal\Export\actualizacion_temis.bat
+
+\\
+Este fichero realiza una exportación de la BBDD de Temis (con nuestros cambios ya realizados). Dicha exportación se remitirá comprimida a la dirección 'telematicos.rcja@juntadeandalucia.es' para que actualicen la BBDD de vignette a partir de ésta. Cuando nos contesten que se ha realizado ya se podrán visualizar estos datos modificados en 'Directorios Judiciales' del Portal Adriano.
+
+\\
+7. Cada hora se ejecutan unos jobs de SYS@PROD01 que lanzan el procedure REFRESCA_VISTAS_MATERIALIZADAS, TEMIS, SISTEMAS y EQUIPOS, entre otros, para forzar la sincronización. Existe una MV que se actualiza y se construye todas las noches mediante un script. Hay establecidas unas alertas en Zabbix que controla GTDB.
+
+\\
+Ejemplo de incidencia Remedy
+
+\\
+693364
+
+==== Alta Edificio ====
+
+Descripción de la incidencia:
+
+\\
+Nos indican que no existe una unidad funcional. Nos facilitan datos como el nombre, dirección, teléfono…
+
+\\
+Solución:
+
+\\
+Para dar de alta en TEMIS a nuevos órganos Judiciales, entramos en el Escritorio Judicial > Temis, en el menú de la izquierda pulsamos sobre la opción 'Organismos', seleccionamos la provincia y municipio del organismo, a continuación pulsamos en 'Nuevo', se abrirá una ventana como esta:
+
+\\
+altaorganismo.bmp
+
+\\
+IMPORTANTE: Antes de hacer crear el órgano Judicial es necesario llamar al teléfono que nos han dado para asegurarnos que los datos a grabar son correctos, así como para facilitarnos otros datos como teléfono 2 o FAX.
+
+\\
+Se consultan en la tablas los datos a introducir (EJEMPLO):
+
+\\
+1. En tipo de Organismo elegimos entre la lista al que nos indican en la incidencia, en este caso 'Decanato - Juzgado de Guardia'.
+
+\\
+2. Buscamos en la base de datos "PROD02" qué código tiene el tipo de organismo (TOR_X_TIPORG) a crear:
+
+\\
+select * from organismos where c_organismo like '0401301%' t_organismo like '%Juzgado%Guardia%Almer%';
+
+\\
+3. Con este "TOR_X_TIPORG" obtenido en la consulta anterior, consultamos en la tabla "TIPO_ORGANISMO" el campo 'C_TIPORG':
+
+\\
+select C_TIPORG from tipo_organismo where x_tiporg= 26;
+
+\\
+Para incluirlo en el campo código:
+
+\\
+4. Introducimos teléfonos, fax, etc y le damos a "Ubicar".
+
+\\
+5. Para ubicar el edificio buscamos en la tabla edificios donde tenga la dirección que nos han dado:
+
+\\
+select * from edificios where t_direccion like '%Ronda%';
+
+\\
+Y seleccionamos en Temis la correcta.
+
+\\
+6. Una vez hecho todo, se debe ejecutar el script ubicado en la siguiente ruta:
+
+\\
+[[file://///iusnas05/SIJ/Desarrollo/Proyectos/Portal|\\iusnas05\SIJ\Desarrollo\Proyectos\Portal]] Adriano\Actualizaciones Portal\Export\actualizacion_temis.bat
+
+\\
+Ruta antigua: [[file://///iusnas05/sij/Proyectos/Portal|\\iusnas05\sij\Proyectos\Portal]] Adriano\Actualizaciones Portal\Export\actualizacion_temis.bat
+
+\\
+Este fichero realiza una exportación de la BBDD de Temis (con nuestros cambios ya realizados). Dicha exportación se remitirá comprimida a la dirección 'telematicos.rcja@juntadeandalucia.es' para que actualizen la BBDD de vignette a partir de ésta. Cuando nos contesten que se ha realizado ya se podrán visualizar estos datos modificados en 'Directorios Judiciales' del Portal Adriano.
+
+\\
+7. Cada hora se ejecutan unos jobs de SYS@PROD01 que lanzan el procedure REFRESCA_VISTAS_MATERIALIZADAS, TEMIS, SISTEMAS y EQUIPOS, entre otros, para forzar la sincronización. Existe una MV que se actualiza y se construye todas las noches mediante un script. Hay establecidas unas alertas en Zabbix que controla GTDB.
+
+\\
+Ejemplo de incidencia Remedy
+
+\\
+693364
+
+==== Alta ROE ====
+
+**Descripción de la incidencia**
+
+\\
+Dar de alta un organismo en ROE.
+
+\\
+**Solución**
+
+\\
+**1. **Desde Escritorio Remoto accedemos al **Escritorio Judicial**.
+
+\\
+**2.** Accedemos a la aplicación “**Mantenimiento Tablas Adriano**”.
+
+\\
+**3. **Pulsamos sobre “**Mantenimiento Red Organismo Esquema**”:
+
+\\
+{{/dokuwiki/!ssdj/lib/exe/fetch.php?tok=fc385e&media=https%3A%2F%2Fxwiki.justicia.junta-andalucia.es%2Fxwiki%2Fbin%2Fdownload%2FQueHacemos%2FDesarrollo%2FResoluci%C3%B3n%20de%20incidencias%2FTemis%2FAlta%20Roe%2Fimage-20201228115307-1.png?200|image-20201228115307-1.png}}
+
+\\
+**4.** Pulsamos sobre “Nuevo”:
+
+\\
+{{/dokuwiki/!ssdj/lib/exe/fetch.php?tok=0431fd&media=https%3A%2F%2Fxwiki.justicia.junta-andalucia.es%2Fxwiki%2Fbin%2Fdownload%2FQueHacemos%2FDesarrollo%2FResoluci%C3%B3n%20de%20incidencias%2FTemis%2FAlta%20Roe%2F1609152828770-190.png?200|1609152828770-190.png}}
+
+\\
+**5. **Completamos con los datos que vienen en la Excel “PRO_OTPCS_Tabla de Información Nuevos OOJJ_v1.0”.
+
+\\
+Ejemplo:
+
+\\
+{{/dokuwiki/!ssdj/lib/exe/fetch.php?tok=0e59eb&media=https%3A%2F%2Fxwiki.justicia.junta-andalucia.es%2Fxwiki%2Fbin%2Fdownload%2FQueHacemos%2FDesarrollo%2FResoluci%C3%B3n%20de%20incidencias%2FTemis%2FAlta%20Roe%2Fimage-20201228115307-3.png?200|image-20201228115307-3.png}}
+
+==== ROE - Añadir Jurisdicción a organismo ====
+
+Remedy 1987946
+
+\\
+Añado la jurisdicción Civil a las 3 secciones penales de Cádiz que no la tienen. Todas las demás Audiencias de Andalucía tienen C, M y P menos estas 3.
+
+\\
+DECLARE \\ \\
+NV number(20); \\ \\
+cursor cxo is \\ \\
+select x_organismo from temis.organismos_global where t_organismo like 'Audiencia Provincial - Sección _ª - Penal de Cádiz'; \\ \\
+cursor c(xorg number) is \\ \\
+select distinct \\ \\
+apl_x_aplicacion, esq_x_esquema, t_path1, t_path2, \\ \\
+sysdate, l_iniciador, l_tramite, l_notificacion, l_acuse, l_firma, t_path_servacuse, t_path_rutaslexnet, \\ \\
+t_path_binarios, t_path_central_recibidos, t_path_central_emitidos, l_caso \\ \\
+from TEMIS.RED_ORGANISMO_ESQUEMA \\ \\
+where org_x_organismo = xorg; \\ \\
+BEGIN \\ \\
+for rxo in cxo loop \\ \\
+for r in c(rxo.x_organismo) loop \\ \\
+select TEMIS.SQ_REDORGANISMOESQUEMA.nextval into NV from dual; \\ \\
+insert into TEMIS.RED_ORGANISMO_ESQUEMA values ( \\ \\
+NV, rxo.x_organismo, 'C', r.apl_x_aplicacion, r.esq_x_esquema, r.t_path1, r.t_path2, \\ \\
+sysdate, r.l_iniciador, r.l_tramite, r.l_notificacion, r.l_acuse, r.l_firma, r.t_path_servacuse, \\ \\
+r.t_path_rutaslexnet, r.t_path_binarios, r.t_path_central_recibidos, r.t_path_central_emitidos, r.l_caso); \\ \\
+end loop; \\ \\
+end loop; \\ \\
+END;
+
+==== Modificación de datos (Teléfono, FAX, dirección) ====
+
+**Descripción de la incidencia: Se pide incluir un teléfono o FAX, modificarlo o quitarlo de un órgano Judicial. Se revisa: **Actualizado: leer primero la parte B y C.A. B. C.Solución:
+
+\\
+**A. Para modificar el/los teléfono/s o FAX de órganos Judiciales: **1.** Entramos en el '**Escritorio Judicial**' > '**Mantenimiento Temis**', en el menú de la izquierda pulsamos sobre la opción '**Organismos**', después elegimos el órgano correspondiente a modificar, pulsamos en '**Buscar**', elegimos el nº de órgano, pulsamos sobre el botón '**Modificar**': {{/dokuwiki/!ssdj/lib/exe/fetch.php?tok=12524f&media=https%3A%2F%2Fxwiki.justicia.junta-andalucia.es%2Fxwiki%2Fbin%2Fdownload%2FQueHacemos%2FDesarrollo%2FResoluci%C3%B3n%20de%20incidencias%2FTemis%2FAlta%2C%20baja%2C%20modificacion%20de%20datos%2F1630067771203-765.png?200|1630067771203-765.png}}**2. **Posteriormente pulsamos sobre el botón '**Datos Contacto**': {{/dokuwiki/!ssdj/lib/exe/fetch.php?tok=d2a58e&media=https%3A%2F%2Fxwiki.justicia.junta-andalucia.es%2Fxwiki%2Fbin%2Fdownload%2FQueHacemos%2FDesarrollo%2FResoluci%C3%B3n%20de%20incidencias%2FTemis%2FAlta%2C%20baja%2C%20modificacion%20de%20datos%2F1630067899408-656.png?200|1630067899408-656.png}}**3. **En la pantalla que nos aparece a continuación podremos modificar o añadir datos de contacto: teléfono1, teléfono2, etc: {{/dokuwiki/!ssdj/lib/exe/fetch.php?tok=5adb14&media=https%3A%2F%2Fxwiki.justicia.junta-andalucia.es%2Fxwiki%2Fbin%2Fdownload%2FQueHacemos%2FDesarrollo%2FResoluci%C3%B3n%20de%20incidencias%2FTemis%2FAlta%2C%20baja%2C%20modificacion%20de%20datos%2F1630067962714-901.png?200|1630067962714-901.png}}**IMPORTANTE**:** Antes de hacer modificaciones es necesario llamar al órgano Judicial (si tenemos el teléfono) o llamar al teléfono que nos han dado para asegurarnos que los datos a grabar son correctos.
+
+\\
+También es necesario comprobar los datos de contacto que nos solicitan, ya que los datos que se modifiquen en este apartado aparecen en el Portal Adriano. El correo electrónico debe ser del tipo Atención al cliente y debe de contener un At, si el teléfono es un móvil también en necesario solicitar su verificación. Se devuelve la incidencia y solicitamos verificación de la información.
+
+\\
+Ejemplo Incidencia: IN0000001738277
+
+\\
+**4.** Una vez hecho esto, ya se podrán visualizar los datos modificados en 'Directorios Judiciales' del Portal Adriano: //[[http://www.juntadeandalucia.es/justicia/portal/adriano/directoriosjudiciales/index.html//|http://www.juntadeandalucia.es/justicia/portal/adriano/directoriosjudiciales/index.html//]] **Nota**: Estos datos se actualizan en la tabla** TEMIS.ORGANISMOS_CONTACTO **de **PROD02**. Para cambios de ubicación de organismos, confirmad los cambios con **Planificación ** (ver IN0000001232766). **B** **DESCRIPCIóN DE LA INCIDENCIA** En el Juzgado existe cuatro teléfonos y en los documentos de @Adriano solo aparecen dos. Faltan los otros dos tlfs, uno es el 662.975.696 y el otro es 662.975.695. Para que aparezcan en cada resolución - documento. **SOLUCIóN** 1. Este tipo de incidencia ahora lo realiza el equipo **CAUJUS.** 2. En el caso de que **CAUJUS**, nos solicite modificar algún campo que ellos no pueden siempre** : Se solicitará que se nos envíe firmado y sellado por parte del letrado o juez titulares del centro el formulario de aplicaciones no estándar para poder llevar a cabo el cambio, ya sea de número de teléfono o de fax.** **IMPORTANTE: Siempre tendremos que tener el formulario firmado y sellado por parte del letrado o juez titulares del centro para poder realizar el cambio. **C.DESCRIPCIóN DE LA INCIDENCIA** EN LA CABECERA DE LAS RESOLUCIONES APARACE UNA DIRECCIóN INCORRECTA, QUE NO SE CORRESPONDE CON LA UBICACIóN DE NINGúN JUZGADO EN LA CIUDAD DE SEVILLA. POR FAVOR PROCEDAN A CORREGIRLO ** \\ \\
+SOLUCIóN** El que no aparezcan las cabeceras que desean los usuario es un problema de @driano, no de TEMIS. **IMPORTANTE: El equipo de Desarrollo no se encarga de este tipo de incidencias. **Ejemplo de incidencia Remedy **A:** IN0000001210717 **B:** IN0000002128646 **C:** IN0000002151086 ** //
+
+==== Modificar planta del organismo  ==== Descripción de la incidencia: Piden que se modifiquen las plantas donde se ubican los organismos. Solución: 1. Entramos en el Escritorio Judicial > Mantenimiento Temis, en el menú de la izquierda pulsamos sobre la opción 'Organismos', después elegimos el órgano correspondiente a modificar, pulsamos en 'Buscar', elegimos el órgano y le damos a "Modificar": 1630067771203-765.png \\ \\
+2. En la pantalla que nos aparece a continuación modificaremos el campo 'Descripción' para que aparezca la planta correcta y en 'Planta' haremos lo mismo: 1630068822088-203.png \\ \\
+IMPORTANTE: Se tarda un día desde que actualizas los datos en Temis hasta que se reflejan el Remedy. Ejemplo de incidencia Remedy 697989
+
+\\
+==== Eliminar organismos  ==== Descripción de la incidencia: Se solicita eliminar un organismo que ya no existe y en el que no hay ningún usuario. Solución: Es conveniente asignarla a Planificación > Coordinación tratamiento. Ejemplo de incidencia Remedy 709051
+
+\\
+==== Activar organismo  ==== Descripción de la incidencia: Piden activar en Temis un organismo para posteriormente añadir un usuario a él. Solución: Esto no se puede realizar por la aplicación Mantenimiento Temis directamente, ya que si el organismo está desactivado, no se muestra dicho organismo en la aplicación Tenemos que hacerlo por BBDD: 1. Realizamos, en la tabla 'ORGANISMOS_GLOBAL' del esquema 'TEMIS' de producción, la siguiente consulta: select * from ORGANISMOS_GLOBAL where T_ORGANISMO like '%  %'; 2. A continuación procedemos a modificar el campo L_ACTIVO, cambiamos el valor 'N' por 'S' y ya aparecerá en Mantenimiento Temis, listo para añadir los usuarios que sean necesarios. Ejemplo de incidencia Remedy 715610
+
+==== Poner noticia en Escritorio Judicial ====
+
+**Descripción de la incidencia:**
+
+\\
+Solicitan incluir una noticia en el Escritorio Judicial.
+
+\\
+**Solución:**
+
+\\
+**1. **Entramos en el **Escritorio Judicial > Mantenimiento Temis**, en el menú de la izquierda pulsamos sobre la opción '**Noticias**' y posteriormente pulsamos en '**Nueva**':
+
+\\
+{{/dokuwiki/!ssdj/lib/exe/fetch.php?tok=284030&media=https%3A%2F%2Fxwiki.justicia.junta-andalucia.es%2Fxwiki%2Fbin%2Fdownload%2FQueHacemos%2FDesarrollo%2FResoluci%C3%B3n%20de%20incidencias%2FTemis%2FPoner%20noticia%20en%20Escritorio%20Judicial%2F1630069755273-176.png?200|1630069755273-176.png}}
+
+\\
+**2. **Saldrá un menú como este:
+
+\\
+{{/dokuwiki/!ssdj/lib/exe/fetch.php?tok=f1d5c9&media=https%3A%2F%2Fxwiki.justicia.junta-andalucia.es%2Fxwiki%2Fbin%2Fdownload%2FQueHacemos%2FDesarrollo%2FResoluci%C3%B3n%20de%20incidencias%2FTemis%2FPoner%20noticia%20en%20Escritorio%20Judicial%2Fnoticia.jpg?200|noticia.jpg}}
+
+\\
+**Nota**: Si en la opción '**Aplicación**' elegimos una aplicación, la noticia sólo aparecerá a los usuarios que tienen acceso a dicha aplicación, cuando pulsen sobre ella en el Escritorio Judicial.
+
+\\
+Se puede añadir 'Enlace', 'Asunto', 'Descripción', 'Fecha Noticia' y 'Fecha Límite'.
+
+\\
+**Incidencias en Remedy:**
+
+\\
+IN0000001630389, IN0000001703614
+
+\\
+//==== Permisos usuarios  ==== //
+
+\\
+**Descripción de la incidencia: Un usuario no puede acceder a una aplicación porque no le aparece en el Escritorio Judicial o tiene acceso a la aplicación pero no tiene los permisos suficientes para realizar procesos que sus compañeros del mismo cargo sí pueden. También pueden llegar como errores en la aplicación que pueden darse por una carencia de permisos suficientes. **Solución:
+
+\\
+Primero hay que tener en cuenta que los diferentes permisos que existen para acceder a las aplicaciones se otorgan por:
+
+* **Usuario**
+
+* **Cargo** (usuarios con cargo común)
+
+* **Cargo-Tipos de Organismo** (usuarios con cargos y de organismos concretos)
+
+* **Provincias** (usuarios de una o varias provincias)
+
+**1. **Se comprueba si el usuario tiene acceso a dicha aplicación. En el **Escritorio Judicial > Mantenimiento Temis**, en el menú de la izquierda pulsamos sobre la opción '**Usuarios**', buscamos el usuario de la incidencia, lo seleccionamos y pulsamos sobre '**Perfiles**'.
+
+\\
+{{/dokuwiki/!ssdj/lib/exe/fetch.php?tok=78c9cf&media=https%3A%2F%2Fxwiki.justicia.junta-andalucia.es%2Fxwiki%2Fbin%2Fdownload%2FQueHacemos%2FDesarrollo%2FResoluci%C3%B3n%20de%20incidencias%2FTemis%2FPermisos%20usuarios%2F1630070527090-275.png?200|1630070527090-275.png}}
+
+\\
+En dicho menú se muestra la información de todas las aplicaciones a las que accede, con qué perfil accede y cómo se le a otorgado dicho perfil (Origen):
+
+\\
+{{/dokuwiki/!ssdj/lib/exe/fetch.php?tok=0916af&media=https%3A%2F%2Fxwiki.justicia.junta-andalucia.es%2Fxwiki%2Fbin%2Fdownload%2FQueHacemos%2FDesarrollo%2FResoluci%C3%B3n%20de%20incidencias%2FTemis%2FPermisos%20usuarios%2F1630070593871-692.png?200|1630070593871-692.png}}
+
+\\
+**2. **Para dar permiso a un usuario a una aplicación en Mantenimiento Temis, en el menú de la izquierda pulsamos sobre la opción '**Aplicaciones**', después elegimos la aplicación correspondiente y pulsamos en '**Perfiles**' que nos permitirá asignar, como se ha comentado anteriormente, por usuario, cargo, cargo-tipo de organismo y provincia:
+
+\\
+{{/dokuwiki/!ssdj/lib/exe/fetch.php?tok=14d232&media=https%3A%2F%2Fxwiki.justicia.junta-andalucia.es%2Fxwiki%2Fbin%2Fdownload%2FQueHacemos%2FDesarrollo%2FResoluci%C3%B3n%20de%20incidencias%2FTemis%2FPermisos%20usuarios%2F1630070677719-155.png?200|1630070677719-155.png}}
+
+\\
+{{/dokuwiki/!ssdj/lib/exe/fetch.php?w=936&h=166&tok=83088a&media=https%3A%2F%2Fxwiki.justicia.junta-andalucia.es%2Fxwiki%2Fbin%2Fdownload%2FQueHacemos%2FDesarrollo%2FResoluci%C3%B3n%20de%20incidencias%2FTemis%2FPermisos%20usuarios%2F1630070731271-945.png?200|1630070731271-945.png}}
+
+\\
+**Nota**: Si no indican que perfil hay que asignarle al usuario, lo comparamos con usuarios de su mismo cargo o incluso de su mismo cargo pero de distinto organismo.
+
+\\
+**Nota 2**: **Si existen dudas de que perfil otorgar o si debemos crear una nueva asignación de cargo-organismo o cargo-tipo organismo, se preguntan a **Desarrollo > Coordinación**. Por ejemplo en la IN0000001230486 en la que **Desarrollo > Coordinación** indicó que le creáramos permiso por cargo y tipo de organismo. **Ejemplo de incidencia Remedy** 1164532 //==== Subir manuales  ==== // **Descripción de la incidencia:
+
+\\
+Solicitan la publicación de un documento en el Escritorio Judicial, especifican aplicación, nombre del archivo, versión, etc.
+
+\\
+**Solución: **1. **Entramos en el **Escritorio Judicial > Mantenimiento Temis**, en el menú de la izquierda pulsamos sobre la opción '**Aplicaciones**', después elegimos la aplicación correspondiente y pulsamos en '**Manuales**': {{/dokuwiki/!ssdj/lib/exe/fetch.php?tok=14d232&media=https%3A%2F%2Fxwiki.justicia.junta-andalucia.es%2Fxwiki%2Fbin%2Fdownload%2FQueHacemos%2FDesarrollo%2FResoluci%C3%B3n%20de%20incidencias%2FTemis%2FPermisos%20usuarios%2F1630070677719-155.png?200|1630070677719-155.png}}{{/dokuwiki/!ssdj/lib/exe/fetch.php?tok=8c9b01&media=https%3A%2F%2Fxwiki.justicia.junta-andalucia.es%2Fxwiki%2Fbin%2Fdownload%2FQueHacemos%2FDesarrollo%2FResoluci%C3%B3n%20de%20incidencias%2FTemis%2FSubir%20manuales%2F1630071101270-146.png?200|1630071101270-146.png}}**2. **En la pantalla que nos aparece a continuación puede que nos aparezcan manuales que hayan actualmente publicados, los eliminamos si están obsoletos seleccionándolos y pulsando en '**Borrar**'. {{/dokuwiki/!ssdj/lib/exe/fetch.php?tok=175610&media=https%3A%2F%2Fxwiki.justicia.junta-andalucia.es%2Fxwiki%2Fbin%2Fdownload%2FQueHacemos%2FDesarrollo%2FResoluci%C3%B3n%20de%20incidencias%2FTemis%2FSubir%20manuales%2F1630071222783-459.png?200|1630071222783-459.png}}**3.** Para subir el nuevo manual pulsamos en '**Nuevo**', rellenamos los siguientes campos y aceptamos. {{/dokuwiki/!ssdj/lib/exe/fetch.php?tok=36e1d6&media=https%3A%2F%2Fxwiki.justicia.junta-andalucia.es%2Fxwiki%2Fbin%2Fdownload%2FQueHacemos%2FDesarrollo%2FResoluci%C3%B3n%20de%20incidencias%2FTemis%2FSubir%20manuales%2F1630071284954-767.png?200|1630071284954-767.png}}{{/dokuwiki/!ssdj/lib/exe/fetch.php?w=574&h=175&tok=1c4e07&media=https%3A%2F%2Fxwiki.justicia.junta-andalucia.es%2Fxwiki%2Fbin%2Fdownload%2FQueHacemos%2FDesarrollo%2FResoluci%C3%B3n%20de%20incidencias%2FTemis%2FSubir%20manuales%2F1630071339590-253.png?200|1630071339590-253.png}}Los usuarios que entren a esta aplicación ya podrán ver el manual en '**Descarga Manuales**'. {{/dokuwiki/!ssdj/lib/exe/fetch.php?tok=e7a25b&media=https%3A%2F%2Fxwiki.justicia.junta-andalucia.es%2Fxwiki%2Fbin%2Fdownload%2FQueHacemos%2FDesarrollo%2FResoluci%C3%B3n%20de%20incidencias%2FTemis%2FSubir%20manuales%2F1630071446888-481.png?200|1630071446888-481.png}}**Ejemplo de incidencia Remedy
+
+\\
+713642
+
+\\
+//==== Permisos por organismo  ==== // **Descripción de la incidencia** : Se solicita dar acceso a través del **Escritorio Judicial** a todos los perfiles Jueces/Magistrados, Letrados/Secretarios y por órganos a todos los miembros de órganos judiciales a la aplicación Arconte Gestión. Temis solo permite dar por **Usuario**, **Cargo**, **Cargo - Organismo**, **Cargo - Tipo Organismo**,** Provincia**. **Solución:** En **SUPERCARGOS **de **TEMIS **hemos añadido uno: Después en la tabla **SUPERCARGO_P_CARGO** se ha relacionado el **SUPERCARGO** nuevo con los cargos que se indicaban (Auxilio Judicial, Tramitacion Procesal, Gestion Procesal): Finalmente, en **Mantenimiento Temis**, por **CARGO - TIPO ORGANISMO**, hemos buscado Todos los juzgados, TSJ y Audiencia y se lo hemos asignado. **Ejemplo de incidencia Remedy** IN0000001238683
+
+\\
+//==== Alta usuario  ==== //
+
+\\
+**Descripción de la incidencia: El usuario solicita alta en HERMES o en Escritorio Judicial. Es el mismo proceso para los dos casos ya que para dar de alta a un usuario en la aplicación Hermes, debe crearse primero en Temis (si el usuario no es externo) debido a la sincronización nocturna Temis - Hermes. **Solución:
+
+\\
+**1.** Para dar de alta en TEMIS a nuevos usuarios, entramos en el** Escritorio Judicial > Mantenimiento Temis**. En el menú de la izquierda pulsamos sobre la opción '**Usuarios**', seleccionamos su partido Judicial, organismo y tipo, a continuación pulsamos en '**Nuevo**'
+
+\\
+{{/dokuwiki/!ssdj/lib/exe/fetch.php?tok=53eee8&media=https%3A%2F%2Fxwiki.justicia.junta-andalucia.es%2Fxwiki%2Fbin%2Fdownload%2FQueHacemos%2FDesarrollo%2FResoluci%C3%B3n%20de%20incidencias%2FTemis%2FAlta%20usuario%2F1630072494616-275.png?200|1630072494616-275.png}}
+
+\\
+**2. **Se abrirá una ventana como esta, en la que rellenaremos todos los campos que se requieran y pulsamos en "**Aceptar**".:
+
+\\
+{{/dokuwiki/!ssdj/lib/exe/fetch.php?tok=058b96&media=https%3A%2F%2Fxwiki.justicia.junta-andalucia.es%2Fxwiki%2Fbin%2Fdownload%2FQueHacemos%2FDesarrollo%2FResoluci%C3%B3n%20de%20incidencias%2FTemis%2FAlta%20usuario%2F1630072596988-714.png?200|1630072596988-714.png}}
+
+\\
+Para **consultar** los datos de un usuario hay que acceder al menú '**Usuarios**', desde ahí podremos buscar por datos concretos del usuario (ID o DNI sin letra, nombre o apellidos) o por los usuarios que hay en un organismo:
+
+\\
+consulta.bmp
+
+\\
+**Ejemplo de incidencia Remedy 715564 //==== Solicitud baja  ==== //** Descripción de la incidencia:
+
+\\
+Si nos llega una petición de baja definitiva de varios usuarios, se hace ejecutando un script.
+
+\\
+Si la baja es de un usuario, se asigna al **CAU** que se encargue de ello.
+
+\\
+**Solución: Para dar de baja a varios usuarios en Temis, sin tener que hacerlo uno a uno por la aplicación, solicitamos a sistemas ejecución del siguiente script, pero primero hay que: Buscar x_usuario/s y ponerlos en la línea: WHERE x_usuario in (….) y poner el nº de incidencia en el campo observaciones (T_OBSERVACIONES): //**DECLARE**// //** CURSOR c_usuarios**// //** IS**// //** SELECT * FROM temis.usuarios_global WHERE x_usuario in (** ////**X_USUARIO1** ////**, ** ////**X_USUARIO2** ////**, ** ////**X_USUARIO3** ////**, ** ////**X_USUARIO4…** ////**);**// //**BEGIN**// //** FOR r_usuarios IN c_usuarios LOOP**// //** UPDATE temis.usuarios_global**// //** SET f_baja = SYSDATE, t_observaciones = '** ////**Inc. XXXXX'**// //** WHERE x_usuario = r_usuarios.x_usuario;**// **//– Se inserta en temis el puesta dado de baja//// INSERT INTO usuario_puesto(x_usuario_puesto,usu_x_usuario,org_x_organismo,cgo_x_cargo,f_alta,f_baja,t_observaciones, cuo_x_cuerpo, d_categoria_personal,d_motivo_cese,l_puesto_principal,d_historico)////– se pone 1 para que compile, revisar permisos sobre la secuencia SQ_USUARIO_PUESTO.nextval//// SELECT SQ_USUARIO_PUESTO.nextval, u.x_usuario, u.org_x_organismo, u.car_x_cargo, u.f_alta, u.f_baja, u.t_observaciones, u.cuo_x_cuerpo, u.d_categoria_personal, u.d_motivo_cese, 'S' l_puesto_principal,'H' d_historico//// FROM temis.usuarios_global u//// WHERE u.x_usuario = r_usuarios.x_usuario;////dbms_output.put_line('Usuario y fecha de la baja :'||r_usuarios.x_usuario|| ' - '|| sysdate);//// COMMIT;//// END LOOP;////EXCEPTION//// WHEN OTHERS THEN//// dbms_output.put_line('Error en no controlado: '|| SQLERRM);//// ROLLBACK;////END;// Ejemplo de incidencia Remedy:** IN0000001095085 //\\
+==== Solicitan reactivar un usuario que ha sido "anulado" por error  ==== //** Descripción:** Solicitan desde CAU u otro departamento la **reactivación de un usuario **que por error ha sido "**anulado**", y no lo pueden reactivar con el botón "Activar" en Mantenimiento Temis: Solicitan reactivar un usuario que ha sido Nota: La "anulación" de un usuario se realiza mediante el botón "**Borrar**", el cual hace un "**borrado lógico**" del usuario en Temis, por lo que aunque se realice dicha acción, **el registro del usuario sigue existiendo en BBDD**. **Explicación:** Los registros de los usuario de Mantenimiento Temis se encuentran en la BBDD "**PROD02**", esquema "**TEMIS**", tabla "**USUARIOS_GLOBAL**". Los usuarios que tienen en el campo "**L_ANULADO**" el valor "**S**", aparecerán en Mantenimiento Temis con el estado "**Anulado**". Al ser anulados también pueden haber registrado el motivo de su anulación en el campo "**D_MOTIVO_CESE**". **Solución:1. **Se accede a la BBDD "**PROD02**", esquema "**TEMIS**", tabla "**USUARIOS_GLOBAL**" y se busca el registro del usuario mediante su **ID de usuario Temis** (el cual suele ser el que aparece en los datos del usuario en Remedy, que es su DNI sin letra): //**select * from temis.usuarios_global where t_usuario='** ////**** ////**';**// **2. **Si el campo "**L_ANULADO**" del registro del usuario tiene el valor "**S**", se obtiene el valor del campo "**X_USUARIO**" y se hace **copia de seguridad** del registro: //**select * from temis.usuarios_global where x_usuario='** ////**** ////**';**// Importante: Si el campo "**D_MOTIVO_CESE**"**tiene valor**, también se debe **modificar en el update **que realizaremos en el siguiente paso. **3. **Se crea el **script de update** que le pondrá**valor nulo** a los campos "**L_ANULADO**" y "**D_MOTIVO_CESE**" (este último en el caso de que tuviese algún valor): //**BEGIN**// //**update TEMIS.USUARIOS_GLOBAL set ** ////**L_ANULADO = NULL** ////**, ** ////**D_MOTIVO_CESE = NULL** ////** where x_usuario='** ////**** ////**';**// //**COMMIT;**// //**EXCEPTION**// //** WHEN OTHERS**// //** THEN**// //** ROLLBACK;**// //** DBMS_OUTPUT.put_line ('Error ' || SQLCODE || ' ' || SQLERRM);**// //**END;**// //**/**// **4. Se ejecuta el script**, se comprueba que se han modificado correctamente el/los campos del registro del usuario, **se adjunta** el script a la incidencia y se le indica al solicitante: //Se ha activado al usuario //////// (//////>) en Temis.// //** \\ \\
+INCIDENCIAS: **IN0000001788633, IN0000001614798**
+
+\\
+//==== Modificar identificador de un usuario  ==== //
+
+\\
+**Descripción:**
+
+\\
+Nos solicitan modificar el **identificador de un usuario en Temis**, bien porque sea erróneo o porque el actual tiene una nomenclatura antigua (Ej: ius21863).
+
+\\
+**Solución:**
+
+\\
+**1. Se revisa quién lo solicita y se consulta con el equipo de Explotación o Coordinación si debemos realizarlo.**
+
+\\
+**2. **Se revisa que el identificador que se le va a establecer ("**T_USUARIO**") no lo tiene ya otro usuario:
+
+\\
+//**select * from TEMIS.USUARIOS_GLOBAL where T_USUARIO='** ////**** ////**';** //
+
+\\
+Nota: El identificador que suelen tener los usuarios con nomenclatura actual es su **DNI sin letra**.
+
+\\
+**3. **En el caso de que el identificador no lo tenga ningún otro usuario, se hace **copia de seguridad del registro actual del usuario** a modificar:
+
+\\
+//**select * from TEMIS.USUARIOS_GLOBAL where T_USUARIO='** ////**** ////**';** //
+
+\\
+**4. **Se realiza el **update **que modificará el identificador ("**T_USUARIO**") del usuario:
+
+\\
+//**BEGIN** //
+
+\\
+//**UPDATE TEMIS.USUARIOS_GLOBAL SET T_USUARIO = '** ////**** ////**' WHERE T_USUARIO = '** ////**** ////**';** //
+
+\\
+//**if sql%rowcount<> 1 then** //
+
+\\
+//**raise_application_error(-20000, 'Error');** //
+
+\\
+//**end if;** //
+
+\\
+//**dbms_output.put_line('Ejecución correcta');** //
+
+\\
+//**EXCEPTION** //
+
+\\
+//**WHEN OTHERS** //
+
+\\
+//**THEN** //
+
+\\
+//**ROLLBACK;** //
+
+\\
+//**DBMS_OUTPUT.put_line ('Error ' || SQLCODE || ' ' || SQLERRM);** //
+
+\\
+//**END;** //
+
+\\
+//**/** //
+
+\\
+**INCIDENCIAS:** IN0000001790868**//==== Alta Festivo  ==== //** Descripción de la incidencia:
+
+\\
+Nos indican que no existe el día festivo en HERMES para una municipio en concreto.
+
+\\
+**Solución: Para dar de alta en TEMIS a nuevos Festivos, entramos en el **Escritorio Judicial > Mantenimiento Temis**, en el menú de la izquierda pulsamos sobre la opción '**Festivos**', seleccionamos tipo de festivo, por ejemplo 'Fiesta Local', partido judicial y la fecha entre la que corresponde la festividad, a continuación pulsamos en '**Importar festivos**': {{/dokuwiki/!ssdj/lib/exe/fetch.php?tok=e3309c&media=https%3A%2F%2Fxwiki.justicia.junta-andalucia.es%2Fxwiki%2Fbin%2Fdownload%2FQueHacemos%2FDesarrollo%2FResoluci%C3%B3n%20de%20incidencias%2FTemis%2FAlta%20Festivo%2F1630073873885-311.png?200|1630073873885-311.png}} También podemos realizarlo por base de datos, con usuario que tenga permiso de escritura sobre la tabla **TEMIS **en **PROD02**. **1. **Consultamos el código del municipio (**X_MUNICIPIO**): //** SELECT * FROM TEMIS.MUNICIPIOS WHERE T_MUNICIPIO LIKE '%********%';**// **2. **Consultamos si ya existe el día festivo a insertar para éste municipio, consultando por el "**X_MUNICIPIO**" obtenido anteriormente: //**SELECT * FROM TEMIS.FESTIVOS WHERE mun_X_MUNICIPIO = ********;**// **A.** Para insertar el día festivo, debemos realizar la siguiente sentencia: **// SET DEFINE OFF;//// Insert into FESTIVOS// \\ \\
+//(TFE_X_TIPO_FESTIVO, F_FECHA_FESTIVO, T_DESC_FESTIVO, MUN_X_MUNICIPIO)// \\ \\
+//Values// \\ \\
+//(3, TO_DATE('////XX/XX/XXXX//// 00:00:00', 'MM/DD/YYYY HH24:MI:SS'), '////////', ////////);// B. **Para modificar la fecha de un festivo se debe realizar la siguiente sentencia: **// UPDATE TEMIS.FESTIVOS SET F_FECHA_FESTIVO = '////XX/XX/XXXX////' WHERE X_FESTIVO = ////////; //** Una vez ejecutada y realizado el 'COMMIT' (Hay que solicitar ejecución de script a sistemas en Temis PROD02), les aparecerá el festivo insertado o modificado a los usuarios del municipio, en la aplicación Hermes aparecerá al día siguiente, ya que la sincronización Temis-Hermes se realiza por la noche. //==== Organismo con puestos no cubiertos  ==== //** Descripción de la incidencia:
+
+\\
+Existen puestos en uno o varios organismos que no están cubiertos en Temis.
+
+\\
+**Nota**: Este tipo de incidencias nos la reasigna el CAU una vez que ha confirmado que cargo ocupa cada persona en el órgano Judicial.
+
+\\
+**Solución: Entramos a **Mantenimiento Temis**, "**Usuarios**", seleccionamos el partido judicial, organismo y realizamos la busqueda del usuario a modificar el cargo. En caso de que éste usuario ya no se encuentre en el organismo (como nos indiquen en la incidencia) se modifica, se da de baja, etc. **Ejemplo de incidencia Remedy
+
+\\
+//698644//
+
+\\
+//==== Temis no permite cambiar los datos de un usuario  ==== //
+
+\\
+**Descripción de la incidencia: Al intentar cambiar algún dato de un usuario en Temis, al guardar la información modificada, nos aparece un mensaje parecido a este: {{/dokuwiki/!ssdj/lib/exe/fetch.php?tok=968254&media=https%3A%2F%2Fxwiki.justicia.junta-andalucia.es%2Fxwiki%2Fbin%2Fdownload%2FQueHacemos%2FDesarrollo%2FResoluci%C3%B3n%20de%20incidencias%2FTemis%2FTemis%20no%20permite%20cambiar%20los%20datos%20de%20un%20usuario.%2FWebHome%2F1614671403916-401.png?200|1614671403916-401.png}}**Solución:
+
+\\
+Esto puede deberse a que en la tabla de USUARIOS_GLOBAL del esquema TEMIS en la base de datos PROD02 el usuario tiene el campo T_TIPO vacío.
+
+\\
+**1.** Primero comprobamos el valor de dicho campo buscándolo a partir del NIF del usuario afectado:
+
+\\
+//**select T_TIPO from TEMIS.USUARIOS_GLOBAL where T_NIF = '** ////**** ////**';** //
+
+\\
+**2.** En el caso de estar vacío, buscamos o solicitamos al usuario afectado el NIF de un compañero con puesto similar, e introducimos en el campo T_TIPO del usuario afectado el valor que contenga el mismo campo del usuario compañero:
+
+\\
+//**update TEMIS.USUARIOS_GLOBAL set T_TIPO = '** ////**** ////**' where T_NIF = '** ////**** ////**';** //
+
+\\
+**3.** Realizamos el COMMIT y ya deberíamos poder modificar los datos del usuario mediante TEMIS sin problema.
+
+\\
+**Ejemplo de incidencia Remedy**
+
+\\
+**IN0000001634535**
+
+\\
+//==== Error al introducir una IPVPN1v4 en un usuario  ==== //
+
+\\
+**Descripción:**
+
+\\
+Al intentar insertar o modificar el campo **IPVPN1V4 de un usuario en Mantenimiento Temis**, la aplicación da un error (Se ha producido un error en la aplicación. Póngase en contacto con el administrador.):
+
+\\
+{{/dokuwiki/!ssdj/lib/exe/fetch.php?tok=d4e7c5&media=https%3A%2F%2Fxwiki.justicia.junta-andalucia.es%2Fxwiki%2Fbin%2Fdownload%2FQueHacemos%2FDesarrollo%2FResoluci%C3%B3n%20de%20incidencias%2FTemis%2FError%20al%20intentar%20introducir%20una%20IPVPN1v4%20en%20el%20registro%20de%20un%20usuario.%2FWebHome%2F1623138787219-146.png?200|1623138787219-146.png}}
+
+\\
+{{/dokuwiki/!ssdj/lib/exe/fetch.php?tok=6bfd27&media=https%3A%2F%2Fxwiki.justicia.junta-andalucia.es%2Fxwiki%2Fbin%2Fdownload%2FQueHacemos%2FDesarrollo%2FResoluci%C3%B3n%20de%20incidencias%2FTemis%2FError%20al%20intentar%20introducir%20una%20IPVPN1v4%20en%20el%20registro%20de%20un%20usuario.%2FWebHome%2F1623138822627-862.png?200|1623138822627-862.png}}
+
+\\
+**Explicación:**
+
+\\
+Este error se produce porque el valor que se está introduciendo en el campoIPVPN1V4 ya lo tiene establecido otro usuario, y dicho campo debe tener un valor único, que no se repita en otro registro.
+
+\\
+{{/dokuwiki/!ssdj/lib/exe/fetch.php?tok=8c7df0&media=https%3A%2F%2Fxwiki.justicia.junta-andalucia.es%2Fxwiki%2Fbin%2Fdownload%2FQueHacemos%2FDesarrollo%2FResoluci%C3%B3n%20de%20incidencias%2FTemis%2FError%20al%20intentar%20introducir%20una%20IPVPN1v4%20en%20el%20registro%20de%20un%20usuario.%2FWebHome%2F1623140719552-468.png?200|1623140719552-468.png}}
+
+\\
+**Solución:**
+
+\\
+Se comprueba en la base de datos **PROD02**, esquema **TEMIS**, tabla **USUARIOS_GLOBAL**, si el valor introducido en la columna **T_IPVPN1V4 **lo tiene ya establecido algún usuario:
+
+\\
+**//select * from TEMIS.USUARIOS_GLOBAL where T_IPVPN1V4='// ****//// ****//';//** Si la consulta devuelve algún registro, es que ya se le estableció esa IPv4 a otro usuario, por lo que se le debe asignar otra diferente. **Ejemplo de incidencia Remedy:**** IN0000001684123**
+
+\\
+//==== Recodificación en Adriano de un procedimiento  ==== //
+
+\\
+**Descripción de la incidencia: Cuando desde procesal soliciten la recodificacion en Adriano de un procedimiento. Como por ejemplo: "Para tener en cuenta en las aplicaciones que manejen el dato de Tipo Procedimiento de Adriano, se informa que se ha recodificado en ADRIANO el procedimiento **SUS** =**Proc.suspens admva previa de acuerdos (127 LJ) **en **JCONTEN/ SCONTEN** como **PSP** (código éste del Test de Compatibilidad para este tipo de procedimiento)". **Solución:
+
+\\
+Accedemos al Escritorio Judicial con nuestro usuario y contraseña, seleccionamos 'Mantenimiento Temis', en el menú de la izquierda pulsamos sobre la opción 'Procedimientos', seleccionamos '**Contencioso Administrativo**', pulsamos el botón 'Tipo de Procedimiento', seleccionamos el que tiene código '**SUS**' y descripción '**Proc.suspens admva previa de acuerdos (127 LJ)**' pulsamos en modificar y asignamos fecha fin de Vigencia el día en el que nos llega ésta petición. Marcamos Borrar 'No' y aceptamos el cambio. Esto se hace para no eliminar el procedimiento.
+
+\\
+A continuación pulsamos en 'nuevo' para crear el nuevo procedimiento con Código **'PSP**' misma descripción que el '**SUS**' (**Proc.suspens admva previa de acuerdos (127 LJ**) y 'Fecha Inicio Vigencia' el día de la solicitud.
+
+\\
+Se realizan los mismos pasos para el procedimiento: **T.S.J. (Cont.Adm).**
+
+\\
+Una vez realizado, se reasigna al departamento solicitante y se informa del proceso realizado:
+
+\\
+//"En los procedimientos: \\ \\
+'Contencioso Administrativo' y 'T.S.J. (Cont.Adm.)' \\ \\
+Se ha dado fecha fin vigencia 31/03/2013 a los tipos: \\ \\
+Proc.suspens admva previa de acuerdos (127 LJ) con código 'SUS'. \\ \\
+Así mismo, se ha dado de alta los tipos de procedimientos con código 'PSP' con descripicón 'Proc.suspens admva previa de acuerdos (127 LJ)' con fecha inicio vigencia 01/04/2013."//
+
+\\
+**Ejemplo de incidencia Remedy 743602 //\\
+==== Lista de usuarios con permisos en determinada aplicación  ==== //** Petición:** Nos solicitan la lista de usuarios que tienen acceso o permisos para determinada aplicación. **Solución:1. **Accedemos a la BBDD "**PROD02**", esquema "**TEMIS**". **2. **Obtenemos el "**X_APLICACION**" de la aplicación que nos indica el solicitante, buscándolo por el **nombre de dicha aplicación**. //**select * from TEMIS.APLICACIONES where t_aplicacion like '%** ////**** ////**%';**// Nota: Si se desea saber los **roles **disponibles en la aplicación, podemos consultarlos mediante el "**X_APLICACION**" obtenido anteriormente: //**select * from TEMIS.rol_aplicacion where apl_x_aplicacion='** ////**** ////**';**// **3. **Con el "**X_APLICACION**" podremos consultar: **A.** Los usuarios con permisos otorgados de forma "**manual**" para la aplicación: //**select * \\ \\
+from temis.aplicaciones apli, TEMIS.ROL_aplicacion rolapli, TEMIS.ROL_USUARIO rolusu, temis.usuarios_global usu \\ \\
+where apli.x_aplicacion = '** ////**'** // \\ \\
+//**and ROLAPLI.APL_X_APLICACION = APLI.X_APLICACION \\ \\
+and ROLUSU.RLA_X_ROLAPLICACION = ROLAPLI.X_ROLAPLICACION \\ \\
+and USU.X_USUARIO = ROLUSU.USU_X_USUARIO;**// **B. **Los usuarios con permisos otorgados, **tanto manualmente como por cargo, organismo, provincia, etc**, para la aplicación (con un formato de presentación en Excel ya establecido): //**SELECT m.t_municipio MUNICIPIO, o.t_organismo ORGANISMO, c.d_cargo CARGO,SUBSTR(MIN(ROL), 2) AS ACCESO, u.T_NIF||u.T_LETRANIF NIF, roles.t_nombre NOMBRE, roles.t_apellidos APELLIDOS \\ \\
+from \\ \\
+[[#fn__1|1)]] roles, \\ \\
+ROL_APLICACION ra, usuarios u, organismos o, municipios m, cargos c, aplicaciones apl \\ \\
+where roles.apl_x_aplicacion = ra.apl_x_aplicacion \\ \\
+and ra.apl_x_aplicacion=apl.x_aplicacion \\ \\
+and roles.apl_x_aplicacion in ('** ////**** ////**') \\ \\
+and u.x_usuario = roles.x_usuario \\ \\
+and u.car_x_cargo = c.x_cargo \\ \\
+and u.f_baja is null** // \\ \\
+//**/*and u.t_usuario in (select t_usuario from usuarios \\ \\
+where org_x_organismo in ( \\ \\
+select x_organismo from organismos \\ \\
+where c_organismo in ('1102045001','1102044001','1102044002','1102044003','1102044000','1102045000')) –Usuarios de los organismos deseados \\ \\
+and f_baja is null)*/** // \\ \\
+//**and (u.L_ANULADO is null or u.l_anulado = 'N') \\ \\
+and u.org_x_organismo = o.x_organismo \\ \\
+and o.mun_x_municipio = m.x_municipio \\ \\
+GROUP BY u.T_NIF||u.T_LETRANIF ,roles.t_apellidos, roles.t_nombre,o.t_organismo, m.t_municipio, apl.t_aplicacion, c.d_cargo \\ \\
+order by T_MUNICIPIO ;**// **INCIDENCIAS: **IN0000001779892**
+
+\\
+//==== Distribución de tablas de procedimientos  ==== //
+
+\\
+Desde TEMIS (PROD02):
+
+\\
+//**DECLARE** //
+
+\\
+//**v_resultado number;** //
+
+\\
+//**v_mensaje varchar2(300);** //
+
+\\
+//**BEGIN** //
+
+\\
+//**pdistribuir_tip_proc(v_resultado, v_mensaje);** //
+
+\\
+//**END;** //
+
+\\
+//==== Crear redes en Temis  ==== //
+
+\\
+Para crear redes en Temis, se accede a la herramienta a través de Escritorio Judicial.
+
+\\
+**1. **Una vez dentro de **Mantenimiento Temis**, se accede al apartado de "**Redes**".
+
+\\
+{{/dokuwiki/!ssdj/lib/exe/fetch.php?tok=d86db0&media=https%3A%2F%2Fxwiki.justicia.junta-andalucia.es%2Fxwiki%2Fbin%2Fdownload%2FQueHacemos%2FDesarrollo%2FResoluci%C3%B3n%20de%20incidencias%2FTemis%2FCrear%20redes%20en%20Temis%2FWebHome%2F1611927803519-160.png?200|1611927803519-160.png}}
+
+\\
+**2. **Al acceder a este apartado, escogemos provincia, municipio y edificio asociado al que estará la nueva red, y seleccionamos "**Nuevo**".
+
+\\
+{{/dokuwiki/!ssdj/lib/exe/fetch.php?tok=ab3075&media=https%3A%2F%2Fxwiki.justicia.junta-andalucia.es%2Fxwiki%2Fbin%2Fdownload%2FQueHacemos%2FDesarrollo%2FResoluci%C3%B3n%20de%20incidencias%2FTemis%2FCrear%20redes%20en%20Temis%2FWebHome%2F1630074975829-849.png?200|1630074975829-849.png}}
+
+\\
+**3.** Se rellenan los datos del formulario y se guarda.
+
+\\
+{{/dokuwiki/!ssdj/lib/exe/fetch.php?tok=0a4c1d&media=https%3A%2F%2Fxwiki.justicia.junta-andalucia.es%2Fxwiki%2Fbin%2Fdownload%2FQueHacemos%2FDesarrollo%2FResoluci%C3%B3n%20de%20incidencias%2FTemis%2FCrear%20redes%20en%20Temis%2FWebHome%2F1630075009117-820.png?200|1630075009117-820.png}}
+
+\\
+Antes de configurar la nueva red, se deberá pedir a **Sistemas > GTSR** la información relativa a esta para poder rellenar los datos.
+
+\\
+**Ejemplo de incidencia:**
+
+\\
+//IN0000001594074//
+
+\\
+//==== SINCRONIZA ROE RESTO APP  ==== //
+
+\\
+**Accedemos a PROD02 con el usuario TEMIS para ver el procedure:**
+
+\\
+CREATE OR REPLACE PROCEDURE TEMIS.SINCRONIZA_ROE_RESTO_APP IS
+
+**//– Otras aplicaciones distintas de PROADRIANO que tienen registros en ROE. Para revisar si están sincronizadas//** ———————————————————————————————————————————————————————————————————-
+
+\\
+CURSOR c_otras IS
+
+\\
+SELECT DISTINCT roe.c_aplicacion, apl.x_aplicacion
+
+\\
+FROM (SELECT apl.x_aplicacion, apl.c_aplicacion, apl.t_aplicacion, org.x_organismo, org.c_organismo, org.t_organismo, mun.x_municipio
+
+\\
+, mun.t_municipio, pro.x_provincia, pro.c_provincia, pro.t_provincia, edi.x_edificio, edi.t_edificio, roe.x_org_apl_esq
+
+\\
+, roe.org_x_organismo, roe.jur_c_jurisdiccion, roe.apl_x_aplicacion, roe.esq_x_esquema, roe.t_path1, roe.t_path2
+
+\\
+, roe.t_path_servacuse, roe.t_path_rutaslexnet, roe.t_path_binarios, roe.t_path_central_recibidos, roe.t_path_central_emitidos
+
+\\
+, esq.esquema, bd.x_base_datos, bd.base_datos, bd.puerto, bd.SID, bd.db_link, s.id_servidor, s.servidor, s.dominio, s.ip
+
+\\
+, j.t_jurisdiccion, torg.x_tiporg, torg.c_tiporg, torg.t_tiporg, roe.l_iniciador, roe.l_tramite, roe.l_notificacion, roe.l_acuse
+
+\\
+, roe.l_firma, roe.f_actualizacion, j.x_jurisdiccion
+
+\\
+FROM red_organismo_esquema roe
+
+\\
+, esquemas esq
+
+\\
+, bases_datos bd
+
+\\
+, servidores s
+
+\\
+, organismos org
+
+\\
+, municipios mun
+
+\\
+, provincias pro
+
+\\
+, edificios edi
+
+\\
+, aplicaciones apl
+
+\\
+, jurisdiccion j
+
+\\
+, tipo_organismo torg
+
+\\
+WHERE bd.b_x_servidor = s.id_servidor( + )
+
+\\
+AND roe.esq_x_esquema = esq.x_esquema( + )
+
+\\
+AND esq.e_x_base_datos = bd.x_base_datos( + )
+
+\\
+AND roe.org_x_organismo( + ) = org.x_organismo
+
+\\
+AND roe.apl_x_aplicacion = apl.x_aplicacion
+
+\\
+AND org.mun_x_municipio = mun.x_municipio
+
+\\
+AND mun.pro_x_provincia = pro.x_provincia
+
+\\
+AND org.edi_x_edificio = edi.x_edificio( + )
+
+\\
+AND roe.jur_c_jurisdiccion = j.c_jurisdiccion
+
+\\
+AND torg.x_tiporg = org.tor_x_tiporg
+
+\\
+) roe, aplicaciones apl
+
+\\
+WHERE roe.c_aplicacion = apl.c_aplicacion
+
+\\
+AND apl.c_aplicacion != 'PROADRIANO'
+
+\\
+–AND apl.c_aplicacion in ('CENDOJ')/* Se descomenta para probar en otros entornos de PRODUCCIóN*/
+
+\\
+;
+
+– **Roe de Adriano ** –
+
+CURSOR c_roe
+
+\\
+IS
+
+\\
+SELECT *
+
+\\
+FROM roe_extendido
+
+\\
+WHERE c_aplicacion = 'PROADRIANO';
+
+//**– Borrados de ROE de aplicaciones no PROADRIANO que no están en Red organismos_esquema –**// ———————————————————————————————————————————————————————————————————-
+
+\\
+CURSOR C_BORRADO ( pc_x_aplicacion IN NUMBER) – Id de la aplicación a revisar.
+
+\\
+IS
+
+\\
+SELECT *
+
+\\
+FROM (SELECT org_x_organismo, jur_c_jurisdiccion, apl_x_aplicacion, esq_x_esquema
+
+\\
+FROM red_organismo_esquema
+
+\\
+WHERE apl_x_aplicacion = pc_x_aplicacion
+
+\\
+MINUS
+
+\\
+SELECT org_x_organismo, jur_c_jurisdiccion, pc_x_aplicacion, esq_x_esquema
+
+\\
+FROM roe_extendido
+
+\\
+WHERE c_aplicacion = 'PROADRIANO'
+
+\\
+);
+
+\\
+v_existe NUMBER:=0;
+
+\\
+v_roe_adriano NUMBER:=0;
+
+\\
+v_red_org_esq NUMBER:=0;
+
+\\
+v_merge NUMBER:=0;
+
+\\
+v_matched NUMBER:=0;
+
+\\
+v_merge_org NUMBER:=0;
+
+\\
+v_borrados_org NUMBER:=0;
+
+\\
+BEGIN
+
+\\
+DBMS_OUTPUT.ENABLE (buffer_size ⇒ NULL);
+
+\\
+**– Obtenemos los esquemas activos en ROE de Adriano.**
+
+\\
+**//– Es la parte que se encuentra mantenida y se supone que es lo correct//o**
+
+\\
+//**– Desde aquí se extiende al resto de aplicaciones que no se mantienen.**// SELECT count( * )
+
+\\
+INTO v_roe_adriano
+
+\\
+FROM roe_extendido
+
+\\
+WHERE c_aplicacion = 'PROADRIANO' ;
+
+\\
+**– Recorremos una por una el resto de aplicaciones.** FOR r_otras IN c_otras LOOP
+
+\\
+dbms_output.put_line('—————————————————————————————');
+
+\\
+dbms_output.put_line('TRATANDO: ' || r_otras.c_aplicacion|| ' .X_aplic: '|| r_otras.x_aplicacion );
+
+\\
+dbms_output.put_line('—————————————————————————————');
+
+\\
+v_merge_org := 0;
+
+\\
+v_borrados_org := 0;
+
+\\
+FOR r_roe IN c_roe LOOP
+
+\\
+**— Revisamos que exista en otras aplicaciones** SELECT count( * )
+
+\\
+INTO v_existe
+
+\\
+FROM red_organismo_esquema
+
+\\
+WHERE apl_x_aplicacion = r_otras.x_aplicacion – Revisamos que exista en otras aplicaciones
+
+\\
+AND org_x_organismo = r_roe.org_x_organismo
+
+\\
+AND jur_c_jurisdiccion = r_roe.jur_c_jurisdiccion
+
+\\
+AND esq_x_esquema = r_roe.esq_x_esquema
+
+\\
+AND NVL(t_path1, 'X') = NVL(r_roe.t_path1, 'X')
+
+\\
+AND NVL(t_path2, 'X')= NVL(r_roe.t_path2, 'X')
+
+\\
+AND l_iniciador = r_roe.l_iniciador
+
+\\
+AND l_tramite = r_roe.l_tramite
+
+\\
+AND l_notificacion = r_roe.l_notificacion
+
+\\
+AND l_acuse = r_roe.l_acuse
+
+\\
+AND l_firma = r_roe.l_firma
+
+\\
+AND NVL(t_path_servacuse, 'X') = NVL(r_roe.t_path_servacuse, 'X')
+
+\\
+AND NVL(t_path_binarios, 'X') = NVL(r_roe.t_path_binarios, 'X')
+
+\\
+AND NVL(t_path_rutaslexnet, 'X')= NVL(r_roe.t_path_rutaslexnet, 'X')
+
+\\
+AND NVL(t_path_central_recibidos, 'X')= NVL(r_roe.t_path_central_recibidos,'X')
+
+\\
+AND NVL(t_path_central_emitidos, 'X') = NVL(r_roe.t_path_central_emitidos, 'X');
+
+\\
+**– Si la consulta devuelve 0 es que no existe un registro exactamente igual que el de Adriano.**
+
+\\
+**– No son exactamente igual (algún campo es distinto) >>> Actualizamos todos los campos.**
+
+\\
+**– No existe el registro ( no esta dado de alta) >>> Insertamos en BD**
+
+\\
+**– Si devuelve 1 es que existe un registro igual y no se ha de realizar ninguna acción.** IF v_existe = 0 THEN
+
+\\
+–dbms_output.put_line(' * No coincide Org: '||r_roe.org_x_organismo|| ' Jur: '|| r_roe.jur_c_jurisdiccion || ' X_apli: ' || r_otras.x_aplicacion|| ' Esq: ' || r_roe.esq_x_esquema);
+
+\\
+BEGIN
+
+\\
+MERGE INTO red_organismo_esquema org_esquema
+
+\\
+USING dual
+
+\\
+ON ( org_esquema.apl_x_aplicacion = r_otras.x_aplicacion
+
+\\
+AND org_esquema.org_x_organismo = r_roe.org_x_organismo
+
+\\
+AND org_esquema.jur_c_jurisdiccion = r_roe.jur_c_jurisdiccion
+
+\\
+AND org_esquema.esq_x_esquema = r_roe.esq_x_esquema
+
+\\
+)
+
+\\
+WHEN MATCHED THEN – ( EXISTE pero no es igual en RED_ORGANISMO_ESQUEMA)
+
+\\
+UPDATE SET t_path1 = r_roe.t_path1
+
+\\
+, t_path2 = r_roe.t_path2
+
+\\
+, l_iniciador = r_roe.l_iniciador
+
+\\
+, l_tramite = r_roe.l_tramite
+
+\\
+, l_notificacion = r_roe.l_notificacion
+
+\\
+, l_acuse = r_roe.l_acuse
+
+\\
+, l_firma = r_roe.l_firma
+
+\\
+, t_path_servacuse = r_roe.t_path_servacuse
+
+\\
+, t_path_rutaslexnet = r_roe.t_path_rutaslexnet
+
+\\
+, t_path_binarios = r_roe.t_path_binarios
+
+\\
+, t_path_central_recibidos = r_roe.t_path_central_recibidos
+
+\\
+, t_path_central_emitidos = r_roe.t_path_central_emitidos
+
+\\
+WHERE apl_x_aplicacion = r_otras.x_aplicacion – Revisamos que exista en otras aplicaciones
+
+\\
+AND org_x_organismo = r_roe.org_x_organismo
+
+\\
+AND jur_c_jurisdiccion = r_roe.jur_c_jurisdiccion
+
+\\
+AND esq_x_esquema = r_roe.esq_x_esquema
+
+\\
+WHEN NOT MATCHED THEN – (NO EXISTE ningún registro y lo que hacemos es insertarlo en RED_ORGANISMO_ESQUEMA)
+
+\\
+INSERT ( org_x_organismo, jur_c_jurisdiccion, apl_x_aplicacion, esq_x_esquema
+
+\\
+, t_path1, t_path2, f_actualizacion, l_iniciador, l_tramite, l_notificacion, l_acuse
+
+\\
+, l_firma, t_path_servacuse, t_path_rutaslexnet, t_path_binarios, t_path_central_recibidos
+
+\\
+, t_path_central_emitidos)
+
+\\
+VALUES( r_roe.org_x_organismo, r_roe.jur_c_jurisdiccion, r_otras.x_aplicacion, r_roe.esq_x_esquema
+
+\\
+, r_roe.t_path1, r_roe.t_path2, sysdate, r_roe.l_iniciador, r_roe.l_tramite, r_roe.l_notificacion, r_roe.l_acuse
+
+\\
+, r_roe.l_firma, r_roe.t_path_servacuse, r_roe.t_path_rutaslexnet, r_roe.t_path_binarios, r_roe.t_path_central_recibidos
+
+\\
+, r_roe.t_path_central_emitidos
+
+\\
+) ;
+
+\\
+EXCEPTION
+
+\\
+WHEN OTHERS THEN
+
+\\
+DBMS_OUTPUT.PUT_LINE('Error al actualizar los datos: '|| r_roe.org_x_organismo||' '|| r_roe.jur_c_jurisdiccion||' '||r_otras.x_aplicacion||' '||r_roe.esq_x_esquema|| ' > '||sqlcode || ' - '||sqlerrm);
+
+\\
+END;
+
+\\
+IF SQL%ROWCOUNT > 0 THEN
+
+\\
+v_merge:= v_merge + SQL%ROWCOUNT;
+
+\\
+v_merge_org:= v_merge_org + SQL%ROWCOUNT;
+
+\\
+END IF;
+
+\\
+–else
+
+\\
+–dbms_output.put_line(' * NO LO TRATA: '||r_roe.org_x_organismo|| ' Jur: '|| r_roe.jur_c_jurisdiccion || ' X_apli: ' || r_otras.x_aplicacion|| ' Esq: ' || r_roe.esq_x_esquema);
+
+\\
+END IF;
+
+\\
+END LOOP;
+
+\\
+DBMS_OUTPUT.PUT_LINE('Actualizados: ' || v_merge_org || ' registros');
+
+\\
+// //
+
+\\
+//—- —- —-//
+
+\\ \\
+\\ \\
+\\ \\
+\\ \\
+\\ \\
+\\ \\
+\\ \\
+\\ \\
+\\ \\
+\\ \\
+\\ \\
+\\ \\
+\\ \\
+\\ \\
+\\ \\
+\\ \\
+\\ \\
+\\ \\
+\\ \\
+\\ \\
+\\ \\
+\\ \\
+\\ \\
+\\ \\
+\\ \\
+\\
+
+\\
+[[#fnt__1|1)]]\\
+select ra.apl_x_aplicacion, u.x_usuario, u.t_nombre, u.t_apellidos, u.t_usuario, ra.t_codrol, 'A' || RA.T_DESCRIPCION AS ROL from usuarios u, rol_usuario ru, rol_aplicacion ra where u.x_usuario = ru.usu_x_usuario and ru.rla_x_rolaplicacion = ra.x_rolaplicacion) union (select ra.apl_x_aplicacion, u.x_usuario, u.t_nombre, u.t_apellidos, u.t_usuario, ra.t_codrol, 'B' || RA.T_DESCRIPCION AS ROL from usuarios u, rol_cargo_org rco, rol_aplicacion ra where u.car_x_cargo = rco.Cgo_X_CARGO and u.org_x_organismo = rco.org_x_organismo and rco.rla_x_rolaplicacion = ra.x_rolaplicacion) union (select ra.apl_x_aplicacion, u.x_usuario, u.t_nombre, u.t_apellidos, u.t_usuario, ra.t_codrol, 'C' || RA.T_DESCRIPCION AS ROL from usuarios u, rol_cargo rc, rol_aplicacion ra where u.car_x_cargo = rc.CAR_X_CARGO and rc.rla_x_rolaplicacion = ra.x_rolaplicacion) union (select ra.apl_x_aplicacion, u.x_usuario, u.t_nombre, u.t_apellidos, u.t_usuario, ra.t_codrol, 'D' || RA.T_DESCRIPCION AS ROL from usuarios u, rol_cargo_torg rct, rol_aplicacion ra, organismos o where u.car_x_cargo = rct.CTO_CGO_X_CARGO and u.org_x_organismo = o.x_organismo and o.tor_x_tiporg = rct.CTO_TOR_X_TIPORG and rct.rla_x_rolaplicacion = ra.x_rolaplicacion) union (select ra.apl_x_aplicacion, u.x_usuario, u.t_nombre, u.t_apellidos, u.t_usuario, ra.t_codrol, 'E' || RA.T_DESCRIPCION AS ROL from usuarios u, rol_provincia rp, organismos_global org, municipios mun, rol_aplicacion ra where u.org_x_organismo = org.x_organismo and org.mun_x_municipio = mun.x_municipio and mun.pro_x_provincia = rp.pro_x_provincia and rp.rla_x_rolaplicacion = ra.x_rolaplicacion
+
+

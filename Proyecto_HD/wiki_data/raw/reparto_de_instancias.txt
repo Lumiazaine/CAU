@@ -1,0 +1,25 @@
+﻿
+====== Reparto de Instancias BBDD SSCC ======
+
+===== Descripción =====
+
+Esta sección detalla el reparto de las distintas instancias de bases de datos en los entornos SSCC (Sistemas Centrales de Coordinación y Control), especificando qué instancia se encuentra en qué nodo o servidor, su rol principal y si está en configuración activa-pasiva o activa-activa.
+
+===== Ejemplo de Reparto por Nodo =====
+
+^Nodo  ^Instancia  ^Tipo BBDD  ^Rol  ^Observaciones  |
+|IUSSUBD01  |SSCC01  |Oracle  |Principal  |Activa en nodo 1  |
+|IUSSUBD02  |SSCC02  |Oracle  |Backup / Standby  |Standby de SSCC01  |
+|IUSSUBD03  |SSCC03  |SQL Server  |Producción  |Replica sincronizada  |
+|IUSSUBD04  |SSCC04  |Oracle  |Reporting  |Consultas pesadas programadas  |
+|IUSSUBD05  |CORREOS  |Oracle  |Notificaciones  |Maneja alertas y colas SMTP  |
+|IUSSUBDCAT01  |CAT_SSCC  |Oracle  |Catálogo  |Para búsquedas y metadatos  |
+
+===== Políticas de Distribución =====
+
+  * Cada par de nodos se configura para tener **alta disponibilidad (HA)**, con réplicas y/o standby según la criticidad.
+  * Las tareas programadas pesadas se distribuyen en nodos menos cargados para evitar impacto en operaciones.
+  * En caso de caída de una instancia, se permite **failover manual o automático**  según configuración.
+  * La monitorización (Zabbix/Nagios) notifica cualquier desvío de la configuración prevista.
+
+

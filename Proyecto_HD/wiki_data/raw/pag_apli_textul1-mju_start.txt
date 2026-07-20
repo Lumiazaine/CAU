@@ -1,0 +1,71 @@
+﻿
+<WRAP> 
+<panel type="primary" title="Textualización L1 (MJU)"> 
+
+Ofrecida la posibilidad por el Ministerio, este proyecto "piloto" consiste en textualizar los vídeos que se van creando en el repositorio de AUREA.
+
+Se nos ha puesto un límite de 2,500-3,000 minutos diarios, lo que es como un 10% de lo generado en un día normal (de L a J, los V se genera menos). Actualmente estoy viendo a cuánto puede llegar.
+
+La aplicación que utilizan es la misma que hemos contratado nosotros para nuestra textualización, de la empresa ETIQMEDIA.
+
+<WRAP> 
+<panel type="info" title="Descripción del mecanismo">
+
+Descripción técnica del mecanismo:
+
+  * A partir del contenido de la bd de AUREA, se localizan los últimos vídeos FIRMADOS, se extrae de ellos la pista de audio (.AAC), y se van colocando en un directorio junto con un fichero de control (.CTRL).
+  * El Mº llega a ese directorio por SFTP, recoge los audios y los trata, creando en el mismo directorio los subtítulos en varios formatos (.SRT, .VTT y _SUB.VTT)
+  * Recogemos esos subtítulos, los archivamos, y limpiamos los 5 ficheros.
+  * Todo se va logando en una tabla de PREPRO01.PROYECTO7_V2. Desde que se cuelgan los audios hasta cuando se recogen los subtítulos o nos llega un .JSON significando algún error en el tratamiento del Mº.
+  * Adjunto manual que nos envió el Mº para orientarnos sobre cómo lo debíamos montar.
+
+</panel>
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Infraestructura">
+  * Servidor donde corre todo: IUSSLP7TEXT01
+  * Directorio base: /opt/P7Text
+  * Script principal: /opt/P7Text/scripts/p7Text.sh, realiza volcado de audios y recogida de subtítulos.
+  * Usuario: root
+  * Usuario de SFTP para Mº: andaluciap7
+  * Usuario para acceder a los videos en IUSNAS05 por CIFS: servicios_test
+  * Base de datos PREPRO01, esquema P7TEXTMJU
+  * Base de datos de AUREA (PBDARCONTE), esquema P7TEXTMJU
+  * Todas las contraseña anteriores están en el KeePass de Desarrollo.
+  * Punto de montaje del repositorio de AUREA: /opt/P7Text/videos_salas. CIFS. Entrada correspondiente en /etc/fstab.
+  * Punto de montaje del repositorio de subtitulos: /opt/P7Text/subtitulos_salas. NFS. Entrada correspondiente en /etc/fstab.
+  * iusnas06:/ifs/data/NFS-zone/P7_Text_MJU    10G  7.0G  3.1G  70% /opt/P7Text/subtitulos_salas
+  * iusnas05/AureaProVideos2/N1/002/videos  180T  136T   45T  76% /opt/P7Text/videos_salas
+
+</panel>
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Crontab y scripts">
+**Crontab**
+
+25,55 00,01,02,03,04,05,06,07,09,10,11,12,13,15,16,17,18,19,21,22,23 * * * /opt/P7Text/scripts/P7Text.sh > /dev/null
+25,55 08,14,20 * * * /opt/P7Text/scripts/P7Text.sh | /usr/bin/mailx -s "P7TextL1 Job" -r notificaciones.desaexplo.ius@juntadeandalucia.es notificaciones.desaexplo.ius@juntadeandalucia.es
+
+01 00 * * * /opt/P7Text/scripts/P7Text-stats.sh | /usr/bin/mailx -s "P7TextL1 Stats" -r notificaciones.desaexplo.ius@juntadeandalucia.es notificaciones.desaexplo.ius@juntadeandalucia.es
+
+**Scripts**
+
+Última versión en el servidor (14-03-24)
+
+{{ :pag_apli:textul1-mju:scripts_textualizacion_l1.zip |}}
+
+  * /opt/P7Text/scripts/globals.src --> Funciones y variables
+  * /opt/P7Text/scripts/P7Text.sh --> Script para ejecutar regularmente
+  * /opt/P7Text/scripts/P7Text-stats.sh --> Estadisticas
+
+</panel>
+</WRAP>
+
+</panel> 
+</WRAP>
+
+{{tag>validada}}
+
+

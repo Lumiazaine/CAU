@@ -1,0 +1,210 @@
+﻿
+<html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>PLANTILLA APLICACIONES</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #39546E;
+            margin: 0;
+            padding: 20px;
+            padding-top: 70px;
+            
+        }
+
+        .main-container {
+            max-width: 1550px;
+            margin: 0 auto;
+        }
+
+        .main-header {
+            background-color: #39546E;
+            color: white;
+            padding: 25px 20px;
+            font-size: 2rem;
+            font-weight: bold;
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .block {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 22px;
+            margin-bottom: 25px;
+            border: 1px solid #c5ccd4;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .block h2 {
+            margin-top: 0;
+            color: #39546E;
+            border-bottom: 2px solid #39546E;
+            padding-bottom: 10px;
+            
+        }
+        
+        a {
+            color: #0051A3;
+            text-decoration: none;
+            
+        } 
+        
+        .btn-volver {
+            background-color: #39546E;
+            color: white;
+            padding: 10px 20px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+            
+        }
+
+        .btn-volver:hover {
+            background-color: #39546E; 
+            color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transform: translateY(-2px); 
+            
+        }
+        
+    </style>
+</head>
+
+<body>
+
+<!-- sustituir enlace si se requiere -->
+<a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_apli" class="btn-volver">Volver</a>
+
+    <div class="main-container">
+
+        <div class="main-header">CITA PREVIA PARA LOS REGISTROS CIVILES Y ÓRGANOS JUDICIALES</div>
+
+        <div style="margin: 15px;">
+            <p>El servicio de Cita Previa de la Administración de Justicia permite a la ciudadanía y profesionales de la Justica gestionar, a través de Internet, una cita en los organismos que dispongan de este servicio.</p>
+            <p>La aplicación Gestión de Turnos y Cita Previa es la plataforma que utiliza el Personal de la Administración de Justicia para la gestión de cita previa en su órgano.</p>
+            <p>Existen dos plataformas para la solicitud de cita previa en los Registros Civiles de Andalucía. La primera plataforma es exclusiva para los 24 Registros Civiles de mayor envergadura de Andalucía:</p>
+            <ul>
+            <li><b>Almeria:</b></li>
+            <li>Registro Civil de Almería</li>
+            <li>Registro Civil de El Ejido</li>
+            <li>Registro Civil de Roquetas</li>
+            </ul>
+            
+             <ul>
+            <li><b>Cádiz:</b></li>
+            <li>Registro Civil de Algeciras</li>
+            <li>Registro Civil de Cádiz</li>
+            <li>Registro Civil de Chiclana de la Frontera</li>
+            <li>Registro Civil de Jerez de la Frontera</li>
+            <li>Registro Civil de La Línea de la Concepción</li>
+            <li>Registro Civil del Puerto de Santa María</li>
+
+            </ul>
+            
+            
+              <ul>
+            <li><b>Córdoba:</b></li>
+            <li>Registro Civil de Córdoba</li>
+           
+            </ul>
+               <ul>
+            <li><b>Granada:</b></li>
+            <li>Registro Civil de Granada</li>
+            <li>Registro Civil de Motril</li>
+            <li>Registro Civil de Santa Fe</li>
+            </ul>
+            
+                  <ul>
+            <li><b>Huelva:</b></li>
+            <li>Registro Civil de Huelva</li>
+            <li>Registro Civil de Ayamonte</li>
+            </ul>
+                   <ul>
+            <li><b>Jaén:</b></li>
+            <li>Registro Civil de Jaén</li>
+            </ul>
+                  <ul>
+            <li><b>Málaga:</b></li>
+            <li>Registro Civil Exclusivo de Málaga</li>
+            <li>Registro Civil de Estepona</li>
+            <li>Registro Civil de Fuengirola</li>
+            <li>Registro Civil de Marbella</li>
+            <li>Registro Civil de Torremolinos</li>
+            <li>Registro Civil de Vélez - Málaga</li>
+
+            </ul>
+            
+                    <ul>
+            <li><b>Sevilla:</b></li>
+            <li>Registro Civil Exclusivo Nº1 de Sevilla</li>
+            <li>Registro Civil de Dos Hermanas</li>
+            </ul>
+
+<p><b>La Segunda plataforma se corresponde con el resto de Registros Civiles.</b></p>
+
+        </div>
+
+        <!-- Bloque Acceso -->
+        <div class="block">
+            <h2>Acceso</h2>
+            <ul>
+                <li><b>Enlaces Aplicaciones para Usuarios:</b></li>
+                <li><a href="https://turnosrrcc.justicia.junta-andalucia.es/quenda/">Acceso a la plataforma Gestión de Turnos y Cita Previa Quenda (exclusiva para los 24 Registros Civiles de mayor envergadura de Andalucía)</a></li>
+                <li><a href="https://pcpj.seap.minhap.es/citaprevia/login">Acceso a la plataforma Gestión de Turnos y Cita Previa del Ministerio de Justicia</a></li>
+                <li><b>Enlaces Portales para Ciudadanos:</b></li>
+                <li><a href="https://www.juntadeandalucia.es/justicia/citaprevia/?idCliente=4">Solicitud de Cita Previa Quenda (exclusiva para los 24 Registros Civiles de mayor envergadura de Andalucía)</a></li>
+                <li><a href="https://sede.administracionespublicas.gob.es/icpplustiej/citar?i=es&org=JUS-RC">Solicitud de Cita Previa Registros Civiles - Ministerio de Justicia (resto de Registros Civiles)</a></li>             
+            </ul>
+        </div>
+        
+              <!-- Bloque Fechas-->
+        <div class="block">
+            <h2>Características del Contrato y Fechas</h2>
+            <ul>
+             <li> El objetivo del contrato (2019/42836) fue la adquisición, instalación, puesta en marcha y mantenimiento del sistema de información, y el equipamiento necesarios, para la Gestión de Turnos y Cita Previa en los 24 Registros Civiles de Andalucía con mas afluencia de ciudadanos.</li>
+<li>El sistema permite automatizar la gestión de colas y esperas en los Registros Civiles. Monitorizar en tiempo real los servicios que se ofrecen y minimizar los tiempos de espera.</li>
+<li> Se ha instalado en cada RC un dispensador, una pantalla de visualización y una impresora para zona atendida.</li>
+                <li>El contrato, firmado el 15/06/2020 con una duración de 24 meses, amplió el plazo hasta el 02/08/2023 por lo que <u>los 3 años de garantía finalizan el 01/08/2026</u>.</li>
+               
+            </ul>
+        </div>
+
+        <!-- Bloque Capacitación -->
+        <div class="block">
+            <h2>Capacitación Usuarios</h2>
+            <ul>
+                <li><a href="https://capacitacion.justicia.junta-andalucia.es/course/view.php?id=56">Contenidos Digitales de Capacitación (Portal de Capacitación de Justicia Digital Andalucía)</a></li>
+                <li><a href="https://videos.justicia.junta-andalucia.es/home">Portal de contenidos en vídeo de Justicia Digital Andalucía</a></li>
+                <li><a href="https://capacitacion.justicia.junta-andalucia.es/mod/glossary/view.php?id=196">Preguntas frecuentes (Portal de Capacitación)</a></li>
+            </ul>
+        </div>
+
+<!-- Bloque Capacitación Interna -->
+        <div class="block">
+            <h2>Capacitación Interna (CAU, CRIP, Sistemas, OT, ...)</h2>
+            <ul>
+                <li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_apli:cita_previa_quendao:Manuales_Usuarios">Manuales de Administración, CAU y Plantillas de Parametrización</a> </li>
+                <li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_apli:cita_previa_quendao:Manuales_Instalacion">Manuales de Asistencia In-Situ e Instalación</a> </li>
+                <li> Más información en la carpeta de Alfresco: Consejería de Justicia e Interior > Proyecto TURNOS RRCC</li>
+            </ul>
+        </div>
+        <!-- Bloque Procedimientos y Problemas Conocidos -->
+        <div class="block">
+            <h2>Procedimientos y Problemas Conocidos</h2>
+            <ul>
+                <li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_apli:cita_previa_quendao:problemas">Procedimientos y Problemas Conocidos</a> </li>
+            </ul>
+        </div>
+
+    </div>
+
+</body>
+</html>
+
+{{tag>validada}}
+

@@ -1,0 +1,380 @@
+﻿
+<wrap>
+<panel type="success" title="Resumen de página">
+
+En esta página se encuentra información de interés, con respecto a los procesos y documentación técnica y de administración del entorno VDI.
+
+^Sección  ^Enlace  |
+|Gestión Maqueta|[[:pag_vdi:procedimientos:administracion-tecnica#gestion-maqueta|Acceso rápido a sección]]  |
+|AppVolume|[[:pag_vdi:procedimientos:administracion-tecnica#app-volume|Acceso rápido a sección]]  |
+|DEM - Perfiles de usuario|[[:pag_vdi:procedimientos:administracion-tecnica#dem|Acceso rápido a sección]]  |
+|Directorio Activo|[[:pag_vdi:procedimientos:administracion-tecnica#directorio-activo|Acceso rápido a sección]]  |
+|ttlOS|[[:pag_vdi:procedimientos:administracion-tecnica#ttlos|Acceso rápido a sección]]  |
+
+Puede volver a la página general de procedimientos a través del siguiente enlace: [[:pag_vdi:procedimientos:start|Página principal procedimientos]]
+
+</panel>
+</wrap>
+
+<panel type="primary" title="Gestion Maqueta">
+
+===== Gestión maqueta =====
+
+<wrap>
+<panel type="warning" title="Resumen sección">
+
+^ Procedimientos               ^ Acceso directo                                                                     ^
+| Resumen y descripción        | [[:pag_vdi:procedimientos:administracion-tecnica#resumen-y-descripcion|Ir]]        |
+| Changelog                    | [[:pag_vdi:procedimientos:administracion-tecnica#changelog|Ir]]                    |
+| Documentación de referencia  | [[:pag_vdi:procedimientos:administracion-tecnica#documentacion-de-referencia|Ir]]  |
+| Manuales                     | [[:pag_vdi:procedimientos:administracion-tecnica#manuales|Ir]]                     |
+
+</panel>
+</wrap>
+
+<wrap>
+<panel>
+
+=== Resumen y descripción ===
+
+En esta sección se tratará sobre las maquetas y la gestión de las mismas. Llamamos maqueta a la plantilla a partir de la cuál se crean todos los escritorios virtuales de los usuarios, es decir, es común a todos.
+También se incluirá en esta sección información sobre cómo una maqueta se vincula a usuarios y se tratará el concepto "pool de escritorios virtuales"
+
+</panel>
+</wrap>
+
+<wrap>
+<panel>
+
+=== Changelog ===
+
+^Versión  ^Fecha lanzamiento ^Descripción del cambio| |
+|v6  |09/03/2026  |Actualización de Google Chrome y Microsoft Edge a la version 143|
+|v5  |18/12/2025  |Actualización de Teams y Script de Ganes|
+|v4  |02/12/2025  |Actualizacion de Autofirma V1.9|
+|v3  |20/11/2025  |Instalado cliente de Oracle 12 para aplicación de Guardias IML|
+|v2  |06/10/2025  |Desinstalado Epson ScanPro. Agregado script de sincronización de la configuración de Epson. Cambios en script EpsonScan.ps1|
+|v1  |01/10/2025  |Instalados nuevos drivers scanners Epson|
+|v0  |15/08/2025  |Maqueta inicial|
+
+</panel>
+</wrap>
+
+<wrap>
+<panel>
+
+=== Documentación de referencia ===
+
+  * Personalizaciones y scripts:
+<code>
+"\\Iusnas05\sij\10. Proyectos en curso\00 VDI\02. Ejecución\02. Documentacion\05.Fase de Despliegue\Scripts y personalizaciones\VDI_Generación de plantillas y creación de un Pool de Horizon_v1.odt"
+</code>
+
+    * Creación de un pool de escritorios:
+<code>
+"\\Iusnas05\sij\10. Proyectos en curso\00 VDI\02. Ejecución\02. Documentacion\05.Fase de Despliegue\Guias y Manuales de Usuarios y Administración\VDI_Procedimientos de creación de un Pool de Puesto de Trabajo_v1.odt"
+</code>
+
+    * Gestión de plantillas y pools de escritorios:
+<code>
+"\\Iusnas05\sij\10. Proyectos en curso\00 VDI\02. Ejecución\02. Documentacion\05.Fase de Despliegue\Procedimientos de explotación, operación y administración\VDI_Plantillas_y_Pool_de_Horizon_v1.1.odt"
+</code>
+
+    * Fortuny (debido a su casuística se menciona especialmente):
+<code>
+"\\Iusnas05\sij\10. Proyectos en curso\00 VDI\02. Ejecución\02. Documentacion\05.Fase de Despliegue\Procedimientos de explotación, operación y administración\VDI_Fortuny"
+</code>
+
+</panel>
+</wrap>
+
+<wrap>
+<panel>
+
+=== Manuales ===
+
+Próximamente. En contrucción
+
+</panel>
+</wrap>
+
+</panel>
+
+<panel type="primary" title="App Volume">
+
+===== App Volume =====
+
+<wrap>
+<panel type="warning" title="Resumen sección">
+
+^ Procedimientos               ^ Acceso directo                                                                     ^
+| Resumen y descripción        | [[:pag_vdi:procedimientos:administracion-tecnica#resumen-y-descripcion1|Ir]]        |
+| Changelog                    | [[:pag_vdi:procedimientos:administracion-tecnica#changelog2|Ir]]                    |
+| Aplicaciones instaladas      |[[:pag_vdi:procedimientos:administracion-tecnica#aplicaciones-instaladas|Ir]]  |
+| Documentación de referencia  | [[:pag_vdi:procedimientos:administracion-tecnica#documentacion-de-referencia1|Ir]]  |
+| Manuales                     | [[:pag_vdi:procedimientos:administracion-tecnica#manuales1|Ir]]                     |
+
+</panel>
+</wrap>
+
+<wrap>
+<panel>
+
+=== Resumen y descripción ===
+
+VMware App Volumes es una solución de entrega de aplicaciones en tiempo real y gestión del ciclo de vida diseñada para simplificar y mejorar la administración de aplicaciones en entornos de infraestructura de escritorio virtual (VDI).
+
+</panel>
+</wrap>
+
+<wrap>
+<panel>
+
+=== Aplicaciones en APP Volume ===
+
+Lista aplicaciones:
+
+^Aplicación ^Fecha ^Grupo de dominio VDI| |
+|Clara ENS seguridad | |VDI\GVDIAppvClara|
+|DigalawX | |VDI\GVDIAppvDigalaw|
+|Ganes | |VDI\GVDIAppvGanes|
+|Liquidacion de Condena| |VDI\GVDIAppvLCondena|
+|SAPLogon800_2024 | |VDI\GVDIAppvSap |
+
+</panel>
+</wrap>
+
+<wrap>
+<panel>
+
+=== Changelog ===
+
+^Versión  ^Fecha ^Descripción del cambio| |
+|v0  |18/12/2025  | |
+
+</panel>
+</wrap>
+
+<wrap>
+<panel>
+
+=== Documentación de referencia ===
+
+  * Documentación App Volumes, aplicaciones instaladas, configuraciones especiales, etc:
+<code>
+"\\Iusnas05\sij\10. Proyectos en curso\00 VDI\02. Ejecución\02. Documentacion\05.Fase de Despliegue\Procedimientos de explotación, operación y administración\VDI_APP_Volume.odt"
+</code>
+</panel>
+</wrap>
+
+<wrap>
+<panel>
+
+=== Manuales ===
+
+Próximamente. En contrucción
+
+</panel>
+</wrap>
+
+</panel>
+
+<panel type="primary" title="DEM">
+
+===== Dynamic Enviroment Manager =====
+
+<wrap>
+<panel type="warning" title="Resumen sección">
+
+^ Procedimientos               ^ Acceso directo                                                                     ^
+| Resumen y descripción        | [[:pag_vdi:procedimientos:administracion-tecnica#resumen-y-descripcion2|Ir]]        |
+| Changelog                    | [[:pag_vdi:procedimientos:administracion-tecnica#changelog2|Ir]]                    |
+| Documentación de referencia  | [[:pag_vdi:procedimientos:administracion-tecnica#documentacion-de-referencia2|Ir]]  |
+| Manuales                     | [[:pag_vdi:procedimientos:administracion-tecnica#manuales2|Ir]]                     |
+
+</panel>
+</wrap>
+
+<wrap>
+<panel>
+
+=== Resumen y descripción ===
+
+Dynamic Environment Manager (DEM) proporciona a los usuarios finales un escritorio de Windows personalizado y dinámico. A través de Dynamic Environment Manager, puedes personalizar el escritorio ofreciendo acceso a los recursos de TI según el rol, el dispositivo y la ubicación del usuario. De esta manera, puedes crear un escritorio que se adapte a las necesidades específicas del usuario.
+
+</panel>
+</wrap>
+
+<wrap>
+<panel>
+
+=== Changelog ===
+
+^Versión  ^Fecha ^Descripción del cambio| |
+|vX.y|09/03/2026|Vinculación tipo de archivo - Aplicacicón predeterminada ahora es vía DEM para persistencia|
+
+</panel>
+</wrap>
+
+<wrap>
+<panel>
+
+=== Documentación de referencia ===
+
+  * Configuraciones y personalizaciones vía DEM:
+<code>
+"\\Iusnas05\sij\10. Proyectos en curso\00 VDI\02. Ejecución\02. Documentacion\05.Fase de Despliegue\Procedimientos de explotación, operación y administración\VDI_Dynamic_Enterprise_Manager_v2.odt"
+</code>
+</panel>
+</wrap>
+
+<wrap>
+<panel>
+
+=== Manuales ===
+
+Próximamente. En contrucción
+
+</panel>
+</wrap>
+
+</panel>
+
+<panel type="primary" title="Directorio Activo">
+
+===== Directorio Activo =====
+
+<wrap>
+<panel type="warning" title="Resumen sección">
+
+^ Procedimientos               ^ Acceso directo                                                                     ^
+| Resumen y descripción        | [[:pag_vdi:procedimientos:administracion-tecnica#resumen-y-descripcion3|Ir]]        |
+| Changelog                    | [[:pag_vdi:procedimientos:administracion-tecnica#changelog3|Ir]]                    |
+| Documentación de referencia  | [[:pag_vdi:procedimientos:administracion-tecnica#documentacion-de-referencia3|Ir]]  |
+| Manuales                     | [[:pag_vdi:procedimientos:administracion-tecnica#manuales3|Ir]]                     |
+
+</panel>
+</wrap>
+
+<wrap>
+<panel>
+
+=== Resumen y descripción ===
+
+El Directorio Activo es un servicio de directorio que permite la gestión centralizada de usuarios, dispositivos y recursos en una red. Actúa como un administrador central de todos los elementos de una red de Windows, permitiendo a los administradores definir políticas de seguridad, gestionar accesos y asegurar la correcta autenticación de los usuarios.
+
+</panel>
+</wrap>
+
+<wrap>
+<panel>
+
+=== Changelog ===
+
+^ Versión  ^ Fecha  ^ Descripción del cambio  |   |
+|          |        |                         |   |
+
+</panel>
+</wrap>
+
+<wrap>
+<panel>
+
+=== Documentación de referencia ===
+
+  * Grupos existentes en VDI y propósito. Gestión de usuarios:
+<code>
+"\\Iusnas05\sij\10. Proyectos en curso\00 VDI\02. Ejecución\02. Documentacion\05.Fase de Despliegue\Procedimientos de explotación, operación y administración\VDI_Directorio_Activo.odt"
+</code>
+</panel>
+</wrap>
+
+<wrap>
+<panel>
+
+=== Manuales ===
+
+Próximamente. En contrucción
+
+</panel>
+</wrap>
+
+</panel>
+
+<panel type="primary" title="Gestión ttlOS">
+
+===== Gestión ttlOS =====
+
+<wrap>
+<panel type="warning" title="Resumen sección">
+
+^ Procedimientos               ^ Acceso directo                                                                     ^
+| Resumen y descripción        | [[:pag_vdi:procedimientos:administracion-tecnica#resumen-y-descripcion4|Ir]]        |
+| Changelog                    | [[:pag_vdi:procedimientos:administracion-tecnica#changelog4|Ir]]                    |
+| Documentación de referencia  | [[:pag_vdi:procedimientos:administracion-tecnica#documentacion-de-referencia4|Ir]]  |
+| Manuales                     | [[:pag_vdi:procedimientos:administracion-tecnica#manuales4|Ir]]                     |
+
+</panel>
+</wrap>
+
+<wrap>
+<panel>
+
+=== Resumen y descripción ===
+
+ttlOS es un sistema operativo personalizado para el proyecto que está instalado en los equipos físicos a través de los cuales los usuarios acceden a su escritorio virtual
+
+</panel>
+</wrap>
+
+<wrap>
+<panel>
+
+=== Changelog ===
+
+  * Documentación registro de cambios entre versiones:
+<code>
+\\iusnas05\SIJ\10. Proyectos en curso\00 VDI\11. Sistema operativo
+</code>
+
+<WRAP right round tip 30% > A partir de la v8, el equipo automáticamente se actualizará a la última versión disponible al arrancar. </WRAP>
+
+^Versión  ^Fecha lanzamiento| |
+|v17  |15/08/2025  |Corrección problema audio bajo|
+|v16  |01/01/1999  |Controladores NVIDIA|
+|v15  |01/01/1999  |Aumento timeout en proceso actualización. Mensaje advertencia|
+
+</panel>
+</wrap>
+
+<wrap>
+<panel>
+
+=== Documentación de referencia ===
+
+  * Instalación y configuración:
+<code>
+\\Iusnas05\sij\10. Proyectos en curso\00 VDI\02. Ejecución\02. Documentacion\05.Fase de Despliegue\Instalación y configuración TTLos
+</code>
+  * Despliegue nueva versión:
+<code>
+\\Iusnas05\sij\10. Proyectos en curso\00 VDI\02. Ejecución\02. Documentacion\05.Fase de Despliegue\Manuales TTL
+</code>
+  * Consola administración dispositivos:
+<code>
+\\Iusnas05\sij\10. Proyectos en curso\00 VDI\02. Ejecución\02. Documentacion\05.Fase de Despliegue\Manuales TTL
+</code>
+</panel>
+</wrap>
+
+<wrap>
+<panel>
+
+=== Manuales ===
+
+Próximamente. En contrucción
+
+</panel>
+</wrap>
+
+</panel>

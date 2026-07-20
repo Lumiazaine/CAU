@@ -1,0 +1,121 @@
+﻿
+====== HP-UX ======
+
+----
+
+===== Introducción =====
+
+En este documento se van a describir las principales instrucciones técnicas asociadas a la administración de servidores HP-UX
+
+======   ======
+
+Ampliación de volume groups en HP-UX
+
+======   ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/HP-UX?section=2|Editar]]
+ <font 14px font-style: normal font-weight: 400; text-align: left;/sans-serif;;inherit;;inherit>Los siguientes pasos explican como ampliar un vg en un sistema operativo HP-UX.</font>
+
+* Ampliamos previamente en la 3PAR el VG al tamaño requerido.
+ <font 14px font-style: normal font-weight: 400; text-align: left;/sans-serif;;inherit;;inherit>Lista los VG, LV y PV:</font> \\
+ <font 14px font-style: normal font-weight: 400; text-align: left;/sans-serif;;inherit;;inherit># vgdisplay -v</font>
+
+Refrescamos los cambios del VG que queramos ampliar\\
+ <font 14px font-style: normal font-weight: 400; text-align: left;/sans-serif;;inherit;;inherit># Vgmodify -a -E "/vgxx"</font>
+ <font 14px font-style: normal font-weight: 400; text-align: left;/sans-serif;;inherit;;inherit>Extendemos el LV con el tamaño de PE que vamos a utilizar:</font> \\
+ <font 14px font-style: normal font-weight: 400; text-align: left;/sans-serif;;inherit;;inherit># lvextend -l 5222135 vgxx/datosxx</font> \\
+\\
+ <font 14px font-style: normal font-weight: 400; text-align: left;/sans-serif;;inherit;;inherit>Le damos formato al vg extendido en Megabytes indicando la ruta, en este caso será en FS:</font> \\
+ <font 14px font-style: normal font-weight: 400; text-align: left;/sans-serif;;inherit;;inherit># fsadm -F vxfs -v 163776M /opt/oracle/oradata/bdpro01</font>
+
+======   ======
+
+Modificar RAM-CPU en una Vpar
+
+======   ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/HP-UX?section=3|Editar]]
+ <font 14px font-weight: 700/inherit;;inherit;;inherit>Ver datos actuales de una Vpar</font>
+
+# hpvmstatus
+
+[Virtual Machines]
+
+Virtual Machine Name VM # Type OS Type State #VCPUs #Devs #Nets Memory
+
+====== ===== ==== ======= ========= ====== ===== ===== ======
+
+iussubd04 1 VP HPUX On (OS) 6 8 2 22528 MB
+
+iussubd09 2 VP HPUX On (OS) 4 7 2 49088 MB
+ <font 14px font-weight: 700/inherit;;inherit;;inherit>Modificar Nº de CPU</font>
+
+# hpvmmodify -P vparname -c 8
+
+(Establece 8 cpu)
+ <font 14px font-weight: 700/inherit;;inherit;;inherit>Modificar la RAM</font>
+
+# vparmodify -p iussubd04 -a mem::6144:f
+
+(añade 6Gb)
+
+======   ======
+
+Gestión de CLUSTERS
+
+======   ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/HP-UX?section=4|Editar]]
+ <font 14px font-weight: 700/inherit;;inherit;;inherit>Ver status del cluster</font>
+
+  * cmviewcl
+ <font 14px font-weight: 700/inherit;;inherit;;inherit>Detener un package</font>
+
+Nota: al lanzar esta orden, el software del cluster deshabilita el AUTO_RUN del package, siendo necesario reactivarlo cuando se finalicen las operaciones.
+
+  * cmhaltpkg // <font 14px/inherit;;inherit;;inherit>package</font> //
+  * cmhaltpkg -n // <font 14px/inherit;;inherit;;inherit>NODO package</font> //
+ <font 14px font-weight: 700/inherit;;inherit;;inherit>Arrancar un package</font>
+
+  * cmrunpkg // <font 14px/inherit;;inherit;;inherit>package</font> //
+  * cmrunpkg -n // <font 14px/inherit;;inherit;;inherit>NODO package</font> //
+ <font 14px font-weight: 700/inherit;;inherit;;inherit>Activar el AUTO_RUN</font>
+
+Nota: adicionalmente arranca automaticamente el package si este se encuentra detenido.
+
+  * cmmodpkg -e // <font 14px/inherit;;inherit;;inherit>package</font> //
+ <font 14px font-weight: 700/inherit;;inherit;;inherit>Activar el SWITCHING</font>
+
+  * cmmodpkg -e -n NODO // <font 14px/inherit;;inherit;;inherit>package</font> //
+ <font 14px font-weight: 700/inherit;;inherit;;inherit>Detener un nodo del cluster</font>
+
+Nota: esto detiene el servicio de cluster en ese nodo hasta que se reinicie nuevamente el demonio, los cambios producidos en el cluster no se propagarán hasta que se reactive.
+
+  * cmhaltnode -n // <font 14px/inherit;;inherit;;inherit>NODO</font> //
+ <font 14px font-weight: 700/inherit;;inherit;;inherit>Detener todo el cluster</font>
+
+  * cmhaltcl // <font 14px/inherit;;inherit;;inherit>CLUSTER</font> //
+
+======   ======
+
+NTP
+
+======   ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/HP-UX?section=5|Editar]]
+
+Para el cambio de servidores de NTP editamos el fichero **ntp.conf **añadiendo/modificando al final de la línea los servidores.
+
+# vi /etc/ntp.conf
+
+Reiniciamos el servicio
+
+# /sbin/init.d/xntpd stop && /sbin/init.d/xntpd start
+
+Comprobamos que están sincronizando los servidores correctos.
+
+# ntpq -c pee
+
+# ntpq -c ass
+
+

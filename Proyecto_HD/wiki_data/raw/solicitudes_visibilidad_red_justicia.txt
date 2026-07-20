@@ -1,0 +1,36 @@
+﻿
+====== Solicitud de Apertura de Visibilidad/Navegación en Red Justicia ======
+
+Este formulario debe ser completado para **realizar una solicitud de apertura de visibilidad o navegación** a través del firewall o proxy en la Red Justicia.  
+
+Se enviará por Remedy al departamento correspondiente para su validación, análisis y aplicación, si procede.  
+
+Es importante detallar correctamente todos los campos para evitar demoras en la gestión.
+
+
+^ Descripción y contexto ^                                                   |
+| **Motivo / descripción de la solicitud:** |                                |
+| **Servicio / aplicativo relacionado:**     |                                |
+| **Aprobación del cambio - Jefatura :**     |                                |
+| **Entorno (Producción / Preproducción / Desarrollo / Pruebas):** |         |
+
+^ Origen ^                                                                   |
+| **Oficina / Edificio:**         |                                          |
+| **IP o red:**                   |                                          |
+| **Máscara de red:**            |                                          |
+
+^ Destino ^                                                                 |
+| **URL:**                        |                                          |
+| **Servidor:**                  |                                          |
+| **IP o red:**                  |                                          |
+| **Máscara de red:**            |                                          |
+| **Puertos o Protocolo:**       |                                          |
+
+**📌 Notas importantes:**
+
+  * Todos los campos son **obligatorios**, a excepción de la **Máscara de red**, que solo es necesaria si se indica una red en lugar de una IP.
+  * Se pueden **añadir múltiples destinos** si fuese necesario.
+
+===== Historial de cambios =====
+^ Versión ^ Fecha ^ Cambio ^ Autor ^  
+| 1.0 | 2025-07-18 | Creación del documento | GTSR|

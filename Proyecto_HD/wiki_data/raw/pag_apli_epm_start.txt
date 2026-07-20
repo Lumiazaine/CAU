@@ -1,0 +1,254 @@
+﻿
+<html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Aplicación EPM (Expedientes de Menores)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #39546E;
+            margin: 0;
+            padding: 20px;
+            padding-top: 70px;
+            
+        }
+
+        .main-container {
+            max-width: 1550px;
+            margin: 0 auto;
+        }
+
+        .main-header {
+            background-color: #39546E;
+            color: white;
+            padding: 25px 20px;
+            font-size: 2rem;
+            font-weight: bold;
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .block {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 22px;
+            margin-bottom: 25px;
+            border: 1px solid #c5ccd4;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .block h2 {
+            margin-top: 0;
+            color: #39546E;
+            border-bottom: 2px solid #39546E;
+            padding-bottom: 10px;
+            
+        }
+        
+        a {
+            color: #0051A3;
+            text-decoration: none;
+        }
+        
+        .btn-volver {
+            background-color: #39546E;
+            color: white;
+            padding: 10px 20px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+            
+        }
+
+        .btn-volver:hover {
+            background-color: #39546E; 
+            color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transform: translateY(-2px); 
+            
+        }
+        
+        /* Estilos de Tabla */
+        .procedure-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            margin-bottom: 25px;
+        }
+        .procedure-table th, .procedure-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+            vertical-align: top;
+        }
+        .procedure-table th {
+            background-color: #f2f2f2;
+            color: #39546E;
+            font-weight: bold;
+        }
+        .sub-heading {
+            color: #0051A3;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .note {
+            background-color: #fff3cd; 
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 4px;
+        }
+        
+    </style>
+</head>
+
+<body>
+
+<a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_apli" class="btn-volver">Volver</a>
+
+    <div class="main-container">
+
+        <div class="main-header">Aplicación EPM (Gestión de Expedientes de Menores)</div>
+
+        <div style="margin: 15px;">
+            <p>EPM (Expedientes de Protección de Menores) es la aplicación del Ministerio de Justicia utilizada por las Fiscalías para la gestión de los expedientes de menores.</p>
+        </div>
+
+        <div class="block">
+            <h2>1. Procedimiento General de Gestión de Incidencias de EPM</h2>
+            
+            <table class="procedure-table">
+                <tr>
+                    <th style="width: 10%;">Paso</th>
+                    <th style="width: 20%;">Acción</th>
+                    <th>Detalle</th>
+                </tr>
+                <tr>
+                    <td>1. Recepción</td>
+                    <td>Punto Único de Entrada</td>
+                    <td>El usuario debe remitir su incidencia por correo electrónico a la cuenta central: <strong>csu.ius@juntadeandalucia.es</strong>.</td>
+                </tr>
+                <tr>
+                    <td>2. Creación del Ticket</td>
+                    <td>Acción de CAU</td>
+                    <td>Abrir una nueva incidencia en el sistema Remedy.</td>
+                </tr>
+                <tr>
+                    <td>3. Clasificación</td>
+                    <td>Categorización Inicial</td>
+                    <td>Para su clasificación correcta sería: <strong>APLICACIONES > EPM</strong>. (Nota: Este tipo debe ser creado, no existe).</td>
+                </tr>
+                <tr>
+                    <td>4. Notificación</td>
+                    <td>Comunicación al Usuario</td>
+                    <td>Informar al usuario del <strong>nº de ticket</strong> generado y confirmar que se le contactará en cuanto se tenga una resolución.</td>
+                </tr>
+                <tr>
+                    <td>5. Asignación y Decisión</td>
+                    <td>¿Servicios> Desarrollo> M,ª Belén Barroso?</td>
+                    <td>El ticket se remite al equipo responsable de analizar tickets relacionados con la aplicación EPM. Este equipo debe: 
+                        <ul>
+                            <li>a) Analizar la incidencia.</li>
+                            <li>b) Decidir la escalada: Si el problema es de red (DNS) o infraestructura, asignará al equipo de Sistemas correspondiente. Si es un bug de la aplicación, lo escalará a Ministerio o equipo responsable, etc.</li>
+                            <li>c) Resolver la incidencia si es un error conocido y documentado.</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>6. Verificación y Cierre</td>
+                    <td>Acción de CAU</td>
+                    <td>Una vez resuelto por el equipo técnico/responsable, CAU debe <strong>confirmar con los usuarios finales</strong> que el sistema funciona correctamente antes de cerrar el ticket.</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="block">
+            <h2>2. Ficha de Conocimiento: Incidencia EPM - Problemas de Acceso / Documentos</h2>
+
+            <h3>2.1. Incidencia de Acceso y DNS</h3>
+            <table class="procedure-table">
+                <tr>
+                    <th style="width: 30%;">Aspecto</th>
+                    <th>Detalle</th>
+                </tr>
+                <tr>
+                    <td>Problema Identificado</td>
+                    <td>Falla de acceso a ciertas funcionalidades de EPM (ej. dificultad al abrir documentos o crear expedientes) debido a un error de DNS no resuelto (ERR_NAME_NOT_RESOLVED).</td>
+                </tr>
+                <tr>
+                    <td>Causa Raíz</td>
+                    <td>Falta de publicación de las nuevas URLs requeridas por una actualización de EPM en la Red SARA.</td>
+                </tr>
+                <tr>
+                    <td>Solución Técnica Aplicada</td>
+                    <td>Se solicitaron los registros de DNS (epm-token.justicia.es, epm-gateway.justicia.es, documents.justicia.es, documentseditor.justicia.es) al equipo de Red SARA para su alta y visibilidad en la red de Andalucía.</td>
+                </tr>
+                <tr>
+                    <td>Contacto de Escalada (RedSara)</td>
+                    <td><strong>Red NEREA:</strong> <a href="mailto:nerea.sandetel@juntadeandalucia.es">nerea.sandetel@juntadeandalucia.es</a> / 671569351 (769351).</td>
+                </tr>
+            </table>
+
+            <h3>2.2. Solución Provisional para el Gestor de Modelos (Workaround)</h3>
+            <p>Este procedimiento es la forma de trabajo temporal para las Fiscalías transferidas hasta que se resuelva la integración definitiva del gestor de modelos en EPM.</p>
+            <table class="procedure-table">
+                <tr>
+                    <th style="width: 30%;">Título de la Sección</th>
+                    <th>Detalle de la Operativa</th>
+                </tr>
+                <tr>
+                    <td>Problema Identificado</td>
+                    <td>Error de conexión con el gestor de modelos ("Error en la comunicación con Documents") para Fiscalías transferidas.</td>
+                </tr>
+                <tr>
+                    <td>Instrucción Provisional</td>
+                    <td>Al acceder al detalle de un expediente y mostrarse la ventana de error en la comunicación con Documents, el usuario debe pulsar siempre la opción de <strong>“Cancelar”</strong> para cerrar la ventana y continuar.</td>
+                </tr>
+                <tr>
+                    <td>Creación de Trámites</td>
+                    <td>Tras cancelar la ventana de error, el funcionamiento es normal para la creación de trámites.</td>
+                </tr>
+                <tr>
+                    <td>Selección de Modelos Permitidos</td>
+                    <td>Se deben seleccionar únicamente los trámites que <strong>no tienen modelos asociados</strong> (aquellos genéricos que no tienen descripción), que se identifican por <strong>NO tener un guion (-)</strong> en el nombre.</td>
+                </tr>
+                <tr>
+                    <td>Lista de Trámites a Usar</td>
+                    <td>Solo se deben utilizar: Decreto de Incoación, Comparecencia (con firma), Comparecencia (sin firma), Decreto de Archivo, Decreto de Diligencias, Oficio, Informe, Trámite de Inicio, y Trámite de Inicio y Archivo.</td>
+                </tr>
+                <tr>
+                    <td>Incorporación de Documentos</td>
+                    <td>Después de asociar los trámites en estado borrador, el siguiente paso es <strong>incorporar los documentos desde el ordenador</strong> (en formato .doc o pdf sin firmar) para continuar con la firma y finalización del trámite.</td>
+                </tr>
+            </table>
+        </div>
+
+
+        <div class="block">
+            <h2>Información General de Acceso EPM</h2>
+            <p>Información básica de la aplicación del Ministerio para la gestión de expedientes de menores.</p>
+            <ul>
+                <li>URL Principal: <a href="https://fiscaapps.justicia.es/">https://fiscaapps.justicia.es/</a></li>
+                <li>Gestión de la Incidencia (Inicial): CAU / csu.ius@juntadeandalucia.es</li>
+                <li>Gestión de la Incidencia (Ministerio): MJU02600548 (Incidencia abierta para el problema de DNS/Modelos)</li>
+            </ul>
+        </div>
+
+        <div class="block">
+            <h2>Capacitación </h2>
+             <p>Acceso directo a píldoras y manuales de la aplicación EPM.</p>
+            <ul>
+                <li><a href="https://capacitacion.justicia.junta-andalucia.es/mod/page/view.php?id=776">Portal de Capacitación de Justicia Digital Andalucía - EPM</a></li>
+            
+            </ul>
+        </div>
+
+    </div>
+
+</body>
+</html>
+
+{{tag>novalidada}}

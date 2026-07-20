@@ -1,0 +1,67 @@
+﻿
+
+<WRAP> 
+<panel type="primary" title="Procedimientos y Problemas Conocidos de Certificado Digital">
+
+[[..:certificado_digital:start|Volver atrás]]
+
+<WRAP> 
+<panel type="info">
+
+Los certificados digitales permiten a la Administración, a los ciudadanos y a las empresas españolas realizar sus trámites a través de Internet de forma totalmente segura. Las nuevas soluciones de certificación y autentificación de identidad digital que ofrece la FNMT-RCM proporcionan validez y seguridad a las transacciones electrónicas.
+
+===== PROCEDIMIENTO PARA SOLICITAR CERTIFICADO DIGITAL NUEVO =====
+
+{{:pag_apli:certificado_digital:certificado1.png?nolink&400|}}
+
+**Para solicitar un certificado digital nuevo deberemos seguir los siguientes pasos:**\\
+• El usuario tendrá que tener insertada la tarjeta criptográfica con la que va a solicitarlo y el equipo tendrá que ser el mismo donde posteriormente se realizará la descarga.\\
+• Verificaremos antes de empezar que el certificado del usuario está realmente caducado(se visulizará en Card Manager/Ver, con el pin de la tarjeta o a través de las Opciones de Internet en Explorer). En caso de no estar caducado, no se solicitará uno nuevo, ya decide el usuario si quiere renovarlo en ese momento o no.\\
+• Accederemos por Chrome a la página de la FNMT.\\
+• En la relación de indicadores que existen, elegiremos el de Servicios-Certificado digital-Certificado de persona física-Certificado con DNI-Solicitar certificado.
+
+{{:pag_apli:certificado_digital:certificado2.png?nolink&400|}}\\
+\\
+
+{{:pag_apli:certificado_digital:certificado3.png?nolink&400|}}
+
+• Revisar configuración previa (descarga del Configurador FNMT).\\
+{{:pag_apli:certificado_digital:certificado4.png?nolink&400|}}\\
+• Una vez hayamos pinchado en el área de descarga del configurador, deberemos elegir el de **64 bits para Windows. (Según SO)**\\
+• Esperamos que termine la descarga y pinchamos con botón derecho, elegimos “Mostrar en Carpeta”.\\
+
+{{:pag_apli:certificado_digital:certificado6.png?nolink&400|}}\\
+
+• Se abrirá el configurador, tendremos que pinchar en él con Ctrl/Mayus/botón derecho, seguidamente elegimos Ejecutar como otro usuario. **JUSTICIA\ usuario y contraseña nuestros de AD**.\\
+
+{{:pag_apli:certificado_digital:certificado7.png?nolink&400|}}\\
+
+• Una vez reconocida la entrada con nuestro usuario( JUSTICIA\usuario ), se abrirá el asistente, tenemos que ejecutarlo hasta que finalice el proceso.\\
+
+{{:pag_apli:certificado_digital:certificado8.png?nolink&400|}}
+
+• Una vez instalado, volveremos a la página y seguiremos con el punto dos que nos indica la FNMT (Solicitar Certificado).\\
+
+{{:pag_apli:certificado_digital:certificado9.png?nolink&400|}}
+
+•En este punto nos pedirá el pin de la tarjeta del usuario y a continuación se deberá aceptar la política de seguridad que se presenta en un enlace (abrimos enlace, cerramos y aceptamos).\\
+• Ahora el usuario completará un cuestionario con sus datos personales básicos, en el campo correo electrónico es importante que añada uno que posteriormente pueda abrir en el equipo que se está solicitando el certificado, como sugerencia se le puede indicar que inserte el correo corporativo.\\
+• Una vez finalizado este proceso, que se confirmará con un mensaje de”Solicitud realizada con éxito”,donde nos recuerda al correo que se ha enviado la información.\\
+• Abriremos dicho correo y allí encontraremos el código de solicitud el cual tiene que presentar el usuario en una oficina de registro junto con su DNI y acreditarse como persona física.\\
+Recordamos que este código tiene una validez de 40 días. Pasado este tiempo, habrá que solicitar un código nuevo y comenzar el proceso de solicitud de certificado por segunda vez.\\
+• Cuando el usuario se haya acreditado, instantáneamente recibirá un correo de la FNMT al correo que indicó en el cuestionario con la descarga del Certificado Digital, se presenta en un enlace de color verde.
+• Al pinchar dicho enlace nos redirige de nuevo a la página de la FNMT para la descarga.
+Ir al apartado Descarga e instalación Certificado Digital Persona Física FNMT
+
+</panel> 
+</WRAP>
+
+<WRAP> 
+<panel type="info">
+
+</panel> 
+</WRAP>
+
+[[..:certificado_digital:start|Volver atrás]]
+
+{{tag>novalidada}}

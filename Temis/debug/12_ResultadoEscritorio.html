@@ -1,0 +1,605 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+
+
+<html>
+<head>
+	<title>Escritorio Virtual</title>
+
+	<link href="/Escritorio/css/estilos.css" rel="stylesheet" type="text/css"/>
+	<!--[if IE 6]>
+	<link href="/Escritorio/css/estilosIE6.css" rel="stylesheet" type="text/css"/>
+	<![endif]-->
+	<!--[if IE 7]>
+	<link href="/Escritorio/css/estilosIE7.css" rel="stylesheet" type="text/css" />
+	<![endif]-->
+	<!--[if IE 8]>
+	<link href="/Escritorio/css/estilosIE8.css" rel="stylesheet" type="text/css" />
+	<![endif]-->
+	<!--[if IE 8]>
+	<link href="/Escritorio/css/estilosIE9.css" rel="stylesheet" type="text/css" />
+	<![endif]-->
+	<link href="/Escritorio/img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+	
+	<script>
+		function existeSesion()
+		{
+			return '1';
+		}
+	</script>
+</head>
+
+<body onload="actualizaReloj(); ">
+	
+	<div class="fondo">
+		<div id="cuerpo">
+			
+
+
+
+
+
+<div id="cabecera">
+  <div class="cabecera_fondo">
+ 	<ul class="menu">
+   	   <li><a class="ayuda" title="Manual usuario" href="javascript:verManualEscritorio()">Manual usuario</a></li>
+       <li><a class="noticias" title="Noticias" href="javascript:verNoticias()">Noticias</a></li>
+       <li><a class="enlaces" title="Enlaces" href="javascript:verEnlaces()">Enlaces</a></li>
+       
+       	<li><a class="cerrar" title="Cerrar sesión" href="javascript:cerrarSesion()">Cerrar sesión</a></li>
+       
+    </ul>
+    <hr class="no_visible">
+    <h1 class="logo_junta">
+       <a title="JUNTA DE ANDALUCÍA - Consejería de Turismo, Regeneración, Justicia y Administración Local" href='/Escritorio/Inicio.do'>
+           <img alt="JUNTA DE ANDALUCÍA - Consejería de Turismo, Regeneración, Justicia y Administración Local" src="img/logo_junta.gif">
+           <span>JUNTA DE ANDALUCÍA - Consejería de Justicia e Interior</span>
+        </a>
+    </h1>
+    <h1 class="aplicacion"><span>Escritorio Judicial - Consejería de Turismo, Regeneración, Justicia y Administración Local</span></h1>
+   </div>
+ </div>  
+<script language="javascript">
+
+	function cerrarSesion()
+	{
+		if (confirm('¿Está seguro de que quiere cerrar la sesión?'))
+		{
+			window.location.href = '/Escritorio/CerrarSesion.do';	
+		}
+	}
+	
+	function verManualEscritorio()
+	{
+		window.open('/Escritorio/VerManual.do');
+		
+	}
+	
+	function verEnlaces()
+	{
+		window.location.href = '/Escritorio/VerEnlaces.do';
+		
+	}
+	
+	function verNoticias()
+	{
+		window.location.href = '/Escritorio/VerNoticias.do' ;
+		
+	}
+
+		
+	
+
+</script> 
+			<hr class="no_visible">
+			
+
+
+
+
+
+	<ul id="menu_superior">
+   		
+	     	<li class="usuario">
+	     		<a href='/Escritorio/DatosUsuario.do'>
+				  VALVERDE RODRÍGUEZ, MARÍA DEL CARMEN	
+				</a>
+			</li>
+     	
+     	
+			
+				<li class="opcion">
+					<a href="javascript:cambiarPuesto()">
+						Tramitación Procesal - Servicio Común de Ejecución de Almería. Civil del Tribunal de Instancia
+					</a>
+				</li>
+			
+<!--			-->
+<!--				<li class="opcion">-->
+<!--					-->
+<!--						<a href="javascript:cambiarPuesto()">-->
+<!--							Tramitación Procesal - Servicio Común de Ejecución de Almería. Civil del Tribunal de Instancia-->
+<!--						</a>-->
+<!--					-->
+<!--				</li>-->
+<!--			-->
+		 
+        
+        <li class="fecha" id="hora">
+       	 &nbsp;
+        </li>
+        <li class="fecha">
+        	lunes, 20 de julio de 2026
+		  	
+		</li>
+        
+   	</ul>
+
+<script language="javascript">
+
+	
+function cambiarPuesto()
+{
+	window.location.href = '/Escritorio/VerPuestosUsuario.do';	
+}
+
+
+
+</script>
+			<hr class="no_visible">
+			<div id="contenedor">
+				
+
+
+
+
+
+<div id="lateral_izquierdo">
+	<form name="aplicacionForm" method="post" action="/Escritorio/SeleccionarAplicacion.do">
+		
+	 		<h2> Aplicaciones </h2> 
+	 		<ul class="menu">
+ 				
+  					<li>
+	  					
+	  					
+							<a href="javascript:void(0)" onclick="startClick('12')" ondblclick="lanzarAplicacionMenu('12','ES')">
+						    	Agenda de Señalamientos
+						  	</a>
+							
+					</li>
+  				
+  					<li>
+	  					
+	  					
+							<a href="javascript:void(0)" onclick="startClick('24')" ondblclick="lanzarAplicacionMenu('24','E')">
+						    	Arconte Aurea
+						  	</a>
+							
+					</li>
+  				
+  					<li>
+	  					
+	  					
+							<a href="javascript:void(0)" onclick="startClick('47')" ondblclick="lanzarAplicacionMenu('47','E')">
+						    	Asistencia Remota (Almería)
+						  	</a>
+							
+					</li>
+  				
+  					<li>
+	  					
+	  					
+							<a href="javascript:void(0)" onclick="startClick('232')" ondblclick="lanzarAplicacionMenu('232','E')">
+						    	Consultas Adriano
+						  	</a>
+							
+					</li>
+  				
+  					<li>
+	  					
+	  					
+							<a href="javascript:void(0)" onclick="startClick('53')" ondblclick="lanzarAplicacionMenu('53','E')">
+						    	Consumibles
+						  	</a>
+							
+					</li>
+  				
+  					<li>
+	  					
+	  					
+							<a href="javascript:void(0)" onclick="startClick('8')" ondblclick="lanzarAplicacionMenu('8','EA')">
+						    	Gestión de Incidencias
+						  	</a>
+							
+					</li>
+  				
+  					<li>
+	  					
+	  					
+							<a href="javascript:void(0)" onclick="startClick('671')" ondblclick="lanzarAplicacionMenu('671','E')">
+						    	Gestor Procesal Adriano
+						  	</a>
+							
+					</li>
+  				
+  					<li>
+	  					
+	  					
+							<a href="javascript:void(0)" onclick="startClick('80')" ondblclick="lanzarAplicacionMenu('80','E')">
+						    	Herramienta Centralizada Verificación
+						  	</a>
+							
+					</li>
+  				
+  					<li>
+	  					
+	  					
+							<a href="javascript:void(0)" onclick="startClick('64')" ondblclick="lanzarAplicacionMenu('64','E')">
+						    	Impresión tarjetas identificativas
+						  	</a>
+							
+					</li>
+  				
+  					<li>
+	  					
+	  					
+							<a href="javascript:void(0)" onclick="startClick('600')" ondblclick="lanzarAplicacionMenu('600','E')">
+						    	Jara
+						  	</a>
+							
+					</li>
+  				
+  					<li>
+	  					
+	  					
+							<a href="javascript:void(0)" onclick="startClick('89')" ondblclick="lanzarAplicacionMenu('89','E')">
+						    	Notas del EJE para órganos migrados
+						  	</a>
+							
+					</li>
+  				
+  					<li>
+	  					
+	  					
+							<a href="javascript:void(0)" onclick="startClick('1792')" ondblclick="lanzarAplicacionMenu('1792','E')">
+						    	PIMA Mediación
+						  	</a>
+							
+					</li>
+  				
+  					<li>
+	  					
+	  					
+							<a href="javascript:void(0)" onclick="startClick('63')" ondblclick="lanzarAplicacionMenu('63','E')">
+						    	Plan de Prevención de Riesgos Laborales
+						  	</a>
+							
+					</li>
+  				
+  					<li>
+	  					
+	  					
+							<a href="javascript:void(0)" onclick="startClick('39')" ondblclick="lanzarAplicacionMenu('39','E')">
+						    	PortafirmasNG
+						  	</a>
+							
+					</li>
+  				
+  					<li>
+	  					
+	  					
+							<a href="javascript:void(0)" onclick="startClick('1791')" ondblclick="lanzarAplicacionMenu('1791','E')">
+						    	Portal de Capacitación
+						  	</a>
+							
+					</li>
+  				
+  					<li>
+	  					
+	  					
+							<a href="javascript:void(0)" onclick="startClick('66')" ondblclick="lanzarAplicacionMenu('66','E')">
+						    	Verifirma
+						  	</a>
+							
+					</li>
+  				
+	  			
+	  		</ul>
+	  	
+	  	<input type="hidden" name="aplicacion" value="">
+	</form>
+</div>  
+
+
+
+
+
+		  			
+		  
+	    
+				<hr class="no_visible">
+				
+
+
+
+<div id="lateral_derecho">	
+	
+    
+	
+		<div class="login">
+			<h2 style="font-size:12pt"> Modificar Contraseña </h2>
+			<form action="/Escritorio/ModificarPassword.do">
+				<fieldset>
+					
+                    <div class="fila_form">
+                    	Si necesita modificar su contraseña, pulse el siguiente botón
+                    </div>
+                    <div class="botonera">
+                    	<input type="submit" class="boton" value="Modificar Contraseña" id="entrar2" name="entrar2" style="font-size:12pt" />
+                    </div>
+                    
+				</fieldset>
+			</form>
+		</div>
+	
+		
+</div>	
+<script language="javascript">
+
+	function nuevaSugerencia()
+	{
+		window.location.href = '<sslext:rewrite page="/NuevoComentario.do" />' ;
+		
+	}
+
+		
+	
+
+</script>	
+	
+	
+		 
+		
+		  		
+			  
+				
+		 
+		
+
+				<hr class="no_visible">
+				<div id="contenido">
+					
+
+
+<center>
+<form name="aplicacionPublicaForm" method="post" action="/Escritorio/SeleccionarAplicacionPublica.do">
+	
+	<input type="hidden" name="aplicacion" value="">
+</form>
+
+	
+							
+		    
+				<a href="https://capacitacion.justicia.junta-andalucia.es/course/view.php?id=100">
+					<img title="Agenda Telefónica Administración de Justicia de Andalucía" alt="Agenda Telefónica Administración de Justicia de Andalucía" src="http://escritoriojudicial.justicia.junta-andalucia.es/EscritorioJudicial/iconos/2iconoAgenda.gif">
+				</a>
+			 
+			
+			
+			
+							
+		    
+				<a href="VerEnlaces.do">
+					<img title="Enlaces de Interés" alt="Enlaces de Interés" src="http://escritoriojudicial.justicia.junta-andalucia.es/EscritorioJudicial/iconos/2iconoEnlaces.gif">
+				</a>
+			 
+			
+			
+			
+							
+		     
+			
+			
+			
+		
+	
+
+</center>
+
+					<hr class="no_visible">
+					
+
+
+
+
+<h2>Noticias</h2>
+ 
+<ul class="listado_noticias">
+	
+	
+		<p>No existen noticias de la aplicación.</p>
+	
+</ul>
+  
+	
+
+	  
+		
+		 
+				
+						 
+						
+	  
+
+  
+
+
+
+
+
+
+				</div>
+			</div>
+			<div id="pie">
+				
+
+
+<p class="izquierda">
+	&nbsp;PRO &nbsp;-&nbsp;versi&oacute;n&nbsp;3.14.1&nbsp;&nbsp;
+</p>
+<p class="derecha">CONSEJERÍA DE TURISMO, REGENERACIÓN, JUSTICIA Y ADMINISTRACIÓN LOCAL</p>
+		
+			</div>
+		</div>
+	</div>
+	<br>
+		
+	
+
+<script language="JavaScript"> 
+		// ----------------------------------
+		// Para el control del doble click
+		var numClicks = 0;
+		var timeOut;
+		var codigoGlobal;
+		var entraPorStartClick = false; // para que no se ejecute dos veces en mozilla
+		
+		// ----------------------------------
+
+		/*
+			Metodo que actualiza el reloj con la hora del sistema del cliente
+		*/
+		function actualizaReloj()
+		{ 
+			var momentoActual = new Date(); 
+	
+		    var hora = momentoActual.getHours();
+    		var minuto = momentoActual.getMinutes();
+		    var segundo = momentoActual.getSeconds(); 
+	
+    		var horaImprimible = (hora<10?"0"+hora:hora) + ":" + (minuto<10?"0"+minuto:minuto);
+
+	    	var obj = document.getElementById("hora");
+			obj.innerHTML = horaImprimible;
+			
+    		setTimeout("actualizaReloj()",1000) 
+		} 		
+
+	
+
+	function modificarPasswordCorporativa()
+	{
+		window.document.location.href = '/Escritorio/ModificarPasswordCorporativa.do';
+	}
+	
+	function modificarPassword()
+	{
+		window.document.location.href = '/Escritorio/ModificarPassword.do';
+	}
+
+	function modificarIdentificador()
+	{
+		window.document.location.href = '/Escritorio/ModificarIdentificador.do';
+	}
+	
+	function consultaSesiones()
+	{
+		window.document.location.href = '/Escritorio/ConsultaSesionesUsuario.do';
+	}
+	
+	function nuevaSugerencia()
+	{
+		window.document.location.href = '/Escritorio/NuevoComentario.do';
+	}
+	
+	function verForo()
+	{
+		window.document.location.href = '/Escritorio/VerComentariosForo.do';
+	}
+	
+	function seleccionarAplicacion()
+	{
+		
+	    numClicks = 0;
+	    
+		var f = document.forms['aplicacionForm'];
+
+		f.aplicacion.value = codigoGlobal;
+		
+		f.submit();
+	}
+	
+	function seleccionarAplicacionPublica(codigo)
+	{
+		var f = document.forms['aplicacionPublicaForm'];
+
+		f.aplicacion.value = codigo;
+		
+		f.submit();
+	}
+	
+	function lanzarAplicacionMenu(codigo, accion)
+	{
+		if (!entraPorStartClick)
+		{
+			numClicks = 0;
+			clearTimeout(timeOut);
+			
+			var url = 'Lanzadera.do?id=' + codigo;
+			
+			if (accion.indexOf("S") != -1)
+			{
+				window.open(url, codigo, "toolbar=no, menubar=no, location=no, resizable=yes, status=yes, scrollbars=yes");
+			}
+			else
+			{
+				if (codigo==8) {
+					window.open(url, "_self");
+				} else {
+					window.open(url, codigo);
+				}
+				
+				
+			}	
+    	}
+		else
+		{
+			entraPorStartClick = false;
+		}		
+	}
+	
+	function startClick(codigo) {
+    	numClicks++;
+      	codigoGlobal = codigo;
+      	
+	    switch(numClicks) {
+    	    case 2:
+    	    	entraPorStartClick = true;
+        	    lanzarAplicacionMenu(codigo);
+            	break;
+	        case 1:
+
+    	        timeOut = setTimeout("seleccionarAplicacion()", 300);
+        	    break;
+		}
+	}
+	
+	function datosUsuario()
+	{
+		window.location.href = '/Escritorio/DatosUsuario.do';
+	}
+	
+	function usuarioBusqueda()
+	{
+		window.location.href = '/Escritorio/UsuarioBusqueda.do?accion=buscar';
+	}
+	
+
+</script>
+
+		
+
+	
+</body>
+</html>

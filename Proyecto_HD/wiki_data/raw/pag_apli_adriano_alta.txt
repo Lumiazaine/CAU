@@ -1,0 +1,32 @@
+﻿
+<WRAP> <panel type="primary" title="Alta de usuarios para Adriano">
+<WRAP>
+<panel type="info">
+Para realizar un alta en @driano hay que realizarlo a través de **Temis**. \\ \\
+Primero accedemos a **Mantemis** situado en el escritorio virtual y nos vamos al apartado "Usuarios". \\ 
+{{:altaadr1.png?500|}} \\ \\
+Dentro de usuarios añadimos el DNI del usuario y también se puede filtrar por **nombre** o **apellido**. \\ \\
+Cuando pulsemos en buscar nos aparecerá el usuario en un recuadro, para poder darle de alta hay que marcar la **casilla situada en la izquierda** y pulsar en **modificar**. \\ \\
+{{:altaadr2.png?400|}} \\ 
+
+Una vez dentro hay que pulsar en "**Otros puestos**". \\
+
+{{:altaadr4.png?400|}} \\ 
+Para dar un nuevo puesto hay que pulsar en "Nuevo", elegimos el órgano que nos indican en la incidencia, el cargo, el cuerpo y sobre todo lo más importante es **solo dar fecha de alta.** \\
+ {{:altaadr5.png?400|}} \\ 
+Importante saber si es el primer puesto del usuario, hay que asignarle roles para que pueda trabajar correctamente en @driano.
+Una vez dado el puesto de alta, para que el cambio se vea efectivo en @driano hay que sincronizar. 
+
+**Consejos y posibles errores:** \\ \\
+__**Ejemplo de que no hacer:**__ Si por ejemplo sabemos que el usuario va a estar 20 días en un juzgado, si se le indica fecha de baja para dentro de 20 días, si nos hubiéramos equivocado dando el cargo o la fecha de alta pues no nos permitiría cambiar o eliminar el puesto.  \\ 
+
+**Información útil**: Si el nombre de usuario tiene tilde en el filtro se tiene que poner con tilde porque si no no hace la búsqueda.
+
+
+</panel></WRAP>
+
+</panel> </WRAP>
+
+{{tag>novalidada}}
+
+

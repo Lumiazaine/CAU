@@ -1,0 +1,95 @@
+﻿
+<html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>CONTRATACIÓN</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #39546E;
+            margin: 0;
+            padding: 20px;
+            padding-top: 70px;
+            
+        }
+
+        .main-container {
+            max-width: 1550px;
+            margin-top: 20px;
+            
+        }
+
+        .main-header {
+            background-color: #39546E;
+            color: white;
+            padding: 25px 20px;
+            font-size: 2rem;
+            font-weight: bold;
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+            margin-bottom: 20px;
+            
+        }
+
+        .block {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 22px;
+            margin-bottom: 25px;
+            border: 1px solid #c5ccd4;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+            
+        }
+
+        .block h2 {
+            margin-top: 0;
+            color: #39546E;
+            border-bottom: 2px solid #39546E;
+            padding-bottom: 10px;
+            
+        }
+        
+        a {
+            color: #0051A3;
+            text-decoration: none;
+            
+        } 
+        
+    </style>
+</head>
+
+<body>
+
+    <div class="main-container">
+
+        <div class="main-header">CONTRATACIÓN</div>
+     
+<!-- Bloque Portal Capacitación -->
+        <div class="block">
+        
+            <h2>Contacta</h2>
+                        
+            <ul>
+                <li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_contactos#explotaci%C3%B3n-devops">Página Contacto (Reemplazar nombre con nombre de departamento)</a></li>
+            </ul>
+        </div>     
+        
+<!-- Bloque Analítica y Gobierno del Dato -->
+        <div class="block">
+        
+            <h2>Tus Primeros Pasos</h2>
+            <p>1. Tu responsable debe hacerte llegar las credenciales de usuario de Active Directory, LDAP y usuario Remedy.</p>
+            <p>2. Necesitas una licencia de Microsoft Teams, contactar con <a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_contactos#oficina-t%C3%A9cnica-sacoep">Paco Belmonte</a> para que te incluya en la organización del SSDJ.</p>
+            <p>3. Necesitas tener Certificado digital actualizado.</p>
+            <p>4. Necesitas descargar el cliente de VPN para trabajar desde casa, ruta: \\iusnas05.justicia.junta-andalucia.es\SIJ\10. Proyectos en curso\04 CiberJ\01 Seguridad\01 S5-Securización Puestos de Trabajo\Manuales de usuario\</p>
+            <p>5. Usuario de HGP para meter las horas de trabajo, contactar con <a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_contactos#oficina-t%C3%A9cnica-sacoep">Tu responsable</a></p>
+            <p>6. Necesitas tener acceso a la maquina de salto con la que trabajamos:</p>
+        </div>
+    </div>
+
+</body>
+</html>
+
+{{tag>validada}}
+

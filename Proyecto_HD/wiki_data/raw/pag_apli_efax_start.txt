@@ -1,0 +1,163 @@
+﻿
+<html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>PLANTILLA APLICACIONES</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #39546E;
+            margin: 0;
+            padding: 20px;
+            padding-top: 70px;
+            
+        }
+
+        .main-container {
+            max-width: 1550px;
+            margin: 0 auto;
+        }
+
+        .main-header {
+            background-color: #39546E;
+            color: white;
+            padding: 25px 20px;
+            font-size: 2rem;
+            font-weight: bold;
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .block {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 22px;
+            margin-bottom: 25px;
+            border: 1px solid #c5ccd4;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .block h2 {
+            margin-top: 0;
+            color: #39546E;
+            border-bottom: 2px solid #39546E;
+            padding-bottom: 10px;
+            
+        }
+        
+        a {
+            color: #0051A3;
+            text-decoration: none;
+            
+        } 
+        
+        .btn-volver {
+            background-color: #39546E;
+            color: white;
+            padding: 10px 20px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+            
+        }
+
+        .btn-volver:hover {
+            background-color: #39546E; 
+            color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transform: translateY(-2px); 
+            
+        }
+        
+    </style>
+</head>
+
+<body>
+
+<!-- sustituir enlace si se requiere -->
+<a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_apli" class="btn-volver">Volver</a>
+
+    <div class="main-container">
+
+        <div class="main-header">eFax</div>
+
+        <div style="margin: 15px;">
+            <p>El servicio de eFax, proporciona capacidad para enviar y recibir faxes desde la cuenta de correo genérica del órgano en que se presta servicio (cuenta que se proporciona conjuntamente con eFax), evitando así problemas de funcionamiento del fax físico tradicional, gasto en fungibles, extravíos y acumulación de papel impreso; y facilitando al máximo tanto el envío como la recepción de faxes ya que se gestiona como un correo electrónico. Permite el envío de documento en múltiples formatos. (RTF, Word, Excel, PowerPoint, PDF, texto plano, jpg, gif, documentos OpenOffice o LibreOffice, etc.)</p>
+            
+        </div>
+
+        <!-- Bloque Acceso -->
+        <div class="block">
+            <h2>Acceso</h2>
+            <ul>
+                <li>URL:</li>
+                <li>Contacta:</li>
+                <li>Formulario:</li>
+                <li>BBDD:</li>
+            </ul>
+        </div>
+
+        <!-- Bloque Capacitación -->
+        <div class="block">
+            <h2>Capacitación</h2>
+            <ul>
+                <li><a href="https://capacitacion.justicia.junta-andalucia.es">Contenidos Digitales de Capacitación (Portal de Capacitación de Justicia Digital Andalucía)</a></li>
+                <li><a href="https://videos.justicia.junta-andalucia.es/home">Portal de contenidos en vídeo de Justicia Digital Andalucía</a></li>
+            </ul>
+        </div>
+
+      <h1>Procedimiento para el alta de números de fax en eFax</h1>
+    
+    <p>Para solicitar el alta de números de teléfono asociados a dispositivos de fax físicos, vinculados a cuentas de fax virtual proporcionadas por la herramienta <strong>eFax</strong>, con el fin de permitir la recepción de documentos en formato electrónico, se seguirá el siguiente procedimiento:</p>
+
+    <h5><strong>1. Solicitud</strong></h5>
+    <p>La petición podrá recibirse mediante <strong>ticket en Remedy</strong> o por <strong>correo electrónico</strong>. En dicha solicitud se deberá especificar:</p>
+    <ul>
+        <li>El número de teléfono (correspondiente al fax).</li>
+        <li>La dirección de correo electrónico a la que se asociará.</li>
+    </ul>
+
+    <h5><strong>2. Autorización</strong></h5>
+    <p>La solicitud deberá contar con la autorización correspondiente de puesto de trabajo, previa consulta con la jefatura.</p>
+
+    <h5><strong>3. Vinculación</strong></h5>
+    <p>El número se asociará a la cuenta del órgano correspondiente.</p>
+
+    <h5><strong>4. Gestión del alta</strong></h5>
+    <p>El <strong>CAU</strong> gestionará el alta en la herramienta eFax mediante una petición en <strong>SIO</strong>. Posteriormente, quedará a la espera de la respuesta por parte de <strong>RCJA</strong>.</p>
+
+    <h5><strong>5. Cierre y configuración</strong></h5>
+    <p>Una vez completado el proceso:</p>
+    <ul>
+        <li>Se registrará la actuación en el ticket de Remedy.</li>
+        <li>Se asignará a la <strong>DP</strong> para su configuración final.</li>
+    </ul>
+
+    <hr>
+
+    <div class="info-box">
+        <h2>Información del Servicio eFax</h2>
+        <p>El servicio de eFax de la Junta de Andalucía permite enviar y recibir faxes a través del correo electrónico corporativo.</p>
+        
+        <p><span class="highlight">¿Cómo enviar?</span> Se redacta un correo a <code>número_fax@fax.juntadeandalucia.es</code>, adjuntando los documentos (PDF, DOC, etc.).</p>
+        <p><span class="highlight">¿Cómo recibir?</span> La recepción llega al correo electrónico configurado como un archivo adjunto.</p>
+
+        <h3>Aspectos clave del uso:</h3>
+        <ul>
+            <li><span class="highlight">Destinatarios:</span> Puede ser un número fijo geográfico o un número corto de la Junta de Andalucía.</li>
+            <li><span class="highlight">Envío masivo:</span> Se pueden incluir múltiples destinatarios en el campo "Para:" separados por comas.</li>
+            <li><span class="highlight">Confirmación:</span> Generalmente, se recibe un correo de confirmación de "envío exitoso" o "fallido".</li>
+            <li><span class="highlight">Formatos:</span> Se recomienda enviar documentos en formato <strong>PDF</strong> para asegurar la correcta visualización.</li>
+        </ul>
+    </div>
+
+    </div>
+
+</body>
+</html>
+
+{{tag>validada}}
+

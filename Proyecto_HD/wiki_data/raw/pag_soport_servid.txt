@@ -1,0 +1,120 @@
+﻿
+======Soporte Servidores Departamentales y Medios======
+===Procedimiento===
+En la siguiente hoja de excel están todos los Servidores Medios que tienen soporte.
+\\iusnas05\SIJ\Sistemas\00\01-Repositorio_Info_Comun\02-Soporte AT3\2023_MULTIMARCA_SGT06822TIC, CONTR 2022 518248\CONTACTOS y ANS_mtto_multimarca_fabricante_junio-23.pdf
+
+Consultamos si el nº de serie del hardware afectado está en la lista anterior y si lo está llamar al fabricante:
+  * Soporte Servidores
+<html>
+<table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse; width: 100%;">
+  <thead>
+    <tr style="background-color: #f2f2f2; font-weight: bold;">
+      <th style="padding: 12px 10px; text-align: center;">MARCA</th>
+      <th style="padding: 12px 10px; text-align: center;">TECNOLOGÍA</th>
+      <th style="padding: 12px 10px; text-align: center;">CORREO DE SOPORTE</th>
+      <th style="padding: 12px 10px; text-align: center;">TELÉFONO DE SOPORTE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="background-color: white;">
+      <td style="padding: 12px 10px;">FUJITSU</td>
+      <td style="padding: 12px 10px;">Consolidada</td>
+      <td style="padding: 12px 10px;">costecnico@cosgs.com</td>
+      <td style="padding: 12px 10px;">912 96 42 42</td>
+    </tr>
+    <tr style="background-color: #f9f9f9;">
+      <td style="padding: 12px 10px;">FUJITSU</td>
+      <td style="padding: 12px 10px;">Reciente</td>
+      <td style="padding: 12px 10px;">cac.serv@ts.fujitsu.com</td>
+      <td style="padding: 12px 10px;">914 52 10 36</td>
+    </tr>
+    <tr style="background-color: white;">
+      <td style="padding: 12px 10px;">ORACLE</td>
+      <td style="padding: 12px 10px;">Consolidada</td>
+      <td style="padding: 12px 10px;">costecnico@cosgs.com</td>
+      <td style="padding: 12px 10px;">912 96 42 42</td>
+    </tr>
+    <tr style="background-color: #f9f9f9;">
+      <td style="padding: 12px 10px;">HP</td>
+      <td style="padding: 12px 10px;">Consolidada</td>
+      <td style="padding: 12px 10px;">soporte@itwise.es</td>
+      <td style="padding: 12px 10px;">916 40 97 93</td>
+    </tr>
+    <tr style="background-color: white;">
+      <td style="padding: 12px 10px;">HP</td>
+      <td style="padding: 12px 10px;">Reciente</td>
+      <td style="padding: 12px 10px;">-</td>
+      <td style="padding: 12px 10px;">902 87 72 77</td>
+    </tr>
+    <tr style="background-color: #f9f9f9;">
+      <td style="padding: 12px 10px;">IBM / LENOVO</td>
+      <td style="padding: 12px 10px;">Consolidada</td>
+      <td style="padding: 12px 10px;">soporte@gruposolutia.com</td>
+      <td style="padding: 12px 10px;">955 51 60 82</td>
+    </tr>
+    <tr style="background-color: white;">
+      <td style="padding: 12px 10px;">IBM</td>
+      <td style="padding: 12px 10px;">Reciente</td>
+      <td style="padding: 12px 10px;">-</td>
+      <td style="padding: 12px 10px;">901 10 00 00</td>
+    </tr>
+    <tr style="background-color: #f9f9f9;">
+      <td style="padding: 12px 10px;">EMC / DELL</td>
+      <td style="padding: 12px 10px;">Consolidada</td>
+      <td style="padding: 12px 10px;">soporte@gruposolutia.com</td>
+      <td style="padding: 12px 10px;">955 51 60 82</td>
+    </tr>
+    <tr style="background-color: white;">
+      <td style="padding: 12px 10px;">EMC</td>
+      <td style="padding: 12px 10px;">Reciente</td>
+      <td style="padding: 12px 10px;">cac.serv@ts.fujistu.com</td>
+      <td style="padding: 12px 10px;">914 52 10 36</td>
+    </tr>
+    <tr style="background-color: #f9f9f9;">
+      <td style="padding: 12px 10px;">NETAPP</td>
+      <td style="padding: 12px 10px;">Consolidada</td>
+      <td style="padding: 12px 10px;">soporte@gruposolutia.com</td>
+      <td style="padding: 12px 10px;">955 51 60 82</td>
+    </tr>
+    <tr style="background-color: white;">
+      <td style="padding: 12px 10px;">NETAPP</td>
+      <td style="padding: 12px 10px;">Reciente</td>
+      <td style="padding: 12px 10px;">cac.serv@ts.fujitsu.com</td>
+      <td style="padding: 12px 10px;">914 52 10 36</td>
+    </tr>
+    <tr style="background-color: #f9f9f9;">
+      <td style="padding: 12px 10px;">HUAWEI</td>
+      <td style="padding: 12px 10px;">Consolidada</td>
+      <td style="padding: 12px 10px;">costecnico@cosgs.com</td>
+      <td style="padding: 12px 10px;">912 96 42 42</td>
+    </tr>
+    <tr style="background-color: white;">
+      <td style="padding: 12px 10px;">HITACHI</td>
+      <td style="padding: 12px 10px;">Consolidada</td>
+      <td style="padding: 12px 10px;">soporte@gruposolutia.com</td>
+      <td style="padding: 12px 10px;">955 51 60 82</td>
+    </tr>
+    <tr style="background-color: #f9f9f9;">
+      <td style="padding: 12px 10px;">HITACHI</td>
+      <td style="padding: 12px 10px;">Reciente</td>
+      <td style="padding: 12px 10px;">-</td>
+      <td style="padding: 12px 10px;">901 10 99 00</td>
+    </tr>
+    <tr style="background-color: white;">
+      <td style="padding: 12px 10px;">DIVERSAS MARCAS</td>
+      <td style="padding: 12px 10px;">Consolidada</td>
+      <td style="padding: 12px 10px;">soporte@gruposolutia.com</td>
+      <td style="padding: 12px 10px;">955 51 60 82</td>
+    </tr>
+  </tbody>
+</table>
+
+</html>
+
+    * Si nos indican que no lo tienen registrado podemos contactar con CRIJA o Javier Lázaro
+      *  Contacto CRIJAH
+        * Consultas Inventario - Teléfono 954 54 44 31
+
+{{tag>validada}}
+

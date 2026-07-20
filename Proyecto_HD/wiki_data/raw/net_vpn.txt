@@ -1,0 +1,44 @@
+﻿
+====== Procedimiento de deshabilitación de accesos VPN de jueces ======
+
+El sistema **CSU** genera diariamente un fichero CSV en la ruta:
+
+  \\iusswjobs01\e$\JOBS\AD_TEMIS\Disable\usuarios_deshabilitados_vpn.csv
+
+Este fichero contiene la relación de usuarios VPN (jueces) que **no se han autenticado en el dominio en los últimos 63 días**.  
+Es necesario **deshabilitar el acceso desde estas VPNs hacia las redes de SSCC** a través del cortafuegos.
+
+----
+
+===== Scripts implicados =====
+
+Los scripts están ubicados en:
+
+  iussltools03/home/gtsr/DisableVpns
+
+**1. DisableVpns.sh** (Bash)  
+  * Descarga el fichero desde *iusswjobs01*.  
+  * Da formato al fichero.  
+  * Llama a *DisableVpnsFw.sh* con los parámetros adecuados.  
+  * Su ejecución está programada diariamente a las **06:00**.  
+
+**2. DisableVpnsFw.sh** (Expect)  
+  * Recibe como parámetros:  
+    - UsuarioFW  
+    - ClaveFW  
+    - IP de Usuario  
+    - Nombre de usuario  
+    - Grupo al que añadir  
+    - Fichero log  
+    - IP del FW  
+  * Se conecta al firewall y crea un usuario en el grupo indicado.  
+
+----
+
+===== Resultado de la ejecución =====
+
+Al finalizar la ejecución de **DisableVpns.sh**:  
+  * Se envía un correo a:  
+    **sistemas.gtsr.ius@juntadeandalucia.es**  
+  * En el correo se indica si se han añadido usuarios o no al grupo **vpns_jueces_disabl*
+

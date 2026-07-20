@@ -1,0 +1,292 @@
+﻿
+<WRAP info round box>
+===== Categoría de Servicio: Solicitud de acceso =====
+</WRAP>
+
+<WRAP round box  #E3F2FD>
+==== 1. Introducción y Alcance ====
+Esta categoría engloba todas las **solicitudes de acceso (Peticiones)** relacionadas con Altas de Aplicaciones Judiciales, Gestión Procesal y Configuración de Puesto.  
+Su correcta clasificación permite la asignación automática al grupo resolutor adecuado y garantiza la trazabilidad.
+</WRAP>
+
+
+
+<WRAP round box #F5F5F5>
+==== 2. Flujo de Categorización General (BMC Helix) ====
+
+^ Nivel ^ Campo BMC Helix ^ Valor / Descripción ^
+| Nivel 1 | Categoría Operacional N1 | Solicitud de acceso |
+| Nivel 2 | Categoría Operacional N2 | Alta / Baja / Modificación / Reseteo de contraseña |
+| Nivel 3 | Categoría Operacional N3 | Varía según aplicación o acción |
+| Producto N2 | Categoría de producto N2 | Aplicaciones Judiciales / Gestión Procesal / Personal externo |
+| Producto N3 | Categoría de producto N3 | Según aplicación o tipo de gestión (ver tabla inferior) |
+</WRAP>
+
+
+
+<WRAP round box #FFEBEE>
+==== 3. Asignación de Tickets (Grupos Resolutores) – INFORMACIÓN CLAVE ====
+
+Esta tabla indica el **grupo resolutor asignado** a cada categoría de producto N3.  
+Aplica únicamente a **Peticiones**.
+
+</WRAP>
+
+
+^ Cat. N1 ^ Cat. N2 ^ Producto N2 ^ Producto N3 ^ Grupo Resolutor Asignado ^
+| Solicitud de acceso | Alta | Aplicaciones Judiciales | Alfresco | Sistemas/GTSW |
+| Solicitud de acceso | Alta | Aplicaciones Judiciales | Alta Colectivos Lexnet | N3 Ministerio (requiere formulario) |
+| Solicitud de acceso | Alta | Aplicaciones Judiciales | Arconte | Nivel 1 / Centro de servicio al usuario |
+| Solicitud de acceso | Alta | Aplicaciones Judiciales | Ateneo | Nivel 1 / Centro de servicio al usuario |
+| Solicitud de acceso | Alta | Aplicaciones Judiciales | Correo corporativo | Nivel 1 / Centro de servicio al usuario |
+| Solicitud de acceso | Alta | Aplicaciones Judiciales | Escritorio Judicial | Nivel 1 / Centro de servicio al usuario |
+| Solicitud de acceso | Alta | Aplicaciones Judiciales | Evid | Nivel 3 Ministerio – cau@justicia.es |
+| Solicitud de acceso | Alta | Aplicaciones Judiciales | Gestor de incidencias/peticiones | Nivel 1 / Centro de servicio al usuario |
+| Solicitud de acceso | Alta | Aplicaciones Judiciales | ISL | Nivel 1 / Centro de servicio al usuario |
+| Solicitud de acceso | Alta | Aplicaciones Judiciales | Jara | Servicios internos / RunTime|
+| Solicitud de acceso | Alta | Aplicaciones Judiciales | Mantenimiento Temis | Servicios internos / RunTime|
+| Solicitud de acceso | Alta | Aplicaciones Judiciales | Nexo-Burofax | Nivel 1 / Centro de servicio al usuario |
+| Solicitud de acceso | Alta | Aplicaciones Judiciales | Orfila | Nivel 3 / Ministerio |
+| Solicitud de acceso | Alta | Aplicaciones Judiciales | Quenda (Gestión de turnos) | Nivel 1 / Centro de servicio al usuario |
+| Solicitud de acceso | Alta | Aplicaciones Judiciales | Temis | Nivel 1 / Centro de servicio al usuario |
+| Solicitud de acceso | Alta | Aplicaciones Judiciales | Textualización | Servicios / Textualización |
+| Solicitud de acceso | Alta | Aplicaciones Judiciales | Zoom | Nivel 1 / Centro de servicio al usuario |
+
+
+^ Cat. N1              ^ Cat. N2  ^ Producto N2       ^ Producto N3            ^ Grupo Resolutor Asignado                 ^
+| Solicitud de acceso  | Alta     | Gestión Procesal  | Primer destino         | Nivel 1 / Centro de servicio al usuario  |
+| Solicitud de acceso  | Alta     | Gestión Procesal  | Compaginada            | Nivel 1 / Centro de servicio al usuario  |
+| Solicitud de acceso  | Alta     | Gestión Procesal  | Sustitución            | Nivel 1 / Centro de servicio al usuario  |
+| Solicitud de acceso  | Alta     | Gestión Procesal  | Traslado               | Nivel 1 / Centro de servicio al usuario  |
+| Solicitud de acceso  | Alta     | Gestión Procesal  | Prácticas              | Nivel 1 / Centro de servicio al usuario  |
+| Solicitud de acceso  | Alta     | Gestión Procesal  | Alta Inspectores CGPJ  | Nivel 1 / Centro de servicio al usuario  |
+
+<panel type="info">
+
+
+==== Flujo de tareas ====
+
+
+Este documento describe el **flujo completo** de creación automática de tareas (TAE) y la generación de la **WO de Soporte Formativo**, incluyendo las variaciones para: - Altas de nueva incorporación - Traslados - Perfiles con entrega de equipamiento (portátil/ISL) - Tickets creados por Nivel 1
+
+📘 **Diagrama de Flujo**
+
+                           ┌──────────────────────────────────────────┐
+                           │              SOLICITUD DE ACCESO         │
+                           └──────────────────────────────────────────┘
+
+             
+
+{{ :pag_ciberseg:diagrama_de_gestion_de_usuarios.png?nolink&600 |}}
+
+
+                    
+========
+<WRAP tip>
+========
+
+• El orden de ejecución de las tareas se controla mediante el número de SECUENCIA.
+
+• Las tareas pueden seleccionarse individualmente en función de la necesidad del caso concreto.
+
+• El cierre del ticket puede ser:
+  - Por el usuario (vía Digital Workplace)
+  - Automático a los 15 días
+  - Manual por técnico CAU
+</WRAP>
+📘 **Secuencia estándar del proceso**
+
+Generación inicial de tareas
+
+{{ :pag_ciberseg:plantillas_de_tareas_para_el_alta.png?nolink |}}
+
+===== 1. Creación del ticket =====
+
+El ticket de Gestión de Usuario puede crearse de dos formas:
+
+  * Desde plantilla de Orden de Trabajo.
+  * Sin plantilla (creación manual del ticket).
+
+El comportamiento del sistema y la generación de tareas dependerán de esta elección.
+
+
+===== 2. Caso 1: Ticket creado desde plantilla =====
+
+==== 2.1 Generación inicial de tareas ====
+
+Cuando el ticket se crea desde plantilla, el sistema genera automáticamente las siguientes tareas:
+
+  - Carga de perfil
+  - Alta de correo del usuario
+  - Solicitud de soporte formativo
+
+El ticket queda asignado inicialmente a CAU.
+
+==== 2.2 Gestión por CAU y cambio de estado ====
+
+Una vez que CAU realiza la gestión del alta:
+
+  - Se asigna el ticket se asigna a un usuario técnico de CAU.
+  - El técnico cambia el estado del ticket a “En curso”.
+
+Al pasar a este estado, se activan las tareas.
+
+==== 2.3 Asignación de tareas ====
+
+Las tareas se asignan de la siguiente forma:
+
+  - Carga de perfil: Asignada a: DT de la provincia u órgano del usuario
+  - Alta de correo del usuario: Asignada a: CAU
+  - Solicitud de soporte formativo: Asignada a: Capacitación
+
+==== 2.4 Dependencia entre tareas ====
+<WRAP tip>
+Estas tareas se activan cuando el técnico de DT cierra la tarea de “Carga de perfil”. No se activan inmediatamente.
+</WRAP>
+  * Alta de correo del usuario
+  * Solicitud de soporte formativo
+
+==== 2.5 Paso a estado “Finalizado” ====
+
+Cuando todas las tareas activas han sido cerradas correctamente, el ticket pasa automáticamente al estado “Finalizado”.
+
+
+==== 2.6 Perfiles tipo 1 (caso especial) ====
+<WRAP tip round box>
+En el caso de perfiles tipo 1, además de las tareas anteriores, el sistema genera las siguientes tareas adicionales:
+</WRAP>
+  - Entrega de portátil
+  - Alta ISL
+
+**Características de estas tareas:**
+
+  * Se activan al mismo tiempo que las tareas de correo y soporte formativo.
+  * Se crean en estado “Pendiente”.
+  * Se asignan al equipo responsable de la gestión.
+
+==== 2.7 Paso a estado “Finalizado” ====
+
+Cuando todas las tareas (incluidas las adicionales en perfiles tipo 1) están cerradas, el ticket pasa a estado “Finalizado”.
+
+==== 2.8 Cierre del ticket ====
+
+Una vez finalizado el ticket: El usuario ya dispone de acceso al portal DIGITAL WORKPLACE.
+
+  - El usuario puede acceder y cerrar la petición.
+  - Si el usuario no realiza el cierre:
+  - El ticket se cerrará automáticamente a los 15 días.
+
+El técnico de CAU puede cerrar el ticket manualmente una vez finalizada la gestión, en este caso, el usuario no tiene que intervenir en el cierre. Ya se ha validado presencialmente, con la carga de perfil y con la formación, ya sea presencial o remota.
+
+===== 3. Caso 2: Ticket creado sin plantilla =====
+
+==== 3.1 Comportamiento inicial ====
+
+Si el ticket se crea sin plantilla: (**no recomendable**)
+
+No se generan automáticamente las tareas de:
+
+  * Carga de perfil
+  * Alta de correo del usuario
+  * Solicitud de soporte formativo
+
+El ticket se asigna igualmente a CAU.
+
+==== 3.2 Generación manual de tareas ====
+
+En este caso CAU debe generar manualmente las tareas desde plantilla.
+
+Una vez creadas las tareas, el procedimiento continúa exactamente igual que en el Caso 1 (ticket con plantilla).
+
+<WRAP tip> 
+===== 4. Consideraciones operativas  =====
+</WRAP>
+  - 📌 El orden de ejecución de las tareas puede modificarse cambiando el número de secuencia.
+  - 📌 Es posible seleccionar únicamente las tareas necesarias, en función del caso concreto.
+  - 📌 El cierre del ticket puede producirse por:
+  - 📌 El usuario (vía Digital Workplace)
+  - 📌 Cierre automático a los 15 días
+  - 📌 Cierre manual por técnico de CAU
+
+
+
+
+</panel>
+
+<panel type="info">
+<WRAP round box  #E3F2FD>
+
+📘 Flujo de altas de personal externo
+</WRAP>
+Las tareas solo se registran si la petición la generas desde la plantilla de orden de trabajo.
+
+  * Se asigna automáticamente al grupo y usuario técnico responsable.
+  * Puedes cambiar el orden de ejecución de las tareas.
+
+Si se crea a mano:
+
+  * Hay que asignar al grupo y responsable ya que por defecto se asigna a CAU.
+  * Hay que generar las tareas manualmente.
+
+
+
+
+
+                           ┌──────────────────────────────────────────┐
+                           │ Usuario / Nivel 1 crea ticket             │
+                           │ “Solicitud de Alta – Personal Externo”    │
+                           └───────────────────┬──────────────────────┘
+                                               │
+                                  Estado: Pendiente de aprobación
+                                               │
+                                               ▼
+                           ┌──────────────────────────────────────────┐
+                           │ Asignación a Oficina Técnica              │
+                           │ Grupo: OT / OT_Coord_01                   │
+                           └───────────────────┬──────────────────────┘
+                                               │
+                              OT gestiona autorización (Jefatura)
+                                               │
+                                               ▼
+                           ┌──────────────────────────────────────────┐
+                           │ ¿Autorización validada?                   │
+                           └───────────────────┬──────────────────────┘
+                                               │
+                                              SÍ
+                                               │
+                                               ▼
+                           ┌──────────────────────────────────────────┐
+                           │ OT cambia estado a “En curso”             │
+                           │ (se crean tareas automáticamente)         │
+                           └───────────────────┬──────────────────────┘
+                                               │
+                                               ▼
+                           ┌──────────────────────────────────────────┐
+                           │ Tareas automáticas (secuenciales):        │
+                           │  1) Alta VPN / AD          (Sistemas/GTSR)│
+                           │  2) Carpetas/Impresoras    (Sistemas/GTSR)│
+                           │  3) Alta TEMIS             (CAU)          │
+                           │  4) Alta REMEDY            (RunTime)      │
+                           └───────────────────┬──────────────────────┘
+                                               │
+                                               ▼
+                           ┌──────────────────────────────────────────┐
+                           │ Al cerrar la última tarea (REMEDY):       │
+                           │ - Ticket principal pasa a “Finalizado”    │
+                           └───────────────────┬──────────────────────┘
+                                               │
+                                               ▼
+                           ┌──────────────────────────────────────────┐
+                           │ Cierre y comunicación                     │
+                           └──────────────────────────────────────────┘
+Ejemplo:
+
+
+{{:pag_ciberseg:alta_personal_externo._flujos.png?nolink |}}
+
+
+</panel>
+
+
+
+

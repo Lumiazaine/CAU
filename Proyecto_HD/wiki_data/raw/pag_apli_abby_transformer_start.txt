@@ -1,0 +1,41 @@
+﻿
+
+ <WRAP> <panel type="primary" title="ABBYY PDF Transformer"> 
+
+**ABBYY PDF Transformer** ofrece el conjunto completo de funciones para un trabajo eficiente en todo el ciclo de vida de un documento PDF. Estas funciones incluyen herramientas intuitivas para visualizar y
+editar el contenido, comentar y colaborar en documentos, realizar búsquedas de texto completo y, crear, convertir y proteger los archivos PDF. Además de OCR y conversión de documentos, también ofrece funciones útiles para la **limpieza documental**, como:
+
+  * **Eliminación de metadatos** (autor, ruta, software).
+  * **Limpieza de contenido oculto** (comentarios, texto invisible, versiones anteriores).
+  * **Conversión a PDF/A**, eliminando elementos dinámicos como JavaScript, formularios y enlaces externos.
+
+Estas funciones ayudan a garantizar documentos seguros, limpios y estandarizados.
+<WRAP> 
+<panel type="info" title="Acceso">
+  * **URL:** 
+  * **Contacta:** 
+  * **Formulario:**    Enlace a carpeta de red
+  * **BBDD:** 
+</panel>
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Capacitación">
+  * [[https://capacitacion.justicia.junta-andalucia.es/|Cursos y Manuales de Usuario]]
+  * [[https://videos.justicia.junta-andalucia.es/|Contenidos en video]]
+  * [[https://capacitacion.justicia.junta-andalucia.es/mod/glossary/view.php?id=196|Preguntas frecuentes (Portal de Capacitación)]]
+</panel>
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Procedimientos y Problemas Conocidos">
+  * [[pag_apli:abby_transformer:problemas|Procedimientos y Problemas Conocidos]] 
+</panel>
+</WRAP>
+
+</panel> 
+</WRAP>
+
+{{tag>validada}}
+
+

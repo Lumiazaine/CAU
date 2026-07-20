@@ -1,0 +1,6 @@
+﻿
+====== Esquema de infraestructura. ======
+
+{{:060b67dd08f37077ea722310c4cc79d4.png}}
+
+

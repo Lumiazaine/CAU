@@ -1,0 +1,56 @@
+﻿
+===== Procedimientos Técnicos del Departamento de Seguridad y Redes =====
+
+A continuación se listan los procedimientos oficiales para la correcta gestión, configuración y aseguramiento de los sistemas y dispositivos de red.
+
+**0.Operativa :**
+
+   * [[:net:operativa|Operativa]]
+
+**1.Instalación y Configuración :**
+
+   * [[:net:procedimientos:instalacion-configuracion|Procedimientos de instalación y configuración de dispositivos de red]]
+
+**2. Seguridad :**
+
+  * [[:net:procedimientos:auditoria-logs|Procedimiento de auditoría de accesos y generación/revisión de logs]]
+
+  * [[:net:procedimientos:gestion-vulnerabilidades|Procedimiento de gestión de vulnerabilidades técnicas y revisión de alertas]]
+
+  * [[:net:seguridad:bastionado|Procedimientos de hardening o bastionado de dispositivos de red]]
+
+  * [[:net:procedimientos:control-accesos|Procedimiento de control de accesos físicos/lógicos a los sistemas]]
+
+  * [[:net:procedimientos:contraseñas|Procedimiento de contraseñas]]
+
+**3. Gestión de Cambios y Configuración :**
+
+  * [[:net:procedimientos:gestion-cambios|Procedimiento de Gestión de Cambios y Configuraciones]]
+
+**4. Monitorización y Diagnóstico : **
+
+  * [[:net:procedimientos:monitorizacion|Procedimiento de Monitorización y Diagnóstico]]
+
+**5. Operacion y Soporte :**
+
+  *  [[:net:procedimientos:resolucion-incidencias|Procedimiento de Intervención y Resolución de Incidencias]]
+      * 1.Línea de datos - Pérdida de servicio
+      * 2.Línea de datos - Degradación
+      * 3. FW-VPN - Pérdida de servicio
+      * 4. Balanceador F5
+        * 4.1- Balanceador - Pérdida de servicio
+        * 4.2 Balanceador - Degradación de servicio
+
+  * [[:net:procedimientos:alta-disponibilidad|Procedimiento de Alta Disponibilidad y Redundancia]]
+
+**6. Tareas Mantenimiento Diario :**
+
+  * [[:net:tareasmantenimiento_diario|Tareas Mantenimiento Diario]]
+
+**7. Altas IPs Adriano :**
+
+  * [[:net:altas_ips_adrianoaltas_ip_adriano|Altas IPs AdrianoAltas IP Adriano]]
+
+**8. VPN :**
+
+ [[:net:VPN |VPN]]

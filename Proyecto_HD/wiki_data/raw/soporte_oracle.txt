@@ -1,0 +1,37 @@
+﻿
+====== Soporte Oracle ======
+
+===== Alcance del Soporte =====
+
+El soporte Oracle ofrecido por el equipo de GTBD abarca las siguientes áreas:
+
+  * Instalación y configuración de instancias Oracle (standalone y RAC)
+  * Administración y mantenimiento de bases de datos Oracle
+  * Diagnóstico y resolución de incidencias (ORA-xxxx, bloqueos, rendimiento)
+  * Monitorización de alertas mediante Zabbix, Nagios y Oracle OEM
+  * Gestión de backups y restauraciones con RMAN
+  * Configuración de DataGuard (Standby físico/lógico)
+  * Revisión de espacio en tablespaces, FRA, redologs, etc.
+  * Aplicación de parches (OPatch) y actualizaciones menores
+  * Creación de usuarios, roles y gestión de permisos
+  * Asistencia en integraciones con aplicaciones (mediante TNS, ODBC, etc.)
+
+===== Herramientas Utilizadas =====
+
+  * **OEM Cloud Control**
+  * **Zabbix / Nagios**
+  * **SQL*Plus / SQLcl / RMAN**
+  * **DataPump (expdp/impdp)**
+  * **Oracle Net Manager**
+  * **AWR/ASH para diagnósticos de rendimiento**
+===== Buenas Prácticas =====
+
+  * Uso de perfiles de recursos para controlar sesiones y consumos
+  * Configuración de alertas proactivas (uso de espacio, bloqueos, etc.)
+  * Automatización de exportaciones y tareas de mantenimiento
+  * Aplicación de política de retención de logs y backups
+  * Documentación actualizada por cada cambio en producción
+
+=====   =====
+
+

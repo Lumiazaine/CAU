@@ -1,0 +1,20 @@
+﻿
+Instalación y parches
+  * Instalar únicamente los componentes necesarios de Oracle Database.
+  * Mantener al día Critical Patch Updates (CPU) y Patch Set Updates (PSU).
+
+Gestión de usuarios y privilegios
+  * Eliminar cuentas innecesarias o dadas de baja.
+  * Cambiar contraseñas por defecto de todas las cuentas nominales con el inicio de session.
+  * Configuración de perfiles de usuarios (longitud mínima, caducidad, intentos fallidos).
+  * Aplicar el principio de mínimo privilegio: cada usuario solo con los roles y permisos necesarios. 
+  * Revisar y auditar regularmente roles.
+
+Red y comunicaciones
+  * Restringir el acceso al puerto de Oracle Listener (por defecto 1521).
+  * Configurar reglas de firewall y permitir solo IPs autorizadas.
+
+Sistema operativo y archivos
+  * Asegurar permisos de los archivos del Oracle Home y Datafiles.
+  * Ejecutar Oracle bajo un usuario dedicado sin privilegios de administrador del sistema.
+

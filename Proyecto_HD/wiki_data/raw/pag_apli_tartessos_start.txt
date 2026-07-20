@@ -1,0 +1,41 @@
+﻿
+<WRAP> 
+<panel type="primary" title="Tartessos Dynalias">
+
+Aplicación de pedidos de Gráficas Tartessos, adjudicataria de los contratos de material de oficina y material de imprenta de los órganos judiciales de Córdoba y provincia.
+
+<WRAP> 
+<panel type="info" title="Acceso">
+
+  * **URL:**https://tartessos.dynalias.net/
+  * **Contacta:**
+  * **Formulario:**
+  * **BBDD:**
+
+</panel> 
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Capacitación">
+
+  * [[https://capacitacion.justicia.junta-andalucia.es|Contenidos Digitales de Capacitación (Portal de Capacitación de Justicia Digital Andalucía)]]
+  * [[https://videos.justicia.junta-andalucia.es/home|Portal de contenidos en vídeo de Justicia Digital Andalucía]]
+
+</panel>
+ 
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Procedimientos y Problemas Conocidos">
+
+  * [[pag_apli:tartessos:problemas#procedimiento_alta_para_tecnicos|Alta/Baja técnico]]
+  * [[pag_apli:tartessos:problemas|Procedimientos y Problemas Conocidos]]
+
+</panel>
+ 
+</WRAP>
+
+</panel> 
+</WRAP>
+
+{{tag>validada}}

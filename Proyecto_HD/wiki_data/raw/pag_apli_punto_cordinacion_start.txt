@@ -1,0 +1,131 @@
+﻿
+<html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>PLANTILLA APLICACIONES</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #39546E;
+            margin: 0;
+            padding: 20px;
+            padding-top: 70px;
+            
+        }
+
+        .main-container {
+            max-width: 1550px;
+            margin: 0 auto;
+        }
+
+        .main-header {
+            background-color: #39546E;
+            color: white;
+            padding: 25px 20px;
+            font-size: 2rem;
+            font-weight: bold;
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .block {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 22px;
+            margin-bottom: 25px;
+            border: 1px solid #c5ccd4;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .block h2 {
+            margin-top: 0;
+            color: #39546E;
+            border-bottom: 2px solid #39546E;
+            padding-bottom: 10px;
+            
+        }
+        
+        a {
+            color: #0051A3;
+            text-decoration: none;
+            
+        } 
+        
+        .btn-volver {
+            background-color: #39546E;
+            color: white;
+            padding: 10px 20px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+            
+        }
+
+        .btn-volver:hover {
+            background-color: #39546E; 
+            color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transform: translateY(-2px); 
+            
+        }
+        
+    </style>
+</head>
+
+<body>
+
+<!-- sustituir enlace si se requiere -->
+<a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_apli" class="btn-volver">Volver</a>
+
+    <div class="main-container">
+
+        <div class="main-header">PUNTOS DE COORDINACIÓN</div>
+
+        <div style="margin: 15px;">
+        
+        <p>Los <b>Letrados y Letradas de la Administración de Justicia</b> comunicarán las órdenes de protección de las víctimas de violencia doméstica que se adopten y sus respectivas solicitudes, mediante testimonio íntegro, a aquel o aquellos puntos de coordinación designados por la Comunidad Autónoma correspondiente, que constituirán el canal único de notificación de estas resoluciones a centros, unidades, organismos e instituciones competentes en materia de protección social en relación con estas víctimas, de acuerdo con lo establecido en el apartado 8 del artículo 544ter de la Ley de Enjuiciamiento Criminal.</p>
+        <p>La comunicación del Letrado o Letrada se remitirá en un plazo nunca superior a veinticuatro horas desde su adopción, por vía telemática o electrónica o, en su defecto, por medio de fax o correo urgente.</p>
+        <p>El punto de coordinación designado hará referencia al centro, unidad, organismo o institución que centraliza la información, su dirección postal y electrónica, números de teléfono y fax, régimen horario y persona o personas responsables del mismo. En el caso de Comunidades Autónomas pluriprovinciales podrá identificarse un punto de conexión específico para cada provincia.</p>
+        <p>El Consejo General del Poder Judicial mantendrá una relación actualizada de los puntos de coordinación designados, remitirá tal identificación en su integridad y sus modificaciones o actualizaciones a los Ministerios de Justicia, Trabajo y Asuntos Sociales e Interior, así como a la Fiscalía General del Estado y al Tribunal Superior de Justicia, Decanatos y Juzgados de Instrucción del ámbito autonómico correspondiente.</p>
+   
+        </div>
+
+        <!-- Bloque Acceso -->
+        <div class="block">
+            <h2>Acceso</h2>
+            <ul>
+                <li>URL: <a href="https://www.poderjudicial.es/cgpj/es/Temas/Violencia-domestica-y-de-genero/La-orden-de-proteccion/Puntos-de-Coordinacion">https://www.poderjudicial.es/cgpj/es/Temas/Violencia-domestica-y-de-genero/La-orden-de-proteccion/Puntos-de-Coordinacion</a></li>
+                <li>Contacta:</li>
+                <li>Formulario: Enlace a carpeta de red</li>
+                <li>BBDD:</li>
+            </ul>
+        </div>
+
+        <!-- Bloque Capacitación -->
+        <div class="block">
+            <h2>Capacitación</h2>
+            <ul>
+                <li><a href="https://capacitacion.justicia.junta-andalucia.es">Contenidos Digitales de Capacitación (Portal de Capacitación de Justicia Digital Andalucía)</a></li>
+                <li><a href="https://videos.justicia.junta-andalucia.es/home">Portal de contenidos en vídeo de Justicia Digital Andalucía</a></li>
+            </ul>
+        </div>
+
+        <!-- Bloque Procedimientos y Problemas Conocidos -->
+        <div class="block">
+            <h2>Procedimientos y Problemas Conocidos</h2>
+            <ul>
+                <li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_apli:punto_cordinacion:problemas">Procedimientos y Problemas Conocidos</a> </li>
+
+            </ul>
+        </div>
+
+    </div>
+
+</body>
+</html>
+
+{{tag>validada}}
+

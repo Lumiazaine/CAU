@@ -1,0 +1,51 @@
+﻿
+<WRAP> 
+<panel type="primary" title="Procedimientos y Problemas Conocidos de ISL">
+
+[[start|Volver atrás]]
+
+<WRAP> 
+<panel type="info">
+
+====== Procedimiento de Emparejamiento de ISL ======
+
+Primero localizamos el equipo.
+
+{{:pag_comunicaciones:isl:isl1.jpg?800|}}
+
+\\
+Por ejemplo este, SEVILLA\SE5C-4803-GES02.
+
+{{:pag_comunicaciones:isl:isl2.jpg?800|}}
+
+\\
+Vamos al botón de opciones (el que está a la derecha del todo del equipo) y nos vamos a la opción "Compartir".
+
+{{:pag_comunicaciones:isl:isl3.jpg?600|}}
+
+\\
+Aquí te aparece esta ventana que te permite añadir y quitar gente.
+
+{{:pag_comunicaciones:isl:isl4.jpg?600|}}
+
+\\
+En "seleccionados" puedes ver quienes están añadidos, si los desmarcas, los "quitas", y los que añadas desde "Usuarios" se les autoriza el equipo.
+
+{{:pag_comunicaciones:isl:isl5.jpg?700|}}
+
+\\
+''**¡IMPORTANTE!**'' Si tiene en el apartado ldap "N/A" como en la captura, lo tienes que pasar a micro para que lo habiliten.
+
+{{:pag_comunicaciones:isl:isl6.jpg?700|}}
+
+\\
+En cambio si aparece "JUST" está todo correcto y con solo marcarlo y darle al botón "Compartir", el usuario estaría habilitado (el que marques) y deshabilitado (el que desmarques).
+
+{{:pag_comunicaciones:isl:isl7.jpg?100|}}
+
+</panel> 
+</WRAP>
+
+[[start|Volver atrás]]
+
+{{tag>novalidada}}

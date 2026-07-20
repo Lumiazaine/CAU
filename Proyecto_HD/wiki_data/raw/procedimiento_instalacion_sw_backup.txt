@@ -1,0 +1,12 @@
+﻿
+====== Procedimiento de instalación de software relacionado con almacenamiento. ======
+
+===== Objetivo =====
+
+El fin de este documento es indicar cómo se realizan las instalaciones de software utilizado para el almacenamiento en la actualidad.
+
+===== Procedimiento. =====
+
+GTAB se encarga de montar los filesystems en la máquina encargada de hacer las copias de seguridad de las sedes.
+
+

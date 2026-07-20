@@ -1,0 +1,832 @@
+﻿
+====== 1. Introducción ======
+
+Para realizar la ampliación de los discos de un diskgroup de ASM, hay que realizar cierta operativa previa y estas operaciones realizarlas en todos los nodos del cluster.\\
+Desde GTSL han instalado un paquete en las OL llamado HPlun para que sea mas facil de indentificar los discos en la cabina
+
+=====   =====
+
+1.2 Resumen de comandos
+
+=====   =====
+
+### REVISIÓN DE ESPACIO ###
+
+## [oracle@adrproslbd1gc01 ]$
+
+export ORACLE_SID=CDBIC2\\
+sqlplus / as sysdba
+
+# SQL>;
+
+SELECT GROUP_NUMBER, NAME, STATE, TYPE, trunc(TOTAL_MB/1024,2) TOTAL_GB, trunc(FREE_MB/1024,2) FREE_GB, (FREE_MB/TOTAL_MB)*100 "LIBRE %" FROM V$ASM_DISKGROUP ORDER BY 7 desc;
+
+## [root@adrproslbd1gc01 ]#
+
+lsblk -f | grep PRODATA
+
+fdisk -l /dev/sdh
+
+### EN AMBOS NODOS ###
+
+## [root@adrproslbd1gc01 ]#
+
+rescan-scsi-bus.sh -s
+
+parted /dev/sdh resizepart 1 100%
+
+su - oracle
+
+## [oracle@adrproslbd1gc01 ~]$
+
+export ORACLE_SID=+ASM1\\
+export ORACLE_HOME=/u01/app/19.3.0/grid\\
+sqlplus / as sysasm
+
+# SQL>;
+
+alter diskgroup PRODATA resize all;
+
+### Para FRA: ###
+
+## [oracle@adrproslbd1gc01 ]$
+
+export ORACLE_SID=CDBIC2\\
+sqlplus / as sysdba
+
+# SQL>;
+
+alter system set db_recovery_file_dest_size=204768M scope=both;
+
+=====   =====
+
+1.3 Resumen con Multipath
+
+=====   =====
+
+### EN TODOS LOS NODOS ###\\
+### Como root ###
+
+# Chequeamos el espacio actual #\\
+lsblk | grep CORE_B\\
+# Reescaneamos los volumenes #\\
+rescan-scsi-bus.sh -s\\
+# Si chequeamos no cambia porque hay que reiniciar el multipathd.service #\\
+lsblk | grep CORE_B\\
+# Reiniciamos multipathd.service #\\
+systemctl status multipathd.service\\
+systemctl restart multipathd.service\\
+systemctl status multipathd.service\\
+# Chequeamos que ve el cambio de tamaño en el volumen pero no en la particion #\\
+lsblk | grep CORE_B\\
+fdisk -l |grep CORE_BL\\
+# Ampliamos la peticion #\\
+parted /dev/mapper/PRO_CORE_BLOB01 resizepart 1 100%\\
+# Chuequeamos que se ve la ampliacion en volumen y particion #\\
+lsblk | grep CORE_B
+
+### Como Oracle ###\\
+## Se amplia a nivel de ASM ##\\
+./.asm\\
+alter diskgroup PROCOREBLOB resize all;
+
+======   ======
+
+1.4 Agregar disco al volumen de ASM.
+
+======   ======
+
+# asmcmd\\
+ASMCMD>; lsdsk –candidate\\
+Path\\
+/dev/oracleasm/disks/PROPORTALFRA03\\
+\\
+pasamos a cargar las variables de entorno de asm y agregamos el disco\\
+./.asm\\
+SQL>; alter diskgroup PROPORTALFRA add disk '/dev/oracleasm/disks/PROPORTALFRA03';\\
+Diskgroup altered.
+
+======   ======
+
+2. Ver espacio en ASM
+
+======   ======
+
+Conectándote a la BD en cuestión puedes lanzar la siguiente SQL para ver los espacios de los diskgroup de los asm.
+
+SELECT GROUP_NUMBER, NAME, STATE, TYPE, TOTAL_MB, FREE_MB FROM V$ASM_DISKGROUP ORDER BY 1
+
+GROUP_NUMBER NAME STATE TYPE TOTAL_MB FREE_MB
+
+1 PROBLOB CONNECTED EXTERN 71664 28180\\
+2 PRODATA CONNECTED EXTERN 307168 135260\\
+3 PROFRA CONNECTED EXTERN 102368 82704\\
+4 PROINDX CONNECTED EXTERN 51184 31240\\
+5 PROMGMTDB MOUNTED EXTERN 204736 180948\\
+6 PROVOTOCR MOUNTED HIGH 25520 24316
+
+Se actualiza la consulta añadiendo el porcentaje de espacio libre y ordenandolo por este, además de poner los datos en GB:
+
+SELECT GROUP_NUMBER, NAME, STATE, TYPE, trunc(TOTAL_MB/1024,2) TOTAL_GB, trunc(FREE_MB/1024,2) FREE_GB, (FREE_MB/TOTAL_MB)*100 "LIBRE %" FROM V$ASM_DISKGROUP ORDER BY 7 desc;
+
+======   ======
+
+3. Identificar discos en Diskgroup
+
+======   ======
+
+Hay varias opciones para identificar que discos están asociados a que diskgroup.\\
+Lo mas cómodo y sencillo es el lsbsk -f
+
+[root@adrproslbd1gp01 ]# lsblk -f\\
+NAME FSTYPE LABEL UUID MOUNTPOINT\\
+sdf\\
+└─sdf1 oracleasm PRODATA02\\
+sdo\\
+└─sdo1 oracleasm PROMGMTDB02\\
+sdd\\
+└─sdd1 oracleasm PROFRA02\\
+sdm\\
+└─sdm1 oracleasm PROVOTOOCR05\\
+sdb\\
+└─sdb1 LVM2_member rdkqBF-5wZv-zFwj-pZJr-WOGP-WE2p-hRp2LR\\
+└─lvmu01-u01 ext4 cba56c66-2040-4fad-bb02-21a2d25e75f7 /u01\\
+sdk\\
+└─sdk1 oracleasm PROVOTOOCR03\\
+sdi\\
+└─sdi1 oracleasm PROVOTOOCR01\\
+sdq\\
+└─sdq1 oracleasm PROMGMTDB03\\
+sdg\\
+└─sdg1 oracleasm PROINDX01\\
+sde\\
+└─sde1 oracleasm PRODATA01\\
+sdn\\
+└─sdn1 oracleasm PROMGMTDB01\\
+sdc\\
+└─sdc1 oracleasm PROFRA01\\
+sdl\\
+└─sdl1 oracleasm PROVOTOOCR04\\
+sda\\
+├─sda2 LVM2_member g1dwb3-f4eM-vm8u-DpH0-1dh6-3dwW-SJDYOY\\
+│ ├─ol-swap swap 1b638c8c-8ec6-4e08-a26b-5b08dcdb223f [SWAP]\\
+│ ├─ol-opt xfs 4dea32f3-19d8-46b3-b3bb-e270ab9fa585 /opt\\
+│ └─ol-root xfs 5e3ef55f-cadc-4e38-b5dd-124a3ca97da9 /\\
+├─sda3 LVM2_member gED8E6-3xHp-cqIo-237X-uv2d-8E7H-8WEDc1\\
+│ └─ol-swap swap 1b638c8c-8ec6-4e08-a26b-5b08dcdb223f [SWAP]\\
+└─sda1 xfs d949db80-2af1-4198-b036-c0b56130129d /boot\\
+sdj\\
+└─sdj1 oracleasm PROVOTOOCR02\\
+sdh\\
+└─sdh1 oracleasm PROBLOB01\\
+sdp\\
+└─sdp1 oracleasm PROMGMTDB04\\
+[root@adrproslbd1gp01 ]#
+
+Si lanzamos el comando sin el -f nos sacará el tamaño de los discos.
+
+[root@adrproslbd1gp01 ]# lsblk\\
+NAME MAJ:MIN RM SIZE RO TYPE MOUNTPOINT\\
+sdf 8:80 0 150G 0 disk\\
+└─sdf1 8:81 0 150G 0 part\\
+sdo 8:224 0 50G 0 disk\\
+└─sdo1 8:225 0 50G 0 part\\
+sdd 8:48 0 50G 0 disk\\
+└─sdd1 8:49 0 50G 0 part\\
+sdm 8:192 0 5G 0 disk\\
+└─sdm1 8:193 0 5G 0 part\\
+sdb 8:16 0 60G 0 disk\\
+└─sdb1 8:17 0 60G 0 part\\
+└─lvmu01-u01 252:3 0 59G 0 lvm /u01\\
+sdk 8:160 0 5G 0 disk\\
+└─sdk1 8:161 0 5G 0 part\\
+sdi 8:128 0 5G 0 disk\\
+└─sdi1 8:129 0 5G 0 part\\
+sdq 65:0 0 50G 0 disk\\
+└─sdq1 65:1 0 50G 0 part\\
+sdg 8:96 0 50G 0 disk\\
+└─sdg1 8:97 0 50G 0 part\\
+sde 8:64 0 150G 0 disk\\
+└─sde1 8:65 0 150G 0 part\\
+sdn 8:208 0 50G 0 disk\\
+└─sdn1 8:209 0 50G 0 part\\
+sdc 8:32 0 50G 0 disk\\
+└─sdc1 8:33 0 50G 0 part\\
+sdl 8:176 0 5G 0 disk\\
+└─sdl1 8:177 0 5G 0 part\\
+sda 8:0 0 60G 0 disk\\
+├─sda2 8:2 0 39G 0 part\\
+│ ├─ol-swap 252:1 0 16G 0 lvm [SWAP]\\
+│ ├─ol-opt 252:2 0 25G 0 lvm /opt\\
+│ └─ol-root 252:0 0 10G 0 lvm /\\
+├─sda3 8:3 0 20G 0 part\\
+│ └─ol-swap 252:1 0 16G 0 lvm [SWAP]\\
+└─sda1 8:1 0 1G 0 part /boot\\
+sdj 8:144 0 5G 0 disk\\
+└─sdj1 8:145 0 5G 0 part\\
+sdh 8:112 0 70G 0 disk\\
+└─sdh1 8:113 0 70G 0 part\\
+sdp 8:240 0 50G 0 disk\\
+└─sdp1 8:241 0 50G 0 part
+
+=====   =====
+
+3.2 Solicitar espacio a GTAB
+
+=====   =====
+
+[root@iusslbdcw01]# lsblk -f | grep PROBLOB\\
+└─sdh1 oracleasm PROBLOB01
+
+[root@iusslbdcw01]# fdisk -l /dev/sdh
+
+Disk /dev/sdh: 53.7 GB, 53670313984 bytes, 104824832 sectors\\
+Units = sectors of 1 * 512 = 512 bytes\\
+Sector size (logical/physical): 512 bytes / 512 bytes\\
+I/O size (minimum/optimal): 16384 bytes / 16777216 bytes
+
+Disposit. Inicio Comienzo Fin Bloques Id Sistema\\
+/dev/sdh1 32768 104857599 52412416 83 Linux
+
+[root@iusslbdcw01]# fdisk -l /dev/sdh1
+
+Disk /dev/sdh1: 53.7 GB, 53670313984 bytes, 104824832 sectors\\
+Units = sectors of 1 * 512 = 512 bytes\\
+Sector size (logical/physical): 512 bytes / 512 bytes\\
+I/O size (minimum/optimal): 16384 bytes / 16777216 bytes
+
+Se crea la petición a GTAB con lo siguiente en el diario:
+
+Se solicita ampliación de los volumenes de 53Gb a 80Gb:\\
+[root@adrproslbd1bi01 ~]# lsblk -f | grep FRA\\
++-sdd1 oracleasm PROFRA02\\
++-sdc1 oracleasm PROFRA01\\
+[root@adrproslbd1bi01 ~]# HPELUNInfo -i |grep sdd\\
+/dev/sdd 51200 01 00 60002ac00000000000000a1200015800 VMW-RAW_PROBI11_PRO_SSD100K_R5 3.2.2 MU6 1688064\\
+[root@adrproslbd1bi01 ~]# HPELUNInfo -i |grep sdc\\
+/dev/sdc 51200 00 00 60002ac00000000000000a1100015800 VMW-RAW_PROBI10_PRO_SSD100K_R5 3.2.2 MU6 1688064
+
+Pet ejemplo: IN0000001890570
+
+======   ======
+
+4. Ampliación de discos en SO
+
+======   ======
+
+**ESTAS TAREAS SE DEBEN REALIZAR EN LOS 2 NODOS ( O EN LOS QUE HUBIERA) DEL CLUSTER. SI NO, DARA ERROR AL NO DETECTAR EL MISMO TAMAÑO DE DISCO EN TODOS LOS NODOS.**
+
+**Si un ASM se compone de más de un volumen recordar ampliar todos los volumenes por igual.**
+
+Una vez que desde GTAB han ampliado los discos tenemos que lanzar un rescan de los scsi para que detecte el cambio.
+
+[root@adrproslbd1gp02 ]# rescan-scsi-bus.sh -s\\
+which: no multipath in (/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin:/u01/app/oracle/product/19.3.0/dbhome_1/:/u01/app/oracle/product/19.3.0/dbhome_2/:/u01/app/19.3.0/grid/bin/)\\
+Scanning SCSI subsystem for new devices\\
+Searching for resized LUNs\\
+RESIZED: Host: scsi1 Channel: 00 Id: 02 Lun: 00\\
+Vendor: 3PARdata Model: VV Rev: 3226\\
+Type: Direct-Access ANSI SCSI revision: 06\\
+RESIZED: Host: scsi1 Channel: 00 Id: 03 Lun: 00\\
+Vendor: 3PARdata Model: VV Rev: 3226\\
+Type: Direct-Access ANSI SCSI revision: 06\\
+RESIZED: Host: scsi1 Channel: 00 Id: 05 Lun: 00\\
+Vendor: 3PARdata Model: VV Rev: 3226\\
+Type: Direct-Access ANSI SCSI revision: 06\\
+0 new or changed device(s) found.\\
+3 remapped or resized device(s) found.\\
+[1:0:2:0]\\
+[1:0:3:0]\\
+[1:0:5:0]\\
+0 device(s) removed.
+
+Ahora lanzando un fdisk -l de los volumenes podemos ver que el disco se ha ampliado pero que no se ve reflejado en la partición en concreto.
+
+[root@iusslbdcw01 ]# fdisk -l /dev/sdh
+
+Disk /dev/sdh: 54.8 GB, 54760833024 bytes, 106954752 sectors\\
+Units = sectors of 1 * 512 = 512 bytes\\
+Sector size (logical/physical): 512 bytes / 512 bytes\\
+I/O size (minimum/optimal): 16384 bytes / 16777216 bytes\\
+Disk label type: dos\\
+Identificador del disco: 0x769b7d41
+
+Disposit. Inicio Comienzo Fin Bloques Id Sistema\\
+/dev/sdh1 32768 104857599 52412416 83 Linux\\
+[root@iusslbdcw01 ]# fdisk -l /dev/sdh1
+
+Disk /dev/sdh1: 53.7 GB, 53670313984 bytes, 104824832 sectors\\
+Units = sectors of 1 * 512 = 512 bytes\\
+Sector size (logical/physical): 512 bytes / 512 bytes\\
+I/O size (minimum/optimal): 16384 bytes / 16777216 bytes
+
+Para que se apliquen en la particion hay que lanzar el comando parted.
+
+root@iusslbdcw01 ]# parted /dev/sdh resizepart 1 100%\\
+Información: You may need to update /etc/fstab.
+
+[root@iusslbdcw01 ]# fdisk -l /dev/sdh
+
+Disk /dev/sdh: 54.8 GB, 54760833024 bytes, 106954752 sectors\\
+Units = sectors of 1 * 512 = 512 bytes\\
+Sector size (logical/physical): 512 bytes / 512 bytes\\
+I/O size (minimum/optimal): 16384 bytes / 16777216 bytes\\
+Disk label type: dos\\
+Identificador del disco: 0x0004f29d
+
+Disposit. Inicio Comienzo Fin Bloques Id Sistema\\
+/dev/sdh1 32768 106954751 53460992 83 Linux\\
+[root@iusslbdcw01 ]# fdisk -l /dev/sdh1
+
+Disk /dev/sdh1: 54.7 GB, 54744055808 bytes, 106921984 sectors\\
+Units = sectors of 1 * 512 = 512 bytes\\
+Sector size (logical/physical): 512 bytes / 512 bytes\\
+I/O size (minimum/optimal): 16384 bytes / 16777216 bytes
+
+======   ======
+
+5. Ampliación de diskgroup en ASM
+
+======   ======
+
+Para que el diskgroup identifique el nuevo tamaño de los discos, tenemos que conectarnos como sysasm y lanzar el siguiente comando por cada diskgroup ampliado.
+
+- Para la conexión asm es posible que exista un script en el "/home/oracle" llamado "./.asm".
+
+[oracle@adrproslbd1gc01 ~]$export ORACLE_SID=+ASM1\\
+[oracle@adrproslbd1gc01 ~]$export ORACLE_HOME=/u01/app/19.3.0/grid\\
+[oracle@adrproslbd1gc01 ~]$sqlplus / as sysasm
+
+SQL>; alter diskgroup PRODATA resize all;
+
+Diskgroup altered.
+
+En caso de ampliar la FRA reacodar modificar el parametro db_recovery_file_dest_size como sysdba en la CDB.
+
+======   ======
+
+6. Ejemplo completo FRA
+
+======   ======
+
+Ejemplo de ampliación de ASM FRA.\\
+NODO 1:
+
+[root@adrproslbd1gc01 ]# lsblk -f | grep PROFRA\\
++-sdd1 oracleasm PROFRA02\\
++-sdc1 oracleasm PROFRA01
+
+[root@adrproslbd1gc01 ]# fdisk -l /dev/sdd
+
+Disk /dev/sdd: 53.7 GB, 53687091200 bytes, 104857600 sectors\\
+Units = sectors of 1 * 512 = 512 bytes\\
+Sector size (logical/physical): 512 bytes / 512 bytes\\
+I/O size (minimum/optimal): 16384 bytes / 16777216 bytes\\
+Disk label type: dos\\
+Identificador del disco: 0x748f6e65
+
+Disposit. Inicio Comienzo Fin Bloques Id Sistema\\
+/dev/sdd1 32768 104857599 52412416 83 Linux
+
+[root@adrproslbd1gc01 ]# fdisk -l /dev/sdd1
+
+Disk /dev/sdd1: 53.7 GB, 53670313984 bytes, 104824832 sectors\\
+Units = sectors of 1 * 512 = 512 bytes\\
+Sector size (logical/physical): 512 bytes / 512 bytes\\
+I/O size (minimum/optimal): 16384 bytes / 16777216 bytes
+
+[root@adrproslbd1gc01 ]# fdisk -l /dev/sdc
+
+Disk /dev/sdc: 53.7 GB, 53687091200 bytes, 104857600 sectors\\
+Units = sectors of 1 * 512 = 512 bytes\\
+Sector size (logical/physical): 512 bytes / 512 bytes\\
+I/O size (minimum/optimal): 16384 bytes / 16777216 bytes\\
+Disk label type: dos\\
+Identificador del disco: 0x0ef5b38f
+
+Disposit. Inicio Comienzo Fin Bloques Id Sistema\\
+/dev/sdc1 32768 104857599 52412416 83 Linux
+
+[root@adrproslbd1gc01 ]# fdisk -l /dev/sdc1
+
+Disk /dev/sdc1: 53.7 GB, 53670313984 bytes, 104824832 sectors\\
+Units = sectors of 1 * 512 = 512 bytes\\
+Sector size (logical/physical): 512 bytes / 512 bytes\\
+I/O size (minimum/optimal): 16384 bytes / 16777216 bytes
+
+[root@adrproslbd1gc01 ]# rescan-scsi-bus.sh -s\\
+which: no multipath in (/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin:/u01/app/oracle/product/19.3.0/dbhome_1/:/u01/app/oracle/product/19.3.0/dbhome_2/:/u01/app/19.3.0/grid/bin/)\\
+Scanning SCSI subsystem for new devices\\
+Searching for resized LUNs\\
+RESIZED: Host: scsi1 Channel: 00 Id: 00 Lun: 00\\
+Vendor: 3PARdata Model: VV Rev: 3226\\
+Type: Direct-Access ANSI SCSI revision: 06\\
+RESIZED: Host: scsi1 Channel: 00 Id: 01 Lun: 00\\
+Vendor: 3PARdata Model: VV Rev: 3226\\
+Type: Direct-Access ANSI SCSI revision: 06\\
+RESIZED: Host: scsi1 Channel: 00 Id: 02 Lun: 00\\
+Vendor: 3PARdata Model: VV Rev: 3226\\
+Type: Direct-Access ANSI SCSI revision: 06\\
+RESIZED: Host: scsi1 Channel: 00 Id: 03 Lun: 00\\
+Vendor: 3PARdata Model: VV Rev: 3226\\
+Type: Direct-Access ANSI SCSI revision: 06\\
+0 new or changed device(s) found.\\
+4 remapped or resized device(s) found.\\
+[1:0:0:0]\\
+[1:0:1:0]\\
+[1:0:2:0]\\
+[1:0:3:0]\\
+0 device(s) removed.
+
+[root@adrproslbd1gc01 ]# parted /dev/sdd resizepart 1 100%\\
+Información: You may need to update /etc/fstab.
+
+[root@adrproslbd1gc01 ]# parted /dev/sdc resizepart 1 100%\\
+Información: You may need to update /etc/fstab.
+
+NODO 2:
+
+[root@adrproslbd1gc02 ]# rescan-scsi-bus.sh -s\\
+which: no multipath in (/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin:/u01/app/oracle/product/19.3.0/dbhome_1/:/u01/app/oracle/product/19.3.0/dbhome_2/:/u01/app/19.3.0/grid/bin/)\\
+Scanning SCSI subsystem for new devices\\
+Searching for resized LUNs\\
+RESIZED: Host: scsi1 Channel: 00 Id: 00 Lun: 00\\
+Vendor: 3PARdata Model: VV Rev: 3226\\
+Type: Direct-Access ANSI SCSI revision: 06\\
+RESIZED: Host: scsi1 Channel: 00 Id: 01 Lun: 00\\
+Vendor: 3PARdata Model: VV Rev: 3226\\
+Type: Direct-Access ANSI SCSI revision: 06\\
+RESIZED: Host: scsi1 Channel: 00 Id: 02 Lun: 00\\
+Vendor: 3PARdata Model: VV Rev: 3226\\
+Type: Direct-Access ANSI SCSI revision: 06\\
+RESIZED: Host: scsi1 Channel: 00 Id: 03 Lun: 00\\
+Vendor: 3PARdata Model: VV Rev: 3226\\
+Type: Direct-Access ANSI SCSI revision: 06\\
+0 new or changed device(s) found.\\
+4 remapped or resized device(s) found.\\
+[1:0:0:0]\\
+[1:0:1:0]\\
+[1:0:2:0]\\
+[1:0:3:0]\\
+0 device(s) removed.
+
+[root@adrproslbd1gc02 ]# parted /dev/sdd resizepart 1 100%\\
+Información: You may need to update /etc/fstab.
+
+[root@adrproslbd1gc02 ]# parted /dev/sdc resizepart 1 100%\\
+Información: You may need to update /etc/fstab.
+
+NODO 1:
+
+[root@adrproslbd1gc01 ]# su - oracle\\
+Último inicio de sesión:mié sep 28 12:43:08 CEST 2022
+
+BBDDs corriendo aqui :\\
+- CDBIC2
+
+[oracle@adrproslbd1gc01 ]$ ./.asm
+
+SQL*Plus: Release 19.0.0.0.0 - Production on Wed Sep 28 12:55:11 2022\\
+Version 19.16.0.0.0
+
+Copyright © 1982, 2022, Oracle. All rights reserved.
+
+Connected to:\\
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production\\
+Version 19.3.0.0.0
+
+SQL>; alter diskgroup PROFRA resize all;
+
+Diskgroup altered.
+
+SQL>; exit
+
+Conexión sql a la bbdd:
+
+CDBIC2_adrproslbd1gc01>; SELECT GROUP_NUMBER, NAME, STATE, TYPE, trunc(TOTAL_MB/1024,2) TOTAL_GB, trunc(FREE_MB/1024,2) FREE_GB, (FREE_MB/TOTAL_MB)*100 "LIBRE %"\\
+FROM V$ASM_DISKGROUP ORDER BY 7 desc;
+
+GROUP_NUMBER NAME STATE TYPE TOTAL_GB FREE_GB LIBRE %
+
+----
+<code>
+
+        <del> </del>- <del> </del>  <del> </del>  \\
+
+</code>
+
+1 PROBLOB MOUNTED EXTERN 49,98 49,85 99,7421069\\
+4 PROINDX MOUNTED EXTERN 49,98 49,85 99,7421069\\
+6 PROVOTOCR MOUNTED HIGH 24,92 23,75 95,3291536\\
+3 PROFRA CONNECTED EXTERN 99,96 92,14 92,1733354\\
+5 PROMGMTDB MOUNTED EXTERN 199,93 176,7 88,379181\\
+2 PRODATA CONNECTED EXTERN 299,96 136,61 45,5438066
+
+6 filas seleccionadas.
+
+Transcurrido: 00:00:02.65\\
+CDBIC2_adrproslbd1gc01>; SELECT GROUP_NUMBER, NAME, STATE, TYPE, trunc(TOTAL_MB/1024,2) TOTAL_GB, trunc(FREE_MB/1024,2) FREE_GB, (FREE_MB/TOTAL_MB)*100 "LIBRE %"\\
+FROM V$ASM_DISKGROUP ORDER BY 7 desc;
+
+GROUP_NUMBER NAME STATE TYPE TOTAL_GB FREE_GB LIBRE %
+
+----
+
+<code>
+        <del> </del>- <del> </del>  <del> </del>  \\
+
+</code>
+
+1 PROBLOB MOUNTED EXTERN 49,98 49,85 99,7421069\\
+4 PROINDX MOUNTED EXTERN 49,98 49,85 99,7421069\\
+3 PROFRA CONNECTED EXTERN 199,96 192,14 96,0872793\\
+6 PROVOTOCR MOUNTED HIGH 24,92 23,75 95,3291536\\
+5 PROMGMTDB MOUNTED EXTERN 199,93 176,7 88,379181\\
+2 PRODATA CONNECTED EXTERN 399,96 236,61 59,1589187
+
+Como es la FRA para que utilice el espacio es necesario actualizar el parametro db_recovery_file_dest_size.\\
+NODO que tenga levantada la base de datos:
+
+[oracle@adrproslbd1gc01 ]$ export ORACLE_SID=CDBIC2\\
+[oracle@adrproslbd1gc01 ]$ sqlplus / as sysdba
+
+SQL*Plus: Release 19.0.0.0.0 - Production on Wed Sep 28 13:12:03 2022\\
+Version 19.16.0.0.0
+
+Copyright © 1982, 2022, Oracle. All rights reserved.
+
+Conectado a:\\
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production\\
+Version 19.16.0.0.0
+
+SQL>; alter system set db_recovery_file_dest_size=204768M scope=both;
+
+Sistema modificado.
+
+SQL>; exit
+
+======   ======
+
+7. Ejemplo Multipath
+
+======   ======
+
+Ejemplo de ampliación de ASM con Multipath en un nodo.\\
+NODO 1:
+
+[root@iusolbd02 ~]# lsblk -f | grep CORE_B\\
+└─PRO_CORE_BLOB01\\
+└─PRO_CORE_BLOB01p1 oracleasm PROCOREBLOB01\\
+└─PRO_CORE_BLOB01\\
+└─PRO_CORE_BLOB01p1 oracleasm PROCOREBLOB01\\
+└─PRO_CORE_BLOB01\\
+└─PRO_CORE_BLOB01p1 oracleasm PROCOREBLOB01\\
+└─PRO_CORE_BLOB01\\
+└─PRO_CORE_BLOB01p1 oracleasm PROCOREBLOB01\\
+└─PRO_CORE_BLOB01\\
+└─PRO_CORE_BLOB01p1 oracleasm PROCOREBLOB01\\
+└─PRO_CORE_BLOB01\\
+└─PRO_CORE_BLOB01p1 oracleasm PROCOREBLOB01\\
+└─PRO_CORE_BLOB01\\
+└─PRO_CORE_BLOB01p1 oracleasm PROCOREBLOB01\\
+└─PRO_CORE_BLOB01\\
+└─PRO_CORE_BLOB01p1 oracleasm PROCOREBLOB01\\
+[root@iusolbd02 ~]# lsblk | grep CORE_B\\
+└─PRO_CORE_BLOB01 252:40 0 700G 0 mpath\\
+└─PRO_CORE_BLOB01p1 252:43 0 700G 0 part\\
+└─PRO_CORE_BLOB01 252:40 0 700G 0 mpath\\
+└─PRO_CORE_BLOB01p1 252:43 0 700G 0 part\\
+└─PRO_CORE_BLOB01 252:40 0 700G 0 mpath\\
+└─PRO_CORE_BLOB01p1 252:43 0 700G 0 part\\
+└─PRO_CORE_BLOB01 252:40 0 700G 0 mpath\\
+└─PRO_CORE_BLOB01p1 252:43 0 700G 0 part\\
+└─PRO_CORE_BLOB01 252:40 0 700G 0 mpath\\
+└─PRO_CORE_BLOB01p1 252:43 0 700G 0 part\\
+└─PRO_CORE_BLOB01 252:40 0 700G 0 mpath\\
+└─PRO_CORE_BLOB01p1 252:43 0 700G 0 part\\
+└─PRO_CORE_BLOB01 252:40 0 700G 0 mpath\\
+└─PRO_CORE_BLOB01p1 252:43 0 700G 0 part\\
+└─PRO_CORE_BLOB01 252:40 0 700G 0 mpath\\
+└─PRO_CORE_BLOB01p1 252:43 0 700G 0 part\\
+[root@iusolbd02 ~]# rescan-scsi-bus.sh -s\\
+Scanning SCSI subsystem for new devices\\
+Searching for resized LUNs\\
+RESIZED: Host: scsi1 Channel: 00 Id: 00 Lun: 18\\
+Vendor: 3PARdata Model: VV Rev: 4512\\
+Type: Direct-Access ANSI SCSI revision: 06\\
+RESIZED: Host: scsi1 Channel: 00 Id: 01 Lun: 18\\
+Vendor: 3PARdata Model: VV Rev: 4512\\
+Type: Direct-Access ANSI SCSI revision: 06\\
+RESIZED: Host: scsi1 Channel: 00 Id: 02 Lun: 18\\
+Vendor: 3PARdata Model: VV Rev: 4512\\
+Type: Direct-Access ANSI SCSI revision: 06\\
+RESIZED: Host: scsi1 Channel: 00 Id: 03 Lun: 18\\
+Vendor: 3PARdata Model: VV Rev: 4512\\
+Type: Direct-Access ANSI SCSI revision: 06\\
+RESIZED: Host: scsi2 Channel: 00 Id: 00 Lun: 18\\
+Vendor: 3PARdata Model: VV Rev: 4512\\
+Type: Direct-Access ANSI SCSI revision: 06\\
+RESIZED: Host: scsi2 Channel: 00 Id: 01 Lun: 18\\
+Vendor: 3PARdata Model: VV Rev: 4512\\
+Type: Direct-Access ANSI SCSI revision: 06\\
+RESIZED: Host: scsi2 Channel: 00 Id: 02 Lun: 18\\
+Vendor: 3PARdata Model: VV Rev: 4512\\
+Type: Direct-Access ANSI SCSI revision: 06\\
+RESIZED: Host: scsi2 Channel: 00 Id: 03 Lun: 18\\
+Vendor: 3PARdata Model: VV Rev: 4512\\
+Type: Direct-Access ANSI SCSI revision: 06\\
+0 new or changed device(s) found.\\
+8 remapped or resized device(s) found.\\
+[1:0:0:18]\\
+[1:0:1:18]\\
+[1:0:2:18]\\
+[1:0:3:18]\\
+[2:0:0:18]\\
+[2:0:1:18]\\
+[2:0:2:18]\\
+[2:0:3:18]\\
+0 device(s) removed.\\
+[root@iusolbd02 ~]# lsblk | grep CORE_B\\
+└─PRO_CORE_BLOB01 252:40 0 700G 0 mpath\\
+└─PRO_CORE_BLOB01p1 252:43 0 700G 0 part\\
+└─PRO_CORE_BLOB01 252:40 0 700G 0 mpath\\
+└─PRO_CORE_BLOB01p1 252:43 0 700G 0 part\\
+└─PRO_CORE_BLOB01 252:40 0 700G 0 mpath\\
+└─PRO_CORE_BLOB01p1 252:43 0 700G 0 part\\
+└─PRO_CORE_BLOB01 252:40 0 700G 0 mpath\\
+└─PRO_CORE_BLOB01p1 252:43 0 700G 0 part\\
+└─PRO_CORE_BLOB01 252:40 0 700G 0 mpath\\
+└─PRO_CORE_BLOB01p1 252:43 0 700G 0 part\\
+└─PRO_CORE_BLOB01 252:40 0 700G 0 mpath\\
+└─PRO_CORE_BLOB01p1 252:43 0 700G 0 part\\
+└─PRO_CORE_BLOB01 252:40 0 700G 0 mpath\\
+└─PRO_CORE_BLOB01p1 252:43 0 700G 0 part\\
+└─PRO_CORE_BLOB01 252:40 0 700G 0 mpath\\
+└─PRO_CORE_BLOB01p1 252:43 0 700G 0 part\\
+[root@iusolbd02 ~]# systemctl status multipathd.service\\
+● multipathd.service - Device-Mapper Multipath Device Controller\\
+Loaded: loaded (/usr/lib/systemd/system/multipathd.service; enabled; vendor preset: enabled)\\
+Active: active (running) since Thu 2024-09-12 14:49:34 CEST; 1 months 24 days ago\\
+Process: 116143 ExecStart=/sbin/multipathd (code=exited, status=0/SUCCESS)\\
+Process: 116139 ExecStartPre=/sbin/multipath -A (code=exited, status=0/SUCCESS)\\
+Process: 116135 ExecStartPre=/sbin/modprobe dm-multipath (code=exited, status=0/SUCCESS)\\
+Main PID: 116146 (multipathd)\\
+CGroup: /system.slice/multipathd.service\\
+└─116146 /sbin/multipathd
+
+Sep 12 14:49:39 iusolbd02 multipathd[116146]: PRO_IC2_INDX10: event checker started\\
+Sep 12 14:49:39 iusolbd02 multipathd[116146]: PRO_PORTAL_DATA01: event checker started\\
+Sep 12 14:49:39 iusolbd02 multipathd[116146]: PRO_PORTAL_DATA02: event checker started\\
+Sep 12 14:49:39 iusolbd02 multipathd[116146]: PRO_PORTAL_FRA02: event checker started\\
+Sep 12 14:49:39 iusolbd02 multipathd[116146]: PRO_CLS_VOTOOCR03: event checker started\\
+Sep 12 14:49:39 iusolbd02 multipathd[116146]: PRO_PORTAL_INDX01: event checker started\\
+Sep 12 14:49:39 iusolbd02 multipathd[116146]: path checkers start up\\
+Sep 12 14:49:39 iusolbd02 multipathd[116146]: dm-188: remove map (uevent)\\
+Sep 12 14:49:39 iusolbd02 multipathd[116146]: dm-188: devmap not registered, can't remove\\
+Sep 12 14:49:39 iusolbd02 multipathd[116146]: dm-188: remove map (uevent)\\
+[root@iusolbd02 ~]# systemctl restart multipathd.service\\
+[root@iusolbd02 ~]# systemctl status multipathd.service\\
+● multipathd.service - Device-Mapper Multipath Device Controller\\
+Loaded: loaded (/usr/lib/systemd/system/multipathd.service; enabled; vendor preset: enabled)\\
+Active: active (running) since Wed 2024-11-06 13:02:42 CET; 7ms ago\\
+Process: 8489 ExecStart=/sbin/multipathd (code=exited, status=0/SUCCESS)\\
+Process: 8486 ExecStartPre=/sbin/multipath -A (code=exited, status=0/SUCCESS)\\
+Process: 8483 ExecStartPre=/sbin/modprobe dm-multipath (code=exited, status=0/SUCCESS)\\
+Main PID: 8492 (multipathd)\\
+CGroup: /system.slice/multipathd.service\\
+└─8492 /sbin/multipathd
+
+Nov 06 13:02:42 iusolbd02 systemd[1]: Starting Device-Mapper Multipath Device Controller…\\
+Nov 06 13:02:42 iusolbd02 systemd[1]: Started Device-Mapper Multipath Device Controller.\\
+[root@iusolbd02 ~]# systemctl status multipathd.service\\
+● multipathd.service - Device-Mapper Multipath Device Controller\\
+Loaded: loaded (/usr/lib/systemd/system/multipathd.service; enabled; vendor preset: enabled)\\
+Active: active (running) since Wed 2024-11-06 13:02:42 CET; 11s ago\\
+Process: 8489 ExecStart=/sbin/multipathd (code=exited, status=0/SUCCESS)\\
+Process: 8486 ExecStartPre=/sbin/multipath -A (code=exited, status=0/SUCCESS)\\
+Process: 8483 ExecStartPre=/sbin/modprobe dm-multipath (code=exited, status=0/SUCCESS)\\
+Main PID: 8492 (multipathd)\\
+CGroup: /system.slice/multipathd.service\\
+└─8492 /sbin/multipathd
+
+Nov 06 13:02:47 iusolbd02 multipathd[8492]: PRO_IC2_INDX07: event checker started\\
+Nov 06 13:02:47 iusolbd02 multipathd[8492]: PRO_IC2_INDX08: event checker started\\
+Nov 06 13:02:47 iusolbd02 multipathd[8492]: PRO_IC2_INDX09: event checker started\\
+Nov 06 13:02:47 iusolbd02 multipathd[8492]: PRO_IC2_INDX10: event checker started\\
+Nov 06 13:02:47 iusolbd02 multipathd[8492]: PRO_PORTAL_DATA01: event checker started\\
+Nov 06 13:02:47 iusolbd02 multipathd[8492]: PRO_PORTAL_DATA02: event checker started\\
+Nov 06 13:02:47 iusolbd02 multipathd[8492]: PRO_PORTAL_FRA02: event checker started\\
+Nov 06 13:02:47 iusolbd02 multipathd[8492]: PRO_CLS_VOTOOCR03: event checker started\\
+Nov 06 13:02:47 iusolbd02 multipathd[8492]: PRO_PORTAL_INDX01: event checker started\\
+Nov 06 13:02:47 iusolbd02 multipathd[8492]: path checkers start up\\
+[root@iusolbd02 ~]# lsblk | grep CORE_B\\
+└─PRO_CORE_BLOB01 252:40 0 800G 0 mpath\\
+└─PRO_CORE_BLOB01p1 252:43 0 700G 0 part\\
+└─PRO_CORE_BLOB01 252:40 0 800G 0 mpath\\
+└─PRO_CORE_BLOB01p1 252:43 0 700G 0 part\\
+└─PRO_CORE_BLOB01 252:40 0 800G 0 mpath\\
+└─PRO_CORE_BLOB01p1 252:43 0 700G 0 part\\
+└─PRO_CORE_BLOB01 252:40 0 800G 0 mpath\\
+└─PRO_CORE_BLOB01p1 252:43 0 700G 0 part\\
+└─PRO_CORE_BLOB01 252:40 0 800G 0 mpath\\
+└─PRO_CORE_BLOB01p1 252:43 0 700G 0 part\\
+└─PRO_CORE_BLOB01 252:40 0 800G 0 mpath\\
+└─PRO_CORE_BLOB01p1 252:43 0 700G 0 part\\
+└─PRO_CORE_BLOB01 252:40 0 800G 0 mpath\\
+└─PRO_CORE_BLOB01p1 252:43 0 700G 0 part\\
+└─PRO_CORE_BLOB01 252:40 0 800G 0 mpath\\
+└─PRO_CORE_BLOB01p1 252:43 0 700G 0 part\\
+[root@iusolbd02 ~]# fdisk -l |grep CORE_BL\\
+WARNING: fdisk GPT support is currently new, and therefore in an experimental phase. Use at your own discretion.\\
+WARNING: fdisk GPT support is currently new, and therefore in an experimental phase. Use at your own discretion.\\
+WARNING: fdisk GPT support is currently new, and therefore in an experimental phase. Use at your own discretion.\\
+WARNING: fdisk GPT support is currently new, and therefore in an experimental phase. Use at your own discretion.\\
+WARNING: fdisk GPT support is currently new, and therefore in an experimental phase. Use at your own discretion.\\
+WARNING: fdisk GPT support is currently new, and therefore in an experimental phase. Use at your own discretion.\\
+WARNING: fdisk GPT support is currently new, and therefore in an experimental phase. Use at your own discretion.\\
+WARNING: fdisk GPT support is currently new, and therefore in an experimental phase. Use at your own discretion.\\
+WARNING: fdisk GPT support is currently new, and therefore in an experimental phase. Use at your own discretion.\\
+WARNING: fdisk GPT support is currently new, and therefore in an experimental phase. Use at your own discretion.\\
+WARNING: fdisk GPT support is currently new, and therefore in an experimental phase. Use at your own discretion.\\
+WARNING: fdisk GPT support is currently new, and therefore in an experimental phase. Use at your own discretion.\\
+WARNING: fdisk GPT support is currently new, and therefore in an experimental phase. Use at your own discretion.\\
+WARNING: fdisk GPT support is currently new, and therefore in an experimental phase. Use at your own discretion.\\
+WARNING: fdisk GPT support is currently new, and therefore in an experimental phase. Use at your own discretion.\\
+WARNING: fdisk GPT support is currently new, and therefore in an experimental phase. Use at your own discretion.\\
+WARNING: fdisk GPT support is currently new, and therefore in an experimental phase. Use at your own discretion.\\
+WARNING: fdisk GPT support is currently new, and therefore in an experimental phase. Use at your own discretion.\\
+Disk /dev/mapper/PRO_CORE_BLOB01: 859.0 GB, 858993459200 bytes, 1677721600 sectors\\
+/dev/mapper/PRO_CORE_BLOB01p1 1 1468006399 734003199+ 83 Linux\\
+[root@iusolbd02 ~]# parted /dev/mapper/PRO_CORE_BLOB01 resizepart 1 100%\\
+Information: You may need to update /etc/fstab.
+
+[root@iusolbd02 ~]# lsblk | grep CORE_B\\
+└─PRO_CORE_BLOB01 252:40 0 800G 0 mpath\\
+└─PRO_CORE_BLOB01p1 252:43 0 800G 0 part\\
+└─PRO_CORE_BLOB01 252:40 0 800G 0 mpath\\
+└─PRO_CORE_BLOB01p1 252:43 0 800G 0 part\\
+└─PRO_CORE_BLOB01 252:40 0 800G 0 mpath\\
+└─PRO_CORE_BLOB01p1 252:43 0 800G 0 part\\
+└─PRO_CORE_BLOB01 252:40 0 800G 0 mpath\\
+└─PRO_CORE_BLOB01p1 252:43 0 800G 0 part\\
+└─PRO_CORE_BLOB01 252:40 0 800G 0 mpath\\
+└─PRO_CORE_BLOB01p1 252:43 0 800G 0 part\\
+└─PRO_CORE_BLOB01 252:40 0 800G 0 mpath\\
+└─PRO_CORE_BLOB01p1 252:43 0 800G 0 part\\
+└─PRO_CORE_BLOB01 252:40 0 800G 0 mpath\\
+└─PRO_CORE_BLOB01p1 252:43 0 800G 0 part\\
+└─PRO_CORE_BLOB01 252:40 0 800G 0 mpath\\
+└─PRO_CORE_BLOB01p1 252:43 0 800G 0 part
+
+[root@iusolbd01 ~]# su - oracle\\
+Last login: Wed Nov 6 12:56:12 CET 2024\\
+BBDDs corriendo aqui :\\
+- CDBCORE\\
+[oracle@iusolbd01 ~]$ ./.asm
+
+SQL*Plus: Release 19.0.0.0.0 - Production on Wed Nov 6 13:11:19 2024\\
+Version 19.23.0.0.0
+
+Copyright © 1982, 2023, Oracle. All rights reserved.
+
+Connected to:\\
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production\\
+Version 19.3.0.0.0
+
+SQL>; alter diskgroup PROCOREBLOB resize all;
+
+Diskgroup altered.
+
+SQL>;
+
+======   ======
+
+8. ERRORES
+
+======   ======
+
+8.1 Error ORA-15289 , ORA-15032:
+
+=====   =====
+
+Este error se debe a que se esta ampliacion de disco no esta en todos los nodos.
+
+[oracle@iusolbd04 ]$ ./.asm
+
+SQL*Plus: Release 19.0.0.0.0 - Production on Mon Mar 17 13:07:30 2025\\
+Version 19.23.0.0.0
+
+Copyright © 1982, 2023, Oracle. All rights reserved.
+
+Connected to:\\
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production\\
+Version 19.3.0.0.0
+
+SQL>; alter diskgroup PROCOREBLOB resize all;\\
+alter diskgroup PROCOREBLOB resize all\\
+*\\
+ERROR at line 1:\\
+ORA-15032: not all alterations performed\\
+ORA-15289: disk PROCOREBLOB_0000 is limited to 1023996 MB on instance 1
+
+

@@ -1,0 +1,49 @@
+﻿
+====== Gestión de logs (ubicación, retención, revisión) ======
+
+==== 🎯 Objetivo ====
+Establecer el procedimiento para la unificación, acceso, gestión de permisos y retención de logs de aplicaciones y herramientas en el sistema centralizado iussllogs01.
+
+==== 🧭 Introducción ====
+Se ha implementado un sistema de logs centralizado en la máquina:
+  * **Host:** iussllogs01
+  * **IP:** 10.241.130.17
+  * **Acceso web:** http://iussllogs01.justicia.junta-andalucia.es/
+
+Este sistema agrupa los logs generados por todas las aplicaciones y herramientas, mejorando el control, trazabilidad y mantenimiento de registros.
+
+==== 📁 Estructura de almacenamiento ====
+  * Todos los logs se almacenan en un volumen NFS ubicado en:
+    `iusnas06:/ifs/data/NFS-zone/LOGS`
+  * Cada carpeta está nombrada según la **aplicación o herramienta**, y organizada por su **nodo o nodos correspondientes**.
+
+==== 🔐 Acceso a los logs ====
+  * Cada grupo de trabajo tiene asignado un **usuario y contraseña** específicos para acceder vía web al visor de logs.
+  * En caso de problemas de visibilidad:
+    - Verificar que el **propietario y grupo de la carpeta** de logs sea `tomcar:user` o el usuario asociado a la herramienta.
+    - En algunos casos, es necesario que los permisos se establezcan con:
+      `UMASK="0022"`
+
+==== 🔁 Política de retención y rotación de logs ====
+Además del rotado interno que realiza cada aplicación o herramienta, se siguen estas políticas generales en el almacenamiento central:
+
+  - **Compresión automática:**
+    * Todos los logs con más de **45 días** se comprimen, sean de producción o preproducción.
+
+  - **Retención por entorno:**
+    * **Preproducción:** los logs se mantienen durante **365 días**.
+    * **Producción:** los logs se conservan durante **547 días**.
+    * Una vez superado ese tiempo, los archivos son **borrados automáticamente**.
+
+==== 🛠️ Buenas prácticas de administración ====
+  * Verificar periódicamente los permisos y propiedad de las carpetas.
+  * Supervisar el espacio disponible en el volumen de logs compartido.
+  * Informar a los usuarios sobre los tiempos de retención y las políticas de acceso.
+  * Coordinar con cada equipo si se requiere ajustar la visibilidad o retención por razones funcionales o legales.
+
+==== 🧾 Documentación asociada ====
+  * Listado de usuarios y accesos por grupo de trabajo.
+  * Políticas de rotación específicas por aplicación (si las hubiera).
+  * Scripts o tareas programadas de compresión y borrado de logs.
+
+

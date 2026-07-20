@@ -1,0 +1,136 @@
+﻿
+===== Gestión de versiones y cambios en BBDD. =====
+Establecer un proceso estandarizado para realizar cambios de versión, parches y optimizaciones en bases de datos Oracle 19c, garantizando la continuidad del servicio, la integridad de datos y el cumplimiento de las buenas prácticas de gestión de cambios.
+Este procedimiento aplica a:
+	Actualización de utilitarios como OPatch.
+	Aplicación de parches PSU (Patch Set Update) o RU (Release Update).
+	Actualización del diccionario de datos.
+	Recompilación y optimización de estadísticas posteriores al parcheo.
+
+Pre-requisitos
+Antes de iniciar cualquier cambio:
+	Validar la compatibilidad de la nueva versión de utilitarios y parches con la versión actual de Oracle y el sistema operativo.
+	Obtener desde el portal oficial (Oracle MOS) las versiones más recientes de OPatch y de los parches que correspondan.
+	Contar con respaldos actualizados de la base de datos y de la configuración previa.
+	Coordinar y aprobar la ventana de mantenimiento con todas las áreas involucradas.
+	Tener acceso a los entornos y recursos necesarios para realizar el cambio.
+
+Procedimiento
+1 Actualización del utilitario OPatch
+	Generar un respaldo del utilitario actual instalado.
+	Sustituirlo por la versión más reciente descargada.
+	Verificar que la versión instalada corresponde con la planeada y que está operativa.
+
+2 Preparación del Entorno
+	Confirmar que la base de datos se encuentra en un estado estable antes de iniciar.
+	Detener de forma controlada los servicios y recursos asociados a la base de datos.
+	Verificar que no haya sesiones activas o procesos que puedan interferir.
+
+3 Instalación de Parches
+	Ingresar en el directorio correspondiente a cada parche a aplicar.
+	Validar que no existan conflictos con parches previamente instalados.
+	Ejecutar la instalación de cada parche de forma secuencial en caso de que haya varios pendientes.
+	Confirmar que la instalación de cada parche ha finalizado correctamente antes de continuar con el siguiente.
+
+4 Reinicio de Servicios
+	Levantar nuevamente los recursos y servicios de la base de datos.
+	Verificar que la base de datos y las PDB (en entornos multitenant) se encuentran en estado abierto y operativo.
+
+5 Actualización del Diccionario de Datos
+	Conectarse a la base de datos raíz (CDB) y aplicar los scripts de actualización del diccionario.
+	Repetir el proceso para cada base de datos pluggable (PDB) que forme parte del entorno.
+
+6 Recompilación y Optimización
+	Recompilar los objetos inválidos que pudieran generarse tras el parcheo.
+	Actualizar las estadísticas de la base de datos para optimizar el rendimiento.
+
+7. Validaciones Post-Parcheo
+	Comprobar que todos los servicios de la base de datos están activos y funcionando correctamente.
+	Revisar los registros de eventos y alertas para confirmar que no existen errores.
+	Validar con el equipo de QA que las funcionalidades críticas de la aplicación están operativas.
+	Confirmar que la versión de parches instalada es la planificada.
+
+8. Documentación del Cambio
+	Registrar la fecha, hora y detalle de la intervención.
+	Anotar la versión previa y la versión posterior de OPatch y PSU/RU.
+	Incluir las incidencias detectadas y las acciones tomadas.
+	Guardar evidencia de pruebas posteriores al cambio.
+
+9. Plan de Reversión
+En caso de fallo:
+	Detener los servicios de base de datos de forma controlada.
+	Revertir los parches aplicados mediante el procedimiento de rollback definido por Oracle.
+	Restaurar el utilitario OPatch anterior si fue reemplazado.
+	Levantar nuevamente los servicios y validar el estado del sistema.
+
+Establecer un proceso estandarizado para realizar cambios de versión, parches y optimizaciones en bases de datos Oracle 19c, garantizando la continuidad del servicio, la integridad de datos y el cumplimiento de las buenas prácticas de gestión de cambios.
+Este procedimiento aplica a:
+	Actualización de utilitarios como OPatch.
+	Aplicación de parches PSU (Patch Set Update) o RU (Release Update).
+	Actualización del diccionario de datos.
+	Recompilación y optimización de estadísticas posteriores al parcheo.
+
+Pre-requisitos
+Antes de iniciar cualquier cambio:
+	Validar la compatibilidad de la nueva versión de utilitarios y parches con la versión actual de Oracle y el sistema operativo.
+	Obtener desde el portal oficial (Oracle MOS) las versiones más recientes de OPatch y de los parches que correspondan.
+	Contar con respaldos actualizados de la base de datos y de la configuración previa.
+	Coordinar y aprobar la ventana de mantenimiento con todas las áreas involucradas.
+	Tener acceso a los entornos y recursos necesarios para realizar el cambio.
+
+Procedimiento
+1 Actualización del utilitario OPatch
+	Generar un respaldo del utilitario actual instalado.
+	Sustituirlo por la versión más reciente descargada.
+	Verificar que la versión instalada corresponde con la planeada y que está operativa.
+
+2 Preparación del Entorno
+	Confirmar que la base de datos se encuentra en un estado estable antes de iniciar.
+	Detener de forma controlada los servicios y recursos asociados a la base de datos.
+	Verificar que no haya sesiones activas o procesos que puedan interferir.
+
+3 Instalación de Parches
+	Ingresar en el directorio correspondiente a cada parche a aplicar.
+	Validar que no existan conflictos con parches previamente instalados.
+	Ejecutar la instalación de cada parche de forma secuencial en caso de que haya varios pendientes.
+	Confirmar que la instalación de cada parche ha finalizado correctamente antes de continuar con el siguiente.
+
+4 Reinicio de Servicios
+	Levantar nuevamente los recursos y servicios de la base de datos.
+	Verificar que la base de datos y las PDB (en entornos multitenant) se encuentran en estado abierto y operativo.
+
+5 Actualización del Diccionario de Datos
+	Conectarse a la base de datos raíz (CDB) y aplicar los scripts de actualización del diccionario.
+	Repetir el proceso para cada base de datos pluggable (PDB) que forme parte del entorno.
+
+6 Recompilación y Optimización
+	Recompilar los objetos inválidos que pudieran generarse tras el parcheo.
+	Actualizar las estadísticas de la base de datos para optimizar el rendimiento.
+
+7. Validaciones Post-Parcheo
+	Comprobar que todos los servicios de la base de datos están activos y funcionando correctamente.
+	Revisar los registros de eventos y alertas para confirmar que no existen errores.
+	Validar con el equipo de QA que las funcionalidades críticas de la aplicación están operativas.
+	Confirmar que la versión de parches instalada es la planificada.
+
+8. Documentación del Cambio
+	Registrar la fecha, hora y detalle de la intervención.
+	Anotar la versión previa y la versión posterior de OPatch y PSU/RU.
+	Incluir las incidencias detectadas y las acciones tomadas.
+	Guardar evidencia de pruebas posteriores al cambio.
+
+9. Plan de Reversión
+En caso de fallo:
+	Detener los servicios de base de datos de forma controlada.
+	Revertir los parches aplicados mediante el procedimiento de rollback definido por Oracle.
+	Restaurar el utilitario OPatch anterior si fue reemplazado.
+	Levantar nuevamente los servicios y validar el estado del sistema.
+
+[[https://docs.oracle.com/cd/E91266_01/OPTCH/index.htm|Guía del usuario de OPatch.]]
+
+[[https://docs.oracle.com/en/database/oracle/oracle-database/19/ntdbi/downloading-and-installing-patch-updates.html|Descarga e instalación de parches Release Updates (RU) y Monthly Recommended Patches (MRPs).]]
+
+[[https://docs.oracle.com/en/database/oracle/oracle-database/19/ladbi/apply-patches-during-db-install.html|Aplicación de parches durante la instalación o actualización de la base de datos.]]
+
+[[https://www.oracle.com/security-alerts/|Avisos de Actualización Crítica de Parches (Critical Patch Updates, CPU).]]
+

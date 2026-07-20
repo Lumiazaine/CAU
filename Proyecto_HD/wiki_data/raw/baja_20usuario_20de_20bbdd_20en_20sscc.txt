@@ -1,0 +1,114 @@
+﻿
+====== Baja usuario de BBDD en SSCC ======
+
+Última modificación por [[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/XWiki/sistemasgtbd|Sistemas Departamento gtbd]] el "jue, 12 nov 2020 08:49:10"
+
+----
+
+En ocasiones nos solicitan que demos de baja un usuario en las BBDD. Este ticket según [[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/BajaUsuariosSSCC|el procemiento General]] tiene que venir transferido por windows.
+
+Lo primero sería conectarnos a PROD02 y lanzar las cosultas para ver si el usuario existe en la tabla de distribución de usuarios y permisos y en la base de datos de PROD02. (usaremos el usuario AFUENTESSA de prueba) (el usuario debe de coincidir con el usuario de dominio).
+
+¡ATENCION! ESTE PROCEDIMIENTO BORRARA ESQUEMAS COMPLETOS DE TODA ANDALUCÍA, ASEGURARSE QUE ES EL PROCEDIMIENTO QUE HAY QUE SEGUIR Y QUE EL USUARIO NO TIENE NADA EN SUS ESQUEMAS.
+
+Comprobar si el usuario exite en PROD02.
+
+SELECT USERNAME, ACCOUNT_STATUS FROM DBA_USERS WHERE upper(USERNAME) = upper('AFUENTESSA');
+
+En caso de que la consulta de resultado lo borramos.
+
+DROP USER AFUENTESSA;
+
+Comprobamos si existe el usuario en la tabla de clasificado de esquemas:
+
+SELECT * FROM SISTEMAS.ESQUEMAS_CLASIFICA WHERE upper(ESQUEMA) = upper('AFUENTESSA');
+
+En caso de que el usuario exista lo borramos:
+
+delete from SISTEMAS.ESQUEMAS_CLASIFICA where upper(ESQUEMA) = upper('AFUENTESSA');
+
+COMMIT;
+
+Como ultimo paso borramos el usuario de los esquemas de andalucia.
+
+Copiamos en la máquina de salto un [[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/Ejecutar en esquemas Andalucía|ejecutar esquemas andalucia.]]
+
+En el lista.sql indicamos que el usuario sea system.
+
+Ejemplo de como quedaría la consulta :
+
+select distinct 'sqlplus -s system/' ||
+
+decode(substr(b.base_datos,1,10), 'JUSTICIAAL', '14adhi89',
+
+'JUSTICIACA', '18ahab12',
+
+'JUSTICIACO', '12abjj00',
+
+'JUSTICIAGR', '14adib92',
+
+'JUSTICIAHU', '18ahhi89',
+
+'JUSTICIAJA', '12abdf46',
+
+'JUSTICIAMA', '19aifi69',
+
+'JUSTICIASE', '19aiib92','19aiib92') ||
+
+'@' ||
+
+b.base_datos
+
+|| ' @instruccion.sql ' || e.esquema || ' ' ||b.base_datos || ' "' || I.MUNICIPIO || '" "' || I.PROVINCIA || '" '  as conexion
+
+from sistemas.bases_datos b, sistemas.esquemas e
+
+, sistemas.inventario i
+
+where b.x_base_datos = e.e_x_base_datos
+
+and i.x_base_datos = e.e_x_base_datos
+
+and b.baja = 'N'
+
+and E.ESQUEMA LIKE 'SYSTEM'
+
+AND e.esquema NOT like 'REPESCRITOS%'
+
+AND e.esquema NOT like 'ESCRITOS'
+
+and e.esquema not like '%EMAAT%'
+
+and e.esquema not like '%LIBROS%'
+
+and e.esquema not like '%RECUPERADO%'
+
+and e.esquema not like 'REPADRIANO%'
+
+AND E.ESQUEMA NOT LIKE 'LA%'
+
+AND E.ESQUEMA NOT LIKE 'CONS%'
+
+AND E.ESQUEMA NOT LIKE 'PD%'
+
+AND E.ESQUEMA NOT LIKE 'RCDA%'
+
+AND E.ESQUEMA NOT LIKE 'ADRI%'
+
+AND E.ESQUEMA NOT LIKE 'REPLICASCNE'
+
+AND E.ACCOUNT_STATUS = 'OPEN'
+
+ORDER BY 1
+
+;
+
+Y en el "instrucción.sql" le indicamos que borre el usuario ha dar de baja.
+
+DROP USER AFUENTESSA;
+
+Ejecutamos el "ejecutar en esquemas Andalucía".
+
+Según el procedimiento general una vez finalizado se asigna la petición ha GTSR.
+
+

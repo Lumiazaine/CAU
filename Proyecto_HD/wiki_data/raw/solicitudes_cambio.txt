@@ -1,0 +1,59 @@
+﻿
+====== Procedimiento General de Solicitudes Técnicas a través de Remedy ======
+
+Este formulario debe ser completado para **realizar una solicitud técnica que implique intervención del área de redes o sistemas**, tales como:
+
+  * Cambios de configuración de red
+  * Otras modificaciones técnicas sobre infraestructura
+
+Se enviará por **Remedy** al departamento correspondiente para su validación, análisis y aplicación, si procede.
+
+**⚠️ Es imprescindible completar correctamente todos los campos para evitar demoras o devoluciones.**
+
+-----
+
+===== Datos de la Solicitud ( Incluido en Remedy ) =====
+
+^ Campo ^ Información a Rellenar ^
+| **Nº ticket solicitud (Remedy):** | (Número de ticket generado en Remedy) |
+| **Usuario / solicitante:** | (Nombre completo del solicitante) |
+| **E-mail:** | (Correo electrónico corporativo del solicitante) |
+| **Departamento / Área:** | (Unidad organizativa desde donde se solicita el cambio) |
+| **Fecha solicitud:** | (dd/mm/aaaa) |
+
+-----
+
+===== Detalles Técnicos de la Solicitud =====
+
+^ Campo ^ Información a Rellenar ^
+| **Tipo de solicitud:** | (Ej: switch no funciona, caida de servicio, etc.) |
+| **Motivo / Justificación:** | (Describir claramente el por qué se solicita el cambio) |
+| **Servicio / Aplicación afectada:** | (Nombre del sistema, aplicación o proceso vinculado) |
+| **Entorno:** | (Producción / Desarrollo / Preproducción / Pruebas) |
+| **Origen (IP o red):** | (IP origen o subred afectada) |
+| **Dispositivo afectado:** | ( Indicar si es uno solo o varios )  |
+| **Horario de aplicación:** | (Franja horaria recomendada o permanente) |
+| **Duración del cambio:** | (Temporal o indefinido; indicar fecha fin si aplica) |
+| **Persona de contacto :** | (Indicar si fuera necesario) |
+
+-----
+
+===== Adjuntos Recomendados (si aplica) =====
+
+  * Diagrama de red o topología
+  * Evidencia o requisitos funcionales
+  * Aprobación formal del responsable del área
+
+-----
+
+===== 🚨 Consideraciones Finales =====
+
+  * Las solicitudes incompletas serán devueltas.
+  * Toda petición debe ajustarse a las políticas de seguridad vigentes.
+  * El departamento de redes o sistemas evaluará la viabilidad técnica antes de aplicar cualquier cambio.
+  * En caso de urgencia, indicarlo explícitamente en el ticket y contactar con los canales definidos.
+
+===== Historial de cambios =====
+^ Versión ^ Fecha ^ Cambio ^ Autor ^  
+| 1.0 | 2025-07-18 | Creación del documento | GTSR|
+

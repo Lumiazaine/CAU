@@ -1,0 +1,26 @@
+﻿
+===== Recursos de los fabricantes usados en la configuración y/o bastionado de los equipos. =====
+Para asegurar una configuración y bastionado adecuados de equipos (bases de datos, servidores, sistemas operativos), es fundamental utilizar las guías y herramientas oficiales que proporcionan los fabricantes. Estos recursos garantizan que las configuraciones aplicadas cumplen con las mejores prácticas, estándares de seguridad y compatibilidad técnica.
+
+=== 1. Oracle Corporation ===
+
+[[https://docs.oracle.com/en/database/oracle/oracle-database/19/dbseg/index.html|Oracle Database Security Guide]]
+
+Guía oficial para la seguridad, configuración segura y bastionado de bases de datos Oracle. Incluye recomendaciones para la gestión de usuarios, auditoría, cifrado, y configuración segura.
+
+[[https://www.oracle.com/security-alerts/|Oracle Critical Patch Update (CPU)]]
+
+Recursos para identificar y aplicar parches de seguridad recomendados por Oracle.
+
+[[https://docs.oracle.com/en/database/oracle/oracle-database/19/asoag/introduction-to-oracle-advanced-security.html|Oracle Advanced Security]]
+	
+Documentación para implementar cifrado de datos, autenticación fuerte y otras funcionalidades avanzadas de seguridad.
+	
+[[https://docs.oracle.com/en/database/oracle/oracle-database/19/index.html|Oracle OPatch Utility]]
+
+Herramienta oficial para parcheo y actualización segura de Oracle Database.
+	
+
+=== 2. Sistemas Operativos ===
+Dependiendo del sistema operativo en que se ejecuten los equipos, se deben consultar las guías oficiales de bastionado:
+Linux (Red Hat, Oracle Linux, Ubuntu, etc.) Esta parte se encarga el equipo de GTSL trabajando de forma conjunta con GTBD.

@@ -1,0 +1,334 @@
+﻿
+====== ALMACENAMIENTO SSCC ======
+
+======
+Objetivo  ======
+
+En este documento se describe la infraestructura de almacenamiento de SSCC con el objeto defacilitar la gestión de los procesos y servicios asociados.
+
+======
+Introducción  ======
+
+SSCC dispone de diversa infraestructura de almacenamiento, con una finalidad variada. Se dispone de una cabina de almacenamiento HP3PAR que proporciona almacenamiento por fibra de datos fundamentalmente a los sistemas  de virtualización y BBDD, existe una  Isilon que proporciona servicios de NAS y disponemos de diversos Data Domain que proporcionan servicios de VTL. Existen otros dispositivos tales como librerías de cintas para salvaguardar el backup. Estos y otros elementos se describirán a lo largo del documento.
+
+======
+Alcance  ======
+
+Se tratará con el servicio de almacenamiento a SSCC, donde se ofrecen diferentes volúmenes que se presentan mediante LUNs, NFS o CIFS a los diferentes servidores.
+
+======
+Inventario físico  ======
+
+  * ** <font 18px/inherit;;inherit;;inherit>HP 3PAR 7400</font> **
+// <font 14px font-weight: normal; text-align: start; font-family: sans-serif; font-size: 14px; font-style: normal; font-weight: 700; text-align: start; font-size: 14px/sans-serif;;inherit;;inherit></font> //Servicio dado y Caractesísticas
+
+- Cabina de disco que da servicio con LUNs a los distintos servidores de SSCC como VPars, VM, Linux, ESX,...
+
+- Versión: 3.2.1 (MU3)
+
+- Chunklet de 1Gb
+
+// <font 14px font-weight: normal; text-align: start; font-family: sans-serif; font-size: 14px; font-style: normal; font-weight: 700; text-align: start; font-size: 14px/sans-serif;;inherit;;inherit></font> //Acceso
+ <font 14px font-style: normal; font-weight: normal; text-align: start;/sans-serif;;inherit;;inherit>HP3PAR01:  10.241.130.150</font>
+
+File Server 1 ILO HP3PAR_GR1 10.241.130.154
+
+File Server 2 ILO HP3PAR_GR2 10.241.130.155
+
+Service Processor ILO HP3PARSP_GR3 10.241.130.156
+
+Service Processor HP3PARSP1 10.241.130.157
+
+Acceso temporal desde IUSSWVCS03 (10.241.129.158) mediante el Software 3PAR Management Console
+
+(C:\Program Files (x86)\3PAR\inform_mgmt_console\bin\imc.exe)
+
+// <font 14px font-weight: normal; text-align: start; font-family: sans-serif; font-size: 14px; font-style: normal; font-weight: 700; text-align: start; font-size: 14px/sans-serif;;inherit;;inherit></font> //Configuración
+
+Tiene varios CPGs configurados con el nombre de la tecnología de disco y el Raid: FC_r1, FC_r5, FC_r6, SSD_r1, SSD_R5, NL_r6
+
+  * ** <font 18px/inherit;;inherit;;inherit>DATA DOMAIN 4200</font> **
+// <font 14px font-weight: normal; text-align: start; font-family: sans-serif; font-size: 14px; font-style: normal; font-weight: 700; text-align: start; font-size: 14px/sans-serif;;inherit;;inherit></font> //Servicio dado y Caractesísticas
+
+- Cabina de disco que da servicio al almacenamiento de Backup desde el Networker IUSSLNSRSRV01 para SSCC.
+
+- Su nombre es IUSAPBACK02, pero en el Networker se le conoce con el nombre: //ddboost_01 - dd4200ddboost01.001//
+
+- OS: 5.4.4.3-460654
+
+- Inicialmente se replicaba contra el Data Domain de MACJ, ya no.
+
+// <font 14px font-weight: normal; text-align: start; font-family: sans-serif; font-size: 14px; font-style: normal; font-weight: 700; text-align: start; font-size: 14px/sans-serif;;inherit;;inherit></font> //Acceso
+
+IUSAPBACK02  - 10.241.130.142
+
+ 10.241.130.143
+
+ 10.241.130.144
+
+ 10.241.130.145
+
+ 10.241.130.146
+
+ 10.241.130.147
+
+Acceso Web/SSH: http://iusapback02.justicia.junta-andalucia.es/ddem/
+
+// <font 14px font-weight: normal; text-align: start; font-family: sans-serif; font-size: 14px; font-style: normal; font-weight: 700; text-align: start; font-size: 14px/sans-serif;;inherit;;inherit></font> //Configuración
+
+- Tiene una tarea de limpieza los miercoles a las 6:00, con Throttle al 50%
+
+- No se utiliza Replicación, Sanpshot, VTL ni Quota.
+
+- MTree:
+
+ /data/col1/Default
+
+ /data/col1/StorageUnit1
+
+ /data/col1/avamar-1448021199    (DDBoost)
+
+ /data/col1/avamar-1471518375    (DDBoost)
+
+ /data/col1/backup
+
+ /data/col1/iusslnsrsrv01   (CIFS y DDBoost)
+
+- NFS premitidos en el host sysadmin.justicia.junta-andalucia.es:
+
+ /backup
+
+ /ddvar
+
+  * ** <font 18px/inherit;;inherit;;inherit>DATA DOMAIN 2500</font> **
+// <font 14px font-family: sans-serif; font-size: 14px; font-style: normal; font-weight: 700; text-align: start; font-size: 14px/sans-serif;;inherit;;inherit></font> //Servicio dado y Caractesísticas
+
+- Cabina de disco que da servicio al almacenamiento de Backup desde el Networker ORAGRID para las Sedes.
+
+- Su nombre es IUSAPBACK01, pero en el Networker se le conoce con el nombre: // <font 14px/inherit;;inherit;;inherit>ddboost_01 - PoolDD2500.001</font> //
+
+- OS: 5.4.2.1-423209
+
+- Normalmente se encuentra entre el 95% y 98% de ocupación, por lo que suele tener una alerta: //"Space usage in Data Collection has exceeded 95% threshold."//
+
+// <font 14px font-family: sans-serif; font-size: 14px; font-style: normal; font-weight: 700; text-align: start; font-size: 14px/sans-serif;;inherit;;inherit></font> //Acceso
+
+IUSAPBACK01 - 10.241.128.170
+
+ 10.241.128.171
+
+ 10.241.128.172
+
+ 10.241.128.173
+
+ 10.241.128.174
+
+ 10.241.128.175
+
+Acceso:http://iusapback01.justicia.junta-andalucia.es/ddem/
+
+// <font 14px font-weight: normal; text-align: start; font-family: sans-serif; font-size: 14px; font-style: normal; font-weight: 700; text-align: start; font-size: 14px/sans-serif;;inherit;;inherit></font> //Configuración
+
+- Tiene una tarea de limpieza los miercoles a las 11:00, con Throttle al 75%
+
+- No se utiliza Sanpshot, ni Quota.
+
+- VTL configurada, VTL_NDMP
+ <font 14px font-style: normal; font-weight: normal; text-align: start;/sans-serif;;inherit;;inherit>- MTree:</font>
+
+ /data/col1/Default     (VTL Pool)
+
+ /data/col1/NDMP     (VTL Poll)
+
+ /data/col1/Veeam
+
+ /data/col1/backup
+
+ /data/col1/oragrid   (CIFS y DDBoost)
+
+- NFS premitidos en el host sysadmin.justicia.junta-andalucia.es:
+
+ /backup
+
+ /ddvar
+
+  * ** <font 18px/inherit;;inherit;;inherit>LIBRERIA HP StoreEver MSL6480</font> **
+// <font 14px font-family: sans-serif; font-size: 14px; font-style: normal; font-weight: 700; text-align: start; font-size: 14px/sans-serif;;inherit;;inherit></font> //Servicio dado y Caractesísticas
+
+- Librería de cintas que da servicio a los Backups desde el Networker ORAGRID para las Sedes y IUSSLNSRSRV01 para SSCC
+
+- Su nombre en Networker de Oragrid es //MSL6480.1//  y en Iusslnsrsrv01 es //MSL6480//
+
+- Firmware: 4.70
+
+- Tiene 3 módulos de expansión, Módulo 1 y Módulo 3, mas el Módulo 2 donde se encuentran los 3 Drive.
+
+- Para extraer las cintas, se realiza desde su consola, no desde el Networker.
+
+// <font 14px font-family: sans-serif; font-size: 14px; font-style: normal; font-weight: 700; text-align: start; font-size: 14px/sans-serif;;inherit;;inherit></font> //Acceso
+
+http://10.241.130.7
+
+// <font 14px font-weight: normal; text-align: start; font-family: sans-serif; font-size: 14px; font-style: normal; font-weight: 700; text-align: start; font-size: 14px/sans-serif;;inherit;;inherit></font> //Configuración
+
+Tiene dos Particiones o Pools:
+
+Una con dos drives (/dev/nst0 y /dev/nst1) para el servidor de Networker
+ <font 14px font-style: normal; font-weight: normal; text-align: start;/sans-serif;;inherit;;inherit>IUSSLNSRSRV01 que utiliza el Módulo 2 y el Módulo 3. El Módulo 2 se emplea para SSCC y el Módulo 3 para SSVV.</font>
+
+Por otra parte se encuentra el otro Pool con un driver (/dev/nst2) para
+ <font 14px font-style: normal; font-weight: normal; text-align: start;/sans-serif;;inherit;;inherit>ORAGRID, que utiliza el Módulo 1</font> .
+ <font 11pt font-family: Arial; color: rgb(1,1,1)/Arial;;rgb(1,1,1);;inherit>En el Pool para Iusslnsrsrv01, los slots 81-83 están reservados para cintas limpiadoras.</font>
+ <font 11pt font-family: Arial; color: rgb(1,1,1)/Arial;;rgb(1,1,1);;inherit>En el Pool para</font>
+ <font 11pt font-family: Arial; color: rgb(1,1,1)/Arial;;rgb(1,1,1);;inherit>Oragrid</font>
+ <font 11pt font-family: Arial; color: rgb(1,1,1)/Arial;;rgb(1,1,1);;inherit>, los slots 1-2 están reservados para cintas limpiadoras.</font>
+
+  * ** <font 18px/inherit;;inherit;;inherit>LIBRERIA HP MSL6030</font> **
+// <font 14px font-weight: normal; text-align: start; font-family: sans-serif; font-size: 14px; font-style: normal; font-weight: 700; text-align: start; font-size: 14px/sans-serif;;inherit;;inherit></font> //Servicio dado y Caractesísticas
+
+- Librería de cintas que da servicio a los Backups desde el Networker IUSDESA02 para servidores antiguos de SSCC
+
+- Su nombre en Networker es //HPMSL6000//
+
+- Firmware: 5.20
+
+- Tiene 2 Driver sin módulos de expansión.
+
+- Para extraer las cintas, se realiza desde su consola, no desde el Networker
+
+// <font 14px font-weight: normal; text-align: start; font-family: sans-serif; font-size: 14px; font-style: normal; font-weight: 700; text-align: start; font-size: 14px/sans-serif;;inherit;;inherit></font> //Acceso
+
+ http://10.241.130.6
+
+  *
+ <font 14px font-weight: 700; font-size: 18px/inherit;;inherit;;inherit>SWITCH DE FIBRA Brocade 4100 y Brocade 6510</font>
+
+// <font 14px font-weight: normal; text-align: start; font-family: sans-serif; font-size: 14px; font-style: normal; font-weight: 700; text-align: start; font-size: 14px/sans-serif;;inherit;;inherit></font> //Servicio dado y Caractesísticas
+
+Switchs de Fibra que forman parte de un Fabric
+
+Switchs Antiguos - Brocade 4100:
+
+ Nombre: sw01 y sw02 **(DADOS DE BAJA)** ID:   EMC0000CA
+
+ SwitchType:     32.0
+
+ Kernel:     2.4.19
+
+ Fabric OS:  v5.2.0a
+
+ BootProm:   4.5.3
+
+Switchs Nuevos - Brocade 6510:
+
+ Nombre: swsan03 y swsan04
+
+ ID:   BRD0000CA
+
+ SwitchType:     109.1
+
+ Kernel:     2.6.14.2
+
+ Fabric OS:  v7.2.1
+
+ BootProm:   1.0.11
+
+// <font 14px font-weight: normal; text-align: start; line-height: 1.4em; font-family: sans-serif; font-size: 14px; font-style: normal; font-weight: 700; text-align: start; line-height: 1.4em; font-size: 14px; line-height: 1.4em/sans-serif;;inherit;;inherit></font> //Acceso
+
+sw01 -> ssh:10.241.129.6  swsan01.justicia.junta-andalucia.es     Fabric con swsan03 **(DADO DE BAJA)**
+
+sw02 -> ssh:10.241.129.7  swsan02.justicia.junta-andalucia.es     Fabric con swsan04 **(DADO DE BAJA)**
+
+swsan03 ->  ssh:10.241.130.140           swsan03.justicia.junta-andalucia.es     <del>Fabric con sw01</del>
+
+swsan04 ->  ssh:10.241.130.141           swsan04.justicia.junta-andalucia.es     <del>Fabric con sw02</del>
+
+// <font 14px font-weight: normal; text-align: start; font-family: sans-serif; font-size: 14px; font-style: normal; font-weight: 700; text-align: start; font-size: 14px/sans-serif;;inherit;;inherit></font> //Configuración
+
+FABRIC 1 - Zoning SW01
+
+Switch ID  Worldwide Name               Enet IP Addr       Name
+
+------------  -------------------------------    -------------------   -----------
+
+<del> 1: fffc01   10:00:00:05:1e:03:6e:20   10.241.129.6      "sw01"</del> 10: fffc0a   10:00:50:eb:1a:27:24:23  10.241.130.140  "swsan03"
+
+FABRIC 2
+ <font 14px font-style: normal; font-weight: normal; text-align: start;/sans-serif;;inherit;;inherit>- Zoning SW02</font>
+
+Switch ID  Worldwide Name                 Enet IP Addr        Name
+
+------------  ---------------------------------   ------------------     --------
+
+<del> 2: fffc02    10:00:00:05:1e:03:6d:48     10.241.129.7       "sw02"</del> 20: fffc14   10:00:50:eb:1a:27:23:a3     10.241.130.141   "swsan04"
+
+======
+Conexion puertos switches SAN  ======
+
+|puerto|SW03|SW04|
+|0|3PAR NODO0 HBA1|3PAR NODO0 HBA2|
+|1|DATADOMAIN 4200-1|DATADOMAIN 4200-2|
+|2|-|-|
+|3|-|-|
+|4|-|-|
+|5|HP CH1 BAY1 X1|HP CH1 BAY2 X1|
+|6|HP CH1 BAY1 X2|HP CH1 BAY2 X2|
+|7|HP CH2 BAY1 X1|HP CH2 BAY2 X1|
+|8|HP CH2 BAY1 X2|HP CH2 BAY2 X2|
+|9|FC1 SLOT2 P1|FC1. SLOT2 P2|
+|10|FC2 SLOT2 P1|FC2. SLOT2 P2|
+|11|3PAR NODO1 HBA1|3PAR NODO1 HBA2|
+|12|DELL CH1 IZQ 0|DELL CH1 DCH 23|
+|13|DELL CH1 IZQ 23|DELL CH1 DCH 0|
+|14|DELL CH2 IZQ 0|DELL CH2 DCH 23|
+|15|DELL CH2 IZQ 23|DELL CH2 DCH 0|
+|16|3PAR NODO2 FC1|3PAR NODO2 FC2|
+|17|A100 FC1|A100 FC2|
+|18|-|-|
+|19|-|-|
+|20|-|-|
+|21|VC2-X1|VC1-X1|
+|22|VC2-X2|VC1-X2|
+|23|VC2-X3|VC1-X3|
+|24|3PAR NODO 3 FC1|3PAR NODO3 FC2|
+|25|LTO 1A|LTO 1B|
+|26|LTO 2A|LTO 2B|
+|27|LTO 3A|LTO 3B|
+|28|VC2-X4|VC1-X4|
+|29|ORAGRID P1|ORAGRID P0|
+|30|IUSSWAI HBA1|IUSWAQ HBA0|
+|31|IUSEXCHANGE HBA 01|IUSEXCHANGE HBA 00|
+|32|HP CH1 BAY1 X3|HP CH1 BAY2 X3|
+|33|HP CH2 BAY1 X3|HP CH2 BAY2 X3|
+|34|IUSSAPBACK01.1|IUSSAPBACK02.2|
+|35|DD6800 0|DD6800 1|
+|36|-|MSC 6030|
+|37|-|IUSDESA02|
+|38|-|-|
+|39|-|-|
+|40|HP CH1 BAY1 X4|HP CH1 BAY2 X4|
+|41|HP CH2 BAY1 X4|HP CH2 BAY2 X4|
+|42|SSVV|-|
+|43|-|-|
+|44|-|-|
+|45|-|-|
+|46|-|-|
+|47|-|-|
+
+======
+Esquema de almacenamiento  ======
+
+{{https://xwiki.justicia.junta-andalucia.es/xwiki/bin/download/Sistemas/almacenamiento_sscc/RedSAN.jpeg?nolink&100%x100%|RedSAN.jpeg}}
+
+Para mas información y detalle del mapa de conectividad ver los documentos:
+
+\\Iusnas05\Sistemas\GTAB\SAN\SANHealth_170522_1453_SAN_CJI.vsd
+ <font 14px font-style: normal; font-weight: normal; text-align: start;/sans-serif;;inherit;;inherit>\\Iusnas05\Sistemas\GTAB\SAN\SANHealth_170522_1453_SAN_CJI.xls</font>
+
+======
+Monitorización  ======
+
+La monitorización está recogida en la página de montirozación
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/Monitorizacion GTAB|Monitorizacion GTAB]]
+
+

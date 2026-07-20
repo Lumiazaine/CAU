@@ -1,0 +1,17 @@
+﻿
+
+<WRAP> 
+<panel type="primary" title="Procedimientos y Problemas Conocidos de Acceda">
+
+[[..:acceda:start|Volver atrás]]
+
+<WRAP> 
+<panel type="info" title="Procedimientos y Guías">
+  * {{ :formulariosolicitudaccesosistemainformacionactualizado30042025.pdf|Formulario Solicitud Acceso Sistema Información}}
+</panel>
+</WRAP>
+
+
+[[..:acceda:start|Volver atrás]]
+
+{{tag>novalidada}}

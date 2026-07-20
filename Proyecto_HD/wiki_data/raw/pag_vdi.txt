@@ -1,0 +1,95 @@
+﻿
+<WRAP> <panel type="primary" title="PROYECTO VDI">
+
+<WRAP> <panel type="info" title="Descripción">
+
+**El objetivo del contrato es la Virtualización de 5.500 Puestos de Trabajo en los Órganos Judiciales, Fiscalías e IMLCFs de Andalucía.**
+
+Virtualizar significa ​​​​Trasladar a "la nube de Justicia Andalucía" el escritorio "Windows" que cualquier usuario en sede judicial utiliza al conectar su PC o portátil e introducir sus credenciales.
+
+  * El **calendario de migraciones y formaciones**  telemáticas se encuentra publicado en esta página.
+
+Dada la naturaleza del proyecto, nos encontramos con desviaciones frecuentes en la planificación prevista de migraciones VDI. Por tanto, **todos los los viernes se remite a Gabinetes, DDTT, CRIP y CAU mediante correo la planificación de la semana siguiente**  e informando de las aperturas de sedes.
+
+El proceso de migración consiste en migrar los datos del equipo físico y plataformar el equipo con el TTLos. Tras el proceso de migración, se forma al usuario en el nuevo escritorio virtual y se informa de las nuevas aplicaciones.
+
+La Consejería ha determinado la implantación de Puestos de Trabajos Virtualizados para los perfiles que se indican en el apartado siguiente de "criterios":
+
+​​​​​__**Criterios de prioridad para dotación puestos VDI:**__
+
+  * La prioridad para la continuidad de estos puestos de trabajo es dotar a los profesionales de la Adm, de Justicia que ejerzan un mayor nivel de responsabilidad, con el equipamiento más rápido y con capacidad de trabajo deslocalizado; y actualmente eso significa que: Prioridad dotación VDI > Prioridad dotación Puesto de trabajo físico para estos usuarios. Se incluye a continuación una relación priorizada de usuarios de puestos VDI (de más prioritarios a menos prioritarios) según se requirió por la CJALFP:
+      * Todos los **Magistrados y Jueces.**
+      * **Fiscal Superior, Fiscales Jefes, Tenientes Fiscales y Fiscales.**
+      * Todos los **Letrados de la Administración de Justicia.**
+      * **Dos Gestores procesales por Órgano Judicial y Fiscalía.**
+      * **Un Tramitador procesal por Órgano Judicial.**
+      * **Directores, Secretarios y Jefes de Servicios del IML.**
+      * Todos los **Médicos Forenses.**
+  * **__Criterio adicional__** : Evitar dotar VDI para casos de uso rotatorio de un mismo puesto de trabajo (p.ej. Guardias, SCG para personal de actos de comunicación, etc) porque implica que todos los usuarios de un mismo puesto compartido habrían de disponer de licencia VDI, cosa que en su puesto de origen (cuando no están en Guardia, por ejemplo) no tiene por qué darse esa disponibilidad de licencia
+  * **__Criterio adicional__** : Una vez implantados 5.250 puestos VDI y reservados otros 250 para uso rotarorio temporal (inspecciones, cursos, etc), cada nueva alta de puesto VDI a cualquier usuario ha de ser precedida imprescindiblemente por una baja de alguno de los 5.250 anteriores, ya que de otra manera se utilizarán más licencias de las adquiridas por la Agencia. Para no subvertir las prioridades de dotación VDI establecidas por la CJALFP, en estos casos, el puesto a dar de baja debería corresponder al mismo perfil profesional que el puesto a dar de alta.
+</panel>
+
+<panel type="success" title="Contacta">
+
+**Proveedor**: \\ Remedy: Servicios - VDI \\ Fuera de horario: Lunes a Jueves de 18:00h a 08:00h y de Viernes a las 15:00 al lunes a las 08:00h: contactar por **teléfono al 677725959**.
+
+**Delegaciones**: [[:pag_contactos#delegaciones-territoriales|Contactos Delegaciones]]
+
+**Seguimiento proyecto**: <esp.vdi.ius@juntadeandalucia.es>
+
+</panel>
+
+<panel type="info" title="Fechas del proyecto">
+
+El próximo 22 abril 2025 se inicia la implantación de Puestos de Trabajo Virtualizados (PTV) en los Órganos Judiciales, Fiscalía e Institutos de Medicina Legal, Ciencias Forenses de Andalucía.
+
+Puede consultar el calendario de despliegue y formación de su Órgano aquí –> * {{:ptvcalendariodedespliegueyformativov2.pdf|Calendario de Despliegue}}
+
+La fecha prevista para la finalización del proyecto es el día 30 de Noviembre de 2025 </panel> </WRAP>
+
+<WRAP> <panel type="info" title="Procedimientos e incidencias">
+
+  * [[:pag_vdi:procedimientos:start|Procedimientos VDI]]
+  * [[:pag_vdi:procedimientos:tecnicos#incidencias-conocidas|Incidencias VDI]]
+
+</panel></WRAP>
+
+<WRAP> <panel type="info" title="Capacitación">
+
+  * [[https://capacitacion.justicia.junta-andalucia.es|Contenidos Digitales de Capacitación (Portal de Capacitación de Justicia Digital Andalucía)]]
+  * [[https://videos.justicia.junta-andalucia.es/home|Portal de contenidos en vídeo de Justicia Digital Andalucía]]
+
+**Sesiones formativa:**
+
+Aunque su uso es muy intuitivo, se ha elaborado un calendario de formación en función del perfil del usuario y de la fecha de migración. Las sesiones de formación, las cuales se realizarán de manera telemática a través de Webex tendrán una duración aproximada de 1 hora y se celebrarán en 7 semanas. Las sesiones formativas se han distribuido de la siguiente manera:
+
+^Horario  |**Lunes**   ^**Miércoles** |**Jueves**   |
+|09:00-10:00  |Personal IML  |Fiscales/Magistrados  |LAJ/Gestión Procesal/Tramitación Procesal  |
+|10:00-11:00  |Fiscales/Magistrados  |LAJ/Gestión Procesal/Tramitación Procesal  |Personal IML  |
+|11:00-12:00  |LAJ/Gestión Procesal/Tramitación Procesal  |Personal IML  |Fiscales/Magistrados  |
+
+Las semanas en las que se impartirá las sesiones formativas son:
+
+1. __Abril:__  Semana del 7/04/2025
+
+2. __Mayo:__  Semana del 5/05/2025 y semana del 19/05/2025
+
+3. __Junio:__  Semana del 16/06/2025
+
+4. __Julio:__  Semana del 21/07/2025
+
+5. __Septiembre:__  Semana del 22/09/2025
+
+El enlace de acceso a cada sesión formativa es el siguiente:
+
+• [[https://just-jda.webex.com/just-jda/j.php?MTID=mf2f1472b83911ffe89021ccd6ac12287|Enlace formación de las 9:00h – 10:00h ]] (Este enlace es válido para las sesiones de los Lunes, Miércoles y Jueves a las 9:00h de la mañana)
+
+• [[https://just-jda.webex.com/just-jda/j.php?MTID=m7fb1c3d86a21a05f188356b3ad7fd7bb|Enlace formación de las 11:00h – 12:00h ]] (Este enlace es válido para las sesiones de los Lunes, Miércoles y Jueves a las 11:00h de la mañana)
+
+• [[https://just-jda.webex.com/just-jda/j.phpMTID=m950bc971636c7247b8255a5149d8ceb8|Enlace formación de las 12:30h – 13:30h]] (Este enlace es válido para las sesiones de los Lunes, Miércoles y Jueves a las 12:30h de la mañana)
+
+</panel> </WRAP></panel>
+
+**{{tag>novalidada}} **
+
+

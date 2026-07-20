@@ -1,0 +1,67 @@
+﻿
+<WRAP> <panel type="primary" title="Formularios y plantillas">
+
+<WRAP> <panel type="info" title="Formularios de Solicitud para el centro de servicio a usuarios (CAU)">
+
+Los **formularios** están a disposición del usuario en el **Portal de Capacitación** –> [[https://capacitacion.justicia.junta-andalucia.es/course/section.php?id=261|Formularios]]
+
+</panel>
+
+</WRAP>
+
+<WRAP> <panel type="info" title="Formularios para técnicos">
+
+  * {{:formulario_de_autorizacion_para_acceso_a_adriano_v10-autorrellenable.pdf|Formulario de Autorización para acceso a Adriano en los distintos entornos}}
+  * {{:formulario_autorizacion_acceso_corpus_autorrellenable_v10.odt|Formulario de Autorización para acceso a CORPUS en los distintos entornos }}
+  * {{:formulario_autorizacion_acceso_nueva_sede_autorrellenable_v10.odt|Formulario de Autorización para acceso a NUEVA SEDE en los distintos entornos}}
+  * {{:formulario_de_autorizacion_para_acceso_a_bmchelix_v1.pdf|Formulario de Autorización para acceso a BMC Helix en los distintos entornos}}
+  * {{:pag_formu:formulario_alta_baja_modificacion_de_personal_v5.pdf|Formulario de Alta, Baja o Modificación de personal externo}}
+  * {{:pag_formu:formulario_solicitud_vpn_acceso_si_v2.pdf|Formulario de solicitud de VPN}}
+
+</panel> </WRAP>
+
+<WRAP> <panel type="info" title="Ficha de instalación de material informático"> {{:ficha_de_instalacion_de_equipamiento_informatico.ods|Ficha de instalación de material informático}}
+
+</panel> </WRAP>
+
+<WRAP> <panel type="info" title="Identidad Corporativa Junta Andalucía">
+
+  * [[https://juntadeandalucia.es/identidad|Manual de Identidad Corporativa JA]]
+  * [[https://juntadeandalucia.es/export/drupaljda/JdA-Manual-IC-PaletaColor.pdf|Colores Corporativos JA]]
+
+</panel> </WRAP>
+
+<WRAP> <panel type="info" title="Identidad Corporativa ADA">
+
+  * [[https://intranet.ada.junta-andalucia.es/la-agen|Plantilla y Recursos de Identidad Corporativa ADA]]
+  * [[https://juntadeandalucia.es/eboja/2025/511/BOJA25-511-00003-13904-01_00327500.pdf|BOJA: Decreto del presidente 5/2025, de 15 de octubre sobre reestructuración de Consejerías]]
+
+</panel> </WRAP>
+
+<WRAP> <panel type="info" title="Manuales de Identidad Visual OJ y OJM">
+
+  * {{:numo_-_09_comunicacion_-_manual_identidad_visual_oj_v0.1_2025-10-16.pdf|Manual de Identidad Visual Oficina Judicial (OJ)}}
+  * {{:numo_-_09_comunicacion_-_manual_identidad_visual_ojm_v0.1_2025-09-17.pdf|Manual de Identidad Visual Oficina de justicia en el Municipio (OJM)}}
+
+</panel> </WRAP>
+
+<WRAP> <panel type="info" title="Plantillas de Proyectos">
+
+Para utilizar las plantillas relacionadas con los proyectos en curso, accede a la siguiente carpeta a través del Explorador de Windows. Puedes copiar esta ruta y pegarla directamente en la barra de direcciones del Explorador de archivos.
+<code>
+
+\\iusnas05\SIJ\10. Proyectos en curso\000. Plantillas y otros recursos
+
+</code>
+
+</panel> </WRAP>
+
+<WRAP> <panel type="info" title="Plantillas de correo informativos al usuario">
+
+[[:pag_formu:plantillas|Modelos de mail de comunicación al usuario]]
+
+</panel> </WRAP>
+
+{{tag>validada}}
+
+

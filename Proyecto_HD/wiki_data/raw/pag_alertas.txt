@@ -1,0 +1,75 @@
+﻿
+===== Alertas recibidas por correo en la cuenta "sistemas.gtsr.ius" =====
+
+  * **RCJA**
+Alertas de conectividad y eventos desde RCJA.
+
+  * **Alertas OVO y registro de actividad SIO**
+Notificaciones del sistema de monitorización OVO y actividad registrada en SIO.
+
+  * **RANCID**
+Logs de configuración y alertas de ejecución automática de RANCID.
+
+  * **iMC**
+Alertas de equipos e interfaces gestionadas por el sistema iMC.
+
+  * **VPN Jueces**
+Resultados del script de comprobación diaria de VPNs de Jueces.
+
+  * **SmokePing**
+Alertas de latencia o pérdida de paquetes: líneas recuperadas o caídas.
+
+  * **Remedy**
+Asignación automática de tickets Remedy al grupo GTSR.
+
+  * **Zabbix**
+Alertas generadas por el sistema de monitorización Zabbix.
+
+
+
+===== 🚨 Alertas Zabbix - Guía de actuación =====
+Guía para responder a las principales alertas recibidas desde el sistema de monitorización **Zabbix** en la cuenta sistemas.gtsr.ius.
+
+==== 1️⃣ Firewalls/VPN - Ping unreachable ====
+
+* ⏱️ Esperar 2 minutos.
+* Si la alerta persiste:
+  * Hacer ping a la IP de la VPN (FortiGate).
+  * Si no contesta, crear incidencia a **DP** indicando que un técnico debe acudir a la sede a revisar el Fortigate.
+
+**Otras alertas relacionadas con VPN:**
+
+| Alerta | Acción |
+| `The serial number has changed` | ⚠️ Cambio de nodo activo. No requiere acción. |
+| `Consumo interfaz WAN1 >50% o >80%` | 📶 Tráfico elevado en Fortigate. Sin intervención, suele recuperarse. |
+
+----
+
+==== 2️⃣ Switch - Ping unreachable ====
+
+* ⏱️ Esperar 2 minutos.
+* Si persiste:
+  * Hacer ping a la IP del switch.
+  * Si no contesta, crear incidencia a **DP** para que un técnico revise el equipo o lo reinicie si es necesario.
+
+----
+
+==== 3️⃣ Router - Ping back unreachable o principal ====
+
+* ⏱️ Esperar 2 minutos.
+* Si persiste:
+  * Hacer ping a la IP del router.
+  * Si no contesta, crear incidencia a **DP** solicitando reinicio del router.
+  * Si tras reinicio sigue sin responder:
+    * Solicitar al técnico que envíe fotos del estado de las luces del router.
+    * Con esas fotos, abrir **incidencia urgente a RCJA (Telefónica)**.
+
+
+==== 4️⃣ Balanceadores F5 ====
+
+| Alerta | Descripción | Acción |
+|--------|-------------|--------|
+| `F5 ConfigSync status is not in Sync` | Desincronización del cluster F5 | ❌ No requiere acción |
+| `F5 Node "/Common/i*****" is down` | Nodo no responde al puerto configurado | ⚠️ No se requiere actuar |
+
+

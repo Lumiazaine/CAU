@@ -1,0 +1,17 @@
+﻿
+
+<WRAP> 
+<panel type="primary" title="UBICACIONES SSDJ">
+
+Ubicaciones actualizadas de los puestos de trabajo SSDJ.
+{{ :plano_mesas_planta_5.jpg?1000 |}}
+
+Debido a las inundaciones producidas en el edificio, no podremos acceder a la oficina hasta el miércoles 05/11, por lo que la distribución de las ubicaciones, salvo cambio de última hora, serán las mismas que las de la semana precedente. 
+
+{{ ::semana_del_27_oct_al_31oct_-.xlsx |}}
+
+
+</panel>
+</WRAP>
+
+

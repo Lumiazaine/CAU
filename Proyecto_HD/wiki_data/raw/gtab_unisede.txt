@@ -1,0 +1,72 @@
+﻿
+====== Unificacion de sede por parte de GTAB ======
+ <font inherit/inherit;;inherit;;inherit></font>
+ <font 24px/Helvetica;;#000000;;inherit>Procedimiento de Backup para unificación de sede.</font>
+ <font 18px/Arial;;inherit;;inherit>El propósito de esta información es definir las competencias de GTAB en el proceso de unificación de sedes .</font>
+
+NOTA: La mayoría de los pasos están indicados en la TP del procedimiento, y conforme se van realizando hay que ir anotándolo. Esta TP se encuentra en:
+
+//\\iusnas05\sij\Sistemas\Proyectos\2016\Unificacion Partidos Judiciales\Checklist unificaciones\sede//
+ <font 18px/Arial;;#000000;;inherit>1</font>
+ <font 18px/MS Sans Serif serif;;#000000;;inherit>º</font>
+ <font 18px/Arial;;#000000;;inherit>Desde GTAB, tendremos acceso al calendario de unificación de sedes.</font>
+
+[[https://exchangeonline.fujitsu.es/OWA/redir.aspx?SURL=5hiCpV_tD2nvfgSq_gkC5sWDKf6bzr2sRn6EJlp92kezi31kTnDUCGgAdAB0AHAAOgAvAC8AdwBlAGIAYwBhAGwAZQBuAGQAYQByAC4AagB1AHMAdABpAGMAaQBhAC4AagB1AG4AdABhAC0AYQBuAGQAYQBsAHUAYwBpAGEALgBlAHMAOgA5ADEALwBsAG8AZwBpAG4ALgBwAGgAcAA.&URL=http://webcalendar.justicia.junta-andalucia.es:91/login.php|http://webcalendar.justicia.junta-andalucia.es:91/login.php]]?
+ <font 18px/Helvetica;;#000000;;inherit>2º Aún falta acordar quien genera la petición de unificación. Si la creamos nosotros seguiremos este procedimiento:</font>
+ <font 18px/Helvetica;;inherit;;inherit>Con la referencia, crearemos incidencia indicando los servidores de origen y destino que se van a unificar (Por ejemplo: Unificación CO2C - Sede destino CO1C).</font>
+ <font 18px/Helvetica;;inherit;;inherit>NOTA: Lo normal es que solo exista un host a unificar, en este caso en CO2C solo está JUSTICIACO2CH4.</font>
+ <font 18px/Helvetica;;inherit;;inherit>- Si lo hacemos un Viernes, dejaremos la incidencia en estado Pendiente de Causa Externa e informaremos a los compañeros de GTSW para facilitar el número de remedy.</font>
+ <font 18px/Helvetica;;inherit;;inherit>- Si la petición la creamos el Lunes, directamente la pasamos a GTSW con el estado del backup.</font>
+ <font 18px/Helvetica;;inherit;;inherit>Descripción de la petición: ¿Respaldo para la unificación de las sedes justiciaco2ch4 a justiciaco1 ¿</font>
+ <font 18px/Helvetica;;inherit;;inherit>También se recibirá un correo indicándolo. Por ejemplo:</font>
+ <font 18px/Helvetica;;inherit;;inherit>¿De: Francisco Javier Lora Ruiz</font>
+ <font 18px/Helvetica;;inherit;;inherit>Enviado el: lunes, 27 de marzo de 2017 14:41</font>
+ <font 18px/Helvetica;;inherit;;inherit>Para: 'S-CAU'; csu.ius@juntadeandalucia.es; soporte.rimsevilla@fujitsu.es</font>
+ <font 18px/Helvetica;;inherit;;inherit>CC: 'Sistemas'; Desarrollo Direccion; CÓRDOBA Emilio Juan Cabeza; 'MCarmen Cabezas'; Departamento Desarrollo; AT_Adriano; Maria De La Luz Alcaraz Gonzalez</font>
+ <font 18px/Helvetica;;inherit;;inherit>Asunto: Centralización CO2C</font>
+ <font 18px/Helvetica;;inherit;;inherit>Buenas,</font>
+ <font 18px/Helvetica;;inherit;;inherit>Esta tarde se llevará a cabo la centralización del servidor de la sede de JUSTICIACO2CH4, Doce de Octubre, en  la sede JUSTICIACO1C, Plaza de la Constitución.</font>
+ <font 18px/Helvetica;;inherit;;inherit>El servicio se cortará sobre las 15:00 horas y hasta mañana a las 10:00 de la mañana no se garantiza la recuperación del mismo.</font>
+ <font 18px/Helvetica;;inherit;;inherit>3º De la revisión del backup del Lunes, anotaremos en la petición el estado de las copias del cliente de la unificación, que dejará de existir (JUSTICIACO2CH4).</font>
+ <font 18px/Helvetica;;inherit;;inherit>Por ejemplo:</font>
+ <font 18px/Helvetica;;inherit;;inherit>"Comprobamos que las copias de fin de semana del cliente: justiciaco2ch4.cordoba.justicia.junta-andalucia.es se han realizado correctamente:</font>
+ <font 18px/Helvetica;;inherit;;inherit>------------------------------------------------------------------------------------------------</font>
+ <font 18px/Helvetica;;inherit;;inherit>BBDD: 25/03/2017</font>
+ <font 18px/Helvetica;;inherit;;inherit>* justiciaco2ch4.cordoba:G:\Oracle\oradata\CO2C\backup\export Client Direct</font>
+ <font 18px/Helvetica;;inherit;;inherit>justiciaco2ch4.cordoba: G:\Oracle\oradata\CO2C\backup\export level=incr, 9680 MB 00:04:27      9 files</font>
+ <font 18px/Helvetica;;inherit;;inherit>-----------------------------------------------------------------------------------------------</font>
+ <font 18px/Helvetica;;inherit;;inherit>Comunes 26/03/2017:</font>
+ <font 18px/Helvetica;;inherit;;inherit>* justiciaco2ch4.cordoba:E:\Comun Client Direct</font>
+ <font 18px/Helvetica;;inherit;;inherit>justiciaco2ch4.cordoba: E:\Comun level=5, 3530 MB 00:04:15  65324 files</font>
+ <font 18px/Helvetica;;inherit;;inherit>------------------------------------------------------------------------------------------------</font>
+ <font 18px/Helvetica;;inherit;;inherit>Adriano 25/03/2017:</font>
+ <font 18px/Helvetica;;inherit;;inherit>justiciaco2ch4.cordoba:F:\JSOCIAL Client Direct</font>
+ <font 18px/Helvetica;;inherit;;inherit>justiciaco2ch4.cordoba: F:\JSOCIAL level=5, 2237 MB 00:21:43  11800 files</font>
+ <font 18px/Helvetica;;inherit;;inherit>------------------------------------------------------------------------------------------------</font>
+ <font 18px/Helvetica;;inherit;;inherit>Semanal: 26/03/2017</font>
+ <font 18px/Helvetica;;inherit;;inherit>* justiciaco2ch4.cordoba.justicia.junta-andalucia.es:savefs savefs justiciaco2ch4.cordoba.justicia.junta-andalucia.es: succeeded.</font>
+ <font 18px/Helvetica;;inherit;;inherit>* justiciaco2ch4.cordoba.justicia.junta-andalucia.es:G:\Oracle\db10g\database libDDBoost version: major: 3, minor: 0, patch: 0, engineering: 2, build: 438546</font>
+ <font 18px/Helvetica;;inherit;;inherit>* justiciaco2ch4.cordoba.justicia.junta-andalucia.es:G:\Oracle\db10g\database 86704:save: Successfully established DDCL session for save-set ID '886546735' .</font>
+ <font 18px/Helvetica;;inherit;;inherit>..</font>
+ <font 18px/Helvetica;;inherit;;inherit>------------------------------------------------------------------------------------------------</font>
+ <font 18px/Helvetica;;inherit;;inherit>Se lo hacemos saber a los compañeros de GTSW. "</font>
+ <font 18px/Helvetica;;inherit;;inherit>Tanto si se ha realizado correctamente como si no, informaremos a GTSW.</font>
+ <font 18px/Helvetica;;inherit;;inherit>Si ha fallado el backup del fin de semana, se solventaran los problemas hasta que las copias sean consistentes.</font>
+ <font 14px/inherit;;inherit;;#9fd6b9>NOTA: Si la unificación se realiza en un miércoles, por ejemplo, habrá que comprobar todas las copias incrementales del Lunes y el Martes y el último Full del fin de semana.</font>
+ <font 18px/Helvetica;;inherit;;inherit>4º Anotaremos el SSID de la copia de BBDD al Data Domain correspondiente al mismo día de la unificación, y lo clonamos  a cinta (utilizando el Pool ¿ClonePoolDD2500_BBDD¿). SOLO CLONAREMOS el EXPORT, no es necesario el rman.</font>
+ <font 18px/Helvetica;;inherit;;inherit>Se indica en la petición:</font>
+ <font 18px/Helvetica;;inherit;;inherit>¿Se realiza el backup a cintas de las BBDD:</font>
+ <font 18px/Helvetica;;inherit;;inherit>volume</font>
+ <font 18px/Helvetica;;inherit;;inherit>client  date   size   level</font>
+ <font 18px/Helvetica;;inherit;;inherit>name</font>
+ <font 18px/Helvetica;;inherit;;inherit>CKT752L3  justiciaco2ch4.  03/27/17 9611 MB incr G:\Oracle\oradata\CO2C\backup\export</font>
+ <font 18px/Helvetica;;inherit;;inherit>PoolDD2500.001 justiciaco2ch4  03/27/17 9611 MB incr G:\Oracle\oradata\CO2C\backup\export¿</font>
+ <font 18px/Helvetica;;inherit;;inherit>5º La petición la devuelve GTSW con el visto bueno y los cambios a realizar en los save sets del cliente destino.</font>
+ <font 18px/Helvetica;;inherit;;inherit>6º Por nuestra parte, realizaremos los cambios que nos solicita GTSW y desactivamos el cliente del backup para que no de errores durante el resto de la semana, hasta el Viernes .</font>
+ <font 18px/Helvetica;;inherit;;inherit>Reasignaremos la incidencia a GTSW para que verifiquen que las copias o save sets finales son los correctos y den el visto bueno.</font>
+ <font 18px/Helvetica;;inherit;;inherit>7º Nos la devolverán de nuevo conforme se acerque el Viernes, para que estemos pendientes de que la copia de Adriano del cliente antiguo, en ese mismo fin de semana, salga bien. Por lo que se  activa de nuevo el cliente pero solo la política de ADRIANO.</font>
+ <font 18px/Helvetica;;inherit;;inherit>Con respecto a  la petición, se pone en PCE hasta dicha verificación el Lunes siguiente. Si se realiza correctamente el backup, se eliminará el cliente del grupo con  ¿Delete from group¿ desde el grupo donde se encuentra (dejándolo activado y asegurando que en el comentario del cliente tiene referencias al grupo al que pertenece antes de quitarlo). Y se cerrará la petición.</font>
+ <font 18px/Helvetica;;inherit;;inherit>NOTA: Una vez pasado 6 meses se eliminará definitivamente el cliente.</font>
+ <font 18px/Helvetica;;inherit;;inherit>8º Se rellena la check list \\iusnas05\sij\Sistemas\Proyectos\2016\Unificacion Partidos Judiciales\Checklist unificaciones\CO2C.</font>
+
+

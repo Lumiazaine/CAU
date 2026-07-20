@@ -1,0 +1,213 @@
+﻿
+<WRAP> <panel type="primary" title="Procedimientos y Problemas Conocidos de Gestión de Historiales IML">
+
+[[start|Volver atrás]]
+
+<WRAP> <panel type="info">
+
+====== Eliminar festivo erróneo ======
+
+Descripción de la incidencia:
+
+Usuario indica que en la programación de consultas de Gestión de Historiales IML constan como festivos días que no deberían serlo (aparecen sombreados en naranja y si se sitúa el puntero sobre ellos, aparece un aviso que indica "Festivo"):
+
+{{ :pag_apli:gestion_historiales_iml:1625058983678-201.png?nolink |}}
+
+Solución:
+
+1. Comprobamos en Hermes si dicho festivo está establecido en el calendario del municipio, provincia, autonomía o país al que pertenezca el órgano del usuario, dependiendo de si es festivo local, provincial, autonómico o nacional.
+
+Para ello accedemos como administrador a Hermes > Administración > Catálogos > Festividades.
+
+{{ :pag_apli:gestion_historiales_iml:1625060406802-152.png?nolink |}}
+
+2. Si vemos o nos confirman que dicho festivo es erróneo, accedemos a Mantenimiento Temis > Festivos, seleccionamos el tipo de festivo y la fecha (y el municipio si es festivo local), pulsamos en "Buscar":
+
+{{ :pag_apli:gestion_historiales_iml:1625061357933-861.png?nolink |}}
+
+Seleccionamos el erróneo y pulsamos en "Borrar":
+
+{{ :pag_apli:gestion_historiales_iml:1625061521354-350.png?nolink |}}
+
+3. Una vez eliminado, comprobamos que ya no aparecen como festivo dicha fecha en las consultas de Gestión de Historiales IML.
+
+Para ello tenemos que acceder a Gestión de Historiales IML > Administración > Tareas Administrativas > Consultas Médico Forenses > Programación > Por Consulta > *Provincia/Municipio* > *Nombre de la consulta* > *Fecha de la consulta*:
+
+{{ :pag_apli:gestion_historiales_iml:1625062125981-173.png?nolink |}}
+
+Ejemplo de incidencia Remedy:IN0000001691883
+
+</panel> </WRAP>
+
+<WRAP> <panel type="info">
+
+====== Solicitud eliminación historial ======
+
+Descripción de la incidencia
+
+Solicitan que se elimine el historial de un expediente que se ha generado con datos erróneos.
+
+Solución
+
+En primer lugar, nos damos permiso para acceder a Gestión de Historiales IML con el mismo perfil que tiene el usuario de la incidencia, – [[http://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Proyectos/Permisos+usuarios|aquí]] – se indica cómo hacer ésto.
+
+Accedemos a la aplicación, en el menú de inicio seleccionamos: Gestión de historiales → Historiales y Episodios, a continuación buscamos por número de historial y provincia y pulsamos en "Búsqueda":
+
+{{ :pag_apli:gestion_historiales_iml:captura1.jpg?nolink |}}
+
+A la derecha nos saldrá el historial, en el cual pulsamos con el ratón:
+
+{{ :pag_apli:gestion_historiales_iml:captura2_1_.jpg?nolink |}}
+
+Se nos abrirá otra ventana en la que tendremos que pulsar también en el nombre del paciente:
+
+{{ :pag_apli:gestion_historiales_iml:captura5_1_.jpg?nolink |}}
+
+Por último nos mostrará todos los detalles del historial, aquí tenemos la posibilidad de eliminarlo:
+
+{{ :pag_apli:gestion_historiales_iml:captura4_1_.jpg?nolink |}}
+
+Ejemplo de incidencia Remedy
+
+733538
+
+</panel> </WRAP>
+
+<WRAP> <panel type="info">
+
+====== Solicitud de recuperación de un episodio eliminado de un historial ======
+
+Descripción:
+
+Usuario indica que se ha eliminado un episodio de un historial y quiere recuperarlo.
+
+{{ :pag_apli:gestion_historiales_iml:1626769731124-910.png?nolink |}}
+
+Solución:
+
+1. Se solicita al usuario captura de pantalla del historial y los datos del episodio eliminado.
+
+Ejemplos:
+
+  * Tipo de episodio: "Psiquiatría.Incapacitación"
+  * Fecha del episodio: "11/06/2021"
+  * Nº de historial: "34610-CA"
+  * Nombre del paciente: "Real Tenorio, María"
+
+2. Con los datos facilitados por el usuario, comprobamos en la base de datos "PROD02", esquema "GESTION_IML" los episodios que actualmente contiene el historial.
+
+Primero obtenemos el "X_HISTORIAL" del historial que tenía el episodio borrado:
+
+//select * from gestion_iml.historial where n_historial='////<Nº HISTORIAL (SIN "-XX")>////';//
+
+{{ :pag_apli:gestion_historiales_iml:1626771017707-566.png?nolink |}}
+
+En el caso de que exista más de un registro, se revisarán y comprobarán los episodios que contenga cada uno, y se compararán con los que aparecen en la captura que haya aportado el usuario para identificar el de la incidencia, empezando por los historiales con una fecha de alta ("F_ALTA") más próxima a la fecha del episodio más antiguo que aparezca en dicha captura:
+
+//select * from gestion_iml.episodio where his_x_historial='<X_HISTORIAL>';//
+
+{{ :pag_apli:gestion_historiales_iml:1626771050155-347.png?nolink |}}
+
+También se puede revisar el episodio desde la aplicación, accediendo como administrador a "Gestión de Historiales" > "Historiales y Episodios":
+
+{{ :pag_apli:gestion_historiales_iml:1626770572531-736.png?nolink |}}
+
+{{ :pag_apli:gestion_historiales_iml:1626770629249-925.png?nolink |}}
+
+Buscando por número de historial (sin el "-XX") y por provincia, la cual lo indica el "-XX" del número de historial, en el caso de ejemplo es Cádiz ("-CA"):
+
+{{ :pag_apli:gestion_historiales_iml:1626770839319-785.png?nolink |}}
+
+{{ :pag_apli:gestion_historiales_iml:1626770957984-684.png?nolink |}}
+
+3. Si el episodio indicado por el usuario no consta en base de datos, se solicita a GTAB que lo recuperen:
+
+"//Sería necesario que se recuperase el episodio mencionado por el usuario y se añadiese al historial 00000-XX//"
+
+4. Una vez lo hayan recuperado, se le solicita a GTBD que lo añada al historial (en el caso de que GTAB no se lo hayan solicitado ya).
+
+Ejemplo de incidencia Remedy:IN0000001705026
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Solicitud quien ha eliminado una reserva ======
+
+Descripción de la incidencia
+
+El usuario consulta quien ha eliminado una reserva.
+
+IMPORTANTE: Nos deberá facilitar nombre del paciente, número de historial y fecha.
+
+Solución
+
+1. Accedemos a Toad.
+
+2. Nos conectamos al servidor 'PROD02' y accedemos al esquema 'AGENDA_IML', tabla 'ASAGENDAS'.
+
+3. Filtramos por 'T_PACIENTE', 'F_RESDESDE' o 'F_RESHASTA '.
+
+4. El campo 'USU_X_USU_MODIF' nos proporcionará el último usuario que ha modificado la reserva y el campo 'F_MODIFICA' la fecha de modificación.
+
+Ejemplo de incidencia Remedy
+
+733976
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Caduca la sesión ======
+
+Descripción de la incidencia
+
+El usuario indica que la aplicación se bloquea y se cierra continuamente, teniendo que comenzar de nuevo.
+
+Solución
+
+1. Se indica al usuario que, si transcurre más de 30 minutos con la aplicación abierta, pero sin trabajar en ella (es decir, estando inactiva), la sesión se caduca y se cierra.
+
+Nota:El 06/02/2013 por la incidencia 727184 se amplió el tiempo de inactividad a 30 minutos.
+
+2. Si el problema se da mientras el usuario trabaja, pasar la incidencia a la Delegación: "DP_<Provincia>".
+
+Ejemplo de incidencia Remedy
+
+727184 y 748902
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== No existen motivos disponibles para un reparto ======
+
+Descripción de la incidencia: \\ Nos indican que al intentar sacar un oficio de reparto, no aparece ningún Motivo en el desplegable.
+
+Solución:
+
+1. Solicitar información sobre el turno de reparto al que pertenece el reparto que se está gestionando.
+
+2. Entrar en la aplicación con un perfil alto en Administración -> Tareas Administrativas -> Repartos -> Administración -> Turno Reparto.
+
+3. Seleccionamos la provincia del órgano del usuario.
+
+{{ :pag_apli:gestion_historiales_iml:1629985105192-766.png?nolink |}}
+
+4. Seleccionar el turno de reparto y hacer clic en el botón "Motivos".
+
+{{ :pag_apli:gestion_historiales_iml:1629985238627-280.png?nolink |}}
+
+5. Comprobar si existen motivos para ese turno de reparto.
+
+{{ :pag_apli:gestion_historiales_iml:1629985281007-903.png?nolink |}}
+
+6. Si no existe ninguno, se informa de ello al CSU.
+
+Ejemplo de incidencia Remedy: \\ 814392
+
+</panel></WRAP>
+
+[[start|Volver atrás]]
+
+

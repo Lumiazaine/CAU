@@ -1,0 +1,218 @@
+﻿
+<html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>NOVEDADES</title>
+    <style>
+    
+       .header {
+            text-align: left;
+            padding: 5px 0;
+    
+        }
+
+       .header h1 {
+            font-family: Arial, sans-serif;
+            color: #39546E;
+            font-size: 3.0em;
+            border-radius: 8px;
+            margin: 0;
+            text-transform: none;
+    
+        }
+            
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #39546E;
+            margin: 0;
+            padding: 20px;
+        
+        }
+
+        .block {
+            background-color: #f9f9f9;              
+            border: 1px solid #F2F5F5;   
+            border-left: 4px solid #39546E; 
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+    
+        }
+
+        .block h2 {
+            margin-top: 0;
+            color: #39546E;
+            border-bottom: 2px solid #39546E;
+            padding-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+        <div class="header"><h1>NOVEDADES RELEVANTES EN DOKUWIKI</h1></div>
+
+        <div style="margin: 15px;">
+            <p><b>Añadir los últimos cambios al principio de esta página para mantener un orden cronológico.</b></p>
+        </div>
+
+        <!-- Bloque Nuevo Procedimiento Alta de Inspectores en OOJJ -->
+        <div class="block">
+            <h2>Nuevo Procedimiento Alta de Inspectores en OOJJ</h2>
+            <ul>
+                <li><b>Fecha: 2025/09/15</b> por Maruja Martínez (Coordinación SACOEP)</li>
+                <li><b>Resumen: </b> Se actualiza el protocolo de gestión de alta de Inspectores de OOJJ.</li>
+                <li><b>URL: </b><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_procedimientos_generales:gesti#alta_de_inspectores">https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_procedimientos_generales:gesti#alta_de_inspectores</a></li>
+            </ul>
+        </div>
+
+        <!-- Bloque Nuevo Procedimiento Alta de EVID en OOJJ -->
+        <div class="block">
+            <h2>Nuevo Procedimiento Alta de EVID en OOJJ</h2>
+            <ul>
+                <li><b>Fecha: 2025/09/15</b> por Maruja Martínez (Coordinación SACOEP)</li>
+                <li><b>Resumen: </b> Se actualiza el protocolo de gestión de alta de usuarios en la aplicación EVID.</li>
+                <li><b>URL: </b><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_apli:evid:problemas#">https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_apli:evid:problemas#</a></li>
+            </ul>
+        </div>
+
+        <!-- Bloque Nuevo Procedimiento Remedy -->
+        <div class="block">
+            <h2>Nuevo Procedimiento Remedy</h2>
+            <ul>
+                <li><b>Fecha: 2025/08/13</b> por paco.belmonte (Explotación y Desarrollo)</li>
+                <li><b>Resumen: </b> Se crea un nuevo procedimiento para resolver el problema de acceder a Remedy y que no funcione ningún botón.</li>
+                <li><b>URL: </b><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_apli:remedy:problemas#el_usuario_no_puede_realizar_acciones_tras_acceder_a_remedy">El usuario NO puede realizar acciones tras acceder a Remedy</a></li>
+            </ul>
+        </div>
+        
+        <!-- Bloque Ciberseguridad -->
+        <div class="block">
+            <h2>Ciberseguridad</h2>
+            <ul>
+                <li><b>Fecha: 2025/08/12</b> por paco.belmonte (Explotación y Desarrollo)</li>
+                <li><b>Resumen: </b> Se crea nuevo procedimiento técnico para la obtención/renovación de certificados de Servidor y Sello.</li>
+                <li><b>URL: </b><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_ciberseg:problemas#procedimiento_para_la_obtencion_renovacion_de_certificados_digitales">Procedimiento para la obtención/renovación de certificados digitales</a></li>
+            </ul>
+        </div>
+        
+        <!-- Bloque Alta Personal Externo -->
+        <div class="block">
+            <h2>Alta Personal Externo</h2>
+            <ul>
+                <li><b>Fecha: 2025/08/07</b> 12:27 por Maruja Martinez (Coordinacion SACOEP)</li>
+                <li><b>Resumen: </b> Actualización Procedimiento de alta de personal externo al SSDJ.</li>
+                <li><b>URL: </b><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_procedimientos_generales:gesti#alta_personal_externo">https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_procedimientos_generales:gesti#alta_personal_externo</a></li>
+            </ul>
+        </div>
+        
+        <!-- Bloque Servicio de Roaming -->
+        <div class="block">
+            <h2>Servicio de Roaming en las líneas móviles de la RCJA con Bonos de Alta Capacidad</h2>
+            <ul>
+                <li><b>Fecha: 2025/07/22</b> por josem.lora.ballesteros.ext (Planificación/Inventario)</li>
+                <li><b>Resumen: </b> Se crea nueva entrada con información sobre el servicio de Roaming de las líneas móviles de la RCJA.</li>
+                <li><b>URL: </b><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_puesto_telefonia">Puesto de trabajo - Telefonía</a></li>
+            </ul>
+        </div>
+        
+        <!-- Bloque Service Manager Protocolo InterCAU -->
+        <div class="block">
+            <h2>Service Manager Protocolo InterCAU</h2>
+            <ul>
+                <li><b>Fecha: 2025/07/21</b> por juanam.ruiz.ext (Coordinación REMEDY)</li>
+                <li><b>Resumen: </b> Se crea nueva entrada con un nuevo protocolo InterCAU con el Ministerio.</li>
+                <li><b>URL: </b><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_apli:sm_intercau:start">Service Manager Protocolo InterCAU</a></li>
+            </ul>
+        </div>
+        
+        <!-- Bloque Formularios y plantillas -->
+        <div class="block">
+            <h2>Formularios y Plantillas</h2>
+            <ul>
+                <li><b>Fecha: 2025/07/17</b> por josem.fernandez.fernandez.ext (SACOEP)</li>
+                <li><b>Resumen: </b> Se han añadido los Formularios de Solicitud para el centro de servicio a usuarios (CSU-CEIURIS) que ya no están disponibles en el Nuevo Portal Adriano</li>
+                <li><b>URL: </b><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_formu#formularios-y-plantillas">Formularios y Plantillas</a></li>
+            </ul>
+        </div>
+        
+        <!-- Bloque Portal Adriano - Migración -->
+        <div class="block">
+            <h2>Portal Adriano - Migración</h2>
+            <ul>
+                <li><b>Fecha: 2025/07/17</b> por paco.belmonte (Explotación y Desarrollo)</li>
+                <li><b>Resumen: </b> Se detectan problemas tras la migración del Portal Adriano</li>
+                <li><b>URL: </b><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_apli:portal_adriano:problemas#problemas_detectados_a_partir_de_la_migracion_16_7_25">Portal Adriano - Migración</a></li>
+            </ul>
+        </div>
+        
+        <!-- Bloque NUMO Información General -->
+        <div class="block">
+            <h2>NUMO Información General</h2>
+            <ul>
+                <li><b>Fecha: 2025/07/17</b> por paco.belmonte (Explotación y Desarrollo)</li>
+                <li><b>Resumen: </b> Nuevas directrices en NUMO de Procedimiento Atención de Incidencias. También se incluyen preguntas y respuestas (en verde).</li>
+                <li><b>URL: </b><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_procedimientos_generales:numo#procedimiento-atenci%C3%B3n-de-incidencias">NUMO - Procedimiento Atención de Incidencias</a></li>
+            </ul>
+        </div>
+        
+        <!-- Bloque Guía Básica de Uso de Remedy -->
+        <div class="block">
+            <h2>Guía Básica de Uso de Remedy</h2>
+            <ul>
+                <li><b>Fecha: 2025/07/15</b> por paco.belmonte (Explotación y Desarrollo)</li>
+                <li><b>Resumen: </b> Se añade información sobre la creación de un informe en Remedy</li>
+                <li><b>URL: </b><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_apli:remedy:guia#crear_un_informe">https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_apli:remedy:guia#crear_un_informe</a></li>
+            </ul>
+        </div>
+        
+        <!-- Bloque Instrucción sobre el registro de cambios relevantes en la DokuWiki -->
+        <div class="block">
+            <h2>Instrucción sobre el registro de cambios relevantes en la DokuWiki</h2>
+            <ul>
+                <li><b>Fecha: 2025/07/09</b> por paco.belmonte (Explotación y Desarrollo)</li>
+                <li><b>Resumen: </b> Se introduce información sobre la necesidad de registrar los cambios realizados en la dokuwiki en la página Novedades.</li>
+                <li><b>URL: </b><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_edicion_doku#instruccion_sobre_el_registro_de_cambios_relevantes_en_la_dokuwiki">https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_edicion_doku#instruccion_sobre_el_registro_de_cambios_relevantes_en_la_dokuwiki</a></li>
+            </ul>
+        </div>
+        
+        <!-- Bloque Perfiles de Usuario -->
+        <div class="block">
+            <h2>Perfiles de Usuario</h2>
+            <ul>
+                <li><b>Fecha: 2025/07/09</b> 14:19 por 2025/07/09 11:39 por juanam.ruiz.ext (Remedy - CSU)</li>
+                <li><b>Resumen: </b> Se actualiza la información de algunos perfiles (ME LO INVENTO)</li>
+                <li><b>URL: </b><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_procedimientos_generales:gesti">https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_procedimientos_generales:gesti</a></li>
+            </ul>
+        </div>
+        
+        <!-- Bloque Hermes -->
+        <div class="block">
+            <h2>Hermes</h2>
+            <ul>
+                <li><b>Fecha: 2025/07/09</b> 14:19 por 2025/07/09 10:08 por paco.belmonte (Explotación y Desarrollo)</li>
+                <li><b>Resumen: </b> Se adjunta manual de administrador de Hermes</li>
+                <li><b>URL: </b><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_apli:hermes:start">https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_apli:hermes:start</a></li>
+            </ul>
+        </div>
+        
+        <!-- Bloque Procedimientos Proyectos VDI -->
+        <div class="block">
+            <h2>Procedimientos Proyectos VDI</h2>
+            <ul>
+                <li><b>Fecha: 2025/07/07</b> 12:27 por jorge.amor.ext (Oficina Técnica)</li>
+                <li><b>Resumen: </b> Actualización de los procedimientos del Proyecto VDI.</li>
+                <li><b>URL: </b><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_procedimientos_vdi">https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_procedimientos_vdi</a></li>
+            </ul>
+        </div>
+
+    </div>
+
+</body>
+</html>
+
+{{tag>revision}}
+

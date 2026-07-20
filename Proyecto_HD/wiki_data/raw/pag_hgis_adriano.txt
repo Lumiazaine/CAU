@@ -1,0 +1,179 @@
+﻿
+<WRAP> <panel type="primary" title="Categoría de Servicio: ADRIANO">
+
+\\
+<WRAP> <panel type="info" title="1. Introducción y Alcance">
+Esta categoría engloba todas las solicitudes, **Incidencias (INC)** y **Órdenes de Trabajo (WO)** relacionadas con el sistema de gestión procesal **ADRIANO**. Su correcta clasificación es fundamental para correcta asignación al grupo resolutor adecuado y gestión del ticket.
+</panel> </WRAP>
+
+<WRAP> <panel type="info" title="2. Flujo de Categorización General (BMC Helix)">
+Esta es la estructura de categorización a seguir en SmartIT:
+^ Nivel ^ Campo BMC Helix ^ Valor Fijo / Variable ^
+| Nivel 1 | Categoría Operacional N1 (Producto) | **ADRIANO** |
+| Nivel 2 | Categoría Operacional N2 | *Varía según la funcionalidad* (Ej: Agenda y avisos) |
+| Nivel 3 | Categoría Operacional N3 | *Varía según la acción específica* (Ej: Anotaciones Agenda) |
+</panel> </WRAP>
+
+<WRAP> <panel type="danger" title="3. Asignación de Tickets (Grupos Resolutores) - INFORMACIÓN CLAVE ">
+Esta tabla indica el grupo resolutor asignado a nivel de Categoría N3, para esta categoría, tanto una Incidencia (INC) como una Orden de Trabajo (WO/Petición) comparten el mismo grupo resolutor, por lo que no haremos distinción a continuación:
+Siendo la categoría Operacional N1 ADRIANO, distinguiremos entre:
+
+^ Cat Operacional N2 ^ Cat Operacional N3 ^ Tipo de Ticket ^ Grupo Resolutor Asignado ^
+| Agenda y avisos | Anotaciones Agenda | INC / WO | Servicios/Procesal_A |
+| Agenda y avisos | Avisos ligados a la tramitación | INC / WO | Servicios/Procesal_A |
+| Agenda y avisos | Configurar Salas. OJADE  | INC / WO | Servicios/Procesal_A |
+| Agenda y avisos | Consulta Agenda| INC / WO | Servicios/Procesal_A |
+| Agenda y avisos | Reserva de salas | INC / WO | Servicios/Procesal_A |
+| Agenda y avisos | Tareas, plazos o alarmas  | INC / WO | Servicios internos/RunTime|
+| Asuntos bloqueados | Desbloquear procedimiento acumulación  | Solo WO |Servicios internos/RunTime |
+| Asuntos bloqueados | Desbloquear procedimiento archivado | Solo WO | Servicios internos/RunTime|
+| Asuntos bloqueados | Desbloquear procedimiento itineración | Solo WO | Servicios/Procesal_A |
+| Asuntos bloqueados | Desbloquear procedimiento transformado  | Solo WO | Servicios/Procesal_A |
+| Asuntos bloqueados | Trámite bloqueante en ejecución  | Solo WO | Servicios/Procesal_A |
+| Colección Documental | Consulta modelos | Solo WO | Servicios/Procesal_A |
+| Colección Documental | Solicitud inclusión/modificación plantilla | Solo WO | Servicios/Procesal_A |
+| Consultas y listados | Consultas centralizadas | INC / WO | Servicios/Procesal_A |
+| Consultas y listados | Consultas no centralizadas | INC / WO | Servicios/Procesal_A |
+| Consultas y listados | Explotación estadística | INC / WO | Servicios/Procesal_A |
+| Consultas y listados | Listados | INC / WO | Servicios/Procesal_A |
+| Documentos | Búsqueda de documentos | Solo INC | Servicios/Procesal_A |
+| Documentos | Cancelación u ocultación de documento | Solo WO | Servicios/Procesal_A |
+| Documentos | Documentos en estado borrador | Solo INC | Servicios/Procesal_A |
+| Documentos | Edición de documentos emitidos | INC / WO | Servicios/Procesal_A |
+| Documentos | Emisión documentos | INC / WO | Servicios/Procesal_A |
+| Documentos | Previsualización de documento | Solo INC | Servicios/Procesal_A |
+| Documentos | Visualización o descarga procedimiento órgano origen | INC / WO | Servicios/Procesal_A |
+| Documentos | Visualización o descarga procedimiento órgano superior | INC / WO | Servicios/Procesal_A |
+| Escritorio judicial Adriano | Acceso al procedimiento | Solo INC | Servicios/Procesal_A |
+| Escritorio judicial Adriano | Aceptar asuntos | INC / WO | Servicios/Procesal_A |
+| Escritorio judicial Adriano | Aceptar escrito | INC / WO | Servicios/Procesal_A |
+| Escritorio judicial Adriano | Asignar procedimientos | Solo INC | Servicios/Procesal_A |
+| Escritorio judicial Adriano | Buzón de entrada tramitador | INC / WO | Servicios/Procesal_A |
+| Escritorio judicial Adriano | Cambio jurisdicción asunto | INC / WO | Servicios/Procesal_A |
+| Escritorio judicial Adriano | Identificación visual órgano | INC / WO | Servicios/Procesal_A |
+| Escritorio judicial Adriano | Otros gadgets | INC / WO | Servicios/Procesal_A |
+| Escritorio judicial Adriano | Perfiles de acceso | INC / WO | Servicios/Procesal_A |
+| Escritorio judicial Adriano | Rechazar escrito pendiente de aceptar | Solo WO | Servicios/Procesal_A |
+| Exhortos | Cooperación judicial (IEXH). EXHORTO | INC / WO | Servicios/Procesal_A |
+| Gestión Eje | Consolidación | INC / WO | Servicios/Procesal_A |
+| Gestión Eje | Descarga EJE | INC / WO | Servicios/Procesal_A |
+| Gestión Eje | Documentos del EJE en Visor Lite | INC / WO | Servicios/Procesal_A |
+| Gestión y administración | Gestión Juez (sustitución) | INC / WO | Servicios internos/RunTime |
+| Gestión y administración | Gestión LAJ (sustitución) | INC / WO | Servicios internos/RunTime |
+| Gestión y administración | Grupos de Trabajo (Gestión de Oficinas) | INC / WO | Servicios/Procesal_A |
+| Gestión y administración | Selección de firmantes (Gestión de usuarios) | INC / WO | Servicios/Procesal_A |
+| Infraestructura procesal | Consulta o petición concepto procesal | Solo WO | Servicios/Procesal_A |
+| Infraestructura procesal | Modelado trámite-Procesal | Solo WO | Servicios/Procesal_A |
+| Integración Cendoj | Remisión resoluciones a CENDOJ | INC / WO | Servicios/Procesal_A |
+| Integración Expedientes Administrativos | Incorporación de expediente administrativo | Solo INC | Servicios/Procesal_A |
+| Integración Grabación Sala Vistas | Visualización de grabación | INC / WO | Servicios/SS.AA |
+| Integración LexNET | Buzón de entrada LexNET | INC / WO | Servicios/Procesal_A |
+| Integración LexNET | Gestión nuevos buzones LexNET | Solo WO | Servicios/Procesal_A |
+| Integración LexNET | Incorporación atestados/partes LexNET | INC / WO | Servicios/Procesal_A |
+| Integración LexNET | Notificaciones Lexnet | Solo INC | Servicios/Procesal_A |
+| Integración PNJ | No se obtiene resultado | INC / WO | NO FUNCIONA AUN |
+| Integración Punto Coordinación | Fallo en el envío | Solo INC | Servicios/Procesal_A |
+| Integración Sede Judicial Electrónica | Consulta de expedientes | INC / WO | Servicios/Procesal_A |
+| Integración Sede Judicial Electrónica | Solicitud de visibilidad y acceso al EJE | INC / WO | Servicios/Procesal_A |
+| Lentitud | General del sistema de gestión procesal | Solo INC | Servicios/Procesal_A |
+| Lentitud | Macrocausa | Solo INC | Servicios/Procesal_A |
+| Numerador registro general/ procedimiento | Numerador procedimiento | INC / WO | Servicios/Procesal_A |
+| Numerador registro general/ procedimiento | Numerador reg. general | INC / WO | Servicios/Procesal_A |
+| Numerador registro general/ procedimiento | Numerador reg. general -no incoados | INC / WO | Servicios/Procesal_A |
+| Numerador resoluciones | Numerador resolución pendiente de asignar | INC / WO | Servicios internos/RunTime |
+| Numerador resoluciones | Numerador resolución-ya asignado- | Solo WO | Servicios/Procesal_A |
+| Otras integraciones MRR (a futuro) | [Vacío] | INC / WO | NO FUNCIONA AUN |
+| Piezas y efectos judiciales | Consultas de efectos | INC / WO | Servicios/Procesal_A |
+| Piezas y efectos judiciales | Numeradores efectos judiciales | INC / WO | Servicios/Procesal_A |
+| Piezas y efectos judiciales | Registrar efecto | INC / WO | Servicios/Procesal_A |
+| Portafirmas y HCV | Envío a firma de documento | Solo INC | Servicios/Procesal_A |
+| Portafirmas y HCV | Proceso de firma | Solo INC | Servicios/Procesal_A |
+| Portafirmas y HCV | Verificación firma (HCV) | Solo WO | Servicios/Procesal_A |
+| Registro asuntos | Modificación NIG | Solo WO | Servicios/Procesal_A |
+| Registro asuntos | Modificar tipo asunto | Solo WO | Servicios/Procesal_A |
+| Registro asuntos | Registro de datos generales del asunto | INC / WO | Servicios/Procesal_A |
+| Registro asuntos | Registro de intervinientes | INC / WO | Servicios/Procesal_A |
+| Registro asuntos | Registro ejecución/ejecutoria | INC / WO | Servicios/Procesal_A |
+| Registro y reparto | Listados Registro y Reparto | INC / WO | Servicios/Procesal_A |
+| Registro y reparto | Normas de reparto | INC / WO | Servicios/Procesal_A |
+| Registro y reparto | Registrar asuntos | INC / WO | Servicios/Procesal_A |
+| Registro y reparto | Repartir asuntos | INC / WO | Servicios/Procesal_A |
+| SCNE (actos comunicación y ejecución) | Adscripción Órgano | INC / WO | Servicios/Procesal_A |
+| SCNE (actos comunicación y ejecución) | Desconsignacion/consignación de diligencias | INC / WO | Servicios/Procesal_A |
+| SCNE (actos comunicación y ejecución) | Devolución de exhortos/diligencias | INC / WO | Servicios/Procesal_A |
+| SCNE (actos comunicación y ejecución) | Estadística SCNE | INC / WO | Servicios/Procesal_A |
+| SCNE (actos comunicación y ejecución) | NOTSCNE (Notificaciones SCNE) | INC / WO | Servicios/Procesal_A |
+| Trámites y operaciones | Acumulación | INC / WO | Servicios/Procesal_A |
+| Trámites y operaciones | Altobex (incorporar objeto multimedia) | INC / WO | Servicios/Procesal_A |
+| Trámites y operaciones | Altobexfirm (incorporar objeto multimedia firmable) | INC / WO | Servicios/Procesal_A |
+| Trámites y operaciones | Envíos a Fiscalía | INC / WO | Servicios/Procesal_A |
+| Trámites y operaciones | INCOA (Asignación/actualización de esquema a procedimiento activo) | INC / WO | Servicios/Procesal_A |
+| Trámites y operaciones | ITINE (Remisión/itineración de asuntos) | INC / WO | Servicios/Procesal_A |
+| Trámites y operaciones | Lotes | INC / WO | Servicios/Procesal_A |
+| Trámites y operaciones | Otros trámites u operaciones | INC / WO | Servicios/Procesal_A |
+| Trámites y operaciones | Proveer escritos | INC / WO | Servicios/Procesal_A |
+| Trámites y operaciones | Remisión de conformidad a RR penal (FSAE/FSAEC) | INC / WO | Servicios/Procesal_A |
+| Trámites y operaciones | Secreto de sumario | INC / WO | Servicios/Procesal_A |
+| Trámites y operaciones | SIJE/DEVSIJE (solicitud intervención judicial) | INC / WO | Servicios/Procesal_A |
+| Trámites y operaciones | Timeline | INC / WO | Servicios/Procesal_A |
+| Trámites y operaciones | Trámite TACC (inicio de comunicación entre órganos judiciales) | INC / WO | Servicios/Procesal_A |
+| Trámites y operaciones | TRPROC (transformación del procedimiento) | INC / WO | Servicios/Procesal_A |
+| Trámites en recurso | Devolución recurso a origen | INC / WO | Servicios/Procesal_A |
+| Trámites en recurso | Elevación de recurso/APELAC | Solo INC | Servicios/Procesal_A |
+| Trámites en recurso | Modificar estado recurso pendiente | Solo WO | Servicios/Procesal_A |
+| OTROS | [Vacío] | INC / WO | Nivel 1/Centro de servicio al usuario |
+
+
+
+
+
+
+
+
+
+</panel> </WRAP>
+
+
+
+<WRAP> 
+<panel type="info" title="4. Flujo de Tareas">
+
+
+En algunos casos, durante la gestión de tickets en la categoría **Adriano**, se detecta que el usuario final requiere **soporte formativo adicional**. Para ello, se ha configurado un flujo mediante **plantilla de orden de trabajo** (WO) para dar seguimiento y gestión a este tipo de necesidad.
+
+==== Plantilla de WO configurada ====
+Desde **"Plantilla de orden de trabajo"**, buscamos por:
+
+  * **Nombre de plantilla**: Petición de Soporte formativo Adriano
+  * **Resumen**: Petición de Soporte Formativo.
+  * **Grupo de asignación**: Servicios/Capacitación (se asigna automáticamente).
+  * **Tipo de tarea**: Orden de Trabajo (WO) generada desde ticket principal
+
+{{ :pag_hgis:adri1.png?400 |}}
+
+==== ¿Cuándo se genera esta WO? ====
+La plantilla se activa **manualmente** cuando, durante el tratamiento de un ticket principal en la categoría Adriano, cuando se identifica que:
+  * El usuario necesita formación específica para utilizar el sistema Adriano correctamente.
+  * El técnico no puede resolver la petición directamente por falta de conocimiento del usuario final.
+
+En ese caso:
+  * El **ticket principal se puede cerrar** con el **motivo de estado de cierre**: **Imposible ejecución**
+  * Se **genera la WO** a través de la plantilla mencionada para ser gestionada por el grupo de capacitación.
+
+==== Objetivo de la tarea ====
+Derivar correctamente las necesidades de capacitación del usuario a **Servicios/Capacitación**, asegurando trazabilidad y separación entre:
+  * Petición técnica no ejecutable.
+  * Necesidad formativa que requiere seguimiento independiente.
+
+==== Consideraciones ====
+  * Esta orden de trabajo debe ir **asociada al ticket original** (relación padre-hijo).
+  * El grupo *Servicios/Capacitación* realizará el seguimiento formativo correspondiente.
+  * Este proceso mejora la visibilidad de las necesidades formativas detectadas desde ITSM.
+
+
+
+
+</panel>
+ </WRAP>
+</panel></WRAP> 
+

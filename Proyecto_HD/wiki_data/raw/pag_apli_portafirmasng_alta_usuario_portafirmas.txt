@@ -1,0 +1,27 @@
+﻿
+<WRAP> <panel type="primary" title="Alta de usuario en PortafirmasNG">
+
+[[..:portafirmasng:start|Volver atrás]]
+
+<WRAP>
+<panel type="info">
+
+====== Alta usuario en PortafirmasNG ======
+<html>
+Para realizar un alta en PortafirmasNG debemos de seguir los siguientes pasos:<br><br>
+1- En primer paso deberemos de acceder a nuestro Escritorio Judicial, una vez dentro debemos irnos a Mantenimiento Temis.<br>
+2- Nos dirigiremos a el apartados de aplicaciones y una vez dentro buscaremos el aplicativo PortafirmasNG y lo seleccionamos.<br>
+3- Bajamos y pulsamos en perfiles y una vez dentro de perfiles seleccionamos el perfil <b>Acceso</b> y pulsamos en <b>Asignar.</b><br>
+4- El siguiente paso seria seleccionar el tipo de Asignación que en este caso sería Tipo <b>Usuario.</b><br>
+5- Buscaremos el usuario que solicita el acceso en dicha aplicación lo seleccionamos y pulsamos en <b>Asignar.</b>
+
+
+</html>
+</panel>
+
+
+</WRAP>
+
+[[..:portafirmasng:start|Volver atrás]]
+
+{{tag>novalidada}}

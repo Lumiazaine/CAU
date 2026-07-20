@@ -1,0 +1,75 @@
+﻿
+===== Procedimiento de paso a producción de cambios en bases de datos. =====
+=== Asegurar que cualquier cambio de configuración, optimización o ajuste en bases de datos Oracle 19c o servidores asociados, se realice de forma controlada, probada y documentada, minimizando riesgos para la operación. ===
+
+Incluye:
+	Cambios de parámetros de base de datos (ej: SGA_TARGET, PGA_AGGREGATE_TARGET, DB_CACHE_SIZE, parallel_max_servers).
+	Cambios de configuración de instancias (init.ora/spfile).
+	Ajustes de configuración de red en Oracle Net Services.
+	Cambios de configuración del sistema operativo (kernel parameters, sysctl, límites de procesos).
+	Optimización de recursos hardware (CPU, RAM, almacenamiento).
+	Cambios en configuración de seguridad (perfiles, cifrado, auditoría).
+	Activación/desactivación de características de Oracle.
+	Ajustes de parámetros de rendimiento.
+
+Coordinación de cambio productivo.
+	Solicitante del Cambio: Justificar la necesidad, describir el impacto y preparar el plan.
+	Desarrollo: Diseñar, validar y ejecutar el cambio técnico.
+	Pruebas: Validar el comportamiento posterior en PRE.
+	Gestor de Cambios: Aprobar, coordinar y programar la implementación.
+	Solicitar cambio mediante ticket.
+
+Planificación
+	Identificar el cambio y justificarlo (rendimiento, seguridad, requerimiento de negocio).
+	Analizar impacto:
+		Servicios afectados.
+		Ventanas de mantenimiento requeridas.
+		Dependencias con otros sistemas.
+
+	Elaborar plan de cambio:
+		Descripción técnica.
+		Scripts/comandos a ejecutar.
+		Plan de marcha atrás (rollback).
+		Indicadores de éxito.
+
+Desarrollo y Pruebas (PRE)
+	Implementar el cambio en un entorno PRE similar a producción.
+	Documentar resultados y posibles incidencias.
+	Ajustar el plan si hay problemas detectados.
+
+Validación en Preproducción (PRE)
+	Monitorear:
+	Rendimiento (AWR, ASH, métricas OS).
+		Logs de alertas (alert.log en Oracle).
+		Conexiones y latencias.
+	Validar que no haya afectación a procesos críticos.
+	Obtener aprobación para pasar a producción.
+
+Paso a Producción (PROD)
+	Antes del cambio:
+		Backup de configuración (spfile, parámetros OS).
+		Exportación de parámetros actuales (show parameter).
+		Confirmar ventana de mantenimiento.
+	Ejecutar cambio:
+		Realizar el procedimiento y ejecución según la documentación realizada y probada en el entorno previo.
+	Monitoreo inmediato:
+		Alertas en tiempo real.
+		Métricas clave antes/después.
+	Validación funcional con usuarios clave.
+
+Finalizar.
+	Documentar:
+		Cambios realizados.
+		Configuración nueva.
+		Evidencias y métricas de mejora.
+	Actualizar repositorio de configuración.
+	Cerrar ticket con firmas de aprobación.
+
+Buenas Prácticas Recomendadas
+	No aplicar cambios críticos en horas pico.
+	Un solo cambio por ventana, para aislar causas en caso de problemas.
+	Mantener control de versiones de configuraciones.
+	Probar rollback antes de producción.
+	Habilitar monitoreo proactivo durante al menos 24h después del cambio.
+	Usar spfile en Oracle y mantener respaldo de init.ora.
+

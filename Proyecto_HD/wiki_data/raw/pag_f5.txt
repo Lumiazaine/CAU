@@ -1,0 +1,102 @@
+﻿
+==== Balanceadores F5 BIG-IP ====
+
+Disponemos de una pareja de balanceadores **F5 BIG-IP 4000** configurados en modo **activo-pasivo**, los cuales proporcionan balanceo para los entornos de **Producción** y **Preproducción**.
+
+La función principal de los balanceadores es actuar como *Front-End* de las diversas aplicaciones, balanceando hacia los *Back-End* según la configuración definida.
+
+Por otro lado, desde los balanceadores se finalizan los túneles **SSL** de las aplicaciones, de forma que la información viaja en claro desde estos hasta los servidores de aplicaciones. Con ello conseguimos descargar el trabajo de cifrado de los servidores de aplicaciones y facilitar el mantenimiento y administración de los diversos certificados.
+
+----
+
+=== BigIpReport ===
+
+Mediante la aplicación **BigIpReport** podemos consultar todos los elementos de configuración aplicados en el sistema:
+
+   * [[http://iusswbigipf5.justicia.junta-andalucia.es/f5/#m=v&q=Virtual_https_portaladriano.justicia.junta-andalucia.es%20%20]] (credenciales en *Kee-pass GTSR*)
+
+----
+
+=== Esquema de Interconexión ===
+
+[[:f5interconexion.png?id=pag_f5&media=f5interconexion.png|{{:f5interconexion.png?nolink&600|Esquema de interconexión}}]]
+
+  * **IPs de administración:**
+      * Principal: `10.241.132.2`
+      * Backup: `10.241.132.3`
+      * (Credenciales en *Kee-pass GTSR*)
+
+Los balanceadores disponen de IP en todas las redes en las cuales se encuentran *Back-Ends*, siendo necesario establecer **NAT**  para dar servicio.
+
+^Red  ^IP Virtual  ^IP BIGIP1  ^IP BIGIP2  |
+|SSCC  |10.241.130.1  |10.241.130.2  |10.241.130.3  |
+|DMZ  |10.241.254.5  |10.241.254.6  |10.241.254.7  |
+|BackEnd-DMZ  |10.241.248.5  |10.241.248.6  |10.241.248.7  |
+|eDMZ  |10.241.250.69  |10.241.250.70  |10.241.250.71  |
+|BackEnd-eDMZ  |10.241.249.5  |10.241.249.6  |10.241.249.7  |
+|FORM  |10.241.255.5  |10.241.255.6  |10.241.255.7  |
+
+----
+
+=== Backup ===
+
+Realizamos **backup diario**  de la configuración de los sistemas mediante el software **iMC**:
+
+  * [[http://imc.justicia.junta-andalucia.es:8080/imc/|Acceso a iMC]]
+
+----
+
+=== Logs ===
+
+Estos registros son fundamentales para el análisis de incidencias, auditoría de cambios y monitorización del estado de la plataforma.
+
+=== Principales Logs ===
+
+^Ruta  ^Descripción  |
+|**/var/log/ltm**   |Logs del **LTM (Local Traffic Manager)**: tráfico, errores de pools, nodes, monitors y VIPs.|
+|**/var/log/ltm.\***|Versiones anteriores de `ltm` (rotados por día/tamaño). Ej: `ltm.1` = día anterior.|
+|**/var/log/audit**   |Registro de cambios y comandos ejecutados (CLI, GUI/TMSH). Incluye usuario, fecha y hora. Es vital para identificar problemas por cambios de configuración.|
+|**/var/log/audit.\***|Históricos de auditoría.|
+|**/var/log/daemon.log** |Mensajes de procesos del sistema.|
+|**/var/log/tmm**   |Errores críticos del **motor de tráfico**.|
+|**/var/log/boot.log** |Mensajes de arranque del sistema.|
+|**/var/log/asm**   |Bloqueos, ataques y políticas de seguridad web (**ASM**).|
+|**/var/log/apm**   |Autenticación, accesos, SSO y VPN.|
+|**/var/log/messages** |Log general del sistema: kernel, procesos y alertas.|
+|**/var/log/secure** |Eventos de seguridad y autenticación (SSH, fallos de contraseña).|
+|**/var/log/cron**   |Ejecuciones programadas por **cron**.|
+|**/var/log/gtm**   |Registros y respuestas DNS, disponibilidad de *Wide IPs*.|
+
+----
+
+=== Rotación de Logs ===
+
+La gestión de rotación se realiza mediante **logrotate**:
+
+  * Los ficheros se renombran: `.1`, `.2`, etc.
+  * Se comprimen automáticamente: `.gz`
+  * La rotación ocurre cuando se supera un **límite de tamaño**  o una **antigüedad definida**.
+
+Ejemplo:
+
+  * `/var/log/ltm` → log actual
+  * `/var/log/ltm.1` → log del día anterior
+  * `/var/log/ltm.2.gz` → log comprimido de días previos
+
+----
+
+=== Publicación de Aplicaciones ===
+
+Para publicar aplicaciones en los balanceadores **F5**  se siguen los procedimientos definidos.
+
+----
+
+=== iRules Básicas ===
+
+  * **Log Local:**  `iRule_LogFormatW3C_Local`
+  * **Log Remoto Producción:**  `iRule_LogFormatW3C_iussllogs01_local1`
+  * **Log Remoto Preproducción:**  `iRule_LogFormatW3C_iussllogs01_local1_Debug`
+  * **Cabeceras seguridad (*.justicia.junta-andalucia.es):**  `iRule_securityHttpHeadersJusticia`
+  * **Cabeceras seguridad (*.juntadeandalucia.es):**  `iRule_securityHttpHeadersJunta`
+
+

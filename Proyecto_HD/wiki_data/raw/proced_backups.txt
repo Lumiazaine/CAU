@@ -1,0 +1,285 @@
+﻿
+======  ======
+
+====== Procedimiento de realización de copias de seguridad (frecuencia, herramientas). ======
+
+===== Objetivo. =====
+
+El objetivo de este documento es detallar cuándo y cómo se realizan las copias de seguridad.
+
+El documento [[\\iusnas05\SIJ\Sistemas\00\04-Informes\06. Chequeos\Mantenimiento Diario\Informe Tecnico Backup|]] es un esquema con el horario de las copias actuales.
+
+Configuración y Políticas de backup que se están aplicando
+
+======   ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/GTAB - Servicio de Backup ?section=6|Editar]]
+
+|**Netrorkwer** |**Politica** |**Hora de inicio** |**¿Se lanza?** |**Programación** |**Retención** |**Clonación** |
+|**Iusslnsrsrv01** | <font inherit/Times New Roman;;inherit;;inherit>COMUNES_ALMERIA</font> | <font inherit/Times New Roman;;inherit;;inherit>15:10:00</font> | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> | <font inherit/Times New Roman;;inherit;;inherit>FULL 4º Domingo - FIVE 1235 Domingo - INCR MJV</font> | <font inherit/Times New Roman;;inherit;;inherit>6 months</font> | <font inherit/Times New Roman;;inherit;;inherit>10 años</font> |
+| ::: | <font inherit/Times New Roman;;inherit;;inherit>COMUNES_CADIZ</font> | <font inherit/Times New Roman;;inherit;;inherit>15:20:00</font> | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> | <font inherit/Times New Roman;;inherit;;inherit>FULL 3º Domingo - FIVE 1245 Domingo - INCR MJV</font> | <font inherit/Times New Roman;;inherit;;inherit>6 months</font> | <font inherit/Times New Roman;;inherit;;inherit>10 años</font> |
+| ::: | <font inherit/Times New Roman;;inherit;;inherit>COMUNES_CORDOBA</font> | <font inherit/Times New Roman;;inherit;;inherit>15:30:00</font> | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> | <font inherit/Times New Roman;;inherit;;inherit>FULL 3º Domingo - FIVE 1245 Domingo - INCR MJV</font> | <font inherit/Times New Roman;;inherit;;inherit>6 months</font> | <font inherit/Times New Roman;;inherit;;inherit>10 años</font> |
+| ::: | <font inherit/Times New Roman;;inherit;;inherit>COMUNES_GRANADA</font> | <font inherit/Times New Roman;;inherit;;inherit>15:40:00</font> | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> | <font inherit/Times New Roman;;inherit;;inherit>FULL 4º Domingo - FIVE 1235 Domingo - INCR MJV</font> | <font inherit/Times New Roman;;inherit;;inherit>6 months</font> | <font inherit/Times New Roman;;inherit;;inherit>10 años</font> |
+| ::: | <font inherit/Times New Roman;;inherit;;inherit>COMUNES_HUELVA</font> | <font inherit/Times New Roman;;inherit;;inherit>15:50:00</font> | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> | <font inherit/Times New Roman;;inherit;;inherit>FULL 2º Domingo - FIVE 1345 Domingo - INCR MJV</font> | <font inherit/Times New Roman;;inherit;;inherit>6 months</font> | <font inherit/Times New Roman;;inherit;;inherit>10 años</font> |
+| ::: | <font inherit/Times New Roman;;inherit;;inherit>COMUNES_JAEN</font> | <font inherit/Times New Roman;;inherit;;inherit>16:00:00</font> | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> | <font inherit/Times New Roman;;inherit;;inherit>FULL 1º Domingo - FIVE 2345 Domingo - INCR MJV</font> | <font inherit/Times New Roman;;inherit;;inherit>6 months</font> | <font inherit/Times New Roman;;inherit;;inherit>10 años</font> |
+| ::: | <font inherit/Times New Roman;;inherit;;inherit>COMUNES_MALAGA</font> | <font inherit/Times New Roman;;inherit;;inherit>16:10:00</font> | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> | <font inherit/Times New Roman;;inherit;;inherit>FULL 2º Domingo - FIVE 1345 Domingo - INCR MJV</font> | <font inherit/Times New Roman;;inherit;;inherit>6 months</font> | <font inherit/Times New Roman;;inherit;;inherit>10 años</font> |
+| ::: | <font inherit/Times New Roman;;inherit;;inherit>COMUNES_SEVILLA</font> | <font inherit/Times New Roman;;inherit;;inherit>16:20:00</font> | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> | <font inherit/Times New Roman;;inherit;;inherit>FULL 1º Domingo - FIVE 2345 Domingo - INCR MJV</font> | <font inherit/Times New Roman;;inherit;;inherit>6 months</font> | <font inherit/Times New Roman;;inherit;;inherit>10 años</font> |
+
+===== OBSERVACIONES =====
+
+  * La configuración de las retenciones y Schedule recaen sobre el grupo y no sobre el cliente.
+  * Todos los grupos, mencionados anteriormente están asociados a la pool// SEDES_COMUNES//, lo que implica que se salva todo al Data Domain 6800 IUSAPBACK04. Dicho Data Domain tiene una tarea programada de limpieza de datos expirados.
+  * La clonación de reciclado de cintas se realizan bajo tareas cron por scripts desde el servidor de Networker iusslnsrsrv01.
+  * De la misma forma, por script mediante tareas cron, se realizan monitorizaciones de espacio en cintas, tamaño de copias, clientes, cruce de Save sets para TPath de comunes.
+  * Las cintas se guardan en los 4 armarios ignífugos que están en el CICA.
+  * Los Comunes tienen políticas de reintentos de backup después del fin de semana y entre semana.
+  * Este servidor además de las copias de las Sedes también tiene configurado el cliente iusnas05 para realizar copias de ISILON-NDMP.justicia.junta-andalucia.es
+
+|**Networker** |**Politica** |**Hora de inicio** |**¿Se lanza?** |**Programación** | \\ **Retención** | \\ **Clonación** |
+|**Iusslnsrsrv01** | <font inherit/Times New Roman;;inherit;;inherit>ISILON_PRE</font> |00:30:00| <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> | <font inherit/Times New Roman;;inherit;;inherit>FULL 1er Domingo - DIFF 2345 Domingo</font> |  6 months  |No|
+| ::: | <font inherit/Times New Roman;;inherit;;inherit>ISILON_PRO</font> |00:00:00| <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> | <font inherit/Times New Roman;;inherit;;inherit>FULL 1er Sábado - DIFF 2345 Sábado - INCR LM</font> |6 months|10 años|
+| ::: |ISILON_BBDD_ADRCAPSLBD1BU01| | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |Snapshot LMXJVSD - FULL 12345 Sábado|1 months|No|
+| ::: |ISILON_BBDD_ADRCAPSLBD1DI01| | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |Snapshot LMXJVSD - FULL 12345 Sábado|1 months|No|
+| ::: |ISILON_BBDD_ADRCAPSLBD1GC01| | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |Snapshot LMXJVSD - FULL 12345 Sábado|1 months|No|
+| ::: |ISILON_BBDD_ADRCAPSLBDGP01| | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |Snapshot LMXJVSD - FULL 12345 Sábado|1 months|No|
+| ::: |ISILON_BBDD_ADRCAPSLBDGP10| | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |Snapshot LMXJVSD - FULL 12345 Sábado|1 months|No|
+| ::: |ISILON_BBDD_ADRCAPSLBD1BI01| | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |Snapshot LMXJVSD - FULL 12345 Sábado|1 months|No|
+| ::: |ISILON_BBDD_ADRIANO| | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |Snapshot LMXJVSD - FULL 12345 Sábado|1 months|10 años|
+| ::: |ISILON_BBDD_BDDESA01| | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |Snapshot LMXJVSD - FULL 12345 Sábado|1 months|No|
+| ::: |ISILON_BBDD_BDDESA02| | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |Snapshot LMXJVSD - FULL 12345 Sábado|1 months|No|
+| ::: |ISILON_BBDD_BDDESA03| | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |Snapshot LMXJVSD - FULL 12345 Sábado|1 months|No|
+| ::: |ISILON_BBDD_BDFORM01| | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |Snapshot LMXJVSD - FULL 12345 Sábado|1 months|10 años|
+| ::: |ISILON_BBDD_BDNAUTIUS01| | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |Snapshot LMXJVSD - FULL 12345 Sábado|1 months|10 años|
+| ::: |ISILON_BBDD_PREPRO01| | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |Snapshot LMXJVSD - FULL 12345 Sábado|1 months|No|
+| ::: |ISILON_BBDD_PREPRO02| | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |Snapshot LMXJVSD - FULL 12345 Sábado|1 months|No|
+| ::: |ISILON_BBDD_PREPRO03| | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |Snapshot LMXJVSD - FULL 12345 Sábado|1 months|No|
+| ::: |ISILON_BBDD_PREPRO04| | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |Snapshot LMXJVSD - FULL 12345 Sábado|1 months|No|
+| ::: |ISILON_BBDD_BDPROD01| | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |Snapshot LMXJVSD - FULL 12345 Sábado|1 months|10 años|
+| ::: |ISILON_BBDD_BDPROD02| | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |Snapshot LMXJVSD - FULL 12345 Sábado|1 months|10 años|
+| ::: |ISILON_BBDD_BDPROD03| | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |Snapshot LMXJVSD - FULL 12345 Sábado|1 months|10 años|
+| ::: |ISILON_BBDD_BDPROD04| | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |Snapshot LMXJVSD - FULL 12345 Sábado|1 months|10 años|
+| ::: |ISILON_BBDD_BDPROD05| | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |Snapshot LMXJVSD - FULL 12345 Sábado|1 months|No|
+| ::: |ISILON_BBDD_BDPROD06| | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |Snapshot LMXJVSD - FULL 12345 Sábado|1 months|10 años|
+| ::: |ISILON_BBDD_BDPROD07| | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |Snapshot LMXJVSD - FULL 12345 Sábado|1 months|10 años|
+| ::: |ISILON_BBDD_BDPROD08| | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |Snapshot LMXJVSD - FULL 12345 Sábado|1 months|No|
+| ::: |ISILON_BBDD_BDPROD09| | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |Snapshot LMXJVSD - FULL 12345 Sábado|1 months|10 años|
+| ::: |ISILON_BBDD_BDVarios|21:00:00| <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |INCR DV - FULL 1er Sábado -DIFF 2345 Sábado|1 months|10 años|
+| ::: |ISILON_BBDD_IUSSLBDCAT01| | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |Snapshot LMXJVSD - FULL 12345 Sábado|1 months|No|
+| ::: |ISILON_BBDD_IUSSLBDIC2DESA01| | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |Snapshot LMXJVSD - FULL 12345 Sábado|1 months|No|
+| ::: |ISILON_BBDD_IUSSLBDIC2PRE01| | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |Snapshot LMXJVSD - FULL 12345 Sábado|1 months|No|
+| ::: |ISILON_BBDD_IUSSLBDRMAN01| | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |Snapshot LMXJVSD - FULL 12345 Sábado|1 months|10 años|
+| ::: |ISILON_BBDD_IUSSLORAGRID| | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |Snapshot LMXJVSD - FULL 12345 Sábado|1 months|10 años|
+| ::: |SSCC_APLICACIONES_PREP|02:00:00| <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |FULL 1er Sábado - DIFF 2345 Sábado|1 months|No|
+| ::: |SSCC_APLICACIONES_PROD|01:30:00| <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |FULL 1er Domingo - INCR LMXJV|10 months|10 años|
+| ::: |SSCC_DATOS_HERRAMIENTAS|21:15:00| <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |FULL 1er Sábado - DIFF 2345 Sábado - INCR LMXJV|6 months|No|
+| ::: |SSCC_DATOS_PREP|00:30:00| <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |FULL 1er Domingo - DIFF 2345 Domingo|1 months|No|
+| ::: |SSCC_DATOS_PROD|00:00:00| <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |FULL 1er Sábado- INCR LMXJV|10 months|10 años|
+| ::: | | | | | | |
+|**Iusslnsrsrv01 \\
+   Clientes VIRTUALES** |VM_HERR_Vcenter04|20:00:00| <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |INCR LMXJVSD|1 months|No|
+| ::: | <font inherit/Times New Roman;;inherit;;inherit>VM_DESA_2</font> |20:00:00| <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |FULL 1234 Sábado|1 months|No|
+| ::: | <font inherit/Times New Roman;;inherit;;inherit>VM_DESA_Vcenter04</font> |20:00:00| <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |FULL 1234 Sábado|1 months|No|
+| ::: | <font inherit/Times New Roman;;inherit;;inherit>VM_HERR_SIST_2</font> | <font inherit/Times New Roman;;inherit;;inherit>19:00:00</font> | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |FULL 1234 Sábado - INCR LMXJV|4 months|No|
+| ::: | <font inherit/Times New Roman;;inherit;;inherit>VM_PREP_2</font> | <font inherit/Times New Roman;;inherit;;inherit>19:00:00</font> | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |FULL 1234 Sábado - INCR LMXJV|1 months|No|
+| ::: | <font inherit/Times New Roman;;inherit;;inherit>VM_PROD_2</font> | <font inherit/Times New Roman;;inherit;;inherit>19:00:00</font> | <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |FULL 1234 Sábado - INCR LMXJV|12 months|No|
+| ::: |VM_SSVV_PRE_Vcenter04|18:00:00| <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |FULL 1234 Sábado - INCR LMXJV|3 months|No|
+| ::: |VM_SSVV_PRO_Vcenter04|   \\
+   18:30:00| <font inherit/Times New Roman;;inherit;;inherit>Enabled</font> |FULL 1234 Sábado - INCR LMXJV|12 months|No|
+ <font 14px font-style:normal font-weight:700 text-align:start/sans-serif;;inherit;;inherit>**OBSERVACIONES**</font>
+
+  * Las retenciones de las cintas van en función del Pool de la clonación:
+
+|**Pool** |**Grupos** |**Retención** |
+| <font inherit/Times New Roman;;inherit;;inherit>Clone_ISILON_PROD</font> | <font inherit/Times New Roman;;inherit;;inherit>ISILON_PROD</font> | <font inherit/Times New Roman;;inherit;;inherit>10 años</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>Clone_VTL_DD2500_BBDD</font> |ISILON_BBDD_BDVarios|10 años|
+|Clone_SEDES_ADRIANO|SEDES_ADRIANO_X|10 años|
+|Clone_SEDES_BBDD|SEDES_BBDD_EXP|10 años|
+|Clone_SEDES_COMUNES|SEDES_COMUNES|10 años|
+|Clone_SSCC_APLICACIONES|SSCC_APLICACIONES_PROD|10 años|
+|Clone_SSCC_DATOS|SSCC_DATOS_PROD|10 años|
+|Clone_ISILON_BBDD_SEM|ISILON_BBDD|1 months|
+|Clone_ISILON_BBDD_SEM|ISILON_BBDD|10 años|
+| | | |
+
+  * Las cintas se guardan en los armarios ignífugos que se encuentran en el cica
+  * Los backups hacia el Data Domain utilizan dos dispositivos entre otros:
+
+iusapback02.justicia.junta-andalucia.es_ddboost_01 → Sin Fibre Channel, para el resto de copias (Si se utiliza el FC se obtienen errores) \\
+iusapback02.justicia.junta-andalucia.es_ddboost_02 → Con Fibre Channel para las copias de la ISILON (iusnas05).
+
+  * La configuración de las retenciones y Schedule recaen sobre el grupo y no sobre el cliente
+
+======   ======
+
+===== Monitorización-gestión de eventos =====
+
+Se lleva acabo a través de correos.
+
+Los correos de iusdesa02 llegan desde ⇒ LEGATO.NETWORKER@justicia.junta-andalucia.es
+
+Los correos de iusslnsrsrv01 llegan desde ⇒ root IUSSLNSRSRV01 <root@iusslnsrsrv01.justicia.junta-andalucia.es>
+
+Los correos de oragrid llegan desde ⇒ ORAGRID root <root@oragrid.justicia.junta-andalucia.es>
+
+Todos se mandan a la cuenta de correo notificaciones.gtab.ius@juntadeandalucia.es
+
+Los correos se dividen en dos carpetas dentro de esta cuenta de correo, una para los bootstrap y otra para todas las demás.
+
+Este sería un ejemplo de correo de bootstrap:
+<code>
+
+''   date     time   level ssid        file  record   volume
+     03/28/17 12:03:16   full 651834596   5068       0   IZ1040L6
+     03/29/17 12:03:19   full 4057695847  5088       0   IZ1040L6
+     03/30/17 12:02:50   full 3302807498  5108       0   IZ1040L6
+     03/31/17 12:02:52   full 2547919180  5128       0   IZ1040L6
+     04/01/17 12:19:39   full 1306492743    13       0   IZ0465L6
+     04/01/17 12:19:39   full 1306492743  5149       0   IZ1040L6
+     04/03/17 12:03:00   full 3504479700  5186       0   IZ1040L6
+     04/04/17 12:02:59   full 2682482515  5209       0   IZ1040L6
+     04/05/17 12:02:49   full 1877262537  5232       0   IZ1040L6
+     04/06/17 12:02:57   full 1122374225  5253       0   IZ1040L6
+     04/07/17 12:03:06   full 367485914   5275       0   IZ1040L6
+     04/10/17 12:02:51   full 2917881931  5329       0   IZ1040L6
+     04/11/17 12:03:17   full 2062330341  5351       0   IZ1040L6
+     04/12/17 12:03:04   full 1022229336  5373       0   IZ1040L6
+     04/13/17 12:02:41   full 233786561   5393       0   IZ1040L6
+     04/14/17 12:02:39   full 3673202239  5415       0   IZ1040L6
+     04/17/17 12:02:26   full 1844744882  5470       0   IZ1040L6
+     04/18/17 12:02:54   full 989193294   5492       0   IZ1040L6
+     04/19/17 12:02:27   full 116864435   5513       0   IZ1040L6
+     04/20/17 12:02:31   full 4076373815  5537       0   IZ1040L6
+     04/21/17 12:02:32   full 3489257656  5559       0   IZ1040L6
+     04/24/17 12:06:45   full 2097008181  5613       0   IZ1040L6
+     04/25/17 12:02:22   full 1526668974  5634       0   IZ1040L6
+     04/26/17 12:02:21   full 838889517   5655       0   IZ1040L6
+     04/27/17 12:02:31   full 285327799   5676       0   IZ1040L6
+     04/28/17 08:50:42   full 4127385154  5697       0   IZ1040L6
+     04/28/17 12:02:13   full 3892515621  5699       0   IZ1040L6
+     05/01/17 12:02:15   full 3473344423  5748       0   IZ1040L6
+     05/02/17 08:32:45   full 3171428365  5769       0   IZ1040L6
+     05/02/17 12:01:56   full 4043856148    24       0   IZ1059L6
+
+''
+
+</code>
+
+''Este un ejemplo de correo con errores: '' //NetWorker savegroup: (alert) ADRIANO_ALMERIA_G1 completed, Total 14 client(s), 1 Hostname(s) Unresolved, 2 Failed, 11 Succeeded.//
+
+''//hostname resolution failed for 1 client(s)//'' //Unresolved: //
+
+''//hostname resolution failed for 1 client(s)//'' //Unresolved: justiciaalho2h3.almeria//
+
+''//Failed: justiciaalbeh3.almeria, justiciaalhoh4.almeria//'' //Succeeded: justiciaal1ch3.almeria, justiciaalcjad1.almeria, justiciaalcjad2.almeria, justiciaalcjad3.almeria, justiciaalcjad4.almeria, justiciaalcjcm2.almeria, justiciaalejh2.almeria, justiciaalpuh3.almeria, justiciaalroh4.almeria, justiciaalveh2.almeria, justiciaalvrh3.almeria//
+
+''//Start time: Tue May 2 02:00:00 2017//'' //End time: Tue May 2 03:12:13 2017//
+
+//— Unsuccessful Save Sets —//
+
+//* justiciaalbeh3.almeria:savefs Remote system error - Connection timed out//
+
+//justiciaalbeh3.almeria:savefs: retried 1 times.//
+
+//* justiciaalbeh3.almeria:F:\DICSADRIANO Remote system error - Connection timed out//
+
+//justiciaalbeh3.almeria:savefs: retried 1 times.//
+
+//* justiciaalbeh3.almeria:F:\JINST Remote system error - Connection timed out//
+
+//justiciaalbeh3.almeria:savefs: retried 1 times.//
+
+//* justiciaalbeh3.almeria:F:\NAUTIUS Remote system error - Connection timed out//
+
+//justiciaalbeh3.almeria:savefs: retried 1 times.//
+
+//* justiciaalbeh3.almeria:F:\PRINST Remote system error - Connection timed out//
+
+//justiciaalbeh3.almeria:savefs: retried 1 times.//
+
+//* justiciaalbeh3.almeria:F:\REPESCRITOS Remote system error - Connection timed out//
+
+//justiciaalbeh3.almeria:savefs: retried 1 times.//
+
+//* justiciaalbeh3.almeria:F:\REPJINST Remote system error - Connection timed out//
+
+//justiciaalbeh3.almeria:savefs: retried 1 times.//
+
+//* justiciaalbeh3.almeria:F:\REPPRINST Remote system error - Connection timed out//
+
+//justiciaalbeh3.almeria:savefs: retried 1 times.//
+
+//* justiciaalbeh3.almeria:F:\SCNE Remote system error - Connection timed out//
+
+//justiciaalbeh3.almeria:savefs: retried 1 times.//
+
+//* justiciaalbeh3.almeria:F:\DESCARGAS_LexNET Remote system error - Connection timed out//
+
+//justiciaalbeh3.almeria:savefs: retried 1 times.//
+
+//* justiciaalbeh3.almeria:F:\LEXNET_REP Remote system error - Connection timed out//
+
+//justiciaalbeh3.almeria:savefs: retried 1 times.//
+
+//* justiciaalhoh4.almeria:F:\REPPRINST Client Direct//
+
+//* justiciaalhoh4.almeria:F:\REPPRINST 91579:save: Unrecoverable readfile error captured, backup will not complete.//
+
+//* justiciaalhoh4.almeria:F:\REPPRINST //
+
+//* justiciaalhoh4.almeria:F:\REPPRINST \?GLOBALROOT\Device\HarddiskVolumeShadowCopy73\REPPRINST\RECIBIDOS\DEMANDA\0405342000\2016000416\102375+01.PDF: Unknown error//
+
+//* justiciaalhoh4.almeria:F:\REPPRINST 5203:save: save failed on \?GLOBALROOT\Device\HarddiskVolumeShadowCopy73\REPPRINST\RECIBIDOS\DEMANDA\0405342000\2016000416\102375+01.PDF//
+
+//* justiciaalhoh4.almeria:F:\REPPRINST 74209:save: Quit signal received.//
+
+//* justiciaalhoh4.almeria:F:\REPPRINST 99123:save: Handling an abort while processing Windows backup.//
+
+//justiciaalhoh4.almeria:F:\REPPRINST: retried 1 times.//
+
+//* justiciaalhoh4.almeria:F:\SCNE Client Direct//
+
+//* justiciaalhoh4.almeria:F:\SCNE 91579:save: Unrecoverable readfile error captured, backup will not complete.//
+
+//* justiciaalhoh4.almeria:F:\SCNE //
+
+//* justiciaalhoh4.almeria:F:\SCNE \?GLOBALROOT\Device\HarddiskVolumeShadowCopy74\SCNE\BIN\CLASES\X3ASUNTO.dll: Unknown error//
+
+//* justiciaalhoh4.almeria:F:\SCNE 5203:save: save failed on \?GLOBALROOT\Device\HarddiskVolumeShadowCopy74\SCNE\BIN\CLASES\X3ASUNTO.dll//
+
+//* justiciaalhoh4.almeria:F:\SCNE 74209:save: Quit signal received.//
+
+//* justiciaalhoh4.almeria:F:\SCNE 99123:save: Handling an abort while processing Windows backup.//
+
+//justiciaalhoh4.almeria:F:\SCNE: retried 1 times.//
+
+//— Successful Save Sets —//
+
+//* justiciaal1ch3.almeria:F:\NAUTIUS Client Direct//
+
+//justiciaal1ch3.almeria: F:\NAUTIUS level=incr, 0 KB 00:00:08 0 files//
+
+//* justiciaal1ch3.almeria:F:\REGYREP Client Direct//
+
+//justiciaal1ch3.almeria: F:\REGYREP level=incr, 0 KB 00:00:14 0 files//
+
+//* justiciaal1ch3.almeria:F:\Seinsir Client Direct//
+
+//justiciaal1ch3.almeria: F:\Seinsir level=incr, 1278 KB 00:22:37 232 files//
+
+//* justiciaal1ch3.almeria:F:\LEXNET_REP Client Direct//
+
+//justiciaal1ch3.almeria: F:\LEXNET_REP level=incr, 9 KB 00:00:05 11 files//
+
+//* justiciaal1ch3.almeria:F:\MT Client Direct//
+
+//justiciaal1ch3.almeria: F:\MT level=incr, 0 KB 00:00:15 0 files//
+
+//* justiciaal1ch3.almeria:F:\DESCARGAS_LexNET Client Direct//
+
+//justiciaal1ch3.almeria: F:\DESCARGAS_LexNET level=incr, 0 KB 00:00:05 0 files//
+
+//oragrid: index:justiciaal1ch3.almeria level=9, 143 MB 00:00:04 106 files//
+
+- Estos correos también ofrecen información de warnings que se obtienen cuando el backup se realiza sobre un fichero que está bloqueado o está creciendo en ese momento, ideal para detectar inconsistencia.
+
+

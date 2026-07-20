@@ -1,0 +1,95 @@
+﻿
+<WRAP> 
+<panel type="primary" title="CiberSeguridad MRR">
+
+<WRAP> 
+<panel type="info" title="Descripción">
+
+El presente ENCARGO tiene por OBJETO la prestación de servicios de ciberseguridad como soporte al área de Seguridad TIC del Servicio de Sistemas Digitales para la Justicia (SSDJ), coordinado e integrado con la **estrategia de Ciberseguridad** de la Agencia Digital de Andalucía y para la imprescindible consecución de los objetivos establecidos por el PROYECTO 4 de Ciberseguridad del Ministerio de Justicia, así como la instalación, configuración, implantación y puesta en marcha de herramientas necesarias para la propia prestación del servicio, como son una **Herramienta de Gestión de Incidentes de Seguridad (HGIS)** y una **evolución del Portal Adriano** que cuente con las debidas medidas de seguridad.
+<code>
+El encargo se reparte en las siguientes líneas de ejecución:
+
+**Servicio de Centro de Operaciones de Seguridad**
+S1-SERVICIO DE APOYO PARA LA SEGURIDAD TIC
+S2-SERVICIO DE APOYO A LA GESTIÓN DE LA PROTECCIÓN DE DATOS DE CARÁCTER PERSONAL
+S3-SERVICIO DE APOYO A LA ACTIVIDADES DE DIVULGACIÓN, CONCIENCIACIÓN Y CAPACITACIÓN EN MATERIA DE SEGURIDAD DIGITAL
+S4-SERVICIO DE APOYO A LA GESTIÓN DE INCIDENTES DE SEGURIDAD
+S5-SERVICIO DE SECURIZACIÓN DEL PUESTO DE TRABAJO
+
+**Suministro y mantenimiento de una herramienta de Gestión de Incidentes de Seguridad (HGIS)**
+S6-SUMINISTRO DE LICENCIAS DE LA HERRAMIENTA DE GESTIÓN DE INCIDENTES DE SEGURIDAD (HGIS)
+S7-SERVICIO DE SOPORTE Y GARANTÍA DE LA HERRAMIENTA DE GESTIÓN DE INCIDENTES DE SEGURIDAD (HGIS)
+S8-SERVICIO DE ADAPTACIÓN DE LA HERRAMIENTA DE GESTIÓN DE INCIDENTES DE SEGURIDAD (HGIS) A LA CMDB DEL SSDJ
+S9-SERVICIO DE ESTUDIO Y PROPUESTA DE CONFLUENCIA/INTEGRACIÓN DE HGIS CON LA HERRAMIENTA CORPORATIVA DE ADA
+
+**Servicio de Mantemiento Correctivo y Evolutivo de herramientas de Presencia Web**
+S10-SERVICIO DE MANTENIMIENTO CORRECTIVO Y EVOLUTIVO DEL PORTAL ADRIANO
+
+</code></panel>
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Fechas del proyecto">
+
+Comienzo: 30 de diciembre de 2023.
+
+Finalización: 30 de noviembre de 2025.
+
+</panel>
+<WRAP> 
+<panel type="info" title="Procedimientos">
+  * [[:pag_procedimientos_paneles|Procedimientos Paneles]]
+</panel>
+ </WRAP>
+<WRAP> <panel type="info" title="Capacitación">
+
+  * [[https://capacitacion.justicia.junta-andalucia.es/|Cursos y Manuales de Usuario]]
+  * [[https://videos.justicia.junta-andalucia.es/|Contenidos en video]]
+  * [[https://capacitacion.justicia.junta-andalucia.es/mod/glossary/view.php?id=196|Preguntas frecuentes (Portal de Capacitación)]]
+
+</panel> </WRAP>
+
+<WRAP> 
+<panel type="info" title="Estado de situación">
+
+Fecha de actualización: 16/6/2025
+
+**Estrategia de Ciberseguridad: **
+
+   * En revisión, actualización y elaboración la documentación y actuaciones para el cumplimiento de la normativa en Seguridad.
+
+**Herramienta de Gestión de Incidentes de Seguridad (HGIS, "Nuevo Remedy"):**
+
+  * Se ha hecho entrega de un PVM el 3 de junio, se están realizando las pruebas, éste contiene:
+      * Categorización de incidentes de Seguridad.
+      * Integraciónes con KeyCloak y Lucía.
+      * Gestión del inventario de CI.
+      * Configuración de la Interface de usuario.
+  * Comienza la Fase 2, que contiene:
+      * Solicitud para la configuración/elaboración de las categorías y flujos de peticiones/incidentes/consultas de Puesto de Trabajo.
+
+**E****volución del Portal Adriano**
+
+  * Subido a Producción el 16 de julio de 2025.
+
+</panel>
+
+
+
+
+
+
+
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Contacta">
+
+  * [[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_contactos#ciberseguridad|Contactos CiberSeguridad]]
+
+</panel>
+</WRAP>
+
+======  ======
+
+

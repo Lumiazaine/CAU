@@ -1,0 +1,265 @@
+﻿
+<WRAP> 
+<panel type="primary" title="Procedimientos y Problemas Conocidos de DokuWiki">
+
+[[start|Volver]]
+
+<WRAP> 
+<panel type="info">
+
+===== Altas y Gestión de Permisos =====
+
+**1. Acceso mediante LDAP:** La DokuWiki está integrada con el sistema de autenticación corporativo mediante LDAP. Los usuarios deben acceder con sus **credenciales LDAP** de la Junta de Andalucía (o con extensión .ext si son externos).
+
+**2. Solicitud a través de Remedy:**  La **Jefatura de Proyecto**  o persona autorizada debe abrir un tique en **Remedy**  solicitando el alta o permisos avanzados.
+
+  * Asignar a: **Servicios → DevOps**
+  * Tipificar como:
+      * **Clase:**  APLICACIONES
+      * **Tipo:**  DOKUWIKI
+      * **Categoría:**  PERMISOS
+  * Incluir el **identificador LDAP**  del usuario.
+
+**3. Alta de la cuenta:**  Previa **autorización de Jefatura**, el equipo DevOps habilitará la cuenta o permisos. La cuenta se creará en **minúsculas**. **Para dar de alta la cuenta del usuario se debe disponer de permisos de administrador en la DokuWiki.**
+
+\\
+
+{{:pag_apli:dokuwiki:doku_01.png?200|}}
+{{:pag_apli:dokuwiki:doku_02.png?1500|}}
+
+{{:pag_apli:dokuwiki:doku_03.png?1400|}}
+
+\\
+
+**4. Notificación del alta:**  Se notificará a través del propio tique en Remedy. El solicitante debe revisar su estado y resolución.
+
+**NOTA:** Puede comprobar su usuario y contraseña LDAP en: [[https://micuenta.juntadeandalucia.es/|https://micuenta.juntadeandalucia.es/]] 
+
+**IMPORTANTE:** Para garantizar un acceso correcto al sistema, todos los usuarios deben iniciar sesión utilizando su nombre de usuario completamente en minúsculas. DokuWiki distingue entre mayúsculas y minúsculas, por lo que Juan, JUAN y juan se consideran usuarios diferentes.
+
+  * Ejemplo correcto: juan
+  * Ejemplos incorrectos: Juan, JUAN, JuAn
+
+Si tienes problemas para acceder, revisa que no estés usando mayúsculas por error.
+
+</panel> 
+</WRAP>
+
+<WRAP>
+<panel type="info">
+
+===== Síntaxis de formato =====
+
+** Títulos **
+
+Disponemos de distintos niveles de títulos, dicho nivel dependerá de cuántos signos "=" añadamos a cada lado del título (siendo el mismo número de signos a ambos lados de este).
+
+Los niveles de títulos van del 1 al 5, siendo el nivel 1 el de mayor tamaño y el nivel 5 el tamaño de fuente por defecto.
+
+Ejemplos:
+
+  * ====== Título de nivel 1 ======
+  * ===== Título de nivel 2 =====
+  * ==== Título de nivel 3 ====
+  * === Título de nivel 4 ===
+  * == Título de nivel 5 ==
+
+----
+
+** Negrita, Cursiva y Subrayado **
+
+Añadiremos un formato concreto a la fuente según que signos usemos a cada lado del texto, siendo estos:
+
+  * Doble "*" a ambos lados para negrita: **Texto en negrita**
+  * Doble "/" a ambos lados para cursiva: //Texto en cursiva//
+  * Doble _ckgedit_QUOT__" a ambos lados para subrayado: __Texto subrayado__ También podemos combinarlos: * **//Texto en negrita y cursiva//**  * **__Texto en negrita y subrayado__**  * __//Texto en subrayado y cursiva//__
+
+----
+
+** Separador Horizontal **
+
+Podemos añadir una línea horizontal de separación añadiendo 4 veces seguidas el signo "-" entre los textos que queramos separar.
+
+Estos 4 guiones deben quedar separados tanto del texto de arriba como del de abajo, en caso contrario DokuWiki no entenderá el formato.
+
+Ejemplo:
+
+TEXTO EJEMPLO 1
+
+----
+
+TEXTO EJEMPLO 2
+
+----
+
+** Citas **
+
+Para esto, usaremos el signo ">" delante del texto que queremos citar, por ejemplo:
+
+> CITA EJEMPLO.
+
+----
+
+** Enlaces **
+
+Si queremos añadir un enlace clicable, añadiremos dicho enlace entre dos corchetes abiertos ''[''''['' y dos cerrados '']]''.
+
+  * Ejemplo: [[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=start]]
+
+Si además queremos que se vea un texto en lugar de la URL, el formato será el mismo, pero, añadiendo a continuación de la URL, el signo ''|'' y a continuación la palabra o texto a enlazar.
+
+  * Ejemplo: [[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=start|Enlace a la página de Inicio]]
+
+</panel> 
+</WRAP>
+
+<WRAP> 
+<panel type="info">
+
+===== Subir Archivos en el Espacio de Nombre de la Página =====
+
+**1. Este procedimiento describe cómo subir archivos (como imágenes, documentos PDF, etc.) al mismo espacio de nombres que la página actual **utilizando el editor DW (DokuWiki Editor)**.**
+
+  - Accede a la edición de la página con el editor DW.
+  - Haz clic en el botón **Añadir imágenes u otros ficheros** que aparece en la barra de herramientas.
+  - Se abrirá la ventana de //Archivos multimedia//.
+
+**Nota:** Esta ventana permite subir **todo tipo de archivos**, incluyendo imágenes, documentos, hojas de cálculo, etc. No hay una ventana separada para imágenes; se gestionan desde el mismo lugar.
+
+**2. Verificar el Espacio de Nombres **
+
+  - En la parte izquierda, haz clic sobre el campo **Espacio de nombres** que coincida con el de la página actual. Por ejemplo, si estás editando la página `pag_apli:dokuwiki`, el espacio de nombres debe ser `dokuwiki`. Si no lo encuentras, pasa al siguiente paso.
+
+{{:pag_apli:dokuwiki:ventana_archivo_multimedia.png?600|}}
+
+\\
+
+**3. Seleccionar el Archivo **
+
+  - Haz clic en **Seleccionar ficheros** para elegir el archivo desde tu dispositivo. Puedes elegir varios al mismo tiempo.
+  - Asegúrate de que el nombre del archivo no contenga espacios ni caracteres especiales.
+
+**4. Subir el Archivo al espacio dokuwiki **
+
+  - Si en el paso **2. Verificar el Espacio de Nombres** no encontraste dicho nombre de espacio, ahora tienes que escribirlo seguido de dos puntos (:). Por ejemplo: **pag_apli:dokuwiki:mi_archivo.jpg**
+  - A continuación, haz clic en el botón **Cargar** y el archivo se guardará en el mismo espacio de nombres que la página actual.
+
+**5. Insertar el Archivo en la Página **
+
+  - Una vez cargado, puedes insertar el archivo en la página usando la siguiente sintaxis o seleccionando el archivo en la ventana actual después de buscarlo:
+<code>
+    * Para imágenes: {{pag_apli:jara:mi_archivo.jpg}}
+    * Para enlaces a documentos: [[pag_apli:jara:nombre_del_archivo.pdf|]]
+</code>
+
+**NOTA: **Puedes acceder (muy recomendable) a la URL [[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_prueba2#tratamientos_de_imagenes|Ejemplo de tratamiento de imágenes]] para obtener ejemplos que te faciliten la labor.
+
+</panel>
+
+<WRAP> 
+<panel type="info" >
+
+===== Pérdida de formato al utilizar doble barra '//'  =====
+
+**Descripción:**  
+Cuando se introduce una doble barra inclinada en el contenido de una página utilizando el editor de DokuWiki, al guardar la página se produce un fallo que:
+  * Elimina todo el formato aplicado a partir de ese punto (espaciado, saltos de línea, paneles, cabeceras, etc.).
+  * Invierte el formato de negrita: el texto que estaba en negrita pierde el estilo, y el que no lo estaba aparece en negrita.
+  * Aplica cursiva a todo el contenido restante de la página.
+
+**Impacto:**  
+  * Este comportamiento puede corromper completamente el contenido de la página, obligando a rehacer el trabajo manualmente. En algunos casos, se han perdido vínculos insertados previamente, y al intentar volver a vincular archivos, estos no aparecen en la carpeta del servidor. Se recomienda evitar el uso de la doble barra salvo que se utilice específicamente para aplicar cursiva de forma controlada.
+
+**Solución temporal:**  
+  * Realizar copias de seguridad frecuentes del contenido antes de guardar.
+  * Evitar el uso de la doble barra fuera de su contexto previsto (cursiva).
+  * Usar el botón de "Vista previa" antes de guardar cambios.
+
+</panel> 
+</WRAP>
+
+<WRAP>
+<panel type="info" >
+
+===== Error al exportar a ODT =====
+
+  * Al utilizar la opción de **Exportación a ODT**, el archivo se descarga correctamente desde el navegador. Sin embargo, al intentar abrirlo, se puede producir un error que impide acceder al contenido del documento. Todo indica que el archivo se genera de forma **corrupta**, ya que no puede ser abierto con herramientas compatibles como LibreOffice o Microsoft Word.
+
+  * En otros casos no se produce ningún error y se abre correctamente. Se recomienda **cambiar de navegador** si el error se reproduce.
+
+</panel>
+
+<WRAP>
+<panel type="info" >
+
+===== Parámetros clave para evitar el uso de CKGEditor (no utilizar) =====
+
+**NOTA: Solo administradores de dokuwiki.**
+
+Cuando varios usuarios editan una misma página utilizando CKGEditor y el editor nativo de DokuWiki (DW), suelen producirse conflictos de formato y estructura, ya que ambos editores manejan el contenido de forma diferente. Por eso, se recomienda unificar el editor por grupo de usuarios o por espacio de nombres, para evitar inconsistencias y garantizar una experiencia de edición estable.
+
+En esta apartado se detallan los principales parámetros de configuración del plugin CKGEditor en DokuWiki, orientados a limitar o controlar su uso en entornos donde se prefiera el editor nativo DW, como en el caso de la dokuwiki del SSDJ. Igualmente, se incluye una comparación entre la configuración por defecto y la aplicada tras los cambios realizados el 5 de julio de 2025.
+
+**1. dw_edit_display**
+  * Controla el acceso de los usuarios al editor nativo de DokuWiki.
+  * Puede configurarlo para que todos los usuarios usen el editor DW por defecto.
+
+**2. dw_priority** (Sin parámetros de metadatos en DokuWiki SSDJ)
+  * Si se establece en ''true'', el editor por defecto será el de DokuWiki.
+  * Puede combinarlo con ''dw_users'' para definir qué grupos de usuarios deben usar el editor DW.
+
+**3. dw_users** (Sin parámetros de metadatos en DokuWiki SSDJ)
+  * Define los grupos de usuarios que deben usar el editor DW en lugar de CKGEditor.
+  * Ejemplo: ''admin, editor'' (esto forzaría a esos grupos a usar el editor DW).
+
+**4. rel_links** 
+  * Si lo activa (''true''), permite que los enlaces relativos no se reescriban automáticamente, lo cual puede ayudar a evitar el problema de los enlaces modificados.
+
+**5. dwedit_ns**
+  * Esta es la opción más directa para evitar el uso de CKEditor en ciertas páginas o espacios de nombres.
+  * Puedes poner aquí '' : '' (dos puntos) para que afecte a todo el wiki.
+
+**6. alt_toolbar**
+  * Puede ocultar funciones del editor para que sea más simple y menos atractivo para los usuarios.
+  * Por ejemplo, puede ocultar todo lo relacionado con formato, imágenes, tablas, etc.
+
+**7. dblclk**
+  * Si lo desactiva (''off''), evita que los usuarios puedan editar secciones con doble clic, lo que reduce el acceso accidental al editor.
+\\
+
+<WRAP half column>
+
+**Configuración por defecto**
+  * ''dw_edit_display = all''
+  * ''dw_priority ='' Sin parámetros de metadatos en DokuWiki SSDJ
+  * ''dw_users ='' Sin parámetros de metadatos en DokuWiki SSDJ
+  * ''rel_links = false''
+  * ''dwedit_ns = NONE''
+  * ''dblclk = on''
+  * ''alt_toolbar ='' ver imagen
+
+{{:pag_apli:dokuwiki:alt_toolbar_off.png?400|}}
+
+</WRAP>
+<WRAP half column>
+
+**Configuración después del 5/7/25**
+  * ''dw_edit_display = all''
+  * ''dw_priority ='' Sin parámetros de metadatos en DokuWiki SSDJ
+  * ''dw_users ='' Sin parámetros de metadatos en DokuWiki SSDJ
+  * ''rel_links = true''
+  * ''dwedit_ns = : ''
+  * ''dblclk = off''
+  * ''alt_toolbar ='' ver imagen
+
+{{:pag_apli:dokuwiki:alt_toolbar_on.png?400|}}
+
+</WRAP>
+
+</panel> 
+
+[[start|Volver]]
+
+</WRAP>
+
+{{tag>validada}}

@@ -1,0 +1,25 @@
+﻿
+=== Página TIPO (estilo definido) ===
+
+<WRAP> <panel type="primary" title="Áreal tal..">
+
+La misión de los equipos de área tal.. es diseñar, construir, evolucionar y mantener … a los servicios de justicia.
+
+  * Gestión de …
+  * Revisión …
+  * Mantenimiento …
+
+<WRAP> <panel type="info" title="Equipo de Trabajo">
+
+|**Nombre**   |**Email**   |**Teléfono** |**Externo/Interno** |
+|———————————–|——————————————|————–|———————|
+|Juan Antonio González Díaz  |[[mailto:juangd@yahoo.es|]]  |667 082 345|Interno  |
+|Correo Genérico Área tal..  |[[mailto:area_tal.ius@juntadeandalucia.es|]]  |   ||
+
+</panel> </WRAP> {{mdi>monitor}} [[:pag_areatal1|Área tal 1]]
+
+{{mdi>monitor}} [[:pag_areatal2|Área tal 2]]
+
+{{tag>validada}}
+
+

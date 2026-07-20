@@ -1,0 +1,184 @@
+﻿<!DOCTYPE html>
+<html lang="es" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>backup_restaurar_bd_gtbd</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="keywords" content="backup restaurar bd gtbd"/>
+<link rel="search" type="application/opensearchdescription+xml" href="/dokuwiki/!ssdj/lib/exe/opensearch.php" title="Servicio de Sistemas Digitales para la Justicia"/>
+<link rel="start" href="/dokuwiki/!ssdj/"/>
+<link rel="contents" href="/dokuwiki/!ssdj/doku.php?id=backup_restaurar_bd_gtbd&amp;do=index" title="Índice"/>
+<link rel="manifest" href="/dokuwiki/!ssdj/lib/exe/manifest.php"/>
+<link rel="alternate" type="application/rss+xml" title="Cambios recientes" href="/dokuwiki/!ssdj/feed.php"/>
+<link rel="alternate" type="application/rss+xml" title="Espacio de nombres actual" href="/dokuwiki/!ssdj/feed.php?mode=list&amp;ns="/>
+<link rel="alternate" type="text/html" title="HTML sencillo" href="/dokuwiki/!ssdj/doku.php?do=export_xhtml&amp;id=backup_restaurar_bd_gtbd"/>
+<link rel="alternate" type="text/plain" title="Etiquetado Wiki" href="/dokuwiki/!ssdj/doku.php?do=export_raw&amp;id=backup_restaurar_bd_gtbd"/>
+<link rel="canonical" href="http://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=backup_restaurar_bd_gtbd"/>
+<link rel="stylesheet" href="/dokuwiki/!ssdj/lib/exe/css.php?t=bootstrap3&amp;tseed=fade0092c81b3b15be1b7fd1b8394d30"/>
+<link type="text/css" rel="stylesheet" href="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net-fixedheader-dt/css/fixedHeader.dataTables.min.css"/>
+<link type="text/css" rel="stylesheet" href="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net-fixedcolumns-dt/css/fixedColumns.dataTables.min.css"/>
+<link type="text/css" rel="stylesheet" href="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net-bs/css/dataTables.bootstrap.min.css"/>
+<link type="text/css" rel="stylesheet" href="/dokuwiki/!ssdj/lib/plugins/icons/assets/font-awesome/css/font-awesome.min.css"/>
+<link type="text/css" rel="stylesheet" href="/dokuwiki/!ssdj/lib/plugins/icons/assets/material-design-icons/css/materialdesignicons.min.css"/>
+<!--[if gte IE 9]><!-->
+<script >/*<![CDATA[*/var NS='';var SIG=" --- \/\/[[|JUST9 Sandetel Ext]] 2026\/06\/23 13:04\/\/";var JSINFO = {"confirm_delete":"Seguro desea eliminar esta p\u00e1gina?","doku_base":"\/dokuwiki\/!ssdj\/","cg_rev":"","dw_version":51.3,"chrome_version":0,"hide_captcha_error":"none","ckg_dbl_click":"","ckg_canonical":0,"doku_url":"http:\/\/extranet.chap.junta-andalucia.es\/dokuwiki\/!ssdj\/","has_tags":"Tag","has_wrap":"Wrap","wrapDiv":"WRAP","wrapSpan":"wrap","ckgEdPaste":"off","rel_links":1,"ckg_template":"bootstrap3","plugins":{"edittable":{"default columnwidth":""}},"htmlok":1,"plugin":{"datatables":{"config":[],"enableForAllTables":0}},"isadmin":0,"isauth":1,"move_renameokay":false,"id":"backup_restaurar_bd_gtbd","namespace":"","ACT":"export_xhtml","useHeadingNavigation":0,"useHeadingContent":0};
+/*!]]>*/</script>
+<script charset="utf-8" src="/dokuwiki/!ssdj/lib/exe/jquery.php?tseed=34a552433bc33cc9c3bc32527289a0b2" defer="defer"></script>
+<script charset="utf-8" src="/dokuwiki/!ssdj/lib/exe/js.php?t=bootstrap3&amp;tseed=fade0092c81b3b15be1b7fd1b8394d30" defer="defer"></script>
+<script type="text/javascript" charset="utf-8" src="/dokuwiki/!ssdj/lib/plugins/ckgedit/scripts/mediamgr.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net/js/jquery.dataTables.min.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net-fixedheader-dt/js/fixedHeader.dataTables.min.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net-fixedcolumns-dt/js/fixedColumns.dataTables.min.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net-buttons/js/dataTables.buttons.min.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net-buttons/js/buttons.html5.min.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net-buttons/js/buttons.print.min.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/jszip/dist/jszip.min.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/pdfmake/build/pdfmake.min.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/pdfmake/build/vfs_fonts.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net-bs/js/dataTables.bootstrap.min.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net-buttons-bs/js/buttons.bootstrap.min.js" defer="defer"></script>
+<!--<![endif]-->
+
+    <script type="text/javascript">
+    //<![CDATA[ 
+    function LoadScript( url )
+    {
+     document.write( '<scr' + 'ipt type="text/javascript" src="' + url + '"><\/scr' + 'ipt>' ) ;        
+
+    }
+   function LoadScriptDefer( url )
+    {
+     document.write( '<scr' + 'ipt type="text/javascript" src="' + url + '" defer><\/scr' + 'ipt>' ) ;        
+
+    }
+//]]> 
+
+ </script>
+ </head>
+<body>
+<div class="dokuwiki export">
+
+<h2 class="sectionedit1" id="procedimientos_de_backup_y_restauracion_de_bases_de_datos">Procedimientos de backup y restauración de bases de datos.</h2>
+<div class="level2">
+
+</div>
+
+<h4 id="gestion_de_backup">Gestión de Backup.</h4>
+<div class="level4">
+
+<p>
+La realización de backup se realiza de forma diara mediante tareas programadas en el corntab de las maquinas contenedoras de las bases de datos.
+Se divide en tres grupos.
+</p>
+<pre class="code">Producción con modo Archive.
+Producción con modo No Archive.
+Entornos no productivos.</pre>
+
+<p>
+Producción con modo Archive.
+Se realiza un full bakcup semanal una vez en semana durante el fin de semana.
+Se realiza un backup de archive e incremental diario durante la noche a partir de las 20:00H.
+Estos backups se almacenan en el NFS_BACKUP y se realiza una limpieza semanal de los directorios por RMAN tras validar el nuevo backup full.
+</p>
+
+<p>
+Producción con modo No Archive y Entornos no productivos.
+En los entornos productivos que estan en modo No Archive a causa de su naturaleza, como es PROCW02 con el esquema de Zabbix, se realiza un export diario almacenado en el NFS_BACKUP.
+</p>
+
+<p>
+A partir de aquí el equipo de GTAB se encarga de su almacenamiento a largo plazo según politicas de retención del cliente dependiendo del entorno.
+</p>
+
+</div>
+
+<h4 id="restauracion_con_rman">Restauracion con RMAN.</h4>
+<div class="level4">
+
+<p>
+Paso 1: Preparación del entorno / nueva máquina (o nueva instancia)
+</p>
+<pre class="code">  Se solicita a GTSL el sistema operativo, rutas y volumenes necesarios
+Instalamos Oracle (mismo ORACLE_HOME y versión compatible).
+  Configuramos el entorno:
+      Definimos ORACLE_SID, ORACLE_HOME, variables PATH, etc.
+  Creamos un archivo PFILE/SPFILE mínimo (o usar uno restaurado desde backup si está disponible).</pre>
+
+<p>
+Paso 2: Inicio de instancia en estado NOMOUNT
+</p>
+<pre class="code">Cuando no existen SPFILE ni controlfile.
+Este arranque usa un PFILE mínimo o temporal generado manualmente.</pre>
+
+<p>
+Paso 3: Restauramos SPFILE y Control File
+</p>
+<pre class="code">Si no tenemos SPFILE ni controlfile:
+	Restauramos SPFILE.
+Configurar DBID si no vamos a usar el catalogo.
+Restaurar control file desde autobackup:
+Montar la base de datos:</pre>
+
+<p>
+Paso 4: Restaurar datos y recuperar la base de datos
+</p>
+<pre class="code">Una vez montada, restauramos.
+	Si se restauró desde controlfile de backup hay realizar un resetlogs:</pre>
+
+<p>
+Paso 5: Ajustes finales y validación
+</p>
+<pre class="code">Verificamos que la base de datos abre correctamente y que los archivos están en los paths esperados.
+Corregimos parámetros del PFILE/SPFILE relacionados con rutas de archivos (CONTROL_FILES, db_create_file_dest, etc.).</pre>
+
+<p>
+Revisa alert log y RMAN logs para confirmar que todo está bien.
+</p>
+
+<p>
+Todo este proceso se realiza con la debida supervisión y ticket al Soporte de Oracle.
+Documentación Oficial:
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="https://docs.oracle.com/en/database/oracle/oracle-database/19/bradv/index.html" class="urlextern" target="target»extern" title="https://docs.oracle.com/en/database/oracle/oracle-database/19/bradv/index.html" rel="ugc nofollow noopener">Backup and Recovery User&#039;s Guide</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="https://docs.oracle.com/en/database/oracle/oracle-database/19/bradv/getting-started-rman.html" class="urlextern" target="target»extern" title="https://docs.oracle.com/en/database/oracle/oracle-database/19/bradv/getting-started-rman.html" rel="ugc nofollow noopener">Getting Started with RMAN</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="https://docs.oracle.com/en/database/oracle/oracle-database/19/bradv/rman-recovery-advanced.html" class="urlextern" target="target»extern" title="https://docs.oracle.com/en/database/oracle/oracle-database/19/bradv/rman-recovery-advanced.html" rel="ugc nofollow noopener">Performing RMAN Recovery: Advanced Scenarios</a></div>
+</li>
+</ul>
+
+</div>
+
+<h4 id="restauracion_por_import">Restauración por Import.</h4>
+<div class="level4">
+
+<p>
+Paso 1: Preparación del entorno / nueva máquina (o nueva instancia)
+</p>
+<pre class="code">  Se solicita a GTSL el sistema operativo, rutas y volumenes necesarios
+Instalamos Oracle (mismo ORACLE_HOME y versión compatible).
+  Creamós una instancia con el mismo nombre.</pre>
+
+<p>
+Paso 2: Import.
+</p>
+<pre class="code">Procedemos a realizar una importación full.
+En caso de que no queramos realizar una importación full será necesario que creemos la estrusctura de tablespaces necesarias.</pre>
+
+<p>
+Este metodo no esta pensado para realizar una restauración completa de una base de datos, aunque se puede utilizar, sino más bien para restauraciones parciales.
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="https://docs.oracle.com/en/database/oracle/oracle-database/19/sutil/oracle-data-pump.html" class="urlextern" target="target»extern" title="https://docs.oracle.com/en/database/oracle/oracle-database/19/sutil/oracle-data-pump.html" rel="ugc nofollow noopener">Documentación Oficial</a></div>
+</li>
+</ul>
+
+</div>
+
+<!-- no cachefile used, but created /srv/www/dokuwikifarm/ssdj/data/cache/1/1a10556cab45f55a1582a87add150c24.xhtml -->
+</div>
+</body>
+</html>
+

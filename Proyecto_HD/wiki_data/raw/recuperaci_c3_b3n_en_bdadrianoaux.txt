@@ -1,0 +1,230 @@
+﻿
+====== 1. Recuperar EMITIDOS y DMP ======
+
+======   ======
+
+Se recuperan los EMITIDOS y el DMP de la BBDD siguiendo los pasos de la instrucción tecnica: **<;Poner PAGINA WIKI de Recover>;**
+
+Recuperación EMITIDOS (ADRIANO)
+
+desde la misma máquina de salto entramos en el cmd y:
+
+cmd>; recover -s oragrid -c justiciaseloh3
+
+oragrid= servidor de backup de sedes
+
+Desde el 22/04/2019 el servidor de backups ha cambiado ha iusslnsrsrv01
+
+SE2CGSE2
+
+recover>; changetime 07/21/2018
+
+recover>; cd <;directory_path>;
+
+recover>; ls -la
+
+recover>; add <;file_name>;
+
+recover>; list
+
+recover>; delete O:\GSE2\export\GSE2.log
+
+recover>; relocate <;destination_path_of_recover>;
+
+recover>; destination
+
+recover>; recover
+
+- Si no se encuentran los ficheros solicitados en la fecha, ir al servidor oragrid y hacer por cada directorio:
+
+nsrinfo justiciase4cad1.sevilla.justicia.junta-andalucia.es | grep "\\\\4109142024\\\\2014009028"
+
+# Recuperación en SSCC:
+
+* Antiguas
+
+recover
+
+PRO=desde IUSSUBD04
+
+PRE/DES=IUSSUBD10
+
+* Nuevas PRE/DES:
+
+Desde el NetWorker Management Console de IUSSLNSRSRV01
+
+Enterprise >; iusslnsrsrv01 >; clic derecho >; Launch Application
+
+New recover
+
+- Traditional
+
+- ISILON-NDMP.justicia.junta-andalucia.es / Recover to the same host
+
+- /ifs/data/NFS-zone/Backup_centralizado/ = /NFS_BACKUP/
+
+- New destination path (dentro de la ISILON, en NFS_BACKUP)
+
+- Perform the recovery >; Recovery name
+
+- Run recover
+
+# Mover paquetes
+
+cmviewcl
+
+cmviewcl -v -p bdprepro01
+
+cmmodpkg -e -n iussubd11 bdprepro03
+
+cmviewcl -v -p bdprepro02
+
+arrancar recurso cmmodpkg -e bdpro05
+
+cmhaltpkg -n iussubd05 bdpro05
+
+cmrunpkg -n iussubd04 bdpro05
+
+======   ======
+
+2. Generar Scripts
+
+======   ======
+
+//Ejemplo: Importar tablas de PRINST de ALEJ a BDADRIANOAUX//
+
+Mientras se recupera el DMP, vamos preparando los scripts para crear la infraestructura.
+
+**- Entramos en el ** TOAD y nos conectamos a la BBDD origen = JUSTICIAALEJH1
+
+Tablespaces
+
+- **Buscamos los Tablespaces en el** Browser →; Tablespaces. Filtramos con //PRINST%//, seleccionamos todos los tablespaces y\\
+**clic derecho →; **Create Script →; Screen →; OK.
+
+- **Copiamos los scripts** (SIN EL DROP STATEMENT) **en un bloc de notas propio para modificarlos.**
+
+Esquema
+
+**- Buscamos el esquema en el Browser →; Users. Filtramos con //PRINST//, clic derecho en el esquema →; ** Create Script →; Clipboard →; OK.
+
+**- Pegamos el script (**SIN EL DROP STATEMENT**) al ** final del bloc de notas propio.
+======   ======
+
+2.1 Modificación de scripts de Tablespaces
+
+======   ======
+
+**- El nombre de los nuevos tablespaces en BDADRIANOAUX deben llamarse diferente al original y con el siguiente formato: **RES_PRINST_ALEJ_XXXX**, y también tendremos que renombrar los objetos originales por los que se van a crear en BDADRIANOAUX. Por ello, tendremos que modificar los scripts en el bloc de notas de la siguiente manera:**
+
+//CREATE TABLESPACE ////**RES_PRINST_ALEJ** ////_BIG_DATA ////DATAFILE// \\
+//'/opt/oracle/oradata/BDADRIANOAUX/**RES_PRINST_ALEJ_****BIG_DATA**.DBF' SIZE 48M AUTOEXTEND ON NEXT 20M MAXSIZE 2048M// \\
+//NOLOGGING// \\
+//ONLINE// \\
+//PERMANENT// \\
+//EXTENT MANAGEMENT LOCAL AUTOALLOCATE// \\
+//BLOCKSIZE 8K// \\
+//SEGMENT SPACE MANAGEMENT AUTO// \\
+//FLASHBACK ON;//
+
+//CREATE TABLESPACE **RES_PRINST_ALEJ** //**_BIG_INDEX **DATAFILE\\
+//'/opt/oracle/oradata/BDADRIANOAUX/**RES_PRINST_ALEJ_****BIG_INDEX**.DBF' SIZE 48M AUTOEXTEND ON NEXT 20M MAXSIZE 2048M// \\
+//NOLOGGING// \\
+//ONLINE// \\
+//PERMANENT// \\
+//EXTENT MANAGEMENT LOCAL AUTOALLOCATE// \\
+//BLOCKSIZE 8K// \\
+//SEGMENT SPACE MANAGEMENT AUTO// \\
+//FLASHBACK ON;//
+
+//CREATE TABLESPACE **RES_PRINST_ALEJ** //**_DATA **DATAFILE\\
+//'/opt/oracle/oradata/BDADRIANOAUX/**RES_PRINST_ALEJ_****DATA**.DBF' SIZE 48M AUTOEXTEND ON NEXT 20M MAXSIZE 2048M// \\
+//NOLOGGING// \\
+//ONLINE// \\
+//PERMANENT// \\
+//EXTENT MANAGEMENT LOCAL AUTOALLOCATE// \\
+//BLOCKSIZE 8K// \\
+//SEGMENT SPACE MANAGEMENT AUTO// \\
+//FLASHBACK ON;//
+
+//CREATE TABLESPACE **RES_PRINST_ALEJ****_INDEX **DATAFILE // \\
+//'/opt/oracle/oradata/BDADRIANOAUX/**RES_PRINST_ALEJ_****INDEX**.DBF' SIZE 48M AUTOEXTEND ON NEXT 20M MAXSIZE 2048M// \\
+//NOLOGGING// \\
+//ONLINE// \\
+//PERMANENT// \\
+//EXTENT MANAGEMENT LOCAL AUTOALLOCATE// \\
+//BLOCKSIZE 8K// \\
+//SEGMENT SPACE MANAGEMENT AUTO// \\
+//FLASHBACK ON;//
+======   ======
+
+2.2 Modificación de script de Esquema
+
+======   ======
+
+**- El nombre del nuevo esquema en BDADRIANOAUX debe ser diferente al original y con el siguiente formato: **RES_PRINST_ALEJ**, y también tendremos que renombrar los objetos originales por los que se van a crear en BDADRIANOAUX. Por ello, tendremos que modificar los scripts en el bloc de notas de la siguiente manera:**
+
+//CREATE USER RES_PRINST_ALEJ// \\
+//IDENTIFIED BY "RES_PRINST_ALEJ"// \\
+//DEFAULT TABLESPACE RES_PRINST_ALEJ_DATA// \\
+//TEMPORARY TABLESPACE TEMP_ADRIANO// \\
+//PROFILE DEFAULT// \\
+//ACCOUNT UNLOCK;// \\
+//– 3 Roles for RES_PRINST_ALEJ // \\
+//GRANT RESOURCE TO RES_PRINST_ALEJ;// \\
+//GRANT CONNECT TO RES_PRINST_ALEJ;// \\
+//GRANT PLUSTRACE TO RES_PRINST_ALEJ;// \\
+//ALTER USER RES_PRINST_ALEJ DEFAULT ROLE RESOURCE, CONNECT;// \\
+//– 5 System Privileges for RES_PRINST_ALEJ// \\
+//GRANT CREATE DATABASE LINK TO RES_PRINST_ALEJ;// \\
+//GRANT CREATE TABLE TO RES_PRINST_ALEJ;// \\
+//GRANT UNLIMITED TABLESPACE TO RES_PRINST_ALEJ;// \\
+//GRANT CREATE MATERIALIZED VIEW TO RES_PRINST_ALEJ;// \\
+//GRANT CREATE VIEW TO RES_PRINST_ALEJ;//
+======   ======
+
+3. Import en BDADRIANOAUX
+
+======   ======
+
+3.1 Import desde NFS_BACKUP
+
+======   ======
+
+**- Nos conectamos al servidor de la BBDD original (o a cualquier otro que tenga acceso a NFS_BACKUP), nos situamos en la ruta donde esté el DMP recuperado y lanzamos el IMPORT con el comando "at now" para que si se nos desconecta la sesión, no se corte el IMPORT:**
+
+//cd /NFS_BACKUP/BBDD/_trabajo_/INC-XXXXXX//
+
+**- Lanzamos ** (ejemplo con **EXPJUD **de **PROD02**)**:**
+
+//at now//
+
+//imp USERID=SYSTEM/XXXXXX@BDADRIANOAUX BUFFER=100000 FILE=////PROD02-EXPJUD.dmp//// LOG=////import_EXPJUD_PROD02.log//// FROMUSER=////EXPJUD ////TOUSER=////RES_EXPJUD_PROD02 ////GRANTS=NO INDEXES=NO IGNORE=YES//
+
+//ctrl+D// (para aceptar la ejecución del comando)
+
+**- Si queremos que el IMPORT sea ** solamente de algunas tablas añadimos TABLES=TABLE_NAME1,TABLE_NAME2,TABLE_NAME3
+======   ======
+
+3.2 Import desde IUSNAS05
+
+======   ======
+
+Abrimos un CMD y preparamos para lanzar la restauración:
+
+**ESQUEMA ENTERO:**
+
+//imp USERID=SYSTEM/XXXXXX@BDADRIANOAUX BUFFER=100000 ////FILE=////Z:\INC_XXXXXX\////PRINST////.dmp//// LOG=////Z:\////INC_XXXXXX////\import_PRINST_ALEJ.log//// FROMUSER=////PRINST ////TOUSER=////RES_PRINST_ALEJ// \\
+//GRANTS=NO INDEXES=NO IGNORE=YES//
+
+//* SHOW=YES// (ejecuta el IMP como una simulación mostrando las sentencias que va a ejecutar)
+
+**Sólo TABLAS:**
+
+//imp USERID=SYSTEM/XXXXXX@BDADRIANOAUX BUFFER=100000 FILE=Z:\INC_XXXXXX\PRINST.dmp LOG=Z:\INC_XXXXXX\import_PRINST_ALEJ.log FROMUSER=PRINST TOUSER=RES_PRINST_ALEJ TABLES=ASUNTOS,ACONTECIMIENTOS,ACO_DOC_COPIAS GRANTS=NO INDEXES=NO IGNORE=YES//
+
+**- Para sacar el CREATE de algún objeto concreto que nos haya fallado en el import también podemos ejecutar en origen:**
+
+//**SQL>;** select dbms_metadata.get_ddl('TABLE','ACONTECIMIENTOS','PRINST') FROM DUAL;//
+
+

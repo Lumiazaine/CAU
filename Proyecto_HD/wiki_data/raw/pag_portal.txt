@@ -1,0 +1,30 @@
+﻿
+<WRAP> <panel type="primary" title="Portal Adriano">
+
+<WRAP> <panel type="info" title="Descripción:">
+
+ </panel></WRAP>
+
+<WRAP> <panel type="info" title="Responsable del Proyecto:">
+
+</panel> </WRAP>
+
+<WRAP> <panel type="info" title="Fecha Fin del Proyecto:">
+
+</panel> </WRAP>
+
+<WRAP> <panel type="info" title="Procedimientos:">
+[[:pag_procedimientos_adriano|Procedimientos Portal Adriano]]
+</panel> </WRAP>
+<WRAP> <panel type="info" title="Capacitación">
+
+  * [[https://capacitacion.justicia.junta-andalucia.es/|Cursos y Manuales de Usuario]]
+  * [[https://videos.justicia.junta-andalucia.es/|Contenidos en video]]
+  * [[https://capacitacion.justicia.junta-andalucia.es/mod/glossary/view.php?id=196|Preguntas frecuentes (Portal de Capacitación)]]
+
+</panel> </WRAP>
+ </panel> </WRAP>
+
+**{{tag>novalidada}} **
+
+

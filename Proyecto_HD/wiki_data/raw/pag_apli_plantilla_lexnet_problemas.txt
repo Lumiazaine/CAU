@@ -1,0 +1,136 @@
+﻿
+<WRAP> 
+<panel type="primary" title="Problemas Conocidos de LEXNET">
+
+[[pag_apli:lexnet:start|Volver atrás]] 
+
+<WRAP> 
+<panel type="info" >
+
+====== Correos de notificación ======
+
+Se informa de las cuentas de correo del CAU de Justicia para peticiones/incidencias en el entorno de **PRODUCCIÓN**:
+
+Se procederá a la apertura del ticket correspondiente dependiendo de la casuística de su petición. Destacar que, además de **identificarse correctamente con su id de aplicación**, deben indicar y añadir todos los datos necesarios para la resolución de los distintos casos:
+
+En Remedy existe la siguiente configuración para la gestión de Colectivos Lexnet:
+
+MINISTERIO (LEXNET-COLECTIVOS): sgntj.cctt@mju.es
+
+  * **Cambio de certificado**: deben enviar la parte pública del certificado e indicar el id de aplicación para el que se debe cambiar
+  * **Gestión de buzones**: indicar el id aplicación y el buzón o buzones a gestionar. Para indicar los buzones deben enviar el nombre, comunidad, provincia, partido judicial y código del test del Consejo.
+  * **Incidencias de servicios web**: enviar siempre los XMLs de petición y respuesta completos así como cualquier otra información que sea de ayuda.
+MINISTERIO (Cita Previa): cau@mju.es
+
+MINISTERIO: cau@justicia.es
+
+</panel> </WRAP>
+
+<WRAP> <panel type="info" >
+
+====== Fallo en las comunicaciones entre Adriano y LexNET ======
+
+Si se detectan incidencias en la comunicación entre Adriano y LexNET, de forma que LexNET no recibe ni envía notificaciones procedentes de Adriano, una posible causa podría ser la indisponibilidad del servicio de validación de certificados de la FNMT, necesario para la autenticación y firma de las comunicaciones.
+
+</panel> </WRAP>
+
+<WRAP> <panel type="info" >
+
+====== Procedimiento de creación de buzones LexNET ======
+
+Debe de aparecer un punto a parte que se denomine “Procedimiento de creación de buzones LexNET”.
+
+A continuación, indico el texto que debe seguir dicho punto.
+
+**¡IMPORTANTE!**
+  - **LexNET es la plataforma oficial.**
+  - **Las entidades/colectivos pueden tener sus propias aplicaciones internas (Fortuny, PRISMA, SIGO, HERMES, etc.)**
+  - **Pero Adriano siempre se integra únicamente con LexNET y nunca con esos sistemas propios.**
+
+**FLUJO / ESQUEMA DEL PROCEDIMIENTO DE CREACIÓN DE BUZÓN LEXNET!**
+
+**1. Recepción de la solicitud**
+
+  * El **CSU** recibe una petición para crear un buzón LexNET.
+  * Registrar ticket y recoger documentación inicial del organismo solicitante.
+
+**2. Verificación de unidad funcional especial (CTEAJE)**
+
+**2.1. Asignar a Servicios / Adriano**
+
+  * Preguntar si el organismo figura como **unidad funcional especial según la Normativa Técnica CTEAJE**.
+
+**2.2. Servicios / Adriano revisa:**
+
+  * Consulta en Normativa Técnica CTEAJE en la tabla maestra de Unidades Funcionales Especiales.
+    * Nota.- Aunque la consulta del ECD del Ministerio Justicia evitaría depender de la publicación final en CTEAJE, su habilitación requiere de gestión de acceso con el Ministerio.
+  * Devuelve información al CSU:
+
+**A) El organismo aparece en CTEAJE/ECD → continuar con petición.**
+
+**B) NO aparece → CAU debe informar al solicitante sobre el procedimiento oficial de creación.**
+
+**3. Si NO está en CTEAJE → Solicitud de documentación al usuario**
+
+  * Informar al solicitante de los requisitos oficiales: Alta de entidades, administradores y usuarios – LexNET (URL oficial)
+  * Solicitar toda la documentación requerida.
+
+**4. Con la documentación completa → Solicitud interCAU al Ministerio**
+
+  * El CSU inicia procedimiento interCAU con Ministerio de Justicia:
+    * Adjunta documentación.
+    * Solicita creación del buzón LexNET.
+
+**5. Confirmación del Ministerio (MJU)**
+
+  * MJU comunica que el buzón ha sido creado.
+  * CSU continua con siguientes pasos.
+
+**6. Distribución del buzón en Adriano**
+
+**6.1. Asignar a Servicios / Adriano**
+
+Incluir en el ticket:
+
+  * Descripción del buzón.
+  * Código asignado.
+  * Tipo de buzón (Hospitalario, Otros organismos, FFCCSE, etc.)
+
+**6.2. Servicios / Adriano → Gestión con SBA**
+
+  * SBA realiza la distribución en Adriano.
+  * Devuelve ticket atendido a Servicios / Adriano.
+
+**7. Comunicación al solicitante (CSU)**
+
+**Servicios / Adriano asigna de vuelta al CSU.**
+
+El CAU informa al usuario:
+
+  * Enlace para completar alta de administradores y usuarios del buzón: [[https://www.administraciondejusticia.gob.es/lexnet/alta-entidades-administradores-usuarios]]
+  * Enlace para contacto e incidencias de LexNET: [[https://www.administraciondejusticia.gob.es/lexnet/contacto]]
+  * Se indica que la actuación de la Comunidad Autónoma ha finalizado.
+
+''NOTA IMPORTANTE:'' **Delimitación sobre los sistemas propios de entidades y colectivos.**
+
+Aunque diversas entidades y colectivos (Fiscalía, Instituciones de Reforma Juvenil, Fuerzas y Cuerpos de Seguridad, centros hospitalarios, etc.) utilizan aplicaciones propias para su operativa interna —como Fortuny, PRISMA, SIGO, SINDEPOL o HERMES—, la integración con el Sistema de Gestión Procesal Adriano **no se realiza nunca con dichas aplicaciones, sino únicamente con la plataforma LexNET**, que actúa como sistema de intermediación oficial para el intercambio de escritos, notificaciones y acuses.
+
+Por tanto, independientemente del sistema que utilice cada organismo para generar los documentos, **la creación, gestión y uso de los buzones LexNET es el único mecanismo reconocido por Adriano para la comunicación electrónica con dichos colectivos.**
+
+**8. Cierre del ticket**
+
+  * CSU documenta todas las acciones.
+  * Cierra la petición.
+
+**EJEMPLOS DE PETICIONES**
+
+  * IN0000002432538
+  * IN0000002403851
+  * IN0000002432576
+  * IN0000002440626
+
+</panel> </WRAP>
+
+{{tag>novalidada}}
+
+

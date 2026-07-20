@@ -1,0 +1,73 @@
+﻿
+<WRAP> <panel type="primary" title="Alta de usuarios NUMO para Adriano">
+<WRAP>
+<panel type="info">
+Para poder realizar las **altas masivas NUMO** tenemos que comprobar y sacar los datos del excel que nos hayan proporcionado. \\ \\
+{{:pag_apli:adriano:numo.png?1000|}} \\ \\
+
+Tenemos un código que hace una llamada a un pl/sql situado en  \\
+Una vez tengamos los datos correctos de los usuarios tenemos que pasarlo al script que tenemos de referencia sustituyendo los datos existentes. \\
+El código siguiente se ejecuta en la base de datos de **Prod02 (TEMIS)**. \\
+Dentro del código podemos añadir más líneas dependiendo los usuarios y municipios que nos proporcionen. \\ \\
+Para rellenar el código tenemos que sustituir los campos con lo indicado en la primera línea en el apartado de San Fernando: \\ \\
+1º DNI del usuario **sin letra**. \\
+2º Cargo del usuario, en la base de datos la equivalencia sería la siguiente: 1 = Juez, 2 = LAJ, 3 = Gestor, 14 = Tramitador y 15 = Auxilio. \\
+3º El **X_Municipio** lo sacamos de la tabla core_owner.municipios, la consulta sería la siguiente: **select * from core_owner.municipios;** o en TEMIS **select * from municipios;** \\
+4º Aquí elegimos NOAC ó AC dependiendo si en el excel proporcionado nos indican que si tiene Actos de Comunicación o No. Si en el excel aparece en blanco el apartado por predeterminado indicamos NOAC. \\
+5º El 1 nunca debemos de tocarlo, se utiliza para que se ejecute ó no la línea del código. \\
+
+
+**BEGIN \\
+--San Fernando \\
+temis.pkgConfUsuNUMO.ConfigUsuariosNUMO('DNI','CARGO','X_MUNICIPIO','NOAC','1'); \\
+temis.pkgConfUsuNUMO.ConfigUsuariosNUMO('DNI','3','11031','NOAC','1'); \\
+\\
+--Dos Hermanas \\
+temis.pkgConfUsuNUMO.ConfigUsuariosNUMO('DNI','3','41038','AC','1'); \\ 
+\\
+END;** \\ \\
+
+Una vez ejecutamos el pl/sql hay que __**sincronizar**__ en la base de datos de **CORE_OWNER**, para ello ejecutamos lo siguiente: \\ \\ 
+**
+/*2. Sincronización Usuario Puesto*/ \\ 
+-- USUARIOS \\ 
+alter session set current_schema=core_owner; \\ 
+begin \\  
+-- llamar a todos los métodos de PKG_SINC_TEMIS.USUARIOS, limpieza, sincronización, volcado \\ 
+   PKG_SINC_TEMIS.USUARIOS_INICIO(); \\ 
+   PKG_SINC_TEMIS.USUARIOS_SINCRONIZACION_TEMIS_TOTAL(); \\ 
+   PKG_SINC_TEMIS.USUARIOS_VOLCADO_ADRIANO(); \\ 
+end; \\ 
+/ \\ 
+-- USUARIOS_ORGANOS \\ 
+begin \\ 
+-- llamar a todos los métodos de PKG_SINC_TEMIS.USUARIOS_ORGANOS, limpieza, sincronización, volcado \\ 
+   PKG_SINC_TEMIS.USUARIOS_ORGANOS_INICIO(); \\ 
+   PKG_SINC_TEMIS.USUARIOS_ORGANOS_SINCRONIZACION_TEMIS_TOTAL(); \\ 
+   PKG_SINC_TEMIS.USUARIOS_ORGANOS_VOLCADO_ADRIANO(); \\ 
+end;** \\ 
+/ \\ 
+
+El siguiente código sirve para que en adriano a la hora de elegir el puesto les aparezcan en orden.
+
+** /* 3. Actualización USUARIOS_ORGANOS.ES_ACTIVO = 1 para todos los SCT. */ \\ \\
+
+update usuarios_organos  \\
+set es_activo = '1' \\
+where id_organo in (select id from organos where  organo like '%00400') \\
+and fecha_fin is null \\
+and (es_activo is null or es_activo = '0'); \\ \\
+ 
+commit; \\ \\ **
+
+Rutas del escritorio remoto para adjuntar los excels y scripts: \\
+**Script**: \\iusnas05\SIJ\10. Proyectos en curso\01 Interoperabilidad\20. Integraciones\50.Entregables\H112-P1B_ANA\Etapa 0. 529811\Scripts Adscripciones\Masivas lanzadas por DevOps desde 23_07_2025 en adelante  \\ 
+
+**Plantillas:** \\iusnas05\SIJ\10. Proyectos en curso\01 Interoperabilidad\20. Integraciones\50.Entregables\H112-P1B_ANA\Documento de trabajo 1B\Fase I\Acoplamiento\Realizadas por DevOps a partir de 23_07_2025 \\ 
+
+</panel></WRAP>
+</panel> </WRAP>
+
+{{tag>novalidada}}
+
+

@@ -1,0 +1,1624 @@
+﻿
+<panel type="primary" title="Guía Básica de Uso y Utilidad de los Campos en Tickets ITSM – BMC Helix Remedy"> <collapse> <WRAP info round box>**Índice General de la Guía ITSM**</WRAP>
+
+   * [[#descripcion_de_la_consola_de_tickets|1. Descripción de la consola de tickets]]
+  * [[#procedimiento_para_crear_incidencia_u_orden_de_trabajo_desde_crear_nuevo_en_itsm|2. Procedimiento para crear Incidencia u Orden de Trabajo desde “Crear Nuevo” en ITSM]]
+  * [[#procedimiento_para_crear_tareas|3. Procedimiento para crear tareas]]
+  * [[#configuracion_de_asignaciones|4. Configuración de asignaciones]]
+  * [[#estados|5. Estados]]
+  * [[#descripcion_panel_itsm|6. Descripción Panel ITSM]]
+  * [[#gestion_de_tickets_itsm|7. Gestión de tickets ITSM]]
+  * [[#buscador_global_en_bmc_helix_itsm|8. Buscador Global en BMC Helix ITSM]]
+  * [[#gestion_de_conocimiento_itsm|9. Gestión de Conocimiento ITSM]]
+  * [[#registrador_inteligente|10. Registrador Inteligente]]
+  * [[#transmisiones_broadcasts|11. Transmisiones/Difusiones para Usuarios finales en DWP]]
+
+</collapse>
+
+</panel>
+
+====== 1. Descripción de la consola de tickets ======
+
+<WRAP>
+
+<panel type="info" title="1.1 ¿Qué es la Consola de tickets?">
+
+Es la interfaz principal para los técnicos y grupos de soporte, donde se visualizan, filtran, clasifican y gestionan todos los tickets del sistema (incidencias, peticiones, activos de inventario, activos de conocimiento, cuadro de mandos-panel, etc.).
+
+{{:1.png?600}}
+
+</panel></WRAP>
+
+<WRAP>
+
+<panel type="info" title="1.2 Funciones Principales">
+
+**1.2.1 Filtros Personalizados, botón “filtrar”**
+
+Permiten segmentar los tickets según múltiples criterios, siendo obligatorio aplicar mínimo dos filtros.
+
+{{:3.png?400}}{{:2.png?400}}
+
+**Ejemplos de Filtros necesarios**  (se pueden combinar y guardar para reutilización):
+
+  * **Estado**  (abierto, en curso, cerrado, etc.).
+      - Se puede filtrar por “Todos los abiertos”, “Todos los cerrados” o por uno o varios estados específicos.
+
+{{:4.png?400}}
+
+  * **Grupo de usuarios asignados**
+      - Filtrar por “Mis grupos de soporte” o escribir y buscar otro grupo para ver tickets de un grupo resolutor específico.
+
+{{:5.png?400}}
+
+  * **Usuario**
+      - Filtrar los tickets por un usuario concreto.
+
+{{:6.png?400}}
+
+  * **Crear Fecha**
+      - Localizar tickets por periodos de tiempo.
+
+{{:7.png?400}}
+
+  * **Ubicación**
+      - Localizar ubicaciones exactas.
+
+{{:8.png?400}}
+
+  * **Filtros Activados**
+En la parte superior, los filtros activos se muestran como etiquetas; al hacer clic en una etiqueta se elimina el filtro correspondiente.
+
+{{:9.png?400}}
+
+  * **Guardar Filtros (Preajustes del sistema)**
+La opción “Guardar como” permite guardar los filtros personalizados.
+
+{{:10.png?400}}
+
+Estos filtros se ubican en el menú desplegable (por defecto “Todos los tickets críticos”) → *Preajustes del sistema*, donde también se pueden editar o eliminar.
+
+{{:11.png?400}}</WRAP>
+
+<WRAP>
+
+**1.2.2 Mostrar estadísticas de ticket**
+
+{{:12.png?400}}{{:111.png?400}}
+
+  * **Crítico**: Tickets críticos filtrados.
+  * **Incidencias graves**
+  * **Requiere atención**
+  * **Vencida**: Cuando tiene fecha de realización.
+  * **Vencimiento próximo de SLA**: solo aplica a SLA.
+  * **Nuevo**: Tickets nuevos.
+Al pulsar sobre alguno de estos campos, filtrará automáticamente por el criterio seleccionado. </WRAP>
+
+<WRAP>
+
+**1.2.3 Funciones listado de tickets**
+
+En cada ticket, al pulsar en los **3 puntos**  se pueden realizar acciones:
+
+  * **Quitar indicador**: Si previamente se añadió.
+  * **Asignarme a mí**: Asigna el ticket al usuario actual.
+  * **Editar**: Abre la interfaz de edición del ticket.
+{{:13.png?400}}</WRAP>
+
+**1.2.4 Columnas Visibles**
+
+Cada usuario puede seleccionar qué columnas mostrar u ocultar para personalizar su vista de trabajo (botón **“Columnas visibles”**, parte superior derecha).
+
+{{:14.png?400}}
+
+* Sugerencia: reducir el número de columnas mejora la claridad y el rendimiento de carga. * Las columnas se pueden desplazar de derecha a izquierda para ajustar el orden.
+
+{{:15.png?400}}
+
+**1.2.5 Exportar tickets**
+
+Permite exportar los resultados actuales (según filtros aplicados) a un archivo Excel (.xls o .csv). Ubicación: parte superior derecha, botón **“Exportar”**.
+
+Consejo: aplicar filtros antes de exportar para limitar la información a lo relevante.
+
+{{:16.png?400}}
+
+**1.2.6 Búsqueda rápida**
+
+La barra de búsqueda permite localizar tickets por:
+
+  * ID de ticket
+  * Texto libre
+  * Grupo asignado
+  * Usuario
+  * Palabras clave contenidas en el ticket
+
+Por ejemplo, buscar la palabra clave “prueba” localizará tickets que, según filtros y columnas preseleccionados, contengan “prueba”.
+
+{{:17.png?400}}
+
+<WRAP>
+
+**1.2.7 Botón "Actualizar" o "Refrescar"**
+
+(ícono circular con flecha, parte superior derecha junto a “Línea de negocio”).
+
+{{:18.png?400}}
+
+Este botón fuerza la actualización manual de la vista:
+
+1. Recarga los datos más recientes. 2. Permite ver nuevos tickets mientras trabajas. 3. Refleja cambios de estado, asignación o prioridad hechos por otros usuarios.
+
+Mantiene filtros, orden, columnas y preajustes. **Buena práctica:**  refrescar la vista si llevas varios minutos sin interactuar o en entornos de alta concurrencia. </WRAP>
+
+<WRAP>
+
+**1.2.8 Selección múltiple de Tickets**
+
+Al seleccionar dos o más tickets (marcando las casillas a la izquierda) se habilita un menú de acciones masivas:
+
+{{:19.png?400}}
+
+**1.Actualizar estado**  - Cambia el estado de todos los tickets seleccionados de una vez. - Se abrirá un formulario para introducir notas y establecer el nuevo estado. (Actualmente en inglés, pendiente de evolutivo).
+
+{{:20.png?400}}
+
+**2.Abrir en nueva pestaña**  - Abre todos los tickets seleccionados en nuevas pestañas del navegador. - Ideal para revisar varios tickets sin perder la vista principal o comparar información.
+
+{{:21.png?400}}
+
+**3.Marcar para seguimiento (Icono Estrella)**  - Marca en lote los tickets para seguimiento. - Los tickets aparecerán en el “Panel” de Actualizaciones de tickets.
+
+{{:22.png?400}}
+
+**4.Asignación (Icono de usuario con símbolo “+”)**  - Permite asignación masiva de tickets seleccionados a un técnico, grupo de soporte o a uno mismo. - Opciones en el panel de asignación:
+
+  * Seleccionar manualmente un técnico (filtrable por Organización o Grupo de soporte).
+  * Asignación automática al grupo más adecuado (si existe motor de asignación).
+  * **Asignarme a mí**: asigna todos los tickets seleccionados al usuario que ejecuta la acción.
+{{:23.png?400}}
+
+</WRAP>
+
+**1.2.9 Recomendaciones de Usabilidad – Consola de Tickets**
+
+1. Mostrar solo las columnas necesarias para evitar sobrecarga visual.
+
+2. Utilizar filtros antes de exportar datos.
+
+3. Guardar vistas personalizadas según el rol o grupo de trabajo.
+
+4. Usar las estadísticas para presentaciones o seguimiento operativo.
+
+5. Promover filtros por equipo o por tipo de atención para mejorar la productividad.
+
+</panel></WRAP>
+
+<WRAP><panel>
+
+====== 2. Procedimiento para crear Incidencia u Orden de Trabajo desde “Crear Nuevo” en ITSM ======
+
+<WRAP>
+
+<panel type="info" title="2.1 Cómo crear una Incidencia:">
+
+  * En la barra superior, haz clic en **Crear nuevo**.
+  * Seleccionar **“Incidencia”**.
+
+{{:01.png?400}}
+
+</panel></WRAP> <WRAP>
+
+<panel type="info" title="2.2 Completar campos obligatorios y recomendados:">
+
+1. **Usuario**: Escribir nombre, correo o usuario Temis de Escritorio Judicial, **introduciendo un "@" delante para completar la búsqueda**. El sistema buscará coincidencias automáticamente.
+
+{{:02.png?400}}
+
+2. **Empresa**: Se autocompleta (ej. HGIS).
+
+3. **Contacto**: Nombre, usuario Temis o correo de quien reporta, si es diferente del usuario. **Para esta búsqueda, siempre se deberá utilizar previamente con "@".**
+
+{{:03.png?400}}
+
+  * También se puede pulsar en el icono de “+”, que abre un panel para crear un contacto.
+
+{{:04.png?400}}
+
+4. **Plantilla de Incidencia**: Carga valores predefinidos para tipificación y asignación correctas.
+
+  - **Uso**: escribe el nombre o palabra clave y selecciona la plantilla que corresponda.
+  - **Funcionalidad**: al elegir una plantilla, el sistema completará automáticamente campos como Categorías, Tipo de incidencia, Impacto, Urgencia, Grupo de soporte e incluso Descripción.
+  - **Ventaja**: ahorra tiempo y asegura que la tipificación y asignación sean correctas y uniformes.
+  - **Opción “Examinar”**: abre un listado de todas las plantillas disponibles para que el técnico elija la adecuada.
+{{:05.png?400}}{{:06.png?400}}
+
+5. **Prioridad Calculada**: De forma predeterminada vendrá como “Baja”. Calculada según Impacto y Urgencia.
+
+{{:07.png?400}}
+
+6. **Impacto**: Selecciona el nivel que indica el alcance del problema (1-Crítico, 2-Alto, 3-Medio, 4-Menor). De forma preestablecida aparecerá “Baja”.
+
+{{:08.png?400}}
+
+7. **Urgencia**: Velocidad requerida para la solución (1-Crítica, 2-Alta, 3-Media, 4-Baja). De forma preestablecida aparecerá “Baja”.
+
+{{:09.png?400}}
+
+8. **Estado**: Por defecto **Nuevo**  (Más detalles en …)
+
+{{:010.png?400}}
+
+9. **Resumen**: Breve descripción de la incidencia (ej. “Bloqueo procedimiento”).
+
+{{:011.png?400}}
+
+10. **Descripción**: Detalle completo de la incidencia. Según tipificación serán necesarios unos datos mínimos a aportar, así como adjuntar captura de pantalla.
+
+{{:012.png?400}}
+
+11. **Tipo de incidencia**: Clasificación de la Incidencia como 'Restauración de servicio', 'Interrupción', 'Incidente de Seguridad'…
+
+{{:013.png?400}}
+
+12. **Servicio**: Nombre del servicio afectado.
+
+13. **Origen**: Medio de recepción del ticket, desplegable con opciones como Teléfono, Correo electrónico, Gestión del Sistema..
+
+{{:014.png?300}}
+
+14. **CI**  : Especificar el elemento de configuración afectado para relacionarlo con el ticket cuando corresponda ( para Puesto de Trabajo/ Inventario/ CMBD).
+
+{{:015.png?400}}
+
+15. **Categorías**: Existen __dos formas__  de completar la **categoría operacional**  y la **categoría de productos**  para la correcta tipificación de los tickets:
+
+**A) Selección de __forma manual__  **
+
+  * Al seleccionar la 1º categoría de operacional, nos aparecen los bloques principales:
+
+{{:cat1.png?400}}
+
+  * Una vez seleccionado, nos aparecerá la 2º categoría operacional asociada al mismo para completar y, así sucesivamente según los niveles de categoría configurados por casuística.
+
+{{:cat2.png?400}}(Para más detalles:URL Tipificaciones ).
+
+**B) Selección a través de __palabras clave__**  :
+
+A través de palabras clave, podremos localizar la categoría deseada según casuística y se autocompletará el resto de niveles. __Por ejemplo__:
+
+  * Seleccionamos el 1º nivel de categoría operacional,
+  * Buscamos por "//agenda//", nos aparecerá un listado de aquellas categorías que contemplen la palabra "agenda".
+
+{{:cat4.png?400}}
+
+  * Seleccionamos la categoría deseada y automáticamente se completa los niveles sucesivos preconfigurados.
+
+{{:cat5.png?400}}
+
+  * Esto se comprueba al pulsar sobre "examinar" , donde nos muestra los 3 niveles completados
+
+{{:cat6.png?400}}De la misma manera, se podrá utilizar ambas formas para aquellas que tengan configuradas "**categoría de productos**".
+
+{{:016.png?400}}
+
+16. **Adjuntar archivos**: Pruebas y documentación requerida para la correcta gestión del ticket.
+
+  * Se puede adjuntar hasta 3 archivos.
+  * Tamaño máximo de archivo: 5.00 MB
+
+{{:017.png?400}}
+
+17. **Áreas Impactadas**: Provincia, Localidad y Organismo (solo para incidencias masivas).
+
+  - Completar Provincia, Localidad y Organismo afectados. (Campo Empresa: siempre por defecto HGIS).
+  - Esto permite identificar el alcance geográfico de la incidencia.
+  - No es necesario rellenarlo en incidencias individuales.
+
+{{:018.png?400}}
+
+18. **Usuario Asignado**: Grupo de soporte responsable.
+
+  - Seleccionar el Grupo de soporte que gestionará la incidencia, según tipificación y casuística.
+  - No es necesario asignar a una persona concreta en esta fase.
+  - Puedes usar el botón **Asignarme a mí**  si vas a gestionar la incidencia directamente.
+
+{{:019.png?400}}
+
+</panel></WRAP> <WRAP>
+
+<panel type="info" title="2.3 Guardado y Cierre:">
+
+  * Revisa que todos los campos obligatorios estén completos.
+  * Haz clic en **Guardar**.
+
+{{:020.png?400}}
+
+</panel></WRAP> </panel></WRAP> <WRAP><panel>
+
+====== 3. Procedimiento para crear tareas ======
+
+La gestión de tareas asociadas a tickets (WO/INC) en HGIS tiene como finalidad permitir la gestión y subdivisión del trabajo necesario para resolver o completar el ticket principal.
+
+En HGIS, existe la posibilidad de:
+
+  - **Crear tareas a un ticket principal**: Crear tareas desde cero o mediante una plantilla en un ticket ya creado.
+  - **Tickets con flujo de tarea preconfigurado**: Tickets (WO/INC) que ya llevan configurado previamente un flujo de tareas en función de la categoría operacional y de producto, por lo que, una vez se genera un ticket **SIEMPRE DESDE DWP**, se genera automáticamente las tareas asociadas (**NOTA**: Desde ITSM, al generar el mismo ticket, hay que crear de forma manual las tareas).
+Esta sección de flujo de tareas automáticas son tratadas en cada categoría de producto asociada, más información en: [[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_hgis|Categorías Operacionales y de Producto]] <WRAP> <panel type="info" title="3.1 Crear tareas desde un ticket principal:">
+
+Una vez creado el ticket principal (Incidencia u Orden de Trabajo), y se tiene la necesidad de gestionarle y asociarle una tarea, se debe acceder a la sección:
+
+  * Accede al ticket principal.
+  * Dirígete a la pestaña **“Tareas”**.
+  * Pulsa en **“+ Agregar tarea”**.
+
+{{  :ta1.png?400  }}Aparecen dos opciones:
+
+**A) Crear desde Cero**
+
+**B) Crear desde Plantilla**  {{  :ta2.png?400  }}
+
+</panel></WRAP> <WRAP>
+
+<panel type="info" title="3.2 Opción A: Crear desde cero">
+
+Al seleccionar **"Desde cero"**, se abrirá la plantilla para **"Crear tarea"**.
+
+Completar los siguientes campos:
+
+  * **Resumen**  (obligatorio)
+  * **Prioridad**  (obligatorio, ej: Baja)
+  * **Descripción**
+  * **Fechas****programadas**: Fecha de inicio y Fecha de fin
+      * **Nota Importante**: Completar la Fecha de inicio y la Fecha de fin programadas hará que la tarea se refleje en el calendario.
+  * **Categoría operacional y Categoría de producto**.
+  * **Grupo de soporte asignado**
+  * **Usuario asignado**  (si corresponde).
+Finalmente, pulsa en **“Guardar”**. {{  :ta3.png?400  }}
+
+La tarea quedará listada en la **sección de tareas**  del ticket principal. {{  :ta4.png?400  }}
+
+</panel></WRAP> <WRAP>
+
+<panel type="info" title="3.3 Opción B: Crear desde plantilla">
+
+Al seleccionar **"Desde plantilla"**, aparecerá un listado de plantillas de tareas previamente configuradas. Estas plantillas se pueden diferenciar por:
+
+  * **Tipo**: Tarea individual o Grupo de tareas
+  * **Tipo de actividad**: Siempre Manual
+  * Selecciona la plantilla necesaria y pulsa en **Guardar**.
+
+{{  :ta5.png?400  }}
+
+</panel></WRAP> <WRAP>
+
+<panel type="info" title="3.4 Gestión de tareas:">
+
+Una vez creada la tarea (por Opción A o B), su gestión sigue este flujo:
+
+  * El estado inicial de todas las tareas será **“Preparado”**.
+      * **Nota importante**: La tarea no cambiará de estado hasta que el **ticket principal pase de “Asignado” a “En curso”**.
+{{  :ta6.png?400  }}
+
+Al cambiar el ticket principal a “En curso”, la **primera tarea pasa automáticamente a “Pendiente”**. {{  :ta8.png?400  }}
+
+  * Si existen **varias tareas**, se mostrará una columna de **"Secuencia"**  que determina el orden de ejecución.
+
+  * Para ejecutar **tareas en paralelo**:
+      * Modifica el orden secuencial (por ejemplo, cambia un “2” por un “1”) y pulsa Guardar.
+      * Las tareas con la misma secuencia quedarán como “Pendientes” simultáneamente y de esta forma se ejecutarán a la vez.
+
+{{  :ta9.png?400  }}
+
+Accediendo a cada tarea:
+
+  * Verás el **grupo asignado**.
+  * Este grupo será responsable de la ejecución y del cambio de estado durante su gestión.
+
+{{  :ta10.png?300  }}
+
+  * Teniendo diferentes estados al ticket principal e independientes del mismo:
+
+{{  :ta11.png?400  }}
+
+</panel></WRAP> <WRAP>
+
+<panel type="info" title="3.5 Visualización en el calendario:">
+
+Si se establecen la __Fecha de inicio y Fecha de fin__  en la sección **"Fechas programadas"**, la tarea se **mostrará en el Calendario**  de HGIS. {{  :ta12.png?400  }}{{  :ta13.png?400  }}
+
+  * Desde el calendario se podrá hacer clic en la tarea para visualizar sus detalles.
+
+{{  :ta14.png?400  }}</panel></WRAP> <WRAP><panel>
+
+====== 4. Configuración de asignaciones ======
+
+<WRAP>
+
+<WRAP center> [[:pag_hgis|<< Volver]] </WRAP>
+
+<panel type="info" title="4.1 Criterios:">
+
+**4.1.1. Organización de soporte**  Es lo que actualmente se denomina **"Asignado a Grupo"**  y describe el equipo al que se asigna:
+
+  * DT
+  * Nivel 1
+  * Nivel 3
+  * Servicios
+  * Servicios internos
+  * Sistemas
+
+**4.1.2 Nombre del grupo**
+
+  * Es lo que actualmente se denomina **"Asignado A"**  y describe el departamento al que se asigna dentro del equipo:
+
+1.**DT**:
+
+  * DT_Almería
+      * DTAL_XX
+      * CRIP_XX
+  * DT_Cádiz
+      * DTCA_XX
+      * CRIP_XX
+  * DT_Córdoba
+      * DTCO_XX
+      * CRIP_XX
+  * DT_Granada
+      * DTGR_XX
+      * CRIP_XX
+  * DT_Huelva
+      * DTHU_XX
+      * CRIP_XX
+  * DT_Jaén
+      * DTJA_XX
+      * CRIP_XX
+  * DT_Málaga
+      * DTMA_XX
+      * CRIP_XX
+  * DT_Sevilla
+      * DTSE_XX
+      * CRIP_XX
+
+2.**Nivel 1**:
+
+  * Centro de atención al usuario
+
+3.**Nivel 3**:
+
+===== Nivel 3 - Gestión de Tareas a Proveedores =====
+
+En ciertos casos, durante la gestión de tickets en ITSM, cuando un técnico debe escalar el caso a algún **proveedor **, este proceso se realiza mediante la creación manual de una **tarea asociada** al ticket principal.
+=== Procedimiento general ===
+  * El técnico crea una **tarea de forma manual** desde el ticket que está gestionando.
+  * Se genera desde Crear Tarea > Desde Cero (Para más información ver punto: [[#procedimiento_para_crear_tareas|3. Procedimiento para crear tareas]] )
+  * La categoría operacional y de producto se debe completar con la misma configuración que el ticket principal con el que se relacione.
+  * La tarea se queda en "Preparado".
+  * El técnico cambia la asignación del ticket principal a su grupo y rol y lo pone " En Curso", de esta forma:
+  * La **tarea queda asignada al proveedor** correspondiente (ver tabla más abajo).
+  * El **ticket principal permanece asignado** al grupo original que lo gestionaba (por ejemplo, Nivel 1 / CAU).
+  * La tarea genera automáticamente un **correo de notificación al proveedor**, informando de la incidencia y del número de registro.
+  * Es importante completar los campos "**Grupo de soporte del usuario asignado**" y "**Usuario asignado**" para que genere la notificación correspondiente al proveedor.
+{{ :n31.png?400 |}}
+{{ :n32.png?400 |}}
+
+==== Ejemplo de flujo ====
+  * Nivel 1 gestiona una petición sobre videoconferencias.
+  * Se detecta que debe intervenir como nivel 3, el proveedor SIO.
+  * Nivel 1 crea una tarea asignada a SIO/RCJA_Videoconferencias.
+  * El sistema envía un correo a videoconferencia.RCJA@juntadeandalucia.es.
+  * El proveedor abre un ticket en su herramienta y **notifica a CSU.IUS** por correo.
+  * El CAU anota el número de caso de proveedor y gestiona como proceda.
+  * Se continúa con la gestión del ticket inicial.
+
+==== Reglas importantes ====
+  * El campo **“N.º de ticket proveedor”** debe completarse siempre que el proveedor haya generado su propio ticket.
+  * La relación entre ticket original y tarea permite mantener trazabilidad del proceso.
+  * Es obligatorio consultar esta tabla antes de asignar la tarea, para usar la ruta y correo correctos, **el correo electrónico de notificación** va asociado a el campo previamente cumplimentado de **”Asignado Usuario**”.
+
+==== Listado de destinos y contactos - Nivel 3 ====
+
+
+^Organización de Soporte  ^Grupo de soporte del usuario asignado ^Usuario asignado a la petición  ^Correos AL QUE SE NOTIFICA ACTUALMENTE  |
+|**Proveedores externos**   |ARCONTE  |Fujitsu (ARCONTE)  |caujusticia@fujitsu.com  |
+|   |CitaPrevia/Turnos  |Tecnologias Plexus S.L.  |jose.bejaranomoreno@plexus.es; soporte.producto@plexus.es  |
+|   |   |Tecnologias Plexus S.L. (Suministro de equipos)  |jose.blancocasado@plexus.es  |
+|   |CRIJA  |SOLUTIA (Crija Servidores) (No me aparece nada en Remedy)  |soporte@gruposolutia.com  |
+|   |   |SOLUTIA (Crija) (Tickets en Remedy hasta 2024)  |info.crija@juntadeandalucia.es  |
+|   |   |SOLUTIA (Vigentes tickets en Remedy de Septiembre 2025)  |soporte.mantenimientoja@gruposolutia.com  |
+|   |Equipamiento/Suministro  |SOLUTIA INNOVAWORLD TECHNOLOGIES, S.L. (ES CORRECTO)  |soporte@solutia-it.es  |
+|   |   |GPIC  |alfonso.soto@gpic.es  |
+|   |   |OFISUR, S.L.  |joseantonio@ofisur.es  |
+|   |   |GENERAL MACHINES TECHNOLOGY S. L  |avisos@gmtechnology.es  |
+|   |   |CRUZADO INFORMATICA (Málaga)  |cruzado@cruzado.com  |
+|   |   |PAEZ SOLUCIONES INTEGRALES S.L  |jadelicado@paez.es  |
+|   |   |ALGORITMOS PROCESOS Y DISEÑOS, S.A. (APD) (Almería)  |averias@Gapd.es  |
+|   |   |INFORCORBE (Málaga)  |andres@cruzado.com  |
+|   |   |PEDREGOSA S.A.  |sat@pedregosa.es  |
+|   |   |RICOH ESPAÑA, S.L.U. (Videoconferencias)  |daniel.laffitte@ricoh.es  |
+|   |   |S.G. ELECTRÓNICA PROFESIONAL S.A.U.  |d.gonzalez@elpro.es  |
+|   |   |TEKNOSERVICE, S.L  |mibanez@teknoservice.es  |
+|   |   |UNIVERTIA S.L.  |francisco.diaz@univertia.es  |
+|   |Equipamiento Dicireg  |HERBECON SYSTEMS, S.L. (Sevilla)  |info@herbecon.es  |
+|   |   |UNIVERTIA S.L. (Jaén)  |francisco.diaz@univertia.es  |
+|   |VDI  |HPE (Suministro de equipo)  |JuanLuis.Masero@hpecds.com  |
+|**Proveedores internos**   |NAOS  |CPD  |Se crea un tickets en NAO y el técnico indica el número de NAO en nuestro ticket de Remedy en el campo "N.º de ticket proveedor"  |
+|   |   |CORREO  |ceis.cau.cehap@juntadeandalucia.es  |
+|   |NEXO-BUROFAX  |   |nexeo.nexo@correos.com  |
+|   |SIO  |RCJA_Videoconferencias  |videoconferencia.RCJA@juntadeandalucia.es  |
+|   |   |RCJA Correo  |cau.rcja@juntadeandalucia.es  |
+|   |   |VPN  |Se crea un tickets en SIO y el técnico indica el número de SIO en nuestro ticket de Remedy  |
+|   |   |ISL  |Se crea un tickets en SIO y el técnico indica el número de SIO en nuestro ticket de Remedy  |
+|   |   |ZOOM  |Se crea un tickets en SIO y el técnico indica el número de SIO en nuestro ticket de Remedy  |
+|   |   |WEBEX  |Se crea un tickets en SIO y el técnico indica el número de SIO en nuestro ticket de Remedy  |
+|   |LEXNET_COLECTIVOS  |MJU_MINISTERIO (LEXNET-CLTVOS.)  |sgntj.cctt@mju.es  |
+|   |Aino@  |Ministerio: Gestión Altas/Incidencias  |cau@justicia.es  |
+|   |Cuenta de Consignaciones  |   |   cau@justicia.es |
+|   |Lexnet  |   | cau@justicia.es   |
+|   |Siraj  |   |  cau@justicia.es  |
+|   |Fortuny  |   | cau@justicia.es   |
+|   |EVID  |   |  cau@justicia.es  |
+|   |Dicireg  |   | cau@justicia.es   |
+|   |Orfila  |   | cau@justicia.es   |
+
+4. **Servicios**:
+
+  * Adriano (actual SBA)
+  * Capacitación
+  * NUMO
+  * Oficina Técnica (actual SACOEP)
+  * Procesal (actual Adriano)
+  * Procesal_A (actual Adriano)
+  * Sistemas Audiovisuales (actual Sala de vistas)
+  * VDI
+
+5. **Servicios Internos**:
+
+  * Desarrollo (en proceso)
+  * RunTime
+  * Mantenimiento Remedy
+  * Puesto de Trabajo
+
+6. **Sistemas**:
+
+  * CiberJ
+  * GTAB
+  * GTSD
+  * GTSL
+  * GTSR
+  * GTSW
+
+**4.1.3 Rol**
+
+  * Es lo que actualmente se denomina **“Asignado Usuario”**  y describe el usuario técnico al que se asigna el ticket dentro del Grupo de Soporte.
+  * Se compone del nombre del departamento seguido de numeración correlativa: **departamento_xx**.
+
+</panel> </WRAP>
+
+<WRAP>
+
+<panel type="info" title="4.2 Asignaciones:">
+
+**4.2.1 Procedimiento de asignación al rol**
+
+  - El técnico gestiona por orden los tickets, según procedimiento establecido.
+  - Posibilidad de que se gestionen por orden de tarea que se le asigne.
+  - O bien, el coordinador reparte los tickets por categorías.
+
+**4.2.2 ¿Qué se hace cuando termina la gestión o comunicación?**
+
+  * Comunicar al usuario el resultado del ticket gestionado, o
+  * Modificar el ticket a estado **resuelto**  con el motivo de estado correspondiente (procedimiento de gestión de tickets para cada grupo resolutor).
+  * Si el usuario lo valida por su portal, el ticket se cierra como **“confirmado por usuario”**.
+
+**4.2.3 Entradas web del usuario (portal de usuario)**
+
+  * Según la tipificación usada por el usuario, la asignación será **automática**  al equipo correspondiente.
+
+</panel></WRAP> </panel></WRAP> <WRAP><panel>
+
+====== 5. Estados ======
+
+Cada ticket sigue un ciclo de vida claramente definido desde que se crea hasta que se cierra o cancela. Este ciclo se controla mediante **estados**  que indican en qué punto del proceso se encuentra el ticket y **motivos de estado**  que explican la razón específica.
+
+En este apartado se describen los estados disponibles en la plataforma y los motivos asociados, diferenciando:
+
+  * Cuando el cambio se realiza manualmente por un técnico o automáticamente por el sistema.
+  * Situaciones en las que se utiliza cada uno, siguiendo las buenas prácticas de gestión de incidencias y peticiones y cumpliendo procedimientos internos e ITIL.
+
+<WRAP>
+
+<panel type="info" title="5.1 Motivos de estado:">
+
+**1. Estado: NUEVO**  Descripción: Estado inicial de un ticket cuando se registra en el sistema.
+
+  * **Motivos**: *(No aplica, siempre es el punto de partida)*
+  * Transición: **Automática**
+
+  - **ITSM**: Cuando un técnico registra un ticket y lo asigna, pasa automáticamente de “Nuevo” a **Asignado**.
+  - **DWP**: Cuando un usuario registra un ticket, desde ITSM se recibe con Estado **Asignado**  al grupo correspondiente.
+**2. Estado: ASIGNADO**  Descripción: El ticket se encuentra asignado a un grupo o técnico para su resolución.
+
+  * **Motivos**:
+  - **Falta información – Manual**: El resolutor solicita más datos al usuario.
+  - **Error de asignado – Manual**: El ticket se reasigna porque fue enviado al grupo incorrecto.
+  * **Automático**: Siempre que un ticket se reasigna a otro equipo resolutor, su estado pasa a **Asignado**  de forma automática.
+**3. Estado: EN CURSO**  Descripción: El resolutor está trabajando activamente en la incidencia o solicitud.
+
+  * **Motivos**: *(No aplica en este estado)*
+  * Transición: **Manual**, cuando el técnico empieza a trabajar debe cambiar a “En Curso” para dar visibilidad.
+  * Este estado solo se produce si el campo **“Asignado a Usuario”**  está asignado a un técnico (no válido cuando solo está asignado a un Grupo resolutor).
+
+**4. Estado: PENDIENTE**  Descripción: El ticket no puede avanzar por una condición externa o a la espera de una acción:
+
+  * **Motivos**:
+  - **Pendiente localizar usuario 1/2/3 – Manual**: Intentos de contactar sin respuesta.
+  * Con motivo “pendiente localizar usuario 3”, el ticket pasa manualmente a **Cerrado**  con motivo **Usuario Ilocalizado**  siguiendo el procedimiento de cierres por ilocalizado.
+
+  - **Pendiente tarea – Manual**: Espera a que se complete una tarea dependiente.
+  - **Pendiente usuario – Manual**: Requiere confirmación o información del usuario.
+  - **Acción proveedor externo – Manual**: Derivado a proveedor para intervención, a la espera de su gestión.
+  - **Planificada – Manual**: Intervención programada en fecha futura.
+  - **Planificada por desplazamiento – Manual**: Intervención programada que requiere un traslado físico.
+  - **Incidencia original Pendiente – Automático**: Cuando se relaciona un ticket como “duplicado” y el ticket originante está en estado **Pendiente**, **Cerrado**  o **Resuelto**.
+**5. Estado: RESUELTO**  Descripción: El técnico ha completado la acción correctiva o realizado el servicio solicitado. El ticket pasa a estado **Cerrado**  automáticamente cuando transcurren 15 días naturales desde que la incidencia ha pasado al estado **Resuelto**, excepto si se encuentra en estado Resuelto con alguno de los siguientes motivos de estado, en cuyo caso no se cierra automáticamente nunca.\
+
+  - Pendiente confirmación usuario 1
+  - Pendiente confirmación usuario 2
+  - Pendiente confirmación usuario 3
+
+  * **Motivos**:
+  - **Pendiente de validar usuario – Manual**: Espera confirmación del usuario para cerrar.
+  - **No aplica validación usuario – Manual**: Cierre sin necesidad de confirmación (p. ej. incidencias internas).
+  - **Pendiente localizar usuario 1/2/3 – Manual**: Intentos de validar sin éxito.
+  * Con motivo “pendiente localizar usuario 3”, el ticket pasa manualmente a **Cerrado**  con motivo **Usuario Ilocalizado**.
+  * **Resuelto por incid. Original – Automático**: Cuando se marca un ticket como “duplicado” y el ticket originante se actualiza a **Resuelto**.
+  - Si el original ya estaba en **Resuelto**, el ticket duplicado aparece **Asignado**  para revisión del técnico.
+
+**6. Estado: CERRADO**  Descripción: El ticket se da por finalizado, con o sin confirmación del usuario.
+
+  * **Motivos**:
+  - **Usuario ilocalizado – Manual**: No fue posible contactar para validar.
+  - **Usuario confirma solución – Manual**: El usuario aprueba el cierre.
+  - **Usuario no conforme solución – Manual**: El usuario no está satisfecho, pero se cierra por motivos justificados y procedimentados.
+  - **Pendiente evolutivo – Manual**: Se cierra por solicitud de evolutivo de una herramienta.
+**7. Estado: CANCELADO**  Descripción: El ticket se anula y no seguirá el ciclo de resolución.
+
+  * **Motivos**:
+  - **A petición de usuario – Automático**: Cuando el usuario solicita cancelación desde el portal.
+  - **Abierto por error – Manual**: Registro incorrecto.
+  - **Imposible ejecución – Manual**: La acción solicitada no puede realizarse.
+  * **Reapertura desde estado CANCELADO (“Reabrir”)**
+Cuando un ticket se encuentra en estado **Cancelado**, desde la consola **ITSM**  los técnicos disponen de la opción **Reabrir**  (parte superior derecha del ticket).
+
+{{:can.png?400}}
+
+Esta funcionalidad **no reabre el mismo ticket**: crea **un nuevo ticket**  para tratar nuevamente el incidente, manteniendo la trazabilidad del caso original.
+
+  * Al pulsar **Reabrir**, se abre una **interfaz de edición**  similar al formulario habitual.
+  * El campo **Usuario**  y otros datos se **precargan**  desde el ticket original (pueden modificarse).
+  * El técnico puede completar o ajustar los campos necesarios **antes de Guardar**.
+
+  * **Relación entre tickets**
+Una vez creado y guardado el nuevo ticket, se establece la relación automática con el ticket original cancelado:
+
+  * En la pestaña **“Elementos relacionados”**, el nuevo ticket muestra el **ticket anterior**  del que se originó.
+  * En **Tipo de relación**  aparece **“Reabierto desde”**, indicando la procedencia del nuevo incidente.
+  * Esta relación garantiza la **trazabilidad completa**  entre casos derivados o relacionados.
+
+{{:can1.png?400}}
+
+</panel></WRAP>
+
+<WRAP>
+
+<panel type="info" title="5.2 Tickets Duplicados:">
+
+**Gestión de tickets duplicados:**
+
+1. Si un técnico detecta un ticket duplicado, deberá relacionarlo con el original:
+
+  * Dentro del mismo ticket, apartado **Recursos**:
+
+{{:du1.png?400}}
+
+  * Scroll hasta **Tickets recomendados**.
+  * Seleccionar **Ticket Original**  y **“Marcar como Duplicado”**:
+
+{{:du2.png?300}}
+
+2. A tener en cuenta el estado del ticket original:
+
+  * **Ticket original Cerrado o Resuelto**  → El ticket marcado como duplicado debe quedar en **Asignado**  para su análisis.
+  * **Ticket original en otro estado**  → El ticket duplicado debe quedar en **Pendiente**  con motivo **Pendiente de incid.original**.
+Cuando el ticket original pasa a **Cerrado**, este duplicado pasará a **Cerrado**  con motivo **Resuelto por Inc.Original**.
+
+</panel></WRAP> </panel></WRAP> <WRAP><panel>
+
+====== 6. Descripción Panel ITSM ======
+
+<WRAP>
+
+<panel type="info" title="6.1 ¿Qué es el Panel?:">
+
+  * El **Panel**  es la vista principal de seguimiento y análisis operativo de **Smart IT**.
+  * Se compone de **dos secciones**:
+
+  - **Actividad Reciente**
+  - **Entrega de Servicios**  – Dashboard gráfico de métricas en tiempo real.
+  * Este panel permite al técnico **visualizar y controlar**  tanto los movimientos recientes como los indicadores clave del servicio.
+
+{{:p1.png?400}}
+
+**1. Actividades Recientes**:
+
+  * Nombre del módulo:**“Actualizaciones”**
+  * Ubicación Columna lateral izquierda
+
+**Funciones:**
+
+  * Muestra en orden cronológico los cambios en los tickets que el técnico sigue o que están asignados a su grupo.
+  * Cada entrada incluye el resumen del ticket, el ID, la acción registrada (p. ej. cambio de estado, asignación, comentario), el usuario que realizó el cambio y la fecha/hora.
+  * El **título del ticket es clicable**  y permite acceder directamente al detalle del ticket.
+  * **“Siguiendo X elementos”**: muestra los tickets marcados para seguimiento individual.
+{{:p2.png?400}}
+
+**Opciones para seguir un ticket:**
+
+1. Desde la **consola de tickets**, selecciona los tickets que quieres seguir → pulsa el **icono Estrella**  → **Seguir**.
+
+  * De esta forma aparecerán las actualizaciones de los mismos en el panel.
+
+{{:p3.png?400}}
+
+2. Desde el **propio ticket**, utiliza el **icono de estrella**  para seguir.
+
+{{:p4.png?400}}
+
+**Uso:**
+
+  - Revisar las últimas actualizaciones.
+  - Detectar acciones recientes en tickets propios o del grupo.
+  - Verificar reaperturas o comentarios nuevos en tickets relevantes.
+  - **Filtro de tipos de actividad**  (botón de los tres puntos) – Panel izquierdo, parte superior derecha del área de actualizaciones (junto al título “Actualizaciones”).
+  * Permite filtrar y personalizar el tipo de actividades que deseas visualizar en el listado:
+
+{{:p5.png?400}}
+
+**2. Entrega de Servicios – Dashboard de métricas (sección derecha)**
+
+  - Nombre del módulo:* **“Entrega de servicios”**
+  - **Estructura y filtros:**
+  * Filtro por **perspectiva o grupo**: “Todos los grupos”, “Mi grupo” u otro grupo resolutor.
+
+**Nota**: En el apartado **“Por empresa”**  (arriba a la derecha) siempre se mostrará **HGIS**.
+
+{{:p6.png?300}}
+
+El área se divide en dos grandes bloques según el tipo de ticket:
+
+**1.Incidencia**  – Muestra los siguientes indicadores:
+
+  * Porcentaje de finalizaciones a tiempo (conforme a SLA).
+  * Porcentaje de resoluciones aceptadas por el usuario cuando valida un ticket.
+  * Porcentaje de resoluciones en primera llamada.
+  * Gráfico de registro de incidencias: evolución de tickets en los últimos 30 o 180 días.
+  * Gráfico de incidencias abiertas, clasificadas por estado y prioridad (Crítica, Alta, Media, Baja).
+
+{{:p7.png?300}}
+
+**2.Petición de Servicio**  – Incluye métricas similares:
+
+  * Porcentaje de finalizaciones a tiempo.
+  * Porcentaje de resoluciones aceptadas.
+  * Gráfico de registro de peticiones en los últimos 30 o 180 días.
+  * Gráfico de peticiones abiertas por prioridad.
+
+**Uso habitual:**
+
+  * Obtener métricas en tiempo real para toma de decisiones.
+  * Controlar cumplimiento de SLA.
+  * Visualizar comportamiento reciente del servicio (volumen y efectividad).
+  * Ver distribución de cargas entre estados (asignado, pendiente, en curso).
+
+{{:p8.png?400}}
+
+**Recomendaciones de uso:**
+
+  - Revisar esta vista al iniciar el turno para tener una visión general del estado del servicio.
+  - Usar los filtros para personalizar la información según grupo, empresa o rol.
+  - Hacer seguimiento específico a tickets críticos desde la sección de actualizaciones.
+
+</panel></WRAP> </panel></WRAP> <WRAP> <panel>
+
+====== 7. Gestión de tickets ITSM ======
+
+  * La gestión de tickets es un componente central de la **Gestión de Servicios de TI**, cuyo propósito es registrar, categorizar, priorizar, asignar y resolver solicitudes e incidencias de forma estructurada y eficiente.
+  * Esta guía describe paso a paso cada componente clave de un ticket en **Smart IT**, permitiendo a los equipos de soporte trabajar de forma colaborativa, auditable y alineada con buenas prácticas **ITIL**.
+
+<WRAP>
+
+<panel type="info" title="7.1 Secciones Funcionales de un Ticket:">
+
+**7.1.1. Encabezado del ticket**
+
+{{:g1.png?400}}
+
+  * **Identificador y Prioridad**
+  - **Número de ticket**: Aparece como Incidencia (**INCxxxxx**), Work Order (**WOxxxxx**) o Request (**REQxxxxx**). Es el ID único del ticket, siempre visible.
+  - **Prioridad**: Muestra el nivel (Baja, Media, Alta, Crítica) con código de color.
+**7.1.2 Información General**
+
+  * **Título o resumen del ticket**: Breve descripción ingresada al crear el ticket.
+  * **Fecha de creación**: Fecha/hora exacta de creación del ticket.
+  * **Fecha de última actualización**: Se actualiza con cada cambio realizado en el ticket.
+  * **Estado**: Desplegable editable (Asignado, En curso, Pendiente, Resuelto, Cerrado…) según el procedimiento de estados.
+  * **Incidencia grave**: Campo booleano (Sí / No), usado para escalar casos de alta criticidad.
+  * Al marcarlo, aparece una ventana emergente indicando campos adicionales y se abre el campo **“Gestor de incidencia grave”**  para asignar el grupo de soporte encargado.
+
+{{:g2.png?400}}{{:g3.png?400}}
+
+**7.1.3 Petición de Servicio relacionada (REQ)**
+
+  * Si el ticket está vinculado a una petición realizada por el usuario, se muestra aquí el ID relacionado (p. ej. **REQ000000xxxxx**).
+  * Es un enlace clicable que lleva directamente a la petición.
+
+{{:g4.png?400}}
+
+**7.1.4 Información de Usuario y Contacto**
+
+{{:g5.png?400}}
+
+**1. Usuario**:
+
+  * Titular del ticket (solicitante).
+  * Muestra:
+
+a) Nombre de usuario (con link a su perfil)
+
+b) Correo electrónico
+
+c) Teléfono de contacto
+
+d) Botón **“Mostrar detalles”**: despliega información adicional
+
+  * Empresa (siempre HGIS)
+  * Cargo
+  * Órgano / Dirección
+  * Teléfono adicional o extensiones internas
+
+**2.Contacto**:
+
+  * Campo presente si quien reporta no es el usuario solicitante.
+  * Ej.: un responsable que reporta incidencias en nombre de otro o viceversa.
+  * Muestra la misma estructura de datos que **Usuario**  y es editable desde **Editar**.
+
+**7.1.5 Datos Informativos del ticket**
+
+{{:g6.png?400}}
+
+  * Resumen de los datos clave que permiten identificar, clasificar y gestionar la solicitud o incidencia:
+
+a) **Tipo de incidencia**: Incidencia de seguridad, Petición, Problema…
+
+b) **Fecha de notificación**: Fecha/hora en que se generó el ticket.
+
+c) **Origen**: Modo de creación (Correo, Teléfono, etc.).
+
+d) **Descripción**: Texto libre ingresado por el usuario/agente describiendo el problema.
+
+e) **Servicio / CI**: Servicio afectado y elemento de configuración (activo) asociado. Si no se ha establecido, aparecerá como “Nada establecido”.
+
+f) **Categoría operacional**: Clasificación jerárquica (p. ej. Seguridad > Incidente > Contenido abusivo > Spam).
+
+g) **Categoría de productos y resolución**: Campos opcionales para indicar producto afectado y forma de resolución.
+
+**7.1.6 Asignación del ticket**
+
+  * **Grupo de soporte**: Grupo al que pertenece el técnico asignado (cola de atención).
+  * **Usuario asignado**: Técnico responsable al que se encuentra asignado el ticket (campo editable).
+  * Según tipificación tendrán asignación directa
+
+{{:g7.png?400}}
+
+**7.1.7 Panel de Acciones rápidas (barra superior derecha)**
+
+{{:g8.png?400}}
+
+**1. Indicador de atención (tipo marcador)**
+
+  * Marca el ticket como **“requiere atención”**  para identificar casos con actividad reciente o necesidades especiales.
+  * Funcionalidad:
+
+a) Marcar tickets con nueva nota no revisada. b) Señalar tickets que requieren validación externa o seguimiento. c) Se puede desmarcar una vez revisado.
+
+  * Comportamiento:
+
+a) El técnico puede marcar/desmarcar en cualquier momento. b) El sistema puede pedir motivo o justificación (según configuración). c) Los tickets marcados se visualizan con el icono resaltado en la consola y pueden filtrarse por **“Requiere atención”**.
+
+{{:g9.png?400}}
+
+**2. Asignarme a mí (Usuario con símbolo +)**
+
+  * Asigna el ticket directamente al técnico que realiza esta acción.
+
+{{:g10.png?400}}
+
+**3. Enviar correo (Icono sobre)**
+
+  * Permite enviar un correo electrónico desde el ticket.
+  * El correo queda registrado como comentario.
+  * Se puede marcar o desmarcar la opción de "Buscar solo personas relacionadas con este ticket". Esta opción desmarcada te permite enviar correo desde el propio ticket a otros técnicos/usuarios que no se encuentren implicados en el mismo.
+  * Permite adjuntar archivos.
+
+{{:g11.png?400}}
+
+**Uso de Placeholders (!): Variables dinámicas en correos**
+
+Al redactar un correo desde un ticket en Smart IT, puedes utilizar **placeholders dinámicos**  iniciados por el signo de exclamación (`!`) para insertar automáticamente información del ticket.
+
+Estos campos se reemplazan por datos reales cuando se envía el correo, facilitando la comunicación sin tener que copiar manualmente detalles clave. {{  :place1.png?400  }}
+
+Por ejemplo:
+
+- `!ID` se sustituye por el ID del ticket actual (ej. INC000000123456). - `!Assigned to` se reemplaza por el nombre del técnico asignado. - `!Summary` muestra el resumen del ticket.
+
+Al seleccionarlo, se inserta automáticamente.
+
+A continuación se muestra la lista completa de placeholders disponibles:
+
+^Placeholder (Inglés)^Traducción al Español^Descripción de Función|
+|`!Assigned support group`|Grupo de soporte asignado|Inserta el nombre del grupo resolutor encargado del ticket.|
+|`!Assigned to`|Asignado a|Inserta el nombre completo de la persona (especialista) técnica asignada.|
+|`!Communication coordinator`|Coordinador de comunicación|Inserta el nombre del responsable de gestionar las comunicaciones del ticket.|
+|`!Communication coordinator group`|Grupo del coordinador de comunicación|Inserta el nombre del grupo al que pertenece el coordinador de comunicación.|
+|`!Company`|Empresa|Inserta el nombre de la empresa u organización asociada al ticket.|
+|`!Contact`|Contacto|Inserta el nombre de la persona de contacto (quien reporta o el usuario final).|
+|`!Customer`|Cliente|Inserta el nombre del cliente afectado por el incidente o requerimiento.|
+|`!Description`|Descripción|Inserta el texto completo del campo "Descripción" (detalles detallados).|
+|`!ID`|ID del ticket|Inserta el número de referencia único (ej. INC000000008925).|
+|`!Major incident business impact`|Impacto de incidente mayor|Detalla el impacto en el negocio definido para un Incidente Mayor.|
+|`!Major incident cause`|Causa de incidente mayor|Inserta la causa raíz identificada para un Incidente Mayor.|
+|`!Major incident cause category`|Categoría de causa de incidente mayor|Inserta la clasificación o categoría de la causa del incidente mayor.|
+|`!Major incident manager`|Gestor de incidentes mayores|Inserta el nombre del responsable (MIM) que lidera el incidente.|
+|`!Major incident manager group`|Grupo del gestor de incidentes mayores|Inserta el grupo de gestión de incidentes mayores asignado.|
+|`!Priority`|Prioridad|Inserta el nivel de prioridad actual del ticket (Baja, Media, Alta, Crítica).|
+|`!Status`|Estado|Inserta el estado actual del flujo de trabajo (Asignado, En curso, Pendiente, etc.).|
+|`!Summary`|Resumen|Inserta el título o descripción corta del ticket.|
+
+**4. Enviar (Icono Flecha derecha)**
+
+  * Uso de chat (actualmente no habilitado).
+
+**5. Seguir Ticket (Icono Estrella)**
+
+  * Marca el ticket como “seguido”.
+  * Activa notificaciones visuales y su aparición en la pestaña **“Siguiendo”**  del panel.
+
+**6. Imprimir Ticket (Icono impresora)**
+
+  * Genera una vista previa imprimible del ticket completo.
+  * Se guarda como PDF o se puede imprimir.
+
+**7. Refrescar ticket (Icono flecha circular)**
+
+  * Actualiza los datos del ticket sin recargar toda la pantalla.
+
+**8. Editar Campos (Icono Lápiz)**
+
+  - Activa los campos editables directamente en la vista del ticket.
+  - Se pueden modificar: resumen, descripción, categorización, CI, servicio, fechas…
+
+**9. Menú “Más” → Registros**
+
+  * Acceso a:
+
+a) **Bitácora de Auditoría**
+
+  * Registra todos los cambios relevantes en el ticket:
+
+– Usuario que realizó el cambio – Fecha y hora – Detalle de la acción
+
+{{:g12.png?400}}
+
+-Tipo de registro: Puedes filtrar los registros por tipo, seleccionando una de las siguientes opciones desde el desplegable (Asignación, Persona de contacto, Fechas clave, Asociaciones…).
+
+{{:g13.png?400}}
+
+b) **Bitácora de Notificación**
+
+  * Registra eventos automáticos de notificación (cambios de estado, asignaciones, resoluciones, comunicaciones).
+  * Muestra: Persona notificada, fecha de notificación y evento.
+
+{{:g14.png?400}}
+
+**10. Actividad**
+
+{{:g15.png?400}}
+
+  * Pestaña que muestra el historial cronológico de acciones, notas y comunicaciones:
+
+–>Creación, cambios de asignación, envíos de correo, notas internas/externas, cambios de estado, automatizaciones del sistema.
+
+  * **Nueva Nota**:
+a) Campo de texto libre para el comentario.
+
+b) Tipo de nota (Comunicación del usuario, Seguimiento, Actualización de estado, etc.).
+
+c) Adjuntar archivos.
+
+d) Casilla **“Público”**  para mostrar/ocultar al usuario final.
+
+{{:g16.png?400}}
+
+  * **Registro de Actividad**:
+a) Timeline con todos los eventos, cambios de asignación, fechas, envíos de correos electrónicos cambios de estado, notas públicas/privadas…
+
+{{:g17.png?400}}
+
+b) **Filtros avanzados**: búsqueda por palabra clave, mostrar tipos de actividad o tipos de nota.
+
+{{:g18.png?400}}
+
+c) **Opciones preestablecidas**: Cuando filtramos, por ejemplo, por varios filtros simultáneamente como pueden ser “Actualizaciones de asignación y actualizaciones de prioridad”, permite una opción de “guardar”.
+
+{{:g19.png?400}}
+
+Una vez pulsamos guardar, aparecerá en el apartado “opciones preestablecidas” para guardarlo con un nombre que sea identificativo, por ejemplo, “Asignación y priorización”:
+
+{{:g20.png?400}}
+
+Dentro de este apartado, al pulsar de nuevo “Guardar” , queda registrado este filtro y se podrá utilizar sin necesidad de tener que volver a filtrar, sino directamente pulsando en este apartado. Este filtro guardado queda establecido para su uso en otros tickets.
+
+{{:g21.png?400}}
+
+**7.1.8 Apartado Recursos**
+
+  * Diferencia entre:
+
+**1. Interrupciones del servicio**:
+
+  * Se activa automáticamente cuando:
+  * El ticket está vinculado a un servicio o componente en estado de interrupción (por eventos de monitoreo, CMDB, tickets de Problema o Cambio).
+  * Existe una interrupción registrada en “Service Outage” y el sistema detecta la relación.
+  * Mediante correlación automática o manual de eventos (integraciones con TrueSight, Zabbix, Nagios, etc.).
+
+**2. Artículos de conocimiento recomendados**:
+
+{{:g22.png?400}}{{:g23.png?400}}
+
+  * Muestra artículos relacionados con el ticket.
+  * Opciones: Eliminar del ticket, marcar artículo, ver artículo completo, ver versiones, agregar nota.
+
+**3. Tickets recomendados**:
+
+{{:g24.png?400}}
+
+  * Sugiere otros tickets similares para ayudar a resolver el incidente.
+  * Filtro avanzado:
+
+a) Por estado (Abierto, Cancelado, Resuelto…).
+
+{{:g25.png?400}}
+
+b) **Marcar como duplicado**:
+
+{{:g26.png?400}}
+
+- Sirve para vincular el ticket actual con uno ya existente que considera el mismo problema - Cuando marcas otro ticket como duplicado, el sistema cambia el estado del ticket actual a "Pendiente de Inc.Original", y añade el ticket designado como duplicado en el ticket original - Aparecerá automáticamente en el apartado “Elementos relacionados” los tickets marcados como duplicado.
+
+{{:g27.png?400}}
+
+**7.1.9 Tareas**:
+
+{{:g28.png?400}}
+
+  * La pestaña **“Tareas”**  permite asociar subtareas al ticket principal.
+  * **Cómo agregar tareas**:
+a) **Desde cero**: Crear tarea manualmente, con campos como Resumen, Descripción, Prioridad, Plantilla opcional, Adjuntar archivos, Fechas programadas/reales, Categoría operacional, Grupo de soporte.
+
+{{:g29.png?400}}
+
+b)**Desde plantilla**: Reutilizar tareas preconfiguradas, con buscador por tipo, actividad y nombre; se precargan campos como prioridad, grupo de soporte, descripción.
+
+  * Funcionalidad:
+
+b.1) Las tareas pueden ser asignadas a distintos grupos de soporte. b.2) Cada tarea tiene su propio ciclo de vida (estado, fechas, notas). b.3)Seguimiento y resolución independiente de cada una.
+
+{{:g30.png?400}}
+
+**6.1.10 Elementos de Configuración (CI)**  Esta sección está directamente relacionada con la gestión de la CMDB y la trazabilidad de activos/servicios:
+
+{{:g31.png?400}}
+
+  * Un **CI (Configuration Item)**  es cualquier componente gestionado dentro del entorno TI: equipos físicos, aplicaciones, servicios, etc.
+  * Al pulsar **“+ Relacionar elemento de configuración”**  se abre una ventana para buscar el CI a relacionar:
+
+a) Ver qué activo está afectado. b) Consultar información técnica (modelo, serie, estado, relaciones, ubicación). c) Ver historial de incidencias o cambios asociados.
+
+{{:g32.png?400}}
+
+**6.1.11 Elementos relacionados**
+
+Permite vincular otros tickets o registros del sistema que están directa o indirectamente relacionados con el ticket. Esta funcionalidad es clave para mantener la trazabilidad de eventos, analizar causas raíz y gestionar tareas vinculadas entre procesos ITIL
+
+  * Opciones:
+
+a) **Relacionar elemento existente**: Vincular manualmente un ticket ya creado (Incidencia, Cambio, Error conocido, Investigación de problemas, Orden de trabajo, Despliegue).
+
+  * Representa dependencias, duplicidades o causas comunes.
+
+{{:g33.png?400}}
+
+b) **Crear relacionado**: Generar un nuevo ticket vinculado directamente al actual:
+
+  * Crear nueva Incidencia.
+  * Crear nueva Orden de trabajo.
+  * Quedan automáticamente relacionados en el sistema para su seguimiento y resolución conjunta.
+
+</panel></WRAP> </panel></WRAP>
+
+<WRAP><panel>
+
+====== 8. Buscador Global en BMC Helix ITSM ======
+
+El **Buscador Global**  permite consultar distintos tipos de registros del sistema desde una única barra de búsqueda, mejorando la eficiencia del soporte técnico, la administración del conocimiento y la gestión de usuarios.
+
+{{:busca2.png?600}}
+
+<WRAP> <panel type="info" title="8.1 ¿Dónde se encuentra?">
+
+  * Barra superior derecha del portal de ITSM, identificada con el **icono de lupa**.
+
+{{:busca.png?400}}
+
+</panel></WRAP>
+
+<WRAP> <panel type="info" title="8.2 ¿Qué se puede buscar? (Menú desplegable)">
+
+Al seleccionar el **menú desplegable**  junto a la barra de búsqueda, se pueden elegir distintos ámbitos:
+
+^Opción del menú^Qué busca específicamente|
+|**Tickets** |Incidentes, Peticiones, Problemas, Cambios, Tareas. Búsqueda por **ID**, **resumen**, etc.|
+|**Conocimiento** |Artículos de conocimiento por **título**, **palabras clave**, **autor**, **categoría**.|
+|**Personas** |Usuarios, agentes, contactos. Por **nombre**, **Usuario Temis**, **dirección de correo**, etc.|
+|**Conocimiento y tickets** |Búsqueda combinada en ambos módulos (útil para **comparación** y **trazabilidad**).|
+|**Activo** |Elementos de configuración (**CI**): **hardware**, **software**, **servicios**, por **nombre** o **código**.|
+
+</panel></WRAP>
+
+<WRAP> <panel type="info" title="8.3 ¿Cómo buscar?">
+
+**1.Texto libre**
+
+  * Introduce palabras clave completas o parciales.
+  * El motor busca por coincidencia en múltiples campos: **Título**, **Descripción**, **ID**  (de ticket o conocimiento), **Palabras clave**, **Categorías**, **Nombre de persona o grupo**.
+
+**2.¿Cómo buscar personas?**
+
+1) Selecciona **Personas**  en el menú desplegable.
+
+2) Puedes buscar por:
+
+  * **Nombre**
+  * **AD**
+  * **Usuario Temis (DNI sin letra)**
+  * **Dirección de correo electrónico**
+  * **Teléfono**  (si está registrado en el perfil)
+3) Abre el resultado para ver **perfil completo**, **actividad**  y **tickets registrados**  del usuario.
+
+{{:busca1.png?400}}
+
+**3.Búsqueda Global y uso de Comodines (%)**
+
+El buscador global permite localizar registros de forma ágil utilizando el carácter comodín **“%”**  para sustituir partes de un código o nombre:
+
+  * **Búsqueda por ID parcial**: En lugar de introducir el ID completo (ej. `WO0000000459813`), puedes buscar por `WO%459813`.
+{{  :busca3.png?400  }}
+
+  * **Búsqueda por terminación**: Si buscas por `WO%813`, el sistema mostrará todas las WO que contengan esos tres números.
+{{  :busca4.png?400  }}
+
+  * **Búsqueda de otros tickets**: Funciona de igual manera para incidencias utilizando `INC%` seguido de los dígitos deseados.
+**4.Uso de Filtros para refinar resultados**
+
+Si la búsqueda arroja demasiados resultados, pulsa en el botón **“Filtrar >”**  para acotar la información mediante tres criterios:
+
+  * **Fecha de creación**: Últimas 24 horas, Últimas 48 horas o rangos personalizados. En este ejemplo, filtraremos por últimas 24 horas para localizar el ticket WO0000000459813, a través de la búsqueda "WO%813", para que nos localice el ticket filtrando de esta forma.
+{{  :busca5.png?400  }}{{  :busca6.png?400  }}
+
+  * **Fecha de última modificación**: Con las mismas funcionalidades que Fecha de creación pero filtrando por la Fecha de modificación, para ver cambios recientes en los tickets.
+  * **Filtrar por tipo de registro**:
+  - **Incidencia**
+  - **Artículos de Conocimiento**
+  - **Petición de servicio**
+  - **Tarea**
+  - **Orden de trabajo**
+{{  :busca7.png?400  }}
+
+</panel></WRAP>
+
+</panel></WRAP>
+
+<WRAP><panel>
+
+====== 9. Gestión de Conocimiento ITSM ======
+
+<WRAP info round box>El módulo de **Gestión de Conocimiento**  en **BMC Helix ITSM**  permite crear, clasificar y publicar artículos informativos que ayudan a resolver incidencias, peticiones o consultas de soporte. </WRAP> Desde el portal, los técnicos pueden crear nuevos artículos de conocimiento seleccionando una de las **plantillas predefinidas**, que facilitan la estandarización del contenido y su reutilización.
+
+**IMPORTANTE**: Para acceder y trabajar con la **Consola de Conocimiento en BMC Helix ITSM**, un técnico necesita contar con ciertos permisos generales del módulo **Knowledge**, diferenciando entre:
+
+  * **Knowledge Viewer:**  Permite consultar artículos publicados.
+  * **Knowledge User:**  Habilita la creación y edición de artículos en estado borrador.
+  * **Knowledge Admin:**  Accede a la gestión completa del módulo y a artículos de cualquier autor.
+  * **Knowledge Config:**  Permite configurar aspectos técnicos y funcionales del módulo de conocimiento.
+Para **aprobar y publicar artículos**, se requiere específicamente el permiso **Knowledge Admin**  o un rol con capacidades de aprobación definidas (como **KCS Coach**). **Estos permisos se encuentran más detallados en:**  [[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_apli:remedy_itsm:problemas|¿Cómo se clasifican y asignan los permisos por módulo en BMC Helix - ITSM?]]
+
+<WRAP><panel type="info" title="9.1 Tipos de Plantillas">
+
+Al acceder a **Crear nuevo > Conocimiento**, se presentan **cinco plantillas predefinidas**  para estructurar artículos según el tipo de información que se desea registrar:
+
+<WRAP centeralign> {{:cono1.png?600}}</WRAP> <WRAP clear/>
+
+^Plantilla^Descripción|
+|**Cómo** |Guías paso a paso o procedimientos. Campos: **Pregunta**, **Respuesta**, **Notas técnicas**.|
+|**Plantilla KCS** |Registrar problemas y resoluciones según el modelo **KCS**. Campos: **Problema**, **Entorno**, **Resolución**, **Causa**.|
+|**Error conocido** |Documentar errores técnicos conocidos. Campos: **Error**, **Causa raíz**, **Solución provisional/Corrección**, **Notas técnicas**.|
+|**Solución de problema** |Documentar soluciones tras investigaciones técnicas. Campos: **Problema**, **Solución**, **Notas técnicas**.|
+|**Referencia** |Recurso informativo general. Campos: **Referencia**.|
+
+Una vez se accede a alguna de ellas, todas comparten la columna izquierda denominada **“Metadatos de Artículo”**, descrita en el punto **8.3**.
+
+</panel></WRAP>
+
+<WRAP><panel type="info" title="9.2 Flujo tras seleccionar una plantilla">
+
+Una vez seleccionada una plantilla desde el menú **Crear nuevo > Conocimiento**, se muestra una **vista previa**  del contenido estructurado según el tipo de plantilla elegida.
+
+Desde esta vista, el usuario puede elegir entre:
+
+  * **Usar plantilla seleccionada**  → continuar con esa estructura.
+  * **Seleccionar esta plantilla automáticamente en el futuro**  → fijarla como predeterminada.
+<WRAP centeralign> {{:cono2.png?600}}</WRAP> <WRAP clear/>
+
+Al continuar, se accede al **formulario completo**  donde se puede:
+
+  * Pulsar **“Cambio”**  para seleccionar otra plantilla.
+  * Escribir el **título del artículo**  (campo obligatorio).
+  * Completar el contenido de acuerdo con la estructura de la plantilla (por ejemplo, *Pregunta / Respuesta / Notas técnicas* en la plantilla “Cómo”).
+
+El **editor**  permite diseñar el contenido del artículo utilizando herramientas para:
+
+  * Adjuntar imágenes o vídeos.
+  * Insertar tablas.
+  * Añadir hipervínculos.
+
+<WRAP centeralign> {{:cono3.png?600}}</WRAP> <WRAP clear/>
+
+</panel></WRAP>
+
+<WRAP><panel type="info" title="9.3 Metadatos de Artículo">
+
+Los **metadatos**  permiten clasificar, filtrar y publicar los artículos correctamente dentro del sistema. Son **comunes a todas las plantillas**  y se completan en la columna izquierda del formulario.
+
+<WRAP centeralign> {{:cono4.png?400}}</WRAP> <WRAP clear/>
+
+^Campo^Descripción|
+|**Visibilidad** |Define quién puede ver el artículo: **Todos**, **Mi empresa**, **Grupos específicos**.|
+|**Publicar en audiencias externas** |Permite que el artículo sea visible fuera del entorno interno (**Sí / No**).|
+|**Autor / Idioma** |Autor del artículo y selección del idioma para búsquedas.|
+|**Usuario asignado** |Asignación opcional del responsable y grupo de soporte.|
+|**Palabras clave** |Palabras separadas por comas para mejorar la búsqueda.|
+|**Empresa** |Permite asociar el artículo a una o varias empresas (por defecto: **HGIS**).|
+|**Ubicación** |Asociación con zona, grupo de ubicaciones o ubicación específica.|
+|**Categoría operativa** |Clasificación operativa según tipificación configurada.|
+|**Categoría de producto** |Subcategoría relacionada con la categoría operativa.|
+|**Adjuntos** |Archivos como PDF, capturas o logs, con control de versiones.|
+|**Relacionar elementos** |Relaciona el artículo con otros artículos de conocimiento.|
+
+**Visibilidad:**  Controla quién puede ver el artículo:
+
+  * **Todos**
+  * **Mi empresa (HGIS)**
+  * **Último conjunto de grupos elegidos**
+  * **Grupos específicos**: para artículos destinados a un grupo resolutor concreto.
+**Publicar en audiencias externas (Sí / No):**
+
+  * **Sí:**  artículo accesible desde el portal para usuarios finales.
+  * **No:**  solo visible internamente desde ITSM.
+**Autor / Idioma:**
+
+  * El **autor**  se autocompleta con el usuario que crea el artículo.
+  * El **idioma**  facilita búsquedas multilingües.
+
+**Usuario asignado:**
+
+  * Permite asignar un responsable para revisar o validar el conocimiento.
+  * Incluye campos:
+      - **Asignado a**
+      - **Grupo de soporte**
+**Palabras clave:**
+
+  * Mejoran la búsqueda predictiva (**Smart Search**).
+  * Se ingresan separadas por comas.
+  * Basadas en el contenido del artículo (equipo, error, código, aplicación, etc.).
+
+**Empresa:**  Siempre completado con **HGIS**.
+
+**Ubicación:**  Configurable por:
+
+  * **Provincia**
+  * **Localidad**
+  * **Organismo**Útil si la solución depende de un lugar físico o aplica a una ubicación determinada.
+**Categoría operativa:**  Permite asociarla a una tipificación predefinida, por ejemplo: *Soporte Formativo*.
+
+**Categoría de producto:**  Subcategoría perteneciente a la categoría operativa principal. Ejemplo: *Soporte Formativo > Asesoramiento > Kit de Bienvenida*.
+
+**Adjuntos:**  Permite subir: PDFs, capturas y Logs.
+
+**Relacionar elementos:**  Relaciona el artículo con otros conocimientos configurados previamente, reforzando la **trazabilidad y reutilización**  del conocimiento.
+
+Una vez creado, se le asigna un número con nomenclatura **KBA00000X**. Aparecerán artículos de conocimiento recomendados y tickets que usan el artículo.
+
+<WRAP centeralign> {{:cono5.png?400}}</WRAP> <WRAP clear/>
+
+Inicialmente su **estado**  será **“En curso”**, y será el responsable asignado quien apruebe su publicación.
+
+<WRAP centeralign> {{:cono6.png?400}}</WRAP> <WRAP clear/>
+
+**¿Cómo?**:
+
+  * Seleccionar "**En curso**".
+  * Cambiar a "**Borrador**" y pulsar "**Guardar**".
+
+<WRAP centeralign> {{:cono0.png?400}}</WRAP> <WRAP clear/>
+
+  * Una vez revisado el artículo, cambiar de nuevo de "**Borrador**" a "**Publicar autorización**". (Existen otros estados también aplicables, ver el apartado _ckgedit_QUOT___//8.5 Flujo estándar de publicación y aprobación//__  ").
+  * Pulsar de nuevo "**Guardar**".
+
+<WRAP centeralign> {{:cono00.png?400}}</WRAP> <WRAP clear/>
+
+  * Se visualizará con estado "**Publicado**" y se encontrará visible para todos los técnicos y audiencia externa si hemos seleccionado que sea público.
+
+</panel></WRAP>
+
+<WRAP><panel type="info" title="9.4 Opciones de visibilidad">
+
+Existen tres formas de visualizar los artículos de conocimiento en ITSM:
+
+A) **Consola de Conocimiento**  B) **Desde el detalle de un ticket (apartado Recursos)**  C) **Desde el Buscador Global**
+
+**A) Consola de Conocimiento**
+
+Desde la **Consola de Conocimientos**, los usuarios pueden gestionar y visualizar artículos existentes (según permisos y roles). En esta consola se pueden seleccionar los artículos preferentes mediante un menú desplegable con las opciones:
+
+  * Mis artículos asignados
+  * Artículos asignados a mis grupos
+  * Mis favoritos
+  * Artículos recientes
+  * Artículos marcados
+
+<WRAP centeralign> {{:cono7.png?500}}</WRAP> <WRAP clear/>
+
+El **Panel de filtros**  permite buscar artículos según múltiples criterios como:
+
+  * Autor
+  * Grupo asignado
+  * Empresa
+  * Idioma
+  * Estado
+  * Palabras clave
+
+Es necesario aplicar **al menos dos filtros**  para visualizar resultados. <WRAP centeralign> {{:cono8.png?400}}</WRAP> <WRAP clear/>
+
+Al activar “Mostrar estadísticas de ticket”, aparecen indicadores visuales del estado del conocimiento (**Mi artículo**, **Artículo nuevo**, **Publicado**, **Todos los artículos**), facilitando el seguimiento del flujo de publicación.
+
+Desde el botón **“Guardar como opción preestablecida”**, se pueden almacenar conjuntos de filtros personalizados, incluyendo columnas visibles (ID, Título, Estado, Usuario asignado, Fecha de modificación) y el orden de visualización en la consola.
+
+<WRAP centeralign> {{:cono10.png?400}}</WRAP> <WRAP clear/>
+
+**B) Desde un ticket**
+
+Una vez publicado un artículo, puede ser **sugerido automáticamente**  desde la vista **Recursos**  del ticket. El sistema recomienda artículos relevantes en función de:
+
+  * Palabras clave incluidas en el contenido del artículo.
+  * Coincidencia con la categoría de producto del ticket.
+
+<WRAP centeralign> {{:cono11.png?400}}</WRAP> <WRAP clear/>
+
+Si no se encuentran artículos sugeridos automáticamente, el usuario puede realizar una **búsqueda manual**  seleccionando la opción **“Buscar recursos de conocimientos”**.
+
+<WRAP centeralign> {{:cono12.png?400}}</WRAP> <WRAP clear/> En esta pantalla, se puede buscar manualmente por:
+
+  * Palabras clave
+  * Categoría operacional
+  * Categoría de producto
+  * Plantilla utilizada
+  * Estado del artículo (ej. Publicado, Borrador)
+
+**C) Desde el Buscador Global**
+
+Dentro del **Buscador Global de ITSM**, también es posible buscar artículos de conocimiento utilizando **palabras clave**. Permite buscar tanto **Conocimientos y Tickets relacionados**, como únicamente artículos de conocimiento. <WRAP centeralign> {{:cono13.png?600}}</WRAP> <WRAP clear/>
+
+</panel></WRAP> <WRAP><panel type="info" title="9.5 Flujo estándar de publicación y aprobación">
+
+Una vez creado un artículo, queda registrado con el estado **“En curso”**. Este estado indica que el conocimiento se encuentra en redacción inicial y puede seguir siendo editado por su autor o grupo asignado.
+
+El técnico puede cambiar manualmente el estado a **“Borrador”**  para marcar que el contenido está pendiente de revisión o corrección. A partir de ahí, el flujo puede avanzar hacia las fases de validación y publicación, según los permisos y roles asignados.
+
+A continuación se describe el **ciclo de vida completo del artículo de conocimiento**:
+
+^Estado^Descripción|
+|**En curso** |Estado inicial tras la creación. El artículo está activo y editable. Visible para el autor y su grupo.|
+|**Borrador** |El artículo está en preparación o pendiente de revisión interna.|
+|**Revisión SME / Revisión de contenido / Corrección de texto** |Estados intermedios de revisión donde distintos roles validan el contenido técnico, textual o de formato.|
+|**Publicar autorización** |Estado previo a la publicación. El artículo está pendiente de aprobación formal por un **Knowledge Admin** o **KCS Coach**.|
+|**Publicado** |El artículo ya es visible según la configuración de **Visibilidad** y **Audiencia externa**.|
+|**Cancelado** |El artículo no se publica ni continúa su flujo de revisión.|
+|**Archivado** |El artículo deja de estar vigente, pero se conserva como histórico en la base de conocimiento.|
+
+**Aprobación del artículo:**  El aprobador (usuario o grupo designado) verá el artículo en la **Consola de Conocimiento**  con estado *“Publicar autorización”*. Dispone de las siguientes opciones:
+
+  * **Aprobar:**  cambia el estado a *Publicado*.
+  * **Rechazar / Cancelar:**  devuelve el artículo al autor, normalmente a *Borrador* o *En curso*, para su corrección.
+  * **Editar y aprobar:**  si tiene permisos (como **Knowledge Admin**  o **KCS Coach**), puede ajustar el contenido antes de aprobarlo.
+Este flujo permite un control completo del ciclo de vida del conocimiento, garantizando calidad, revisión y trazabilidad en cada publicación.
+
+</panel></WRAP> <WRAP><panel type="info" title="9.6 Error conocido al crear un artículo de conocimiento: ServiceException - Malicious content in the payload">
+
+  * **Descripción del error:**
+Al guardar o editar un artículo de conocimiento en **BMC Helix ITSM**, aparece el mensaje: “**ServiceException: System has identified malicious content in the payload**”.
+
+<WRAP centeralign> {{:errorcono.png?400}}</WRAP> <WRAP clear/>
+
+  * **Motivo:**
+El sistema detecta que el contenido del artículo incluye etiquetas o atributos HTML que no están permitidos por el filtro de limpieza (**JSoup**) del módulo de conocimiento.
+
+  * **Solución recomendada:**
+  - Evita copiar directamente desde páginas web completas que contengan estilos o etiquetas HTML como `
+ <font>`, `oncopy`, `autofocus`, etc.
+
+  - Copia primero el contenido a un **editor de texto limpio**  (por ejemplo, **LibreOffice Writer**  o **Notepad**), elimina los estilos ocultos y vuelve a dar formato al texto.
+  - Luego, **pega el texto limpio**  en el formulario del artículo de conocimiento.
+  - Si el error persiste, contacta con el **administrador**  para revisar la configuración del parámetro **“jsoupEnabledUrlsForKnowledge”**  o ampliar las etiquetas permitidas (“whitelisted tags”).
+
+</panel></WRAP> <WRAP><panel>
+
+====== 10. Registrador Inteligente ======
+
+El **Registrador Inteligente en BMC Helix ITSM**  es una herramienta que simplifica la creación de tickets mediante una **búsqueda guiada**  por texto libre y sugerencias automatizadas. Actúa como una interfaz predictiva para técnicos o agentes que permite, en un solo paso, registrar incidencias o peticiones con apoyo contextual. </panel> <panel type="info" title="10.1¿Cómo se utiliza?"> <WRAP centeralign> {{:r1.png?400}}</WRAP> <WRAP clear/>
+
+  - Se inicia escribiendo @ seguido del nombre, login o correo electrónico del usuario. Recomendamos emplear el **usuario temis**  para buscar.
+  - El sistema identifica al usuario y muestra automáticamente los datos del usuario y los tickets abiertos y resueltos registrados por el mismo.
+  - En el lateral derecho se mostrará el mensaje:
+
+__**“El registrador inteligente busca recursos mientras usted toma notas.”**__  <WRAP centeralign> {{:r2.png?400}}</WRAP> <WRAP clear/> </panel> <panel type="info" title="10.2 Descripción de la Incidencia">
+
+  - En el campo de texto principal se redacta libremente el motivo de contacto, por ejemplo:
+
+//"Necesita instalación de VPN para conexión remota"//.
+
+Este texto servirá como **resumen**  del ticket y **activará el motor de sugerencias semánticas**.
+
+  * Sugerencias inteligentes que se despliegan automáticamente:
+
+  * **Plantillas preconfiguradas**  de incidencias o peticiones relacionadas con palabras clave detectadas.
+  * **Artículos de conocimiento**  recomendados.
+  * **Tickets relacionados**  (pueden marcarse como duplicado o guardar como recurso).
+<WRAP centeralign> {{:r3.png?400}}</WRAP> <WRAP clear/> </panel> <panel type="info" title="10.3Finalización del registro">
+
+  * Se pulsa **Crear ticket**  > seleccionar entre **Crear Incidencia**  u **Orden de trabajo**, según el tipo de solicitud.
+
+  * Se abrirá el formulario de ticket donde:
+
+  - Podrán ajustarse o confirmar las categorías operativas y de producto.
+  - Se asignarán automáticamente los grupos de soporte (si las reglas están bien configuradas).
+  - Se pueden añadir adjuntos, observaciones y otros campos requeridos.
+
+Finalmente, se pulsa **Guardar**  para registrar el ticket en el sistema.
+
+<WRAP centeralign> {{:r4.png?400}}</WRAP> <WRAP clear/>
+
+</panel></WRAP> <WRAP><panel>
+
+====== 11. Transmisiones (Broadcasts) ======
+
+El módulo de **Transmisiones en BMC Helix DWP**  permite difundir mensajes visuales en el portal del usuario final, ya sea para notificaciones informativas, alertas o mensajes críticos. Esta funcionalidad ayuda a comunicar de forma clara y programada eventos relevantes a grupos específicos o al conjunto de usuarios. </panel>
+
+<panel type="info" title="11.1 ¿Cómo crear una nueva transmisión?">
+
+  * Desde **DWP > Perfil > Administración**,
+
+{{  :tr1.png?500  }}
+
+  * Seleccionar en el menú superior: **Transmisiones**  (o Broadcasts si aparece en inglés).
+
+{{  :tr2.png?500  }}
+
+  * Pulsar en **“Nueva Transmisión”**  (New Broadcast en inglés).
+
+{{  :tr3.png?500  }}
+
+Se abrirá un asistente con los siguientes pasos:
+
+**__Paso 1: Crear__  **
+
+  * **Título**: Campo obligatorio.
+  * **Enlace (opcional)**: Puede añadirse al título. Ejemplo: un artículo de conocimiento.
+  * **Tipo de transmisión**  (define el color del mensaje en DWP):
+      * **Información**  → Azul
+      * **Éxito**  → Verde
+      * **Advertencia**  → Naranja
+      * **Crítico**  → Rojo
+{{  :tr4.png?500  }}
+
+  * Pulsar en **Próximo**  para continuar.
+
+**__Paso 2: Información adicional (opcional)__  **
+
+  * Al seleccionar el botón **“Más información”**, se abre un campo adicional para:
+      * Añadir texto complementario.
+      * Incluir un enlace adicional, si no se introdujo en el paso 1.
+
+{{  :tr5.png?500  }}
+
+**__Paso 3: Cronograma__  **
+
+  * **Enviar a**: Seleccionar **Grupo de usuarios**.
+  * Se abre un buscador para localizar grupos.
+
+{{  :tr6.png?500  }}
+
+  * Si es para usuarios finales, buscar el grupo **HGIS**, código **1000000042**.
+  * Para grupos de trabajo, buscar por su nombre. Se permite **selección múltiple**.
+
+{{  :tr7.png?500  }}
+
+  * **Opciones de envío**:
+      * **Enviar ahora**: La transmisión se publica de inmediato. Solo se define la fecha de fin.
+      * **Recomendación**: crearla con días de antelación, ya que la difusión puede tardar en mostrarse.
+      * **Rango de fechas**: Definir fecha de inicio y fin. {{  :tr8.png?500  }}{{  :tr9.png?500  }}
+      * Pulsar en **Próximo**.
+
+**__Paso 4: Enviar__  **
+
+  * Apartado donde nos muestra un resumen y revisión de la transmisión:
+      * Tipo de transmisión.
+      * Información adicional.
+      * Destinatarios.
+      * Cronograma {{  :tr10.png?400  }}
+  * Pulsar **“Cronograma (función de enviar)”**.
+  * La nueva transmisión aparecerá en el listado con estado **“Activo”**. {{  :tr11.png?500  }}
+
+</panel>
+
+<panel type="info" title="11.2 Gestión de transmisiones">
+
+  * En la columna **Comportamiento**  se dispone de las siguientes acciones:
+      * **Detalles**: Visualiza los pasos de la transmisión (no editable).
+      * **Duplicar**: Crea una copia editable. Permite modificar cualquier paso, como las fechas.
+      * **Eliminar**: Elimina la transmisión. {{  :tr12.png?500  }}
+</panel> 
+<panel type="info" title="11.3 Visualización en DWP">
+
+  * El mensaje se mostrará en el portal según el cronograma configurado.
+  * El usuario verá una **notificación**  en el icono de **alertas**.
+
+<WRAP tip round box>
+NOTA sobre las notificaciones a usuarios: No existe ninguna manera de agregar una Notificación de Cambio de Estado de los tickets en Bell.
+</WRAP>
+Por diseño, los usuarios pueden recibir notificaciones de Bell para los siguientes eventos:
+
+• Eventos relacionados con solicitudes de servicio en las que los usuarios son aprobadores originales o alternos: Un comentario en una solicitud de servicio
+
+• Aprobación o rechazo de solicitudes de servicio.
+
+• Difusiones
+
+• Encuestas
+
+{{  :tr13.png?500  }}
+
+</panel>
+</WRAP> </panel></WRAP>
+
+

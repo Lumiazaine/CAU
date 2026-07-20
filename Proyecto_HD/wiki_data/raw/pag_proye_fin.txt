@@ -1,0 +1,6 @@
+﻿
+<WRAP> <panel type="primary" title="Proyectos Finalizados">
+
+[[:pag_paneles|- Paneles SSVV]]
+
+</panel> </WRAP>

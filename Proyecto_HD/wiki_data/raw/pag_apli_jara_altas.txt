@@ -1,0 +1,44 @@
+﻿
+<WRAP> <panel type="primary" title="Altas en Jara">
+
+[[:pag_apli:jara:start|Volver atrás]]
+
+<WRAP> <panel type="info">
+
+====== Alta usuario en Jara ======
+
+<html> En la incidencia se solicita que se le de el alta en el aplicativo Jara, para ello vamos a seguir los siguientes pasos:<br> <br> 1- Accedemos a <b>"Mantenimiento Temis"</b> a través del Escritorio Judicial<br> 2- Pulsamos sobre aplicaciones. <br> 3- Seleccionamos Jara, importante que sea la que tiene como código <b>600</b> y pulsamos sobre "Perfiles".<br><br> </html> {{:pag_apli:jara:alta_jara1.png?700}}<html> <br><br> 4- Seleccionamos el perfil del usuario dependiendo de la categoría del usuario y lo que se indique en la incidencia y pulsamos en "Asignar"<br><br> </html> {{:pag_apli:jara:alta_jara2.png?700}}<html> <br><br> 5- Seleccionamos en Tipo de Asignación: <b>"Usuario"</b><br><br> </html> {{:pag_apli:jara:alta_jara3.png?700}}<html> <br><br> 6- Al final de la página buscamos al usuario correspondiente y pulsamos en "Asignar". <br><br>
+
+<b>IMPORTANTE:</b> El perfil de <b>"Personal Archivo"</b> solo puede ser utilizado si se accede a Jara con un órgano de tipo Archivo Judicial Territorial (AJT), si se intenta acceder con otro tipo de órgano, aparecerá el siguiente mensaje:<br><br>
+
+</html> {{:pag_apli:jara:alta_jara4.png?700}}
+
+</panel> </WRAP> <WRAP> <panel type="info" >
+
+====== Asociar organismo a archivo judicial territorial en JARA ======
+
+**Problema:**El usuario indica que el organismo no aparece para realizar transferencias, indica que antes sí estaba y de repente a desaparecido.\\
+\\
+Comprobar con la siguiente consulta si se ha borrado la asociación del organismo con el archivo territorial judicial, Jara toma los organismos directamente de PROD02 .TEMIS\\
+\\
+**select * from JARA.JA_ASOC_ORG_ARC where org_x_organismo =(select x_organismo from temis.organismos_global where t_organismo ='ORGANISMO_TEMIS');** \\
+\\
+Si la consulta no arroja resultados preparamos el siguiente insert donde asociamos el id_organismo de Temis con id del organismo del archivo judicial territorial.\\
+\\
+**Insert into JARA.JA_ASOC_ORG_ARC (X_ASOCORGARC,ORG_X_ORGANISMO,X_ARCHIVO,L_ACTIVO) values ('ID','X_ORGANISMO','X_ORGANISMO_ARCHIVO','1'); COMMIT;** \\
+\\
+Si la consulta arroja resultados hay que mirar el campo **L_ACTIVO** y comprobar que esté activo.\\
+\\
+Hay que abrir un tique a **SISTEMAS > GTBD** indicando el siguiente mensaje:\\
+< Buenos días, se solicita ejecución del script anexado en la BBDD PROD02 esquema JARA >\\
+Una vez ejecutado el script podemos comprobar que la asociación es correcta entrando en la aplicación de **JARA > Gestión de firmantes > filtramos por provincia, partido judicial y en organismo** debe aparecer el organismo que acabamos de asociar.\\
+{{:pag_apli:jara:jaraprob2.png?750}}\\
+**INCIDENCIA DE EJEMPLO:** IN0000002380255 > descripción del problema del usuario IN0000002380741 > tique para sistemas/gtbd
+
+</panel></WRAP>
+
+[[:pag_apli:jara:start|Volver atrás]]
+
+{{tag>novalidada}}
+
+

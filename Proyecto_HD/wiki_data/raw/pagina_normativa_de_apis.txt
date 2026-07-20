@@ -1,0 +1,98 @@
+﻿
+<html> <html lang="es"> 
+<head>
+
+  <meta charset="UTF-8">
+  <title>NORMATIVA APIS</title>
+  <style>
+      body {
+          font-family: Arial, sans-serif;
+          background-color: #39546E;
+          margin: 0;
+          padding: 20px;
+          padding-top: 70px;
+          
+      }
+
+
+
+      .main-container {
+          max-width: 1550px;
+          margin: 0 auto;
+      }
+
+
+
+      .main-header {
+          background-color: #39546E;
+          color: white;
+          padding: 25px 20px;
+          font-size: 2rem;
+          font-weight: bold;
+          border-radius: 8px 8px 0 0;
+          text-align: center;
+          margin-bottom: 20px;
+      }
+
+
+
+      .block {
+          background-color: #ffffff;
+          border-radius: 8px;
+          padding: 22px;
+          margin-bottom: 25px;
+          border: 1px solid #c5ccd4;
+          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+      }
+
+
+
+      .block h2 {
+          margin-top: 0;
+          color: #39546E;
+          border-bottom: 2px solid #39546E;
+          padding-bottom: 10px;
+          
+      }
+      
+      a {
+          color: #0051A3;
+          text-decoration: none;
+          
+      } 
+
+  </style>
+
+
+
+</head>
+
+<body>
+
+  <div class="main-container">
+
+
+
+      <div class="main-header">NORMATIVA DESARROLLO APIS</div>
+
+      <div style="margin-bottom: 20px;">
+          <p>En esta página se definen las normas en la publicación y desarrollo de las APIs, así como las políticas de los servicios REST y SOAP.</p>
+          
+          <p>Se incluye el documento que explica las normas en la publicación y desarrollos de las APIs, su documentación y las reglas de los servicios REST y SOAP.</p>
+           <li style="margin-bottom: 20px; margin-left: 30px;"><a target="_blank" href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=ngp_nija_normativas_servicios_web_2.0.0_1_.pdf">Normativa APIs</a></li>
+             <p>Se incluye el documento de gestión de errores del servicio web.</p>
+           <li style="margin-bottom: 20px; margin-left: 30px;"><a target="_blank"href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=ngp_nija_normativa_gestion_de_errores_v01r00.pdf">Normativa Gestión de errores</a></li>
+           
+             <p>Se incluye el documento de normativa documentación OpenAPI.</p>
+           <li style="margin-bottom: 20px; margin-left: 30px;"><a target="_blank"href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=def_nija_normativa_openapi_v01r00.pdf">Normativa OpenAPI</a></li>
+           
+           <li style="margin-bottom: 20px; margin-left: 30px;"><a target="_blank"href="https://desarrollo.juntadeandalucia.es/recursos/reglas-pautas/guia-desarrollo-apis">Referencia de la normativa de APIs en relación con la ADA </a></li>
+
+
+      </div>
+
+
+
+</body> 
+</html>
+

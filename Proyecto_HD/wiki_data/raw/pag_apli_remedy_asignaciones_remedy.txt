@@ -1,0 +1,89 @@
+﻿
+<WRAP>
+<panel type="info" title="Asignaciones REMEDY">
+
+[[pag_apli:remedy:start|⬅ Volver a Procedimientos y Problemas Conocidos en Remedy]]
+
+===== Asignaciones REMEDY =====
+
+En este apartado se detallan las **asignaciones en Remedy** según Clase y Tipo:  
+
+==== ADRIANO ====
+
+ **Referencia de asignaciones para ADRIANO:**  
+
+El archivo de asignaciones actualizado se encuentra disponible en el siguiente recurso compartido de red: 
+** 
+\\iusnas05\SIJ\Comun\Transferencia Nuevo Adriano\Asignaciones Nuevo Adriano V7.04**
+
+
+----
+
+==== APLICACIONES ====
+^ Clase         ^ Tipo                                              ^ Grupo Asignado                           ^ Observaciones  ^
+| Aplicaciones  | ADMINISTRACIÓN IML                                | ?¿                                       |                |
+| Aplicaciones  | AGENDA IML                                        | ?¿                                       |                |
+| Aplicaciones  | ARCONTE                                           | Nivel 1 / Centro de servicio al usuario  |                |
+| Aplicaciones  | NEXO BUROFAX                                      | Nivel 1 / Centro de servicio al usuario  |                |
+| Aplicaciones  | ATENEO (CITA PREVIA)                              | Nivel 1 / Centro de servicio al usuario  |                |
+| Aplicaciones  | ESCRITORIO JUDICIAL                               | Nivel 1 / Centro de servicio al usuario  |                |
+| Aplicaciones  | EVID (ESCRITORIO VIRTUAL DE INMEDIACIÓN DIGITAL)  | Nivel 1 / Centro de servicio al usuario  |                |
+| Aplicaciones  | FORTUNY (EDOC)                                    | Nivel 3 / MINISTERIO                     |                |
+| Aplicaciones  | GESTIÓN DE HISTORIALES IML                        | ?¿                                       |                |
+| Aplicaciones  | QUENDA (GESTIÓN DE TURNOS)                        | Nivel 1 / Centro de servicio al usuario  |                |
+| Aplicaciones  | HERMES                                            | Nivel 1 / Centro de servicio al usuario  |                |
+| Aplicaciones  | NUEVA SEDE JUDICIAL ELECTRÓNICA                   | Servicios / Nueva sede                   |                |
+| Aplicaciones  | ORFILA                                            | Nivel 3 / MINISTERIO                     |                |
+| Aplicaciones  | OTROS                                             | Nivel 1 / Centro de servicio al usuario  |                |
+| Aplicaciones  | PORTAFIRMASNG                                     | Servicios DevOps                         |                |
+| Aplicaciones  | PORTALES ADRIANO                                  | Servicios / SACOEP                       |                |
+| Aplicaciones  | GESTOR DE INCIDENCIAS / PETICIONES                | Servicios DevOps                         |                |
+| Aplicaciones  | TEMIS                                             | Servicios DevOps                         |                |
+| Aplicaciones  | TEMISWS                                           | Servicios DevOps                         |                |
+| Aplicaciones  | TEXTUALIZACIÓN                                    | Servicios / Textualización               |                |
+| Aplicaciones  | REMEDY                                            | Servicios DevOps                         |                |
+
+----
+
+==== GESTIÓN USUARIOS ====
+^ Clase             ^ Tipo              ^ Grupo Asignado                           ^ Observaciones                        ^
+| GESTIÓN USUARIOS  | HERMES            | Servicios DevOps                         | Incidencias funcionales o técnicas.  |
+| GESTIÓN USUARIOS  | JARA              | Servicios DevOps                         |                                      |
+| GESTIÓN USUARIOS  | TEMIS             | Servicios DevOps                         |                                      |
+| GESTIÓN USUARIOS  | COLECTIVO LEXNET  | Servicios Adriano                        |                                      |
+| GESTIÓN USUARIOS  | REMEDY            | Servicios DevOps                         |                                      |
+| GESTIÓN USUARIOS  | ALTAS             | Nivel 1 / Centro de Servicio al Usuario  |                                      |
+
+----
+==== INCIDENTES DE SEGURIDAD ====
+
+
+
+**Las asignaciones de esta clasificación se encuentra disponible en el siguiente enlace:** [[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_ciberseg:problemas
+|Procedimientos y Problemas Conocidos de CiberSeguridad --> 3. Clasificación de Incidentes de Seguridad]]: 
+
+----
+
+
+==== SISTEMAS INFRAESTRUCTURA ====
+^ Clase                         ^ Tipo                                   ^ Grupo Asignado  ^ Observaciones                                ^
+| Servicios Infraestructura      | DHCP                                   | Sistemas GTSW    |                                              |
+| Servicios Infraestructura      | DNS                                    | Sistemas GTSW    |                                              |
+| Servicios Infraestructura      | MONITORIZACIÓN                         | Sistemas GTSW    |                                              |
+| Servicios Infraestructura      | SEGURIDAD                              | Sistemas GTSW    |                                              |
+| Servicios Infraestructura      | SISTEMAS DE ACTIVE DIRECTORY / LDAP     | Sistemas GTSW    |                                              |
+| Servicios Infraestructura      | SISTEMAS DE ALMACENAMIENTO              | Sistemas GTSB    |                                              |
+| Servicios Infraestructura      | SISTEMAS DE APLICACIÓN                  | Sistemas GTSB    |                                              |
+| Servicios Infraestructura      | SISTEMAS DE BASE DE DATOS               | Sistemas GTSB    |                                              |
+| Servicios Infraestructura      | SISTEMAS DE CORREO                      | Sistemas GTSB    |                                              |
+| Servicios Infraestructura      | SISTEMAS DE FICHEROS                    | Sistemas GTSW    |                                              |
+| Servicios Infraestructura      | SISTEMAS DE IMPRESIÓN                   | Sistemas GTS8    |                                              |
+| Servicios Infraestructura      | SISTEMAS DE SALVAGUARDIA                | Sistemas GTSB    |                                              |
+| Servicios Infraestructura      | SISTEMAS PROXY                          | Sistemas GTSW    |                                              |
+| Servicios Infraestructura      | SISTEMAS DE VIRTUALIZACIÓN              | Sistemas GTSW    |                                              |
+| Servicios Infraestructura      | SUMINISTRO ELÉCTRICO                    | Sistemas GTSW    |                                              |
+| Servicios Infraestructura      | VLAN                                   | Sistemas GTSW    |                                              |
+
+</panel>
+</WRAP>
+

@@ -1,0 +1,183 @@
+﻿
+====== Alertas GTAB ======
+
+===== Introducción =====
+
+Las alertas detalladas en este documento corresponden al servicio de monitorización gestionado por Zabbix.:
+ <font 10.5pt/Arial, sans-serif;;inherit;;inherit>Se definen varios Hosts Groups en los que se encuentran los distintos Hosts asociados a la monitorización correspondiente al grupo GTAB, entre ellos:</font>
+
+  * ALMACENAMIENTO
+  * ALMACENAMIENTO MACJ
+  * ALMACENAMIENTO SSCC
+  * BACKUP
+  * DATA DOMAINS
+  * HPUX
+  * NETWORKERls
+
+====== Almacenamiento ======
+
+En este apartado se detallan las alertas generales asociadas a los tipos de dispositivos de infraestructuras de almacenamiento.
+
+===== MSA 2040 =====
+
+Cabina de Discos de MACJ \\
+Hay configurado un Cron en iusslmonitor07 para que lance cada 10min un script recopilando los datos de todas las MSA activas.
+
+Tiene configurado:
+
+  * Espacio usado, disponible por volumen y porcentaje asignado por tecnología de disco.
+  * Estado de los discos.
+  * Estado de las controladoras.
+  * Interfaces de Red activas, tráfico de IOPS.
+
+Los últimos datos se pueden consultar en el siguente [[http://iusslmonitor06.justicia.junta-andalucia.es/zabbix/latest.php?fullscreen=0&hostids[]=15198&application=&select=&filter_set=1|enlace Zabbix]]
+
+===== NetApp 2554 =====
+
+Cabina de Discos de MACJ \\
+Tiene configurado:
+
+  * Espacio usado, disponible.
+  * Estado de los discos.
+  * Interfaces de Red activas, tráfico de disco entrante y saliente.
+
+Los últimos datos se pueden consultar en el siguente [[http://iusslmonitor06.justicia.junta-andalucia.es/zabbix/latest.php?fullscreen=0&hostids[]=14830&hostids[]=14831&application=&select=&filter_set=1|enlace Zabbix]]
+
+===== 3PAR =====
+
+Cabina de Discos de las distintas SEDES incluida la de SSCC \\
+Están dadas de alta todas las 3PAR que aparecen en la CMDB
+
+Tienen configuradas:
+
+  * Espacio usado, disponible de los volumenes.
+  * Estado de los discos.
+  * IOPS de los discos.
+  * Kbps de los discos
+  * Estado de los nodos.
+  * Estado de las cabinas.
+  * Interfaces de Red activas, tráfico de red entrante y saliente.
+
+[[http://iusslmonitor06.justicia.junta-andalucia.es/zabbix/latest.php?fullscreen=0&hostids[]=14824&hostids[]=15054&hostids[]=15055&hostids[]=15056&hostids[]=15057&hostids[]=15060&hostids[]=15061&hostids[]=15063&hostids[]=15072&hostids[]=15062&hostids[]=15059&hostids[]=15058&hostids[]=15067&application=&select=&show_without_data=1&filter_set=1|Los últimos datos se pueden consultar en el siguente enlace Zabbix]]
+
+===== Isilon =====
+
+Centro de Almacenamiento SSCC
+
+Tiene Configurado:
+
+  * Estado/Número de los Discos, Clusters, Nodos, Licencias y Sensores
+  * Espacio en Disco libre y usado
+  * BPS de entrada y salida por Clusters y Nodos
+
+[[http://iusslmonitor06.justicia.junta-andalucia.es/zabbix/latest.php?ddreset=1|Los últimos datos se pueden consultar en el siguente enlace Zabbix]]
+
+===== MSL6480 =====
+
+Librería de Cintas LTO6 \\
+Tiene configurada:
+
+  * Alertas
+
+===== HP SAN =====
+
+Switches SAN de SSCC y MACJ \\
+Tienen configurado:
+
+  * Tráfico entrante y saliente de todos los puertos de Fibra
+  * Estado de los puertos
+
+====== Almacenamiento MACJ ======
+
+Corresponde al Almacenamiento específico de MACJ descrito en el apartado Almacenamiento
+
+  * NETAPP 2554
+  * HP SAN
+
+====== Almacenamiento SSCC ======
+
+Corresponde al Almacenamiento específico de SSCC descrito en el apartado Almacenamiento
+
+  * 3PAR
+  * MSL6480
+  * HP SAN
+  * Isilon
+
+====== Backup ======
+
+Son los jobs que se ejecutan para realizar los backups con Networker
+
+===== Oragrid =====
+
+Tiene configurado el resultado de las tareas programadas:
+
+  * Clonado Semanal Adriano
+  * Clonado Semanal BBDD
+  * Clonado Trimestral Comunes
+  * Reciclado Adriano: Full, Incremental y Diferencial
+  * Reciclado BBDD: Full, Incremental y RMAN
+  * Reciclado Comunes: Full, Incremental y Diferencial
+  * Cruce de Path de SaveSets de las Sedes
+
+===== Iusslnrsrv01 =====
+
+Tiene configurado el resultado de las tareas programadas:
+
+  * Clonado Semanal de todos los grupos
+
+===== Data Domains =====
+
+Son los data domains que se usan actualmente para las Sedes y SSCC \\
+Tienen configurados:
+
+  * Estado de los discos
+  * Estado de los sensores de Temperatura
+  * Estado de las fuentes de alimentacion
+  * Estado de los ventiladores
+  * Espacio usado y disponible
+
+====== HPUX Servers ======
+
+Son los Integritys (NPAR y VPAR). \\
+Tienen configurados:
+
+  * Estado de la CPU
+  * Espacio en disco total, usado y disponible
+  * Memoria RAM total, usada y disponible
+  * Interfaces de red activas
+  * Numero de procesos
+  * Numero de usuarios logados
+
+[[http://iusslmonitor06.justicia.junta-andalucia.es/zabbix/latest.php?filter_set=1&groupids[]=84|Se pueden consultar los últimos datos en el enlace Zabbix]]
+
+===== 24x7 Ampliar VG =====
+
+Enlace a [[http://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/HP-UX|Procedimientos HPUX]]
+
+====== Networker ======
+
+Son las máquinas servidores de Networker
+
+===== ORAGRID =====
+
+Versión 8.2 destinada a las SEDES \\
+Tiene configurado:
+
+  * Estado de la CPU
+  * Espacio en disco total, usado y disponible
+  * Memoria RAM total, usada y disponible
+  * Interfaces de red activas
+  * Numero de procesos
+
+===== IUSSLNSRSRV01 =====
+
+Versión 9.2 destinada a SSCC \\
+Tiene configurado:
+
+  * Estado de la CPU
+  * Espacio en disco total, usado y disponible
+  * Memoria RAM total, usada y disponible
+  * Interfaces de red activas
+  * Numero de procesos
+
+

@@ -1,0 +1,429 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+
+
+<html>
+<head>
+	<title>Escritorio Virtual</title>
+
+	<link href="/Escritorio/css/estilos.css" rel="stylesheet" type="text/css"/>
+	<!--[if IE 6]>
+	<link href="/Escritorio/css/estilosIE6.css" rel="stylesheet" type="text/css"/>
+	<![endif]-->
+	<!--[if IE 7]>
+	<link href="/Escritorio/css/estilosIE7.css" rel="stylesheet" type="text/css" />
+	<![endif]-->
+	<!--[if IE 8]>
+	<link href="/Escritorio/css/estilosIE8.css" rel="stylesheet" type="text/css" />
+	<![endif]-->
+	<!--[if IE 8]>
+	<link href="/Escritorio/css/estilosIE9.css" rel="stylesheet" type="text/css" />
+	<![endif]-->
+	<link href="/Escritorio/img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+	
+	<script>
+		function existeSesion()
+		{
+			return '0';
+		}
+	</script>
+</head>
+
+<body onload="actualizaReloj(); ">
+	
+	<div class="fondo">
+		<div id="cuerpo">
+			
+
+
+
+
+
+<div id="cabecera">
+  <div class="cabecera_fondo">
+ 	<ul class="menu">
+   	   <li><a class="ayuda" title="Manual usuario" href="javascript:verManualEscritorio()">Manual usuario</a></li>
+       <li><a class="noticias" title="Noticias" href="javascript:verNoticias()">Noticias</a></li>
+       <li><a class="enlaces" title="Enlaces" href="javascript:verEnlaces()">Enlaces</a></li>
+       
+    </ul>
+    <hr class="no_visible">
+    <h1 class="logo_junta">
+       <a title="JUNTA DE ANDALUCÍA - Consejería de Turismo, Regeneración, Justicia y Administración Local" href='/Escritorio/Inicio.do'>
+           <img alt="JUNTA DE ANDALUCÍA - Consejería de Turismo, Regeneración, Justicia y Administración Local" src="img/logo_junta.gif">
+           <span>JUNTA DE ANDALUCÍA - Consejería de Justicia e Interior</span>
+        </a>
+    </h1>
+    <h1 class="aplicacion"><span>Escritorio Judicial - Consejería de Turismo, Regeneración, Justicia y Administración Local</span></h1>
+   </div>
+ </div>  
+<script language="javascript">
+
+	function cerrarSesion()
+	{
+		if (confirm('¿Está seguro de que quiere cerrar la sesión?'))
+		{
+			window.location.href = '/Escritorio/CerrarSesion.do';	
+		}
+	}
+	
+	function verManualEscritorio()
+	{
+		window.open('/Escritorio/VerManual.do');
+		
+	}
+	
+	function verEnlaces()
+	{
+		window.location.href = '/Escritorio/VerEnlaces.do';
+		
+	}
+	
+	function verNoticias()
+	{
+		window.location.href = '/Escritorio/VerNoticias.do' ;
+		
+	}
+
+		
+	
+
+</script> 
+			<hr class="no_visible">
+			
+
+
+
+
+
+	<ul id="menu_superior">
+   		
+     	 
+        
+        <li class="fecha" id="hora">
+       	 &nbsp;
+        </li>
+        <li class="fecha">
+        	miércoles, 15 de julio de 2026
+		  	
+		</li>
+        
+   	</ul>
+
+<script language="javascript">
+
+	
+function cambiarPuesto()
+{
+	window.location.href = '/Escritorio/VerPuestosUsuario.do';	
+}
+
+
+
+</script>
+			<hr class="no_visible">
+			<div id="contenedor">
+				
+
+
+
+
+
+<div id="lateral_izquierdo">
+	<form name="aplicacionForm" method="post" action="/Escritorio/SeleccionarAplicacion.do">
+		
+	  	<input type="hidden" name="aplicacion" value="">
+	</form>
+</div>  
+
+
+
+
+
+		  			
+		  
+	    
+				<hr class="no_visible">
+				
+
+
+
+<div id="lateral_derecho">	
+	
+    
+		<div class="login">
+			<h2> Acceso </h2>
+			<form name="loginForm" method="post" action="/Escritorio/Login.do">
+				<fieldset>
+					<legend>Acceso restringido</legend>
+                    <div class="fila_form">
+                    	<label for="usuario">Usuario</label>
+                        <input type="text" value="" name="usuario" id="usuario">
+                    </div>
+                    <div class="fila_form">
+                    	<label for="contrasena">Contraseña</label>
+                        <input type="password" value="" name="password" id="contrasena">
+                    </div>
+                    <div class="botonera">
+                    	<input type="submit" class="boton" value="Entrar" id="entrar" name="entrar">
+                    </div>
+                    <div class="botonera">
+                    	<a href="AccesoCertificado.do" style="font-weight: bold; font-size:11pt">Acceso certificado</a>
+                    </div>
+                    <div class="botonera">
+                    	<a href="RecuperarPassword.do" style="color:#d20000; font-weight: bold; font-size:14pt">¿Olvidó su contraseña?</a>
+                    	
+                    </div>
+				</fieldset>
+			</form>	
+		</div>		
+	
+	
+		
+</div>	
+<script language="javascript">
+
+	function nuevaSugerencia()
+	{
+		window.location.href = '<sslext:rewrite page="/NuevoComentario.do" />' ;
+		
+	}
+
+		
+	
+
+</script>	
+	
+	
+		 
+		
+		  		
+			  
+				
+		 
+		
+
+				<hr class="no_visible">
+				<div id="contenido">
+					
+
+
+<center>
+<form name="aplicacionPublicaForm" method="post" action="/Escritorio/SeleccionarAplicacionPublica.do">
+	
+	<input type="hidden" name="aplicacion" value="">
+</form>
+
+</center>
+
+					<hr class="no_visible">
+					
+
+
+
+<h2>Modificar Contraseña</h2>
+<form name="modificarPasswordForm" method="post" action="/Escritorio/RealizarModificarPassword.do">
+	<fieldset>
+    	<legend class="no_visible">Modificar Contraseña</legend>
+        <div class="fila_form">
+        	<label for="usuario" class="labelResaltado">Usuario</label>
+            <input type="text" maxlength="20" value="15402487P" name="usuario" id="usuario" readonly="readonly">            
+        </div>
+        
+        
+                  
+            <label for="contrasena" class="labelResaltado">Contraseña</label>
+            <input type="password" maxlength="20" value="" name="password" id="password">
+         
+      	<div class="fila_form">
+       		<label for="nueva" class="labelResaltado">Nueva contraseña</label>
+          	<input type="password" maxlength="20" value="" name="nuevaPassword" id="nuevaPassword">
+        </div>
+      	<div class="fila_form">
+       		<label for="repetir" class="labelResaltado">Repetir nueva contraseña</label>
+          	<input type="password" maxlength="20" value="" name="nuevaPassword2" id="nuevaPassword2">
+        </div>
+    	<div class="botonera">
+        	<input type="submit" value="Aceptar" id="aceptar2" name="aceptar2">
+        	<input type="button" value="Volver" id="volver" name="volver" onclick="datosUsuario()">
+      	</div>
+    </fieldset>
+</form>
+
+	<ul class="error"><li>Usuario no identificado. Revise el usuario y/o contrase&ntilde;a.</li></ul>
+
+
+<script language="javascript">
+	function datosUsuario()
+	{
+		
+			window.location.href = '<sslext:rewrite page="/Inicio.do"/>';
+		
+		
+		
+	}
+</script>
+				</div>
+			</div>
+			<div id="pie">
+				
+
+
+<p class="izquierda">
+	&nbsp;PRO &nbsp;-&nbsp;versi&oacute;n&nbsp;3.14.1&nbsp;&nbsp;
+</p>
+<p class="derecha">CONSEJERÍA DE TURISMO, REGENERACIÓN, JUSTICIA Y ADMINISTRACIÓN LOCAL</p>
+		
+			</div>
+		</div>
+	</div>
+	<br>
+		
+	
+
+<script language="JavaScript"> 
+		// ----------------------------------
+		// Para el control del doble click
+		var numClicks = 0;
+		var timeOut;
+		var codigoGlobal;
+		var entraPorStartClick = false; // para que no se ejecute dos veces en mozilla
+		
+		// ----------------------------------
+
+		/*
+			Metodo que actualiza el reloj con la hora del sistema del cliente
+		*/
+		function actualizaReloj()
+		{ 
+			var momentoActual = new Date(); 
+	
+		    var hora = momentoActual.getHours();
+    		var minuto = momentoActual.getMinutes();
+		    var segundo = momentoActual.getSeconds(); 
+	
+    		var horaImprimible = (hora<10?"0"+hora:hora) + ":" + (minuto<10?"0"+minuto:minuto);
+
+	    	var obj = document.getElementById("hora");
+			obj.innerHTML = horaImprimible;
+			
+    		setTimeout("actualizaReloj()",1000) 
+		} 		
+
+	
+
+	function modificarPasswordCorporativa()
+	{
+		window.document.location.href = '/Escritorio/ModificarPasswordCorporativa.do';
+	}
+	
+	function modificarPassword()
+	{
+		window.document.location.href = '/Escritorio/ModificarPassword.do';
+	}
+
+	function modificarIdentificador()
+	{
+		window.document.location.href = '/Escritorio/ModificarIdentificador.do';
+	}
+	
+	function consultaSesiones()
+	{
+		window.document.location.href = '/Escritorio/ConsultaSesionesUsuario.do';
+	}
+	
+	function nuevaSugerencia()
+	{
+		window.document.location.href = '/Escritorio/NuevoComentario.do';
+	}
+	
+	function verForo()
+	{
+		window.document.location.href = '/Escritorio/VerComentariosForo.do';
+	}
+	
+	function seleccionarAplicacion()
+	{
+		
+	    numClicks = 0;
+	    
+		var f = document.forms['aplicacionForm'];
+
+		f.aplicacion.value = codigoGlobal;
+		
+		f.submit();
+	}
+	
+	function seleccionarAplicacionPublica(codigo)
+	{
+		var f = document.forms['aplicacionPublicaForm'];
+
+		f.aplicacion.value = codigo;
+		
+		f.submit();
+	}
+	
+	function lanzarAplicacionMenu(codigo, accion)
+	{
+		if (!entraPorStartClick)
+		{
+			numClicks = 0;
+			clearTimeout(timeOut);
+			
+			var url = 'Lanzadera.do?id=' + codigo;
+			
+			if (accion.indexOf("S") != -1)
+			{
+				window.open(url, codigo, "toolbar=no, menubar=no, location=no, resizable=yes, status=yes, scrollbars=yes");
+			}
+			else
+			{
+				if (codigo==8) {
+					window.open(url, "_self");
+				} else {
+					window.open(url, codigo);
+				}
+				
+				
+			}	
+    	}
+		else
+		{
+			entraPorStartClick = false;
+		}		
+	}
+	
+	function startClick(codigo) {
+    	numClicks++;
+      	codigoGlobal = codigo;
+      	
+	    switch(numClicks) {
+    	    case 2:
+    	    	entraPorStartClick = true;
+        	    lanzarAplicacionMenu(codigo);
+            	break;
+	        case 1:
+
+    	        timeOut = setTimeout("seleccionarAplicacion()", 300);
+        	    break;
+		}
+	}
+	
+	function datosUsuario()
+	{
+		window.location.href = '/Escritorio/DatosUsuario.do';
+	}
+	
+	function usuarioBusqueda()
+	{
+		window.location.href = '/Escritorio/UsuarioBusqueda.do?accion=buscar';
+	}
+	
+
+</script>
+
+		
+
+	
+</body>
+</html>

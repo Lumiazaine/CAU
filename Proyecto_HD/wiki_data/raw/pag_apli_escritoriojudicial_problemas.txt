@@ -1,0 +1,273 @@
+﻿
+<WRAP> <panel type="primary" title="Procedimientos y Problemas Conocidos de Escritorio Judicial">
+
+[[:pag_apli:escritoriojudicial:start|Volver atrás]]
+
+<WRAP> <panel type="info">
+
+====== ARERR [329] Contraseña o cadena de autentificación no válida para un usuario existente ======
+
+**Descripción**
+
+El usuario no puede acceder a la gestion de incidencias. Al acceder, le aparece el error:
+
+Los siguientes errores ocurrieron mientras se intentaba procesar su petición: ARERR [329] Contraseña o cadena de autentificación no válida para un usuario existente.
+
+**Causas y/o solución**
+
+Un usuario sin password establecido en TEMIS, puede acceder al escritorio judicial [[http://escritoriojudicial.justicia.junta-andalucia.es/Escritorio/Inicio.do|http://escritoriojudicial.justicia.junta-andalucia.es/Escritorio/Inicio.do]].\\
+\\
+De ahí, puede acceder a "Gestion de Incidencias", ¡OJO! con navegador <<Internet Explorer>>, otro navegador no podrá visualizar la pantalla inicial (queda en blanco, pero sí está logado).\\
+\\
+Cuando, el usuario cambie la password o su usuario, esto quedará reflejado en la BD de Remedy a las 24 horas, pues hay un **proceso nocturno** en Remedy que sincroniza con TEMIS. Lo cual hará que no pueda entrar en "Gestión de Incidencias" hasta el día siguiente.\\
+\\
+Por seguridad debe de introducirse password a su usuario.
+
+</panel> </WRAP>
+
+<WRAP> <panel type="info">
+
+====== El usuario no puede acceder a Escritorio Judicial: "Esta página no se puede mostrar" ======
+
+**Descripción:**
+
+El usuario indica que, cuando intenta acceder a Escritorio Judicial con su **certificado digital**, accede a "**fachadassl**" y el navegador le indica "**Esta página no se puede mostrar**":
+
+{{:pag_apli:escritoriojudicial:1630570151409-400.png|}}
+
+Explicación:
+
+Este problema puede surgir por dos razones:
+
+  * A. Existe algún problema de inconsistencia en el certificado instalado en la tarjeta criptográfica del usuario.
+  * B. Problemas con las actualizaciones del sistema operativo (Windows).
+
+Solución:
+
+A. Se solicitará a "CAU" que reinstale el certificado del usuario en su tarjeta criptográfica desde una copia de seguridad que tenga de dicho certificado, y compruebe si dicho usuario ya puede acceder con su certificado.
+
+B. Se solicitará a los técnicos de "In Situ" que revisen las actualizaciones de Windows en el equipo del usuario, las reinstalen si es necesario, reinicien el equipo y comprueben si dicho usuario ya puede acceder con su certificado.
+
+Incidencias:IN0000001706866, IN0000001718052
+
+</panel> </WRAP>
+
+<WRAP> <panel type="info">
+
+====== Al usuario se le cierra la sesión también en Escritorio Judicial al cerrarla en LexNET ======
+
+**Descripción:**
+
+El usuario indica que se le "caduca" la sesión de manera repentina en Escritorio Judicial (o en las aplicaciones a las que se acceden y dependen de la sesión en Escritorio Judicial).
+
+Ejemplo: En Expediente Digital, al utilizar la aplicación, puede aparecer el siguiente mensaje:
+
+{{:pag_apli:escritoriojudicial:1631784784996-710.png|}}
+
+**Explicación:**
+
+Este problema puede surgir porque el usuario tiene **iniciada la sesión al mismo tiempo**  en la aplicación **LexNET **y en **Escritorio Judicial**, y en el mismo navegador (**Internet Explorer**, en otros navegadores no se ha detectado que ocurra dicho problema).
+
+Dicha sesión debe haberse iniciado accediendo con el** certificado digital **en ambas aplicaciones.
+
+Si el usuario cierra la sesión en LexNET en las condiciones anteriormente mencionadas, automáticamente también se cierra la sesión en Escritorio Judicial, y por ello el usuario puede pensar que la sesión se le está caducando de manera aleatoria.
+
+**Solución:**
+
+**1. **Se realizan las consultas necesarias al usuario para conocer si se trata de dicha casuística.
+
+**2. **Si se identifica que es éste el problema, se indica a **CAU**:
+
+//Por favor, informen al usuario que, para acceder a LexNET y Escritorio Judicial al mismo tiempo, lo haga en distintos navegadores, ya que además LexNET indica que cuando se cierra la sesión se debe cerrar también el navegador con el que se ha accedido, y si tene otras pestañas abiertas en el mismo navegador, también se deberían cerrar.//
+
+//Lo más recomendable es que acceda a Escritorio Judicial (y a sus aplicaciones internas) con Intenet Explorer y a LexNET con Google Chrome.//
+
+//Accediendo de dicha forma no debería tener problemas con que se le cierre la sesión también en Escritorio Judicial.//
+
+Incidencias:IN0000001722706
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Lentitud en Escritorio Judicial ======
+
+Descripción de la incidencia
+
+El usuario indica que las aplicaciones Gestion de Historiales y Agenda IML van lentas. Debido a la lentitud caducan las sesiones de los usuarios.
+
+Solución
+
+Se reasigna a //Sistemas → Coordinación//  o GTSL indicando que se verifique el rendimiento
+
+Ejemplo de incidencia Remedy
+
+686631
+
+</panel></WRAP>
+
+<WRAP> 
+<panel type="info">
+
+====== PUBLICACIÓN NOTICIAS ======
+
+La publicación de novedades y noticias en Docuwiki está supeditada a la información que recibamos de los GP, por lo que es recomendable que periódicamente se remita un correo a los mismos recordando que deben comunicarnos la información que consideren que se debe publicar tanto en Docuwiki como en Escritorio Judicial.  
+
+La publicación de noticias en el Escritorio Judicial se realizará desde la url [[https://escritoriojudicial.justicia.junta-andalucia.es/Escritorio/Inicio.do]]
+
+1º) Accederemos con certificado digital.
+
+{{:pag_apli:escritoriojudicial:noticias_ej_1.png}}
+
+2º) A Mantenimiento Temis.
+
+{{:pag_apli:escritoriojudicial:noticias_ej_2.png}}
+
+3º) Pulsar en ‘Ir’ para acceder.
+
+{{:pag_apli:escritoriojudicial:noticias_ej_3.png}}
+
+4º) Seleccionamos ‘Noticias’ en el menú lateral izquierdo y posteriormente al botón inferior ‘Nueva’ para proceder a publicar el título y contenido de la noticia.
+
+{{:pag_apli:escritoriojudicial:noticias_ej_4.png}}
+
+5º) Completaremos los campos ‘Asunto’ con el título, la ‘Descripción’ con el cuerpo de la noticia a publicar y las fechas ‘Fecha Noticia’ y ‘Fecha Límite’. Pulsar ‘Aceptar’ una vez finalizado.
+
+{{:pag_apli:escritoriojudicial:noticias_ej_5.png}}
+
+6º) Con los cinco primeros pasos tendríamos la noticia publicada. En caso de ser necesario publicar una url debemos seguir los pasos 6, 7 y 8. Para ello debemos acceder a PROD02, esquema TEMIS y tabla NOTICIAS. A continuación ordenar por X_NOTICIA de forma descendente y anotar el identificador de la noticia que acabamos de publicar. 
+{{:pag_apli:escritoriojudicial:22222.jpg|}} \\  \\ 
+
+7º ) Enviar a GTBD un archivo *.sql que contenga la siguiente sentencia:
+
+update TEMIS.NOTICIAS SET T_URL = '[[https://portaladriano.justicia.junta-andalucia.es/portal/adriano/personaladmon/Aplicaciones-Judiciales/circuit./|https://portaladriano.justicia.junta-andalucia.es/portal/adriano/personaladmon/Aplicaciones-Judiciales/circuit./]]' WHERE X_NOTICIA = 1663;
+
+donde: - T_URL = 'XXXXXX' donde XXXXXX es la url - X_NOTICIA = XXXX donde XXXX es el identificador de la noticia anotado en el paso 4.
+
+8º) En la descripción de la petición Remedy indicar lo siguiente: "Se solicita ejecución del script que se adjunta en PROD02. Verificar que se actualiza 1 registro con el update. Si es así, realizar COMMIT." Referencia: IN0000001542088
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Modificar directorios telefónicos ======
+
+Descripción:
+
+Nos solicitan la actualización del directorio telefónico de una provincia (o de varias) en Escritorio Judicial.
+
+Solución:
+
+1. Debemos comprobar que nos han adjuntado a la incidencia el documento PDF con el directorio actualizado de la/s provincia/s que tenemos que actualizar:
+
+{{:pag_apli:escritoriojudicial:1633955334529-933.png|}}
+
+2. Descargamos el documento PDF y modificamos su nombre, poniéndole sólo el nombre de la provincia (en el caso de que nos lo adjunten con otro nombre), como por ejemplo "Cadiz.pdf".
+
+{{:pag_apli:escritoriojudicial:1633956056156-368.png|}}{{:pag_apli:escritoriojudicial:1633956076520-252.png|}}
+
+3. Accedemos a la aplicación "Filezilla", nos conectamos a la IP "10.241.248.109" con las credenciales que se indican en la incidencia IN0000001738604 y accedemos a la carpeta "iconos":
+
+{{:pag_apli:escritoriojudicial:1633956198758-986.png|}}
+
+4. Guardamos una copia de seguridad del PDF que ya hubiese de la provincia, el cual vamos a actualizar, y la sustituimos por el PDF actualizado:
+
+{{:pag_apli:escritoriojudicial:1633956524396-798.png|}}
+
+5. Comprobamos en Escritorio Judicial que el documento actualizado es accesible, pulsando en "Agenda Telefónica Administración de Justicia de Andalucía":
+
+{{:pag_apli:escritoriojudicial:1633956988240-889.png|}}
+
+{{:pag_apli:escritoriojudicial:1633957040828-815.png|}}
+
+INCIDENCIAS:IN0000001738277
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Alta enlaces de interés ======
+
+Descripción:
+
+Se quieren publicar enlaces de interés en Escritorio Judicial.
+
+{{:pag_apli:escritoriojudicial:1643872461760-113.png|}}
+
+Solución:
+
+Para publicar Enlaces de interés hay que añadir en la tabla Temis.enlaces de PROD02 bajo aprobación de coordinación lo siguiente:
+
+SET DEFINE OFF;
+
+Insert into TEMIS.ENLACES
+
+(X_ENLACE, T_DESCRIPCION_CORTA, T_DESCRIPCION_LARGA, T_URL_ENLACE)
+
+Values
+
+(24, 'N_TURNOSRRCC', 'Gestión de Turnos RRCC', '[[https://turnosrrcc.justicia.junta-andalucia.es/quenda/|https://turnosrrcc.justicia.junta-andalucia.es/quenda/]]');
+
+COMMIT;
+
+</panel></WRAP>
+<WRAP> <panel type="info">
+
+====== Crear un nuevo enlace y Asignar a Usuarios ======
+
+Tenemos que acceder a **Mantenimiento Temis**, una vez dentro accedemos al apartado Aplicaciones situado en el menú de la izquierda.\\
+\\
+En los __botones__ que vemos en la parte inferior pulsamos en **Nueva** \\
+{{:pag_apli:escritoriojudicial:pimanuevo2.png?600}}
+
+Añadimos los datos correspondientes.\\
+\\
+Voy a añadir un ejemplo:\\
+{{:pag_apli:escritoriojudicial:pimanuevo.png?400}}
+
+Para asignar una **aplicación** a un usuario hacemos lo siguiente:\\
+\\
+En el apartado de **Aplicaciones** buscamos la aplicación que necesitemos y marcamos el cuadrado blanco.\\
+\\
+{{:pag_apli:escritoriojudicial:pima1.png?400}}
+
+Una vez lo tengamos seleccionado pulsamos en el botón **Perfiles** situado en la parte inferior como aparece en la primera captura.\\
+\\
+Depende de la aplicación aparecerán varios perfiles o en el caso de este ejemplo solo aparece 1: \\
+{{:pag_apli:escritoriojudicial:pima2.png?500}} \\
+Seleccionamos el cuadro blanco del perfil requerido y pulsamos el botón de **Asignar**, nos abrirá un desplegable donde podemos elegir asignar por usuario, cargo etc... \\ \\
+En el caso del ejemplo elijo por provincia para asignar esa aplicación a un conjunto de personas muy grande pero si es el caso de 1 persona se selecciona **Usuario**. \\ \\
+{{:pag_apli:escritoriojudicial:pima3.png?500}} \\
+
+
+ </panel></WRAP>
+<WRAP> 
+<panel type="info">
+
+====== Cambiar enlaces en la página Enlaces de Interes ======
+Dentro del **Escritorio Judicial** tenemos una página llamada **Enlaces de Interes**.\\
+{{:enlaces1.png?700|}} \\ \\
+Para poder **añadir, cambiar o eliminar** un enlace necesitamos tener acceso a la base de datos de **Temis (PRODD02)**.\\ \\
+Los enlaces están ubicados en la tabla **enlaces**.\\ \\
+**select * from enlaces;** \\ \\
+Si queremos modificar un url, tenemos que ejecutar el update siguiente con los cambios necesarios:\\ \\
+**update enlaces set t_url_enlace='' where x_enlace='';** \\\\
+En el caso de querer eliminar un enlace tendríamos que eliminar la fila perteneciente a ese enlace: \\ \\
+**delete from enlaces where x_enlace='';** \\ \\
+Para insertar tenemos este ejemplo: \\ \\
+**Insert into ENLACES (X_ENLACE,T_DESCRIPCION_CORTA,T_DESCRIPCION_LARGA,T_URL_ENLACE) values ('33','A_Fortuny_6','FORTUNY Córdoba: Aplicación de gestión de Fiscalía Penal del Ministerio de Justicia','https://fiscaliaand1.fiscal.es/MJU_FiscaliaWeb/');** \\ \\
+
+
+
+
+
+
+
+
+
+</panel> </WRAP>
+
+
+[[:pag_apli:escritoriojudicial:start|Volver atrás]]
+
+

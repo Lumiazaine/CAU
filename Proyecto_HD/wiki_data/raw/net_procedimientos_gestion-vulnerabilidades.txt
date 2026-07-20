@@ -1,0 +1,71 @@
+﻿
+====== Procedimiento de Gestión de Vulnerabilidades y Revisión de Alertas ======
+
+===== 1. Objetivo =====
+Definir un procedimiento formal para la gestión proactiva de vulnerabilidades técnicas en los dispositivos de red, así como la revisión y respuesta ante alertas generadas por las plataformas de monitorización, garantizando la continuidad operativa y la seguridad de la infraestructura.
+
+===== 2. Alcance =====
+Este procedimiento aplica a todos los equipos de red corporativos (routers, switches, firewalls, puntos de acceso y balanceadores), tanto en producción como en entornos de pruebas.
+
+===== 3. Responsables =====
+  * Técnicos de Redes
+  * Administrador de Plataformas de Monitorización
+
+===== 4. Fuentes de Detección de Vulnerabilidades =====
+
+  - Avisos oficiales de los fabricantes (Fortinet, Cisco, HP, Dell, etc.).
+  - Bases de datos públicas (CVE, NIST NVD, CERT).
+  - Herramientas automáticas de escaneo (OpenVAS, Nessus).
+  - Alertas de Zabbix por comportamiento anómalo o caídas reiteradas.
+
+===== 5. Procedimiento de Gestión =====
+
+==== 5.1. Revisión periódica de vulnerabilidades ====
+  - Consultar semanalmente fuentes oficiales de seguridad.
+  - Filtrar por modelos o versiones en uso.
+  - Documentar posibles vulnerabilidades relevantes (CVE).
+
+==== 5.2. Evaluación y clasificación de riesgos ====
+  - Estimar impacto según tipo de dispositivo afectado.
+  - Aplicar criterios de criticidad: Alta / Media / Baja.
+  - Priorizar acciones en función del riesgo y exposición.
+
+==== 5.3. Monitorización con Zabbix ====
+  - Supervisar routers y switches con Zabbix.
+  - Utilizar plantillas SNMP para monitorizar interfaces, CPU, memoria, temperatura y disponibilidad.
+  - Configurar alertas para:
+    * Reintentos fallidos de autenticación.
+    * Cambios de configuración no autorizados.
+    * Reinicios inesperados.
+    * Pérdida de conectividad o latencia elevada.
+
+==== 5.4. Acciones correctivas ====
+  - Aplicar parches o actualizaciones de firmware.
+  - Implementar medidas de mitigación temporal si no hay parche disponible.
+  - Documentar cada acción tomada con referencia a la vulnerabilidad.
+
+==== 5.5. Revisión de alertas ====
+  - Revisar alertas críticas de Zabbix diariamente.
+  - Escalar eventos relevantes a seguridad TIC si procede.
+  - Registrar todas las intervenciones en el sistema de tickets o bitácora técnica.
+
+===== 6. Revisión y Seguimiento =====
+  - Las vulnerabilidades detectadas deben ser evaluadas en un plazo máximo de 5 días laborables.
+  - Se generará un informe mensual con:
+    * Vulnerabilidades identificadas.
+    * Acciones tomadas.
+    * Alertas críticas recibidas.
+
+===== 7. Documentación Relacionada =====
+  * [[net:procedimientos:auditoria-logs|Procedimiento de auditoría de accesos y revisión de logs]]
+  * [[net:seguridad:bastionado|Procedimiento de bastionado de dispositivos de red]]
+  * [[net:procedimientos:control-accesos|Control de accesos físicos/lógicos]]
+
+===== 8. Herramientas Utilizadas =====
+  - **Zabbix**: monitorización de router y switching : [[https://iusslmonitor06.justicia.junta-andalucia.es/zabbix/zabbix.php?action=dashboard.view]]
+
+===== 9. Historial de cambios =====
+^ Versión ^ Fecha ^ Cambio ^ Autor ^  
+| 1.0 | 2025-07-18 | Creación del documento | GTSR|
+
+

@@ -1,0 +1,29 @@
+﻿
+======
+Operativas GTAB  ======
+
+  *
+
+[[:hpux_op|HP-UX Operativa]]
+
+  *
+
+[[:onw|Networker Operativa]]
+
+  *
+
+[[:recopnw|Networker - Procedimiento Recuperación]]
+
+  *
+
+[[:recad|Networker - Recuperación de ADRIANO/BBDD]]
+
+  *
+
+[[:retnw|Networker - Retenciones y Schedules]]
+
+  *
+
+[[:3par|Mantenimiento 3par ]]
+
+

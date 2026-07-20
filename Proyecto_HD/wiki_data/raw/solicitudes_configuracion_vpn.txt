@@ -1,0 +1,16 @@
+﻿
+====== Procedimiento: Solicitud y Configuración de VPN en Fortinet ======
+
+Este documento describe el flujo de actuación cuando se recibe una petición de creación de **VPN (SSL)** en los firewalls Fortinet. 
+Incluye los datos que se deben recopilar del solicitante (**SUURO** – Sujeto Remoto), la configuración a aplicar, y las validaciones posteriores.
+
+===== 1. Datos requeridos  =====
+
+Antes de iniciar la configuración, el solicitante debe aportar:
+
+  * Tipo de VPN solicitada: SSL VPN (usuario remoto)**
+  * Datos de contacto técnico (responsable)
+  * Dirección IP 
+  * Justificación del uso de la VPN (incorporar ticket de autorización)
+  * Fecha de inicio prevista y tiempo estimado de uso (temporal o permanente)
+

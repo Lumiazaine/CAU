@@ -1,0 +1,36 @@
+﻿
+====== Alertas en Zabbix ======
+
+  * [[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/AGTBD|Alertas en Zabbix]]
+
+====== Alertas Oracle ======
+
+  * [[http://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/Alerta+nagios+cursores|Oracle_cursores_libres]]
+  * [[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/Oracle_procs_precent|Oracle_procs_percent]]
+  * [[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/Actualizacion_standby|Standby_sincronizacion]]
+  * [[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/Alerta_tablespaces|Tablespace]]
+  * [[http://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/Alerta+nagios+vistas+materializadas|Vistas Materializadas Desactualizadas]]
+
+====== Alertas SQL Server ======
+
+  * [[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/create/Sistemas/%20%20%20%25BBDD%25_Instancia%20levantada%20en%20IUSSUBD*/WebHome?parent=Sistemas.AGTBD|Cambio de Nodo en una instancia de SSCC]]
+  * [[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/Sesion_inactiva_mas_de_8_horas|Sesión inactiva más de 8 horas en SSCC]]
+  * [[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/Bloqueos%20de%20mas%20de%201%20minuto.|Sesión bloqueada por más de 1 minuto]]
+
+====== Alertas de Correo ======
+
+  * [[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/Alertas%20Correo|Alertas de correo IUSSUBD05]]
+  * [[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/Alertas%20Correo%20Iussubdcat01|Alertas de correo IUSSUBDCAT01]]
+
+====== Monitorización RMAN y Export ======
+
+  * [[http://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/Monitorizacon_rman_ARCH|Monitorización de RMAN ARCH]]
+  * [[http://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/Errores+monitorizacion+Rman+full|Monitorización de RMAN FULL]]
+  * [[http://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/MAlertasExport|Monitorización de EXPORT]]
+
+====== Otros ======
+
+  * [[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/JobsIussltools07|Jobs de Iussltools07]]
+  * Alertas base de datos sedes
+  * Alertas base de datos SSCC
+

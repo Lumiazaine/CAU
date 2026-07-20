@@ -1,0 +1,91 @@
+﻿
+====== Procedimiento de Alta de Máquinas Virtuales ======
+
+===== 1. Objetivo =====
+Establecer los pasos a seguir para realizar el alta de una nueva máquina virtual, asegurando el cumplimiento de los estándares técnicos, de seguridad y de uso de recursos de la organización.
+
+----
+
+===== 2. Alcance =====
+Este procedimiento aplica a todo el personal que quiera y necesite desplegar una máquina virtual en el entorno virtualizado.
+
+----
+
+===== 3. Responsables =====
+  * **Solicitante del servicio:** Usuario o área que requiere la VM.
+  * **Administrador de infraestructura:** Encargado de validar, aprovisionar y documentar la máquina virtual.
+
+----
+
+===== 4. Requisitos previos =====
+Antes del alta, se deben tener:
+  * Solicitud formal aprobada.
+  * Justificación de uso.
+  * Aprobación del jefe del área.
+
+----
+
+===== 5. Procedimiento =====
+
+==== 5.1. Recepción de la solicitud ====
+Verificar que la solicitud contenga:
+  * Nombre de la VM solicitada.
+  * Sistema operativo requerido.
+  * Recursos necesarios (vCPU, RAM, disco).
+  * Entorno (desarrollo, preproducción, producción).
+  * Requerimientos de red.
+  * Accesos y usuarios.
+  * Aplicaciones a instalar (si aplica).
+
+Registrar la solicitud en el sistema de tickets.
+
+----
+
+==== 5.2. Validación técnica ====
+  * Revisar disponibilidad de recursos en el clúster de virtualización.
+  * Confirmar compatibilidad con las políticas de TI (naming, tamaño, licencias, etc.).
+  * Coordinar con el área de seguridad si hay necesidades especiales (firewall, puertos, VPN, etc.).
+
+----
+
+==== 5.3. Aprovisionamiento de la máquina virtual ====
+  * Crear la VM usando plantilla estándar o personalizada.
+  * Asignar recursos según lo solicitado y aprobado.
+  * Configurar red, nombre de host, dominio y direccionamiento IP.
+  * Instalar y actualizar sistema operativo.
+  * Aplicar parches de seguridad y antivirus.
+  * Configurar backups si aplica.
+  * Crear usuarios y establecer políticas de acceso (por ejemplo, SSH, RDP, etc.).
+
+----
+
+==== 5.4. Verificación ====
+  * Validar conectividad de red (ping, DNS, etc.).
+  * Verificar estado y rendimiento básico.
+  * Confirmar accesos del usuario solicitante.
+  * Realizar pruebas de funcionalidad básica del sistema operativo.
+
+----
+
+==== 5.5. Documentación ====
+Registrar en el inventario de activos:
+  * Nombre de VM
+  * IP
+  * Hypervisor
+  * Fecha de alta
+  * Sistema operativo y versión
+  * Recursos asignados
+  * Responsable de la VM
+
+Actualizar diagrama de red y documentación técnica si corresponde.
+
+----
+
+==== 5.6. Monitorización con Zabbix ====
+  * **Registro en Zabbix:** Dar de alta la nueva máquina virtual como host en el sistema de monitorización Zabbix.
+  * **Aplicación de plantilla:** Asignar la plantilla de monitorización adecuada según el sistema operativo y tipo de servicio.
+  * **Instalación del agente:** Instalar y configurar el agente Zabbix en la VM, asegurando su comunicación con el servidor de monitorización.
+  * **Verificación:** Comprobar que la recolección de datos (CPU, memoria, disco, red, servicios) funciona correctamente y que se activan las alertas definidas.
+  * **Notificaciones:** Asociar la VM al sistema de alertas correspondiente y verificar que las notificaciones lleguen al equipo responsable.
+  * **Documentación:** Registrar en el inventario que la máquina virtual está monitorizada, con la plantilla aplicada y fecha de alta.
+

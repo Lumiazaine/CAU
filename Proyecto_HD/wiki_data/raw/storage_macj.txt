@@ -1,0 +1,378 @@
+﻿
+====== Almacenamiento MACJ ======
+
+======
+Ubicación - MACJ  ======
+
+A/A Francisco Navarrete\\
+Servicio de Informática\\
+C/ Fiscal Luis Portero García s/n\\
+29010 Málaga
+
+O
+
+======
+ bjetivo  ======
+ <font inherit/inherit;;inherit;;inherit>En este documento se detalla la infraestructura de almacenamiento de la Ciudad de la Justicia de Málaga, con objeto describir y facilitar la gestión de los procesos y servicios que se extienden sobre estos sistemas.</font>
+
+======
+ Introducción  ======
+ <font 14px font-style:normal; font-weight:normal; text-align:left/sans-serif;;inherit;;inherit>La Ciudad de la Justicia de Málaga, dispone de dos cabinas de almacenamiento distintas; una NetApp FAS2554 y una MSA 2040.</font>
+
+La MSA proporciona almacenamiento por canal de fibra óptica (red de almacenamiento), mientras que la NETAPP proporciona servicios a través de la  red de almacenamiento y a través de la red de datos (CIFS, NFS).
+
+======
+ Alcance  ======
+
+Se tratará con el servicio de almacenamiento de MACJ, donde se ofrecen diferentes volúmenes que se presentan mediante LUNs, NFS o CIFS a los diferentes servidores.
+
+======
+ Inventario físico  ======
+
+  * ** <font 18px/inherit;;inherit;;inherit>MSA 2040</font> **
+// <font 14px font-style:normal; font-weight:700; text-align:left/sans-serif;;inherit;;inherit>****</font> //Servicio dado y Caractesísticas
+
+- Cabina de discos que se utiliza para presentar LUNs a los distintos servidores de MACJ, principalmente para uso de Adriano, Base de Datos y Comunes.
+
+- Nombre: MACJ-MSA2040
+
+- Dispone de dos Pools, uno de discos rápidos SAS (A) y otro de discos lentos MDL (B)
+
+// <font 14px font-style:normal; font-weight:700; text-align:left/sans-serif;;inherit;;inherit>****</font> //Acceso
+
+Controladora A: http://10.209.64.50
+
+Controladora B: http://10.209.64.51
+
+Se conecta puede acceder mediante navegador Web o SSH
+
+// <font 14px font-style:normal; font-weight:700; text-align:left/sans-serif;;inherit;;inherit>****</font> //Configuración
+
+- Las LUNs se presentan en los siguientes host: JUSTICIAMACJH1, JUSTICIAMACJH2, JUSTICIAMACJH5, JUSTICIAMACJH6, JUSTICIAMACJH7 y JUSTICIAMACJH8
+
+- Hay dos grupos principales donde se asignan los volúmenes: Vol_Comunes_MDL_MACJ.* para los discos lentos y Vol_Emitidos_SAS_MACJ.*
+
+  * ** <font 18px/inherit;;inherit;;inherit>NETAPP FAS 2040 => BAJA - Sustituida por FAS 2554</font> **
+// <font 14px font-weight:700/inherit;;inherit;;inherit>****</font> //Servicio dado y Caractesísticas
+
+- Cabina de discos que da servicio con LUNs y NFS a MACJ.
+
+- Nombre: cseepjmcic1 y cseepjmcic2
+
+- Version: Data ONTAP Release 7.3.2P5
+
+-Tiene dos controladoras
+
+- Alertas contempladas:
+
+cseepjmcic1:// /vol/vol1 is full (using or reserving 99% of space and 0% of inodes, using 99% of reserve).//
+
+// <font 14px font-style:normal; font-weight:700; text-align:start/sans-serif;;inherit;;inherit>****</font> //Acceso
+
+cseepjmcic1: 10.209.68.125
+
+cseepjmcic2: 10.209.68.126
+
+El acceso se puede establecer tanto via Web como por SSH
+
+// <font 14px font-style:normal; font-weight:700; line-height:1.4em; text-align:left/sans-serif;;inherit;;inherit>****</font> //Configuración
+
+  * cseepjmcic1
+
+- 1 Aggregates:
+
+ aggr0 - raid_dp
+
+- Compartido por CIFS:
+
+ ETC$ /etc
+
+ C$ <font 14px white-space:pre/inherit;;inherit;;inherit></font> /
+
+- Compartido por NFS:
+
+ /vol/Backup_centralizado
+
+ /vol/vol0
+
+ /vol/vol1
+
+ /vol/vol0/home
+
+  *
+ <font 14px font-style:normal; font-weight:normal; text-align:start/sans-serif;;inherit;;inherit>cseepjmcic2</font>
+
+- 1 Aggregates:
+
+ aggr0 - raid_dp
+
+- Compartido por CIFS:
+
+ ETC$ /etc
+
+ C$ /
+
+- Compartido por NFS:
+
+ /vol/vol0
+
+ /vol/vol_LUN2
+
+ /vol/vol0/home
+
+  * ** <font 18px font-weight:700/inherit;;inherit;;inherit>NETAPP FAS 2554</font> **
+// <font 14px font-weight:700/inherit;;inherit;;inherit>****</font> //Servicio dado y Caractesísticas
+
+- Cabina de discos que da servicio con LUNs, NFS a MACJ.
+
+- Nombre: cseepjmcic1 y cseepjmcic2
+
+- Version: Data ONTAP Release 8.2.5 7
+
+-Tiene dos controladoras
+
+- Alertas contempladas:
+
+// <font 14px font-style:normal; font-weight:700; text-align:start/sans-serif;;inherit;;inherit>****</font> //Acceso
+
+  * cseepjmcic1
+
+IP GESTION - ssh: 10.209.64.61  Interface e0M
+
+IP Servio: 10.209.68.125 (NFS)  Las Interfaces e0a (1Gb) y e0b (1Gb) forman el agregado -> a0a (2Gb)
+
+ILO: 10.209.64.138
+
+  * cseepjmcic2
+
+IP GESTION - ssh: 10.209.64.62  Interface e0M
+
+IP Servio: 10.209.68.126  Las Interfaces e0a (1Gb) y e0b (1Gb) forman el agregado -> a0a (2Gb)
+
+ILO: 10.209.64.156
+
+El acceso se puede establecer via  SSH o mediante el cliente pesado "NetApp OnCommand System Manager 3.1.3", instalado en justiciamacjdc3.
+
+Dicho cliente pesado se encuentra en //\\iusnas05\sij\Software\Herramientas-Administracion\GTAB\Netapp2554//
+
+// <font 14px font-style:normal; font-weight:700; text-align:left/sans-serif;;inherit;;inherit>****</font> //Configuración
+
+  * cseepjmcic1
+
+-  Agregados:
+
+ aggr0 - 131.1TB
+
+- Volúmenes:
+
+|**Nombre** |**Agregado** |**Estado** |**Thin Provisioned** |**Espacio Total** |**Snapshot** |
+| <font inherit/Times New Roman;;inherit;;inherit>Backup_centralizado</font> | <font inherit/Times New Roman;;inherit;;inherit>aggr0</font> | <font inherit/Times New Roman;;inherit;;inherit>online</font> | <font inherit/Times New Roman;;inherit;;inherit>No</font> | <font inherit/Times New Roman;;inherit;;inherit>800 GB</font> | <font inherit/Times New Roman;;inherit;;inherit>No hay</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>Comunes1</font> | <font inherit/Times New Roman;;inherit;;inherit>aggr0</font> | <font inherit/Times New Roman;;inherit;;inherit>online</font> | <font inherit/Times New Roman;;inherit;;inherit>No</font> | <font inherit/Times New Roman;;inherit;;inherit>650 GB</font> | <font inherit/Times New Roman;;inherit;;inherit>5% Reservado ¿ 14 dias</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>Comunes2</font> | <font inherit/Times New Roman;;inherit;;inherit>aggr0</font> | <font inherit/Times New Roman;;inherit;;inherit>online</font> | <font inherit/Times New Roman;;inherit;;inherit>No</font> | <font inherit/Times New Roman;;inherit;;inherit>1.17 TB</font> | <font inherit/Times New Roman;;inherit;;inherit>10% Reservado ¿ 14 dias</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>Comunes3</font> | <font inherit/Times New Roman;;inherit;;inherit>aggr0</font> | <font inherit/Times New Roman;;inherit;;inherit>online</font> | <font inherit/Times New Roman;;inherit;;inherit>No</font> | <font inherit/Times New Roman;;inherit;;inherit>1.17 TB</font> | <font inherit/Times New Roman;;inherit;;inherit>10% Reservado ¿ 14 dias</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>Comunes4</font> | <font inherit/Times New Roman;;inherit;;inherit>aggr0</font> | <font inherit/Times New Roman;;inherit;;inherit>online</font> | <font inherit/Times New Roman;;inherit;;inherit>No</font> | <font inherit/Times New Roman;;inherit;;inherit>400 GB</font> | <font inherit/Times New Roman;;inherit;;inherit>3% Reservado ¿ 14 dias</font> |
+
+- Compartido por NFS:
+
+|**Export Path** |**Host** |
+|/vol/Backup_centralizado|justiciamacjh5, justiciamacjh6, justiciamacjh7, justiciamacjh8|
+|/vol/Comunes1|All Host|
+|/vol/Comunes2|All Host|
+|/vol/Comunes3|All Host|
+|/vol/Comunes4|All Host|
+
+- LUNs
+
+|**Nombre** |**Path** |**Total Size** |**Iniciador** |
+| <font 1.0em/inherit;;inherit;;inherit>LUN1_comun11</font> | <font 1.0em/inherit;;inherit;;inherit>/vol/Comunes1</font> | <font 1.0em/inherit;;inherit;;inherit>275.04 GB</font> | <font 1.0em/inherit;;inherit;;inherit>HBA_MACJH1_Slot1, HBA_MACJH2_Slot1</font> |
+| <font 1.0em/inherit;;inherit;;inherit>Lun2_Comunes2</font> | <font 1.0em/inherit;;inherit;;inherit>/vol/Comunes2</font> | <font 1.0em/inherit;;inherit;;inherit>600.08 GB</font> | <font 1.0em/inherit;;inherit;;inherit>HBA_MACJH1_Slot1, HBA_MACJH2_Slot1</font> |
+| <font 1.0em/inherit;;inherit;;inherit>Lun3_Comunes3</font> | <font 1.0em/inherit;;inherit;;inherit>/vol/Comunes3</font> | <font 1.0em/inherit;;inherit;;inherit>550.02 GB</font> | <font 1.0em/inherit;;inherit;;inherit>HBA_MACJH1_Slot1, HBA_MACJH2_Slot1</font> |
+| <font 1.0em/inherit;;inherit;;inherit>Lun3_Descargas</font> | <font 1.0em/inherit;;inherit;;inherit>/vol/Comunes3</font> | <font 1.0em/inherit;;inherit;;inherit>100.01 GB</font> | <font 1.0em/inherit;;inherit;;inherit>HBA_MACJH1_Slot1, HBA_MACJH2_Slot1</font> |
+| <font 1.0em/inherit;;inherit;;inherit>Lun4_Comunes4</font> | <font 1.0em/inherit;;inherit;;inherit>/vol/Comunes4</font> | <font 1.0em/inherit;;inherit;;inherit>200.03 GB</font> | <font 1.0em/inherit;;inherit;;inherit>HBA_MACJH1_Slot1, HBA_MACJH2_Slot1</font> |
+
+  * cseepjmcic2
+
+-  Agregados:
+
+ aggr0 - 131.1TB
+
+- Volúmenes:
+
+|** <font 14px font-weight:700/inherit;;inherit;;inherit>Nombre</font> ** |** <font 14px font-weight:700/inherit;;inherit;;inherit>Agregado</font> ** |** <font 14px font-weight:700/inherit;;inherit;;inherit>Estado</font> ** |** <font 14px font-weight:700/inherit;;inherit;;inherit>Thin Provisioned</font> ** |** <font 14px font-weight:700/inherit;;inherit;;inherit>Espacio Total</font> ** |
+| <font 1em/inherit;;inherit;;inherit>vol_LUN2</font> | <font 1em/inherit;;inherit;;inherit>aggr0</font> | <font 1em/inherit;;inherit;;inherit>online</font> | <font 1em/inherit;;inherit;;inherit>No</font> | <font 1em/inherit;;inherit;;inherit>9.88 TB</font> |
+ <font 14px font-style:normal; font-weight:400; text-align:left/sans-serif;;inherit;;inherit>- Compartido por NFS:</font>
+
+|**Export Path** |**Host** |
+|/vol/vol_LUN2|All Host|
+
+- LUNs
+
+|**Nombre** |**Path** |**Total Size** |**Grupo Iniciador** |**Iniciadores** ||
+| <font inherit/Times New Roman;;inherit;;inherit>backupMACJH5</font> | <font inherit/Times New Roman;;inherit;;inherit>/vol/vol_LUN2</font> | <font inherit/Times New Roman;;inherit;;inherit>200 GB</font> | <font inherit/Times New Roman;;inherit;;inherit>MACJH5_HBA1</font> | <font inherit/Times New Roman;;inherit;;inherit>10:00:00:00:c9:60:91:d6</font> | <font inherit/Times New Roman;;inherit;;inherit>20:00:00:00:c9:60:91:d6</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>LUN_Malaya</font> | <font inherit/Times New Roman;;inherit;;inherit>/vol/vol_LUN2</font> | <font inherit/Times New Roman;;inherit;;inherit>5 TB</font> | <font inherit/Times New Roman;;inherit;;inherit>cseepjmci</font> | <font inherit/Times New Roman;;inherit;;inherit>10:00:00:06:2b:1b:0c:35</font> | <font inherit/Times New Roman;;inherit;;inherit>10:00:00:06:2b:1b:0c:34</font> |
+| <font inherit/Times New Roman;;inherit;;inherit>LUN_XEN</font> | <font inherit/Times New Roman;;inherit;;inherit>/vol/vol_LUN2</font> | <font inherit/Times New Roman;;inherit;;inherit>4 TB</font> | <font inherit/Times New Roman;;inherit;;inherit>XENSERVER_1_P1 \\
+XENSERVER_2_P2 \\
+XENSERVER_3</font> | <font inherit/Times New Roman;;inherit;;inherit>10:00:00:90:fa:82:8c:5d \\
+21:00:00:24:ff:3c:75:7d \\
+21:00:00:24:ff:1d:ed:71</font> | <font inherit/Times New Roman;;inherit;;inherit>10:00:00:90:fa:82:8b:f7 \\
+21:00:00:24:ff:3c:75:7c \\
+21:00:00:24:ff:1d:ed:70</font> |
+
+  * ** <font 18px/inherit;;inherit;;inherit>DATA DOMAIN 2500</font> **
+// <font 14px font-weight:700; text-align:start/sans-serif;;inherit;;inherit>****</font> //Servicio dado y Caractesísticas
+
+- Cabina de disco que en principio se utilizó como réplica del Data Domain que se encuentra en SSCC, pero se dejó de utilizar por la lentitud en la transmisión de datos.
+
+- Nombre: IUSAPBACK03
+
+- OS: 5.4.4.3-460654
+
+// <font 14px font-style:normal; font-weight:700; text-align:start/sans-serif;;inherit;;inherit>****</font> //Acceso
+
+IUSAPBACK03 - 10.209.64.245
+
+ 10.209.64.246
+
+ 10.209.64.247
+
+ 10.209.64.248
+
+Acceso:http://iusapback03.malaga.justicia.junta-andalucia.es/ddem/
+
+// <font 14px font-style:normal; font-weight:700; text-align:start/sans-serif;;inherit;;inherit>****</font> //Configuración
+
+- No tiene tarea de limpieza
+
+- No se utiliza Replicación, Sanpshot, VTL ni Quota.
+
+- MTree:
+
+ /data/col1/backup
+
+ /data/col1/iusslnsrsrv01   (DDBoost)
+
+- NFS premitidos en el host sysadmin.justicia.junta-andalucia.es:
+
+ /backup
+
+ /ddvar
+
+  * ** <font 18px/inherit;;inherit;;inherit>SWITCH DE FIBRA</font> **
+// <font 14px font-weight:700; text-align:start/sans-serif;;inherit;;inherit>****</font> //Servicio dado y Caractesísticas
+
+Existen 4 Switch HP SN3000B 24/12 de fibras formando 2 Fabrics entre ellos. Estos les dan servicio a todo el almacenamiento y Servidores de MACJ.
+
+Tienen 24 puertos pero solo licenciados 12 a 8 Gb
+
+**Modelo**
+
+Factory Serial Num:  CCD1927L05M
+
+ID:  BRD0000CA
+
+Part Num:  BROCAD0000650
+
+FOS:  v7.2.1d
+
+// <font 14px font-style:normal; font-weight:700; line-height:1.4em; text-align:start/sans-serif;;inherit;;inherit>****</font> //Acceso
+
+SAN_HP_SW1: 10.209.64.228
+
+SAN_HP_SW2: 10.209.64.229
+
+SAN_HP_SW3: 10.209.64.64
+
+SAN_HP_SW4: 10.209.64.65
+
+**Utilización de Puertos**  (12 licenciados del 0-11)
+
+|FABRIC 1|SAN_HP_SW1|0|1|2|3|4|5|
+| ::: |Switch ID 10|SAN_HP_SW3|MSA2040_A1| |NETAPP2554_C1_0C|XENSERVER1_P1|MACJH5_P1|
+| ::: | |6|7|8|9|10|11|
+| ::: | ::: |MACJH6_P1|MACJH7_P1|MACJH8_P1|MACJH1_P1|MACJH2_P1|XENSERVER2_P2|
+| ::: | ::: | ||||||
+| ::: | ::: | ::: |||||| |
+| ::: | ::: | ::: |||||| |
+| ::: | ::: | ::: |||||| |
+| ::: |SAN_HP_SW3|0|1|2|3|4|5|
+| ::: |Switch ID 20|SAN_HP_SW1|MSA2040_B1|NETAPP2554_C2_0D|IMALAYA_P1|DATADOMAIN_P0|XENSERVER3_P1|
+| ::: | |6|7|8|9|10|11|
+| ::: | ::: | | | | | | |
+
+|FABRIC 2|SAN_HP_SW2|0|1|2|3|4|5|
+| ::: |Switch ID 10|SAN_HP_SW4|MSA2040_A2| |NETAPP2554_C2_0C|XENSERVER1_P2|MACJH5_P2|
+| ::: | |6|7|8|9|10|11|
+| ::: | ::: |MACJH6_P2|MACJH7_P2|MACJH8_P2|MACJH1_P2|MACJH2_P2|XENSERVER2_P1|
+| ::: | ::: | ||||||
+| ::: | ::: | ::: |||||| |
+| ::: | ::: | ::: |||||| |
+| ::: | ::: | ::: |||||| |
+| ::: |SAN_HP_SW4|0|1|2|3|4|5|
+| ::: |Switch ID 20|SAN_HP_SW2|MSA2040_B2|NETAPP2554_C1_0D|IMALAYA_P2|DATADOMAIN_P1| |
+| ::: | |6|7|8|9|10|11|
+| ::: | ::: | | | | | | |
+ <font 14px font-style:normal; font-weight:700; text-align:start/sans-serif;;inherit;;inherit>**Utilización de zonas y WWN**</font>
+
+|FABRIC 1|ALIAS|WWN| |ZONAS|ALIAS|
+| ::: |MACJH1_P1 |21:00:00:e0:8b:93:5e:61| ::: |MACJH1_P1_MSA2040_A1 |MACJH1_P1; MSA2040_A1|
+| ::: |MACJH2_P1 |21:00:00:1b:32:1f:80:35| ::: |MACJH1_P1_MSA2040_B1 |MACJH1_P1; MSA2040_B1|
+| ::: |MACJH5_P1 |10:00:00:00:c9:60:91:d6| ::: |MACJH1_P1_NETAPP_C1_0B|MACJH1_P1; NETAPP_C1_0B|
+| ::: |MACJH6_P1 |21:01:00:1b:32:33:f3:ca| ::: |MACJH2_P1_MSA2040_A1 |MACJH2_P1; MSA2040_A1|
+| ::: |MACJH7_P1 |10:00:00:90:fa:81:04:ac| ::: |MACJH2_P1_MSA2040_B1 |MACJH2_P1; MSA2040_B1|
+| ::: |MACJH8_P1 |10:00:00:90:fa:81:06:7a| ::: |MACJH2_P1_NETAPP_C1_0B|MACJH2_P1; NETAPP_C1_0B|
+| ::: |MSA2040_A1 |20:70:00:c0:ff:1d:ec:73| ::: |MACJH5_P1_MSA2040_A1 |MACJH5_P1; MSA2040_A1|
+| ::: |MSA2040_B1 |24:70:00:c0:ff:1d:ec:73| ::: |MACJH5_P1_MSA2040_B1 |MACJH5_P1; MSA2040_B1|
+| ::: |NETAPP_C1_0B |50:0a:09:82:88:0d:28:49| ::: |MACJH6_P1_MSA2040_A1 |MACJH6_P1; MSA2040_A1|
+| ::: |XENSERVER_1_P1|21:00:00:24:ff:3c:75:7c| ::: |MACJH6_P1_MSA2040_B1 |MACJH6_P1; MSA2040_B1|
+| ::: |XENSERVER_2_P2|10:00:00:90:fa:82:8b:f7| ::: |MACJH7_P1_MSA2040_A1 |MACJH7_P1; MSA2040_A1|
+| ::: |XENSERVER_3_P1|21:00:00:24:ff:1d:ed:70| ::: |MACJH7_P1_MSA2040_B1 |MACJH7_P1; MSA2040_B1|
+| ::: |DATADOMAIN_P0|50:02:18:83:08:a0:38:36| ::: |MACJH8_P1_MSA2040_A1 |MACJH8_P1; MSA2040_A1|
+| ::: |NETAPP2554_C2_0D|50:0a:09:82:80:e3:24:df| ::: |MACJH8_P1_MSA2040_B1 |MACJH8_P1; MSA2040_B1|
+| ::: |NETAPP2554_C1_0C|50:0a:09:81:90:e3:24:df| ::: |MACJH1_P1_NETAPP2554_C1_0C|MACJH1_P1;NETAPP2554_C1_0C|
+| ::: |IMALAYA_P1|10:00:00:06:2b:1b:0c:35| ::: |MACJH2_P1_NETAPP2554_C1_0C|MACJH2_P1;NETAPP2554_C1_0C|
+| ::: | | | ::: |XENSERVER_1_P1_NETAPP2554_C2_0D|XENSERVER_1_P1;NETAPP2554_C2_0D|
+| ::: | | | ::: |XENSERVER_2_P2_NETAPP2554_C2_0D|XENSERVER_2_P2;NETAPP2554_C2_0D|
+| ::: | ||XENSERVER_3_P1_NETAPP2554_C2_0D| ::: |XENSERVER_3_P1;NETAPP2554_C2_0D|
+| ::: | ::: ||IMALAYA_P1_NETAPP2554_C2_0D| ::: |IMALAYA_P1;NETAPP2554_C2_0D|
+| ::: | ::: || | ::: | |
+| ::: | ::: || | ::: | |
+
+|FABRIC 2|ALIAS|WWN| |ZONAS|ALIAS|
+| ::: |MACJH1_P2 |21:00:00:e0:8b:93:1a:4e| ::: |MACJH1_P2_MSA2040_A2 |MACJH1_P2; MSA2040_A2|
+| ::: |MACJH2_P2 |21:00:00:e0:8b:93:b9:4e| ::: |MACJH1_P2_MSA2040_B2 |MACJH1_P2; MSA2040_B2|
+| ::: |MACJH5_P2 |10:00:00:00:c9:60:91:d7| ::: |MACJH2_P2_MSA2040_A2 |MACJH2_P2; MSA2040_A2|
+| ::: |MACJH6_P2 |21:00:00:1b:32:13:f3:ca| ::: |MACJH2_P2_MSA2040_B2 |MACJH2_P2; MSA2040_B2|
+| ::: |MACJH7_P2 |10:00:00:90:fa:81:04:ad| ::: |MACJH5_P2_MSA2040_A2 |MACJH5_P2; MSA2040_A2|
+| ::: |MACJH8_P2 |10:00:00:90:fa:81:06:7b| ::: |MACJH5_P2_MSA2040_B2 |MACJH5_P2; MSA2040_B2|
+| ::: |MSA2040_A2 |21:70:00:c0:ff:1d:ec:73| ::: |MACJH6_P2_MSA2040_A2 |MACJH6_P2; MSA2040_A2|
+| ::: |MSA2040_B2 |25:70:00:c0:ff:1d:ec:73| ::: |MACJH6_P2_MSA2040_B2 |MACJH6_P2; MSA2040_B2|
+| ::: |NETAPP_C2_0A |50:0a:09:81:98:0d:28:49| ::: |MACJH7_P2_MSA2040_A2 |MACJH7_P2; MSA2040_A2|
+| ::: |XENSERVER_1_P2|21:00:00:24:ff:3c:75:7d| ::: |MACJH7_P2_MSA2040_B2 |MACJH7_P2; MSA2040_B2|
+| ::: |XENSERVER_2_P1|10:00:00:90:fa:82:8c:5d| ::: |MACJH8_P2_MSA2040_A2 |MACJH8_P2; MSA2040_A2|
+| ::: |XENSERVER_3_P2|21:00:00:24:ff:1d:ed:71| ::: |NETAPP_C2_0A_XENSERVER_2_P1|NETAPP_C2_0A; XENSERVER_2_P1|
+| ::: |DATADOMAIN_P1|50:02:18:83:08:a1:38:36| ::: |NETAPP_C2_0A_XENSERVER_1_P2|NETAPP_C2_0A; XENSERVER_1_P2|
+| ::: |NETAPP2554_C1_0D|50:0a:09:82:90:e3:24:df| ::: |NETAPP_C2_0A_XENSERVER_2_P1|NETAPP_C2_0A; XENSERVER_2_P1|
+| ::: |NETAPP2554_C2_0C|50:0a:09:81:80:e3:24:df| ::: |MACJH1_P2_NETAPP2554_C1_0D|MACJH1_P2;NETAPP2554_C1_0D|
+| ::: |IMALAYA_P2|10:00:00:06:2b:1b:0c:34| ::: |MACJH2_P2_NETAPP2554_C1_0D|MACJH2_P2;NETAPP2554_C1_0D|
+| ::: | ||XENSERVER_1_P2_NETAPP2554_C2_0C| ::: |XENSERVER_1_P2;NETAPP2554_C2_0C|
+| ::: | ::: ||XENSERVER_2_P1_NETAPP2554_C2_0C| ::: |XENSERVER_2_P1;NETAPP2554_C2_0C|
+| ::: | ::: ||XENSERVER_3_P2_NETAPP2554_C2_0C| ::: |XENSERVER_2_P1;NETAPP2554_C2_0C|
+| ::: | ::: ||IMALAYA_P2_NETAPP2554_C2_0C| ::: |IMALAYA_P2;NETAPP2554_C2_0C|
+
+======
+Esquema de Almacenamiento  ======
+
+{{https://xwiki.justicia.junta-andalucia.es/xwiki/bin/download/Sistemas/almacenamiento_macj/RedSANMACJ.jpeg?nolink&|RedSANMACJ.jpeg}}
+
+Para mas información y detalle del mapa de conectividad ver los documentos:
+
+\\Iusnas05\Sistemas\GTAB\SAN\SANHealth_170525_0956_SAN_MACJ_CJI.vsd
+ <font 14px font-style:normal; font-weight:normal; text-align:left/sans-serif;;inherit;;inherit>\\Iusnas05\Sistemas\GTAB\SAN\SANHealth_170525_0956_SAN_MACJ_CJI.xls</font>
+
+======
+ Monitorización  ======
+
+La monitorización está recogida en la página de monitirozación
+[[http://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/Monitorizacion+GTAB|Monitorizacion GTAB]]
+
+

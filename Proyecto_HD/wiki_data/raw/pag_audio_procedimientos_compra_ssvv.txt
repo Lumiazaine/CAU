@@ -1,0 +1,74 @@
+﻿
+<panel type="primary" title="Procedimientos y Problemas Conocidos Sistemas Audiovisuales">
+
+[[start|Volver atrás]]
+
+<WRAP>
+<panel type="info">
+
+====== Procedimiento Compra de Equipamiento para SSVV ======
+
+  * **Detección de la necesidad**: La sectorial de Justicia de Andalucía pone de manifiesto la necesidad, a veces por cauces informales, Delegados provinciales, Consejero, SGIJMDR, Decanos, etc, que se le traslada por la SGIJMDR a su Coordinador. La necesidad, en todo caso ha de llegar al correo institucional de la SGIJMDR (//sg.infraestructuras.cjalfp//) para ser considerada
+  * **Coordinador de SGIJMDR** envía correo con necesidad a RTIC del SSDJ y anticipa con RTIC la cobertura de la misma a grandes rasgos. Para concretarla:
+  * **SSDJ** pide colaboración a ADA Territorial para concretar la necesidad, aportando modelos de pliegos (apartados técnicos) MJ ó PPT,información de coordinación, del proyecto, a veces presupuesto orientativo, etc.
+  * **ADA Territorial** redacta, supervisa y actualiza si fuera necesario los apartados técnicos MJ ó PPT, conjuntamente con SSDJ
+  * **SSDJ** remite consideración técnica sobre el suministro a SGIJMDR con cantidades concretas, para que se aprovisione crédito para el suministro
+  * **SGIJMDR transfiere crédito a DT's** 
+  * **SSDJ comunica a ADA Territorial** la decisión de suministro de la SGIJMDR
+  * **ADA Territorial** apoya al Secretario General de cada una de ellas en las competencias ADA (redacción técnica, responsables de contrato, supervisión de la ejecución, etc.)
+  * **SSDJ**, revisa:
+     * costes, idoneidad y adecuación del equipamiento y la actuación,
+     * que __el plano__ va en la MJ ó PPT,
+     * que __el mantenimiento__ está incluido en el presupuesto,
+     * que la __cláusula de exclusividad__ de Fujitsu España sobre Arconte es incluida expresamente,
+     * que hay designación de __responsable del contrato__ a personal de ADA,
+     * que si hay PPT, __el personal de ADA responsable del contrato firme el PPT__,
+     * y que el __periodo incluido en el mismo__ permite alcanzar el final del encargo: junio 2025 a agosto 2027
+
+      Se trata de la especificación del periodo de mantenimiento, el encargo va a ejecutarse desde septiembre de 2025 a agosto de 2027.
+      Cuando en la MJ dice: "Una vez finalizada la garantía, el mantenimiento y el soporte software se prestarán por la inclusión de este sistema en el contrato central del SSJD."
+      …debe sustituirse por: "El mantenimiento y el soporte software que han de realizarse sobre este suministro una vez finalizada la garantía (a los X meses de la ejecución del suministro) están incluidos en el coste del mismo y no se aplicará coste a los mismos al ser incluido el suministro dentro del conjunto de equipamientos Arconte en el Encargo 10/2025 de la Agencia Digital de Andalucía (SERVICIO PARA EL SOPORTE COMPLETO Y ADMINISTRACIÓN DE LOS SISTEMAS AUDIOVISUALES DE LAS SALAS DE VISTAS, DESPACHOS, GESELL Y PANELES DE LAS SEDES JUDICIALES DE ANDALUCÍA) gestionado por el SSDJ como marco de ejecución de los sistemas audiovisuales de salas de vistas y equipamiento relacionado".
+      Y posteriormente, donde dice: "cuyo uso está “cedido” a la Junta de Andalucía en virtud del contrato CONTR 2018-83071 de SUMINISTRO, MANTENIMIENTO Y ADMINISTRACIÓN DE SISTEMAS AUDIOVISUALES PARA LOS ÓRGANOS JUDICIALES DE ANDALUCÍA".
+      …debe completarse con: "cuyo uso está “cedido” a la Junta de Andalucía en virtud del contrato CONTR 2018-83071 de SUMINISTRO, MANTENIMIENTO Y ADMINISTRACIÓN DE SISTEMAS AUDIOVISUALES PARA LOS ÓRGANOS JUDICIALES DE ANDALUCÍA y siguientes hasta el actual Encargo 10/2025 de la Agencia Digital de Andalucía antes citado"
+
+  * **SSDJ**, si se cumple lo anterior,
+     * tramita INFOCOR (comunicado o informe técnico vinculante) y
+     * devuelve INFOCOR a ADA Territorial (ya que esta contratación es descentralizada, con créditos de los servicios periféricos de la SGIJMDR: Deleg Territorial de la Consejería en la provincia correspondiente)
+     * si no hay INFOCOR, a petición de la SGIJMDR, no se integrará el nuevo equipamiento en los sistemas multimedia de Justicia Digital
+  * **Firmantes**:
+     * __En un menor__, la MJ la firma la SG de la DT y el DT la orden de encargo
+     * __En un contrato ordinario__, la MJ la firma la SG de la DT, el PPT lo firma el personal ADA y el contrato el DT
+  * **ADA Territorial** gestionan la ejecución el contrato en coordinación con SSDJ
+
+</panel> 
+<panel type="info">
+
+====== Obligatoriedad de INCOFOR e Inventariado en CRIJA ======
+
+**Resumen**: La Orden de 23/10/2012 de política informática de la JdA establece la obligatoriedad de INCOFOR y la obligación de inventariado en CRIJA, en principio por parte de la Administración, sin perjuicio de que su ejecución material pueda imponerse al proveedor cuando así se haya previsto en el contrato o en el informe vinculante en materia TIC.
+
+La **Orden de 23 de octubre de 2012** de política informática de la Junta de Andalucía establece en el Art. 5.1:  La celebración de contratos de suministro y servicios TIC requiere informe favorable previo. Art. 5.3: Debe emitirse: __antes de iniciar el expediente y antes de la fiscalización del gasto formando parte del expediente__. Art. 5.8: __Se tramita a través de INFOCOR__. También establece: __Todo equipamiento TIC debe estar en el Censo de Recursos Informáticos (CRIJA__) (art. 10). __El inventario en CRIJA es obligatorio, pero responsabilidad de la Administración__. La Dirección General (hoy en la Agencia Digital de Andalucía) define los procedimientos y medios para su inclusión, pero __**no** atribuye directamente al proveedor la obligación de inventariar o etiquetar__. Habla de “los responsables de los recursos”, es decir, la Administración.
+
+La **Instrucción 1/2022**, dice que la Agencia Digital de Andalucía introduce requisitos (para acceder a mantenimiento corporativo):
+  * Equipos etiquetados
+  * Equipos dados de alta en CRIJA
+
+Esto convierte __el inventario y etiquetado en obligatorios funcionalmente, pero no dice quién lo hace__, sino qué condiciones deben cumplirse.
+
+INFOCOR y el expediente, y su guía dicen que, __si en el contrato se incluye etiquetado, el proveedor: etiqueta físicamente, da de alta (o participa en el alta) en CRIJA__. Todo esto forma parte de la prestación contractual y el coste va incluido en el contrato, __entonces se le puede obligar al proveedor__. Caso __en el que el contrato NO incluye etiquetado. El organismo hace el inventario, etiqueta y gestiona CRIJA. Aquí NO se puede obligar al proveedor__
+
+En __el procedimiento de proveedores, dice que los proveedores “deben” etiquetar e inventariar__… pero esto es un procedimiento operativo, no una norma con rango suficiente por sí sola. Entiendo que solo es exigible jurídicamente si:  se incorpora al contrato, o se deriva del informe vinculante de INFOCOR.
+
+Información más detallada, respecto a las averiguaciones de la instrucción y la orden que aplica a los informes vinculantes, INFOCOR y el inventario en CRIJA:
+
+  * [[https://juntadeandalucia.es/boja/2012/222/1| Orden de 23 de octubre de 2012, por la que se desarrollan determinados aspectos de la política informática de la Junta de Andalucía.]]
+  * [[https://urldefense.com/v3/__https://juntadeandalucia.es/sites/default/files/2023-03/Instrucci**An*201*202022*20ADA.pdf__;w7MlJSU!!EJ3n55FBLexp1rhr!_lMmpj57QgNMntAyzY1kdYlrhxiGtt6FPceNt6XPlCLUVMcVx0AcJvARKDTJAlQmgbf7foFVkonnNlO37qKAD223lkOHpmcMrF-jGnbMJyUa1UBqNHFJG5cl$|INSTRUCCIÓN NÚM. 1/2022 DE LA DIRECCIÓN GERENCIA DE LA AGENCIA DIGITAL DE ANDALUCÍA, SOBRE DIVERSAS CUESTIONES RELACIONADAS CON LA SOLICITUD DEL INFORME REGULADO EN LA ORDEN DE LA CONSEJERÍA DE HACIENDA Y ADMINISTRACIÓN PÚBLICA, DE 23 DE OCTUBRE DE 2012, POR LA QUE SE DESARROLLAN DETERMINADOS ASPECTOS DE LA POLÍTICA INFORMÁTICA DE LA JUNTA DE ANDALUCÍA.]]
+  * [[https://share.google/RolGSU2HzKBUtVbHZ|PROCEDIMIENTO DE INVENTARIADO DE BIENES INFORMÁTICOS DE LA JUNTA DE ANDALUCÍA. PROVEEDORES]]
+  * [[http://infocor.i-administracion.junta-andalucia.es/guia/v3/GuiaRevisionSolicitudesINFOCOR.pdf|Guía de Referencia del Informe Vinculante en materia de Política Digital. Revisión Solicitudes INFOCOR]]
+
+</panel>
+ 
+</WRAP>
+[[start|Volver atrás]]
+
+{{tag>validado}}

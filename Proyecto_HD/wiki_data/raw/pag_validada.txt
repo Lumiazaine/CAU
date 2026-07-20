@@ -1,0 +1,7 @@
+﻿
+===== Páginas validadas =====
+
+Aquí tienes todas las páginas etiquetadas con "VALIDADA": 
+
+{{topic>VALIDADA}}
+

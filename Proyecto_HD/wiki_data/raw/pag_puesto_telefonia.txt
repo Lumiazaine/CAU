@@ -1,0 +1,124 @@
+﻿
+====== ABRIL 2026 - ORGANIZACION DE LA TELEFONÍA SEGUN SUBDIRECCION DE PUESTO DE TRABAJO (piloto) ======
+
+Desde la subdirección de puesto de trabajo hemos asumido el puesto de trabajo en órganos judiciales lo que incluye la telefonía que antes se llevaba fuera del servicio de informática judicial. Desde Sandetel nos han comunicado que esta previsto el apagado de las redes 2G y 3G de telefonía móvil, lo que afecta a la telefonía de órganos judiciales que tiene desplegado terminales fijos con esa tecnología, con este motivo y aprovechando la reorganización de los servicios de los órganos judiciales vamos a implantar un nuevo modelo de telefonía con dos pilotos uno en Dos Hermanas y otro en Velez-Málaga con las siguientes características:
+
+  * Los fijos-móviles se pasan a telefonía IP
+  * Hay un teléfono de cabecera para la oficina judicial con un árbol de enrutamiento (si quiere contactar con el servicio común de tramitación pulse 1, si…pulse 2…)
+  * Habrá tres móviles de guardia: Juez, Letrado y Fiscal.
+  * Tienen teléfonos IP con su línea individual: Magistrados/Jueces, directores de servicios comunes, letrados, fiscales, forenses y salas.
+  * El resto del personal tendrán terminales telefónicos con líneas compartidas.
+  * En los display de los teléfonos se mostrará la información del puesto de trabajo.
+
+Este modelo se ha consensuado con los LAJ de ambas sedes y ahora estamos intentando recopilar toda la información de los usuarios para hacer el pedido la semana que viene.
+
+Vamos a aprovechar para tener un directorio telefónico.
+
+La persona que esta dirigiendo este proyecto es Alberto Vargas en copia de este correo.
+ <font 10.0pt/inherit;;inherit;;inherit>Sv. de Soporte al Puesto de Trabajo</font>
+ <font 10.0pt/inherit;;inherit;;inherit>Subdirección de Puesto de Trabajo</font>
+ <font 10.0pt/inherit;;inherit;;inherit>Agencia Digital de Andalucía</font>
+
+----
+
+<html> <html lang="es"> <head>
+
+<code>
+  <meta charset="UTF-8">
+  <title>TELEFONÍA</title>
+  <style>
+      body {
+          font-family: Arial, sans-serif;
+          background-color: #39546E;
+          margin: 0;
+          padding: 20px;
+          padding-top: 70px;
+
+      }
+
+</code>
+
+<code>
+      .main-container {
+          max-width: 1550px;
+          margin: 0 auto;
+      }
+
+</code>
+
+<code>
+      .main-header {
+          background-color: #39546E;
+          color: white;
+          padding: 25px 20px;
+          font-size: 2rem;
+          font-weight: bold;
+          border-radius: 8px 8px 0 0;
+          text-align: center;
+          margin-bottom: 20px;
+      }
+
+</code>
+
+<code>
+      .block {
+          background-color: #ffffff;
+          border-radius: 8px;
+          padding: 22px;
+          margin-bottom: 25px;
+          border: 1px solid #c5ccd4;
+          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+      }
+
+</code>
+
+<code>
+      .block h2 {
+          margin-top: 0;
+          color: #39546E;
+          border-bottom: 2px solid #39546E;
+          padding-bottom: 10px;
+
+      }
+
+      a {
+          color: #0051A3;
+          text-decoration: none;
+
+      }
+
+      .btn-volver {
+          background-color: #39546E;
+          color: white;
+          padding: 10px 20px;
+          font-weight: bold;
+          border: none;
+          border-radius: 8px;
+          transition: background 0.3s ease;
+
+      }
+
+</code>
+
+<code>
+      .btn-volver:hover {
+          background-color: #39546E;
+          color: white;
+          box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+          transform: translateY(-2px);
+
+      }
+
+  </style>
+
+</code>
+
+</head>
+
+<body>
+
+<!– sustituir enlace si se requiere –> <a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_puesto" class="btn-volver">Volver</a> <div class="main-container"> <div class="main-header">Criterios de asignación de servicios y equipamiento de telefonía según perfiles de usuario de la Administración de Justicia </div> <!– Bloque Telefonía FIJA –> <div class="block"> <h2>Telefonía FIJA</h2> <h4><b>Criterios generales:</b></h4> <ul> <li>El Terminal fijo es un equipo de mesa con tarjeta SIM</li> <li>Por defecto, perfil de llamada a móviles y fijos nacionales</li> <li>La necesidad concreta se gestiona en algunas provincias por el equipo de ADA Territorial local y en otras contactando al equipo de Rafael Cano y gestionando con RCJA de forma independiente.</li> </ul> <h4><b>Dotación estándar (salvo necesidades excepcionales y justificadas):</b></h4> <ul> <li>En cada Audiencia Provincial, perfil de llamada internacional, asignado a Secretaría de Presidencia y a disposición de quien lo necesite</li> <li>A cada Juez/Magistrado, perfil de llamada a móviles y fijos nacionales</li> <li>A cada Fiscal, perfil de llamada a móviles y fijos nacionales</li> <li>A cada LAJ, perfil de llamada a móviles y fijos nacionales</li> <li>A cada Forense, perfil de llamada a móviles y fijos nacionales</li> <li>En cada Servicio Común de Tramitación (SCT): <ul> <li>Para cada Grupo de Trabajo, una distribución de equipos según el LAJ Director del SCT especifique: desde 1×1, a 1xvarios, perfil de llamada a móviles y fijos nacionales</li> </ul> </li> <li>En cada Servicio Común de EJecución (SCEJ): <ul> <li>Para cada Grupo de Trabajo, una distribución de equipos según el LAJ Director del SCEJ especifique: desde 1×1, a 1xvarios, perfil de llamada a móviles y fijos nacionales</li> </ul> </li> <li>En cada Servicio Común General (SCG): <ul> <li>Para los Auxilios de Actos de Comunicación, una distribución de equipos 1xvarios, perfil de llamada a móviles y fijos nacionales</li> <li>Para el resto de Auxilios, una distribución de equipos según el LAJ Director del SCG especifique</li> </ul> </li> <li>Para los servicios de apoyo (ADA, SAVA, Mediación, etc.), perfil de llamada a móviles y fijos nacionales</li> </ul> </div> <!– Bloque Telefonía MÓVIL –> <div class="block"> <h2>Telefonía MÓVIL</h2> <p>Se le entrega móvil corporativo a los siguientes perfiles (que han de prestar servicio fuera de su puesto en sede judicial), salvo necesidades excepcionales debidamente justificadas:</p> <ul> <li> Presidentes (de AP, de TSJ y de TI), terminales ejecutivos, uno en cada Partido Judicial (PJ), y eventualmente, sus secretarios/as. </li> <li> Fiscal Jefe: terminal ejecutivo, Tenientes Fiscales: terminal avanzado y Fiscal Decano: terminal avanzado, uno en cada provincia. </li> <li> Secretario Coordinador Provincial: terminal ejecutivo, uno en cada provincia. </li> <li> Servicio de guardia: Terminal básico, uno en cada Partido Judicial. Se turnan este equipamiento los siguientes perfiles cuando hacen guardia: <ul> <li>1 para juez/magistrado en guardia</li> <li>1 para LAJ en guardia</li> <li>1 para Fiscal en guardia</li> </ul> </li> <li> Forenses: Terminal Básico. Es difícil turnar móviles entre forenses en guardia, porque es de disponibilidad y no de presencialidad; normalmente se asigna 1 por forense. </li> </ul> </div> <!– Bloque Procedimiento para gestionar el Servicio de Roaming en las líneas móviles de la RCJA con Bonos de Alta Capacidad –> <div class="block"> <h2>Procedimiento para gestionar el Servicio de Roaming en las líneas móviles de la RCJA con Bonos de Alta Capacidad </h2> <p> <b>RCJA informa que</b>, con carácter general, no es necesario solicitar la activación del <b>servicio de roaming</b> en la RCJA si la línea móvil corporativa no sale fuera de la Unión Europea (zona UE). En este caso, podrá hacer uso de voz y datos como si estuviera en territorio nacional, aplicando las condiciones vigentes de su línea. </p> <p> Por otro lado, le informamos que, dentro de las mejoras incorporadas en el concurso RCJA V5, <b>los usuarios que dispongan de Bonos de Movilidad de Alta Capacidad</b> de 400 GB podrán disfrutar de servicio de roaming de voz y datos, así como de tráfico de voz internacional, sin coste adicional, es decir, incluido dentro del propio Bono de Alta Capacidad. </p> <p>A continuación, se detallan las condiciones de uso:</p> <ol> <li> <b>Roaming:</b> <p>Incluye 500 minutos y 3 GB en EE.UU., Zona Comercial y Latam.</p> <p>Una vez consumida la franquicia, los excesos se tarificarán de la siguiente forma:</p> <ul> <li>Establecimiento de llamada una vez superada la franquicia: 0€</li> <li>Llamada saliente/entrante una vez superada la franquicia: 0,15€/minuto</li> <li>MB una vez superada la franquicia: 0,15€/MB</li> </ul> </li> <li> <b>Llamadas internacionales:</b> <p>Incluye 500 minutos de llamadas internacionales a determinados países (*).</p> <p>Una vez superada la franquicia, los excesos se tarificarán de la siguiente forma:</p> <ul> <li>Establecimiento de llamada una vez superada la franquicia: 0,30€</li> <li>Precio por minuto: 0,50€/minuto</li> </ul> </li> </ol> <p> En el Portal <a href="https://portal-rcja.junta-andalucia.es/">RCJA</a>, en la sección de <a href="https://portal-rcja.junta-andalucia.es/actualidad/recomendaciones-y-medidas-para-el-aseguramiento-del-servicio-de-roaming-en-las-lineas">Actualidad</a> <b>(debe logarse previamente)</b> dispone de información actualizada donde consultar las zonas de roaming de aplicación en RCJA v5 y verificar si el país de destino está incluido en una de ellas, así como los otros bonos disponibles si el país destino no figurase dentro de las zonas de aplicación de dicha franquicia. </p> <p> Si el país al que viaja figura dentro de alguna de las zonas de roaming incluidas en la franquicia, al gestionar su solicitud deberá indicar que desea activar el roaming para la zona correspondiente (EE.UU., Zona Comercial o Latam) con los minutos y GB incluidos en su Bono de Alta Capacidad. </p> <p> Si realiza la solicitud a través del <a href="https://sio-rcja-rsso.juntadeandalucia.es/rsso/start?goto=http%3A%2F%2Fsio-rcja.juntadeandalucia.es%2Farsys%2F&tenant=sio-rcja.juntadeandalucia.es@ldap">Sistema Integrado de Operaciones</a> (SIO), deberá tramitarla mediante el formulario SRM denominado “Modificación de Línea / Extensión Móvil”</b>, seleccionando la tarifa de datos: “ACTIVACIÓN ROAMING EN BONOS ALTA CAPACIDAD – ZONA COMERCIAL, LATAM Y EE.UU.” </p>
+
+<div style="text-align: center;"> <p><img src="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?t=1770807584&w=499&h=421&tok=8726fa&media=telefonia.png" alt="Telefonía"></p> </div> <p><b>(*) Listado de países incluidos en los 500 minutos de llamadas internacionales:</b> Alemania, Argentina, Australia, Austria, Bélgica, Brasil, Bulgaria, Canadá, Chile, China, Chipre, Colombia, Costa Rica, Croacia, Dinamarca, Ecuador, Egipto, El Salvador, Eslovaquia, Eslovenia, Estados Unidos, Estonia, Finlandia, Francia, Gibraltar, Grecia, Guadalupe, Guayana Francesa, Guatemala, Holanda, Honduras, Hong Kong, Hungría, India, Indonesia, Irlanda, Israel, Islandia, Italia, Japón, Jersey, Kuwait, Letonia, Lituania, Luxemburgo, Malasia, Malta, México, Nicaragua, Noruega, Nueva Zelanda, Pakistán, Panamá, Perú, Polonia, Portugal, Puerto Rico, Reino Unido, Reunión, República Checa, República Dominicana, Rumanía, Rusia, Singapur, Sudáfrica, Suecia, Suiza, Tailandia, Taiwán, Turquía, Ucrania, Uruguay y Venezuela.</p> </div> </div> </body> </html> //
+
+

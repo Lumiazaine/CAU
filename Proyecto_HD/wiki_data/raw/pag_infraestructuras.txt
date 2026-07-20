@@ -1,0 +1,59 @@
+﻿
+====== Estándar de infraestructura de red por sede ======
+
+===== Objetivo =====
+Establecer los criterios técnicos y de estandarización mínimos para la instalación, documentación y mantenimiento de las infraestructuras de red en las sedes corporativas.
+
+===== 1. Estructura mínima de red por sede =====
+
+  * Router de borde (WAN)
+  * Firewall perimetral
+  * Switch principal (core o distribución)
+  * Switches de acceso (si aplica)
+  * Puntos de acceso WiFi (si aplica)
+  * Armario rack con elementos organizados
+  * UPS / SAI
+  * Cableado estructurado
+
+===== 2. Normas para armarios rack =====
+
+  * Altura mínima recomendada: 24U
+  * Fondo mínimo: 800 mm
+  * Puerta frontal perforada o ventilada
+  * Guías laterales y bandejas para organización de latiguillos
+  * Equipos montados de arriba a abajo:
+    - Paneles de parcheo (UTP/Fibra)
+    - Switches de acceso o distribución
+    - Firewall / Router
+    - UPS (parte inferior)
+  * Espacios libres (1U) entre bloques de equipos cuando sea posible
+
+===== 3. Estándares de cableado =====
+
+  * Categoría mínima: Cat6 UTP
+  * Fibra: OM3 multimodo (si aplica)
+  * Cableado vertical etiquetado y agrupado por tipo
+  * Latiguillos de 0.5m, 1m o 2m según necesidad; nunca enrollados ni tensados
+  * Separación de energía y datos mínima: 20 cm
+
+===== 4. Código de colores de latiguillos =====
+
+^ Tipo de conexión        ^ Color del latiguillo        ^
+| Troncales (Switch-Core) |Ejemplo : Rojo                          |
+| Uplinks                 |Ejemplo : Azul                          |
+| Usuarios LAN            |Ejemplo : Gris                          |
+| Voz / Teléfonos IP      |Ejemplo : Verde                         |
+| WiFi / APs              |Ejemplo :  Blanco                       |
+| Gestión / iLO / BMC     |Ejemplo : Naranja                       |
+| Equipos auxiliares (IoT, CCTV) | Ejemplo :  Negro                |
+
+//Normativa de colores pendiente definición por Jefatura//
+===== 5. Etiquetado obligatorio =====
+
+  * Etiqueta impresa (no escrita a mano)
+  * En ambos extremos del cable
+  * Formato estándar:
+
+=====  Historial de cambios =====
+^ Versión ^ Fecha ^ Cambio ^ Autor ^  
+| 1.0 | 2025-07-18 | Creación del documento | GTSR|

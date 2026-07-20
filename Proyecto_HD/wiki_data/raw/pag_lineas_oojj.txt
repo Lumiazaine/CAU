@@ -1,0 +1,11 @@
+﻿
+<panel type="info" title="Direccionamiento IP de salida para OOJJ a través de Zscaler">
+
+{{:madrid3.png?nolink|}}
+{{:madrid4.png?nolink|}}
+
+Se puede consultar la información actualizada en
+https://config.zscaler.com/zscalerthree.net/cenr
+</panel>
+
+

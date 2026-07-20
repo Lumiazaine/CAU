@@ -1,0 +1,196 @@
+﻿
+<WRAP> <panel type="primary" title="Oficina Técnica (SACOEP)">
+
+El Servicio integral de Aseguramiento del Cumplimiento de los Objetivos Estratégicos y de Proyectos (SACOEP) tiene como objeto la realización de la preparación técnica, el seguimiento y control exhaustivo de la ejecución, así como el aseguramiento de la calidad y del cumplimiento estricto de los objetivos y compromisos de los proyectos MRR, de las estrategias establecidas para darles curso en el marco de la Justicia Digital de Andalucía, del sistema de gestión procesal Adriano, así como del resto de sistemas interrelacionados con éste, que se construyan y/o utilicen funcionalidades e integraciones de dicho sistema de gestión procesal y el resto de sistemas competencia del SSDJ pertenecientes a este ámbito.
+
+<WRAP> <panel type="info" title="Equipo de Trabajo">
+
+|**Nombre**   |**Email**   |**Teléfono** |**Externo/Interno** |
+|———————————–|——————————————|————–|———————|
+|Maruja Martínez Camacho|[[mailto:marialuisa.martinez@soltel.es|]]  |660 426 419|Externo  |
+|Belén Barroso Pastor|[[mailto:belen.barroso@soltel.es|]]  |608 532 606|Externo  |
+
+</panel>
+
+</WRAP>
+
+<WRAP> <panel type="info" title="Herramientas">
+
+Jira, Alfresco, Remedy, Pentaho, HGP.
+
+</panel>
+
+</WRAP>
+<WRAP> 
+<panel type="info" title="¿Qué tareas realiza este grupo?">
+
+A continuación se informa sobre la distribución de las líneas de trabajo en las distintas áreas:
+    • Coordinación 
+        ◦ Definición de los criterios para medir el éxito, la orientación de la planificación y el seguimiento a la consecución de dichos criterios y la documentación del cumplimiento en el cierre de los proyectos.
+        ◦ Definir y aprobar planes de seguimiento y control de las desviaciones e información y elevación de los temas necesarios a la Dirección
+        ◦ Reportar la información generada por los gestores de proyectos al SSDJ y elaborará los informes que les demande el mismo en los plazos que se establezcan.
+        ◦ Velar porque los proyectos y desarrollos software sigan las normas del Servicio de Informática relativas a la arquitectura técnica, calidad y gestión. Para ello deben conocer dichas normas, trasladarlas a la los participantes y tenerlas en cuenta en la planificación y gestión de los proyectos. Abarca también al uso de las herramientas definidas por el Servicio de Informática y la actualización de la información en dichas herramientas.
+        ◦ Bajo la supervisión del Servicio de Informática, realizará tareas que ayuden en la planificación, organización, desarrollo y control permanente de los proyectos, supervisando el ajuste a los programas y objetivos iniciales establecidos. Realizará el seguimiento del plan de trabajo, previamente elaborado y elaborará informes periódicos de avance.
+        ◦ Control de las planificaciones de los proyectos con detalles de actividades y tareas, recursos y plazos. Establecimiento de hitos o puntos de control precisos para la gestión y seguimiento del desarrollo del proyecto.
+  • Gestión de los Proyectos y Sistemas
+        ◦ Aseguramiento de la correcta implementación de los proyectos..
+        ◦ Participación activa en la definición de los requisitos funcionales, de rendimiento y de calidad.
+        ◦ Soporte al área usuaria en la explotación de los sistemas.
+        ◦ Formar parte de los grupos de trabajo con usuarios expertos, de los diferentes contratos adjudicados.
+        ◦ Organizar, controlar y supervisar la ejecución de los proyectos.
+    • Gestión de la infraestructura y configuración adecuada en el área de Sistemas (Infraestructura)
+        ◦ Asegurar la idoneidad y disponibilidad de los sistemas instalados previo análisis de las configuraciones iniciales para la puesta en producción.
+        ◦ Definición de la arquitectura de los sistemas (Ejecución / Desarrollo).
+        ◦ Elaboración del Plan Estratégico a nivel de Arquitectura del servicio.
+        ◦ Gestionar el servicio de interoperabilidad (Definición, mantenimiento, monitorización, análisis y modelado, gestión del ciclo de vida, soporte, auditoria y validación en el concepto).
+    • Puesto de Trabajo
+        ◦ Asegurar la idoneidad y disponibilidad de los sistemas instalados, haciendo seguimiento y evaluaciones in-situ de los distintos puestos de trabajo y plataformas desplegadas, en comunicación directa con el Dpto. de Sistemas y las Delegaciones Territoriales.
+        ◦ Análisis de Infraestructuras necesarias para la puesta en producción (Verificación de la adecuación de Equipamientos (Configuración y arquitectura de los puestos de trabajo) y capacidades de las líneas de comunicación.)
+        ◦ Análisis de configuración de la monitorización, de los sistemas, y participación en las áreas de mejora.
+        ◦ Soporte a la implantación de los nuevos servicios.
+        ◦ Gestión de Inventario hardware / Software de los equipos gestionados por el SSDJ
+        ◦ Mantenimiento de inventario de las aplicaciones y del histórico de las versiones.
+        ◦ Gestión de tickets relacionados con el entorno de trabajo del cliente.
+    • Gestión de Calidad
+        ◦ Soporte a los proveedores en el aseguramiento de la calidad durante el desarrollo de los productos.
+        ◦ Verificación y revisión documental de entregables.
+        ◦ Evaluación de la usabilidad y accesibilidad de las aplicaciones.
+        ◦ Definición y ejecución de pruebas.
+        ◦ Soporte a pruebas de seguridad para identificar las vulnerabilidades en los sistemas.
+        ◦ Definición de la metodología a cumplir por los distintos proyectos.
+        ◦ Realización plan de gestión de calidad, con previo análisis.
+        ◦ Identificación de mecanismos y herramientas para medir la calidad de los sistemas, elaboración del plan de mejora y minimizar riesgos.
+    • Gestión de Seguridad
+        ◦ Definición de modelo de seguridad (Dimensión Técnica y Organizativa).
+        ◦ Revisión de documentos de seguridad de los sistemas.
+        ◦ Realización de auditorías.
+        ◦ Diseño y ejecución de pruebas de seguridad ante la implantación de aplicativos.
+        ◦ Reportar incidencias relacionadas con la seguridad en cualquier área del servicio.
+        ◦ Formación a los responsables de las distintas áreas del servicio sobre aspectos de seguridad.
+        ◦ Elaboración de plan de seguridad.
+    • Gestión del Cambio
+        ◦ Definición y elaboración del plan de comunicación.
+        ◦ Definición y elaboración del plan de capacitación.
+        ◦ Coordinación de la ejecución de ambos planes.
+        ◦ Seguimiento de la realización de acciones formativas planificadas.
+        ◦ Medición y evaluación de los resultados tras las sesiones formativas.
+        ◦ Diseño e implementación del plan integral de gestión del cambio para asegurar el éxito en la implantación de los sistemas.
+        ◦ Medición de las expectativas.
+        ◦ Diseño y divulgación de material audiovisual y documentación sobre las funcionalidades de los aplicativos.
+    • Explotación
+        ◦ Analizar tipologías de incidencias generadas por los sistemas de información.
+        ◦ Identificar y redactar pautas de buen uso de las aplicaciones.
+        ◦ Prestar servicios de “Bussiness Intelligence” (BI).
+    • Gestión de la Documentación, Inventario y Seguimiento de Proyectos
+        ◦ Gestión y seguimiento de la documentación relacionada con los servicios y suministros contratados mediante Fondos Europeos (FFEE).
+        ◦ Verificación de trabajos previa a su certificación.
+        ◦ Seguimiento y documentación de los trabajos facturados según anualidad y proyecto.
+        ◦ Mantenimiento de las Bases de Datos del conocimiento, configuraciones e inventarios del SSDJ.
+        ◦ Previsión y envío de gastos .
+        ◦ Elaboración de documentación para alta de operaciones FEDER, o cualquier otra financiación europea.
+
+
+
+</panel>
+
+</WRAP>
+
+{{tag>novalidada}}
+
+(para borrar) <WRAP> <panel type="info" title="Paneles SSVV">
+
+|**Puesto**   |**Apellidos**   |**Nombre**   |**Teléfono**   |**Externo/Interno**   |**Mail**   |
+|————-|————————|——————-|—————|———————-|———–|
+|GP  |Fernández Fernández  |José Miguel  |655 779 269  |Externo  |[[mailto:josemiguel.fernandezfernandez@emeal.nttdata.com|mailto:josemiguel.fernandezfernandez@emeal.nttdata.com]]|
+
+</panel> </WRAP>
+
+<WRAP> <panel id="rpaj" type="info" title="RPAJ">
+
+|**Puesto**   |**Apellidos**   |**Nombre**   |**Teléfono**   |**Externo/Interno**   |**Mail**   |
+|————-|———————-|—————–|—————|———————-|———–|
+|SACOEP  |Fernández Fernández  |José Miguel  |655 77 92 69  |Externo  |[[mailto:josemiguel.fernandezfernandez@nttdata.com|mailto:josemiguel.fernandezfernandez@nttdata.com]]|
+
+</panel> </WRAP>
+
+<WRAP> <panel type="info" title="SIG"> **[[mailto:esp.sig.ius@juntadeandalucia.es|mailto:esp.sig.ius@juntadeandalucia.es]]**
+
+|**Puesto**   |**Apellidos**   |**Nombre**   |**Teléfono**   |**Externo/Interno**   |**Mail**   |
+|————-|————————|——————-|—————|———————-|———–|
+|GP  |Fernández Fernández  |José Miguel  |655 779 269  |Externo  |[[mailto:josemiguel.fernandezfernandez@emeal.nttdata.com|mailto:josemiguel.fernandezfernandez@emeal.nttdata.com]]|
+
+</panel> </WRAP>
+
+<WRAP> <panel type="info" title="Textualización"> **[[mailto:t@juntadeandalucia.es|xx@juntadeandalucia.es]]**
+
+|**Puesto**   |**Apellidos**   |**Nombre**   |**Teléfono**   |**Externo/Interno**   |**Mail**   |
+|————-|————————|——————-|—————|———————-|———–|
+|GP  |Fernández Fernández  |José Miguel  |655 779 269  |Externo  |[[mailto:josemiguel.fernandezfernandez@emeal.nttdata.com|mailto:josemiguel.fernandezfernandez@emeal.nttdata.com]]|
+
+</panel> </WRAP>
+
+<WRAP> <panel id="vdi" type="info" title="VDI"> **[[mailto:ESP.VDI.ius@juntadeandalucia.es|esp.vdi.ius@juntadeandalucia.es]]**
+
+|**Puesto**   |**Apellidos**   |**Nombre**   |**Teléfono**   |**Externo/Interno**   |**Mail**   |
+|————-|——————-|—————–|—————|———————-|———–|
+|GP  |De Las Casas Vega  |Andrea  |666 404 825  |Externo  |[[mailto:andrea.de.las.casas.vega@nttdata.com|mailto:andrea.de.las.casas.vega@nttdata.com]]|
+|GP  |Ortega Perejón  |María Isabel  |671 685 238  |Externo  |[[mailto:maria.isabel.ortega.perejon@everis.nttdata.com|mailto:maria.isabel.ortega.perejon@everis.nttdata.com]]|
+|GP  |Pacheco  |María  |696 445 817  |Externo  |[[mailto:maria.isabel.ortega.perejon@everis.nttdata.com|maria.pacheco@soltel.es]]  |
+
+</panel> </WRAP>
+
+</panel> </WRAP>
+
+<WRAP> <panel type="primary" title="Servicios Estructurales" id="servi">
+
+<WRAP> <panel type="info" title="Asesoría Procesal"> **[[mailto:xx.ius@juntadeandalucia.es|mailto:xx.ius@juntadeandalucia.es]]**
+
+|**Puesto**   |**Apellidos**   |**Nombre**   |**Teléfono**   |**Externo/Interno**   |**Mail**   |
+|———————-|—————-|————-|—————-|———————-|———–|
+|Procesal  |Gómez Briones  |María Teresa  |608 358 599  |Externo  |[[mailto:maria.teresa.gomez.briones@nttdata.com|mailto:maria.teresa.gomez.briones@nttdata.com]]|
+|Procesal  |Sánchez Herrezuelo  |Inma  |671 685 371  |Externo  |[[mailto:inmaculada.sanchezherrezuelo@emeal.nttdata.com|mailto:inmaculada.sanchezherrezuelo@emeal.nttdata.com]]|
+
+</panel> </WRAP>
+
+<WRAP> <panel type="info" title="Explotación/Devops"> **[[mailto:.ius@juntadeandalucia.es|xx.ius@juntadeandalucia.es]]**
+
+|**Puesto**   |**Apellidos**   |**Nombre**   |**Teléfono**   |**Externo/Interno**   |**Mail**   |
+|———————-|—————-|————-|—————-|———————-|———–|
+|Coordinador Devops  |Rosado  |David  |692 194 484  |Externo  |[[mailto:david.rosado@soltel.es|mailto:david.rosado@soltel.es]]|
+
+</panel> </WRAP>
+
+<WRAP> <panel type="info" title="Puesto de Trabajo" id="puntero1"> **[[mailto:planificacion.inventario.ius@juntadeandalucia.es|mailto:planificacion.inventario.ius@juntadeandalucia.es]]**
+
+|**Puesto**   |**Apellidos**   |**Nombre**   |**Teléfono**   |**Externo/Interno**   |**Mail**   |
+|————-|————————|——————-|—————|———————-|———–|
+|Técnico  |Ortega Martínez  |Francisco Jesús  |669 944 926  |Externo  |[[mailto:franciscojesus.ortegamartinez@emeal.nttdata.com|mailto:franciscojesus.ortegamartinez@emeal.nttdata.com]]|
+|Técnico  |Lora Ballesteros  |José Miguel  |671 684 146  |Externo  |[[mailto:franciscojesus.ortegamartinez@emeal.nttdata.com|josemiguel.loraballesteros@emeal.nttdata.com]]  |
+
+</panel> </WRAP>
+
+</panel> </WRAP>
+
+<WRAP> <panel type="primary" title="Listado de personas">
+
+^Nombre  ^Teléfono  ^Email  ^Empresa  ^Equipos  |
+|Andrea De Las Casas Vega  |666 404 825  |[[mailto:andrea.de.las.casas.vega@nttdata.com|mailto:andrea.de.las.casas.vega@nttdata.com]]  |Externo  |Nueva Sede Judicial, VDI  |
+|Antonio Martínez López  |697 955 584  |[[mailto:antonio.martinez.lop@juntadeandalucia.es|mailto:antonio.martinez.lop@juntadeandalucia.es]]  |SANDETEL  |Coordinación  |
+|Antonio Melero Romero  |   |[[mailto:ameleror@emeal.nttdata.com|mailto:ameleror@emeal.nttdata.com]]  |Externo  |Administración  |
+|Belén Barroso Pastor  |608 532 606  |[[mailto:belen.barroso@soltel.es|mailto:belen.barroso@soltel.es]]  |Externo  |Administración  |
+|David Rosado  |692 194 484  |[[mailto:david.rosado@soltel.es|mailto:david.rosado@soltel.es]]  |Externo  |Devops  |
+|Francisco Jesús Ortega Martínez  |669 944 926  |[[mailto:franciscojesus.ortegamartinez@emeal.nttdata.com|mailto:franciscojesus.ortegamartinez@emeal.nttdata.com]]  |Externo  |Inventario  |
+|Inma Wals Zurita  |619 222 014  |[[mailto:inmaculada.wals@juntadeandalucia.es|mailto:inmaculada.wals@juntadeandalucia.es]]  |SANDETEL  |SACOEP, Digitalización RRCC, Integraciones  |
+|Isabel Macarena Salgado Abolafia  |656 634 988  |[[mailto:isabel.macarena.salgado.abolafia@emeal.nttdata.com|mailto:isabel.macarena.salgado.abolafia@emeal.nttdata.com]]  |Externo  |Explotación  |
+|José Miguel Fernández Fernández  |655 779 269  |[[mailto:josemiguel.fernandezfernandez@emeal.nttdata.com|mailto:josemiguel.fernandezfernandez@emeal.nttdata.com]]  |Externo  |Adriano, Ciber-J: Securización, HGIS y Portal Adriano, Dicireg, Paneles SSVV, Puesto de Trabajo, RPAJ, SIG - Servicio de Impresión Gestionada|
+|José Miguel Lora Ballesteros  |671 684 146  |[[mailto:josemiguel.loraballesteros@emeal.nttdata.com|mailto:josemiguel.loraballesteros@emeal.nttdata.com]]  |Externo  |Inventario  |
+|María Pacheco  |   |   |Externo  |Nueva Sede Judicial, VDI  |
+|María Isabel Ortega Perejón  |671 685 238  |[[mailto:maria.isabel.ortega.perejon@everis.nttdata.com|mailto:maria.isabel.ortega.perejon@everis.nttdata.com]]  |Externo  |Nueva Sede Judicial, VDI  |
+|Maruja Martínez Camacho  |660 426 419  |[[mailto:marialuisa.martinez@soltel.es|mailto:marialuisa.martinez@soltel.es]]  |Externo  |Coordinación  |
+|Salvador Tello Zamora  |671 596 741  |[[mailto:salvador.tello@juntadeandalucia.es|mailto:salvador.tello@juntadeandalucia.es]]  |SANDETEL  |Coordinación  |
+
+</panel> </WRAP>
+
+{{tag>novalidada}}
+
+

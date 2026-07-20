@@ -1,0 +1,41 @@
+﻿
+====== Copias de Seguridad y restauración en entornos VMWare ======
+
+La copia de seguridad de las máquinas virtuales de VCenter se integra con Networker a través del Vmware Backup Appliance y los VMWare Proxie Networker. La copia de seguridad se realiza mediante snapshots que son almacenados en el sistema de Backup, extrayéndolos del VCenter.
+
+Para dar de alta el backup de una Máquina Virtual hay que seleccionarla en el grupo de políticas deseado:
+
+{{::networkervm.png?nolink&600|}}
+
+Proxy VMware:
+
+  * IUSSLNSRPROXY03 - VCenter03
+  * IUSSLNSRPROXY04 - VCenter03
+  * IUSSLNSRPROXY06 - VCenter04
+  * IUSSLNSRPROXY07 - VCenter04
+  * IUSSLNSRPROXY08 - VCenter05
+  * IUSSLNSRPROXY09 - VCenter05
+
+===== Restauración de Máquina Virtual =====
+Para la restauración de una máquina virtual se necesita:
+  * VCenter origen
+  * Nombre de la máquina Virtual
+  * Fecha aproximada de restauración
+  * Si se restaura sobre la máquina o una nueva máquina.
+
+La restauración se realiza mediante el entorno GUI de Networker. 
+
+----
+====== Politica de Backup ======
+
+{{:politicavmware.png?800|}}
+  * DESA_VC: Máquinas virtuales del Entorno de Desarrollo.
+  * RANCHER: Máquinas destinadas a Rancher.
+  * SSVV: Máquinas de SSVV del entorno de Windows.
+  * PROD_VC: Máquinas virtuales del Entorno de Producción.
+  * VM_HERR_SIST_2: Máquinas virtuales con Herramientas como Monitorización o Log
+  * VM_PREP_2: Máquinas virtuales del Entorno de Preproducción
+  * VM_DES_2: Máquinas virtuales del Entorno de Desarrollo
+
+{{::ssvvvmwarepolicy.png?nolink&800|}}
+  * SSVV: Datos de las máquinas de SSVV.

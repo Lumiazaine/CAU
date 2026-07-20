@@ -1,0 +1,59 @@
+﻿
+<WRAP> 
+<panel type="primary" title="Procedimientos y Problemas Conocidos de Windows Live">
+
+[[:pag_apli:windows_live:|Volver atrás]]
+
+<WRAP> <panel type="info" >
+
+====== Procedimiento de Windows Live Mail ======
+
+**Windows Live Mail** es un cliente de correo electrónico desarrollado por Microsoft como parte de la suite Windows Essentials 2012. Se caracteriza por su simplicidad y funcionalidad.
+Características principales
+  * Gestión de múltiples cuentas: Puedes sincronizar varias cuentas (Outlook, Gmail, Yahoo…) en una sola interfaz. 
+  * Panel de lectura: Vista rápida de correos sin necesidad de abrirlos completamente.
+  * Incluye corrector gramatical, editor de texto enriquecido y opción para adjuntar archivos.
+
+Como consecuencia de la migración de los PC´s de Windows XP a W7, hay que cambiar el cliente
+de correo por defecto Outlook Express a Windows Live Mail.
+Las características, funcionamiento y opciones son prácticamente iguales que en el anterior cliente
+de correo Outlook Express.
+Aunque en esta versión tenemos más funcionalidades como el Calendario. ** \\
+\\
+ <font 16px/inherit;;inherit;;inherit>**Configuración**.</font> \\
+\\
+**La primera vez que ejecutemos Windows Live Mail nos aparecerá El Contrato de servicios de
+Microsoft, el cual deberemos aceptar.
+
+{{:pag_apli:captura_de_pantalla_2025-09-03_111941.png?nolink&400|}}
+
+Una vez le damos a aceptar nos aparece una pantalla de configuración:
+
+{{:pag_apli:configuracion2.png?nolink&400|}}
+
+En esta ventana la configuración que debemos poner es:\\
+Información del servidor de la bandeja de entrada:\\
+Tipo de Servidor: **POP**\\
+Dirección del servidor: **Correo.justicia.junta-andalucia.es**\\
+Puerto: 110//
+Método de autenticación: **Autenticación de contraseña segura**\\
+Nombre de usuario de inicio de sesión: **El nombre de inicio del usuario**\\
+Información del servidor de la bandeja de salida:\\
+Dirección del servidor: **Correo.justicia.junta-andalucia.es**\\
+Puerto: **25**\\
+
+{{:pag_apli:configuracion3.png?nolink&400|}}
+\\
+\\
+
+<WRAP> <panel type="info" >
+
+====== Otra entrada ======
+
+Otro problema conocido 2
+
+</panel> </WRAP>
+
+[[:pag_apli:windows_live:|Volver atrás]]
+
+

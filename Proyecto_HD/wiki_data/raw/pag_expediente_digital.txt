@@ -1,0 +1,10 @@
+﻿
+<WRAP> <panel type="primary" title="EXPEDIENTE DIGITAL - NO VIGENTE">
+
+**ESTA APLICACIÓN NO ESTÁ VIGENTE**
+
+El acceso a **EXPEDIENTE DIGITAL** y **NOTAS DEL EJE PARA ÓRGANOS MIGRADOS** dejó de estar disponible tras la migración de los OOJJ al nuevo Gestor Procesal Adriano.
+
+</panel> </WRAP>
+
+{{tag>validada}}

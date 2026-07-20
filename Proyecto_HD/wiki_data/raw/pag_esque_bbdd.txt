@@ -1,0 +1,99 @@
+﻿
+====== BBDD ======
+
+
+<html>
+<table border="1" cellpadding="6" cellspacing="0">
+  <thead>
+    <tr>
+      <th style="width: 200px; text-align: center; font-weight: bold;">Aplicación</th>
+      <th style="width: 250px; text-align: center; font-weight: bold;">Esquema</th>
+      <th style="width: 150px; text-align: center; font-weight: bold;">BBDD</th>
+      <th style="width: 300px; text-align: center; font-weight: bold;">Tablespaces</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="background-color: white;">
+      <td>Temis</td>
+      <td>TEMIS</td>
+      <td>PROD02</td>
+      <td></td>
+    </tr>
+    <tr style="background-color: #f2f2f2;">
+      <td>Sede</td>
+      <td>SEDEJUS<br>MANSEDEJUS</td>
+      <td>PROD01</td>
+      <td></td>
+    </tr>
+    <tr style="background-color: white;">
+      <td>RenewTimestamp</td>
+      <td>RENEWTIMESTAMPOWNER</td>
+      <td>PROD07</td>
+      <td></td>
+    </tr>
+    <tr style="background-color: #f2f2f2;">
+      <td>WsFirmador</td>
+      <td>WSFIRMADOR<br>WSFIRMADOR_HIST</td>
+      <td>PROD06</td>
+      <td>TS_PFIRMA_V3_1_BLOB<br>TS_PFIRMA_V3_1_INDICES<br>TS_PFIRMA_V3_1_DATOS</td>
+    </tr>
+    <tr style="background-color: white;">
+      <td>PortafirmasNg</td>
+      <td>PFIRMAMG_V3_1</td>
+      <td>PROD07</td>
+      <td></td>
+    </tr>
+    <tr style="background-color: #f2f2f2;">
+      <td>Suministros / Consumibles</td>
+      <td>SUMINISTROS</td>
+      <td>PROD02</td>
+      <td></td>
+    </tr>
+    <tr style="background-color: white;">
+      <td>Equipos inventario</td>
+      <td>EQUIPOS</td>
+      <td>PROD02</td>
+      <td></td>
+    </tr>
+    <tr style="background-color: #f2f2f2;">
+      <td>Cargador</td>
+      <td>CARGADOR</td>
+      <td>PROD02</td>
+      <td></td>
+    </tr>
+    <tr style="background-color: white;">
+      <td>Hermes</td>
+      <td>HERMES<br>MANHERMES</td>
+      <td>PROD04</td>
+      <td></td>
+    </tr>
+    <tr style="background-color: #f2f2f2;">
+      <td>Remedy</td>
+      <td>ARADMIN</td>
+      <td>PROD01</td>
+      <td></td>
+    </tr>
+    <tr style="background-color: white;">
+      <td>Portal Adriano</td>
+      <td>OPENCMSV8</td>
+      <td>PROD03</td>
+      <td>OPENCMSV8_DATA<br>OPENCMSV8_INDEX</td>
+    </tr>
+    <tr style="background-color: #f2f2f2;">
+      <td>Escritorio Judicial</td>
+      <td>WSFIRMADOR<br>MANWSFIRMADOR</td>
+      <td>PROD02</td>
+      <td>WSFIRMADOR_DATA</td>
+    </tr>
+    <tr style="background-color: white;">
+      <td>Jara</td>
+      <td>JARA</td>
+      <td>PROD02</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+</html>
+{{tag>validada}}
+

@@ -1,0 +1,272 @@
+﻿
+<WRAP> <panel type="primary" title="Procedimientos y Problemas Conocidos de Agenda IML">
+
+[[:pag_apli:agenda_iml:start|Volver atrás]]
+
+<WRAP> <panel type="info">
+
+====== Solicita eliminar una reserva creada con errores ======
+
+Descripción de la incidencia
+
+Se ha grabado una reserva errónea, aparece en blanco y no da opción a borrarla.
+
+Explicación
+
+El error puede deberse a que la sesión se ha invalidado en el momento de grabar la reserva, por lo que el registro correspondiente de la tabla ASAGENDAS se ha grabado con el campo USU_X_USU_SOL = 0.
+
+Solución
+
+Realizamos comprobaciones previas:
+
+1. Entramos a la aplicación Agenda IML con el mismo perfil y mismo organismo del usuario de la incidencia (perfiles que nos asignamos mediante\\
+Mantenimiento Temis).\\
+\\
+2. Buscamos la reserva que hace referencia. Pulsamos 'Vista de Consulta' y posteriormente elegimos el Partido Judicial que indiquen:
+
+{{:pag_apli:agenda_iml:captura4.jpg|}}
+
+3. Buscamos la reserva en las consultas que tengan:
+
+{{:pag_apli:agenda_iml:captura5.jpg|}}
+
+4. Según la hora de la reserva que nos hayan indicado, la identificamos y verificamos que aparece en blanco sus datos:
+
+{{:pag_apli:agenda_iml:captura3.jpg|}}
+
+Para solucionarlo hay que:
+
+1. Conectarse al esquema AGENDA_IML (solicitar acceso lectura a usuario personal o acceso con usuario "AGENDA_IML" o con usuario "AGENDA_IUS") de la base de datos PROD02.\\
+2. Identificar el registro erróneo\\
+3. Solicitar la eliminación del registro erróneo.
+
+CONSULTAS en BBDD:
+
+– BUSCA LA CITA EN RANGO DE FECHAS. OBTIENE EL ID DE CONSULTA (CON_X_CONSULTA) Y LA ID DE LA CITA A BORRAR (X_AGENDA):\\
+//SELECT * FROM AGENDA_IML.ASAGENDAS WHERE USU_X_USU_SOL = 0 AND F_RESDESDE >= '////XX/XX/XXXX////' AND F_RESHASTA < '////XX/XX/XXXX////';//
+
+– COMPRUEBA LOS DATOS DE LA CONSULTA. OBTIENE LA ID DEL MUNICIPIO (MUN_X_MUNICIPIO):\\
+//select * from AGENDA_IML.ASCONSULTAS where X_CONSULTA = ////<CON_X_CONSULTA>////;//
+
+– COMPRUEBA LOS DATOS DEL MUNICIPIO:\\
+//select * from AGENDA_IML.MUNICIPIOS where X_MUNICIPIO = ////<MUN_X_MUNICIPIO>////;//
+
+ENVIAR A GTBD PARA LA ELIMINACIÓN DE LA CITA:
+
+Se solicita la ejecución del script adjunto en el esquema AGENDA_IML de la base de datos de Producción PROD02:\\
+//delete from AGENDA_IML.ASAGENDAS where X_AGENDA = ////<X_AGENDA>////;//
+
+//Cuando contestan que lo han ejecutado y nos devuelven la incidencia a desarrollo, comprobamos que el registro se ha eliminado y asignamos la incidencia a 'Centro de servicio al usuario' para que Informen al usuario de que ya puede volver a crear la cita.//
+
+Ejemplo de incidencia Remedy
+
+688724
+
+</panel> </WRAP>
+
+<WRAP> <panel type="info">
+
+====== Aparecer en el listado de Forenses. ======
+
+Descripción de la incidencia
+
+Pueden indicar:
+
+A. No puede asignarse consultas porque no aparece en el listado de Forenses.
+
+B. Un usuario aparece en el listado de Forenses, pero no debería.
+
+Explicación:
+
+A. Para que el usuario aparezca en el listado de forenses, es necesario que en su perfil de usuario en Temis se le establezca "Médicos forenses" en el apartado "Cuerpo" (X_CUERPO = 5).
+
+B. Para quitar al usuario de la lista de forenses, habría que establecerle otro valor que no sea el de "Médicos forenses" en el apartado "Cuerpo".
+
+Solución
+
+A. Solicitar a CAU que establezca "Médicos forenses" en en apartado "Cuerpo" del perfil del usuario en Temis.
+
+B. Indicar a CAU que para que no aparezca en el listado de forenses, establezcan otro valor diferente al de "Médicos Forenses", que le corresponda, en el apartado "Cuerpo" del perfil del usuario en Temis.
+
+El cambio se verá reflejado en Agenda IML cuando se produzca la sincronización nocturna con Temis.\\
+Ejemplos de incidencias Remedy IN0000001288038 IN0000001669468
+
+</panel> </WRAP>
+
+<WRAP> <panel type="info">
+
+====== Error 800A1527 al abrir la aplicacion ======
+
+Descripción de la incidencia
+
+El usuario indica que no puede abrir Agenda IML, le sale: Error 800A1527
+
+Solución
+
+Se reasigna a Sistemas → GTBD indicando que se verifique el rendimiento de Agenda IML.
+
+Ejemplo de incidencia Remedy
+
+689530
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Han realizado una reserva pero al buscarla no la encuentran ======
+
+Descripción de la incidencia
+
+Indican que han realizado una reserva para un día, pero si la consultan, no le sale ninguna cita para ese día.
+
+Solución
+
+1. Confirmamos en la tabla que los datos efectivamente existen. Nos conectamos al esquema AGENDA_IML de la base de datos PROD02, tabla ASAGENDAS y buscamos la reserva por fecha (F_RESDESDE, F_RESHASTA) o paciente (T_PACIENTE) dependiendo de los datos que nos faciliten.
+
+2. Si lo localizamos, nos damos permiso para acceder a la aplicación AGENDA IML con el mismo perfil que tiene el usuario de la incidencia, – [[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/QueHacemos/Desarrollo/Resolución de incidencias/Temis/Permisos usuarios|aquí]] – se indica cómo hacer ésto. Para ésta aplicación también es necesario añadirnos en Temis, a nuestro usuario, en 'Otros Puestos' el organismo que tiene el usuario de la incidencia.
+
+3. Accedemos a la aplicación y seleccionamos el tipo de vista 'Reservas Solicitadas *para* el día seleccionado':
+
+{{:pag_apli:agenda_iml:captura2.jpg|}}
+
+4. Seleccionamos el día y, si encontramos la reserva, el problema es que el usuario no está seleccionando el tipo de vista correcta.
+
+5. Se indica al usuario cómo seleccionar el tipo de vista correcta para poder visualizar la reserva.
+
+Ejemplo de incidencia Remedy
+
+733150
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== No permite reservar cita, error en la página ======
+
+Descripción de la incidencia
+
+En la reserva de una cita, al elegir el órgano judicial, aparece error en la página y no carga el organismo. Se queda la página en blanco.
+
+Explicación:
+
+El problema está a la hora de recoger la información de los Tipos de Procedimientos asociados al organismo en cuestión.
+
+Solución\\
+\\
+Se detecta que no tenía asociados un Grupo de Procedimientos:
+
+//select * from temis.torganismo_jurisdiccion;//
+
+//TORGANISMO_JURISDICCION → GRUPO_PROCEDIMIENTO → TIPO_PROCEDIMIENTO//
+
+Por lo que no se podían obtener los tipos de procedimientos asociados y ocurría el error.
+
+Nos encargamos de dar a cada una de las jurisdicciones el Grupo de Procedimiento correcto y la aplicación ya funcionará correctamente.
+
+Ejemplo de incidencia Remedy
+
+773650
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== No muestra la información al poner el ratón encima de cualquier botón ======
+
+Descripción de la incidencia
+
+No muestra la información al poner el ratón encima de cualquier botón.
+
+Explicación:
+
+Para que en Agenda IML el tooltip se muestre correctamente se debe abrir con Internet Explorer.
+
+Solución:
+
+1. Pasar a Sistemas - GTSW para incluir, si no está, la siguiente URL en la vista de compatibilidad: [[https://agendaiml.justicia.junta-andalucia.es/|https://agendaiml.justicia.junta-andalucia.es/]]
+
+2. Una vez hecho, se reasigna al CAU para que informe al usuario que vuelva a probar en estas condiciones.
+
+Ejemplo de incidencia Remedy
+
+IN0000001140418
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Lentitud en Agenda IML ======
+
+Descripción de la incidencia
+
+El usuario indica que el programa de Agenda IML va excesivamente lento.
+
+Solución
+
+Se reasigna a Sistemas → GTBD indicando que se verifique el rendimiento.
+
+Ejemplo de incidencia Remedy
+
+689544
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Creación/ Modificación consulta de Agenda IML por Gestión de Historiales IML ======
+
+Descripción de la incidencia
+
+Nos indican que necesitan que se cree o modifique una consulta.
+
+Nos proporcionan los datos de esa consulta: dirección, teléfono, número de la consulta, etc.
+
+Solución
+
+El mantenimiento de éstas se puede realizar con la aplicación Gestión de Historiales IML.
+
+1. Para ello entramos en el menú Administración > Tareas administrativas > Consultas Médico Forenses > Mantenimiento.
+
+2. Filtramos por provincia y municipio.
+
+3. Se agrega nueva consulta pulsando en 'Agregar Consulta' o se modifica la existente pulsado sobre ella.
+
+Para dar de alta se mostrará ésta ventana:
+
+{{:pag_apli:agenda_iml:captura_de_pantalla_2025-07-21_141237.png|}}
+
+Nota: Las consultas se guardan en la BD "PROD02", esquema "AGENDA_IML", tabla "ASCONSULTAS".
+
+Nota 2: Los edificios de las consultas se guardan en la BD "PROD02", esquema "TEMIS", tabla "EDIFICIOS_GLOBAL".
+
+Ejemplo de incidencia Remedy
+
+727569
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Juzgados que pueden realizar reservas ======
+
+Descripción de la incidencia
+
+Le aparece una reserva del Juzgado de lo penal, solicita conocer si ademas de los juzgados de instrucción, los juzgados de los penal pueden realizar reservas.
+
+Solución
+
+Cuando se hace una consulta se puede habilitar para que realice citaciones cualquier órgano judicial, o limitarlo a que sólo pueda recibir citaciones de unos juzgados u otros.
+
+Cada IML puede asignar sus consultas a los órganos judiciales que las pueden solicitar.
+
+En Gestión de Historiales se realiza esta asignación en: Administración > Tareas Administrativas > Consultas Médico Forenses > Asignación.
+
+Ejemplo de incidencia Remedy
+
+789373
+
+</panel></WRAP>
+
+[[:pag_apli:agenda_iml:start|Volver atrás]]
+
+

@@ -1,0 +1,23 @@
+﻿
+====== 🐧 GTSL ======
+
+==== ⚙️ Operaciones de mantenimiento ====
+
+  * **[[:pag_gtsl_mantdia|Mantenimiento diario]]**//[En construccion]//
+  * **…**
+==== 📚 Procedimientos generales ====
+
+  * **[[:pag_gtsl_hardbast|Procedimientos de hardening o bastionado]]**//[En construccion]//
+  * **[[:pag_gtsl_instdespl|Procedimiento de instalación y despliegue]]**
+  * **[[:pag_gtsl_pasoprod|Proceso de paso a producción en servidores Linux]]**
+  * **[[:pag_gtsl_gestcamverosapps|Gestión de cambios y versiones del sistema operativo y aplicaciones]]**
+  * **[[:pag_gtsl_gestvuln|Procedimiento de gestión de vulnerabilidades]]**
+  * **[[:pag_gtsl_manthardsoft|Procedimiento de mantenimiento de hardware/software]]**
+  * **[[:pag_gtsl_gestlogs|Gestión de logs (ubicación, retención, revisión)]]**
+  * **[[:pag_gtsl_rancher|Rancher]]**
+
+
+==== ⚓️ Procedimientos Rancher ====
+
+  * **[[:pag_gtsl_nuevo_rancher|Procedimiento de preparación e instalación de Rancher]]**
+

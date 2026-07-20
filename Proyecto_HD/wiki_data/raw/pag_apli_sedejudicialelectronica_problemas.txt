@@ -1,0 +1,636 @@
+﻿
+<WRAP> 
+<panel type="primary" title="Procedimientos y Problemas Conocidos de Sede Judicial Electrónica">
+
+[[:pag_apli:sedejudicialelectronica:start|Volver atrás]]
+
+<WRAP> <panel type="info" >
+
+====== Mensaje de indisponibilidad y recuperación de la URL de SJE ======
+
+Al tener constancia de indisponibilidad o mal funcionamiento general de [[https://sede.justicia.juntadeandalucia.es/portal/adriano/es/acceso/index.html|SJE]] se debe insertar este mensaje, previa autorización de Jefatura:
+
+//Por el Servicio de Informática Judicial se informa que desde el pasado **(indicar fecha)** se están produciendo algunas anomalías en el servicio electrónico de **(indicar motivo si se considera necesario)** en Sede Judicial Electrónica, en cuya urgente resolución estamos trabajando.//
+
+Una vez solucionada la incidencia general se cambiaría el mensaje por esto otro durante unos días:
+
+//Se informa que el servicio **(indicar motivo si se hizo en el mensaje de aviso)** de Sede Judicial Electrónica ha quedado restaurado a fecha de **(incluir fecha)**. Cualquier información adicional, puede ponerse en contacto a través del Formulario de Contacto [[https://sede.justicia.juntadeandalucia.es/portal/adriano/es/contacto/formularioContacto/|https://sede.justicia.juntadeandalucia.es/portal/adriano/es/contacto/formularioContacto/]] //
+
+----
+
+En el caso de error en la presentación de escritos se tendría en cuenta el siguiente mensaje:
+
+//Por el Servicio de Informática Judicial se informa que desde el pasado **(indicar fecha)** se están produciendo algunas anomalías en el servicio electrónico de presentación de escritos en Sede Judicial Electrónica, en cuya urgente resolución estamos trabajando. Por este motivo, se ruega procedan a la presentación de los escritos en el órgano u oficina judicial. Dicha circunstancia ha sido comunicada a órganos judiciales y servicios comunes afectados.//
+
+Una vez solucionada la incidencia de la presentación de escritos se cambiaría el mensaje por esto otro durante unos días:
+
+//Se informa que el servicio electrónico de presentación de escritos en Sede Judicial Electrónica ha quedado restaurado a fecha de 10 de diciembre de 2020. Cualquier información adicional, puede ponerse en contacto a través del Formulario de Contacto [[https://sede.justicia.juntadeandalucia.es/portal/adriano/es/contacto/formularioContacto/|https://sede.justicia.juntadeandalucia.es/portal/adriano/es/contacto/formularioContacto/]] //</panel> </WRAP>
+
+<WRAP> 
+<panel type="info">
+
+====== No funciona el acceso a https://sede.justicia.juntadeandalucia.es ======
+
+Recibimos incidencias de ciudadanos que indican que al acceder a la URL [[https://sede.justicia.juntadeandalucia.es|https://sede.justicia.juntadeandalucia.es]] les da un error y no les deja acceder.
+
+Es un problema conocido y no se puede solucionar. El acceso publicado en Internet y correcto es [[https://sede.justicia.juntadeandalucia.es|https://sede.justicia.juntadeandalucia.es/portal/adriano/es/acceso/index.html]]
+
+</panel> </WRAP>
+
+<WRAP> <panel type="info" >
+
+====== Extracción de los datos del Formulario Contacta ======
+
+Para obtener la información introducida por los ciudadanos en el [[https://sede.justicia.juntadeandalucia.es/portal/adriano/es/contacto/formularioContacto/|Formulario de Contacto]] se debe solicitar a través de un tique Remedy y asignar a Servicios–> DevOps:
+
+PROD01 - SEDEJUS - FORM_CONTACTO
+
+**SELECT * FROM sedejus.form_contacto WHERE TRUNC(f_creacion) BETWEEN TRUNC(SYSDATE - 7) AND TRUNC(SYSDATE) ORDER BY f_creacion;**
+
+El resultado de esta consulta contiene **datos sensibles**, por tanto, para dar cumplimiento al **ENS** se debe comprimir en un zip con contraseña y adjuntar en el tique Remedy. Posteriormente, enviar la contraseña, sin el número de tique, solo al técnico solicitante por un medio distinto, ya sea, telefónico, teams, correo… Una vez finalizado el trabajo, el archivo debe ser eliminado de forma segura.
+
+</panel>
+
+<WRAP> 
+<panel type="info" >
+
+====== Correos que llegan a través de 'Contacta' de la SJE ======
+
+- La reclamación que el ciudadano interpone a través de “contacta” de la plataforma (p.ej, no ve sus procedimientos en curso) se recibe en el buzón de webmaster.sede.ius. Responsable de gestionar el buzón SACOEP: Teresa Gómez.
+
+- Estos correos no muestran el cuerpo del texto, sino que se reciben con un ID. Para conocer el contenido del mail es necesario solicitarlo mediante tique Remedy y asignar a Servicios–> DevOps.
+
+- Recibido el fichero por consigna se tratará eliminando las columnas que no nos sean útiles, y se incluirá la información relativa a si se trata de error técnico o funcional, además de indicar la Fecha de contestación una vez se haya realizado.
+
+- El fichero se guardará en la siguiente ruta de red [[\\iusnas05\sij\SACOEP\02|]].Ejecucion\07 Gestión del Cambio\06. Sede Judicial Electrónica SJE\Ficheros correos recibidos
+
+- Una vez analizada la reclamación, dependiendo del tema a tratar existen las siguientes opciones de actuación:
+
+A. **Error técnico**: Se abre Remedy y se asigna a Desarrollo. Se contesta de acuerdo a las respuestas publicadas en:\\
+[[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_procedimientos_generales:respuestas_escritos|Respuestas escritos Sede]]
+
+B. **Error funcional**: Se revisa el contenido y se responde basándonos en las respuestas estandarizadas y validadas por jefatura. Dichas respuestas se encuentran en el siguiente enlace:\\
+[[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_procedimientos_generales:respuestas_escritos|Respuestas escritos Sede]]
+
+- Sacoep Procesal deberá, en el caso en que proceda, actualizar la respuesta adaptándola a las circunstancias y momento concreto de la reclamación, añadiendo o eliminando lo que corresponda.
+
+- La contestación a los correos se realizará desde el buzón noresponder.sede.ius@juntadeandalucia.es
+
+</panel> </WRAP>
+
+<WRAP> 
+<panel type="info" >
+
+====== Contestación correos que llegan a través de 'Contacta' de la SJE ======
+
+La contestación a los correos se realizará desde el buzón noresponder.sede.ius@juntadeandalucia.es
+
+Acceder al buzón https://correo.juntadeandalucia.es/index.php
+
+El procedimiento para extraer, contestar y gestionar el fichero con el contenido de los correos se encuentra publicado en Dokuwiki en la siguiente ruta: https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_apli:sedejudicialelectronica:problemas
+
+Se debe crear una Petición Remedy semanalmente que se asignará a Devops para que obtenga un fichero con el contenido de cada correo. (ver p.ej 2404754)
+Una vez obtenido el fichero se gestionará eliminando las columnas que no nos sean útiles, y se incluirá la información relativa a si se trata de error técnico o funcional, además de indicar la Fecha de contestación una vez se haya realizado.
+
+Se responderá dependiendo de la tipología de la reclamación de acuerdo con las respuestas estandarizadas publicadas en la siguiente ruta de DokuWiki: https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_procedimientos_generales:respuestas_escritos
+
+Una vez contestados todos los correos recibidos, el fichero se guardará en la siguiente ruta de red [[\\iusnas05\sij\SACOEP\02.Ejecucion\07 Gestión del Cambio\06. Sede Judicial Electrónica SJE\Ficheros correos recibidos]]
+
+Se cerrará la petición Remedy.
+
+</panel> </WRAP>
+
+<WRAP> <panel type="info">
+
+====== Añadir documentación a escrito ya presentado ======
+
+Ejemplo de correo recibido:
+
+NECESITO APORTAR MAS DOCUMENTACION ADJUNTA A UN ESCRITO INICIADOR DE PROCEDIMIENTO MONITORIO PERO NO SE COMO HACERLO. EL ESCRITO YA ESTA ENVIADO Y ACEPTADO.
+
+Presentamos la duda a procesal, su respuesta fue la siguiente:
+
+//Si ya ha presentado escrito iniciador en Sede Judicial Electrónica (SJE) y ha recibido notificación de la correspondiente resolución del órgano judicial (realizada por el conducto tradicional, no está aún habilitada la notificación telemática en la propia SJE), bien admitiendo a trámite la demanda, bien requiriendo de subsanación en su caso, para aportar más documentación a través de SJE tendría que hacerlo mediante el formulario de presentación de escritos de trámite dirigido al órgano, tipo y nº de procedimiento correspondiente notificado.//
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Problemas con Autofirma ======
+
+Si el usuario indica que está teniendo problemas con la firma electrónica, apareciéndole el mensaje "No se puede conectar con autofirma" es debido a que no se ha descargado el applet y no tiene autofirma instalado.
+
+**Repuesta:**
+
+//Estimado usuario,//
+
+//le escribimos en relación a su incidencia interpuesta a través del formulario de contacto de Sede Judicial Electrónica. En el apartado // [[https://sede.justicia.juntadeandalucia.es/portal/adriano/es/informacion-general/requisitos/|Requisitos técnicos//]]// dispone del enlace y la información relativa a Autofirma. Si una vez instalado, el servicio de firma continúa dándole problemas, borre los temporales y caché del navegador, reinicie dicho navegador y vuelva a probar. //
+
+//Esperamos haberle servido de ayuda, reciba un cordial saludo. //
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Cómo consultar procedimientos judiciales ======
+
+El usuario consulta cómo llevar a cabo la consulta de sus procedimientos judiciales
+
+Respuesta\\
+\\
+Buenos días, en relación a su consulta a través del formulario de Sede Judicial electrónica, informarle que en la sección "[[https://sede.justicia.juntadeandalucia.es/portal/adriano/es/tramites-y-servicios/tramitesPersonalesInfo/|Mis procedimientos judiciales]]" puede consultar el estado de los procedimientos para los que es interviniente. Tenga en cuenta que, a través de esta consulta se informará de todos los procedimientos judiciales en los que conste como interviniente a partir del 31/12/2015, no anteriores. Si echa en falta algún procedimiento, debe contactar con el órgano que lo procesa, para que verifique sus datos como interviniente en el procedimiento correspondiente. En relación a esto, le informamos que en Portal Adriano existe un apartado llamado '[[http://www.juntadeandalucia.es/justicia/portal/adriano/directoriosjudiciales/index.html|Directorio Judiciales]]' en el que tiene a su disposición información para contactar con los órganos judiciales. Esperamos haberle servido de ayuda, reciba un cordial saludo.\\
+\\
+</panel></WRAP>\\
+\\
+<WRAP> <panel type="info">
+
+====== Descarga de Grabaciones Judiciales y el sistema ARCONTE (vistas) ======
+
+\\
+Si el usuario dice que tiene problemas de acceso a arconte o en descarga de vistas\\
+\\
+Respuesta\\
+\\
+Estimado usuario, Le informamos que la gestión de incidencias y peticiones relacionadas con la Descarga de Grabaciones Judiciales y el sistema ARCONTE se realizan enviando el formulario adjunto al buzón de correo siguiente: incidencias.descargadevistas.ius@juntadeandalucia.es Esperamos haberle servido de ayuda, reciba un cordial saludo.
+
+</panel></WRAP>\\
+\\
+<WRAP> <panel type="info">
+
+====== Desde el órgano, le solicitan presentar telemáticamente una demanda de ejecución ======
+
+El usuario escribe indicando que en el órgano le han exigido presentar una demanda de ejecución o trámite de ejecución por SJE y dicho trámite no está disponible
+
+Actuación
+
+  - Solicitarle el órgano que le ha exigido la presentación telemática
+  - Informar a procesal de que el órganos X está exigiendo presentar telemáticamente ejecuciones
+  - Cuando procesal envíe el comunicado, informar al usuario que ya se ha llevado acabo la comunicación pertinente al órgano, que vuelva a intentarlo y que disculpe las molestias
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Dudas Generales de presentación de escritos ======
+
+El usuario tiene dudas sobre la presentación de un escrito
+
+Se le remite a la documentación publicada.
+
+**Respuesta**
+
+Estimado usuario,
+
+Le escribimos desde el soporte técnico de la Sede Judicial Electrónica de Andalucía en relación a la incidencia interpuesta ante el buzón de sugerencia.
+
+Le informamos que en las difrerentes secciones de los escritos disponibles dispone de información para llevar a cabo su presentación, no obstante, a continuación le listamos alguna documentación de interés:
+
+  * [[https://sede.justicia.juntadeandalucia.es/portal/export/sites/sedeelectronica/.content/galleries/downloads/guiaPresentacionEscritos.pdf|https://sede.justicia.juntadeandalucia.es/portal/export/sites/sedeelectronica/.content/galleries/downloads/guiaPresentacionEscritos.pdf]]
+  * [[https://sede.justicia.juntadeandalucia.es/portal/adriano/es/ayuda/preguntas-frecuentes/|https://sede.justicia.juntadeandalucia.es/portal/adriano/es/ayuda/preguntas-frecuentes/]]
+
+Esperamos haberle servido de ayuda, reciba un cordial saludo. \\  \\ Reciba un cordial saludo.
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Error general de presentación ======
+
+Puede ser que una vez tenga el usuario todo firmado y el escrito correctamente completado, intente presentar y le de un error general. Como la siguiente imagen
+
+{{:pag_apli:sedejudicialelectronica:errorgeneralpeq.jpeg|}}
+
+En este caso hay que mirar el log de la aplicación ya que, este error es por un rechazo de lexnet. Para ello, nos vamos a la URL de log y lo más fácil es buscar el id del escrito o el nif del interviniente.
+
+Cuando lexnet rechaza un escrito por algo, en el log se escribe tanto el XM ERROR como el XML ENVIADO. En el error, suelen decir la causa. Según sea, hay que actuar en consecuencia:
+
+  * Problema al verificar la firma: suele ser error temporal de lexnet, indicar al usuario que pruebe en un rato y si persiste, contactar con lexnet para ver qué pasa. Adjuntarle el XML del escrito y del error
+  * Problema porque se está usando alguna tipología que ya no está operativa en lexnet: caducarla en base de datos ( table MSJ_ORDEN_TADJUNTO_LXN poniendo L_ACTIVO = 'N') e informar al usuario de que debe seleccionar otra. La estructura del catálogo está explicada en el siguiente documento: PENDIENTE
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Error de validación: El usuario no es interviniente del procedimiento indicado ======
+
+**Problema **  (ejemplo x_formulario = 614)
+
+----
+
+Intentan presentar un escrito de trámite y se le informa de que no es interviniente del procedimiento indicado. Esto es debido a que en Adriano no están sus datos completados en la tabla interviniente. Para ello, se solicitan los datos del procedimiento, si no lo indican y en el esquema del órgano, en la tabla INTERVINIENTES se comprueba si el identificador está completado y se corresponde con el del usuario logado.
+
+Lo normal es que estén completados nombres y apellidos pero no el identificativo, en ese caso, deben contactar con el órgano y solicitar su corrección.
+
+Respuesta
+
+----
+<code>
+
+Estimada usuaria, en relación a su consulta interpuesta a través del formulario de contacto de Sede Judicial Electrónica,
+le informamos que hemos revisado los datos y hemos verificado que los datos de los intervinientes asociados al procedimiento
+que indica no están correctamente completados en el sistema de gestión procesal final.
+
+Para ello, debe contactar con el órgano y solicitar su revisión.  Para ello, le hacemos saber que en Portal Adriano
+existe una sección llamada  donde puede encontrar los datos de contacto de los diferentes órganos de Andalucía
+
+Esperamos haberle servido de ayuda, reciba un cordial saludo.
+
+</code>
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Error con códigos de municipios ======
+
+Se han dado varios casos en los que se ha dado el siguiente error:
+
+Error, el parámetro "DOMICILIO - CODIGOPOBLACION" con valor "04904" es erróneo
+
+Esto puede ser debido a dos cosas:
+
+  * El código del municipio no está correcto en temis: para comprobarlo, se comprueba el código del municipio en el test de compatibilidad judicial ([[http://testcompatibilidad.poderjudicial.es/cgpjtest/php/main.php|http://testcompatibilidad.poderjudicial.es/cgpjtest/php/main.php]]), si no se corresponde con el de temis, hay que actualizarlo y actualizarlo también en la tabla direcciones_notificaciones de SJE
+  * Si estando ya actualizado en el sistema LEXNET lo sigue rechazando, hay que poner una petición a LEXNET para que lo revise. para ello enviar un correo a cau@mju.es con un texto similar al siguiente:
+
+//Buenos días,// \\  \\ //antes de nada, os indico los datos del responsable de proyecto de Sede Judicial Electrónica de Andalucía:// \\  \\ //¿ Puesto de trabajo: Adjunto a la Jefatura del servicio de informática judicial// \\ //¿ NIF: 31691979A// \\ //¿ Teléfono: 600157073// \\ //¿ Órgano en que se encuentra: Junta de Andalucía; Consejería de Justicia e Interior.// \\  \\ //dicho esto, comentar que tenemos un problema de integración con un escrito desde Sede Judicial Electrónica de Andalucía. Según el test de compatibilidad, el código del municipio de Balanegra de Almería es el 4904 y así se ha enviado, pero hemos obtenido el siguiente error:// \\  \\ //" Error, el parámetro "DOMICILIO - CODIGOPOBLACION" con valor "04904" es erróneo Compruebe la información proporcionada. Adjuntamos error y escrito monitorio civil enviado.//
+
+//¿cómo debemos actuar en este caso?//
+
+NOTA: el XML del error y el del escrito enviado se ve en el log. Se adjunta uno de ejemplo [[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/download/QueHacemos/Desarrollo/Resolución de incidencias/Sede Judicial Electrónica/errorMunicipio/sede.log-20191112.gz|sede.log-20191112.gz]]
+
+Una vez que LEXNET conteste, pedir al usuario que vuelva a probar.
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Error descarga de edictos ======
+
+Descripción:
+
+El usuario indica que no puede descargar un edicto desde Sede Judicial Electrónica, le da "Error General":
+
+{{:pag_apli:sedejudicialelectronica:1631526823392-660.png|}}
+
+Explicación:
+
+Hay edictos que no se pueden descargar porque llegan a WSFirmador de Portafirmas embebido en Expediente Digital, y éste funciona diferente al de Adriano.
+
+No es válida la petición que se hace desde sede, es necesario nuevo desarrollo.
+
+Solución:
+
+A. Si el usuario nos facilita el NIG del edicto que no puede descargar:
+
+1. Obtenemos el "C_PETICION" asociado al edicto en la tabla "EDICTOS", en el esquema "SEDEJUS" de la BD "PROD01":
+
+//select C_PETICION from sedejus.edictos where nig = '////<NIG>////';//
+
+2. Con el "C_PETICION", vamos a la tabla "FIRMAS", en el esquema "WSFIRMADOR" de la BD "PROD02" y en la tabla firmas se comprueba si el endpoint asociado es Expediente Digital:
+
+//select * from wsfirmador.firmas where c_peticion = '////<C_PETICION>////';//
+
+{{:pag_apli:sedejudicialelectronica:firmadoredicto.png|}}
+
+B. Si no nos facilitan el NIG:
+
+1. Accedemos al log de SJE ("sede") y buscamos, en el rango de fecha que aparece en la captura del error que nos haya proporcionado el usuario, el registro del error. Nos debe aparecer un error similar a este, en el que nos informa el "X_EDICTO" del edicto que provoca el error:
+
+//07/09/2021 05:50:03 PM: ERROR [http-bio-8080-exec-69] (DescargaServlet.java:172) Error al recuperar el documento asociado al edicto - 161659//
+
+//07/09/2021 05:50:04 PM: ERROR [http-bio-8080-exec-69] (CmsJspTagContainer.java:912) org.opencms.file.CmsVfsResourceNotFoundException: Error reading resource with the ID 23713375-6ce5-11e5-94fa-8785baf54c36.//
+
+2. Con dicho "X_EDICTO", buscamos el "C_PETICION" del edicto en la tabla "EDICTOS", en el esquema "SEDEJUS" de la BD "PROD01":
+
+//select C_PETICION from sedejus.edictos where x_edicto = '<X_EDICTO>';//
+
+Y continuamos con el paso 2 del caso A.
+
+PD: También en el log "sede-service", en el rango de fecha que aparece en la captura del error que nos haya proporcionado el usuario, podemos encontrar el registro del error de descarga del documento realizado mediante un enlace de Portafirmas. De dicho enlace también podemos obtener el "C_PETICION" (dRequest) y "C_DOCUMENTO" (idDocument) del envío a firma:
+
+//07/09/2021 05:50:03 PM: ERROR [http-bio-8080-exec-20916] (PFUtil.java:54) Error al invocar metodo para obtener documento Portafirmas: HTTP/1.1 500 //
+
+//URL peticion:[[https://portafirmas.justicia.junta-andalucia.es/portafirmas/informeFirma?idRequest=1646821&idDocument=1646832//|https://portafirmas.justicia.junta-andalucia.es/portafirmas/informeFirma?idRequest=1646821&idDocument=1646832//]] FINALMENTE:Mientras se desarrollan los evolutivos implicados para solventar dicho error en la descarga de edictos, se descargarán desde Expediente Digital los edictos y se remitirán al usuario, para ello se devolverá la incidencia a OTPCS-Gestión Cambio para que se lo remitan al ciudadano que lo solicita. Descargamos el informe de firma (Expediente Digital > pestaña "Firmas" > pestaña "Modificación") introduciendo el "C_PETICION" en el campo "Clave Petición" y descargando el documento desde el icono que se señala en la siguiente captura: 
+{{:pag_apli:sedejudicialelectronica:1631529889461-665.png|}}
+ INCIDENCIAS:IN0000001721979//</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== El procedimiento no aparece en la vista de mis procedimientos judiciales o en la de profesionales ======
+
+Este error es normalmente que en adriano no están los datos completados. Para ello:
+
+  - Se debe indicar al usuario que se ponga en contacto con el órgano que tramita el procedimiento y revise sus datos en el sistema
+  - Lo normal es que el órgano le diga que está todo correcto. En ese caso, solicitar los datos del órgano que lo tramita, del procedimiento y NIF del interviniente:
+      - Con esos datos, ir a Adriano, tabla asuntos y localizar el procedimiento
+      - Con el asunto, ir a la tabla intervinientes y verificar que el identificador está correcto.
+  - Una vez se ha verificado que en Adriano faltan datos o el NIF no es correcto, se informa al usuario que debe ponerse en contacto con el órgano para subsanar sus datos. NUNCA SE SUBSANAN LOS DATOS, ESO DEBE HACERLO EL ÓRGANO
+
+Es decir, en adriano no se puede encontrar algo como la siguiente imagen:
+
+{{:pag_apli:sedejudicialelectronica:procedimientos.png|}}
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Error de validación en escrito verbal ======
+
+Se puede dar el caso de que, a la hora de crear un escrito de Juicio Verbal de un error, para ello, deben consultarse los logs, pero el erro conocido relacionado con este escrito es:
+
+  * En la pestaña asunto se ha seleccionado una opción y no se ha indicado cantidad.
+
+{{:pag_apli:sedejudicialelectronica:juicioverbal.png|}}
+
+Solución:
+
+  * Que inserte una cantidad o ponga 0
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Estados de los escritos ======
+
+Los estados de un escrito son:
+
+  * Borrador: no ha llegado a lexnet
+  * Confirmado: no ha llegado a lexnet
+  * Presentado: se ha enviado a lexnet
+  * Repartido: ha sido repartido
+  * Aceptado: ha sido aceptado por el órgano
+  * Rechazado: se ha rechazado por el órgano
+
+Cuando un escrito es presentado y después el órgano lo reparte, acepta o rechaza, en la tabla escritos se puede ver la información asociada a dicho estado, es decir, el órgano al que lo ha enviado o el motivo del rechazo.
+
+Hay veces que, los usuarios, al darle a confirmar, piensan que el escrito ya está presentado y NO ES ASÍ. Un escrito debe estar en estado PRESENTADO. En el justificante generado, se informa con una marca de agua de escrito no presentado, pero aún así muchos se confunden. Por tanto, si el usuario indica que presentó un escrito pero se comprueba que éste está en estado CONFIRMADO o BORRADOR, se les debe informar de lo siguiente:
+
+Debe proceder a firmar los documentos del escrito, si incluye adjuntos, asegurándose de que los nombres de éstos no llevan tildes, ñ o caracteres especiales y, tras ello, procederá a la presentación del escrito. En el punto Guía de presentación de escritos puede encontrar una guía donde se le indica paso a paso el proceso de presentación, como adelanto le indicamos que, un escrito no está presentado hasta que en la sección "Mis escritos" éste no tenga asociado un identificador lexnet en la columna correspondiente así como la columna ESTADO pase a ser PRESENTADO. \\  \\ Una vez el órgano lo tramite, en dicha sección, podrá ver la actualización de dicho estado y el órgano al que se ha repartido, pudiendo contactar con ellos para más información
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Error "El campo cantidad X no tiene un formato correcto" ======
+
+**Descripción:**
+
+El usuario indica que cuando intenta presentar un escrito, la aplicación le muestra el error "**El campo cantidad X no tiene un formato correcto**" (la X significa que puede ocurrir en varios campos del escrito):
+
+{{:pag_apli:sedejudicialelectronica:1635437721638-803.png|}}
+
+Solución:
+
+1. Se solicita al usuario las capturas de pantalla que sean necesarias (o un archivo PDF) en el que aparezcan el error o errores que se produzcan y todos los campos del escrito que intenta presentar, en el caso de que no lo haya facilitado.
+
+2. Se revisa el campo de cantidad que indica el error (o errores) y se comprueba que dichas cantidades monetarias no tengan espacios, letras ni símbolos (ni siquiera el €), y que además sólo tenga un punto (.) para indicar los céntimos de Euro (los centenares, millares y demás deben ir todos juntos sin separación de ningún tipo).
+
+3. En el caso de que no se cumpla alguna de las reglas indicadas en el punto 2, se informa al usuario de las mismas y se le indica qué debe cambiar, añadir o eliminar:
+
+"Debe introducir las cantidades monetarias sin espacios, letras ni símbolos, además sólo se puede introducir el punto para indicar los céntimos de Euro"
+
+INCIDENCIAS:IN0000001733484, IN0000001744826
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Consultas De Utilidad ======
+
+Para consultar los datos de SJE, hay que acceder con el usuario **MANSEDEJUS **al esquema **SEDEJUS **de **PROD01**
+
+**Obtener órganos**
+
+A través de ROE_EXTENDIDO
+
+select * from roe_extendido where t_organismo like '%Primera%14%Granada';
+
+select * from roe_extendido where c_organismo = '1102045000';**Accesos**
+
+En la tabla auditoría, se registran todos los accesos de los usuarios, con los datos del certificado, por tanto, si un usuario no indica en el formulario de contacto más que nombre y apellidos, por la tabla auditoria podemos obtener el resto de datos:
+
+select * from auditoria where entidad_juridica like '%HIENIPA%'; (ajustar la consulta según los datos que tengamos)
+
+----
+
+**Intervinientes de un escrito**
+
+SELECT * FROM USUARIO_INTERVINIENTE WHERE t_identificador = '30524917F';
+
+SELECT * FROM USUARIO_INTERVINIENTE WHERE T_SEGUNDO_APELLIDO LIKE '%HUERTA%';
+
+SELECT * FROM INTERVINIENTES WHERE USU_X_USUARIO =15991;**Escritos**
+
+SELECT * FROM ESCRITOS WHERE X_ESCRITO =6540;SELECT * FROM INTERVINIENTES WHERE INT_X_ESCRITO = 111;
+
+Número de escritos creados a partir de una fecha
+
+select count ( * ), tipo_escrito
+
+from escritos
+
+where f_creacion > to_date('31/08/2019', 'dd/mm/yyyy')
+
+group by tipo_escrito
+
+;
+
+**Escritos de un determinado T_IDENTIFICADOR.**
+
+SELECT * FROM escritos esc, intervinientes inter, USUARIO_INTERVINIENTE usu
+
+WHERE usu.T_IDENTIFICADOR LIKE '%00801904D%'
+
+and usu.x_usuario_interviniente = inter.usu_x_usuario
+
+and inter.int_x_escrito = esc.x_escrito
+
+order by esc.f_creacion desc;
+
+----
+
+**Documentación asociada a un escrito**
+
+select * from documentacion where doc_x_escritoini = 6540;
+
+select * from documentacion where subtipo_documento =126;
+
+----
+
+**Procedimientos personales**
+
+select distinct
+
+( select t_jurisdiccion from jurisdiccion where c_jurisdiccion = decode (i.JURISDICCION, 'M', 'C', i.JURISDICCION)) t_jurisdiccion
+
+,(select distinct t_organismo from roe_extendido where c_organismo = i.organo and jur_c_jurisdiccion = decode (i.JURISDICCION, 'M', 'C', i.JURISDICCION))
+
+, i.nig, I.PTDES, I.PROCEDIMIENTONUMERO_MODIF, I.ESDES
+
+, to_char(I.FASE_FECHA,'dd/mm/yyyy') , I.FADES, I.ORGANO, I.ASUNTO, I.ORDEN_INT
+
+, decode (i.JURISDICCION, 'M', 'C', i.JURISDICCION) c_jurisdiccion
+
+, to_char(I.ESTADO_FECHA,'dd/mm/yyyy') as ESTADO_FECHA
+
+, I.IDENTIFICATIVO_REP_LEGAL
+
+from vista_identificador_total i, roe_extendido roe, jurisdiccion j
+
+WHERE (I.IDENTIFICATIVO_OK = '#nif#' or I.IDENTIFICATIVO_REP_LEGAL = '#nif#' )
+
+AND I.ORGANO = ROE.C_ORGANISMO
+
+AND roe.x_jurisdiccion = j.x_jurisdiccion
+
+AND I.FECHA_ENTRADA < SYSDATE - (SELECT C_VALOR FROM DOMINIOS WHERE C_DOMINIO = 'PROC_PERSONALES_DIAS')
+
+order by ESTADO_FECHA desc
+
+----
+
+**Procedimentos profesionales**
+
+select distinct
+
+( select t_jurisdiccion from jurisdiccion where c_jurisdiccion = decode (i.JURISDICCION, 'M', 'C', i.JURISDICCION)) t_jurisdiccion
+
+,(select distinct t_organismo from roe_extendido where c_organismo = i.organo and jur_c_jurisdiccion = decode (i.JURISDICCION, 'M', 'C', i.JURISDICCION))
+
+, i.nig, I.PTDES, I.PROCEDIMIENTONUMERO_MODIF, I.ESDES
+
+, to_char(I.FASE_FECHA,'dd/mm/yyyy') , I.FADES, I.ORGANO, I.ASUNTO, I.ORDEN_INT
+
+, decode (i.JURISDICCION, 'M', 'C', i.JURISDICCION) c_jurisdiccion
+
+, to_char(I.ESTADO_FECHA,'dd/mm/yyyy') as ESTADO_FECHA
+
+FROM VISTA_IDENTIFICADOR_TOTAL I, roe_extendido roe, VISTA_ASUNTOS_PROFESIONALES PROF, jurisdiccion j
+
+WHERE I.ORGANO = ROE.C_ORGANISMO
+
+AND roe.x_jurisdiccion = j.x_jurisdiccion
+
+AND I.ORGANO = PROF.ORGANO
+
+AND I.JURISDICCION = PROF.JURISDICCION
+
+AND I.ASUNTO = PROF.ASUNTO
+
+AND I.ORDEN_INT = PROF.ORDEN_INT
+
+AND PROF.prof_identificativo = '#nif#'
+
+AND PROF.FECHA_ENTRADA < SYSDATE - (SELECT C_VALOR FROM DOMINIOS WHERE C_DOMINIO = 'PROC_PROFESIONALES_DIAS')
+
+order by estado_fecha desc
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Consulta Mis procedimientos judiciales de ciudadanos y profesionales ======
+
+La consulta de profesionales y ciudadanos está parametrizada para que se muesten únicamente asuntos previos a una fecha de entrada concreta. Dicha fecha está parametrizada por días (AND PROF.FECHA_ENTRADA < SYSDATE - (SELECT C_VALOR FROM DOMINIOS WHERE C_DOMINIO = 'PROC_PROFESIONALES_DIAS + "') ).
+
+Para ello, existen dos dominios:
+
+  * Para ciudadanos:  PROC_PERSONALES_DIAS - actualmente 5
+  * Para profesionales:  PROC_PROFESIONALES_DIAS - actualmente 0
+
+Si se necesita cambiar esos días, basta con modificar el dominio.
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Informe de resolución de incidencias en SEDE ======
+
+Durante el análisis de funcionamiento de la plataforma SEDE, se identificaron y resolvieron dos errores críticos que afectaban la experiencia de usuario. A continuación, se detallan los problemas detectados y las soluciones aplicadas.
+
+
+**1. Error en la pantalla "Mis procedimientos judiciales" al seleccionar "Soy Representante"
+**
+
+Problema:
+
+Cuando el usuario seleccionaba la opción "Soy Representante" en la pantalla "Mis procedimientos judiciales", el sistema quedaba cargando indefinidamente y finalmente fallaba.
+
+Causa raíz:
+
+•	La tabla de base de datos relacionada contenía registros con el valor "Identificador no válido" en lugar de NULL, lo cual impedía realizar comparaciones eficientes.
+
+•	Esto generaba un coste elevado en las consultas SQL, ya que se obligaba a comparar cadenas en lugar de valores nulos.
+
+•	Además, la vista utilizada para esta funcionalidad, llamada vista_identificador_total, dependía de la tabla mv_id_nuevoadriano.
+
+
+Solución aplicada:
+
+•	Optimización de la vista: Se creó un índice sobre la columna implicada en la tabla mv_id_nuevoadriano, lo que permitió acelerar el filtrado por identificadores.
+
+•	Este índice se carga cada vez que se accede a la vista vista_identificador_total, reduciendo considerablemente los tiempos de carga y evitando el fallo.
+
+
+**2. Problemas de carga del logo, jQueryValidator y datos de Temis
+**
+
+**Incidencia 1**: Recursos estáticos (logo y jQueryValidator) no cargaban correctamente
+
+
+Problema:
+
+•	No se mostraba el logo de la aplicación.
+
+•	El validador jQueryValidator no funcionaba.
+
+
+Causa raíz:
+
+•	Una iRule configurada en el balanceador F5 estaba reescribiendo las rutas de acceso a recursos estáticos como el favicon y los scripts de jQuery.
+
+
+Solución aplicada:
+
+•	Se modificó la iRule del F5 para que no sobrescribiera las rutas de estos archivos.
+
+•	Con esto, se restableció el acceso correcto a los recursos estáticos, permitiendo que el logo y jQueryValidator cargaran adecuadamente.
+
+
+
+**Incidencia 2**: No se cargaban datos de Temis (provincias, municipios, partidos judiciales, etc.)
+
+
+Problema:
+
+•	La aplicación no mostraba datos de provincias, municipios, partidos judiciales, etc.
+
+•	También se producían errores tipo Connection Reset.
+
+
+Causa raíz:
+
+•	La arquitectura de SEDE cuenta con cuatro servidores Tomcat que nos importan:
+
+//2 nodos Frontend (iusslsede01 y iusslsede02) y 2 nodos Backend (iusslsedesrv01 y iusslsedesrv02)//
+
+•	Se detectó que 3 de los 4 nodos tenían un cron de reinicio programado a las 00:00 horas, lo que dejaba momentáneamente al sistema con un solo nodo activo (el nodo 2 de Frontend).
+
+•	Si el sistema redirigía peticiones a un nodo de frontend reiniciándose, fallaban las conexiones a backend (por falta de disponibilidad de los otros nodos).
+
+
+Solución aplicada:
+
+•	Se identificó la necesidad de revisar la planificación de reinicios de los nodos.
+
+•	Se modificaron los cron de reinicio de los servidores para que el reinicio de los nodos Backend se ejecute primero, seguido del reinicio de los nodos Frontend, evitando así que todos se reinicien simultáneamente.
+
+•	Con esta secuencia, se garantiza la disponibilidad de al menos un nodo de cada tipo (frontend y backend) durante el proceso de reinicio, previniendo errores por falta de respuesta entre nodos.
+
+
+
+</panel></WRAP>
+
+[[:pag_apli:sedejudicialelectronica:start|Volver atrás]]
+
+

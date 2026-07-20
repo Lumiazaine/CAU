@@ -1,0 +1,72 @@
+﻿
+===== Gestión de vulnerabilidades específicas de motores de base de datos. =====
+Establecer un proceso sistemático para identificar, evaluar, priorizar, remediar y documentar vulnerabilidades específicas en bases de datos Oracle 19c, garantizando la seguridad, integridad y disponibilidad de la información.
+
+Aplica a:
+	Instancias de Oracle 19c en entornos Desarrollo (DES), Preproducción (PRE) y Producción (PROD).
+	Componentes de la base de datos que puedan presentar vulnerabilidades:
+		Motor Oracle Database.
+		Herramientas administrativas (OPatch, SQL*Plus, RMAN, etc.).
+		Componentes de red (Oracle Net Listener).
+		Configuraciones de seguridad (perfiles, cifrado, auditoría).
+
+1) Identificación de Vulnerabilidades
+	Revisar periódicamente los boletines de seguridad de Oracle (Critical Patch Update - CPU) y otras fuentes reconocidas (CVE, NVD, CERT).
+	Mantener un inventario actualizado de las versiones, parches y configuraciones de todas las instancias Oracle.
+	Detectar vulnerabilidades relacionadas con:
+		Versiones obsoletas o sin soporte.
+		Parcheo pendiente.
+		Parámetros inseguros de configuración.
+		Servicios innecesarios habilitados.
+		Credenciales débiles o sin rotación.
+
+2) Evaluación y Priorización
+	Analizar la severidad según:
+		Puntaje CVSS (Common Vulnerability Scoring System).
+		Riesgo para la integridad y disponibilidad.
+	Clasificar la prioridad:
+		Alta: Vulnerabilidad explotable y sin mitigación activa.
+		Media: Requiere condiciones específicas para ser explotada.
+		Baja: Impacto mínimo o mitigada parcialmente.
+
+3) Planificación
+	Definir acciones correctivas:
+		Aplicación de parches de seguridad (PSU/RU).
+		Cambios de configuración de permisos (hardening).
+		Desactivación de servicios no utilizados.
+		Implementación de cifrado o auditoría.
+	Definición la fecha y hora de la intervención.
+	Validar el plan en entornos DES y PRE antes de ejecutar en PRODUCCIÓN.
+
+4) Implementación
+	Ejecutar las acciones planificadas dentro de la ventana aprobada.
+	Seguir procedimientos documentados de parcheo y configuración.
+	Verificar que el cambio no afecte la operatividad de sistemas dependientes.
+
+5) Verificación y Validación
+	Confirmar la instalación de parches o la modificación de configuraciones.
+	Revisar registros de eventos y alertas para detectar errores.
+	Ejecutar pruebas funcionales con los equipos de desarrollo.
+	Asegurar que las métricas de rendimiento y seguridad se mantienen estables.
+
+6) Documentación y Cierre
+	Registrar:
+		Vulnerabilidad detectada.
+		Acción correctiva aplicada.
+		Fecha y hora de ejecución.
+		Evidencia de pruebas post-implementación.
+	Actualizar inventarios y bitácoras de cambios.
+	Cerrar el ticket de cambio con las aprobaciones correspondientes.
+
+Buenas Prácticas Complementarias
+	Implementar revisiones trimestrales de seguridad en Oracle siguiendo guías como Oracle Database Security Checklist.
+	Aplicar el principio de mínimo privilegio en usuarios y roles.
+	Mantener documentados todos los procedimientos de respuesta ante incidentes.
+
+Referencias Oficiales
+  * [[https://docs.oracle.com/en/database/oracle/oracle-database/19/dbseg/index.html|Oracle Database Security Guide 19c]]
+  * [[https://www.oracle.com/security-alerts/|Oracle Critical Patch Updates, Security Alerts and Bulletins]]
+  * [[https://docs.oracle.com/en/database/oracle/oracle-database/19/upgrd/index.html|Oracle Database Patch and Upgrade Documentation]]
+  * [[https://www.cisecurity.org/benchmark/oracle_database|CIS Oracle Database Benchmark]]
+
+

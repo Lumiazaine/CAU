@@ -1,0 +1,30 @@
+﻿
+
+<WRAP> 
+<panel type="primary" title="Procedimientos y Problemas Conocidos de Dicireg">
+
+[[..:dicireg:start|Volver atrás]]
+
+<WRAP> 
+<panel type="info">
+
+====== Entrada 1 ======
+
+Problema conocido.
+
+</panel> 
+</WRAP>
+
+<WRAP> 
+<panel type="info">
+
+====== Entrada 2 ======
+
+Problema conocido 2
+
+</panel> 
+</WRAP>
+
+[[..:dicireg:start|Volver atrás]]
+
+{{tag>novalidada}}

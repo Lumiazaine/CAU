@@ -1,0 +1,170 @@
+﻿
+<WRAP> <panel type="primary" title="Procedimientos y Problemas Conocidos de Active Directory">
+
+[[start|Volver atrás]]
+
+<WRAP> 
+<panel type="info" >
+
+====== Procedimiento alta en AD para usuarios OOJJ ======
+
+**Ámbito de aplicación:** Active Directory (AD) es el sistema que permite gestionar los usuarios de acceso a Windows y gestionar las membresías que permiten al Usuario acceder a carpetas compartidas y a determinadas funciones en Adriano y Lexnet.En esta guía se encuentran todas las acciones necesarias para la tarea de Gestión de Usuarios referidas a Active Directory (Búsquedas, Movimientos, Altas, Bajas y Resolución de Problemas)\\
+**Objetivo:** Realizar el alta en AD**. **Requisitos previos.** * La solicitud debe estar **autorizada por la jefatura del SSDJ o por la persona que figure como Identificador del usuario responsable de la cuenta genérica** en el Directorio Corporativo de la Junta de Andalucía. ** \\
+\\
+ <font 16px/inherit;;inherit;;inherit>**Procedimiento.**</font> \\
+\\
+**Conceptos previos:** \\
+\\
+__1.1 Estructura de la herramienta:__
+
+Active Directory muestra, en forma de arbol desplegable, todas las carpetas de los diferentes órganos que se encuentran dentro del sistema de Justicia. Al acceder a la herramienta, por defecto aparece el arbol de los sistemas generales de Andalucia. Para poder trabajar es necesario cambiar a la provincia deseada.
+
+__1.2 Organización de carpetas:__
+
+Al acceder a la provincia deseada, aparecen, organizados por carpetas, todos los partidos judiciales de dicha provincia. Dentro de cada una de esas carpetas se encuentran los OOJJ que se adscriben a dicho partido judicial y, dentro de cada OOJJ, se encuentran los perfiles de los diferentes Usuarios que se están destinados a dicho órgano.
+
+__1.3 Grupos de seguridad:__
+
+Dentro de las carpetas de los OJJ se encuentran los usuarios del personal destinado a cada órgano. También aparecerán reflejados los nombres de los equipos asignados a dicho órgano así como los grupos de seguridad (también llamados permisos o membresías). Dichos grupos de seguridad permiten al usuario acceder a carpetas comunes y a determinadas funcionalidades de algunas herramientas (Lexnet, Adriano). Todos los usuarios que se encuentren dentro de una misma carpeta, tienen que tener, como mínimo, los grupos de seguridad de su OOJJ.
+
+__1.4 Perfil del usuario:__
+
+El perfil del usuario se compone de varias pestañas, en las que tendrán que tener rellenos los siguientes campos:
+
+__1.5 Normas de nomenclatura:__
+
+Los usuarios creados en AD siguen la siguiente pauta:
+
+- El usuario se crea con todas las letras en mayúsculas.
+
+- El usuario se compondrá de la inicial de su nombre y su primer apellido completo. En el caso de que el usuario resultante ya existiera en sistemas, se iran añadiendo letras del segundo apellido hasta que resulte un usuario aceptado por el sistema. En el caso de que se agoten las letras del segundo apellido, se añadirán letras del nombre de pila.
+
+- No se tendrán en cuenta las preposiciones de los nombres o apellidos compuestos (por ej: el "del" de María del Carmen).
+
+- En el caso de nombres de pila compuestos, se cogerán las iniciales de los nombres que lo compongan (Por ej: para María del Carmen, se usará MC).
+
+- En el caso de que el primer apellido sea compuesto, se cogerá para crear el usuario la primera palabra. Si es necesario añadir más letras por coincidir con un usuario existente, se añadirán letras de la segunda palabra hasta agotar el primer apellido.
+
+__1.6 Reseteo de contraseña AD:__
+
+En caso de necesidad de resetear la contraseña de un usuario, localizamos la cuenta, pulsamos con el botón derecho sobre el perfil y elegimos la opción "Restablecer contraseña". Aparecerá la ventana para dejar detallada la nueva contraseña. Dejamos marcado el check de "El usuario debe cambiar la contraseña en el siguiente inicio de sesión" para que personalice la contraseña cuando acceda por primera vez.
+
+La nueva contraseña que introduzca el usuario tiene que cumplir con los siguientes requisitos de seguridad:
+
+  * Tiene que tener, como mínimo, 8 dígitos
+  * Debe incluir letras y números, sin caracteres especiales.
+  * El primer dígito se recomienda que sea una letra mayúscula
+  * No se pueden repetir las últimas cinco contraseñas (puede haber alguna variación de algún dígito, pero no repetir literalmente)
+
+**Pestaña General:**
+  * Descripción: Cargo del Usuario (Magistrado/a, Juez/a, Letrado de la Administración de Justicia, Fiscal, Auxilio Judicial, Tramitación Procesal, Gestión Procesal, Médico Forense, Psicólogo/a)
+  * Oficina: Unidad funcional de forma resumida, por ejemplo Instruccion 1, SCNE, IML, TSJ Sala de lo Social, …
+  * Numero de teléfono: DNI con el formato: 12346578L
+  * Correo electrónico: correo corporativo del Usuario
+
+**Pestaña Dirección:**
+  * Ciudad: Nombre de la localidad
+  * Estado o Provincia: Nombre de la provincia
+
+**Pestaña Cuenta:**
+  * Aparecerá el usuario de AD y dominio "@justicia.junta-andalucia.es". En caso contrario hay que modificarlo.
+
+**Pestaña Organización:**
+  * Puesto: Cargo del usuario.
+  * Departamento: Unidad funcional, de forma resumida, por ejemplo Instruccion 1, SCNE, IML, TSJ Sala de lo Social, …
+
+**Pestaña Miembros de:**
+  * Aparecerán los grupos de seguridad que el usuario tenga asignados. Estos grupos pueden ser modificados pulsado en los botones de "Agregar" o "Quitar" en función de lo que sea necesario.
+
+**1. PROCESO DE ALTA NORMALIZADA DE USUARIO**
+
+Al ser un usuario de nueva creación, no se encontrará creado en sistemas. No osbtante, para evitar confusiones, es recomendable realizar una búsqueda para asegurarnos de que el Usuario no se encuentra en AD.
+
+Una vez estemos seguros de que el Usuario no existe en AD, procederemos a crear un perfil nuevo.
+
+  - Accedemos a la carpeta del OOJJ correspondiente.
+  - Localizamos el usuario de un compañero con el mismo cargo y pulsamos con el botón derecho sobre él, seleccionando la opción "Copiar".
+  - Aparecerá la ventana de creación de usuarios en la que tenemos que rellenar los siguientes campos:
+
+Nombre de pila: Nombre del Usuario \\
+Apellidos: Apellidos del Usuario \\
+Nombre completo: (se autorellenará conforme se escriba en los campos anteriores) \\
+Nombre de inicio de sesión de usuario: debemos crear el usuario siguiendo las normas de nomenclatura explicadas anteriormente. \\
+Pulsamos en SIGUIENTE \\
+Contraseña: dejamos señalada una contraseña \\
+Confirmar contraseña: confirmamos la contraseña \\
+Dejamos marcado el check de "El usuario debe cambiar la contraseña en el siguiente inicio de sesión" \\
+Pulsamos en SIGUIENTE \\
+Pulsamos en FINALIZAR
+
+Una vez creado el perfil, tenemos que acceder a él para comprobar que se encuentren rellenos correctamente todos los campos necesarios detallados en al apartado Perfil de Usuario en Conceptos Previos. Al ser una copia de un perfil existente, aparecerá todo relleno teniendo que completar solo los campos de la pestaña General.
+
+En el caso de que en la carpeta del OOJJ destino no se encontrara ningún usuario previo con el mismo perfil, podemos crear un usuario pulsando sobre la pantalla con el botón derecho y escoger las opciones de Nuevo - Usuario. Los pasos a seguir son los mismo que si creamos el perfil mediante copia, solo que en este caso tendremos que rellenar manualmente las pestañas necesarias del perfil del usuario (detallados en el apartado 1.4 Perfil del usuario).
+
+**2. PROCESO DE ALTA POR TRASLADO DE USUARIO**
+
+Tenemos que diferenciar si el traslado se produce dentro de la misma provincia o el destino sería en una provincia diferente.
+
+Dentro de la misma provincia:
+
+Al ser en la misma provincia, el traslado consistirá en mover el perfil del Usuario a la carpeta de su OOJJ de destino. Para ello se pueden seguir los pasos indicados en el apartado 3 (MOVIMIENTOS EN AD). Una vez trasladado el usuario, será necesario actualizar las pestañas de su perfil para adecuarlo al nuevo OOJJ y aplicar un reseteo de contraseña (1.6 Reseteo de contraseña AD).
+
+Traslado a una provincia diferente:
+
+La herramienta no permite realizar traslados directos entre provincias, por lo que tenemos que eliminar el perfil en la provincia de origen y crear un nuevo usuario en la provincia de destino:
+
+  - Localizamos el perfil actual del Usuario y copiamos el nombre de su cuenta. Eliminamos el perfil pulsando con el botón derecho y seleccionando la opción "Eliminar"
+  - Creamos un nuevo usuario en la provincia de destino siguiendo los pasos detallados en el apartado 4. PROCESO DE ALTA NORMALIZADA DE USUARIO. Al crear el nombre de usuario, se intentará usar el mismo nombre de usuario que tenía en la provincia de origen.
+
+**3. PROCESO DE ALTA COMPAGINADA DE USUARIO**
+
+En este tipo de alta tenemos que diferenciar si se usaría un usuario multiórgano o un usuario alternativo:
+
+Usuario Multiórgano:
+
+Para usuarios multiórganos, el Usuario mantendría su mismo perfil en AD en la carpeta del OOJJ del cual es titular. Sólo tenemos que añadir los grupos de seguridad del OOJJ para el que solicite el acceso. Para ello, tendremos que acudir a la carpeta de dicho OOJJ y localizar un usuario ya creado con el mismo cargo. Accedemos a su cuenta y copiamos los grupos de seguridad incluidos en la pestaña de "Miembro de". Una vez copiados, localizamos el perfil del usuario y añadimos los nuevos grupos de seguridad.
+
+Usuario Alternativo:
+
+El el caso de necesitar un usuario alternativo, se debe crear un perfil nuevo, por lo que se rige por el mismo proceso que el apartado 1. PROCESO DE ALTA NORMALIZADA DE USUARIO
+
+**4. PROCESO DE BAJA DE USUARIO**
+
+Baja Definitiva:
+
+Si la baja se produce por algún motivo por el cual estamos seguros de que no se va a volver a necesitar (fallecimiento, jubilación, traslado fuera de Andalucía), la baja en AD consiste en la eliminación del perfil del Usuario. Para ello, localizamos el perfil y pulsamos con el botón derecho, seleccionando la opción de "Eliminar"
+
+Cese temporal:
+
+En el caso de que la baja se solicite por un cese de contrato o por cualquier motivo que no implique una baja definitiva (como se indica en el anterior apartado), la baja se tramita mediante la des habilitación del usuario:
+
+Localizamos el usuario realizando la consulta según los pasos detallados en el apartado 3. MOVIMIENTOS EN AD.
+Una vez localizado, pulsamos con el botón derecho sobre el perfil y elegimos la opción de "Deshabilitar cuenta". Con esto, dejamos inoperativa la cuenta.
+Tras tener la cuenta deshabilitada, movemos el perfil a la carpeta de "Cuentas Desactivadas".
+Baja por inactividad:
+
+De manera diaria, se ejecuta un proceso automático que analiza la inactividad las cuentas de usuarios, iniciando un proceso de desactivación en función de los días de inactividad:
+
+Si la cuenta lleva 60 días sin usarse, el perfil se deshabilita y se mueve a la carpeta de "Cuentas Desactivadas" de su provincia. Si recibimos llamada de un Usuario que se encuentre en este caso, tras confirmar su identidad y verificar que mantiene su puesto en el mismo OOJJ, procedemos a la rehabilitación de la cuenta y traslado a la carpeta de su OOJJ. En el caso de que se haya trasladado de OOJJ, tiene que seguir el proceso de Alta mediante envío de formulario.
+Si la cuenta lleva 150 días sin usarse, el perfil del Usuario es eliminado de la herramienta. Si recibimos llamada de un Usuario que se encuentre en este caso, al haberse producido la eliminación de la cuenta, es necesario que nos solicite el alta nuevamente mediante formulario.
+
+<panel type="info" >
+
+====== Procedimiento alta en AD para técnicos  ======
+
+Esto lo hace sistemas
+
+</panel> </WRAP>
+
+<WRAP> 
+<panel type="info" >
+
+====== Problemas conocidos ======
+
+Otro problema conocido 2
+
+</panel> </WRAP>
+
+[[start|Volver atrás]]
+
+{{tag>validada CSU GTSW explotación}}

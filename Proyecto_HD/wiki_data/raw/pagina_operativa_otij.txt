@@ -1,0 +1,153 @@
+﻿
+<html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>ENLACES DE INTERÉS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #39546E;
+            margin: 0;
+            padding: 20px;
+            padding-top: 70px;
+            
+        }
+
+        .main-container {
+            max-width: 1550px;
+            margin-top: 20px;
+            
+        }
+
+        .main-header {
+            background-color: #39546E;
+            color: white;
+            padding: 25px 20px;
+            font-size: 2rem;
+            font-weight: bold;
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+            margin-bottom: 20px;
+            
+        }
+
+        .block {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 22px;
+            margin-bottom: 25px;
+            border: 1px solid #c5ccd4;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+            
+        }
+
+        .block h2 {
+            margin-top: 0;
+            color: #39546E;
+            border-bottom: 2px solid #39546E;
+            padding-bottom: 10px;
+            
+        }
+        
+        a {
+            color: #0051A3;
+            text-decoration: none;
+            
+        }
+        
+        .btn-volver {
+            background-color: #39546E;
+            color: white;
+            padding: 10px 20px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+            
+        }
+
+        .btn-volver:hover {
+            background-color: #39546E; 
+            color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transform: translateY(-2px); 
+            
+        }
+
+        
+    </style>
+</head>
+
+<body>
+
+<a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_procedimientos_generales" class="btn-volver">Volver</a>
+
+    <div class="main-container">
+
+        <div class="main-header">Operativa de la Oficina Técnica de Interoperabilidad</div>
+              <div style="margin: 15px;">
+        
+            <p>En este apartado encontraremos normas relacionadas con los desarrollos realizados dentro del contexto de la Oficina Técnica de Interoperabilidad, así como la verificaciones que se realizarán para controlar que estos desarrollos están conforme a estas normas y se siguen los procedimientos establecidos.</p>
+        </div>
+        <!-- Bloque Normativa -->
+        <div class="block">
+        
+            <h2>Normativas de Desarrollo</h2>
+            
+            <ul>
+                <li><a href=
+                "https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_procedimientos_generales:libro_blanco">Libro Blanco</a></li>
+                <li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pagina_normativa_de_desarrollo_WSO2">Normativa de desarrollo para servicios de WSO2 </a></li>
+                <li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pagina_normativa_KeyCloak">Normativa de KeyCloak</a></li>
+                <li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pagina_normativa_de_APIs">Normativa de desarrollo de APIs</a></li>
+                <li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=pla_otij_nija_estructuragit_v1.6_1.pdf">Normativa GIT y control de versiones</a></li>
+                <li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pagina_normativa_observabilidad">Normativa de Observabilidad</a></li>
+            </ul>
+        </div>
+        <!-- PLANTILLAS -->
+        <div class="block">
+        
+            <h2>Plantillas</h2>
+            
+            <ul>
+              <li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pagina_plantillas_desarrollo">Plantillas a usar en los desarrollos</a></li>
+              <li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pagina_plantillas_ggestion">Plantillas genéricas y para la gestión del proyecto</a></li>
+              <li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pagina_plantillas_salud">Plantillas asociadas a la Verificación de la Salud de las aplicaciones</a></li>
+            </ul>
+            
+        </div>
+        <!-- Operativa del Equipo de Mejora de la Salud -->
+        <div class="block">
+        
+            <h2>Operativa del Equipo de Mejora de la Salud</h2>
+            
+            <ul>
+              <li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=modelo_de_relacion_otij_v02r00 1.pptx">Operativa de trabajo del equipo de Mejora de la Salud</a></li>
+              <li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=PLA_NIJA_Checklist_Indicadores Certificación y Revisión.ods">Checklist de verificación</a></li>
+              <li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=pla_nija_otij_-_gestión_de_defectos_2.0.0.pdf">Gestión de defectos</a></li>
+              <li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=mar__proy___mod___comp__modelo_de_aceptación-rechazo_1300.pdf">Niveles de Aceptación y Modelo de Aceptación-Rechazo</a></li>
+            </ul>
+        </div>
+        </div>
+        <!-- Herramientas de Verificación -->
+        <div class="block">
+        
+            <h2>Herramientas de Verificación</h2>
+            
+            <ul>
+              <li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pagina_HerramientaCasosPruebas">Gestor de Casos de Pruebas</a></li>
+              <li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pagina_HerramientaSonar">Sonarqube</a></li>
+              <li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pagina_SwaggerEditor">SwaggerEditor</a></li>
+              <li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pagina_herramientaHELM">Linter de HELM y Kubeconform</a></li>
+            </ul>
+        </div>        
+        
+        
+     </div>
+</body>
+</html>
+
+{{tag>validada}}
+
+

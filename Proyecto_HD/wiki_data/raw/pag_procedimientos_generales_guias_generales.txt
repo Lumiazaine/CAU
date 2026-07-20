@@ -1,0 +1,76 @@
+﻿
+<html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>GUÍAS GENERALES</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #39546E;
+            margin: 0;
+            padding: 20px;
+            padding-top: 70px;
+            
+        }
+
+        .main-container {
+            max-width: 1550px;
+            margin: 0 auto;
+        }
+
+        .main-header {
+            background-color: #39546E;
+            color: white;
+            padding: 25px 20px;
+            font-size: 2rem;
+            font-weight: bold;
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .block {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 22px;
+            margin-bottom: 25px;
+            border: 1px solid #c5ccd4;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .block h2 {
+            margin-top: 0;
+            color: #39546E;
+            border-bottom: 2px solid #39546E;
+            padding-bottom: 10px;
+            
+        }
+        
+        a {
+            color: #0051A3;
+      
+        }
+        
+    </style>
+</head>
+
+<body>
+
+    <div class="main-container">
+
+        <div class="main-header">GUÍAS GENERALES</div>
+
+        <!-- Bloque VERSIONADO DOCUMENTAL -->
+        <div class="block">
+            <h2>Versionado Documental</h2>
+            <ul>
+            <li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=20260113_guia_para_versionado_de_documentos_v1.pdf">Guía para versionado de documentos</a></li>
+            </ul>     
+        </div>
+    </div>
+
+</body>
+</html>
+
+{{tag>novalidada}}

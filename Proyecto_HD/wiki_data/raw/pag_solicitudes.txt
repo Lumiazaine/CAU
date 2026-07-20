@@ -1,0 +1,14 @@
+﻿
+====== Solicitudes Técnicas a GTSR ======
+
+[[:solicitudes:balanceo|➡ Solicitud de Balanceo de Carga]]
+
+[[:solicitudes:cambio|➡ Solicitud General de Cambio Técnico]]
+
+[[:solicitudes:visibilidad_red_justicia|➡ Solicitud de Apertura de Visibilidad en Red Justicia]]
+
+[[:solicitudes:configuracion_switch_nuevo|➡ Solicitud de Configuracion de Switch Nuevo]]
+
+[[:solicitudes:configuracion_vpn|➡ Solicitud de configuracion de una vpn para usuario ]]
+
+[[:solicitudes:acceso_plazanueva|➡ Solicitud Acceso a Plaza Nueva ]]

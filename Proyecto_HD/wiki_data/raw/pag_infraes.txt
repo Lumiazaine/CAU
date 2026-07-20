@@ -1,0 +1,43 @@
+﻿
+<WRAP> 
+<panel type="primary" title="Redes, Comunicaciones, Seguridad Perimetral">
+
+<WRAP> <panel type="info" title="GTSR">
+
+|**Nombre**   |**Cargo**   |**Email**   |**Teléfonos**   |
+|Miguel Angel G.|Tecnico GTSR||   |
+|Iker M.G.|Tecnico GTSR| | |
+
+</panel> </WRAP>
+
+====== Servicios Horizontales ======
+
+  * [[:accesos_red_sara|Accesos Red Sara ]]
+  * [[:ansible|Ansible ]]
+  * [[:pag_alertas|Alertas]]
+  * [[:pag_backups|Backups]]
+  * [[:pag_calculadora|Calculadora IP]]
+  * [[:cargador|Cargador]]
+  * [[:pag_cpd_cica|CPD CICA]]
+  * [[:gestiondeidentidades|Gestión de identidades]]
+  * [[:pag_fabricantes|Fabricantes]]
+  * [[:pag_f5|F5]]
+  * [[:pag_infraestructuras|Infraestructuras]]
+  * [[:pag_inventario|Inventario]]
+  * [[:pag_juzgados_de_paz|Juzgados de Paz]]
+  * [[:pag-lineas_de_datos|Lineas de datos]]
+  * [[:pag_mapas|Mapas]]
+  * [[:pag_monitorizacion|Monitorizacion]]
+  * [[:pag_procedimientos|Procedimientos]]
+  * [[:pag_pruebas_basicas|Pruebas Basicas Usuarios]]
+  * [[:pag_pruebas_de_carga_y_rendimiento|Pruebas de carga y Rendimientos]]
+  * [[:pag_rma|RMA]]
+  * [[:pag_sedes|Sedes Judiciales]]
+  * [[:pag_seguridad|Seguridad Perimetral]]
+  * [[:pag_solicitudes|Solicitudes Tecnicas a GTSR]]
+  * [[:pag_urls_rcja|URLs RCJA]]
+  * [[:videoconferencia|Videoconferencia]]
+  * [[:virtualizacion|Virtualizacion ]]
+  * [[:visibilidades|Visibilidades ]]
+
+

@@ -1,0 +1,296 @@
+﻿
+<WRAP info round box>
+====== Procedimiento de gestión de formularios ======
+</WRAP>
+
+<panel type="primary" title=" Responsabilidades"> 
+
+
+**Jefatura del Servicio**
+
+Actúa como promotor de la necesidad y ejerce como validador funcional definitivo de las plantillas.
+
+**Coordinación de la Oficina Técnica**
+
+Coordina y gestiona todo el ciclo de vida del formulario, canalizando las peticiones y sirviendo de enlace entre la Jefatura, los equipos técnicos y los encargados de la publicación.
+
+**RunTime**
+
+Ejecuta el diseño, modificación y maquetación técnica de los formularios en los formatos requeridos, manteniéndolos en los repositorios internos.
+
+**Formadores**
+
+Garantizan la disponibilidad y publicación de los formularios vigentes en el canal de acceso de los usuarios finales.
+
+**Responsable de Seguridad**
+
+Garantiza la trazabilidad documental asignando la codificación oficial, aprueba la versión definitiva desde la perspectiva de seguridad y custodia las versiones vigentes.
+
+**Cualquier usuario del SSDJ o de OOJJ**
+
+Actúan como detectores de necesidades, proponiendo mejoras mediante tique canalizado a través del Centro de Servicio al Usuario (CSU).
+</panel>
+
+
+<panel type="primary" title="Repositorio único de formularios"> 
+
+
+
+Para garantizar la integridad, trazabilidad y control documental exigidos por el Esquema Nacional de Seguridad (ENS) y el marco normativo del SSDJ, es estrictamente necesario centralizar todas las plantillas en una única fuente autorizada. La consolidación de un repositorio único previene el uso de formularios obsoletos o no aprobados, elimina duplicidades y asegura que todo el personal acceda siempre a la versión vigente y validada para los procesos del SSDJ.
+
+==== Ubicación oficial ====
+
+Las plantillas vigentes y autorizadas se custodian en el repositorio oficial del SSDJ:
+
+\iusnas05\10. Proyectos en curso\000. Plantillas y otros recursos\Formularios
+
+En esta ubicación se conservará:
+
+  * El PDF definitivo aprobado.
+  * El editable LibreOffice correspondiente.
+
+Adicionalmente:
+
+  * Los formularios destinados al personal de OOJJ se publican en el Portal de Capacitación, que actúa como canal de acceso oficial.
+  * Los formularios destinados específicamente al uso interno del SSDJ estarán publicados en la dokuwiki del SSDJ.
+
+En todos los casos, la fuente de verdad de plantillas aprobadas será siempre el repositorio oficial del SSDJ.
+
+Queda expresamente desaconsejado el uso de copias locales de formularios descargados con anterioridad. El personal de OOJJ y del SSDJ deberá acceder siempre a los formularios a través del Portal de Capacitación o la DokuWiki, para garantizar que se utiliza únicamente la versión vigente y aprobada.
+
+**Flujo operativo**
+
+El ciclo de vida para la creación, modificación y publicación de los formularios del SSDJ seguirá de forma estricta las siguientes fases operativas:
+
+**Identificación de la necesidad**
+
+La Jefatura del Servicio determina la necesidad de crear o modificar un formulario, bien por iniciativa propia o a partir de propuestas del SSDJ, OOJJ o proveedores.
+
+**Solicitud mediante Remedy**
+
+La Coordinación de la Oficina Técnica inicia el proceso emitiendo un tique en Remedy dirigido al equipo de RunTime. En esta solicitud se debe incorporar obligatoriamente:
+
+  - La finalidad, estructura, campos requeridos y formato visual (ej. tipografía Source Sans Pro).
+  - La Cláusula de Protección de Datos correspondiente, incluidas en el apartado 6, según colectivo destino.
+  - El código único identificador (FOR-XXX-XX), que será solicitado y facilitado previamente por el Responsable de Seguridad TIC.
+
+**Desarrollo del formulario**
+
+  - RunTime crea o modifica el formulario generando: 
+    - PDF definitivo.
+    - Editable LibreOffice.
+  - Ambos documentos se adjuntan al tique Remedy.
+
+**Revisión operativa**
+
+La Oficina Técnica revisa la adecuación del formulario y solicita ajustes si procede.
+
+**Validación**
+
+La versión final se eleva a la Jefatura del Servicio y al Responsable de Seguridad para su aprobación funcional y de seguridad.
+
+**Actualización del repositorio**
+
+  - Se sustituye la versión anterior en el repositorio oficial, manteniendo histórico cuando proceda.
+  - Se actualizan las ubicaciones de publicación, retirando versiones anteriores.
+
+**Publicación**
+
+Tras la validación:
+  - La Oficina Técnica emite un nuevo tique a Formadores adjuntando: 
+    - PDF final aprobado.
+  - Nombre del formulario.
+    - Ubicación en el Portal de Capacitación.
+    - Formadores realizan la publicación y despublicación correspondiente.
+</panel>
+
+<panel type="info">
+<WRAP info round box>
+====== Categoría operacional: DOCUMENTACIÓN ======
+</WRAP>
+
+
+===== 1. Introducción y Alcance =====
+
+
+Esta categoría está destinada **EXCLUSIVAMENTE a la gestión interna** entre equipos técnicos. Su propósito es centralizar las **Órdenes de Trabajo (WO)** relacionadas con la creación, modificación, eliminación o publicación de activos de documentación y conocimiento.
+
+  * **Alcance:** Interno (No visible para el usuario final en DWP/Portal de Autoservicio).
+  * **Tipo de Ticket:** **Solo WO** (No genera Incidencias/INC).
+  * **Acción Operacionales:** Crear, Modificar, Eliminar, y Publicar.
+
+</panel>
+<panel type="info">
+
+
+===== 2. Flujo de Categorización (ITSM Interno) =====
+
+
+La clasificación se realiza a través de Nivel 1 y Nivel 2 (Acción), con el N3 identificando el activo de documentación o plataforma afectada.
+
+===== 2.1. Categorización Operacional (N1 y N2) =====
+^ Nivel 1 ^ Nivel 2 (Acción) ^
+| Documentación | Crear |
+| Documentación | Modificar |
+| Documentación | Eliminar |
+| Documentación | Publicar |
+
+==== 2.2. Categorización de Producto (N1, N2 y N3) ====
+  * **Nivel 1 Producto:** Documentación
+  * **Nivel 2 Producto:** Contenido
+  * **Nivel 3 Producto (Activo):** Alfresco, Artículos de conocimiento (REMEDY), Capacitación, Carpetas compartidas, DocuWiki, Escritorio Judicial, Portal Junta, Actas, Estadísticas, Informes, Manuales, Procedimiento.
+</panel>
+
+
+<panel type="info">
+
+
+===== 3. Asignación de Tickets (Grupos Resolutores) - INFORMACIÓN CLAVE =====
+
+
+Esta tabla indica si la asignación es **Automática** o si el técnico que genera la WO es **Responsable de la Asignación Manual**.
+
+^ Producto N3 (Activo) ^ Tipo de Ticket ^ Grupo Resolutor Asignado ^ Tipo de Asignación ^
+| **Alfresco** | Solo WO | Servicios / OT | Automática |
+| **Artículos de conocimiento (REMEDY)** | Solo WO | Servicios internos / RunTime | Automática |
+| **Capacitación** | Solo WO | Servicios / Capacitación | Automática |
+| **Carpetas compartidas** | Solo WO | Servicios / OT | Automática |
+| **DocuWiki** | Solo WO | Servicios internos / RunTime | Automática |
+| **Escritorio Judicial** | Solo WO | Servicios / OT | Automática |
+| **Portal Junta** | Solo WO | Servicios / OT | Automática |
+| **Actas** | Solo WO | N/A | **Manual** |
+| **Estadísticas** | Solo WO | N/A | **Manual**  |
+| **Informes** | Solo WO | N/A | **Manual**  |
+| **Manuales** | Solo WO | N/A | **Manual**  |
+| **Procedimiento** | Solo WO | N/A | **Manual** |
+
+</panel>
+
+<panel type="info">
+
+
+===== 4. Modelo de Gestión del Conocimiento =====
+
+ 
+El modelo de Gestión del Conocimiento se articula en tres entornos complementarios: DocuWiki, Portal de Capacitación y Consola de Conocimiento de BMC Remedy (BMC Helix), cada uno con una finalidad diferenciada y con flujos de aprobación claramente establecidos.
+
+==== 1. DOCUWIKI ====
+
+**Finalidad**:
+
+Repositorio documental operativo y procedimental del servicio.
+
+**Contenido**:
+
+  * Procedimientos técnicos y funcionales.
+
+  * Manuales operativos.
+
+  * Descripciones de procesos y operativa general.
+
+  * Información de referencia para los grupos de trabajo.
+
+**Características**:
+
+  * Requiere mantenimiento y actualización periódica.
+
+  * Todo contenido debe pasar por control, verificación y aprobación antes de su publicación.
+
+  * Acceso orientado a personal interno y grupos técnicos.
+
+**Flujo de publicación:**
+
+  - Origen: Oficina Técnica (OT) o responsables de grupo técnico.
+
+  - Aprobación: Validación por parte de la OT.
+
+  - Publicación: RUNTIME publica el contenido en DocuWiki.
+
+
+==== 2. PORTAL DE CAPACITACIÓN ====
+
+**Finalidad**:
+
+Difusión de conocimiento formativo y procesal al usuario final.
+
+**Contenido**:
+
+
+  * Manuales de uso orientados a usuarios judiciales y administrativos.
+  * Píldoras formativas, guías rápidas y materiales multimedia.
+  * Información no técnica y de carácter pedagógico.
+  * Formulario para peticiones dirigidos a usuarios finales.
+
+**Características**:
+
+  * Portal público para usuarios del sistema judicial.
+
+  * Mantenimiento coordinado por el área de Formación.
+
+  * Actualización periódica conforme evoluciona la operativa de las aplicaciones.
+
+==== 3. CONSOLA DE CONOCIMIENTO – BMC REMEDY (BMC HELIX) ====
+
+**Finalidad**:
+
+Difusión de conocimiento práctico dentro de la plataforma ITSM.
+
+** a) Contenidos para usuarios finales** 
+
+**Tipo de contenido:**
+
+Manuales de autoayuda de carácter técnico no incluidos en el Portal de Capacitación:
+
+  * Restablecimiento de contraseña de correo.
+  * Conexión a VPN.
+  * Limpieza y liberación del buzón corporativo.
+  * Actualización del certificado digital.
+  * Otros contenidos de auto-resolución.
+
+** b) Contenidos para usuarios técnicos**
+
+**Tipo de contenido:**
+
+•	Mini-guías operativas para gestión de tickets específicos.
+
+•	Recordatorios funcionales con enlaces a la documentación oficial (DocuWiki).
+
+        Ejemplo: Categoría “Alta de usuarios” → incluir configuración especial para magistrados + enlace a procedimiento.
+
+
+** c) Responsabilidades** 
+
+
+1.	Creación: Responsables de cada grupo técnico (requieren permisos en BMC).
+2.	Revisión: Oficina Técnica (OT) valida los contenidos.
+3.	Publicación: RunTime publica tras aprobación.
+
+
+
+**d) Flujos posibles de publicación en BMC Remedy**
+
+• Flujo 1 (de abajo arriba):
+
+Responsable técnico → Solicita aprobación → OT valida → RUNTIME publica.
+
+• Flujo 2 (de arriba abajo):
+
+OT solicita creación → Responsable técnico elabora el contenido → OT valida → RUNTIME publica.
+
+**e) PETICIÓN DE CREACIÓN DE CONTENIDO EN DOCUWIKI (VÍA BMC REMEDY)**
+
+Casos posibles:
+
+1. Origen: Oficina Técnica
+
+•	RUNTIME crea y publica el contenido según indicaciones de la OT.
+
+2. Origen: Responsable Técnico
+
+•	Requiere aprobación previa por parte de la OT.
+
+•	Una vez aprobada, RUNTIME procede a su publicación.
+</panel>
+ 
+
+

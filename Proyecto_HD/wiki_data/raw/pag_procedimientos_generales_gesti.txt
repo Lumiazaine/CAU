@@ -1,0 +1,1504 @@
+﻿
+<WRAP info round box center>
+===== Perfiles de Usuario =====
+</WRAP>
+
+
+Este apartado detalla los perfiles de usuario y sus características. Cada tipo de usuario tiene un conjunto específico de privilegios y responsabilidades.
+
+<WRAP tip round box>
+ == Tipo A: Personal del Ministerio y Directores, Jefes de Servicio y Forenses de IMLs ==
+</WRAP>
+
+  -   Personal del Ministerio: directores, jefes de servicio y forenses de IMLs.
+  -   Jueces dependientes del CGPJ.
+  -   Fiscales de la Fiscalía General del Estado.
+  -   Forenses de IML (Instituto de Medicina Legal).
+  -   Estos usuarios históricamente han tenido cuentas `.IUS` porque antes dependían de la Administración Central, aunque
+  -   actualmente dependen de la Junta de Andalucía.
+  -   Los forenses tienen **dos cuentas de correo**: una en **IUS** y otra en **JUS** (Sirhus).
+  -   Estructura IMLs (Historia IMLs Junta And.): Algunos funcionarios han solicitado cuentas .IUS mientras que otros usan sus cuentas Sirhus.
+
+<WRAP tip round box>
+== Tipo B: Personal Judicial Funcionario de la Junta de Andalucía (excluidos los forenses) ==
+</WRAP>
+
+  - Usuarios registrados en **SIRHUS**.
+    - Auxiliares judiciales y administrativos.
+    - Gestores procesales y tramitadores procesales.
+    - Administrativos de fiscalías e IMLs.
+    - Personal de archivos judiciales.
+
+<WRAP tip round box>
+== Tipo C: Personal Judicial Ni Funcionario Ni Tipo A/Ministerio ==
+</WRAP>
+
+
+  - Generalmente empresas externas.
+    - Psicólogos, juristas y trabajadores sociales del SAVA (Servicio de Asistencia a Víctimas de Andalucía).
+    - Psicólogos, educadores y trabajadores sociales no funcionarios de los Equipos Técnicos de Menores.
+    - Policía Judicial.
+    - Guardia Civil Judiciales.
+
+EXCEPCIÓN: Algunos miembros pueden acceder a servicios limitados.
+
+
+<WRAP tip round box>
+== Tipo D: Personal de Informática de las Delegaciones Territoriales ==
+</WRAP>
+
+    - Personal **funcionario** de **informática** que trabaja en **Informática Judicial (DGIJS)** y en las delegaciones territoriales.
+
+
+<WRAP tip round box>
+== Tipo E: Personal Externo de Empresas de Apoyo a la SSJJ y DDPP ==
+</WRAP>
+
+  - Personal Externo de Empresas de Apoyo a la SSJJ y DDPP.
+    - Personal de encomiendas de gestión (CAU, Sistemas, CRIP).
+    - Personal de contratos específicos (ej. NttData para SACOEP).
+    - Empresas de desarrollo y mantenimiento como Indra-Soltel, Fujitsu para aplicaciones y servidores específicos.
+
+<WRAP tip round box>
+== Tipo F: Otro Personal al que Prestamos Alguna Clase de Servicio ==
+</WRAP>
+
+  - Personal adicional al que se le otorgan servicios limitados.
+    - Secretarios coordinadores provinciales dependientes de la Secretaría de Gobierno.
+    - Otros usuarios que requieran acceso específico a servicioss.
+
+<WRAP info round box center>
+===== Tipos de altas =====
+</WRAP>
+
+
+El proceso de alta engloba la tramitación del acceso de un Usuario a un **Órgano Judicial (OOJJ)**  o herramienta a la que no tenía acceso previamente. Existen tres tipos principales de altas:
+
+<WRAP>
+=== Alta Normalizada ===
+</WRAP>
+[[#alta_normalizada_en_la_red_judicial|Ver procedimiento de Alta Normalizada]]
+
+Es el proceso de alta para aquellos Usuarios que acceden por primera vez al sistema de Justicia de Andalucía (independientemente de si es su primer puesto en Justicia o provienen de un juzgado de otra CCAA).
+
+  * **Ejemplos:**
+<code>
+  1. Usuario que aprueba las oposiciones y accede a su primer puesto de funcionariado.
+  2. Usuario que ha trabajado en un OOJJ de otra CCAA y se traslada a Andalucía, siempre que no sea por Concurso de Traslado.
+
+</code>
+------
+=== Alta traslado ===
+
+Es el proceso mediante el cual un Usuario se traslada de un OOJJ a otro dentro de Andalucía. Es decir, el usuario causa baja en un OOJJ y alta en otro OOJJ diferente.
+
+  * **Ejemplos:**
+<code>
+  1. Personal interino que cesa en un órgano por fin de contrato y posteriormente toma posesión del cargo en otro OOJJ diferente.
+  2. Usuario que se traslada de un OOJJ a otro por cualquier motivo, excepto Concurso de Traslado (por ejemplo, comisiones de servicio).
+
+</code>
+-------
+=== Alta compaginada ===
+
+Es el proceso seguido para un Usuario que va a compaginar su trabajo en el OOJJ del cual es titular con el de otro OOJJ. Es decir, el usuario realizará funciones en más de un OOJJ a la vez sin perder accesibilidad en su OOJJ de origen.
+
+  * **Ejemplos:**
+<code>
+  1. Sustituciones por vacaciones o bajas por enfermedad entre usuarios (el Usuario va a estar trabajando en su OOJJ a la vez que presta apoyo o realiza
+  funciones en otro OOJJ).
+  2. Peticiones de Usuarios de municipios en los que, por su tamaño y razones justificadas, necesitan tener acceso a varios OOJJ a la vez.
+  3. Peticiones de Usuarios de OOJJ en los que, por sus características, necesitan tener acceso a diferentes Salas o Secciones a la vez
+  (esto es común en Audiencias y TSJ).
+
+</code>
+
+--------
+=== Otros Casos Específicos de Altas ===
+<code>
+
+  - Alta por concurso de traslado: Es el proceso que afecta a los Usuarios aprobados en los Concursos de Traslado convocados periódicamente.
+  - Alta transitoria de inspectores judiciales: Inspectores del CGPJ que realizan tareas de auditoría en OOJJ de Andalucía.
+  - Alta por creación de un nuevo OOJJ: Es el proceso por el cual se tramita el acceso de los Usuarios que conforman la plantilla de un OOJJ recién creado.
+  - Alta de jueces en prácticas: Proceso seguido para peticiones de alta de Magistrados que realizarán prácticas dentro del sistema de Justicia.
+
+
+</code>
+
+=== Alta en aplicaciones judiciales y servicios ===
+
+  - [[:pag_comunicaciones|Comunicaciones.]]
+  - [[:pag_apli|Aplicaciones SSDJ]]
+
+
+
+----
+<WRAP info round box>
+===== Formularios =====
+</WRAP>
+
+El listado de formularios lo puedes encontrar en: [[:pag_formu|Formularios para solicitar alta]]\\
+El usuario puede encontrar los formularios en: https://capacitacion.justicia.junta-andalucia.es/pluginfile.php/622/mod_resource/content/6/FOR-601-01%20Formulario%20de%20Alta%2C%20Baja%20y%20Modificaci%C3%B3n%20de%20Personal%20Judicial%20v1.0.pdf\\
+
+
+=== Personal de la Administración ===
+
+  * **Descripción:**
+Estos formularios está destinado al **personal administrativo**  que trabaja en los órganos judiciales, incluyendo aquellos que no son funcionarios pero que tienen acceso a recursos y sistemas de la Administración de Justicia.
+
+  * **Requisitos para completar el formulario:**
+  - Nombre completo del solicitante.
+  - Número de identificación o DNI.
+  - Información de contacto (email y teléfono).
+  - Documento que acredite la vinculación con el órgano judicial o administrativo correspondiente.
+
+  * **Procedimiento:**
+<code>
+
+1. Completar todos los campos del formulario.
+2. El formulario debe estar firmado por el responsable del servicio.
+3. Esta petición debe ser validada por Oficina Técnica.
+4. Enviar el formulario a CAU para su gestión.
+
+</code>
+
+=== Personal Funcionario ===
+
+  * **Descripción:**
+Estos formularios está destinado a los **funcionarios**  del sistema de Justicia de Andalucía, incluidos jueces, fiscales y personal judicial que sea titular de su puesto dentro del sistema.
+
+  * **Requisitos para completar el formulario:**
+  - Nombre completo del solicitante.
+  - Número de identificación o DNI.
+  - Cargo y OOJJ (Órgano Judicial) al que pertenece. (Actual y/o destino)
+  - Firma de validación por el responsable del órgano.
+  - Correo electrónico corporativo en caso de disponer de él.
+
+  * **Procedimiento:**
+<code>
+
+ 1. Completar todos los campos del formulario.
+ 2. La validación del formulario debe ser realizada por el responsable del órgano.
+ 3. Enviar el formulario para su gestión a CAU.
+
+</code>
+
+
+<WRAP important round box>
+=== Seguridad en la gestión de usuarios ===
+</WRAP>
+
+En este apartado se detallan el proceso de información y gestión de la seguridad en el SSDJ. (Pendiente de desarrollar)
+
+<panel type="info">
+<WRAP info round box>
+===== Aplicaciones por perfil =====
+</WRAP>
+
+{{ :pag_procedimientos_generales:aplicacionesporcargo.png?600 |}}
+
+** Juez / Magistrado / Laj / Fiscal** 
+
+  * Unidad funcional: Cualquier
+  * Aplicaciones:
+      - [[:pag_apli:active_directory:start|Active Directory.]]
+      - [[:pag_apli:temis:start|Temis.]]
+      - [[:pag_apli:adriano:start|Adriano.]]
+      - [[:pag_apli:arconte:start|Aurea.]]
+      - [[:pag_comunicaciones:vpn:start|*VPN/Circuit/portátil]] (solo en Altas Normalizadas o en caso de no disponer previamente)
+      - [[:pag_comunicaciones:isl:start|ISL]]
+
+** Juez / Laj en prácticas** 
+
+  * Unidad funcional: Cualquier
+  * Aplicaciones:
+      - [[:pag_apli:active_directory:start|Active Directory.]]
+      - [[:pag_apli:temis:start|Temis.]]
+      - [[:pag_apli:adriano:start|Adriano.]]
+      - [[:pag_apli:arconte:start|Aurea.]]
+      - [[:pag_comunicaciones:vpn:start|*VPN/portátil]] (solo en Altas Normalizadas o en caso de no disponer previamente)
+
+** Gestor / Tramitador procesal**
+
+  * Unidad funcional: Órganos judiciales
+  * Aplicaciones:
+      - [[:pag_apli:active_directory:start|Active Directory.]]
+      - [[:pag_apli:temis:start|Temis.]]
+      - [[:pag_apli:adriano:start|Adriano]]
+      - [[:pag_apli:arconte:start|Aurea.]] (Tiene que solicitarlo como aplicación no estandar)
+
+** Auxilio judicial** 
+
+  * Unidad funcional: Órganos judiciales
+  * Aplicaciones:
+      - [[:pag_apli:active_directory:start|Active Directory.]]
+      - [[:pag_apli:temis:start|Temis.]]
+      - [[:pag_apli:adriano:start|Adriano.]]
+      - [[:pag_apli:arconte:start|Aurea.]]
+      - [[:pag_apli:nexo:start|NEXO.]]
+
+** Personal de juzgado de paz/Oficinas Judiciales en Municipio** 
+
+  * Unidad funcional: Juzgado de Paz/Oficina Judicial en Municipio
+  * Aplicaciones:
+      - [[:pag_apli:temis:start|Temis.]]
+      - Correo (solo si es funcionario)
+
+** Resto de perfiles** 
+
+  * Unidad funcional: Cualquier
+  * Aplicaciones:
+      - [[:pag_apli:active_directory:start|Active Directory.]]
+      - [[:pag_apli:temis:start|Temis.]]
+
+** Personal de registro civil** 
+
+  * Unidad funcional: Cualquiera
+  * Aplicaciones:
+      - [[:pag_apli:active_directory:start|Active Directory.]]
+      - [[:pag_apli:temis:start|Temis.]]
+
+** Perfiles para "Capacitación"** 
+
+
+  * **Descripción: **Proceso para solicitar Altas de Usuarios en el entorno de Capacitación en Adriano.
+  * [[#alta_capacitacion|Flujo de trabajo]]
+
+
+==== Perfil de Personal Externo ====
+ 
+  - Unidad funcional: Cualquiera
+  - Aplicaciones:
+    - [[:pag_apli:active_directory:start|Active Directory.]]
+    - [[:pag_apli:temis:start|Temis.]]
+    - [[:pag_comunicaciones:vpn:start|VPN]]
+    - [[:pag_apli:jira:start|JIRA]]
+    - [[:pag_hgis|REMEDY]]
+    - [[:pag_apli:hgp:start|HGP]]
+    - Lista de distribución de correo
+</panel>
+
+
+<panel type="info">
+<WRAP info round box>
+===== Flujos para las altas =====
+</WRAP>
+
+==== 1. Solicitud de Alta ====
+
+1.1. Vías de Solicitud 
+La solicitud debe ser realizada por la persona responsable a través de alguno de los siguientes medios:
+
+  * Correo electrónico a: **csu.ius@juntadeandalucia.es**
+  * Gestor de Incidencias del Escritorio Judicial (para personal funcionario)
+  * Creación directa de tique en **Remedy** (para personal externo)
+
+1.2. Tipo de Petición 
+  * **Clase**: Gestión de usuarios
+  * **Tipo**: Alta normalizada (u otro tipo según el caso)
+
+1.3. ¿Quién crea la petición?
+  * El **responsable**, desde el Escritorio Judicial (funcionarios)
+  * **CAU**, cuando recibe la solicitud por correo
+  * **Oficina Técnica**, en el caso de personal externo
+
+1.4. Documentación requerida
+  * [[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_formu#formularios-para-t%C3%A9cnicos|Formulario oficial]], firmado y sellado por el responsable
+  * Formularios **específicos** adicionales en caso de accesos especiales o aplicaciones no estándar, con su debida autorización
+
+1.5. Asignación de la Petición
+  1. Inicialmente, a **Nivel 1 / Centro de Servicio al Usuario**
+  2. Desde Nivel 1, se asigna a los **grupos técnicos responsables** según la actividad
+  3. Una vez gestionadas las actividades, se reasigna de nuevo a Nivel 1 para su **verificación final**
+
+==== 2. Equipos Involucrados y Actividades ====
+
+  * **CAU**: Creación y/o modificación de cuentas de:
+    - Active Directory (AD)
+    - TEMIS
+    - Correo electrónico
+    - ISL
+    - Gestión completa del alta de funcionarios
+
+  * **Sistemas GTSW**: Alta/Modificación de usuarios en AD (para perfiles técnicos).
+
+  * **Sistemas GTSW**: Asignación de accesos VPN y máquina de salto (para perfiles técnicos, altas y modificación).
+
+  * **CAU**: Alta y/o modificación en TEMIS para usuarios técnicos.
+
+  * **DT/CRIP**: Carga de perfil y configuración del equipo (solo para funcionarios).
+    - Este tique es **solucionado y cerrado** por DT/CRIP
+
+==== 3. Cierre de la Gestión ====
+
+Una vez completadas las actividades:
+
+  * **CAU informa al usuario** de la finalización y cierra la gestión
+  * En el caso de usuarios externos, el resultado se **devuelve al peticionario**
+
+</panel>
+
+<panel type="info">
+<WRAP info round box center>
+===== Procedimientos de altas =====
+</WRAP>
+==== Alta Normalizada en la Red Judicial ====
+
+Este procedimiento detalla los pasos para tramitar el alta de un usuario que accede por primera vez al sistema de Justicia de Andalucía.  
+Se aplica a nuevos ingresos por oposición o traslado desde otros órganos judiciales fuera de la comunidad autónoma (no procedentes de concurso de traslados).
+
+**1. Solicitud de Alta**
+La solicitud puede llegar por:
+  * Llamada telefónica: se crea una petición en Remedy y se facilita el nº de ticket para incluirlo en el formulario.
+  * Fax o correo electrónico (formulario adjunto): se registra la petición en Remedy tras la recepción del formulario por fax/email.
+
+**2. Autorizaciones**
+
+  * El formulario debe venir firmado y sellado por el responsable del órgano. 
+  * Si el formulario está incompleto (faltan datos, firmas o sellos), dejar constancia en el Diario e informar al usuario **por teléfono** (nunca por  correo, ya que no dispone de cuenta activa).
+
+**Registro de Incidencia en Remedy**
+Al tratarse de un alta nueva, se debe crear manualmente una incidencia en blanco.
+
+__Pestaña USUARIO__
+  * Provincia / Localidad / Unidad Funcional
+  * Cargo: seleccionar del desplegable
+  * Nombre y apellidos: en mayúsculas
+  * Usuario Temis: DNI sin letra
+  * Correo: dejar en blanco
+  * Teléfono: número de contacto válido
+
+__Pestaña INCIDENTE__
+  * Prioridad: **NORMAL**
+  * Origen: **TELÉFONO / FAX / E-MAIL**
+  * Clasificación: **PETICIÓN**
+  * Clase: **GESTIÓN USUARIOS**
+  * Tipo: **ALTA NORMALIZADA**
+  * Categoría: **PERSONAL JUDICIAL**
+  * Descripción:
+
+    ALTA NORMALIZADA 12345678X  
+    Destino: Órgano correspondiente
+    
+__En el campo **Diario**__, anotar: 
+  * “Pendiente de formulario” (si procede).
+  * La gestión realizada descrita.
+
+__Archivos Adjuntos__
+Renombrar el archivo del formulario con el número de ticket y anexarlo desde el campo **Documentación Anexada** → botón derecho → “Add”.
+
+**3. Asignación**
+Nivel 1/Gestión de Usuarios
+
+**4. Flujo**
+
+4.1. Tramitación
+
+Según el perfil del usuario, se dará de alta en las siguientes aplicaciones según el cargo (orden recomendado):
+[[#Aplicaciones_por_ perfil|Ver listado]]
+  
+Anotación en el Diario
+//Plantilla orientativa (personalizable según el perfil)://
+
+  * AD: [USUARIO] - La contraseña se le facilitará durante la carga de perfil
+  * TEMIS: Alta en [ÓRGANO] - La contraseña la debe establecer el usuario la primera vez que entre en Escritorio Judicial. (Puede acceder con su certificado)
+  * ADRIANO: [USUARIO] - Queda de alta una vez gestionado el alta en TEMIS. Puede ser necesario según perfil, abrir petición al equipo de Explotación (Servicios/DeVops)
+  * ARCONTE: Alta de [USUARIO] en [ÓRGANO] - La contraseña se le facilitará durante la carga de perfil.
+  * CORREO: [según trámite realizado]
+  * NEXO: [según trámite realizado]
+//(Eliminar líneas de las aplicaciones que no correspondan.)//
+
+4.2. Cierre de la Incidencia
+
+  * **Alta completa**: cerrar el ticket con el texto “Alta finalizada”.
+  * **Alta parcial** (pendiente de correo/Nexo): marcar como **Solucionada** y pasar al siguiente paso.
+
+**5. Tickets relacionados**
+
+1. **Carga de perfil:** Se crea una nueva petición con los mismos datos del usuario.
+  * Origen: **TELÉFONO**
+  * Clase: **PUESTO DE TRABAJO**
+  * Tipo: **SOFTWARE**
+  * Categoría: **PERFIL USUARIO**
+**Descripción del incidente**:
+
+//Se solicita cargar el perfil.
+Alta tramitada en IN000000XXXXX
+AD: [...]
+TEMIS: [...]
+[...]//
+
+Asignar la petición a la **Delegación Provincial correspondiente**, que realizará la configuración en el equipo del usuario.  
+Si encuentran algún problema, devolverán la incidencia a **Nivel 1** para su corrección.
+
+2. **Petición de portatil:** Se crea una nueva petición con los mismos datos del usuario.
+
+Asignar la petición a la **Delegación Provincial correspondiente**
+
+3. **Petición de Formación:** Se crea una nueva petición con los mismos datos del usuario solicitando formación.
+
+Asignar la petición a **Servicios/Formación**
+
+Tipificación: **Soporte Formativo/Adriano/Incorporación Personal**
+
+**6. Casos Especiales**
+
+6.1 Personal Externo
+Para personal vinculado al Servicio de Informática:
+  1. Alta en AD por parte de **Sistemas GTSW**
+  2. GTSW pasa el ticket al **CAU**
+  3. CAU tramita el alta en Temis
+  4. Se escala a **Sistemas Coordinación**
+6.2 Personal de Delegación Provincial adscrito a Personal
+Para usuarios que acceden a **HERMES** (gestión de horas y permisos):
+  * No se requiere formulario.
+  * Ejemplo de incidencia: **1446508**
+7. Consideraciones Finales
+  * El usuario no dispone inicialmente de correo corporativo: el contacto debe hacerse **siempre por teléfono**.
+  * La fecha de asignación en Remedy no debe superar los **10 minutos** desde su apertura.
+  * Todas las actuaciones deben quedar reflejadas de forma clara en el **campo Diario**.
+
+
+
+==== Alta traslado ====
+
+Procedimientos:
+
+ **1. Solicitud de Alta** 
+  La solicitud puede llegar por:
+   * Llamada telefónica: se crea una petición en Remedy y se facilita el nº de ticket para incluirlo en el formulario.
+   * Fax o correo electrónico (formulario adjunto): se registra la petición en Remedy tras la recepción del formulario por fax/email.
+
+ **2. Autorizaciones**
+   * El formulario debe venir firmado y sellado por el responsable del órgano. 
+   * Si el formulario está incompleto (faltan datos, firmas o sellos), dejar constancia en el Diario e informar al usuario por teléfono (nunca por correo, ya que no dispone de cuenta activa).
+
+**Registro de Incidencia en Remedy** 
+los datos del antiguo órgano aparecerán automáticamente, es necesario modificarlos al puesto de destino\\
+
+__Pestaña USUARIO__
+  * Provincia / Localidad / Unidad Funcional
+  * Cargo: seleccionar del desplegable
+  * Nombre y apellidos: en mayúsculas
+  * Usuario Temis: DNI sin letra
+  * Correo: correo del usuario
+  * Teléfono: número de contacto válido 
+
+__Pestaña INCIDENTE__
+  * Prioridad: **NORMAL**
+  * Origen: **TELÉFONO / FAX / E-MAIL**
+  * Clasificación: **PETICIÓN**
+  * Clase: **GESTIÓN USUARIOS**
+  * Tipo: **ALTA NORMALIZADA**
+  * Categoría: **PERSONAL JUDICIAL**
+  * Descripción:
+
+  ALTA NORMALIZADA 12345678X  
+    Destino: Órgano correspondiente
+    
+__En el campo **Diario**__, anotar: 
+  * “Pendiente de formulario” (si procede).
+  * La gestión realizada descrita.
+
+__Archivos Adjuntos__
+Renombrar el archivo del formulario con el número de ticket y anexarlo desde el campo **Documentación Anexada** → botón derecho → “Add”.
+
+ **3. Asignaciones**
+ Nivel 1/Gestión de Usuarios
+
+ **4. Flujo de Trabajo**
+
+4.1. Tramitación
+
+Anotación en el Diario
+//Plantilla orientativa (personalizable según el perfil)://
+
+  * AD: [USUARIO] - La contraseña se le facilitará durante la carga de perfil
+  * TEMIS: Alta en [ÓRGANO] - La contraseña la debe establecer el usuario la primera vez que entre en Escritorio Judicial. (Puede acceder con su certificado)
+  * ADRIANO: [USUARIO] - Queda de alta una vez gestionado el alta en TEMIS. Puede ser necesario según perfil, abrir petición al equipo de Explotación (Servicios/DeVops)
+  * ARCONTE: Alta de [USUARIO] en [ÓRGANO] - La contraseña se le facilitará durante la carga de perfil.
+  * CORREO: [según trámite realizado]
+  * NEXO: [según trámite realizado]
+
+4.2. Cierre de la Incidencia
+
+  * **Alta completa**: cerrar el ticket con el texto “Alta finalizada”.
+
+**5. Tickets relacionados**
+
+5.1. **Carga de perfil:** Se crea una nueva petición con los mismos datos del usuario.
+  * Origen: **TELÉFONO**
+  * Clase: **PUESTO DE TRABAJO**
+  * Tipo: **SOFTWARE**
+  * Categoría: **PERFIL USUARIO**
+**Descripción del incidente**:
+
+//Se solicita cargar el perfil.
+Alta tramitada en IN000000XXXXX
+AD: [...]
+TEMIS: [...]
+[...]//
+
+Asignar la petición a la **Delegación Provincial correspondiente**, que realizará la configuración en el equipo del usuario.  
+Si encuentran algún problema, devolverán la incidencia a **Nivel 1** para su corrección.
+
+5.2. **Petición de portátil:** En caso de ser un traslado interprovincial, se crea una nueva petición con los mismos datos del usuario. 
+Asignar la petición a la **Delegación Provincial correspondiente**
+
+**6. Casos Especiales**
+
+6.1 Personal de concurso traslado\\
+Este caso es especial debido a que se tramitan si el usuario pertenece a las listas publicadas en la web del ministerio de justicia, ejemplo ANDALUCÍA- IN0000002410950
+ 
+{{:pag_procedimientos_generales:alta-traslado1.png?nolink&400|}}
+
+**7. Consideraciones Finales**
+   * Todas las actuaciones deben quedar reflejadas de forma clara en el **campo Diario**.
+
+
+
+==== Alta compaginada ====
+
+Procedimientos:
+
+ **1. Solicitud de Alta** 
+  La solicitud puede llegar por:
+   * Llamada telefónica: se crea una petición en Remedy y se facilita el nº de ticket para incluirlo en el formulario.
+   * Fax o correo electrónico (formulario adjunto): se registra la petición en Remedy tras la recepción del formulario por fax/email.
+  
+ **2. Autorizaciones**
+   * El formulario debe venir firmado y sellado por el responsable del órgano. 
+   * Si el formulario está incompleto (faltan datos, firmas o sellos), dejar constancia en el Diario e informar al usuario por teléfono (nunca por correo, ya que no dispone de cuenta activa).
+
+ **Registro de Incidencia en Remedy** 
+los datos del antiguo órgano aparecerán automáticamente, es necesario modificarlos al puesto de destino\\ 
+
+__Pestaña USUARIO__
+  * Provincia / Localidad / Unidad Funcional
+  * Cargo: seleccionar del desplegable
+  * Nombre y apellidos: en mayúsculas
+  * Usuario Temis: DNI sin letra
+  * Correo: correo del usuario
+  * Teléfono: número de contacto válido 
+
+__Pestaña INCIDENTE__
+  * Prioridad: **NORMAL**
+  * Origen: **TELÉFONO / FAX / E-MAIL**
+  * Clasificación: **PETICIÓN**
+  * Clase: **GESTIÓN USUARIOS**
+  * Tipo: **ALTA NORMALIZADA**
+  * Categoría: **PERSONAL JUDICIAL**
+  * Descripción:
+
+  ALTA COMPAGINADA 12345678X  
+    Órgano origen: Juzgado del que proviene
+    Juzgado que compagina: Órgano correspondiente
+    
+__En el campo **Diario**__, anotar: 
+  * “Pendiente de formulario” (si procede).
+  * La gestión realizada descrita.
+
+__Archivos Adjuntos__
+Renombrar el archivo del formulario con el número de ticket y anexarlo desde el campo **Documentación Anexada** → botón derecho → “Add”.
+
+ **3. Asignaciones**
+ Nivel 1/Gestión de Usuarios
+
+ **4. Flujo de Trabajo**
+
+4.1. Tramitación
+
+Según el perfil del usuario, se dará de alta en las siguientes aplicaciones según el cargo (orden recomendado):\\ 
+Anotación en el Diario Plantilla orientativa (personalizable según el perfil):\\ 
+ 
+  * AD: [USUARIO] - La contraseña se le facilitará durante la carga de perfil\\
+  * TEMIS: Alta en [ÓRGANO] - La contraseña la debe establecer el usuario la primera vez que entre en Escritorio Judicial. (Puede acceder con su certificado)\\
+  * ADRIANO: [USUARIO] - Queda de alta una vez gestionado el alta en TEMIS. Puede ser necesario según perfil, abrir petición al equipo de Explotación (Servicios/DeVops)\\
+  * ARCONTE: Alta de [USUARIO] en [ÓRGANO] - La contraseña se le facilitará durante la carga de perfil.\\
+(Eliminar líneas de las aplicaciones que no correspondan.)\\ 
+
+4.2. Cierre de la Incidencia 
+
+  * Alta completa: cerrar el ticket con el texto “Alta finalizada”.
+
+**5. Tickets relacionados, tareas, órdenes de trabajo**
+
+5.1. Carga de perfil: Se crea una nueva petición con los mismos datos del usuario.  (En caso de necesitarlo por movimiento entre juzgados)
+ 
+  * Origen: **TELÉFONO**
+  * Clase: **PUESTO DE TRABAJO**
+  * Tipo: **SOFTWARE**
+  * Categoría: **PERFIL USUARIO**
+
+**Descripción del incidente:** 
+Se solicita cargar el perfil. Alta tramitada en IN000000XXXXX AD: […] TEMIS: […] […]\\ 
+Asignar la petición a la **Delegación Provincial** correspondiente, que realizará la configuración en el equipo del usuario. Si encuentran algún problema, devolverán la incidencia a Nivel 1 para su corrección. 
+
+**6. Casos Especiales**
+
+**7. Consideraciones Finales**
+   * Todas las actuaciones deben quedar reflejadas de forma clara en el **campo Diario**.
+
+==== Alta sustitución ====
+
+Procedimientos:
+
+  - Solicitud
+  - Autorizaciones
+  - Asignaciones
+  - Flujo de Trabajo
+  - Tickets relacionados, tareas, órdenes de trabajo
+  - Casos especiales
+
+==== Alta prácticas ====
+
+1 - Desde Oficina Técnica nos remitirán listado de usuarios, con fechas de incorporación, destinos y tutores correspondientes. En este caso no será necesario solicitar formulario de alta.
+
+2 - La solicitud la realizará MAG o LAJ titular del órgano (tutor), pero en el caso que contacte directamente el propio alumno o el LAJ del órgano, y los datos coincidan, también será válido.
+
+3 - Si Oficina Técnica no envía el listado, se solicitará siempre formulario de alta, con la firma del LAJ y el sello del Juzgado. Si tenemos listado se podrá ejecutar el alta indicando que no es necesario solicitar el formulario en ese caso.
+
+4 -Se revisan los datos del fichero que nos facilitarán desde Oficina Técnica.
+
+   4.1 Si los datos no coinciden solicitamos formulario de alta.  
+   4.2 Si los datos coinciden se procede al alta:
+   4.2.1 * Alta en primer OOJJ se registra como "Alta Practicas Tuteladas". La operatoria a seguir será la indicada para altas normalizadas.
+   Una vez tramitada el alta
+   hay que abrir ticket de carga de perfil y ticket de solicitud de portátil.
+   Importante en el ticket de alta el paso a microinformática para solicitar VPN y Circuit.
+   4.2.2 * Las sucesivas como "Alta por Traslado". La operativa a seguir será la indicada para las altas por traslado con la excepción de que
+   no es necesario pedir formulario si está en el listado original. Al trabajar con portátiles cuando se dé el traslado no será necesario
+   generar ticket de baja en el centro anterior.
+
+==== Alta concurso de traslado ====
+
+**1. OBJETIVO** 
+
+El presente documento tiene como objetivo recoger todos los pasos previos, procedimiento y operatoria a seguir para el alta un usuario de la red judicial cuando proviene de un concurso de traslado
+
+(Este procedimiento requiere autorización de Servicios Centrales en cada concurso de traslados).
+
+**2. OPERATORIA**
+
+Recibiremos la llamada por parte del usuario solicitando el alta en la Red Judicial, si el alta es debido al concurso de traslado, verificaremos que el usuario aparece en el listado facilitado y procederemos de la siguiente manera:
+
+Si aparece en el fichero NO será necesario que nos envíe el fax. Tomaremos los datos del usuario igual que haríamos con cualquier otra solicitud de alta con la excepción de indicar en la "Descripción" de la incidencia "Alta por concurso de traslado." Si no aparece en el fichero procederemos de la forma habitual solicitando el fax, aunque nos indique que se trata del concurso de traslado. Si el usuario no forma parte del concurso de traslado procederemos de la forma habitual. Si en lugar de recibir la llamada, recibimos directamente el fax procederemos igual que si nos hubiese llamado el usuario, comprobaremos si se encuentra en el fichero y si es así, pondremos en la "Descripción" de la incidencia "Alta por concurso de traslado", aunque incluyamos el fax. Si se recibe petición de alta vía web, comprobaremos que se encuentra en el fichero y si es así, podremos validar nosotros el alta.
+
+**3. Observaciones**
+
+En el fichero tenemos el Órgano del cual proviene y cual es el que tiene adjudicado. En la descripción debemos de indicar el Órgano de origen, si no aparece Órgano de origen lo tramitaremos como alta nueva. Si el Órgano al que se incorpora no coincide con el del fichero trataremos el alta con el procedimiento normal. Si el usuario tiene cargo Auxilio Judicial se tramitara de forma automática su alta en Arconte. <WRAP columns 2> </WRAP>
+
+
+==== Alta capacitación ====
+
+**Flujo de trabajo – REMEDY**
+
+Proceso para solicitudes de **Alta en el entorno de Capacitación – Adriano**.
+
+**Consideraciones previas**
+
+  * Los perfiles facilitados para el acceso a Capacitación son **genéricos**. Comparten contraseña y permisos; no se asocian a DNI.
+  * Cada perfil tiene acceso a todas las jurisdicciones del entorno **CAP**. Los usuarios genéricos se denominan: **profesor, alumno1 … alumno20**.
+    * Civil
+    * Contencioso
+    * Penal
+    * Social
+ 
+  * Si son más de 20 alumnos, es necesario solicitar perfiles extra al equipo **Servicios/DevOps**.
+  * Todos los perfiles pueden actuar como **Juez, LAJ, Gestor Procesal, Tramitador**  y **Auxilio Judicial**.
+
+**Flujo de gestión de tickets**
+
+  * **Paso 1**. Registro de ticket vía Remedy por parte del usuario solicitante o recepción por **CAU**.
+      * Si registra el ticket el usuario, se asigna de forma automática a Nivel 1/Centro de Servicio al Usuario, que comprobará que se han aportado todos los datos necesarios.
+        * Formulario firmado por responsable.
+        * Datos de usuarios solicitantes.
+        * Duración de la formación.
+  * **Paso 2**. **CAU** asigna a **Sistemas/GTSR**  solicitando habilitar las visibilidades necesarias.
+  * **Paso 3**.** Sistemas/GTSR** asigna a **Servicios/DevOps** que genera las nuevas contraseñas y devuelve **CAU** para que indiquen a los usuarios solicitantes los datos necesarios según solicitud.
+  * **Paso 4**. **CAU**  informa al usuario de las visibilidades establecidas y realiza las comprobaciones oportunas, facilita las contraseñas y URL de acceso.
+[[https://gestorprocesal-cap.justicia.junta-andalucia.es/login|Acceso a CAP]]
+
+  * **Paso 5**. **CAU** reasigna el ticket a **Servicios/DevOps**  indicando la **fecha fin**  del curso para programar el reseteo de contraseñas. Y "Soluciona y cierra" en su asignación.
+**//__Importante__  //  **
+
+Siempre que se solicite un alta en Capacitación deben seguirse estos pasos y comunicar la fecha fin del curso a Servicios/DevOps para el reseteo correspondiente.
+
+Órganos judiciales incluidos (circuito básico de prueba)
+
+**(Únicos e inmodificables; se usan con independencia de la provincia del alumnado)**
+
+  * **2104143001 — Juzgado de Instrucción Nº 1 de Huelva**
+  * **2104145001 — Juzgado de lo Contencioso-Administrativo Nº 1 de Huelva**
+  * **2104147001 — Juzgado de lo Mercantil Nº 1 de Huelva**
+  * **2104151001 — Juzgado de lo Penal Nº 1 de Huelva**
+  * **2104144001 — Juzgado de lo Social Nº 1 de Huelva**
+  * **2104142001 — Juzgado de Primera Instancia Nº 1 de Huelva**
+  * **2104142000 — Oficina de Registro y Reparto de Primera Instancia de Huelva**
+  * **2104143000 — Oficina de Registro y Reparto de Instrucción de Huelva**
+  * **2104144000 — Oficina de Registro y Reparto de lo Social de Huelva**
+  * **2104145000 — Oficina de Registro y Reparto de lo Contencioso de Huelva**
+  * **2104151000 — Oficina de Registro y Reparto de lo Penal de Huelva**
+  * **2104100071 — Servicio Común de Notificaciones y Embargos de Huelva**
+**Solicitud del servicio**
+
+Para solicitar este servicio, el docente o responsable del curso debe rellenar el formulario correspondiente y enviarlo a **csu.ius@juntadeandalucia.es**. El procedimiento completo está disponible en → [[https://portaladriano.justicia.junta-andalucia.es/portal/adriano/formacion/aulaVirtual/|https://portaladriano.justicia.junta-andalucia.es/portal/adriano/formacion/aulaVirtual/]]
+
+
+<WRAP alert round box>
+=== Procedimiento de alta de Inspectores Judiciales ===
+</WRAP>
+
+==== Alta de inspectores ====
+
+//**__1) PASOS PREVIOS__**//
+
+En este documento se recoge el procedimiento a seguir para el alta de los inspectores en el SGP de Adriano.
+
+Con el objetivo de anticiparse, en la medida de lo posible, a cualquier inspección, el superior jerárquico del OOJJ donde va a realizarse la inspección deberá remitir un correo a la siguiente dirección: “inspecciones.justicia.ius@juntadeandalucia.es”, en la que están incluidas en copia las siguientes direcciones: supervision.CAUJUS.sandetel@juntadeandalucia.es, coordinacion.CRIPJUS.sandetel@juntadeandalucia.es y planificación.inventario.ius@juntadeandalucia.es., con el objeto de informar sobre todas las cuestiones relacionas con la inspección.
+
+Cuando se recibe el correo, el CAU contactará por teléfono con el Juzgado que se va a inspeccionar para confirmar los datos e iniciar el procedimiento.
+
+La visita suele hacerse mediante dos inspectores, a uno se le da acceso como LAJ y a otro como MAG. La solicitud la cursa el usuario cualificado como superior jerárquico de los LAJs de los Juzgados que va a ser objeto de inspección, mediante petición Remedy dirigida al CAU.
+
+La solicitud debe ir acompañada del correspondiente formulario normalizado (Formulario de Alta/Baja/Modificación en el puesto de trabajo en la Red Judicial). El formulario se encuentra en el Portal de Capacitación, en el siguiente enlace: 
+
+[[https://capacitacion.justicia.junta-andalucia.es/course/view.php?id=51]]
+
+Es recomendable que esta solicitud se realice con al menos dos semanas de antelación respecto a la fecha prevista de la inspección, para llevar a cabo los trámites con el suficiente tiempo y así garantizar que tanto los usuarios como los equipos, estén debidamente preparados.
+
+ La solicitud deberá indicar expresamente los siguientes datos:
+
+    1.  A qué inspector se le asigna el rol de LAJ y de MAG.
+    2. Periodo que debe estar habilitado en Nuevo Adriano para poder tramitarle los accesos correctamente.
+    3. Modalidad mediante la que se va a realizar la inspección, presencial o telemática. Si existe la necesidad de formación en Adriano. Dicha formación debe hacerse en el entorno de capacitación, centrado en el uso de las consultas y cómo obtener los datos requeridos para la inspección.
+    
+No se realizará un alta inspección sin el formulario firmado y sellado por el Letrado del Juzgado que va a recibir la inspección.
+
+__**__2) OPERATORIA__**__
+
+**ALTA EN ADRIANO**:
+
+  * El CAU genera ticket en Remedy con clasificación petición y clase y tipo Gestión usuarios/alta normalizada dirigida al CAU, tras recibir los formularios firmados por los LAJs. 
+
+  * Se tramita alta en AD y Temis por parte del CAU. En AD en el cargo se especifica "Inspector CGPJ(LAJ/MAG)" copiando sobre perfil de Letrado o Juez ya generado en el centro. En Temis el perfil creado siempre será como sustituto y se añadirá una línea en otros puestos para la sincronización con Adriano. Para evitar cualquier problema en el alta de Adriano, el CAU crea un ticket a Devops para asegurar la correcta sincronización y funcionamiento del usuario en la herramienta.
+
+  * Se notifican los usuarios y contraseñas (Acceso al equipo y Escritorio Virtual (Adriano)) al correo del inspector a través del correo csu.ius. Se adjunta Anexo I como modelo de comunicación de datos al usuario. 
+
+  * La petición de alta normalizada queda en estado solucionada para tramitar la baja una vez finalice la inspección, sin perjuicio de bajas anticipadas a demanda. Una vez llegue la fecha fin de inspección se da de baja a los usuarios en AD, Temis y Adriano. 
+
+  * Para cada alta de inspector, el CAU crea dos peticiones en Remedy para DP, una de carga de perfil y otra de montaje para que carguen el perfil de los inspectores, preparen una sala o despacho con conexión de red y ordenadores para los inspectores.
+
+  * En caso de que se trate de una inspección telemática en los tickets de montaje, el CAU solicitará al usuario el nombre del equipo que se va a preparar a cada uno de los inspectores para poder realizar el emparejamiento a través de la herramienta ISL. Si los inspectores no tienen usuario previo de ISL este se solicitará desde CAU siguiendo la vía habitual para ese efecto. La información de conexión telemática también se incluye en el documento que se envía a los usuarios informándoles de los diferentes usuarios y contraseñas.
+
+  * Es fundamental que estas solicitudes sean comunicadas con dos semanas de antelación por parte de los LAJs, a fin de contar con el tiempo necesario para gestionar los distintos tickets correspondientes, respecto a la fecha prevista de la inspección y así garantizar que tanto los usuarios como los equipos, estén debidamente preparados.
+
+**BAJA EN ADRIANO**:
+
+  * El procedimiento de baja lo realizará el CAU. 
+
+  * En el caso de una inspección presencial, la fecha de baja será el día posterior a la finalización de la inspección y de quince días después de la finalización de la inspección en los casos de inspecciones telemáticas. 
+
+  * Tras llevar a cabo estas bajas, se procede al cierre de los tickets remedy. El CAU será el encargado de realizar este seguimiento. Cuando reciben la petición de alta, consultan con el LAJs las fechas de alta y de baja de la inspección. 
+  
+  * Los tiques de inspección se quedan en GDU en estado solucionados a la espera de la llegada de la fecha de fin de la inspección dependiendo de su modalidad. Una vez llega esa fecha, se gestiona la baja de los inspectores.
+
+Para visualizar el documento oficial del procedimiento, junto a su anexo, pinchar los siguientes enlaces: 
+
+{{ :pag_procedimientos_generales:pro_sacoep_alta_inspectores_adriano_v.1.2.odt |}}
+
+{{ :pag_procedimientos_generales:anexo_i.docx |}}
+
+</panel>
+
+<panel type="info">
+<WRAP info round box>
+===== Procedimientos de baja =====
+</WRAP>
+La baja deberá realizarse en todos los sistemas (**AD**, **Temis**, **Lexnet**, **Arconte**, **Adriano**), siempre que se incorporen usuarios del mismo nivel:
+  * Titulares con titulares.
+  * Sustitutos con sustitutos.
+
+
+
+==== Creación de la petición de BAJA en Remedy ====
+
+^ Campo           ^ Valor / Descripción                                                                                              ^
+| **Prioridad**   | NORMAL                                                                                                          |
+| **Origen**      | TELÉFONO → El usuario llama directamente al CAU para solicitar la baja. \\ FAX → El usuario remite el formulario vía fax sin llamada previa al CAU. \\ E-MAIL → El usuario remite el formulario vía e-mail sin llamada previa al CAU. |
+| **Clasificación** | PETICIÓN                                                                                                      |
+| **Clase**       | GESTIÓN USUARIOS                                                                                                |
+| **Tipo**        | [[#baja-normalizada|Baja normalizada]] → Bajas por inactividad en AD, órganos unipersonales, bajas Sirhus o solicitudes de bajas. \\ [[#baja-traslado|Baja traslado]] → Baja por cambio de ubicación de trabajo. |
+| **Categoría**   | (Dejar en blanco)                                                                                               |
+| **Descripción** | Baja Normalizada NIF 12345678X / Baja por traslado NIF 12345678X                                                              |
+
+----------
+ ==== Autorización ====
+
+| **Formulario** | https://capacitacion.justicia.junta-andalucia.es/course/view.php?id=51                                                              |
+
+-------
+ ==== Asignación ====
+
+| **Asignación**  | Nivel 1 - Gestión de Usuarios.|
+
+--------
+ ==== Flujo de Trabajo ====
+
+**Baja normalizada**
+
+Las Bajas Normalizadas son consecuencia de una petición de baja completa de un usuario.  
+Debe venir solicitada por el responsable del órgano e indicar el motivo (fin de contrato, cese, jubilación, fallecimiento).
+
+Los usuarios que dependen de Delegación de Personal tendrán automáticamente solicitada su baja mediante el proceso de **Baja Sirhus**.
+
+**Tareas:**
+  - Tramitación de baja en todos los sistemas.
+  - Reasignación del ticket a **DP/Crip** para limpieza del perfil en el equipo. (No se genera un nuevo ticket)
+  - DP/Crip reasignan a **CAU** para cierre en Nivel 1 - Gestión de Usuarios.
+
+
+----
+
+**Baja compaginada**
+
+Las Bajas Compaginadas son peticiones de cierre de accesos compaginados de usuarios que ya no necesitan acceso a más de un órgano.  
+
+**Tareas**
+  - Eliminar acceso al órgano en las aplicaciones necesarias.
+  - Si el acceso compaginado tenía perfil AD alternativo → Crear ticket **PETICION-GESTION DE USUARIOS-BAJA NORMALIZADA** asignado a DP/Crip.
+  - Si no lo tenía → Cierre directo tras la gestión e información al usuario.
+
+----
+
+**Baja traslado**
+
+Derivadas de una petición de **Alta Traslado**.  
+Incluyen alta en nuevo destino y baja en destino anterior.
+
+**Tareas**
+  - Baja en aplicaciones durante el traslado del perfil.
+  - Limpieza de perfil en equipo anterior mediante ticket **BAJA NORMALIZADA** asignado a DP/Crip.
+  - DP/Crip reasignan a CAU para cierre en Nivel 1.
+
+----
+
+**Baja notificada por SIRHUS**
+
+Las Bajas SIRHUS son enviadas diariamente por Personal a la cuenta **csu.ius**.  
+El correo lleva el asunto: *"HERMES - Bajas Usuarios Sirhus – Producción"*.
+
+**Tareas**
+  - Crear un ticket por cada usuario listado → **BAJA NORMALIZADA**.
+  - Comprobar baja en Temis y tramitar en resto de aplicaciones.
+  - Reasignar a DP/Crip para limpieza de perfil.
+  - DP/Crip reasignan a CAU para cierre en Nivel 1.
+  - En __**bajas Sirhus**__ y altas traslado de niveles 2, comprobar emparejamiento ISL y desemparejar si procede.\\
+  - Ejemplo de como __**NO REALIZAR**__ una baja: **IN0000002419543**. \\
+  - Peticiones de **__baja de perfiles externos__**.
+  - En las **Audiencias Provinciales** y **TSJ** pueden existir mas de un LAJ / Magistrado en una misma sección.\\
+
+
+</panel>
+
+<WRAP important round box>
+====== Alta de personal externo al SSDJ ======
+</WRAP>
+===== Altas Generales =====
+
+Este procedimiento describe los pasos para solicitar y gestionar el alta de personal en el SSDJ, tanto personal propio como externo.
+
+===== 1. Cómo se debe solicitar un alta =====
+
+El responsable de la persona que se incorpora podrá solicitar las altas por:
+
+  * **Tique Remedy dirigido al CAU**, o  
+  * **Correo electrónico** a: csu.ius@juntadeandalucia.es
+  * **Fax** a: csu.jus@juntadeandalucia.es
+<WRAP important round box>
+**En el caso de personal de un **contrato externo**, el **Responsable/Jefe de Proyecto** debe enviar los datos y formularios a **Coordinación de la OT**, que gestionará la solicitud.**
+</WRAP>
+Coordinación OT deberá registrar la solicitud en el checklist de control:  
+``\\iusnas05.justicia.junta-andalucia.es\SIJ\10. Proyectos en curso\20 SACOEP\15. Coordinación\Equipo\Check list de altas y bajas.xlsx``
+
+El tique se abrirá siempre como **petición**, a nombre del usuario que se va a dar de alta.  
+(Si no existe aún en Temis, se completarán los datos manualmente, incluyendo la Unidad Funcional).
+
+
+
+===== 2. Categorización del tique =====
+
+^ Campo ^ Valor a seleccionar ^
+| **Categoría operacional 1** | Solicitud de acceso |
+| **Categoría operacional 2** | Alta  |
+| **Categoría de producto 2** | Personal externo |
+
+
+
+===== 3. Información imprescindible que debe incluir el tique =====
+
+  * Nombre y apellidos  
+  * DNI  
+  * Correo electrónico
+  * Empresa  
+  * **Unidad funcional de destino**  
+  * **Perfil solicitado** (según clasificación)  
+  * **Perfil de referencia AD y LDAP** (si se desea replicar permisos y visibilidades)  
+  * Dirección MAC del equipo (en caso de realizar su trabajo en las oficinas de Consejería)  
+  * Rutas exactas de carpetas IUSNAS05 y accesos a impresoras u otros medios necesarios.
+  * Formularios firmados (AD/LDAP, Adriano si corresponde)
+
+
+==== 3.1 Herramientas por perfiles ====
+<panel type="info">
+
+===HERRAMIENTAS BÁSICAS Y GENERALES===		
+
+^ SERVICIO ^ HERRAMIENTA ^ PERFIL ^ PERMISOS ^ ENTORNOS ^ QUIÉN LO DA DE ALTA ^
+| Todos | Active Directory (AD) | Técnico | Según servicio | N/A | Sistemas |
+| Todos | Máquina de salto | Técnico | Según servicio | N/A | Sistemas |
+| Todos | Escritorio Judicial | Técnico | Según servicio | Según servicio | CAU |
+| Todos | TEMIS | Técnico | Según servicio | Según servicio | CAU |
+| Todos | LDAP (Ficheros junta / Consigna) | Técnico | Usuario TÉCNICO estándar | Según servicio | CAU |
+| Todos | VPN | Técnico | Usuario TÉCNICO estándar | Según servicio | CAU |
+| Todos | Listas de distribución | Técnico | Usuario TÉCNICO estándar | Según servicio | CAU |
+| Todos | DokuWiki | Técnico | Según servicio | Según servicio | RunTime |
+| Todos | Remedy – Acceso técnicos | Técnico | Según servicio | Según servicio | RunTime |
+| Todos | Judit (BMC HELIX) – HGIS | Técnico | Según servicio | Según servicio | RunTime |
+| Todos | TEAMS PARA LA JUNTA | Técnico | Usuario TÉCNICO estándar | Según servicio | Puesto de trabajo |
+</panel>
+<panel type="info">
+===	 HERRAMIENTAS BÁSICAS Y GENERALES: OFICINA TÉCNICA ===	
+
+
+^ SERVICIO ^ HERRAMIENTA ^ PERFIL ^ PERMISOS ^ ENTORNOS ^ QUIÉN LO DA DE ALTA ^
+| OT | Active Directory (AD) | Técnico | Usuario TÉCNICO estándar | N/A | Sistemas |
+| OT | Máquina de salto | Técnico | Usuario TÉCNICO estándar | N/A | Sistemas |
+| OT | Escritorio Judicial | Técnico | Administrador | PRO | CAU |
+| OT | TEMIS | Técnico | Usuario TÉCNICO estándar | PRO | CAU |
+| OT | LDAP (Ficheros junta / Consigna) | Técnico | Usuario TÉCNICO estándar | N/A | CAU |
+| OT | VPN | Técnico | Usuario TÉCNICO estándar | N/A | CAU |
+| OT | Listas de distribución | Técnico | Usuario TÉCNICO estándar | N/A | CAU |
+| OT | DokuWiki | Técnico | Usuario TÉCNICO estándar | Producción | RunTime |
+| OT | Remedy – Acceso técnicos | Técnico | Usuario TÉCNICO estándar | PRO | RunTime |
+| OT | Judit (BMC HELIX) – HGIS | Técnico | Usuario TÉCNICO estándar | PRO y QA | RunTime |
+| OT | TEAMS PARA LA JUNTA | Técnico | Usuario TÉCNICO estándar | Según servicio | Puesto de trabajo |
+| OT | HGP | Técnico | Usuario TÉCNICO estándar |  | Sandetel |
+| OT | Jira | Técnico | Administrador |  | OT |
+| OT | Alfresco | Técnico | Administrador |  | OT |
+</panel>
+<panel type="info">
+===	HERRAMIENTAS BÁSICAS Y GENERALES: CAU ===		
+
+^ SERVICIO ^ HERRAMIENTA ^ PERFIL ^ PERMISOS ^ ENTORNOS ^ QUIÉN LO DA DE ALTA ^
+| CAU | Active Directory (AD) | Técnico | Administrador | N/A | Sistemas |
+| CAU | Máquina de salto | Técnico | Según servicio | N/A | Sistemas |
+| CAU | Escritorio Judicial | Técnico | Administrador | PRO | CAU |
+| CAU | TEMIS | Técnico | Administrador | PRO | CAU |
+| CAU | LDAP (Ficheros junta / Consigna) | Técnico | Administrador | N/A | CAU |
+| CAU | VPN | Técnico | Usuario TÉCNICO estándar | N/A | CAU |
+| CAU | Listas de distribución | Técnico | Usuario TÉCNICO estándar | N/A | CAU |
+| CAU | Gestión de Turnos RRCC (Quenda) | TECNICO | Administrador | PRO | CAU |
+| CAU | Hermes (Control de Presencia OOJJ) | TECNICO | Administrador | PRO | CAU |
+| CAU | Directorio Corporativo (Correo) | TECNICO | Administrador | N/A | CAU |
+| CAU | ISL | TECNICO | Administrador | N/A | CAU |
+| CAU | Citas Turnos | TECNICO | Administrador | PRO | CAU |
+| CAU | DokuWiki | Técnico | Según servicio | Producción | RunTime |
+| CAU | Remedy – Acceso técnicos | Técnico | Según servicio | PRO | RunTime |
+| CAU | Judit (BMC HELIX) – HGIS | Técnico | Según servicio | PRO y QA | RunTime |
+| CAU | Zabbix | Técnico | Usuario TÉCNICO estándar| N/A | Usuario genérico |
+| CAU | Consumibles | TECNICO | LECTURA | PRO | Runtime |
+| CAU | Arconte Aurea | TECNICO | Administrador | PRO | SSVV |
+| CAU | VDI PANEL DE HORIZON| Técnico | Administrador | PRO | VDI |
+| CAU | TEAMS PARA LA JUNTA | Técnico | Usuario TÉCNICO estándar | Según servicio | Puesto de trabajo |
+</panel>
+<panel type="info">
+===	HERRAMIENTAS BÁSICAS Y GENERALES RunTime ===	
+
+^ SERVICIO ^ HERRAMIENTA ^ PERFIL ^ PERMISOS ^ ENTORNOS ^ QUIÉN LO DA DE ALTA ^
+| RunTime | Active Directory (AD) | Técnico | Usuario TÉCNICO estándar | N/A | Sistemas |
+| RunTime | Máquina de salto | Técnico | Usuario TÉCNICO estándar | N/A | Sistemas |
+| RunTime | Escritorio Judicial | Técnico | Administrador | PRO | CAU |
+| RunTime | TEMIS | Técnico | Administrador | PRO | CAU |
+| RunTime | LDAP (Ficheros junta / Consigna) | Técnico | Usuario TÉCNICO estándar | N/A | CAU |
+| RunTime | VPN | Técnico | Usuario TÉCNICO estándar | N/A | CAU |
+| RunTime | Listas de distribución | Técnico | Usuario TÉCNICO estándar | N/A | CAU |
+| RunTime | DokuWiki | Técnico | Administrador | Producción | RunTime |
+| RunTime | Remedy – Acceso técnicos | Técnico | Administrador | PRO | RunTime |
+| RunTime | Judit (BMC HELIX) – HGIS | Técnico | Administrador | PRO y QA | RunTime |
+| RunTime | TEAMS PARA LA JUNTA | Técnico | Usuario TÉCNICO estándar | Según servicio | Puesto de trabajo |
+| RunTime | SQL-DEVELOPER | Tecnico | Usuario TÉCNICO estándar | PRO | Sistemas |
+| RunTime | HGP | Tecnico | Usuario TÉCNICO estándar | PRO | Sandetel |
+| RunTime | Adriano | Tecnico | Administrador | TODOS LOS ENTORNOS | RunTime |
+| Tecnico | Jara | Tecnico | Administrador | PRO | RunTime |
+| Tecnico | Hermes | Tecnico | Administrador | PRO | RunTime |
+| Tecnico | PortafirmasNG | Tecnico | Administrador | PRO | RunTime |
+
+</panel>
+
+<panel type="info">
+===	HERRAMIENTAS BÁSICAS Y GENERALES Puesto de Trabajo ===	
+
+^ SERVICIO ^ HERRAMIENTA ^ PERFIL ^ PERMISOS ^ ENTORNOS ^ QUIÉN LO DA DE ALTA ^
+| PT | Active Directory (AD) | Técnico | Administrador | N/A | Sistemas |
+| PT | Máquina de salto | Técnico | Usuario TÉCNICO estándar | N/A | Sistemas |
+| PT | Escritorio Judicial | Técnico | Administrador | PRO | CAU |
+| PT | TEMIS | Técnico | Usuario TÉCNICO estándar | PRO | CAU |
+| PT | LDAP (Ficheros junta / Consigna) | Técnico | Usuario TÉCNICO estándar | N/A | CAU |
+| PT | VPN | Técnico | Usuario TÉCNICO estándar | N/A | CAU |
+| PT | Listas de distribución | Técnico | Usuario TÉCNICO estándar | N/A | CAU |
+| PT | DokuWiki | Técnico | Usuario TÉCNICO estándar | Producción | RunTime |
+| PT | Remedy – Acceso técnicos | Técnico | Usuario TÉCNICO estándar | PRO | RunTime |
+| PT | Judit (BMC HELIX) – HGIS | Técnico | Usuario TÉCNICO estándar | PRO y QA | RunTime |
+| PT | TEAMS PARA LA JUNTA | Técnico | Usuario TÉCNICO estándar | Según servicio | Puesto de trabajo |
+| PT | TEMIS: Gestión de Inventario | Técnico | Administrador | PRO | CAU |
+
+</panel>
+<panel type="info">
+
+===	HERRAMIENTAS BÁSICAS Y GENERALES DT_Territorial ===	
+
+^ SERVICIO ^ HERRAMIENTA ^ PERFIL ^ PERMISOS ^ ENTORNOS ^ QUIÉN LO DA DE ALTA ^
+| DT | Active Directory (AD) | Técnico | Administrador | N/A | Sistemas |
+| DT | Máquina de salto | Técnico | Usuario TÉCNICO estándar | N/A | Sistemas |
+| DT | Escritorio Judicial | Técnico | Administrador | PRO | CAU |
+| DT | TEMIS | Técnico | Usuario TÉCNICO estándar | PRO | CAU |
+| DT | LDAP (Ficheros junta / Consigna) | Técnico | Usuario TÉCNICO estándar | N/A | CAU |
+| DT | VPN | Técnico | Usuario TÉCNICO estándar | N/A | CAU |
+| DT | Listas de distribución | Técnico | Administrador listas provincia | N/A | CAU |
+| DT | DokuWiki | Técnico | Usuario TÉCNICO estándar | Producción | RunTime |
+| DT | Remedy – Acceso técnicos | Técnico | Usuario TÉCNICO estándar | PRO | RunTime |
+| DT | Judit (BMC HELIX) – HGIS | Técnico | Usuario TÉCNICO estándar | PRO y QA | RunTime |
+| DT | TEAMS PARA LA JUNTA | Técnico | Usuario TÉCNICO estándar | Según servicio | Puesto de trabajo |
+| DT | TEMIS: Gestión de Inventario | Técnico | Administrador | PRO | CAU |
+| DT | ISL | Técnico | Usuario TÉCNICO estándar | N/A | CAU |
+| DT | VDI PANEL DE HORIZON | Técnico | Administrador | PRO | VDI |
+| DT | Consumibles | Técnico | Usuario TÉCNICO estándar | PRO | CAU |
+| DT | Directorio Corporativo (Correo) | Técnico | Administrador | N/A | CAU |
+| DT | Gestión de Turnos RRCC (Quenda) | Técnico | Administrador sedes provincia | PRO | DT |
+
+</panel>
+
+<panel type="info">
+
+===	HERRAMIENTAS BÁSICAS Y GENERALES CRIP ===	
+
+^ SERVICIO ^ HERRAMIENTA ^ PERFIL ^ PERMISOS ^ ENTORNOS ^ QUIÉN LO DA DE ALTA ^
+| CRIP | Active Directory (AD) | Técnico | Administrador | N/A | Sistemas |
+| CRIP | Máquina de salto 10.241.253.106/107/108 | Técnico | Usuario TÉCNICO estándar | N/A | Sistemas |
+| CRIP | Escritorio Judicial | Técnico | Administrador | PRO | CAU |
+| CRIP | TEMIS | Técnico | Usuario TÉCNICO estándar | PRO | CAU |
+| CRIP | LDAP (Ficheros junta / Consigna) | Técnico | Usuario TÉCNICO estándar | N/A | CAU |
+| CRIP | VPN | Técnico | Usuario TÉCNICO estándar | N/A | CAU |
+| CRIP | Listas de distribución | Técnico | Usuario TÉCNICO estándar | N/A | CAU |
+| CRIP | DokuWiki | Técnico | Usuario TÉCNICO estándar | Producción | RunTime |
+| CRIP | Remedy – Acceso técnicos | Técnico | Usuario TÉCNICO estándar | PRO | RunTime |
+| CRIP | Judit (BMC HELIX) – HGIS | Técnico | Usuario TÉCNICO estándar | PRO y QA | RunTime |
+| CRIP | TEAMS PARA LA JUNTA | Técnico | Usuario TÉCNICO estándar | Según servicio | Puesto de trabajo |
+| CRIP | TEMIS: Gestión de Inventario | Técnico | Administrador | PRO | CAU |
+| CRIP | ISL | Técnico | Usuario TÉCNICO estándar | N/A | CAU |
+| CRIP | VDI PANEL DE HORIZON| Técnico | Administrador | PRO | VDI |
+
+</panel>
+
+<panel type="info">
+
+===	 HERRAMIENTAS BÁSICAS Y GENERALES Procesal ===	
+
+
+^ SERVICIO ^ HERRAMIENTA ^ PERFIL ^ PERMISOS ^ ENTORNOS ^ QUIÉN LO DA DE ALTA ^
+| Procesal | Active Directory (AD) | Técnico | Usuario TÉCNICO estándar | N/A | Sistemas |
+| Procesal | Máquina de salto | Técnico | Usuario TÉCNICO estándar | N/A | Sistemas |
+| Procesal | Escritorio Judicial | Técnico | Usuario TÉCNICO estándar | PRO | CAU |
+| Procesal | TEMIS | Técnico | Usuario TÉCNICO estándar | PRO | CAU |
+| Procesal | LDAP (Ficheros junta / Consigna) | Técnico | Usuario TÉCNICO estándar | N/A | CAU |
+| Procesal | VPN | Técnico | Usuario TÉCNICO estándar | N/A | CAU |
+| Procesal | Listas de distribución | Técnico | Usuario TÉCNICO estándar | N/A | CAU |
+| Procesal | DokuWiki | Técnico | Usuario TÉCNICO estándar | Producción | RunTime |
+| Procesal | Remedy – Acceso técnicos | Técnico | Usuario TÉCNICO estándar | PRO | RunTime |
+| Procesal | Judit (BMC HELIX) – HGIS | Técnico | Usuario TÉCNICO estándar | PRO y QA | RunTime |
+| Procesal | TEAMS PARA LA JUNTA | Técnico | Usuario TÉCNICO estándar | Según servicio | Puesto de trabajo |
+| Procesal | ISL | Técnico | Usuario TÉCNICO estándar | N/A | CAU |
+| Procesal | Adriano | Técnico | Usuario TÉCNICO estándar | PRE/CAP | RunTime |
+| Procesal | VDI| Técnico | Usuario TÉCNICO estándar | PRE/CAP | VDI|
+
+</panel>
+
+<panel type="info">
+
+===	 HERRAMIENTAS BÁSICAS Y GENERALES  Capacitación ===	
+
+^ SERVICIO ^ HERRAMIENTA ^ PERFIL ^ PERMISOS ^ ENTORNOS ^ QUIÉN LO DA DE ALTA ^
+| Capacitación | Active Directory (AD) | Técnico | Usuario TÉCNICO estándar | N/A | Sistemas |
+| Capacitación | Máquina de salto | Técnico | Usuario TÉCNICO estándar | N/A | Sistemas |
+| Capacitación | Escritorio Judicial | Técnico | Usuario TÉCNICO estándar | PRO | CAU |
+| Capacitación | TEMIS | Técnico | Usuario TÉCNICO estándar | PRO | CAU |
+| Capacitación | LDAP (Ficheros junta / Consigna) | Técnico | Usuario TÉCNICO estándar | N/A | CAU |
+| Capacitación | VPN | Técnico | Usuario TÉCNICO estándar | N/A | CAU |
+| Capacitación | Listas de distribución | Técnico | Usuario TÉCNICO estándar | N/A | CAU |
+| Capacitación | DokuWiki | Técnico | Usuario TÉCNICO estándar | Producción | RunTime |
+| Capacitación | Remedy – Acceso técnicos | Técnico | Usuario TÉCNICO estándar | PRO | RunTime |
+| Capacitación | Judit (BMC HELIX) – HGIS | Técnico | Usuario TÉCNICO estándar | PRO y QA | RunTime |
+| Capacitación | TEAMS PARA LA JUNTA | Técnico | Usuario TÉCNICO estándar | Según servicio | Puesto de trabajo |
+| Capacitación | ISL | Técnico | Usuario TÉCNICO estándar | N/A | CAU |
+| Capacitación | Portal de Capacitación | Técnico | Administrador | N/A | Capacitación |
+| Capacitación | Adriano | Tecnico | Usuario TÉCNICO estándar | CAP | RunTime |
+| Capacitación | VDI| Tecnico | Usuario TÉCNICO estándar | CAP | VDI|
+
+</panel>
+===== 4 Procedimiento de Altas (agrupado por grupo responsable) =====
+
+
+==== 4.1. Creación y estado inicial del ticket ====
+
+  * Se crea el ticket de **Solicitud de Alta – Personal Externo** desde el catálogo de servicios.
+  * El ticket se genera con el estado:
+    * **Pendiente de aprobación**
+  * El ticket queda asignado a **Oficina Técnica**, con los siguientes datos:
+    * **Grupo asignado:** OT / OT_Coord_01
+
+> **Nota:**  
+> En este estado **no se ejecuta ninguna tarea técnica**.
+
+==== 4.2. Gestión de la aprobación (Oficina Técnica) ====
+
+  * El grupo **OT / OT_Coord_01** gestiona la autorización correspondiente por parte de la **Jefatura**.
+  * Una vez validada la autorización:
+    * Oficina Técnica cambia el estado del ticket a **En curso**.
+
+**Efecto automático:**
+
+  * El cambio de estado a **En curso** dispara la creación automática de las tareas asociadas al ticket.
+
+==== 4.3. Tareas que se generan para la Alta de Personal Externo ====
+
+Las siguientes tareas se crean automáticamente al pasar el ticket a **En curso** y se ejecutan de forma secuencial, respetando el orden indicado:
+
+=== 4.3.1. Alta personal externo – VPN / AD ===
+
+  * **Grupo asignado:** Sistemas / GTSR
+  * Al finalizar esta tarea:
+    * Se habilita la siguiente tarea.
+
+=== 4.3.2. Alta personal externo – Acceso a carpetas compartidas / impresoras ===
+
+  * **Grupo asignado:** Sistemas / GTSR
+  * Al finalizar esta tarea:
+    * Se habilita la siguiente tarea.
+
+=== 4.3.3. Alta personal externo – TEMIS ===
+
+  * **Grupo asignado:** CAU
+  * Al finalizar esta tarea:
+    * Se habilita la siguiente tarea.
+
+=== 4.3.4. Alta personal externo – REMEDY ===
+
+  * **Grupo asignado:** RunTime
+  * Al finalizar esta tarea:
+    * El ticket principal pasa automáticamente al estado **“Finalizado”**.
+
+==== 4.4. Cierre y comunicación ====
+
+Una vez finalizado el ticket, **Oficina Técnica** se encarga de:
+
+  * Informar y notificar al usuario técnico correspondiente.
+  * Dejar constancia de la comunicación realizada (correo electrónico o nota en el ticket).
+  * Verificar y cerrar el ticket correctamente.
+
+====== Sistemas / Infraestructuras ======
+
+Estas tareas las realiza directamente el equipo de **Sistemas/Infraestructuras** tras recibir la petición desde el CAU.
+
+==== 1. Alta en AD y LDAP ====
+  * Creación del usuario.
+  * Reactivación o traslado de LDAP y AD si ya existió.
+    * LDAP Justicia → reactivar + cambio de destino.
+    * LDAP otra rama → solicitar traslado a Justicia.
+  * Requiere formulario cumplimentado y firmado.
+
+Formulario:  
+https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_formu
+
+----
+
+==== 2. Alta en VPN ====
+  * Activación del acceso y visibilidades solicitadas para la VPN del usuario.
+
+----
+
+==== 3. Acceso a red corporativa ====
+  * Alta del equipo.
+  * Configuración basada en la **MAC del portátil** (debe aportarla el responsable).
+
+----
+
+==== 4. Máquina de salto ====
+  * Asignación de la máquina de salto correspondiente.
+  * O bien: “igual que el perfil de referencia”.
+
+
+==== 5. Permisos en carpetas IUSNAS05 ====
+  * Aplicación de permisos.
+  * Requiere indicar:
+    * Ruta completa
+    * Tipo de acceso (lectura / edición)
+
+
+==== 6. Listas de distribución de correo ====
+  * Alta del usuario en la lista correspondiente según su área.
+
+
+====== CAU ======
+
+==== 1. Recepción de la solicitud de alta ====
+El CAU recibe el tique, correo o fax y:
+  * Comprueba formularios.
+  * **Tipificación**:
+    * **Categoría operacional 1:** Solicitud de acceso
+    * **Categoría operacional 2:** Alta
+    * **Categoría de producto 2:** Personal externo
+  * Solicita información faltante si es necesario.
+
+----
+
+==== 2. Gestión del alta en Temis ====
+Tras recibir de Sistemas la creación AD/LDAP:
+  * CAU realiza el alta en Temis.
+  * Necesario indicar: **Unidad funcional de destino**.
+
+==== 3. Reasignación del resto de tareas ====
+CAU envía a cada grupo responsable:
+  * Runtime → Teams, DokuWiki, Remedy  
+  * OT → Alfresco  
+  * Sistemas → Listas de distribución  
+  * Otros según corresponda  
+
+==== 4. Cierre del proceso ====
+  * Todos los grupos devuelven el tique al CAU tras completar su parte.
+  * CAU informa al responsable.
+  * Entrega credenciales por mensaje privado.
+  * Verifica que el usuario accede correctamente.
+  * Cierra el tique.
+
+====== Runtime ======
+
+El área **Runtime** gestiona todas las altas relacionadas con herramientas colaborativas y de gestión interna.
+
+==== 1. Teams ====
+  * Creación del usuario en Teams.
+  * Inclusión en grupos si procede.
+
+----
+
+==== 2. DokuWiki ====
+  * Alta del usuario.
+  * Aplicación de permisos según lo solicitado.
+
+----
+
+==== 3. BMC Remedy ====
+Runtime gestiona:
+  * Alta del usuario en Remedy.
+  * Asignación a grupos destinatarios.
+  * Permisos de operación.
+  * **Posibilidad de indicar un “usuario copia”** para replicar permisos.
+
+Se debe especificar en la solicitud:
+  * Tipo de permisos necesarios.
+  * Grupo o unidad a la que debe añadirse.
+  * Usuario de referencia (si aplica).
+
+====== OT (Oficina Técnica) ======
+
+==== 1. Alfresco ====
+  * Alta del usuario en los proyectos o carpetas indicados.
+  * Requiere especificar las rutas o proyectos exactos.
+  * Alta en JIRA
+  * Alta en HGP
+
+==== 2. Altas Adriano (cuando proceda) ====
+  * Requiere autorización firmada de Jefatura.
+  * Gestión por DevOps/OT según circuito.
+
+Formulario Adriano:  
+https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=formulario_de_autorizacion_para_acceso_a_adriano_v10-autorrellenable.pdf
+
+====== RunTime/ Explotación ======
+
+==== 1. Adriano / BBDD ====
+  * Requiere autorización del responsable + Jefatura.
+  * DevOps se encarga de aplicar permisos.
+
+Ruta de almacenamiento de autorizaciones:  
+``\\iusnas05.justicia.junta-andalucia.es\SIJ\50.Planificación\GestióndeUsuarios\Adriano\Solicitudes Autorizadas por Jefatura``
+
+==== 2. Tareas adicionales (según perfil) ====
+  * Ajustes de acceso para perfiles especiales.
+  * Configuraciones específicas de explotación.
+
+
+===== 6. Otras herramientas necesarias =====
+
+==== VPN CheckPoint ====
+Guía de instalación:  
+https://capacitacion.justicia.junta-andalucia.es/course/view.php?id=37
+
+----
+
+==== HGP (Herramienta de Gestión de Proyectos) ====
+Solicitud por tique a Help Desk con:
+
+^ Campo ^ Valor ^
+| Proyecto | CS3003 – Herramienta Gestión Proyectos |
+| Actividad | Incidencias / Provisión / Soporte funcional |
+| Datos necesarios | Nombre, DNI, Empresa, mail corporativo |
+
+----
+
+==== Jira ====
+Solicitud del responsable.  
+Gestiona la **OT**.
+
+----
+
+==== Usuario Remedy y destinatarios ====
+Se solicitará si el trabajador debe gestionar tiques:  
+  * Asignación de usuario genérico  
+  * Inclusión en grupos destinatarios  
+
+----
+
+==== Excel de vacaciones ====
+El responsable debe añadir al trabajador en:  
+``\\iusnas05.justicia.junta-andalucia.es\SIJ\90. Comun\00. VACACIONES\VACACIONES SSDJ 2025\Vacaciones 2025.ods``
+
+----
+
+==== Cuadrantes de horarios y presencialidad ====
+Cada área mantiene su propio cuadrante accesible por Jefatura.
+
+----
+
+==== Ubicaciones (Puesto de trabajo) ====
+Indicar días de presencialidad para asignación de sitio físico.
+
+---
+
+===== 7. Especificaciones por perfil =====
+
+^ Perfil ^ Máquina de salto ^ Organismo ^ Observaciones ^
+| **Oficina Técnica** | 10.241.253.40 | Asistencia Técnica OTPCS | Grupos de trabajo, informes, horarios |
+| **Sistemas** | 10.241.252.7 | Asistencia Técnica Sistemas | — |
+| **Desarrollo (No Adriano)** | — | — | — |
+| **Asesoría Procesal** | 10.241.252.27 | Asistencia Técnica Procesal | Altas Adriano + BBDD |
+| **Puesto de Trabajo** | 10.241.253.40 | Asistencia Técnica OTPCS | — |
+| **Capacitación** | 10.241.252.27 | Implantación Sevilla | Permisos Adriano |
+| **Explotación / DevOps** | 10.241.253.78 | Departamento SIJ | — |
+
+---
+
+===== 8. Cuestiones de Seguridad =====
+
+Todo personal externo debe recibir las directrices del ENS (RD 311/2022).
+
+Debe firmarse el documento:  
+**ANX_CiberJ – Buenas prácticas de uso del equipamiento informático v1.0**  
+(ubicación pendiente).
+
+La copia firmada se guarda en el SGSI según indique Seguridad o Jefatura.
+
+---
+
+===== 9. Flujo de trabajo del alta (resumen rápido) =====
+
+  * **CAU → Sistemas**: alta AD/LDAP/VPN + visibilidades básicas  
+  * **Sistemas → CAU**: devuelve para alta Temis  
+  * **CAU**: gestiona Temis + reasigna resto de accesos  
+  * **Equipos técnicos**: ejecutan sus tareas y devuelven al CAU  
+  * **CAU**: entrega credenciales por privado + valida funcionamiento + cierra tique  
+
+
+
+=====   Baja de Cuentas del Personal TIC y Proveedores  =====
+<< Indicar URL del procedimiento PRO-603 (cuando esté aprobado) >>
+
+Las peticiones de baja serán iniciadas por el **Responsable del Usuario** y gestionadas por el **CSU**. Podrán realizarse a través de:
+
+  * **Herramienta corporativa (Remedy)**: Registrando un tique de baja por cada técnico (tipificado como Gestión de Usuarios / Baja normalizada / Personal S.I. y asignado a Nivel 1 / Centro de Servicio al Usuario). Por motivos de seguridad y auditoría, es un requisito indispensable que el tique sea individual y se abra a nombre del usuario que causa baja.
+  * **Correo electrónico**: Mediante un correo donde se incluyan los datos de la persona (nombre completo, NIF y motivo de la baja), enviado a **csu.ius@juntadeandalucia.es**. En el caso de que se solicite la baja de varios usuarios en el mismo correo, el **CSU** deberá crear un tique por cada usuario. El correo se guardará en cada tique como evidencia auditable.
+
+El **CSU** debe confirmar que el tique o el correo procede del **Responsable del Usuario**, para lo cual, puede realizar la comprobación en la DokuWiki https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_contactos
+
+No se requerirá en ningún caso la firma del personal técnico que causa baja.
+
+Una vez creado el tique individualizado, el **CSU** verificará que no existen incidencias abiertas a nombre de ese técnico.
+
+Las tareas se distribuirá siguiendo el reparto competencial y el orden establecido en la siguiente tabla:
+
+<html> <table style="border-collapse: collapse; width: 70%; margin: auto;">
+<code>
+<thead>
+  <tr style="background-color: #A2DCE0;">
+    <th style="border: 1px solid #999; padding: 8px; width: 30%;">Accesos a dar de baja</th>
+    <th style="border: 1px solid #999; padding: 8px; width: 30%;">Equipo</th>
+    <th style="border: 1px solid #999; padding: 8px; width: 40%;">Asignación Remedy</th>
+  </tr>
+</thead>
+<tbody>
+<tr>
+  <tr>
+    <tr style="background-color: #f2f2f2;">             
+    <td style="border: 1px solid #999; padding: 8px; width: 30%;">AD, Terminales de Salto, Impresoras y Carpetas NAS (iusnas05, ...)</td>
+    <td style="border: 1px solid #999; padding: 8px; width: 30%;">Sistemas</td>
+    <td style="border: 1px solid #999; padding: 8px; width: 40%;">Sistemas/GTSW</td>    
+  </tr>
+  <tr>
+    <tr style="background-color: #f2f2f2;">             
+    <td style="border: 1px solid #999; padding: 8px; width: 30%;">TEMIS, LDAP, VPN y Listas de Distribución</td>
+    <td style="border: 1px solid #999; padding: 8px; width: 30%;">CAU</td>
+    <td style="border: 1px solid #999; padding: 8px; width: 40%;">Nivel 1/Centro de Servicio al Usuario</td>    
+  </tr>
+<tr>
+  <tr style="background-color: #f2f2f2;">             
+    <td style="border: 1px solid #999; padding: 8px; width: 30%;">Adriano, Corpus, NSJE, HGIS , REMEDY y DokuWiki</td>
+    <td style="border: 1px solid #999; padding: 8px; width: 30%;">RunTime</td>
+    <td style="border: 1px solid #999; padding: 8px; width: 40%;">Servicios/DevOps</td>    
+  </tr>
+<tr>
+  <tr style="background-color: #f2f2f2;">             
+    <td style="border: 1px solid #999; padding: 8px; width: 30%;">Alfresco, JIRA, HGP, hoja de vacaciones, cuadrante de horarios, modificar listado gestión de usuarios</td>
+    <td style="border: 1px solid #999; padding: 8px; width: 30%;">Oficina Técnica</td>
+    <td style="border: 1px solid #999; padding: 8px; width: 40%;">SACOEP/SACOEP-Coordinacion</td>    
+  </tr>
+ <tr>
+  <tr style="background-color: #f2f2f2;">             
+    <td style="border: 1px solid #999; padding: 8px; width: 30%;">BBDD</td>
+    <td style="border: 1px solid #999; padding: 8px; width: 30%;">Sistemas</td>
+    <td style="border: 1px solid #999; padding: 8px; width: 40%;">Sistemas/GTBD</td>    
+  </tr>
+ <tr>
+  <tr style="background-color: #f2f2f2;">             
+    <td style="border: 1px solid #999; padding: 8px; width: 30%;">NAOS, SIO, GDIP, PMA y RedMineUp</td>
+    <td style="border: 1px solid #999; padding: 8px; width: 30%;">Sistemas</td>
+    <td style="border: 1px solid #999; padding: 8px; width: 40%;">Sistemas/Coordinación</td>
+  </tr>
+ <tr>
+  <tr style="background-color: #f2f2f2;">             
+    <td style="border: 1px solid #999; padding: 8px; width: 30%;">TEAMS</td>
+    <td style="border: 1px solid #999; padding: 8px; width: 30%;">Puesto de Trabajo</td>
+    <td style="border: 1px solid #999; padding: 8px; width: 40%;">Servicios/Puesto de Trabajo/Coordinación Puesto de Trabajo</td>    
+  </tr>      
+</tbody>
+</code>
+</table> </html>
+
+<WRAP columns 2>
+
+</WRAP>
+
+{{tag>novalidada}}
+
+
+
+

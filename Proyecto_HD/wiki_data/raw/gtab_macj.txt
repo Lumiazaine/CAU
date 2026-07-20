@@ -1,0 +1,52 @@
+﻿
+====== Monitorizacion GTAB - MACJ ======
+
+======  Monitorización de Málaga Ciudad de la Justicia     ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/Monitorizacion GTAB - MACJ?section=1|Editar]]
+
+  *
+ <font 18px/inherit;;#ff0000;;inherit>HP MSA2040</font>
+ <font 12,0000pt/inherit;;inherit;;inherit>Con IP en la controladora A: 10.209.64.50 y en la controladora B 10.209.64.51 Las notificaciones se realizan a las cuentas de correo siguientes:</font>
+
+^ORIGEN ^DESTINO |
+|HP-MSA |[[gtsw.alertas.ius@juntadeandalucia.es|]] <font 14px/Century;;#0000ff;;inherit>gtsw.alertas.ius@juntadeandalucia.es</font>   |
+|HP-MSA|[[Sistemas.gtab.ius@juntadeandalucia.es|]]
+ <font 14px/ ;;inherit;;inherit>Sistemas.gtab.ius@juntadeandalucia.es</font> |
+|HP-MSA|[[alertas.coordinacion.sistemas.ius@juntadeandalucia.es|]] <font 14px/Century;;#0000ff;;inherit>alertas.coordinacion.sistemas.ius@juntadeandalucia.es</font>   |
+
+  *
+ <font 18px/inherit;;#ff0000;;inherit>NETAPP 2040</font>
+ <font 12,0000pt/inherit;;inherit;;inherit>La cabina tiene configurados las siguientes direcciones de correo para el envío de las alertas.</font>
+
+^ORIGEN ^DESTINO |
+|NODO|[[gtsw.alertas.ius@juntadeandalucia.es|]] <font 14px/Century;;#0000ff;;inherit>gtsw.alertas.ius@juntadeandalucia.es</font>    |
+|NODO|[[alertas.coordinacion.sistemas.ius@juntadeandalucia.es|]] <font 14px/Century;;#0000ff;;inherit>alertas.coordinacion.sistemas.ius@juntadeandalucia.es</font>   |
+|NODO|[[sistemas.gtab.ius@juntadeandalucia.es|]] <font 14px/Century;;#0000ff;;inherit>sistemas.gtab.ius@juntadeandalucia.es</font>   |
+|NODO|[[netapp.spain@ts.fujitsu.com|]] <font 14px/Century;;#0000ff;;inherit>netapp.spain@ts.fujitsu.com</font>   |
+
+  *
+ <font 18px/inherit;;#ff0000;;inherit>DATADOMAIN IUSAPBACK03</font>
+ <font 12,0000pt/inherit;;inherit;;inherit>Las notificaciones que realiza la cabina se realizan ante cambios de lo ssiguientes atributos:</font>
+
+  - // <font 14px/inherit;;inherit;;#9fd6b9>cifs warning</font>  //
+  - // <font 14px/inherit;;inherit;;#9fd6b9>storage warning</font>  //
+  - // <font 14px/inherit;;inherit;;#9fd6b9>cluster warning</font>  //
+  - // <font 14px/inherit;;inherit;;#9fd6b9>network warning</font>  //
+  - // <font 14px/inherit;;inherit;;#9fd6b9>security warning</font>  //
+  - // <font 14px/inherit;;inherit;;#9fd6b9>filesystem warning</font>  //
+  - // <font 14px/inherit;;inherit;;#9fd6b9>environment warning</font>  //
+  - // <font 14px/inherit;;inherit;;#9fd6b9>repolicatoin warning</font>  //
+  - // <font 14px/inherit;;inherit;;#9fd6b9>hardwarefailure warning</font>  //
+  - // <font 14px/inherit;;inherit;;#9fd6b9>systemmanteinance warning</font>  //
+  - // <font 14px/inherit;;inherit;;#9fd6b9>syslog warning</font>  //
+  - // <font 14px/inherit;;inherit;;#9fd6b9>firmware warning</font>  //
+ <font 12,0000pt/inherit;;inherit;;inherit>Los correos que reciben las alertas son:</font>
+
+^ORIGEN ^DESTINO |
+|DD|[[gtsw.alertas.ius@juntadeandalucia.es|]] <font 14px/Century;;#0000ff;;inherit>gtsw.alertas.ius@juntadeandalucia.es</font>    |
+|DD|[[alertas.coordinacion.sistemas.ius@juntadeandalucia.es|]] <font 14px/Century;;#0000ff;;inherit>alertas.coordinacion.sistemas.ius@juntadeandalucia.es</font>   |
+|DD|[[sistemas.gtab.ius@juntadeandalucia.es|]] <font 14px/Century;;#0000ff;;inherit>sistemas.gtab.ius@juntadeandalucia.es</font>   |
+|DD| <font 14px/Century;;#0000ff;;inherit></font>    [[autosupport-alert@autosupport.datadomain.com|]]|
+
+

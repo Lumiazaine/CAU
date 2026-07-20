@@ -1,0 +1,93 @@
+﻿
+<html> <html lang="es"> 
+<head>
+
+  <meta charset="UTF-8">
+  <title>NORMATIVA KEYCLOAK</title>
+  <style>
+      body {
+          font-family: Arial, sans-serif;
+          background-color: #39546E;
+          margin: 0;
+          padding: 20px;
+          padding-top: 70px;
+          
+      }
+
+
+
+      .main-container {
+          max-width: 1550px;
+          margin: 0 auto;
+      }
+
+
+
+      .main-header {
+          background-color: #39546E;
+          color: white;
+          padding: 25px 20px;
+          font-size: 2rem;
+          font-weight: bold;
+          border-radius: 8px 8px 0 0;
+          text-align: center;
+          margin-bottom: 20px;
+      }
+
+
+
+      .block {
+          background-color: #ffffff;
+          border-radius: 8px;
+          padding: 22px;
+          margin-bottom: 25px;
+          border: 1px solid #c5ccd4;
+          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+      }
+
+
+
+      .block h2 {
+          margin-top: 0;
+          color: #39546E;
+          border-bottom: 2px solid #39546E;
+          padding-bottom: 10px;
+          
+      }
+      
+      a {
+          color: #0051A3;
+          text-decoration: none;
+          
+      } 
+
+  </style>
+
+
+
+</head>
+
+<body>
+
+  <div class="main-container">
+
+
+
+      <div class="main-header">NORMATIVA KEYCLOAK</div>
+
+      <div style="margin-bottom: 20px;">
+          <p>En esta página se definen las reglas, directrices y buenas prácticas que regulan el uso, configuración y administración de Keycloak como solución corporativa de gestión de identidades y accesos (IAM).</p>
+          
+          <p>Se incluye, en primer lugar, el documento que explica los componentes y configuraciones del sistema de autenticación basado en Keycloak como los tipos de proveedores de identidad, mapeo de atributos e interfaces   de inicio de sesión.</p>
+           <li style="margin-bottom: 20px; margin-left: 30px;"><a target="_blank" href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=sje_nueva_sede_justicia_arquitectura_procedimientos_operativos_desarrollo_con_herramientas_v1.2.pdf">Normativa Keycloak</a></li>
+           
+            <p>Se incluye, el documento de normativa de despliegues de Keycloak.</p>
+           <li style="margin-bottom: 20px; margin-left: 30px;"><a target="_blank" href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=sje_nueva_sede_justicia_arquitectura_procedimientos_operativos_desarrollo_con_herramientas_v1.2.pdf">Despliegue Keycloak</a></li>
+      
+      </div>
+
+
+
+</body> 
+</html>
+

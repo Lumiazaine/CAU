@@ -1,0 +1,949 @@
+﻿
+<panel type="success" title="Resumen de página">
+
+En esta página se encuentra información de interés, tanto operativa como técnica con respecto a los procesos relacionados con el Puesto de Trabajo Virtual.
+
+^Sección  ^Enlace  |
+|Procedimientos implantación / despliegue  |[[:pag_procedimientos_vdi#procedimientos-despliegue|Acceso rápido a sección]]  |
+|Procedimientos operativos  |[[:pag_procedimientos_vdi#procedimientos-operativos|Acceso rápido a sección]]  |
+|Procedimientos técnicos  |[[:pag_procedimientos_vdi#procedimientos-tic|Acceso rápido a sección ]]  |
+|Incidencias. FAQs & Procedimientos  |[[:pag_procedimientos_vdi#incidencias-faqs-asignaciones-y-procedimientos|Acceso rápido a sección ]]  |
+
+</panel>
+
+<panel type="primary" title="Procedimientos despliegue">
+
+===== Procedimientos despliegue =====
+
+<WRAP><panel type="warning" title="Resumen sección">
+
+^Procedimientos^Acceso directo  |
+|Criterios selección usuarios|[[:pag_procedimientos_vdi#criterios_de_seleccion_usuarios|Ir]]  |
+|Distribución de terminales ligeros|[[:pag_procedimientos_vdi#distribucion_terminales_ligeros|Ir]]  |
+|Contacto inicial con Órganos Judiciales|[[:pag_procedimientos_vdi#contacto_equipo_despliegue_con_organos_judiciales|Ir]]  |
+|Material de Stock|[[:pag_procedimientos_vdi#material_de_stock|Ir]]  |
+|Solicitud masiva VPN|[[:pag_procedimientos_vdi#solicitud_masiva_vpn|Ir]]  |
+|Calidad y retirada equipos salientes|[[:pag_procedimientos_vdi#revisiones_de_calidad_y_retirada_de_equipos|Ir]]  |
+|Verificación y actuaciones pendrives migración|[[:pag_procedimientos_vdi#verificacion_y_actuaciones_pendrives_migracion|Ir]]  |
+|Rotación equipos "windows 7" y "windows 10"|[[:pag_procedimientos_vdi#rotacion_equipos_windows_7_y_windows_10|Ir]]  |
+
+</panel></WRAP>
+
+<WRAP><panel>
+
+=== Criterios de selección de usuarios ===
+
+  * **Criterio de selección para VDI y para Thin Client:**
+Implantación de Puestos de Trabajos Virtualizados para los siguientes perfiles:
+
+  * Todos los Magistrados y Jueces.
+  * Fiscal Superior, Fiscales Jefes, Tenientes Fiscales y Fiscales.
+  * Todos los Letrados de la Administración de Justicia.
+  * Dos Gestores procesales por Órgano Judicial y Fiscalía.
+  * Un Tramitador procesal por Órgano Judicial.
+  * Directores, Secretarios y Jefes de Servicios del IML.
+  * Todos los Médicos Forenses.
+
+</panel></WRAP>
+
+<WRAP><panel>
+
+=== Distribución de terminales ligeros ===
+
+* Un terminal ligero para cada Fiscal Jefe. * Dos terminales ligeros por cada Órgano Judicial destinado a los usuarios que seleccione el Letrado de la Admo de Justicia. </panel></WRAP>
+
+<WRAP><panel>
+
+=== Contacto equipo despliegue con Órganos Judiciales. ===
+
+* **Modo de trabajo**  El equipo de implantación VDI contacta previamente con el Letrado del órgano, Fiscal SIMJ o Director IML para confirmar la fecha de migración del órgano y los datos de los usuarios que se van a migrar.
+
+El día de la migración, el técnico de implantación en primer lugar contacta con el Letrado del Órgano para informar sobre el proceso de migración y seleccionar los usuarios a los que se les va sustituir el equipo por el thintclient. </panel></WRAP>
+
+<WRAP><panel>
+
+=== Material de Stock Despliegue ===
+
+* Los técnicos encargados de la implantación de VDI llevan el siguiente material para su uso si es necesario durante la migración del puesto :
+
+  * Grabadoras CD/DVD externas
+  * HUB
+  * Lector externo y tarjeta criptográfica
+  * Cables DVI-DVI
+  * Cables DVI-HDMI
+  * Conversor VGA – HDMI
+  * Pilas thinclient
+
+Si el usuario solicita a DP/CRIP o CAU algunos de estos materiales una vez ha finalizado la migración de su organismo, la petición debe gestionarse mediante **Remedy a Servicios/Planificación**. </panel></WRAP>
+
+<WRAP><panel>
+
+=== Solicitud masiva VPN ===
+
+Con la intención de agilizar y mejorar la eficiencia de los procesos de migración, se va a proceder a la solicitud masiva de VPN para los usuarios cuya migración a VDI esté planificada a una semana vista según el siguiente procedimiento:
+
+1.- **Todos los martes**, el equipo de puesto de trabajo, en base a las planificaciones facilitadas por el implantador, preparará un documento estándar alojado en iusnas05. Mediante ticket Remedy realizará al CAU la solicitud semanal.
+
+  * Ruta archivos: \\iusnas05.justicia.junta-andalucia.es\SIJ\10. Proyectos en curso\00 VDI\14. Despliegue\Usuarios VPN\VPNs_masivas\maestros\ :
+  * Fichero **maestroVPN-v5**: Seleccionando la semana planificada a solicitar se genera la información suficiente para completar el documento plantilla alta_masvia_CAU_V2.
+  * Fichero **alta_masiva_CAUV_2**: Este documento es el entregable a CAU para que coordine con Red Corporativa la solicitud y gestión masiva de altas VPN.
+
+Los criterios para la selección de usuarios que necesitan VPN son los siguientes:
+
+  - El usuario está planificado para la semana indicada
+  - El usuario no tiene ya VPN activa
+  - El usuario tiene a lo largo del año 2025 conexiones mediante ISL
+
+2.- Por parte del CAU se gestionará pertinentemente la solicitud a Red Corporativa. Entorno a los __tres días__, se recibe respuesta estándar y CAU devuelve vía Remedy el mismo archivo que se le envió (alta_masiva_CAUV_2) con la respuesta de red corporativa. Este documento está preparado para gestionar dicha respuesta de forma automática, de forma que se vincule IP asignada al usuario ldap para el que se ha realizado la solicitud. **No es necesario procesar manualmente la respuesta de red corporativa**.
+
+3.- El equipo de puesto de trabajo __solucionará y cerrará__  el ticket. y deberá abrir uno nuevo al equipo de sistemas con los UPDATES necesarios para la carga de información relativa a la IP asignada a cada usuario. Estos UPDATES se generan **automáticamente**  en el archivo que devuelve CAU incluyendo la respuesta de red corporativa.
+
+4.- El equipo de sistemas gestionará la carga masiva de información y con esto termina el proceso.
+
+**__Consideraciones:__  **
+
+Las solicitudes de usuario que surjan en el día a día por el motivo que sea deberán tratarse con el procedimiento habitual.
+
+<WRAP round important> Es necesario revisar en la respuesta a cada solicitud que se generan de forma automática el mismo número de registros y UPDATES que de solicitudes. </WRAP>
+
+</panel></WRAP>
+
+<WRAP><panel>
+
+=== Revisiones de calidad y retirada de equipos ===
+
+<WRAP round tip>Se va a realizar un piloto para validar los procedimientos establecidos para la gestión de la calidad en el proceso de implantación VDI en Ciudad de la justicia en Málaga y Priego y Cabra en Córdoba.</WRAP>
+
+El equipo de securización, se encargará de realizar revisiones de calidad de la implantación así como de la retirada y custodia de los equipos salientes VDI. Se establece el siguiente procedimiento:
+
+  - Según planificación, en órganos terminados, el técnico se pone en contacto a su llegada con el LAJ del órgano.
+  - Se identifican los equipos a retirar en la sede, independientemente de que se encuentren en el órgano en el que se va a hacer QA o no.
+  - Se procede a la revisión de calidad, según formularios validados por la gestión del proyecto.
+
+En cuanto a las implicaciones de esta operativa:
+
+**__Actuaciones previas:__**  SACOEP informará a las delegaciones de los procedimientos pertinentes y solicitará a éstas que habiliten un puesto de trabajo suficientemente amplio a los técnicos de securización para que puedan proceder al almacenaje y plataformado de los equipos que sean de interés para este proyecto. Estas ubicaciones estarán idealmente en sedes capitales.
+
+__**Custodia:**__  Los equipos que se recojan por parte del equipo de securización quedan bajo su custodia desde su recogida hasta su entrega según se determine. Cualquier entrega de equipos no planificada deberá ser comunicada y aprobada por el equipo de seguimiento de proyecto.
+
+__**Periodo de cuarentena:**__  Se define una cuarentena de 30 días naturales. No se podrá formatear, reutilizar o hacer uso de cualquier tipo de los equipos en cuarentenas salvo por autorización expresa del equipo de seguimiento del proyecto. En el supuesto en el que un usuario necesite recuperar información de un equipo que se encuentra en cuarentena, deberá ser notificado al equipo de seguimiento del proyecto. No se podrá hacer entrega del equipo al usuario sin más, la cuarentena se gestiona para salvaguardar los datos, el usuario no tiene por qué recuperar su anterior equipo en ningún caso, salvo se autorice expresamente.
+
+__**Entregables y documental:**__
+
+El equipo de securización deberá registrar e inventariar adecuadamente (SN/RFID/Lugar recogida/Ubicación/Entregado a:, fecha, etc..) todos los equipos que recoja. Semanalmente, los viernes, se deberá alojar las las hojas de cálculo y actas de entrega pertinentes actualizadas en iusnas en la ruta indicada y notificar a servicios inventario (planificacion.inventario.ius@juntadeandalucia.es).
+
+La entrega de equipamiento deberá, en cualquier caso, ir precedida de la firma de acta de entrega correspondiente, indicando claramente persona responsable de la recogida y el destino previsto de los equipos.
+
+**__Procedimientos:__  **
+
+__1.- Recogida equipamiento.__
+
+El equipo de securización se encargará de recoger los equipos de las sedes u órganos judiciales que hayan finalizado su migración a VDI. El equipo de implantación deberá dejar los equipos a retirar, correctamente etiquetados y señalados en un único sitio en dicha sede.
+
+Se contempla la posibilidad de que los técnicos DP/CRIP, de tener que acudir a alguna sede judicial, se coordinen con el equipo de securización para la recogida y entrega de los equipos evitando así desplazamientos innecesarios del equipo de securización.
+
+SACOEP informará al coordinador del equipo de securización de las sedes finalizadas semanalmente.
+
+__2.- Plataformado y limpiado de equipos.__
+
+Los equipos "windows 7" que hayan cumplido el periodo de cuarentena establecido se instalarán con SO ttlOS y quedarán disponible para el uso que se determine.
+
+Los equipos "windows 10" que hayan cumplido el periodo de cuarentena establecido, pasarán a ser "limpiados" (eliminaciones de perfiles de usuarios) lógica y físicamente (pegatinas personales, etc.). El equipo de securización se hará cargo de la custodia de estos equipos hasta nuevo aviso. NO se destinan estos equipos a ningún uso por el momento.
+
+__3.- Entrega equipamiento.__
+
+No está previsto por el momento el destino de los equipos retirados. Se definirá más adelante a excepción de un pequeño botiquín a DP/CRIP para reemplazos si es necesario. Este pequeño stock se intentará mantener en 2/3 unidades de equipos plataformados con ttlOS.
+
+__4.- Inventariado equipos.__
+
+El equipo de securización deberá mantener un inventario exhaustivo de los equipos que recoja y éste deberá reflejar el estado de los mismos (en cuarentena, disponible, etc.) en todo momento mientras se encuentren bajo su custodia. Una vez se reciba el listado actualizado del estado del equipamiento, inventario tendrá que, semanalmente, actualizar el inventario Temis.
+
+</panel></WRAP>
+
+<WRAP><panel>
+
+=== Verificación y actuaciones pendrives migración ===
+
+Dado que se están presentado diversas incidencias con el uso de memorias USB (pendrives) en puestos virtualizados, por parte del SSDJ se ha definido una operativa cuyo objetivo es garantizar la seguridad de la información que manejan los Jueces y Fiscales de Andalucía en aquellos casos donde se produce avería, inaccesibilidad o afectación al funcionamiento del pendrive tras una migración al puesto de trabajo virtualizado (PTV).
+
+El adjudicatario se encuentra en vías de diagnóstico y resolución del problema, que si bien, no es un problema generalizado, si se presentan algunos casos.
+
+__**Copia de seguridad de la información del pendrive pre-migración**__  :
+
+El técnico CRIP realizará una copia seguridad del contenido del pendrive del usuario en el Escritorio del puesto físico en una carpeta llamada 'Pendrive'. Estas actuaciones se deben realizar presencialmente con el usuario y con antelación a la migración al puesto de trabajo virtual, bien el mismo día de la migración o un/os día/s antes.
+
+Semanalmente (todos los viernes) se remite la planificación de migraciones previstas de la semana siguiente: En el primer día de migración en una sede, ya estaba prevista la asistencia de un técnico CRIP. En las sedes donde ya están migrando usuarios, los técnicos de VDI se coordinarán con los técnicos CRIP.
+
+Por otro lado, está establecido que el tamaño de la información que el usuario seleccione para trasladar a la nueva plataforma no debe superar los 12Gb, teniendo en cuenta que el tamaño máximo de cuota por usuario son 20GB. En caso de que, incluida la copia de seguridad del pendrive, se supere dicho umbral, deberá contactar con el equipo Sistemas SSDJ para ampliar dicha cuota. El equipo de Sistemas SSDJ gestionará la ampliación de cuota con la mayor agilidad posible. Los trabajos se registrarán en Remedy por sede informando de las actuaciones realizadas y los usuarios a los que se han realizado copias de seguridad y a los que no.
+
+**__Durante la migración del perfil a PTV, por parte del implantador VDI, se ejecutarán las siguientes actividades__**  :
+
+Trasferencia de la carpeta 'Pendrive' al puesto virtualizado, junto con los datos del perfil y la carpeta ‘A Salvar’ con la información recopilada por el usuario, de modo, que el usuario dispondrá de la carpeta ‘Pendrive’ en el Escritorio del puesto virtual.
+
+__**Realización de pruebas básicas de uso pendrive con el usuario**__  :
+
+  * Conectar el pendrive al equipo.
+  * Abrir un fichero desde el dispositivo, editar y guardar los cambios.
+  * Reiniciar la máquina virtual.
+  * Conectar nuevamente el pendrive, abrir el fichero, verificar la edición previa y guardar nuevos cambios si fuese necesario.
+
+__**Actuación por parte del implantador VDI en caso de fallo del pendrive**__  :
+
+El técnico VDI deberá contactar de forma urgente con CRIP a fin de analizar la situación y proceder con las medidas correctivas necesarias.
+
+__**Medidas correctivas a realizar por parte del técnico CRIP en caso de fallo del pendrive**__  :
+
+  * Dotación de un pendrive nuevo al usuario.
+
+El equipo Suministros SSDJ está gestionado la compra de nuevos pendrives que distribuirán por todas las provincias para la entrega al equipo de CRIP.
+
+  * Transferencia al nuevo pendrive del contenido de la carpeta ‘Pendrive’ salvaguardada previa a la migración.
+  * Probar funcionamiento del pendrive nuevo con el usuario.
+  * Si no es posible realizar la entrega del pendrive nuevo en ese momento por no disponer de existencias, como alternativa hasta recibir el pendrive, se informa al usuario la forma de trabajar con los documentos de la carpeta recuperada ‘Pendrive’.
+  * Si no existe ya una incidencia abierta relacionada con el problema, generar una nueva en Remedy para su seguimiento.
+
+</panel></WRAP> <WRAP><panel>
+
+=== Rotación equipos "windows 7" y "windows 10" ===
+
+Para contar con equipos disponibles y poder satisfacer las posibles demandas a cubrir (nuevos usuarios, guardias, etc.) se va a proceder a la sustitución de equipos "windows10" con ttlOS instalado y en puestos de trabajo por equipos "windows7" salientes de VDI, también con ttlOS.
+
+Para ello, el técnico llevará consigo "windows7" ya preparados y cuando sea pertinente, cambiará el equipo al usuario. El cambio para el usuario debe ser transparente y rápido y el técnico se encargará de realizar comprobaciones básicas del funcionamiento normal del puesto de trabajo (resolución pantallas, etc.).
+
+Será imprescindible que el usuario se encuentre presente cuando se realice esta tarea y el equipo de securización se encargará de la gestión documental pertinente.
+
+</panel></WRAP> </panel>
+
+<panel type="primary" title="Procedimientos operativos">
+
+===== Procedimientos operativos =====
+
+<WRAP><panel type="warning" title="Resumen sección">
+
+^Procedimientos^Acceso directo  |
+|Entrega terminales ligeros|[[:pag_procedimientos_vdi#entrega_de_terminales_ligeros|Ir]]  |
+|Entrega equipamiento de repuesto|[[:pag_procedimientos_vdi#entrega_equipamiento_de_repuesto|Ir]]  |
+|Sustitución del thinclient o averías|[[:pag_procedimientos_vdi#sustitucion_del_thinclient_o_averias|Ir]]  |
+|Garantía thinclients|[[:pag_procedimientos_vdi#tramite_garantias_thinclient|Ir]]  |
+|Traslado usuarios VDI|[[:pag_procedimientos_vdi#traslado_usuarios_vdi|Ir]]  |
+|Solicitud VPN trabajo remoto|[[:pag_procedimientos_vdi#solicitud_vpn_trabajo_remoto|Ir]]  |
+|Gestión pegatinas MRR y PTVirtualizado|[[:pag_procedimientos_vdi#gestion_pegatinas_mrr_y_ptvirtualizado|Ir]]  |
+
+</panel></WRAP>
+
+<WRAP><panel>
+
+=== Entrega de terminales ligeros ===
+
+  * El proveedor contactará con las personas de contacto proporcionadas por las Delegaciones Provinciales para acordar cantidad, fecha/hora y lugar/modo de recogida, e informará a Inventario SSDJ de lo acordado.
+  * La recogida se realizará de forma progresiva según avance el despliegue.
+  * Con cada entrega se firmará, tanto por parte de la persona que entrega como por parte de la persona que recibe, el Acta de Entrega de equipamiento que os ha remitido el equipo de Inventario SSDJ. Esta acta contendrá el número de serie y RFID de cada terminal que se entregue.
+  * El Acta de Entrega firmada se remitirá a Servicios Inventario mediante creación de ticket Remedy el mismo día que se entregue el equipamiento.
+  * El equipo de Inventario SSDJ realizará el seguimiento de las entregas e instalación del equipamiento.
+  * Con cada Terminal Ligero se debe entregar el kit completo:
+      * Terminal Ligero
+      * Cable de seguridad
+      * Teclado con lector integrado
+      * Ratón
+
+</panel></WRAP>
+
+<WRAP><panel>
+
+=== Entrega equipamiento de repuesto ===
+
+  * Se debe dotar al proveedor de equipamiento (mini stock) de repuesto para los casos que falle el planchado durante la migración puedan sustituirlos directamente.
+  * El Coordinador de CRIP se ha encargado de la preparación de equipamiento para un stock inicial en cada provincia, pero se necesitará que se continúen preparando equipos para que cada provincia disponga de suficiente stock durante todo el proceso de migración.
+  * El proveedor contactará con Coordinador del CRIP e informará de la necesidad de reposición de stock.
+  * El procedimiento de entrega de equipamiento de repuesto es la siguiente:
+  * El proveedor contactará con Coordinador CRIP para acordar fecha, lugar y modo de recogida de los equipos.
+  * Coordinador CRIP informará a Inventario SSDJ y DP de la necesidad de stock y coordinará con la DP la recogida del equipamiento para su posterior entrega.
+  * Con cada entrega se firmará, tanto por parte de la persona que entrega como por parte de la persona que recibe, el Acta de entrega de equipamiento (Thinclients , Equipos de botiquín [añadir enlaces]). Este acta contendrá el número de serie y RFID de cada terminal que se entregue.
+  * El Acta de Entrega firmada se remitirá a Servicios / Inventario mediante creación de ticket Remedy el mismo día que se entregue el equipamiento.
+  * El equipo de Inventario SSDJ realizará el seguimiento de las entregas e instalación del equipamiento.
+
+</panel></WRAP>
+
+<WRAP><panel>
+
+=== Sustitución del thinclient o averías ===
+
+  * El equipo de VDI utilizará los equipos retirados por la instalación de un thinclient como ‘botiquín’ mientras se encuentren en la sede realizando las migraciones.
+  * Una vez migrada la sede, los equipos que no se han utilizado como ‘botiquín’ serán situados en el almacén de cada sede o en el lugar que indique el técnico in situ DP/CRIP que asiste el primer día de migración.
+  * Los equipos deberán ser recogidos por los técnicos de CRIP/DP/Securización.
+  * El listado de equipos retirados y su nueva ubicación se remitirá a Servicios / Inventario mediante creación de ticket Remedy el mismo día que se recojan (salvo en los procedimientos expresos establecidos para securización).
+
+<WRAP round tip>Una vez finalizada la sede, DP/CRIP deberá contar con un pequeño botiquín para sustituciones según procedimiento habitual. Este botiquín lo proveerá el equipo de securización.</WRAP>
+
+</panel></WRAP>
+
+<WRAP><panel>
+
+=== Trámite garantías Thinclient. ===
+
+Cuando un thinclient en garantía se averíe, se deberá crear un Ticket Remedy con la siguiente catalogación:
+
+  * Asignado A Grupo: **Nivel 3**
+  * Asignado A: **Tecknoservice**
+  * Clase: **Puesto de trabajo**
+  * Tipo: **Elementos de PC**
+  * Categoría: Indicar aquí lo que está averiado aparentemente (Disco duro, placa, puerto USB, etc.)
+
+Será necesario en la descripción del incidente indicar los problemas detectados, así como que se inicia la petición de trámite de garantía si aplica.
+
+</panel></WRAP>
+
+<WRAP><panel>
+
+=== Traslado usuarios VDI ===
+
+<WRAP round tip 49%> VDI está asociado al puesto de trabajo y no al usuario vinculado al mismo. </WRAP>
+
+Tenemos **4 escenarios de traslado**:
+
+A) __Usuario con origen no VDI y destino no VDI__: Se sigue el procedimiento habitual, no es relevante en el contexto VDI.
+
+B) __Usuario con origen VDI y destino VDI__: Poco problemático. El usuario ya tendrá las herramientas y aplicativos en portátil corporativo.
+
+C) __Usuario con origen VDI y destino no VDI__: Probablemente el más problemático, el usuario es probable que reclame su puesto virtualizado, hay que indicarle que su operativa será la anterior a la migración de su puesto de trabajo en origen.
+
+D) __Usuario con origen no VDI y destino VDI__: Será necesaria la capacitación del usuario, instalación herramientas en portátil corporativo si existe, etc.
+
+**Dos procesos**:
+
+**1.- BAJA**:
+
+  * __Origen VDI (B, C)__: CAU es capaz de identificar que es un equipo destinado a PTV. La baja (en relación con VDI), se escala a Servicios/VDI para la desvinculación del usuario a VDI. No requiere asignación a DP/CRIP, el resto del proceso sigue de forma habitual.
+  * __Origen NO VDI (A, D)__: Proceso habitual.
+La **identificación del equipo VDI por parte del CAU**:
+
+Aunque se puede detectar por la nomenclatura del Nombre del Equipo en AD, lo más fiable y rápido, es acceder a la plataforma HORIZON y verificar si el Usuario Temis está o No virtualizado.
+
+En verde se reflejaría si le Usuario está Virtualizado y la captura en rojo si el usuario NO está Virtualizado. \\ {{  :baja_vdi_traslado_identificacion_equipo.png?400  }}
+
+ \\ **2.- ALTA**:
+
+  * __Destino VDI (B, D)__: Tiene que identificar DP/CRIP cuando vayan a preparar puesto trabajo. Escalado del ticket a Servicios/VDI para gestión alta de usuario. Se devuelve incidencia a Nivel1/CSU. Si el usuario tiene autorizado trabajo remoto es necesario gestionar alta VPN.
+  * __Destino NO VDI (A, C)__: Proceso habitual. Hay que hacer hincapié en el caso C) al usuario de que debe volver a trabajar como lo hacía antes de la migración a VDI. Es posible que sea necesario gestionar la licencia ISL en el caso en el que el usuario tenga autorizado trabajo remoto.
+**Cuestiones relativas al trabajo remoto:**
+
+  * **__VDI NO IMPLICA TRABAJO REMOTO.__ **
+  * Trabajo remoto implica medio de conexión remota:
+      * Medio en VDI: **VPN**
+      * Medio en No VDI: **ISL**
+
+ \\ La gestión de los medios (altas y bajas) para el trabajo remoto debe realizarse en cualquier caso con los mismo criterios, tan sólo cambia el medio de conexión remota. Especial atención a ISL (consume licencia) y es posible que haya que gestionar el alta de nuevo.
+
+DP/CRIP deberá instalar los clientes Chekpoint (VPN) y Horizon (PTV) en el caso de ser un portátil corporativo si no lo estaban previamente. Si se utiliza un equipo personal, el usuario realizará la autoinstalación del cliente VPN y del cliente para el PTV Horizon (ver instrucciones en: [[https://capacitacion.justicia.junta-andalucia.es/|Portal Capacitación]])
+
+</panel></WRAP>
+
+<WRAP><panel>
+
+=== Solicitud VPN Trabajo Remoto ===
+
+  * Las herramientas para acceder al puesto virtualizado desde fuera de la red judicial son: Checkpoint para conexión a la VPN y Horizon para conexión al Escritorio Virtual.
+  * Tras confirmación de los usuarios a migrar de cada Órgano, Inventario SSDJ coteja si tiene trabajo remoto concedido con los listados remitidos por el Servicio de Gestión de Recursos Humanos de la Administración de Justicia.
+  * Inventario SSDJ crea petición Remedy a ‘Nivel 1 Centro Servicio Usuario’ solicitando alta VPN y baja emparejamiento ISL con los datos de los usuarios del órgano. (Las bajas en ISL se tramitarán con posterioridad a la migración)
+  * CSU se encarga de las gestiones con RCJA para el alta de VPN y la baja en ISL. La baja en ISL se realizará transcurrido un tiempo de la fecha de migración prevista.
+  * Una vez se gestione el alta de la VPN, siguiendo el procedimiento habitual, CAU enviará por correo el [[https://capacitacion.justicia.junta-andalucia.es/|enlace del portal capacitación]] al manual de configuración de VPN y Horizon y asignará el ticket a DT correspondiente para su información.
+
+</panel></WRAP>
+
+<WRAP><panel>
+
+=== Gestión pegatinas MRR y PTVirtualizado ===
+
+En tanto que el proyecto VDI está financiado con fondos MRR es necesario identificar los equipos con los logos pertinentes. Más allá de las obligaciones del proyecto, el cometido de las mismas es ayudar a identificar a todas las partes interesadas los equipos de sobremesa que se han instalado con ttlOS para acceder a VDI. Se espera que una fácil identificación visual agilice los procesos relacionados con los usuarios y equipos en este contexto.
+
+Las pegatinas pertinentes han sido entregadas a las DDTT para que gesitonen su suministro al equipo de implantación, securización y DP/CRIP. En cuanto a las entregas, además de gestionarse documentalmente como es pertinente, se deben realizar de la siguiente manera:
+
+  * Securización y DP/CRIP: En tanto que se debe ir poniendo pegatinas según se vayan detectando equipos sin ella, es pertinente que cada técnico disponga de un pequeño stock de pegatinas que se repondrá según necesidad.
+  * Equipo implantación: Una pegatina MRR por cada thinclient entregado. 3 pegatinas PTVirtualizado por cada 2 pegatinas MRR. Esto es debido a que en cada órgano se deben instalar 2 thinclient y se deben plataformar 3 equipos de sobremesa.
+
+En cuanto a la ubicación de las pegatinas:
+
+  * Thinclient: Se pegarán en la parte superior del dispositivo.
+  * CPUs: Se pegarán en la tapa superior principalmente, pero dependiendo de la posición y modelo de la torre, se buscará pegarla de la forma más visible posible para el usuario que utilice el equipo.
+
+</panel></WRAP>
+
+</panel>
+
+<panel type="primary" title="Procedimientos TIC">
+
+===== Procedimientos técnicos =====
+
+<WRAP> <panel type="warning" title="Resumen sección">
+
+^Procedimientos disponibles^Acceso directo  |
+|Instalación ttlOS en equipos  |[[:pag_procedimientos_vdi#pag_procedimientos_vdi_instalacion_ttlos_en_equipos|Ir]]  |
+|Cambio pilas thinclients|[[:pag_procedimientos_vdi#cambio_de_pilas_placa_base_thinclients|Ir]]  |
+|Configuración de pantallas|[[:pag_procedimientos_vdi#configuracion_de_pantallas|Ir]]  |
+|Persistencia en VDI|[[:pag_procedimientos_vdi#persistencia_en_vdi|Ir]]  |
+|Certificados en VDI|[[:pag_procedimientos_vdi#certificados_en_vdi|Ir]]  |
+
+</panel></WRAP>
+
+<WRAP><panel>
+
+=== Instalación ttlOS en equipos (CPUs y Thinclients) ===
+
+  * Se dispone de manual en el siguiente enlace. {{:02_instalacion_y_configuracion.pdf|Descarga.}}
+  * La versión de sistema operativo a instalar se encuentra en la siguiente ruta: [[\\iusnas05\DDPP\COMUN\VDI|]]
+  * Enlace a registro de cambios entre versiones: [[\\iusnas05\SIJ\10. Proyectos en curso\00 VDI\11. Sistema operativo|]]
+
+<WRAP right round tip 30% > A partir de la v8, el equipo automáticamente se actualizará a la última versión disponible al arrancar. </WRAP>
+
+^Versión  ^Fecha lanzamiento| |
+|v17  |15/08/2025  |Corrección problema audio bajo|
+|v16  |01/01/1999  |Controladores NVIDIA|
+|v15  |01/01/1999  |Aumento timeout en proceso actualización. Mensaje advertencia|
+
+</panel></WRAP>
+
+<WRAP><panel>
+
+=== Cambio de pilas placa base thinclients ===
+
+Los cambios de pilas los deben llevar a cabo los técnicos de la DT/CRIP. Las peticiones de pilas se realizan mediante Remedy a **Servicios > Planificación**.
+
+Los técnicos de implantación de VDI llevan pilas de thintclient como material de stock por si necesitan sustituir en algún caso puntal la pila de un thintclient durante la migración de un puesto en una sede lejana.
+
+Manual PDF y vídeo del procedimiento:
+
+{{:thinclients_cambio_de_pila.pdf|Manual cambio pilas PDF}}
+
+{{:thinclients_cambio_de_pila.mp4|thinclients_cambio_de_pila.mp4}}
+
+</panel></WRAP> <WRAP><panel>
+
+=== Configuración de pantallas ===
+
+A partir de la versión 17 de ttlOS, queda corregida la problemática de configuración de pantallas.
+
+Se puede acceder de manera normal a la configuración de esta. Alternativamente, se puede acceder desde fuera de Horizon antes de iniciar este (antes de que el usuario introduzca su usuario y contraseña en Horizon), pulsando las teclas Windows + P. Aparecerá una ventana de configuración de pantallas, le damos a avanzado y desde ahí se pueden tocar los parámetros de configuración.
+
+</panel></WRAP> <WRAP> <panel>
+
+=== Persistencia en VDI ===
+
+El entorno VDI está basado en una imágenes no persistentes. Cualquier cambio realizado a nivel de sistema operativo (instalaciones, configuraciones, parches, etc.) será descartado al cerrar sesión o reiniciar.
+
+**__Implicaciones:__  **
+
+  * Instalar software directamente en la sesión del usuario no tiene efecto duradero.
+  * Cambios en el sistema no se conservan entre sesiones.
+  * Solo los datos almacenados en ubicaciones persistentes (perfiles redirigidos, carpetas y unidades de red) se mantienen.
+
+Los perfiles de usuario se guardan con la tecnología de Dynamic Enterprise Manager, Todo lo que se guarda tanto en la parte de registro de HKEY_CURRENT_USER, como en C:\Users\%username% se puede redirigir mediante esta tecnología, si algún cambio en dicha clave de registro o carpeta no se mantiene, se debe informar al grupo de soporte VDI para que lo incluya en Dynamic Enterprise Manager.
+
+Estos perfiles se guardan remotamente cuando el usuario cierra sesión en la ubicación remota \\vdiptvsvm300.vdi.justicia.junta-andalucia.es\driveredir\%username%.%userdomain%\Perfil
+
+**Un ejemplo:**  Se instala una nueva aplicación y se verifica que no se mantienen la personalización del usuario en cuanto a menús y conexiones. Se verifica que dicha personalización se guarda tanto en C:\user\%username%\Appdata\Roaming\NuevaAplicacion como en HKEY_CURRENT_USER\Software\NuevaAplicacion.
+
+En este caso se debería informar al grupo de soporte para incluir tanto la carpeta como la ruta del registro en Dynamic Enterprise Server.
+
+**Otro ejemplo real:**  Se ha pedido que se guarden los cambios del color del tema de Windows (Oscuro o Claro), para eso se ha añadido la ruta de registro HKEY_CURRENT_USER\Microsoft\Windows\CurrentVersion\Themes\Personalize Las carpetas redirigidas son: Escritorio, Documentos, Descargas y Favoritos. {{  :vdi_ejemplo_persistencia_temaoscuro.png?600  }}
+
+Realmente estas carpetas están redirigidas a una ruta UNC: \\vdiptvsvm300.vdi.justicia.junta-andalucia.es\driveredir\%username%.%userdomain%, por lo que cualquier archivo o carpeta que se cree ahí, se mantendrá siempre.
+
+**Acción remendada**
+
+Para aplicar cambios permanentes, traslade la información y el detalle de estos cambios (incluyendo procedimiento, software y requerimientos) al grupo de soporte de VDI para su evaluación e implementación en la imagen base.
+
+</panel> </WRAP>
+
+<WRAP><panel>
+
+=== Certificados en VDI ===
+
+**__Solicitud de certificados:__  **
+
+La solicitud de un certificado requiere que el equipo en el que se va a descargar sea el mismo que en el que se solicita dicho certificado. En VDI, cada vez que se cierra la sesión del usuario la máquina virtual a la que se conecta se destruye. Por tanto, es necesario tomar ciertas precauciones a la hora de realizar la solicitud. Es imperativo que no se cierre la sesión del usuario en cuestión o no podrá realizarse la descarga y será necesario realizar una nueva solicitud.
+
+Es importante tener en cuenta que todos los viernes se fuerza el cierre de sesión para todos los usuarios. Se recomienda realizar las solicitudes en un puesto de trabajo físico.
+
+**__Configurador FNMT:__  **
+
+Es posible realizar por parte de los técnicos la instalación de aplicaciones en los escritorios virtuales. No obstante, estas aplicaciones no permanecerán instaladas una vez se cierre la sesión del usuario.
+
+En el caso de detectarse la necesidad de actualizar el configurador, se puede hacer en el momento y será necesario contactar con Servicios/VDI vía Remedy para solicitar se realice la instalación permanente de la nueva versión.
+
+</panel></WRAP>
+
+</panel>
+
+<panel type="primary" title="Incidencias. FAQs, asignaciones y Procedimientos">
+
+===== Procedimientos incidencias =====
+
+<WRAP><panel type="warning" title="Resumen procedimientos">
+
+^Procedimientos disponibles| |
+|Apertura y asignación de incidencias  |[[:pag_procedimientos_vdi#apertura_y_asignacion_de_incidencias|Ir]]|
+|Gestión de incidencias VDI/Servicios  |[[:pag_procedimientos_vdi#gestion_de_incidencias_servicios_vdi|Ir]]|
+|Política actuación incidencias|[[:pag_procedimientos_vdi#politicas_actuacion_incidencias|Ir]]  |
+|Asistencia remota VDI|[[:pag_procedimientos_vdi#asistencia_remota_vdi|Ir]]  |
+|Grupos resolutores|[[:pag_procedimientos_vdi#problemas-conocidos-y-asignaciones|Ir]]  |
+
+</panel> </WRAP>
+
+<WRAP><panel>
+
+=== Apertura y asignación de incidencias ===
+
+<WRAP right round important 50% > No asignar a Nivel 3/VDI. Se está descargando la cola para su eliminación. </WRAP> __Clase__: PUESTO DE TRABAJO \\ __Tipo__: VDI \\ __Asignación__:
+
+  * Asignado A Grupo: **Servicios**
+  * Asignado A: **VDI**
+
+__Clasificación y flujo de la incidencia__:
+
+**CAU realiza el primer filtro**  para identificar si la solución de la incidencia está o no relacionada con VDI [[:pag_procedimientos_vdi#problemas-conocidos-y-asignaciones|(Ver comprobaciones básicas previas).]]
+
+  - Relacionada con el entorno virtualizado. **Debe asignarse a Servicios/VDI**.
+  - Visibilidad de aplicaciones o páginas web. Se asignarán a Sistemas GTSW/GTSR, según proceda.
+  - Relacionada con el PTV o Problemas conocidos: ver [[:pag_procedimientos_vdi#incidencias-conocidas|tabla resumen]] problemas conocidos y grupo resolutor.
+  - Si no está relacionada con VDI mismo flujo de gestión de incidencias que en un puesto físico; solventándose directamente por CAU, o bien, asignándola a DT/CRIP o grupos del SSDJ.
+
+__Casuísticas especiales__:
+
+  * Para solventar la incidencia hacen falta **permisos de administrador**:
+      * CAU asigna a Servicios/VDI para que concedan permiso de administrador al usuario afectado.
+      * Servicios/VDI concede permisos y **asigna**  a el ticket al grupo que ha solicitado el permiso (no devuelve al CAU).
+      * El técnico CAU / DDTT / CRIP realiza la actuación y solución, dejando registrado en el ticket la información sobre la actuación y devuelve el ticket a Servicios/VDI para eliminar permiso de administrador.
+      * Servicios/VDI devuelve el ticket al grupo que ha resuelto la incidencia para proceder al cierre del mismo si procede.
+
+</panel></WRAP>
+
+<WRAP><panel>
+
+=== Gestión de incidencias Servicios/VDI ===
+
+Una vez se recibe la incidencia en Servicios/VDI Hay que definir la asignación de Usuario:
+
+  * 1. Resolubles/ejecutables de inmediato
+  * 2. Resolubles no inmediatas
+  * 3. No resolubles
+  * 4. Asistencia insitu
+
+Cosas que deben aparecer en el Diario antes de resolver la incidencia:
+
+  * Numero de ticket interno del adjudicatario.
+  * Verificaciones realizadas
+  * Solución aportada. Evidencias (contacto con usuario)
+
+Todos contactos con los usuarios deben quedar registrados en la pestaña llamadas. Se deberá llamar al usuario una vez esté resuelto el ticket, indicándolo en la pestaña correspondiente junto con el usuario que le ha validado que está solucionado y anotando el número de teléfono al que ha llamado.
+
+Finalmente deberá marcase la incidencia como solucionada (desde la botonera de abajo) para una correcta gestión y medición de la productividad y los ANS y cerrar en una de las cuatro asignaciones de usuario según el caso.
+
+Notas: No hay permisos para adjuntar archivos, si lo necesitáis, es necesario enviar por correo csu.ius@juntadeandalucia.es indicando el número de ticket para que lo adjunte.
+
+__Definiciones de “Asignado Usuario”__
+
+  * 1.- Resolubles/ejecutables de inmediato: Es viable resolverlas, en un corto periodo de tiempo, se asignan al equipo resolutor (seguramente el adjudicatario) y se cierran tras la conformidad del afectado. El CAU JUSTICIA puede resolver en línea con la ayuda de los FAQ´s. Se resuelven en el mismo día dentro de los ANS del proveedor.
+  * 2.- Resolubles no inmediatas: Es viable resolverlas, pero no al corto plazo, por planificación o por indisponibilidad momentánea de recursos. Se asignan y se exige al equipo resolutor informar de compromiso de fecha. Luego, exigir la resolución al cumplirse la fecha.
+  * 3.- No resolubles: No es posible resolverlas/ejecutarlas. El equipo resolutor ha de justificar en el ticket la causa, CAU informa al usuario y se cierra sin conformidad.
+  * 4.- Asistencia insitu: Identifica que se ha tenido que desplazar un técnico (servicios/VDI) para solventar la incidencia.
+
+</panel></WRAP>
+
+<WRAP><panel>
+
+=== Política actuación incidencias ===
+
+Con la intención de aprovechar las bondades y ventajas de trabajar en entornos virtualizados, cuando se detecten incidencias no lógicas (de software, permisos, etc.) en puestos de trabajo VDI la primera acción a realizar será la **sustitución del equipo por otro plataformado con ttlOS**.
+
+Este cambio debe ser transparente para el usuario y permite agilizar la vuelta al trabajo del mismo en la mayoría de los casos.
+
+Una vez se haya reemplazado el equipo afectado y dependiendo del tipo de incidencia que estuviese afectando al mismo, __se realizarán las pruebas necesarias__  para determinar si ese equipo sigue siendo utilizable por otros usuarios y, en este caso, pasará a formar parte del botiquín de los equipos técnicos.
+
+</panel></WRAP> <WRAP> <panel>
+
+=== Asistencia Remota VDI ===
+
+<WRAP round important> CAU/DP/CRIP ya disponen de permisos de administrador para actuar en los escritorios virtuales. </WRAP>
+
+**__Conexión a la infraestructura para soporte remoto__  **
+
+Para acceder a la utilidad de soporte remoto de la infraestructura de Horizon realizaremos los siguientes pasos:
+
+1.- Desde un equipo con conexión o desde uno de los servidores de salto habilitados, utilizando un navegador, accedemos a la siguiente url: [[https://accesoptv.vdi.justicia.junta-andalucia.es/admin|https://accesoptv.vdi.justicia.junta-andalucia.es/admin]]
+
+2.- Hacemos login con las credenciales de nuestro usuario.
+
+Nota: Para poder acceder a la utilidad de soporte, nuestro usuario deberá pertenecer al siguiente grupo de directorio activo del dominio VDI: GVDISOPREM
+
+{{  :vdi_asistenciaremota_captura1.png?nolink&300  }}
+
+3.- Una vez logados en la página, hacemos click en la opción Departamento de soporte técnico, localizada en en menú lateral izquierdo.
+
+{{  :vdi_asistenciaremota_captura2.png?nolink&600  }}
+
+4.- En el cuadro de búsqueda buscamos al usuario a cuya sesión vamos a dar soporte. Para ello introducimos en el cuadro el login del usuario o el nombre y apellidos.
+
+{{  :vdi_asistenciaremota_captura3.png?nolink&600  }}
+
+Una vez localizado el usuario, hacemos click sobre él para acceder al detalle de sus sesiones.
+
+5.- Nos posicionamos en la pestaña Sesiones para localizar la sesión del usuario sobre la que queremos actuar. Si el usuario tiene alguna sesión iniciada en la plataforma, esta aparecerá listada y en la columna Estado, podremos conocer el estado actual de la misma:
+
+{{  :vdi_asistenciaremota_captura35.png?nolink&200  }}{{  :vdi_asistenciaremota_captura4.png?nolink&600  }}
+
+Hacemos click en el enlace de la sesión para acceder a los detalles de la misma.
+
+Dentro de los detalles de la sesión, disponemos de tres pestañas:
+
+**__Detalles__**  : Ofrece información sobre el tiempo de sesión, estado, indicadores de rendimiento, etc.,. Además ofrece al técnico la posibilidad de realizar diferentes acciones, como enviar un mensaje al usuario, desconectar o cerrar la sesión, ofrecer asistencia remota, etc.
+
+{{  :vdi_asistenciaremota_captura5.png?nolink&600  }}
+
+**__Procesos__**  : Lista los procesos que actualmente se están ejecutando en el VDI, además de ofrecer al técnico la opción de “matar” cualquiera de estos procesos
+
+{{  :vdi_asistenciaremota_captura6.png?nolink&600  }}
+
+**__Aplicaciones__**  : Lista las aplicaciones que se están ejecutando en el VDI en ese momento, además de ofrecer la opción de cerrar dichas aplicaciones.
+
+{{  :vdi_asistenciaremota_captura7.png?nolink&600  }}
+
+**__Uso de la asistencia Remota__  **
+
+Se describen los pasos para iniciar una sesión de asistencia remota con cualquier usuario de la infraestructura VDI para proporcionarle soporte.
+
+1.- Dentro de la consola de administración, hacemos click en la opción Departamento de soporte técnico, localizada en en menú lateral izquierdo. Utilizando el cuadro de búsqueda como ya conocemos, buscamos al usuario al que vamos a ofrecer soporte y lo seleccionamos.
+
+{{  :vdi_asistenciaremota_captura8.png?nolink&600  }}
+
+2.- Nos posicionamos en la pestaña Sesiones para localizar la sesión del usuario sobre la que queremos actuar y hacemos click sobre el enlace.
+
+{{  :vdi_asistenciaremota_captura9.png?nolink&600  }}
+
+3.- Dentro de los detalles de la sesión, nos desplazamos hasta localizar el botón de Asistencia remota. Hacemos click en él para iniciar el proceso.
+
+{{  :vdi_asistenciaremota_captura10.png?nolink&600  }}
+
+4.- Hacemos click en Aceptar para descargar el fichero de invitación a la asistencia remota.
+
+{{  :vdi_asistenciaremota_captura11.png?nolink&600  }}
+
+5.- La utilidad nos descargará el fichero de conexión. La primera vez que utilicemos la asistencia remota en el equipo, es posible que debamos abrir el fichero indicando la opción “Abrir siempre archivos de este tipo” de forma que a partir de ese momento este tipo de ficheros se abra automáticamente.
+
+{{  :vdi_asistenciaremota_captura12.png?nolink&600  }}
+
+6.- Paralelamente se le notificará al usuario a través de un mensaje en su sesión, que un técnico quiere conectar a su sesión, solicitando su consentimiento.
+
+{{  :vdi_asistenciaremota_captura13.png?nolink&600  }}
+
+7.- En el momento en el que el usuario acepte la conexión, se nos abrirá la ventana de asistencia remota desde la que veremos la sesión del usuario en tiempo real y podremos interactuar con el, utilizando el chat o tomando el control a través de las opciones del menú.
+
+{{  :vdi_asistenciaremota_captura14.png?nolink&600  }}
+
+8.- Para solicitar al usuario compartir el control de su sesión, deberemos hacer click en el botón Solicitar control.
+
+{{  :vdi_asistenciaremota_captura15.png?nolink&600  }}
+
+9.- Paralelamente y del mismo modo que ocurre con las solicitudes de asistencia, se informará y solicitará al usuario su consentimiento.
+
+{{  :vdi_asistenciaremota_captura16.png?nolink&600  }}
+
+10.- Una vez aceptada la solicitud podremos interactuar con la sesión del usuario con normalidad. Para devolver el control total al usuario, basta unicamente con que bien nosotros o bien el propio usuario haga click en el botón Dejar de compartir.
+
+{{  :vdi_asistenciaremota_captura17.png?nolink&600  }}
+
+11.- Para realizar tareas o cambios en la configuración del sistema que requieran elevación de permisos dentro de la sesión del usuario, nos valdremos del UAC de Windows y de las opciones Ejecutar como Administrador y Ejecutar como otro usuario, del mismo modo que lo haríamos en cualquier Windows.
+
+{{  :vdi_asistenciaremota_captura18.png?nolink&600  }}
+
+{{  :vdi_asistenciaremota_captura19.png?nolink&600  }}
+
+12.- Por último, para finalizar cualquier sesión de asistencia remota, basta con que nosotros, o el usuario, cerremos la ventana de Asistencia remota.
+
+</panel> </WRAP>
+
+<WRAP> <panel type="warning" title=" Problemas conocidos y asignaciones">
+
+^Incidencia/Petición  ^Grupo resolutor  ^Procedimiento  |
+|Kit Trabajo Remoto  |CAU  |[[:pag_procedimientos_vdi#usuario_con_problemas_para_configurar_herramientas_teletrabajo|Herramientas y manuales]]  |
+|Dragon Speaking|CAU/SACOEP|[[:pag_procedimientos_vdi#dragon_speaking|Ir]]|
+|Fallos Hardware  |DT/CRIP|NA  |
+|Certificado servidor VDI (pila gastada)|DP/CRIP  |[[:pag_procedimientos_vdi#error_de_certificado_al_conectar|Ir]]|
+|Datos locales migrados|DP/CRIP|[[:pag_procedimientos_vdi#acceso_datos_locales_migrados_del_puesto_fisico|Ir]]|
+|Autofirma y AutofirmaJA|CAU/Servicios VDI|Resuelto|
+|Certificados de usuario|CAU/Servicios VDI|En construcción|
+|Usuarios con dos monitores|Según casuística. DP/CRIP/Servicios VDI|[[:pag_procedimientos_vdi#usuarios_con_2_monitores|Ir]]|
+|Resolución de pantalla|Según casuística. DP/CRIP/Servicios VDI|[[:pag_procedimientos_vdi#usuarios_con_2_monitores|Ir]]|
+|Audio bajo|Según casuística. DP/CRIP/Servicios VDI|En construcción|
+|Sesión escritorio remoto finalizó|Según casuística. DP/CRIP/Servicios VDI  |[[:pag_procedimientos_vdi#la_sesion_con_el_escritorio_remoto_finalizo|Ir]]|
+|Impresoras y escáners  |Según casuística. DP/CRIP/Servicios VDI  |[[:pag_procedimientos_vdi#mapeo_de_impresoras|Ir]]  |
+|Rayas blancas y manchas en pantalla|Servicios VDI|[[:pag_procedimientos_vdi#se_visualizan_lineas_blancas_tras_la_virtualizacion|Ir]]|
+|USBs y pendrives|Servicios VDI|[[:pag_procedimientos_vdi#usbs_y_pendrives|Ir]]|
+|Grabación CD/DVDs|Servicios VDI|[[:pag_procedimientos_vdi#grabacion_de_cd_dvd|Ir]]|
+|Diraya|Servicios VDI|[[:pag_procedimientos_vdi#incidencia_con_la_aplicacion_diraya|Ir]]|
+|Búsqueda automática Windows|No resoluble|[[:pag_procedimientos_vdi#busqueda_automatica_windows|Ir]]|
+|Pantalla parpadea ocasionalmente|CRIP/DP|[[:pag_procedimientos_vdi#pantalla_parpadea_ocasionalmente|Ir]]|
+|Apertura PDFs con aplición no predeterminada|CAU|[[:pag_procedimientos_vdi#apertura_pdfs_con_aplicacion_no_predeterminada|Ir]]|
+|Firma solicita PIN tarjeta sin conectarse|CAU|[[:pag_procedimientos_vdi#firma_solicita_pin_tarjeta_sin_conectarse|Ir]]|
+|Problemas audio terminal UltraZero|DP/CRIP/Servicios VDI|[[:pag_procedimientos_vdi#problemas_audio_terminal_ultrazero|Ir]]|
+
+</panel> </WRAP> </panel>
+
+<WRAP> <panel type="info" title="Incidencias conocidas">
+
+==== Incidencias conocidas ====
+
+<WRAP><panel>
+
+=== Error de certificado al conectar ===
+
+Problema: Al encender el ordenador se indica que no se puede conectar al servidor por error de certificado, la conexión no es de confianza. Solución: Puede ocurrir por pérdidas repentinas de suministro eléctrico si la pila de la placa base está gastada. Deben acudir los técnicos in-situ para sustituir la pila del equipo y configurar fecha y hora correctamente en la BIOS. </panel></WRAP>
+
+<WRAP><panel>
+
+=== Usuario VDI sin manuales de configuración herramienta trabajo remoto ===
+
+Problema: Si el usuario ha sido migrado y contacta con CAU o DT/CRIP informando que no ha recibido el correo con los enlaces a manuales para configurar el trabajo remoto.
+
+Solución: Se asignará el ticket a Servicios Suministros adjuntando la resolución de trabajo remoto o la petición Remedy donde se gestionó el medio de trabajo remoto para el puesto físico.
+
+Una vez se conforme que el usuario tiene el trabajo remoto concedido, desde Servicios Suministros se solicitará la creación de la cuenta VPN mediante CAU. </panel></WRAP>
+
+<WRAP> <panel>
+
+=== Usuario con problemas para configurar herramientas trabajo remoto ===
+
+Problema: El usuario ha recibido correo con los enlaces a manuales para configurar el trabajo remoto pero no consigue configurar con las herramientas CheckPoint (VPN) o Horizon.
+
+Solución:
+
+  * Enlace del portal de capacitación a los manuales: [[https://capacitacion.justicia.junta-andalucia.es/|Portal capacitación]]
+  * Requisitos:
+      * Certificado Digital
+      * Sistema Operativo Windows 10 o superior
+  * Si el problema está relacionado con la configuración de CheckPoint (VPN)
+      * CAU comprobará si está dado de alta en VPN
+      * Si no está dado de alta, se seguirá la misma operativa descrita en el apartado anterior 'Usuario con problemas para configurar herramientas trabajo remoto'
+      * Si el usuario está dado de alta, se darán indicaciones al usuario de cómo configurar checkpoint según manual
+  * Si el problema está relacionado con la configuración de Horizon
+      * En primer lugar, el usuario debe establecer conexión VPN mediante CheckPoint
+      * Se darán indicaciones al usuario de cómo instalar y configurar la herramienta Horizon según el manual
+  * Si existe un problema masivo con el acceso al servidor de Horizon se asignará el ticket a Nivel 3 VDI.
+
+</panel>
+
+</WRAP>
+
+<WRAP><panel>
+
+=== Usuarios con 2 monitores ===
+
+Problema: Durante el proceso de migración, el técnico de implantación debe realizar la configuración de resolución de pantalla, pero en el caso que se presente alguna incidencia después de la migración, la configuración de la la resolución de la pantalla se debe realizar de forma presencial por técnico DT/CRIP directamente en el TTLos siguiendo estos pasos:
+
+  * Cuando se enciende el equipo, llegamos al punto en el que se abre el cliente Horizon y se solicita la contraseña del usuario. En este momento, pulsaremos la combinación de teclas Ctrl+Alt+t, lo que nos solicitará las credenciales de administrador para acceder a las opciones de configuración de ttlOS. Introducimos las credenciales de administrador de ttlOS.
+  * Tras pulsar en Aceptar, se activarán las opciones de escritorio del sistema ttlOS.
+  * Observamos que aparece la barra de tareas del sistema operativo, con el botón ttlOS que abre el acceso a las aplicaciones preinstaladas, así como una ventana de consola que se abre de forma automática.
+  * Como recomendación, indicar que se debería hacer clic con el botón derecho del ratón sobre la aplicación Vmware Horizon y seleccionar la opción minimizar.
+  * Una vez minimizado el cliente Vmware Horizon, accedemos al menú principal del sistema ttlOS, pulsando el equivalente al botón inicio en Windows (con el símbolo de TTLOS).
+  * Cuando accedamos al menú principal hay que hacer clic en 'Todas las aplicaciones' → Pantalla. Dentro de Pantalla desmarcamos el check con nombre 'Pantallas en espejo'.
+  * Ordenaremos las pantallas como está ubicadas en el puesto del usuario y seleccionamos cual será la pantalla primaria.
+  * Si resulta necesario, es en esta ventana donde tenemos que modificar la resolución de las pantallas que tiene instaladas el usuario. Las resoluciones que se apliquen en esta ventana, serán las que se trasladen al escritorio VDI.
+  * Aplicamos los cambios para guardar la configuración.
+
+</panel></WRAP>
+
+<WRAP><panel>
+
+=== La sesión con el escritorio remoto finalizó. ===
+
+Problema: se produce el cierre abrupto de sesión o directamente no se consigue inciar sesión en VDI y aparece el mensaje: **"LA SESIÓN CON EL ESCRITORIO REMOTO FINALIZÓ".**
+
+Comprobación a realizar por el técnico CAU o DT/CRIP:
+
+La causa principal suele ser el uso de una tarjeta criptográfica insertada en el equipo al momento de acceder a Horizon. Este comportamiento ocurre porque Horizon intenta autenticar el acceso al VDI mediante el certificado digital de la tarjeta, en lugar de las credenciales habituales del usuario. \\ Dado que este método de inicio de sesión no está configurado para acceder al escritorio virtual, el sistema cierra automáticamente la sesión como medida de seguridad. \\ Para evitar este inconveniente:
+
+  * **Iniciar sesión en Horizon sin tener conectada la tarjeta criptográfica.**
+  * Una vez que haya accedido correctamente al entorno virtual y pueda visualizar el escritorio del VDI, insertar la tarjeta criptográfica en el equipo.
+
+Este procedimiento asegura que la autenticación se realice correctamente y sin interrupciones en la sesión.
+
+**Otra comprobación a realizar es la conexión a la red.**  Si el equipo no tiene red no se iniciará la pantalla para introducir las credenciales mostrandose el error descrito anteriormente. </panel></WRAP>
+
+<WRAP><panel>
+
+=== Acceso datos locales migrados del puesto físico. ===
+
+Problema: hay que acceder a los datos locales que se han migrado del puesto físico durante la migración.
+
+Actuación a realizar por el técnico in situ de DT/CRIP:
+
+  * Cuando se finalice la instalación del sistema operativo ttlOS en el equipo del usuario, habrá que habilitar el acceso al disco de datos E: donde hemos creado la carpeta llamada 0, con la finalidad de restaurar los datos hacia el perfil del usuario en el escritorio VDI.
+  * Para ello, el usuario debe haber iniciado sesión por primera vez en el escritorio virtual, para lo que tendrá que introducir los datos de nombre de usuario y contraseña en el cuadro de diágolo de Vmware Horizon, que se abre tal como se inicia sesión. Deberá hacerlo siguiendo el siguiente esquema: NOMBRE DE USUARIO: [Dominio(provincia)\nombredeusuario] - Ej.- sevilla\respinarv CONTRASEÑA: [Contraseña de acceso al equipo]
+  * Una vez que el usuario ha accedido al escritorio virtual veremos el escritorio.
+  * En este momento, para poder acceder a compartir los datos almacenados en el disco duro del equipo de sobremesa, pulsaremos la combinación de teclas Ctrl+Alt + Ctrl+Alt+t, con lo que aparecerá un cuadro de diálogo, donde se solicita la contraseña del usuario administrador de TTLOS.
+  * Introduciremos la contraseña del administrador y pulsaremos aceptar, con lo que se abrirá una ventana de consola del sistema ttlOS y podremos ver la barra de tareas de dicho sistema.
+  * Haremos clic sobre el botón correspondiente a Vmware Horizon Client.
+  * Entonces accederemos a la ventana del cliente Horizon, y ya tendremos acceso a las opciones de configuración de éste.
+  * Haremos clic en las opciones de configuración, con lo que se abrirá una nueva ventana.
+  * En ella seleccionaremos la opción de Uso compartido de unidades (la tercera opción desde arriba).
+  * En esta ventana, haremos clic en Agregar, lo que nos llevará a una nueva ventana, donde elegiremos la carpeta a compartir y elevar al escritorio virtual.
+  * Seleccionaremos la carpeta '/' (última de la lista, encima de 'Otras ubicaciones'), lo que nos abrirá la raiz del sistema.
+  * Aquí seleccionaremos la carpeta llamada 'none', que se corresponde con los datos almacenados en el disco E: del ordenador de sobremesa.
+  * Haremos clic en el botón abrir, con lo que regresaremos a la pantalla inicial de las opciones de compartición de unidades, y donde ya aparece la carpeta que acabamos de agregar, entonces haremos clic en el botón Aplicar, y después en Aceptar.
+  * Una vez hemos aceptado el añadir la unidad, sólo nos queda hacer clic en el botón correspondiente al puesto de trabajo virtual,con lo que regresaremos a éste.
+  * La unidad añadida, aparece como una unidad de red conectada en el equipo.
+  * Cuando hayamos finalizado de copiar los datos del usuario en el escritorio virtual, habremos de desconectar la unidad que hemos añadido. Para ello, repetiremos el proceso hasta llegar a la ventana Uso compartido de unidades.
+  * Marcamos la unidad que añadimos previamente y hacemos clic en Quitar, saliendo del cuadro aplicando y aceptando los cambios. Luego, hacemos doble clic en el botón del Puesto de Trabajo Virtual y regresaremos al escritorio virtual ya sin la carpeta compartida.
+
+</panel></WRAP>
+
+<WRAP><panel>
+
+=== Grabación de CD/DVD ===
+
+Problema: Los usuarios por defecto no disponen de la aplicación para grabar CD/DVD.
+
+Se debe solicitar el permiso de grabación a Nivel 3 VDI. \\ **Modelos de gabadoras externas suportadas por VDI**:
+
+  * Asus, modelo SDRW-08D2S-U LITE
+  * Las peticiones de nuevas grabadoras por usuarios ya migrados se deben asignar en Remedy a Servicios Planificación.
+
+</panel></WRAP>
+
+<WRAP><panel>
+
+=== USBs y Pendrives ===
+
+<WRAP round important> Para cualquier incidencia relacionada con el funcionamiento de los pendrives, será necesario realizar una comprobación previa del estado físico de la red (rosetas, cableado, etc.) además de una revisión lógica (pérdida de paquetes, latencias, etc.). Esta revisión deberá documentarse y dejarse informada en el momento de asignar tiques Remedy al grupo de asignación Servicios/VDI. </WRAP>
+
+Problema: el escritorio VDI no reconoce el pendrive, presenta mal funcionamiento o se corrompen archivos.
+
+Comprobación que puede realizar el técnico in situ de DT/CRIP:
+
+  * Se necesitaría comprobar desde el menú de configuración en Horizon, que este leyendo correctamente el pen drive, las opciones de dispositivos USB estuvieran correctamente configuradas o si fuera necesario mapearlo desde la opción uso compartido exclusivo.
+  * Para realizar esto, en la ventana de Horizon, dar al icono que son 3 puntos, en la parte derecha de la barra que aparece en la parte superior de la pantalla.
+  * Una vez aquí, hacer clic en la primera opción de la parte izquierda 'Uso compartido de carpetas y unidades' y, una vez ahí seleccionar la pestaña 'Uso compartido exclusivo'.
+  * Cuando nos encontremos en este punto, veremos que más abajo aparece 'Seleccionar escritorio remoto de destino', seleccionamos 'Puesto_Trabajo_Virtual' y, a la derecha del mismo, veremos que pone 'Seleccione las unidades de almacenamiento local que desea redireccionar', seleccionamos la unidad a la que deseamos acceder y hacemos clic al slide que hay a su derecha, para que pase de estado 'Desactivado' a estado 'Activado'.
+  * Una vez hecho esto, el usuario ya tendrá acceso a su memoria USB.
+
+</panel></WRAP> <WRAP> <panel>
+
+=== Mapeo de Impresoras ===
+
+CAU debe identificar si la incidencia es con la impresora local o impresoras de red.
+
+  * Si es una impresora de red, hay que reiniciar y si sigue sin aparecer pasar a Servicios/VDI indicando que es una impresora de red para verificar porque no se mapean las impresoras definidas en el grupo de impresión.
+
+  * Si es una impresora local: Si la impresora se apaga por el ahorro de energía o presenta algún problema de impresión de caracteres extraños:
+
+''Será necesario instalar la impresora en red en el servidor de impresión.''
+
+Para otro tipo de incidencias:
+
+  * Si se trata de las fotocopiadoras de las DDPP: Se está analizando como replicar la configuración de un puesto físico.
+
+  * **Drivers**: En la maqueta están los drivers genéricos de las impresoras. Se necesita el driver específico sólo para utilizar características concretas de la impresora, con el genérico deben funcionar. Si es necesario instalar un nuevo driver hay que solicitarlo a Servicios/VDI via ticket Remedy.
+__Información que puede ser relevante para escalar la incidencia__, a modo de ejemplo:
+
+  * ¿Se trata de una impresora local?
+  * ¿Cuál es la marca y el modelo?
+  * ¿Es de red?
+  * ¿Ha funcionado anteriormente?
+
+</panel>
+
+</WRAP> <WRAP><panel>
+
+=== Dragon Speaking ===
+
+Problema: La aplicación Dragon Speaking no funciona en los puestos Virtualizados.
+
+Solución: La aplicación instalada en el entorno VDI como alternativa es Windows Talk y su funcionamiento es con WordPAD. </panel></WRAP> <WRAP><panel>
+
+=== Incidencia con la aplicación DIRAYA ===
+
+Problema: En la aplicación Web Diraya no se visualizan algunos informes con el navegador Edge o Internet Explorer, se muestra la ventana en blanco.
+
+Workaraound: Los informes se visualizan si se abren con Adobe o se imprimen con PDF Creator. </panel></WRAP> <WRAP><panel>
+
+=== Se visualizan líneas blancas tras la virtualización ===
+
+Problema: Tras la virtualización de algunos modelos de equipos W10 aparecen líneas blancas por incompatibilidad con el controlador de video.
+
+Solución: Resuelto a partir de la versión 14 de ttlOS. Actualizar a alguna versión superior.. </panel></WRAP>
+
+<WRAP><panel>
+
+=== Búsqueda automática Windows ===
+
+Problema: La búsqueda automática no funciona.
+
+Solución: No es un problema resoluble, hay problemas de compatibilidad con UAC y éste es necesario para el soporte remoto. </panel></WRAP>
+
+<WRAP><panel>
+
+=== Pantalla parpadea ocasionalmente ===
+
+Problema: Hasta la versión justiciaja_v1-r15 se usó el controlador libre para Nvidia nouveau y desde la versión justiciaja_v1-r16 se usa el controlador propietario Nvidia 470.X para compatibilidad con gráficas GT710.
+
+El problema es que la **gráfica G210 sólo es compatible con la versión 340.X**  y ya no tiene el controlador nouveau.
+
+Solución:
+
+Para solucionar este tipo de incidencia en primera instancia, se acuerda que hasta encontrar una solución más óptima por parte del fabricante del SO, lo mejor es que en estos equipos se fije la versión justiciaja_v1-r15 desde el panel web para que no se actualicen:
+
+  - Plataformar el equipo con ttlOS de nuevo e impedir que se actualice.
+  - Abrir un navegador y escribir la dirección IP del terminal.
+  - Iniciar sesión con las credenciales de root.
+  - Pulsar sobre la pestaña Control.
+  - Seleccionar Actualizaciones.
+  - En el campo Nueva versión escribir justiciaja_v1-r15.
+
+</panel></WRAP>
+
+<WRAP> <panel>
+
+=== Apertura PDFs con aplición no predeterminada ===
+
+Problema: El usuario quiere abrir PDFs con una aplicación como Adobe pero se le abren con otra, como Chrome.
+
+Solución:
+
+El usuario tiene la posibilidad de abrir un pdf con otra aplicación, haciendo click con el botón derecho sobre el fichero y eligiendo la aplicación con la que desea abrirlo. \\ {{  :vdi_apertura_pdfs_adobe.png?400  }}
+
+Ahora, si es el aplicativo el que lanza la apertura del pdf y no especifica con qué programa quiere abrirlo, para saltarse la asociación por defecto, el sistema lo va a abrir con la aplicación predeterminada, y no va a preguntar al usuario.
+
+La forma de hacer que preguntase al usuario sería quitar la configuración que asocia el PDF al Chrome, pero en ese caso, preguntaría siempre, incluido cuando se trabaje desde Adriano o desde otras aplicaciones.,( o hasta que el usuario vuelva a asociarla a una aplicación, marcando el check de "Abrir siempre con esta aplicación").
+
+</panel> </WRAP>
+
+<WRAP> <panel>
+
+=== Firma solicita PIN tarjeta sin conectarse ===
+
+Problema: Aunque el certificado digital instalado a veces funciona correctamente, en algún momento se requiere introducir el PIN de una tarjeta que no se ha introducido en el equipo.
+
+Solución:
+
+Es necesario "resetear" la parte del perfil del usuario correspondiente al almacén de certificados y al Autofirma, dado que por el comportamiento parece estar corrupto. Para ello, habrá que renombrar los archivos siguientes y reiniciar la sesión del usuario y volver a instalar el certificado digital.
+
+{{  :vdi_certificado_almacen.png?nolink&600  }}{{  :vdi_autofirma.png?nolink&600  }}
+
+</panel> </WRAP>
+
+<WRAP> <panel>
+
+=== Problemas audio terminal UltraZero ===
+
+**__Problema__**  : Carga de estática en la tarjeta de sonido de los terminles UltraZero. Esto hace que no se reproduzca sondio en el equipo.
+
+**__Actuación__**  : Es un problema conocido de la versión 17 del sistema operativo, la forma de proceder será:
+
+1. Reiniciar terminal (NO desconectar corriente). 2. Abrir una terminal y ejecutar el comando "dmesg". 3. En caso de mostrar avisos en color rojo cómo el siguiente será necesario avisar a SACOEP en esp.vdi.ius@juntadeandalucia.es
+
+SACOEP coordinará intervención con el adjudicatario para tratar de resolver el problema con una nueva versión de SO.
+
+Es importante tener un USB con la última versión estable por si hiciese falta remaquetar el terminal. {{  :vdi_audioultrazero.png?nolink&600  }}
+
+</panel> </WRAP> </panel></WRAP>
+
+

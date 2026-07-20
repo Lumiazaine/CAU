@@ -1,0 +1,32 @@
+﻿
+<WRAP> 
+<panel type="primary" title="Indicar el nombre del Sistema de Información"> 
+
+Escribe una descripción... o elimínalo\\
+Tener en cuenta renombrar las páginas con la estructura común. Por ejemplo: pag_apli:wifi:start y pag_apli:wifi:problemas
+
+<WRAP> 
+<panel type="info" title="Acceso">
+  * **URL:** 
+  * **Contacta:** 
+  * **Formulario:** 
+  * **BBDD:** 
+</panel>
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Capacitación">
+  * [[https://capacitacion.justicia.junta-andalucia.es/|Cursos y Manuales de Usuario]]
+  * [[https://videos.justicia.junta-andalucia.es/|Contenidos en video]]
+  * [[https://capacitacion.justicia.junta-andalucia.es/mod/glossary/view.php?id=196|Preguntas frecuentes (Portal de Capacitación)]]
+</panel>
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Procedimientos y Problemas Conocidos">
+  * [[pag_apli:active_directory:problemas|Procedimientos y Problemas Conocidos]] ---------------- Tener en cuenta que hay que cambiar el nombre de esta página. --------------------------
+</panel>
+</WRAP>
+
+</panel> 
+</WRAP>

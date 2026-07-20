@@ -1,0 +1,17 @@
+﻿
+<WRAP> <panel type="primary" title="Proyectos en Curso">
+
+  * [[:pag_ciberj|CiberSeguridad]]
+      * {{mdi>cogs}} [[:pag_hgis|HGIS]]
+      * {{mdi>cogs}} [[:pag_portal|Portal Adriano]]
+  * [[:pag_dici|Dicireg]]
+  * [[:pag_digi|Digitalización RRCC]]
+  * [[:pag_interoperabilidad|Interoperabilidad]]
+  * [[:pag_sede|Nueva Sede Judicial Electrónica]]
+  * [[:pag_rpa|RPA - Automatización de Procesos]]
+  * [[:pag_textu|Textualización]]
+  * [[:pag_vdi|VDI]]
+
+</panel> </WRAP>
+
+

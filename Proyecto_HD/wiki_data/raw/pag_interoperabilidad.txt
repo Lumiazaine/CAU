@@ -1,0 +1,45 @@
+﻿
+<WRAP> 
+<panel type="primary" title="Interoperabilidad">
+
+<WRAP> 
+<panel type="info" title="Descripción">Plataforma transversal que comprende herramientas para facilitar múltiples capacidades de comunicación y/o seguridad, este nodo incorporará las integraciones que implementarán toda la interoperabilidad de la sectorial de Justicia en Andalucía.</panel>
+ </WRAP>
+
+<WRAP> 
+
+ </WRAP>
+
+
+<WRAP> 
+<panel type="info" title="Procedimientos">
+
+  * [[:pag_inte_1|Herramientas de Implantación]] para información sobre las herramientas NIJA.
+  * [[:pag_inte_2|Modelo de Relación con NIJA]] para realizar peticiones de trabajo con el equipo NIJA.
+
+</panel>
+ </WRAP>
+
+<WRAP>
+
+ </WRAP>
+
+<WRAP> 
+<panel type="info" title="Referencia normativa de integración">
+
+La normativa de integración descrita por OTIJ se encuentra en la siguiente página que contiene el libro blanco: [[:pag_procedimientos_generales:libro_blanco|enlace directo]], sección 2 del documento.
+
+</panel>
+ </WRAP>
+<WRAP> 
+<panel type="info" title="Contacta"> 
+
+  * [[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_contactos#interoperabilidad|Contactos Interoperabilidad]]
+
+</panel>
+ </WRAP>
+
+
+{{tag>novalidada}}
+
+

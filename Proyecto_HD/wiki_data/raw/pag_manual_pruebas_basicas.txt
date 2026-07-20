@@ -1,0 +1,50 @@
+﻿
+====== Manual Básico – Sin Conexión a Internet ======
+
+**Objetivo**: Ayudar al usuario a realizar comprobaciones rápidas antes de notificar una incidencia.
+
+===== 1. ¿Es un problema general o solo tuyo? =====
+  * Pregunta a tus compañeros:
+    - ¿Tienen conexión?
+      - [ ] Sí → Revisa tu equipo.
+      - [ ] No → Puede ser un fallo general. Informa al soporte.
+
+===== 2. Comprueba tu conexión =====
+
+=== Si estás conectado por cable: ===
+  * Asegúrate de que el cable esté bien conectado.
+  * Verifica que el conector del equipo tenga luz (verde o naranja).
+
+=== Si estás por Wi-Fi: ===
+  * Confirma que estás conectado a la red corporativa.
+  * Si ves poca señal, acércate al punto de acceso.
+
+===== 3. Revisa el icono de red (abajo a la derecha) =====
+  * ❌ X roja → No hay conexión → Verifica cable o Wi-Fi.
+  * ⚠️ Triángulo amarillo → Conectado sin acceso → Prueba reiniciar la red.
+
+**¿Qué puedes hacer?**
+  * Desconecta y vuelve a conectar el cable o la red Wi-Fi.
+  * Reinicia el equipo si persiste el problema.
+
+===== 4. Prueba a abrir una web básica =====
+  * Intenta acceder a https://www.google.com
+  * Si no carga nada → continúa con el siguiente paso.
+
+===== 5. Si sigue sin funcionar =====
+
+Recoge esta información antes de llamar al soporte:
+
+  * Hora en que empezó el fallo.
+  * Cómo estás conectado: cable o Wi-Fi.
+  * ¿Estás trabajando desde casa o en la oficina?
+  * ¿Otros compañeros están afectados?
+
+===== 6. Contacta con Soporte Técnico =====
+
+  * Indica claramente:
+    - Que no tienes conexión.
+    - Lo que ya has comprobado.
+    - La información anterior.
+
+

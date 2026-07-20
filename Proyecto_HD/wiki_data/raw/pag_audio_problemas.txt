@@ -1,0 +1,205 @@
+﻿
+<WRAP> <panel type="primary" title="Procedimientos y Problemas Conocidos Sistemas Audiovisuales">
+
+[[start|Volver atrás]]
+
+<WRAP>
+<panel type="info">
+
+====== Procedimiento alta para usuarios OOJJ ======
+
+Descripción del alta para usuarios en la aplicación.
+
+</panel>
+
+<panel type="info">
+
+====== Procedimiento alta para técnicos  ======
+
+Descripción del alta para técnicos en la aplicación.
+
+</panel> 
+<panel type="info">
+<WRAP info round box>
+====== Procedimiento alta para Profesionales======
+</WRAP>
+En este apartado veremos como dar de alta a profesionales como abogados, procuradores etc.. a el aplicativo de Arconte, las incidencias puede ser que venga ya porque haya que dar de alta al usuario en su nuevo destino o porque el usuario esta mal creado y no puede realizar su correcto funcionamiento.
+
+El error que crea la incidencia normalmente es que al crear el usuario el sistema de forma automática le asigna un identificador invalido al usuario el cual debería de ser su NIF en cambio le asigna una cadena de números no correspondiente con el NIF y el sistema al intentar acceder no le reconoce.
+
+Incidencia de ejemplo: IN0000002455129, IN0000002454930 y IN0000002454865
+
+Para solucionar el error, tanto como dar de alta como para realizar modificaciones es el mismo procedimiento.
+
+Tenemos varias tablas claves para la solución de este tipo de incidencias: **(PROD02)**
+
+
+**PROFS_ADRIANO.tabla_abogados_dist**
+
+**PROFS_ADRIANO.tabla_procuradores_dist**
+
+**PROFS_ADRIANO.tabla_otros_org_dist**
+
+**PROFS_ADRIANO.tabla_otros_repres_dist**
+
+
+Si nos fijamos todas las tablas acaban en **_dist** que hace referencia a la tabla de donde Arconte recoge los datos al final del día para crear/modificar usuarios.
+
+Debemos de identificar que tipo de usuario es el que se indica en la incidencia si es abogado, procurador o otros, para seleccionar la tabla de forma correcta.
+
+Para realizar la modificación de un abogado realizamos el siguiente procedimiento:
+
+1- Comprobamos que está creado y se comparan los datos del usuario con los datos que nos aportan en la incidencia:
+
+**select * from PROFS_ADRIANO.tabla_abogados where identificativo='DNI del usuario' ;**
+
+2- Comprobamos que el código del colegio es correcto con la siguiente consulta (Esto es solo comprobaciones previas):
+
+**select * from PROFS_ADRIANO.colegios_abogados where C_COD_COLEGIO = 'XXXXXX';**
+
+3- El siguiente paso sería realizar el insert en la tabla PROFS_ADRIANO.tabla_abogados_dist de donde arconte cogerá los datos y modificará el usuario.
+
+**Insert into PROFS_ADRIANO.tabla_abogados_dist (ABOGADO,NOMBRE,PRIMER_APELLIDO,SEGUNDO_APELLIDO,IDENTIFICATIVO,COLEGIO_PROFESIONAL,NUMERO_COLEGIO,SITUACION_LEXNET,ACCION,
+F_CARGA,X_ABOGADO)
+ values('ABOGADO','NOMBRE','PRIMER_APELLIDO','SEGUNDO_APELLIDO','IDENTIFICATIVO','COLEGIO_PROFESIONAL','NUMERO_COLEGIO','A','A',to_date
+('23/10/25','DD/MM/RR'),'X_ABOGADO');**
+
+ 4-Para encontrar el X_ABOGADO debemos de mirar en la tabla  **select * from PROFS_ADRIANO.tabla_abogados_dist **y encontrar el último que se insertó para realizar nosotros el insert con el X_ABOGADO siguiente al último.
+
+</panel> 
+
+<panel type="info">
+<WRAP info round box>
+====== Procedimiento de Multiconferencia (Reserva de Sala – RCJA) ======
+</WRAP>
+
+
+===== 1. A tener en cuenta =====
+<WRAP important round box>
+  * Procedimiento para solicitar multiconferencias utilizando los equipos de videoconferencia de la Red Judicial de Andalucía.
+  * La RCJA no garantiza recursos por adelantado: solo es válida cuando confirma la reserva.
+  * Para asegurar la disponibilidad, se recomienda solicitarla con 24 horas de antelación (mínimo administrativo actual).
+</WRAP>
+=====  2. Petición de Multiconferencia (Requisitos y Datos Obligatorios) =====
+**Requisitos para admitir la petición**
+  - Debe solicitarla un usuario de la Red Judicial de Andalucía.
+  - Uno de los participantes debe ser un equipo de videoconferencia de la propia Red Judicial.
+  - Debe tratarse de una multiconferencia (más de dos participantes).
+**Quién puede iniciar la petición**
+  - CAU/CSU
+  - Delegaciones Provinciales (DDPP)
+  - Cualquier departamento del Servicio de Informática
+**Datos obligatorios que deben incluirse en Remedy**
+  - Fecha y hora de inicio
+  - Hora de fin
+  - Número de participantes IP
+  - Número de participantes RDSI
+  - Datos de máquinas RDSI (número y extensión)
+  - Datos de máquinas IP (IP, extensión/alias)
+  - En equipos de la Red Judicial: sede y alias
+  - Datos del responsable de la sede (nombre, apellidos, teléfono, email)
+**Otros requisitos**
+  - Si desean prueba previa, se debe especificar fecha y franja horaria.
+  - Debe incluirse como participante el equipo del Juzgado que abre la incidencia.
+  - Es obligatorio adjuntar el formulario del Portal Adriano / Infosistemas como primer adjunto antes de asignar a Nivel 3 RCJA.
+
+===== 3. Clasificación y Tipología =====
+<WRAP tip round box>
+  * Se clasifican como Peticiones, criticidad normal.
+  * Clase / Tipo / Categoría: **Audiovisuales → Videoconferencia → Multiconferencia**
+</WRAP>
+
+===== 4. Asignación y Prioridad =====
+  - Las peticiones se asignan directamente a Nivel 3 / RCJA Videoconferencia.
+  - RCJA envía a CSU los datos completos de la sala (nº de sala, PIN, etc.).
+  - CSU: 
+    * Copia esta información al diario de la petición.
+    * Añade instrucciones de conexión (RDSI/IP).
+    * Informa al usuario.
+    * Cierra la petición.
+**Instrucciones habituales añadidas por CSU**
+  - Cómo marcar desde RDSI.
+  - Cómo marcar desde IP dentro de la red corporativa o desde fuera.
+  - Indicación del PIN de reunión.
+
+===== 5. Restricciones y Plazos =====
+<WRAP tip round box>
+  - No se admiten peticiones con menos de 72 horas de antelación.
+  - La confirmación se dará en las 24 horas siguientes.
+  - Solo se aceptan solicitudes urgentes con menos plazo si proceden de técnicos de Delegaciones Territoriales→ se clasificarán como Urgentes.
+</WRAP>
+=====  6. Contacto Nivel 3 – RCJA Videoconferencia =====
+  * Correo: videoconferencia.rcja@juntadeandalucia.es
+  * Teléfono 24x7: 360999 – 955060999
+
+</panel>
+
+
+<panel type="info">
+
+<WRAP info round box>
+====== Conexión con Centros Penitenciarios desde Arconte ======
+</WRAP>
+Los centros penitenciarios utilizan un sistema propio para establecer sesiones de videoconferencias
+llamado **LifeSizeCloud**.
+Para establecer una llamada con ellos, primero debemos contactar para que nos faciliten el número
+de la sesión (room) al que debemos llamar desde la pantalla de grabación de la Sala. Este número de
+sesión tendrá el siguiente formato:
+**xxxxxx@lifesizecloud.com**
+Y lo añadiremos al cuadro de llamadas de la pantalla de grabación.
+
+{{:pag_audio:conexion_centro_penitenciario_arconte.png?400|}}
+
+De esta forma la Sala se conectará como si de un participante más se tratara.
+
+</panel> 
+
+<panel type="info">
+
+====== Procedimiento de recorte de vídeo no firmado en Arconte ======
+
+En este procedimiento se explican los requisitos y condiciones que se deben cumplir para tramitar un recorte de un vídeo grabado con los Sistemas de Grabación Arconte Aurea.
+
+Para iniciar el proceso, el Órgano debe enviar un formulario de modificación de Procedimientos, firmado por su Responsable, indicando que solicita un recorte, identificando el vídeo y el tramo de grabación a recortar.
+
+Condiciones para poder tramitar el recorte:
+
+    1. El vídeo no debe estar firmado. Un vídeo firmado constituye un Acta Judicial y requiere de otro proceso más complejo para poder tramitar su modificación.
+       
+    2. Solo se realizan recortes en los inicios, finales y recesos, que es donde se producen grabaciones ajenas a la Vista o declaración. No se realizan recortes de partes integrales de las Vistas. En este caso, deberá ser revisado por Procesal y Jefatura antes de su tramitación.
+       
+    3. Solo se realizan recortes, no se realizan otro tipo de modificación total o parcial de las grabaciones.
+
+
+Si no se cumple alguna de las condiciones, se rechazaría la petición y se devolvería a usuario.
+
+Es el equipo de Sistemas Audiovisuales el encargado de valorar las peticiones y tramitarla al nivel experto (Nivel 3 Fujitsu Arconte) qué realizará la modificación.
+
+Es importante entender que las grabaciones originales nunca se eliminan, sino que son retiradas del circuito de control del usuario, quedando como no accesibles. El vídeo recortado se añade al Procedimiento con las mismas características temporales que el original.
+
+El flujo de tramitación sería el siguiente:
+
+{{:pag_audio:flujo_recorte_video_no_firmado.png?400|}}
+
+
+</panel> 
+
+<panel type="info">
+
+====== Documentación de interés SSVV ======
+
+  * [[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/download/QueHacemos/Planificación/Planificación_Planificación Sala de Vistas/Enlaces de interés/WebHome/DATOS_VIDEOBOX_V1.69.xlsx|Listado VideoBox actualizado.]]
+  * [[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/download/QueHacemos/Planificación/Planificación_Planificación Sala de Vistas/Enlaces de interés/WebHome/Resumen_Descarga_Portales_Arconte_Aurea_202501ENERO25.ods|Seguimiento Descarga Portal Arconte AUREA]]
+  * [[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/download/QueHacemos/Planificación/Planificación_Planificación Sala de Vistas/Enlaces de interés/WebHome/ARCONTE_ARQUITECTURA_COMUNICACIONES v2.2.pdf|Definición Arquitectura AUREA]]
+  * [[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/download/QueHacemos/Planificación/Planificación_Planificación Sala de Vistas/Enlaces de interés/WebHome/Modelos de Conexionado Aurea V9.pdf|Modelos de Conexionado AUREA]]
+  * [[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/download/QueHacemos/Planificación/Planificación_Planificación Sala de Vistas/Enlaces de interés/WebHome/Guia_Relaciones_v1.1 .pdf|Guía Relaciones AUREA]]
+  * [[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/download/QueHacemos/Planificación/Planificación_Planificación Sala de Vistas/Enlaces de interés/WebHome/Guia_Videoconferencia_v1.1.pdf|Guía Vídeoconferencia AUREA]]
+  * {{:CTEAJE-VID-Datos videoconferencias v1.1_20250604.xlsx|Conexión videoconferencia CCAA + contactos GC y CPN.}}
+ 
+
+</panel> 
+</WRAP>
+
+[[start|Volver atrás]]
+
+{{tag>validado}}

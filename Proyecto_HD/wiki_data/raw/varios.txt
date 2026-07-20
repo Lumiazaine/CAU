@@ -1,0 +1,17 @@
+﻿
+====== Varios ======
+
+  * [[:sedes-oragrid|Bckp sedes - oragrid]]
+  * [[:gtab_sscc|Monit. SSCC]]
+  * [[:gtab_nagios|GTAB - NAGIOS]]
+  * [[:gtab_macj|GTAB - MACJ ]]
+  * [[:gtab_unisede|GTAB - Unif Sede]]
+  * [[:gtab_recadrippnngtab|RecAdriPPNN]]
+  * [[:gtab_discos|Ampliar disco]]
+  * [[:gtab_rev_backups|Revisión diaria de backups]]
+  * [[:storage_sscc|Almacenamiento SSCC]]
+  * [[:storage_macj|Almacenamiento MACJ]]
+  * [[:gtab_integrity|Integrity]]
+  * [[:lack_of_space|Falta de espacio en discos]]
+
+

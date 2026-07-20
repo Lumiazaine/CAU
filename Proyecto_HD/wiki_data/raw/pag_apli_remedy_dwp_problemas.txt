@@ -1,0 +1,42 @@
+﻿
+<WRAP> <panel type="primary" title="Procedimientos y Problemas Conocidos de BMC Remedy DWP.">
+
+[[start|Volver atrás]]
+
+<WRAP>
+<panel type="info">
+
+====== Procedimiento alta para usuarios OOJJ ======
+
+Descripción del alta para usuarios en la aplicación.
+
+</panel>
+
+<panel type="info">
+
+====== Procedimiento alta para técnicos  ======
+
+Descripción del alta para técnicos en la aplicación.
+
+</panel> 
+
+<panel type="info">
+
+====== Nombre procedimiento problema conocido 1 ======
+
+Descripción problema conocido 1
+
+</panel> 
+
+<panel type="info">
+
+====== Nombre procedimiento problema conocido 2 ======
+
+Descripción problema conocido 2
+
+</panel> 
+</WRAP>
+
+[[start|Volver atrás]]
+
+{{tag>novalidada}}

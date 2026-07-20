@@ -1,0 +1,24 @@
+﻿
+==== Problema acceso webs corporativas ====
+Última modificación por **Administrador Sistemas** el *jue, 12 nov 2020 08:51:05*  
+
+Este problema se presenta cuando desde la **red interna de una sede** se puede acceder a la red de justicia a través del túnel **VPN**, pero las conexiones directas a **RCJA/Ministerio** no funcionan.  
+
+Se debe comprobar:  
+  * Que **sí** se dispone de acceso a webs internas de Justicia (ejemplo: escritorio).  
+  * Que **no** se dispone de acceso a [www.juntadeandalucia.es](http://www.juntadeandalucia.es).  
+
+Este problema se debe a un **error en la configuración del Router de la sede**.  
+
+----
+
+==== Procedimiento de resolución ====
+
+  1. Abrir incidencia en **SIO**:  
+     [[http://sioweb.juntadeandalucia.es/rcja/sio/shared/login.jsp?/rcja/sio|Acceso a SIO]]
+
+  2. Hacer referencia a una incidencia similar **[HD949495]**, indicando el error ahora en la nueva sede.  
+
+  3. Notificar en **Remedy** el proceso seguido:  
+     - "Creamos incidencia a RCJA. HD000000XXXXXX. Se ha perdido el enrutamiento hacia la red interna en el router."  
+

@@ -1,0 +1,38 @@
+﻿
+
+<WRAP> 
+<panel type="primary" title="Orfila"> 
+
+Orfila es la aplicación de los Institutos de Medicina Legal y Ciencias Forenses (IMLCF) para realizar actividades de carácter administrativo, médico y de intercambio de información.
+
+
+<WRAP> 
+<panel type="info" title="Acceso">
+  * **URL:** https://pubwebseal.justicia.es/isam/sps/auth
+  * **Contacta:** 
+  * **Formulario:**    Enlace a carpeta de red
+  * **BBDD:** 
+</panel>
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Capacitación">
+  * [[https://capacitacion.justicia.junta-andalucia.es/|Cursos y Manuales de Usuario]]
+  * [[https://videos.justicia.junta-andalucia.es/|Contenidos en video]]
+  * [[https://capacitacion.justicia.junta-andalucia.es/mod/glossary/view.php?id=196|Preguntas frecuentes (Portal de Capacitación)]]
+</panel>
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Procedimientos y Problemas Conocidos">
+  * [[pag_apli:orfila:problemas|Procedimientos y Problemas Conocidos]] 
+</panel>
+</WRAP>
+
+</panel>
+ 
+</WRAP>
+
+{{tag>validada}}
+
+

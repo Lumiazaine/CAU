@@ -1,0 +1,1392 @@
+﻿ 
+ 
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+
+<HTML>
+
+<head>
+	<title>Adriano Comun</title>
+	<LINK href="css/general.css" rel="stylesheet" type="text/css">
+
+	<!-- [Biblioteca de Actualizacion de Condiciones de Busqueda] -->
+	<script language="javascript" src="js/JS_condiciones.js"></script>
+	<!-- [Biblioteca de CheckBox] -->
+	<script language="javascript" src="js/JS_checkbox.js"></script>
+	<!-- [Biblioteca de Ordenacion por columnas de una tabla] -->
+	<script language="javascript" src="js/JS_ordenar.js"></script>
+	<script language="javascript" src="js/popup.js"></script>
+	<script language="javascript" src="js/JS_validacion.js"></script>	
+	
+	<script language="Javascript" type="text/javascript">
+		
+	// -------------------------------------------------------------------
+	// -------------------------------------------------------------------
+	// ACCIONES POSIBLES DEL FORMULARIO
+	// -------------------------------------------------------------------
+	// -------------------------------------------------------------------
+	
+	function selecciona(obj)
+	{
+		if(obj.checked == true)		obj.value = '1';
+		else						obj.value = '0';	
+	}
+	
+	
+	function estableceChecks()
+	{
+		var f = document.forms[0];
+		chequea(f.organismoHijo);
+	}
+	
+	function estableceChecksListado(){
+	
+		var f = document.forms[1];
+		chequea(f.listadoOrganismoHijo);
+	}
+		
+	function chequea(obj)
+	{
+		if(obj.value == '1')		obj.checked = true;
+		else						obj.checked = false;
+	}	
+		
+	function actualizar()
+	{
+		var f= document.forms[0];
+		f.partidoJudicial.value = f.codigoPartidoJudicial.options[f.codigoPartidoJudicial.selectedIndex].text;
+		f.municipios.value = f.codigoMunicipioPart.options[f.codigoMunicipioPart.selectedIndex].text;
+		f.accion.value = "actualizar";
+		f.submit();
+	}
+
+	function ocultarConsulta()
+	{
+		var f= document.forms[0];
+		f.busquedaAbierta.value = "false";
+		f.organismo.value = f.codigoOrganismo.options[f.codigoOrganismo.selectedIndex].text;
+		var obj = document.getElementById("consulta");
+		obj.style.display ="none";
+	}
+		
+	function consultaMunicipios()
+	{
+		var f = document.forms[0];
+		var random_num = (Math.round((Math.random()*1000000000000)+1));
+					
+		var url = "UsuarioEleccionMunicipio.do?nocache=" + random_num;
+
+		CreateWnd(url, 500, 580, true);
+	}
+	
+
+	
+	function listadoUsuarios()
+	{
+		var f = document.forms[0];
+		f.accion.value ="listado";
+		f.submit();
+	}
+	
+	function chequearUsuarioActivo()
+	{
+	  var f1 = document.forms[1];
+	  f1.activos.checked = "true";
+	}
+	
+	function funcionariosOrganismo()
+	{
+		var f = document.forms[0];
+		window.location.href = 'servlet/InformeServlet?codigo=' +  f.codigoOrganismo.value + '&descripcion=' +  f.organismo.value;
+	}
+
+	
+	function limpiar()
+	{
+		document.forms[0].accion.value = "limpiar";
+		document.forms[0].submit();
+	}
+
+	function limpiarDos()
+	{
+		var usuarios = "[com.ius.temis.beans.Usuario@74e12621]";
+		var mensaje = "false";
+	
+		var f = document.forms[1];
+		f.nombre.value="";
+		f.apellidos.value="";
+		f.usuario.value="";
+		if (f.noResultados.value=="true" || f.mayor.value=="true")
+			mensaje="true";
+		if (usuarios!="null" || mensaje=="true")
+		{
+		    //f.accion.value="limpiar";
+			f.accion.value="limpiarDos";
+			f.submit();	
+		}
+	}
+	
+	function limpiarListado(){
+		var f = document.forms[1];
+		if((f.codigoProvincia.value=="" || f.codigoProvincia.value=="null")
+			&& (f.codigoInformePartidoJudicial.value=="" || f.codigoInformePartidoJudicial.value=="null"))
+		{
+		f.codigoEstado.value = "N";
+		f.codigoCargo.value = "";
+		f.codigoProvincia.value = "";
+		f.codigoInformePartidoJudicial.value = "";
+		f.codigoInformeMunicipio.value = "";
+		f.codigoInformeOrganismo.value = "";
+		f.codigoInformeTipoOrganismo.value = "";
+		}
+		else
+		{
+			f.codigoInformeTipoOrganismo.value = "";
+		    f.accion.value="limpiarListado";
+		    f.target="";
+			f.submit();
+		}
+		
+	}
+
+  	function cerrar(f)
+	{
+		document.forms[0].accion.value = "cerrar";
+		document.forms[0].submit();
+	}
+	
+	function buscar()
+	{
+		var f = document.forms[0];
+		var codPartidoJudicial = f.codigoPartidoJudicial.options[f.codigoPartidoJudicial.selectedIndex].value;
+		var codigoMunicipioPart = f.codigoMunicipioPart.options[f.codigoMunicipioPart.selectedIndex].value;
+		var codOrganismo = f.codigoOrganismo.options[f.codigoOrganismo.selectedIndex].value;
+	    var codTipoOrganismo = f.codigoTipoOrganismo.options[f.codigoTipoOrganismo.selectedIndex].value;
+		
+		if ( codPartidoJudicial != "" &&  codigoMunicipioPart != "" && codOrganismo != "" && codTipoOrganismo!="")
+		{
+		    f.accion.value = "buscar_uno";
+			f.submit();
+		 	
+		}
+		else
+		{
+			alert('Debe seleccionar un Partido Judicial, un Municipio, un tipo de Organismo y un Organismo para realizar la busqueda.');
+		}
+	}
+
+	function buscarDos()
+	{
+		var f = document.forms[1];
+		if (validarCampos(f, true))
+		{
+		
+			f.accion.value = "buscar_dos";
+			f.target="";
+			f.submit();
+		}
+	}
+	
+	function mostrarInforme()
+	{
+	  var f = document.forms[1];
+
+	  if((f.valorEstado.value == "" || f.valorEstado.value == "-- Seleccione el Estado" )&& f.codigoCargo.value == "" && f.codigoProvincia.value == ""
+	    && f.codigoInformePartidoJudicial.value == "" && f.codigoInformeMunicipio.value == "" 
+	    && f.codigoOrganismo.value == ""){
+	    
+	    alert('Debe seleccionar al menos una opcion de consulta');
+	  
+	  }else{
+	    if(f.codigoInformeOrganismo.value =="" && f.listadoOrganismoHijo.value == "1"){
+	    
+	    	alert('La opcion "Incluir organismos hijos" no debe ser chequeada sin haber seleccionado previamente un Organismo');
+	    
+	    }else{
+	  		
+	  		win=window.open('','myWin','toolbar=no, menubar=no, location=no, resizable=yes, status=yes, scrollbars=yes'); 
+			f.target='myWin';
+			win.document.write(
+        	"<HEAD><TITLE>Listado de Usuarios</TITLE></HEAD>");
+			f.accion.value ="mostrar_informe";
+	  		f.submit();
+	  	}
+	  }	
+	}
+	
+  	
+   function baja()
+	{
+	   	var f = document.forms[0];
+	    var aValores = devuelveChecksMarcados(f.codigoUsuario);
+		
+		if(aValores != "")
+		{    
+  			//Obtengo el codigo del Cargo
+		    obtenerCodigoCargo();
+			obtenerPuestoPrincipal();
+			    var idUsuarios = "";
+			 
+			  	for(var i = 0; i < aValores.length; i++)
+			    {
+			    	idUsuarios += aValores[i] + "#";
+			    }
+			    f.accion.value = "baja";
+		    	f.codigosUsuarios.value = idUsuarios;
+		    	f.submit();
+			 }
+			 else
+			 {
+		    	alert('Debe seleccionar al menos un usuario');
+			 }
+		}
+		
+		function obtenerPuestoPrincipal(){
+		
+			var f = document.forms[0];
+			var aValor = devuelveCheckMarcado(f.codigoUsuario);
+			//Caso en el que hay un solo elemento
+			if(aValor == -1){
+			
+				aValor = 0;
+			
+			}
+			var obj = document.getElementById("PuestoPrincipal"+aValor);
+			//Obtengo el html correspondiente
+			//var informacion = obj.innerHTML;
+			
+			// TEMIS-75 INICIO
+			//var posValue = informacion.indexOf('value');
+			//var posType = informacion.indexOf('type');
+			//var posType = informacion.indexOf(' ', posValue);
+			//var resultado = informacion.substring(posValue + 7, posType - 2);
+			//var resultado = informacion.substring(posValue + 7, posType - 1);
+			// TEMIS-75 FIN
+			
+			/* TEMIS-75: Comentado código
+			//Subcadena desde el valor del cargo 
+			var subStr = informacion.substring(25, informacion.length);
+			//hasta el primer espacio
+			var posicionEspacio = subStr.indexOf(' ');
+			var entero = parseInt(posicionEspacio);
+			var resultado = subStr.substring(0,entero);
+			*/
+			//Vuelco el valor a la variable codigoCargo
+
+			//f.valorPuestoPrincipal.value = resultado;
+			
+			//TEMIS-88
+			//alert(obj.value);
+			f.valorPuestoPrincipal.value = obj.value;
+			
+		}
+		
+		function obtenerCodigoCargo(){
+		
+			var f = document.forms[0];
+			var aValor = devuelveCheckMarcado(f.codigoUsuario);
+			//Caso en el que hay un solo elemento
+			if(aValor == -1){
+			
+				aValor = 0;
+			
+			}
+			var obj = document.getElementById("CodigoDelCargo"+aValor);
+			//Obtengo el html correspondiente
+			var informacion = obj.innerHTML;
+			//Subcadena desde el valor del cargo 
+			var subStr = informacion.substring(25, informacion.length);
+			//hasta el primer espacio
+			var posicionEspacio = subStr.indexOf(' ');
+			var entero = parseInt(posicionEspacio);
+			var resultado = subStr.substring(0,entero);
+			//Vuelco el valor a la variable codigoCargo
+			f.valorCargo.value = resultado;
+		
+		}
+
+
+	function activarDos()
+	{
+	   	var f = document.forms[1];
+	   	var aValores = devuelveChecksMarcados(f.codigoUsuario);
+		
+		if(aValores != "")
+		{    
+  			
+			    var idUsuarios = "";
+			 
+			  	for(var i = 0; i < aValores.length; i++)
+			    {
+			    	idUsuarios += aValores[i] + "#";
+			    }
+			    f.accion.value = "activar";
+		    	f.codigosUsuarios.value = idUsuarios;
+		    	f.submit();
+			  
+			 }
+			 else
+			 {
+		    	alert('Debe seleccionar al menos un usuario');
+			 }
+		}
+		
+	function nuevo()
+		{
+			var f = document.forms[0];
+			if((f.codigoPartidoJudicial.value != "") && (f.codigoMunicipioPart.value != "") && (f.codigoOrganismo.value != "")&& (f.codigoTipoOrganismo.value != ""))
+			{
+				f.municipios.value = f.codigoMunicipioPart.options[f.codigoMunicipioPart.selectedIndex].text;
+				f.tipoOrganismo.value = f.codigoTipoOrganismo.options[f.codigoTipoOrganismo.selectedIndex].text;
+				f.accion.value = "nuevo";
+				f.submit();
+			}
+			else
+			{
+				alert('Debe introducir un Partido Judicial, un Municipio, un tipo de Organismo y un Organismo');
+			}		
+		}
+		
+		function modificar()
+		{
+	       var f = document.forms[0];
+			var valor = devuelveValorCheckMarcado(f.codigoUsuario);			
+		  if(valor != "")
+		   { 
+		    //Obtengo el codigo del Cargo
+		     obtenerCodigoCargo();
+		     obtenerPuestoPrincipal();
+		     f.municipios.value = f.codigoMunicipioPart.options[f.codigoMunicipioPart.selectedIndex].text;
+		     f.tipoOrganismo.value = f.codigoTipoOrganismo.options[f.codigoTipoOrganismo.selectedIndex].text;
+		     f.accion.value="modificar";
+		     f.submit();
+		   }
+		   else
+		   {
+		    alert('Debe seleccionar un usuario');
+		   }
+		}
+	
+		function modificarDos()
+		{
+	       f = document.forms[1];
+	      var valor = devuelveValorCheckMarcado(f.codigoUsuario);
+		   
+		   if(valor != "")
+		   {
+		     f.accion.value = "modificarDos";
+		     f.submit();
+		   }
+		   else
+		   {
+		    	alert('Debe seleccionar un usuario');
+		   }
+		}
+		
+		function consultar()
+		{
+	       f = document.forms[1];
+	      var valor = devuelveValorCheckMarcado(f.codigoUsuario);
+		   
+		   if(valor != "")
+		   {
+		   	 f.action.value = "UsuarioConsultar.do"
+		     f.accion.value = "consultar";
+		     f.submit();
+		   }
+		   else
+		   {
+		    	alert('Debe seleccionar un usuario');
+		   }
+		}
+		
+		function cambioDestino()
+		{
+	       var f = document.forms[0];
+	       
+     	   var valor = devuelveValorCheckMarcado(f.codigoUsuario);
+     	   if(valor != "")
+		   { 
+		   	//Obtengo el codigo del Cargo
+		     obtenerCodigoCargo();
+		     obtenerPuestoPrincipal();		   
+		     f.accion.value="cambioDestino";
+		     f.submit();
+		   }
+		   else
+		   {
+		    alert('Debe seleccionar un usuario');
+		   }
+		}
+		
+		
+		 function listadoUsuarios(){
+		    var f = document.forms[0];
+		   
+		    f.accion.value = "listar";
+		  	//Ocultamos la bÃÂºsqueda de usuarios y visualizamos el listado
+		  	var objConsultaUsuarios = document.getElementById("TablaConsultaUsuarios");
+		  	objConsultaUsuarios.style.display = "none";
+		  	f.submit();
+		}
+		
+		function ocultarTablaConsultaUsuarios(){
+		  var objConsultaUsuarios = document.getElementById("TablaConsultaUsuarios");
+		  objConsultaUsuarios.style.display = "none";
+		  
+		}
+		
+		function ocultarListadoUsuarios(){
+		  var objListadoUsuarios = document.getElementById("TablaListadoUsuarios");
+		  var objConsultaUsuarios = document.getElementById("TablaConsultaUsuarios");
+		  objListadoUsuarios.style.display = "none";
+		  objConsultaUsuarios.style.display = "block";
+		  
+		}
+		
+		function obtenerCargo()
+		{
+			var f = document.forms[1];
+			f.cargo.value = f.codigoCargo.options[f.codigoCargo.selectedIndex].text;
+        }
+        
+      
+		
+		function obtenerEstado()
+		{
+			var f = document.forms[1];
+			f.valorEstado.value = f.codigoEstado.options[f.codigoEstado.selectedIndex].text;
+		}
+		
+		
+		function refrescarProvincias()
+		{
+			var f = document.forms[1];
+			f.provincia.value = f.codigoProvincia.options[f.codigoProvincia.selectedIndex].text;
+			f.target = "";
+			f.accion.value = "listar";
+			f.submit(); 
+		}
+	   
+	   function refrescarPartidos()
+		{
+			var f = document.forms[1];
+			f.informePartidoJudicial.value = f.codigoInformePartidoJudicial.options[f.codigoInformePartidoJudicial.selectedIndex].text;
+			f.target="";
+			f.accion.value = "listar";
+			f.submit(); 
+	   }  
+	   
+	   function refrescarMunicipios()
+		{
+			var f = document.forms[1];
+			f.informeMunicipio.value = f.codigoInformeMunicipio.options[f.codigoInformeMunicipio.selectedIndex].text;
+			f.target="";
+			f.accion.value = "listar";
+			f.submit();
+		}
+	   function refrescarTipoOrganismo(){
+		   
+		   var f = document.forms[1];
+			f.informeTipoOrganismo.value = f.codigoInformeTipoOrganismo.options[f.codigoInformeTipoOrganismo.selectedIndex].text;			
+			f.target="";
+			f.accion.value = "listar";
+			f.submit(); 
+		   
+	   }
+		
+		function obtenerOrganismo()
+		{
+			var f = document.forms[0];
+			f.organismo.value = f.codigoOrganismo.options[f.codigoOrganismo.selectedIndex].text;
+		}
+	
+    	
+    	
+    function anularPrimeraBusqueda()
+	{
+	   	var f = document.forms[0];
+	   
+		var aValores = devuelveChecksMarcados(f.codigoUsuario);
+		
+		if(aValores != "")
+		{   
+		//Obtengo el codigo del Cargo
+		   obtenerCodigoCargo();
+		   obtenerPuestoPrincipal();
+		
+  			if (confirm('¿Está seguro de eliminar de la aplicación los usuarios seleccionados?'))
+			{
+			    var idUsuarios = "";
+			 
+			  	for(var i = 0; i < aValores.length; i++)
+			    {
+			    	idUsuarios += aValores[i] + "#";
+			    }
+			    f.accion.value = "anular";
+		    	f.codigosUsuarios.value = idUsuarios;
+		    	f.submit();
+			  	}
+			 }
+			 else
+			 {
+		    	alert('Debe seleccionar al menos un usuario');
+			 }
+		}
+	function anularSegundaBusqueda()
+	{
+	   	var f = document.forms[1];
+		
+		var aValores = devuelveChecksMarcados(f.codigoUsuario);
+		if(aValores != "")
+		{    
+  			if (confirm('¿Está seguro de eliminar de la aplicación los usuarios seleccionados?'))
+			{
+			    var idUsuarios = "";
+			 
+			  	for(var i = 0; i < aValores.length; i++)
+			    {
+			    	idUsuarios += aValores[i] + "#";
+			    }
+			    f.accion.value = "anularSegundaBusqueda";
+		    	f.codigosUsuarios.value = idUsuarios;
+		    	f.submit();
+			  	}
+			 }
+			 else
+			 {
+		    	alert('Debe seleccionar al menos un usuario');
+			 }
+		}
+		
+		
+		function muestraNIF()
+		{
+		//Selecciono Otros
+		if(document.forms[1].codigoDocumento.value == "O"){
+		   var objNif = document.getElementById("NIF");
+		   var objOtros = document.getElementById("OTROS");
+		   objNif.style.display = "none";
+		   objOtros.style.display = "block";
+		   //Quito el valor del DNI
+		   document.forms[1].dni.value= "";
+		   //document.forms[1].otro.value= "";
+		
+		//Selecciono NIF
+		 }else if(document.forms[1].codigoDocumento.value == "D"){
+		    var objNif = document.getElementById("NIF");
+		    var objOtros = document.getElementById("OTROS");
+		    objNif.style.display = "block";
+		    objOtros.style.display = "none";
+		     //Quito el valor del otro
+		    document.forms[1].otro.value= "";
+		    //document.forms[1].dni.value= "";
+		
+		 }
+		 //No selecciono nada
+		 else{
+		   var objNif = document.getElementById("NIF");
+		    var objOtros = document.getElementById("OTROS");
+		    objNif.style.display = "none";
+		    objOtros.style.display = "none";
+		    //Quito el valor del dni y de otro
+		    document.forms[1].otro.value= "";
+		    document.forms[1].dni.value= "";
+		 }    
+		}
+		
+	function validarCampos(f,v) 
+	{		
+		if (v)
+		{
+			var aCampos = new Array();
+			if(f.codigoDocumento.value == "D"){
+				aCampos[aCampos.length] = [f.dni, "NIF", ['dni', null, null]];
+			}
+			if(f.codigoDocumento.value == "O"){
+				aCampos[aCampos.length] = [f.otro, "Documento", ['otro', null, null]];
+			}	
+			
+			return validateRequiredFields(f, aCampos);
+		
+		}
+		else 
+		{
+			return true;
+		}	
+	}
+	
+	function mostrarPerfiles()
+		{
+	      var f = document.forms[0];
+		  var valor = devuelveValorCheckMarcado(f.codigoUsuario);
+		  if(valor != "")
+		   { 
+		    //Obtengo el codigo del Cargo
+		     obtenerCodigoCargo();
+		     obtenerPuestoPrincipal();
+		     f.accion.value="mostrarPerfiles";
+		     f.submit();
+		   }
+		   else
+		   {
+		    alert('Debe seleccionar un usuario');
+		   }
+		}
+		
+		function mostrarPerfilesBusquedaDos()
+		{
+		  var f = document.forms[1];
+		  var valor = devuelveValorCheckMarcado(f.codigoUsuario);
+		  if(valor != "")
+		   { 
+		    //Obtengo el codigo del Cargo
+		     f.accion.value="mostrarPerfilesDos";
+		     f.submit();
+		   }
+		   else
+		   {
+		    alert('Debe seleccionar un usuario');
+		   }
+		}
+		
+		document.onkeypress=function(e){
+			var num = e?e.keyCode:event.keyCode;
+			if(num == 13)
+				{					
+					buscarDos();
+				}
+			}
+		
+		function buscarBaja()
+		{
+			var f = document.forms[1];
+			
+			var usuario = f.usuario.value;
+			var nombre = f.nombre.value;
+			var apellidos = f.apellidos.value;
+			var documento = f.codigoDocumento.options[f.codigoDocumento.selectedIndex].value;
+			
+			if (usuario == "" && nombre == "" &&  apellidos == "" && documento == "")
+			{			
+				alert('Debe seleccionar un Usuario, un Nombre, unos Apellidos o un Documento para realizar la busqueda.');
+			}
+			else
+			{
+				if (validarCampos(f, true))
+				{
+					if (confirm('Se buscarán usuarios dados de baja en todas las provincias. Si encuentra un usuario al que desee ' 
+							+'cambiar de destino, márquelo y luego pulse el botón \'Modificar\' y luego el botón \'Cambio de Destino\''))
+					{				
+						f.accion.value = "buscar_baja";
+						f.target="";
+						f.submit();
+					}		
+				}
+			}			
+		}
+		
+	</script>
+	
+</head>
+
+<body onload="javascript:estableceChecks();estableceChecksListado();muestraNIF()">
+    <!-- [COMIENZO CABECERA COMUN] -->
+	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+
+<HEAD>
+<LINK href="css/menu.css" rel="stylesheet" type="text/css">
+</HEAD>
+<table border="0" width="778" cellpadding="0" cellspacing="0" border=0>
+	<tr>
+		<td colspan="2">
+			<table border="0" cellspacing=0 cellpadding=0 bgcolor=#EEEDEB width=741>
+				<tr>
+					<td width="175"><img src="img/cabecera/01.gif"></td>
+					<td width="295"><img src="img/cabecera/02.gif"></td>
+					<td width="230"><img src="img/cabecera/03.gif"></td>					
+					<td width="33"><img src="img/cabecera/04.gif"></td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+
+	<!-- [FIN CABECERA COMUN] -->
+	<!-- tabla 1 -->
+	<table border="0" cellpadding="0" cellspacing="0" width="780">
+	<tr>
+		<td width="110" valign="top">
+			<!-- [COMIENZO MENU] -->
+			
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<div id="menu">
+
+	
+
+	
+	<!-- [COMIENZO CATEGORIA DE MENU] -->
+	<div class="Categoria">
+		Mantenimiento
+	</div>
+
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="AplicacionConsulta.do">Aplicaciones</a></div>
+	
+
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="CargoConsulta.do">Cargos</a></div>
+	
+
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="ComunidadConsulta.do">Comunidades</a></div>
+	
+
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="CuerpoConsulta.do">Cuerpos</a></div>
+		
+
+	
+
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="DominioConsulta.do">Dominios</a></div>
+	
+
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="EdificioConsulta.do">Edificios</a></div>
+	
+	
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="EspecializacionConsulta.do">Especializaciones</a></div>
+	
+
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="EsquemaConsulta.do">Esquemas</a></div>
+	
+	
+	
+	<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="FestivoConsulta.do">Festivos</a></div>	
+		
+	
+		
+	
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="MunicipioConsulta.do">Municipios</a></div>
+	
+
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="NivelConsulta.do">Niveles</a></div>
+	
+	
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="NoticiaConsulta.do">Noticias</a></div>
+	
+	
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="OrganismoConsulta.do">Organismos</a></div>
+	
+
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="PaisConsulta.do">Pa&iacute;ses</a></div>
+	
+
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="PoliticaConsulta.do">Pol&iacute;ticas</a></div>
+	
+
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="GrupoProcedimientosConsulta.do">Procedimientos</a></div>
+	
+
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="ProvinciaConsulta.do">Provincias</a></div>
+	
+	
+	
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="SesionConsulta.do">Sesiones</a></div>
+	
+	
+	
+	
+	
+	
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="SupercargoConsulta.do">Supercargos</a></div>
+	
+
+
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="SupertipoorganismoConsulta.do">Supertipos Organismos</a></div>
+	
+
+
+
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="TipoOrganismoConsulta.do">Tipos Organismos</a></div>
+	
+
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="UsuarioConsulta.do">Usuarios</a></div>	
+	
+	
+	
+	
+	
+	
+	<div class="FinMenu">&nbsp;</div>
+	
+	
+	
+    
+	
+    <div class="Categoria">
+    	
+		
+		OPCIONES
+	</div>
+    <div class="Accion">
+    	<span class="Flechita">&#187;&nbsp;</span>
+    	<a href="manual/ManualTemis.pdf">Manual</a>
+    </div>
+    
+    <div class="Accion">
+    	<span class="Flechita">&#187;&nbsp;</span>
+    	<a href="CerrarSesion.do">Salir</a>
+    </div>
+	<!-- [FIN CATEGORIA DE MENU] -->
+	
+	<!-- [FIN DE MENU] -->
+	<div class="FinMenu">&nbsp;</div>
+</div>
+
+
+			<!-- [FIN MENU] -->
+		</td>
+		<td width="700" valign="top">
+			<div align="center">
+				<br/>
+				<form name="usuarioConsultaForm" method="post" action="/Temis/UsuarioConsulta.do"> 
+					<input type="hidden" name="codigoMunicipio" value="">
+					<input type="hidden" name="accion" value="buscar_dos">
+					<input type="hidden" name="usuario" value="15402487">
+					<input type="hidden" name="nombre" value="">
+					<input type="hidden" name="apellidos" value="">
+					<input type="hidden" name="codigosUsuarios" value="">
+					<input type="hidden" name="codigoCargo" value="">
+					<input type="hidden" name="mayor" value="">
+					<input type="hidden" name="noResultados" value="">
+					<input type="hidden" name="partidoJudicial" value="">
+					<input type="hidden" name="municipios" value="">
+					<input type="hidden" name="organismo" value="">
+					<input type="hidden" name="tipoOrganismo" value="">
+					<input type="hidden" name="busquedaAbierta" value="false">
+					<input type="hidden" name="busquedaSegundaAbierta" value="true">
+					<input type="hidden" name="activos" value="">
+					<input type="hidden" name="valorCargo" value="">
+					<input type="hidden" name="valorPuestoPrincipal" value="">
+					<input type="hidden" name="puestoPrincipal" value="">
+					<input type="hidden" name="informeTipoOrganismo" value="">
+					
+					<!-- tabla 600 -->
+					<table WIDTH="600" BORDER="0" CELLSPACING="0" CELLPADDING="1" class="linea">
+					<tr>
+						<td>
+							<table WIDTH="100%" BORDER="0" CELLSPACING="0" CELLPADDING="3" class="calendario">
+							<tr>
+								<td class="titulofondo2" width="11"></td>
+								<td class="titulofondo">Consulta de Usuarios activos</td>
+							</tr>
+	 						</table>
+				        </td>
+				 	</tr>
+					<tr>
+						<td>
+							<!-- -->
+							<table WIDTH="100%" BORDER="0" CELLSPACING="0" CELLPADDING="3" class="calendario">
+							<tr>
+								<td colspan="2" style="font-size:4px">&nbsp;</td>
+							</tr>
+							<tr>
+								 <td class="txtBold">Partido Judicial:</td>
+       						     <td>
+									<select name="codigoPartidoJudicial" onchange="actualizar()" style="width:300"><option value="">-- Seleccione el partido judicial --</option>
+	    	   						    <option value="14002">Aguilar de la Frontera</option>
+<option value="41004">Alcalá de Guadaira</option>
+<option value="23002">Alcalá la Real</option>
+<option value="11004">Algeciras</option>
+<option value="4013">Almería</option>
+<option value="18017">Almuñécar</option>
+<option value="23005">Andújar</option>
+<option value="29015">Antequera</option>
+<option value="21007">Aracena</option>
+<option value="29017">Archidona</option>
+<option value="11006">Arcos de la Frontera</option>
+<option value="21010">Ayamonte</option>
+<option value="14007">Baena</option>
+<option value="23009">Baeza</option>
+<option value="11007">Barbate</option>
+<option value="18023">Baza</option>
+<option value="4029">Berja</option>
+<option value="14013">Cabra</option>
+<option value="11012">Cádiz</option>
+<option value="41024">Carmona</option>
+<option value="23024">Carolina (La)</option>
+<option value="41032">Cazalla de la Sierra</option>
+<option value="23028">Cazorla</option>
+<option value="11015">Chiclana de la Frontera</option>
+<option value="29042">Coín</option>
+<option value="14021">Córdoba</option>
+<option value="41034">Coria del Río</option>
+<option value="41038">Dos Hermanas</option>
+<option value="41039">Écija</option>
+<option value="4902">Ejido (El)</option>
+<option value="41041">Estepa</option>
+<option value="29051">Estepona</option>
+<option value="29054">Fuengirola</option>
+<option value="18087">Granada</option>
+<option value="18089">Guadix</option>
+<option value="21041">Huelva</option>
+<option value="4053">Huércal-Overa</option>
+<option value="18098">Huéscar</option>
+<option value="23050">Jaén</option>
+<option value="11020">Jerez de la Frontera</option>
+<option value="41053">Lebrija</option>
+<option value="23055">Linares</option>
+<option value="11022">Línea de la Concepción (La)</option>
+<option value="18122">Loja</option>
+<option value="41055">Lora del Río</option>
+<option value="14038">Lucena</option>
+<option value="29067">Málaga</option>
+<option value="29069">Marbella</option>
+<option value="41060">Marchena</option>
+<option value="23060">Martos</option>
+<option value="52001">Melilla</option>
+<option value="21050">Moguer</option>
+<option value="14042">Montilla</option>
+<option value="14043">Montoro</option>
+<option value="41065">Morón de la Frontera</option>
+<option value="18140">Motril</option>
+<option value="18147">Órgiva</option>
+<option value="41068">Osuna</option>
+<option value="21054">Palma del Condado (La)</option>
+<option value="14052">Peñarroya-Pueblonuevo</option>
+<option value="14053">Posadas</option>
+<option value="14054">Pozoblanco</option>
+<option value="14055">Priego de Córdoba</option>
+<option value="14056">Puente Genil</option>
+<option value="11027">Puerto de Santa María (El)</option>
+<option value="11028">Puerto Real</option>
+<option value="4076">Purchena</option>
+<option value="29084">Ronda</option>
+<option value="4079">Roquetas de Mar</option>
+<option value="11030">Rota</option>
+<option value="11031">San Fernando</option>
+<option value="11033">San Roque</option>
+<option value="11032">Sanlúcar de Barrameda</option>
+<option value="41087">Sanlúcar la Mayor</option>
+<option value="18175">Santa Fe</option>
+<option value="41091">Sevilla</option>
+<option value="29901">Torremolinos</option>
+<option value="29091">Torrox</option>
+<option value="23092">Úbeda</option>
+<option value="11038">Ubrique</option>
+<option value="41095">Utrera</option>
+<option value="21072">Valverde del Camino</option>
+<option value="29094">Vélez-Málaga</option>
+<option value="4099">Vélez-Rubio</option>
+<option value="4100">Vera</option>
+<option value="23095">Villacarrillo</option></select>
+			                </tr>	
+			                <tr>
+								 <td class="txtBold">Municipio:</td>
+       						     <td>
+									<select name="codigoMunicipioPart" onchange="actualizar()" style="width:300"><option value="">-- Seleccione el Municipio --</option></select>
+			                </tr>	
+			                <tr>
+								<td class="txtBold">Tipo de organismo:</td>						    					
+								<td>
+									<select name="codigoTipoOrganismo" onchange="actualizar()" style="width:300"><option value="">-- Seleccione el tipo de organismo --</option></select>
+								</td>
+								
+								<td>
+							</tr>			  
+							<tr>
+								<td class="txtBold">Organismo:</td>						    					
+								<td>
+									<select name="codigoOrganismo" onchange="ocultarConsulta()" style="width:300"><option value="">-- Seleccione el organismo --</option></select>
+								</td>
+								
+								<td>
+							</tr>							
+							<tr>
+								<td class="txtBold">
+									<input type="checkbox" name="organismoHijo" value="on" onclick="selecciona(this)" style="border:0px">
+								</td>
+								<td class="txtBoldLeft">
+									Incluir organismos hijos
+								</td>			
+							</tr>
+							<tr>						
+								<td colspan="6" align="center">
+									Por favor, especifique el criterio de b&uacute;squeda
+								</td>
+							</tr>							
+							<tr>
+								<td colspan="6" align="right" class="fondopie">
+								
+								<input type="BUTTON" value="Listados" class="boton" onclick="listadoUsuarios()">	
+								
+									<input type="BUTTON" value="Municipios" class="boton" onclick="consultaMunicipios()">
+								
+								
+								    <input id="BtnNuevo" name="BtnNuevo" type="BUTTON" value="Nuevo" class="boton" onclick="nuevo()">
+								
+			            	    <input id="BtnLimpiar" name="BtnLimpiar" type="BUTTON" value="Limpiar" class="boton" onclick="limpiar()">
+			             	    <input id="BtnBuscar" name="BtnBuscar" type="BUTTON" value="Buscar" class="boton" onclick="buscar()">
+								<input id="BtnCerrar" name="BtnCerrar" type="BUTTON" value="Cerrar" class="boton" onclick="cerrar()">
+								</td>
+							</tr>
+							</table>
+							<!-- -->
+							
+
+							<div id="consulta">
+							
+							
+								
+							
+							
+							
+									
+							
+							
+							</div>
+						</td>
+				</tr>
+				</table>
+				<!-- fin tabla 600 -->
+			</form>
+		</div>
+		<br/>
+			<div align="center">
+				<form name="usuarioConsultaForm" method="post" action="/Temis/UsuarioConsulta.do">
+					<input type="hidden" name="codigoMunicipio" value="">
+					<input type="hidden" name="accion" value="buscar_dos">
+					<input type="hidden" name="codigosUsuarios" value="">
+					<input type="hidden" name="mayor" value="">
+					<input type="hidden" name="noResultados" value="">
+					<input type="hidden" name="codigoOrganismo" value="">
+					<input type="hidden" name="codigoPartidoJudicial" value="">
+					<input type="hidden" name="partidoJudicial" value="">
+					<input type="hidden" name="organismo" value="">
+					<input type="hidden" name="busquedaAbierta" value="false">
+					<input type="hidden" name="busquedaSegundaAbierta" value="true">
+					<input type="hidden" name="activos" value="">
+					<input type="hidden" name="mostrar" value="">
+					<input type="hidden" name="formulario" value="">
+					<input type="hidden" name="valorEstado" value="">
+					
+					
+					  
+                    
+					
+					
+                   
+                   
+                   
+                   		<table id ="TablaConsultaUsuarios" WIDTH="600" BORDER="0" CELLSPACING="0" CELLPADDING="1" class="linea" style="display:block;">
+                   
+                   
+                   
+					  
+                    
+                    
+                   
+                    
+                   
+                    
+                   
+					<tr>
+						<td>
+							<table WIDTH="600" BORDER="0" CELLSPACING="0" CELLPADDING="3" class="calendario">
+							<tr>
+								<td class="titulofondo2" width="11"></td>
+								<td class="titulofondo">B&uacute;squeda Compleja de Usuarios</td>
+							</tr>
+	 						</table>
+				     	 </td>
+					</tr>
+
+					<tr>
+						<td>
+							<table WIDTH="100%" BORDER="0" CELLSPACING="0" CELLPADDING="3" class="calendario">
+								<tr>
+									<td colspan="2" style="font-size:4px">&nbsp;</td>
+								</tr>
+								<tr>
+									 <td class="txtBold">Usuario:</td>
+	       						     <td><input type="text" name="usuario" maxlength="30" size="50" value="15402487"></td>
+				   			    </tr>
+								<tr>
+									<td class="txtBold">Nombre:</td>						    					
+									<td><input type="text" name="nombre" maxlength="30" size="50" value=""></td>
+								</tr>
+								<tr>
+									<td class="txtBold">Apellidos:</td>						    					
+									<td><input type="text" name="apellidos" maxlength="30" size="50" value=""></td>
+								</tr>
+								<tr>
+							 		<td class="txtBold">Documento:</td>
+	       					 		<td>
+	       					 			<select name="codigoDocumento" onchange="muestraNIF()" style="width:200"><option value="" selected="selected">Seleccione un documento</option>
+<option value="D">NIF</option>
+<option value="O">OTRO</option></select>
+						     		 </td>
+				        		</tr>
+				        			
+				        			
+				        			<tr id = "NIF" style=display:'none' >
+				        			
+				        		    <td class="txtBold">NIF:</td>
+									<td ><input type="text" name="dni" maxlength="9" size="11" value=""></td>
+										<input type="hidden" name="ocultoDni" value="">
+								</tr>
+									
+				        			
+				       			<tr id = "OTROS" style=display:'none'>
+				       				
+                    			<td class="txtBold"  >Otro:</td>
+								<td ><input type="text" name="otro" maxlength="8" size="11" value=""></td>
+									<input type="hidden" name="ocultoOtro" value="">
+								</tr>
+							<tr>						
+								<td colspan="6" align="center">
+									Por favor, especifique el criterio de b&uacute;squeda
+								</td>
+							</tr>				
+							<tr>
+								<td colspan="6" align="right" class="fondopie">
+			        	   			 <input id="BtnLimpiar" name="BtnLimpiar" type="BUTTON" value="Limpiar" class="boton" onclick="limpiarDos()">
+			        	   			 
+			           				 <input id="BtnBuscar" name="BtnBuscar" type="BUTTON" value="Buscar" class="boton"  onclick="buscarDos()">
+									 <input id="BtnCerrar" name="BtnCerrar" type="BUTTON" value="Cerrar" class="boton" onclick="cerrar()">
+								</td>
+							</tr>
+							</table>
+							
+							
+							
+							
+								
+							
+							
+								
+							
+							<div id="consulta2">
+								
+									<table WIDTH="100%" BORDER="0" CELLSPACING="2" CELLPADDING="2" CLASS="calendario" name="rsTable" id="rsTable" cols="8" >
+									<thead id="Cabecera">
+									<tr>
+										<th class="hoy"></th>
+										<th class="hoy">
+											<a href="" onClick="this.blur(); return sortTable('CuerpoOrdenar', 1, false);" style="font-weight:bold;color:#555" class="Ordenar">Nombre</a>
+										</th>
+										<th class="hoy">
+											<a href="" onClick="this.blur(); return sortTable('CuerpoOrdenar', 2, false);" style="font-weight:bold;color:#555" class="Ordenar">Apellidos</a>
+										</th>
+										<th class="hoy">
+											<a href="" onClick="this.blur(); return sortTable('CuerpoOrdenar', 3, false);" style="font-weight:bold;color:#555" class="Ordenar">Cargo</a>
+										</th>
+										<th class="hoy">
+											<a href="" onClick="this.blur(); return sortTable('CuerpoOrdenar', 3, false);" style="font-weight:bold;color:#555" class="Ordenar">Estado</a>
+										</th>
+									</tr>
+									</thead>
+									<tbody id="CuerpoOrdenar">
+										
+										<tr>
+											<td class="filaimpar" align="center">
+												<input type="checkbox" name="codigoUsuario" value="29485" class="filaimpar" id="chboxIdUsuario">
+											</td>
+											<td class="filaimpar" align="left" width="30%">
+												ISABEL Mª	
+											</td> 
+											<td class="filaimpar" align="left" width="40%">
+												ÁLVAREZ GRANADOS	
+											</td> 
+											<td class="filaimpar" align="left" width="20%" >
+												Auxilio Judicial	
+											</td>
+											<td class="filaimpar" align="left" width="40%" >
+												Activo	
+											</td> 
+										</tr>	
+										
+									</tbody>
+									</table>
+									
+								<table WIDTH="100%" BORDER="0" CELLSPACING="0" CELLPADDING="3" class="calendario">
+								<tr>
+									<td colspan="6" align="right" class="fondopie" >
+										
+											<input id="BtnPerfiles" name="BtnPerfiles" type="BUTTON" value="Perfiles" class="botonSmall"  onclick="mostrarPerfilesBusquedaDos()">
+										
+										
+											<input id="BtnModificar" name="BtnModificar" type="BUTTON" value="Modificar" class="boton"  onclick="modificarDos()">
+										
+										
+										
+					           			     <input id="BtnBorrar" name="BtnBorrar" type="BUTTON" value="Borrar" class="boton" onclick="anularSegundaBusqueda()">
+										
+										
+											<input id="BtnActivar" name="BtnActivar" type="BUTTON" value="Activar" class="boton" onclick="activarDos()">
+										
+										<input id="BtnCerrar" name="BtnCerrar" type="BUTTON" value="Cerrar" class="boton" onclick="cerrar()">
+									</td>
+								</tr>
+								</table>			
+								
+								
+								
+							</div>
+						</td>
+					</tr>
+					</table>
+				</br>	
+				 
+				
+                
+                
+                
+                
+                
+                  		<table id ="TablaListadoUsuarios" WIDTH="600" BORDER="0" CELLSPACING="0" CELLPADDING="1" class="linea" style="display:none;">
+                
+                 
+                
+                
+                
+                 
+                
+                
+                
+                
+                
+               	<tr>
+					<td>
+						<table WIDTH="600" BORDER="0" CELLSPACING="0" CELLPADDING="3" class="calendario">
+							<tr>
+								<td class="titulofondo2" width="11"></td>
+								<td class="titulofondo">Listado de Usuarios</td>
+							</tr>
+	 						</table>
+				     	 </td>
+					</tr>
+					<tr>
+						<td>
+							<table WIDTH="100%" BORDER="0" CELLSPACING="0" CELLPADDING="3" class="calendario">
+							<tr>
+								<td colspan="2" style="font-size:4px">&nbsp;</td>
+							</tr>
+							<tr>
+								 <td class="txtBold">Usuarios activos:</td>
+       						     <td>
+       					 			<select name="codigoEstado" onchange="obtenerEstado()" style="width:130"><option value="N">-- Seleccione el Estado</option>
+<option value="Activo">Activo</option>
+<option value="Anulado">Anulado</option>
+<option value="Baja">Baja</option></select>
+					     		 </td>
+			                </tr>
+							<tr>
+								<td class="txtBold">Cargo:</td>
+								<td>
+									<select name="codigoCargo" onchange="obtenerCargo()" style="width:210"><option value="">-- Seleccione el cargo --</option></select>
+									<input type="hidden" name="cargo" value="">
+								</td>
+							</tr>
+							<tr>
+								<td class="txtBold">Provincia:</td>
+								<td>
+									<select name="codigoProvincia" onchange="refrescarProvincias()" style="width:210"><option value="">-- Seleccione la provincia --</option></select>
+									<input type="hidden" name="provincia" value="">
+								</td>
+							</tr>
+							<tr>
+								<td class="txtBold">Partido Judicial:</td>
+								<td>
+									<select name="codigoInformePartidoJudicial" onchange="refrescarPartidos()" style="width:210"><option value="">-- Seleccione el partido --</option></select>
+									<input type="hidden" name="informePartidoJudicial" value="">
+								</td>
+							</tr>
+							<tr>
+								<td class="txtBold">Municipio:</td>
+								<td>
+									<select name="codigoInformeMunicipio" onchange="refrescarMunicipios()" style="width:210"><option value="">-- Seleccione el municipio --</option></select>
+									<input type="hidden" name="informeMunicipio" value="">
+								</td>
+							</tr>
+							<tr>
+								<td class="txtBold">Tipo de organismo:</td>						    					
+								<td>
+									<select name="codigoInformeTipoOrganismo" onchange="refrescarTipoOrganismo()" style="width:210"><option value="">-- Seleccione el tipo de organismo --</option></select>
+									<input type="hidden" name="informeTipoOrganismo" value="">
+								</td>
+								
+								<td>
+							</tr>	
+							<tr>
+								<td class="txtBold">Organismo:</td>						    					
+								<td>
+									<select name="codigoInformeOrganismo" onchange="obtenerOrganismo()" style="width:410"><option value="">-- Seleccione el organismo --</option></select>
+									<input type="hidden" name="organismo" value="">
+								</td>
+								
+							</tr>
+							<tr>
+								<td class="txtBold">
+									<input type="checkbox" name="listadoOrganismoHijo" value="" checked="checked" onclick="selecciona(this)" style="border:0px">	
+								</td>
+								<td class="txtBoldLeft">
+									Incluir organismos hijos
+								</td>			
+							</tr>
+							<tr>						
+								<td colspan="6" align="center">
+									Por favor, especifique el criterio de b&uacute;squeda
+								</td>
+							</tr>				
+							<tr>
+								<td colspan="6" align="right" class="fondopie">
+			        	   			 <input id="BtnLimpiar" name="BtnLimpiar" type="BUTTON" value="Limpiar" class="boton" onclick="limpiarListado()">
+			             	         <input id="BtnInforme" name="BtnInforme" type="BUTTON" value="Mostrar Informe" class="boton"  onclick="mostrarInforme()">
+			             	         <input id="BtnCerrar" name="BtnCerrar" type="BUTTON" value="Cerrar" class="boton" onclick="ocultarListadoUsuarios()">
+								</td>
+							</tr>
+							</table>
+						</td>
+					</tr>
+					</table>
+				   
+				</form>
+			</div>
+		
+			
+	</td>
+</tr>
+</table>
+<br/>
+<br/>
+</body>
+
+</html>
+

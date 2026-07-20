@@ -1,0 +1,128 @@
+﻿
+<html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>RPA - Automatización de Procesos</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #39546E;
+        margin: 0;
+        padding: 20px;
+        padding-top: 70px;
+    }
+
+    .main-container {
+        max-width: 1550px;
+        margin: 0 auto;
+    }
+
+    .main-header {
+        background-color: #39546E;
+        color: white;
+        padding: 25px 20px;
+        font-size: 2rem;
+        font-weight: bold;
+        border-radius: 8px 8px 0 0;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .block {
+        background-color: #ffffff;
+        border-radius: 8px;
+        padding: 22px;
+        margin-bottom: 25px;
+        border: 1px solid #c5ccd4;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .block h2 {
+        margin-top: 0;
+        color: #39546E;
+        border-bottom: 2px solid #39546E;
+        padding-bottom: 10px;
+    }
+    a {
+        color: #0051A3;
+        text-decoration: none;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="main-container">
+    <div class="main-header">RPA - Automatización de Procesos</div>
+    </div>
+    
+    <div class="block">
+        <h2>Descripción</h2>
+            <p>Durante 2025 se ha puesto en marcha, por primera vez en la justicia andaluza, un conjunto de automatismos basados en tecnología RPA (Robotic Process Automation) desarrollados en UiPath, orientados a optimizar tareas repetitivas y de alto volumen en distintos procedimientos judiciales. Esta iniciativa marca un paso decisivo hacia la eficiencia operativa y la transformación digital del ámbito judicial.</p>
+          <p>El proyecto ha culminado con el desarrollo y estabilización de dos robots que automatizan procesos hasta ahora ejecutados manualmente:
+          <ul>
+            <li>Robot de Digitalización de Actas de Conciliación</li>
+            <li>Robot de Digitalización de Acuses de Recibo</li>
+          </ul></p>
+          <p>y la programación de otros dos:
+          <ul>
+            <li>Robot de Digitalización de Notificaciones del Servicio Común para Monitorios</li>
+            <li>Robot DIOR para Consulta del Registro Público Concursal</li>
+          </ul>
+</p>
+
+<p>Cada uno de estos automatismos ha sido diseñado para reducir significativamente los tiempos de tramitación, minimizar errores humanos y optimizar recursos del personal judicial, permitiendo que puedan centrarse en tareas de mayor valor añadido.</p>
+
+<p>La robotización de estos procesos constituye un hito pionero dentro de la Administración de Justicia en Andalucía, demostrando la viabilidad y el impacto positivo de la automatización inteligente en entornos complejos y altamente regulados. Este avance sienta las bases para una futura expansión de la robotización en otras áreas, reforzando la estrategia de transformación digital y eficiencia operativa del sistema judicial.</p>
+
+    </div>
+    
+    <div class="block">
+        <h2>Fecha fin del proyecto</h2>
+       <p>30 de noviembre de 2025</p>
+    </div>
+    
+    <div class="block">
+        <h2>Procedimientos</h2>
+<p>Se ha implantado el Robot de Actas de Conciliación en algunos juzgados de lo social en Sevilla, en concreto:
+<ul>
+  <li>Juzgado de lo Social Nº 1 de Sevilla</li>
+  <li>Juzgado de lo Social Nº 2 de Sevilla</li>
+  <li>Juzgado de lo Social Nº 3 de Sevilla</li>
+  <li>Juzgado de lo Social Nº 4 de Sevilla</li>
+  <li>Juzgado de lo Social Nº 9 de Sevilla</li>
+  <li>Juzgado de lo Social Nº 10 de Sevilla</li>
+</ul>
+</p>
+<p>
+ Se ha dado indicaciones a los usuarios para que en el caso en el que experimentes cualquier comportamiento incorrecto del automatismo, abran una incidencia a través del "Gestor de Incidencias" en la tipifiación <b>"Aplicación / Programa Informático"</b>.</p>
+<p>Cualquier tique relacionado con RPA habrá que asignarlo a Servicios/RPA y tipificarlo en <b>"INCIDENCIA/Automatización-RPA/Técnica/Actas de Conciliación"</b>.</p>
+            
+                 <ul><li><a target="_blank" href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_procedimientos_rpa">Procedimientos RPA</a></li></ul>
+
+     </div>
+
+    <div class="block">
+        <h2>Capacitación</h2>
+        <ul>
+            <li><a target="_blank" href="https://capacitacion.justicia.junta-andalucia.es/">Portal de capacitación</a></li>
+            <li><a target="_blank" href="https://videos.justicia.junta-andalucia.es/">Contenido en video</a></li>
+            <li><a target="_blank" href="https://capacitacion.justicia.junta-andalucia.es/mod/glossary/view.php?id=196">Preguntas frecuentes</a></li>
+        </ul>
+     </div>
+
+    <div class="block">
+        <h2>Contacta</h2>
+        <ul>
+            <li><a target="_blank" href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_contactos#automatizacion">Contactos RPA</a></li>
+        </ul>
+     </div>
+
+</div>
+</body>
+</html>
+
+{{tag>novalidada}}
+

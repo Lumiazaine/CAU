@@ -1,0 +1,36 @@
+﻿
+
+<WRAP> 
+<panel type="primary" title="PDF XChange"> 
+
+Escribe una descripción... o elimínalo\\
+Tener en cuenta renombrar las páginas con la estructura común. Por ejemplo: pag_apli:wifi:start y pag_apli:wifi:problemas
+
+<WRAP> 
+<panel type="info" title="Acceso">
+  * **URL:** 
+  * **Contacta:** 
+  * **Formulario:**    Enlace a carpeta de red
+  * **BBDD:** 
+</panel>
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Capacitación">
+  * [[https://capacitacion.justicia.junta-andalucia.es|Contenidos Digitales de Capacitación (Portal de Capacitación de Justicia Digital Andalucía)]]
+  * [[https://videos.justicia.junta-andalucia.es/home|Portal de contenidos en vídeo de Justicia Digital Andalucía]]
+</panel>
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Procedimientos y Problemas Conocidos">
+  * [[pag_apli:pdf_xchange:problemas|Procedimientos y Problemas Conocidos]] 
+</panel>
+</WRAP>
+
+</panel> 
+</WRAP>
+
+{{tag>validada}}
+
+

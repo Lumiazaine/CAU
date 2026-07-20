@@ -1,0 +1,44 @@
+﻿
+====== Administración de Tablespaces ======
+
+
+
+
+
+**Aumentar MAXSIZE de los DATAFILES**
+
+
+Es importante que antes de aumentar el MAXSIZE de algún DATAFILE, se revise el espacio disponible en el disco/punto de montaje y aumentarlo en función a esto.
+
+- Vemos la información de los DBF del Tablespace:
+SQL> select FILE_NAME, MAXBYTES/1024/1024 as "MAXMEGABYTES" from DBA_DATA_FILES where TABLESPACE_NAME like '&TABLESPACE_NAME' order by FILE_NAME asc;
+
+Los maxsize de los datafiles de LINUX se aumentan hasta un máximo de 12 GB.
+
+- Aumentar el MAXSIZE de un Tablespace concreto:
+SQL> alter database datafile '/opt/oracle/oradata/MACJDB2/index/X3JMENORES_BIG_INDEX.DBF' autoextend on maxsize 12g;
+
+- Ver sentencias para aumentar el MAXSIZE a 12G a todos los DBF de un tablespace en concreto:
+SQL> select ' alter database datafile '''||file_name||''' autoextend on maxsize 12g;' from dba_data_files where tablespace_name ='&TABLESPACE_NAME';
+
+**Añadir DATAFILE al TABLESPACE**
+
+Editar
+Es importante que antes de añadir algún DATAFILE a un TABLESPACE, se revise el espacio disponible en el disco/punto de montaje y decidir si añadirlo o no en función a esto.
+
+- Vemos la información de los DBF del tablespace y elegimos un número más del último DATAFILE existente. Por ejemplo:
+SQL> select FILE_NAME, MAXBYTES/1024/1024 as "MAXMEGABYTES" from DBA_DATA_FILES where TABLESPACE_NAME like 'EXPJUD_DATA' order by FILE_NAME asc;
+
+FILE_NAME                                                                     MAXMEGABYTES
+
+------------------------------------------------------------------------ ---------------------------
+
+/opt/oracle/oradata/PROD02/EXPJUD_DATA.DBF                             12288
+
+/opt/oracle/oradata/PROD02/EXPJUD_DATA_01.DBF                       12288
+
+/opt/oracle/oradata/PROD02/EXPJUD_DATA_02.DBF                       12288
+
+- Como el último existente es el 02, añadiríamos un DATAFILE 03 al TABLESPACE. Es importante que se añada con las características de tamaño, autoextend, next y maxsize del ejemplo, para seguir las buenas prácticas recomendadas por Coordinación:
+
+SQL> alter tablespace EXPJUD_DATA add datafile '/opt/oracle/oradata/PROD02/EXPJUD_DATA_03.DBF' SIZE 48M AUTOEXTEND ON NEXT 20M MAXSIZE 2048M;

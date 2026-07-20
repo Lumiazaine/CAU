@@ -1,0 +1,126 @@
+﻿
+====== Monitorizacion GTAB - SSCC ======
+
+----
+
+======   Monitorización de Servicios Centrales   ======
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/Monitorizacion GTAB?section=1|Editar]]
+ <font 12,0000pt/inherit;;inherit;;inherit>El siguiente procedimiento tiene por objeto el inventario de las diferentes monitorizaciones que se realizan desde el departamento de Unix, Almacenamiento y Backup, denominado como GTAB, para la Consejería de Justicia e Interior</font>
+ <font 12,0000pt/inherit;;inherit;;inherit>Este documento alcanza tanto la sede central en Sevilla como la Ciudad de la Justicia de Málaga. Listando la siguiente información de cada una de ellas:</font>
+
+  * Monitorización activa del almacenamiento  (Correo electónico o auto-support), Sistemas UNIX, y sistemas de Backup de la sede.
+  * Monitorización pasiva del Almancenamiento de la sede (SNMP, Nagios...), Sistemas UNIX, y sistemas de Backup de la sede.
+ <font 12,0000pt/inherit;;inherit;;inherit>A continuación listaremos los sistemas de monitorización que se llevan a cabo para la Consejería de Justicia e Interior.</font>
+ <font inherit/inherit;;inherit;;inherit></font>
+ <font 12,0000pt/inherit;;inherit;;inherit>Tras la conectarnos a cada uno de los sistemas de almacenamiento, hemos observado que principalmente las monitorizaciones de los sistemas se realizan en forma de recepción de correos electrónicos en los buzones configurados para ello. Asimismo, también hay cabinas de almacenamiento que realizan un envío de correo directamente a soporte, lo que facilita la gestión ágil de incidencias ya que en el momento de detectarse cualquier problema en el sistema abre incidencia de forma automática.</font>
+ <font inherit/inherit;;inherit;;inherit></font>
+ <font 12,0000pt/inherit;;inherit;;inherit>Este documento no implica la actuación o modificación de los sistemas de monitorización si no, únicamente mostrar el estado actual para poder actuar en la modificación posteriormente.</font>
+
+  *
+ <font 18px/inherit;;#ff0000;;inherit>NETAPP 2040</font>
+ <font 12,0000pt/inherit;;inherit;;inherit>Configuración de AutoSupport, envíos automáticos de la cabina hacia los correos:</font>
+
+  *  gtsw.alertas.ius@juntadeandalucia.es
+  *  alertas.coordinacion.sistemas.ius@juntadeandalucia.es
+  *  sistemas.gtab.ius@juntadeandalucia.es
+
+  *
+ <font 18px/inherit;;#ff0000;;inherit>HP3PAR 7400</font>
+ <font 12,0000pt/inherit;;inherit;;inherit>Para verificar las notificaciones de la cabina de almacenamiento 3PAR es necesario conectarnos al sistema de SPOCC, Aquí existe el usuario CJI que tiene configuradas las notificaciones a los siguientes correos:</font>
+
+  *  gtsw.alertas.ius@juntadeandalucia.es
+  *  alertas.coordinacion.sistemas.ius@juntadeandalucia.es
+  *  sistemas.gtab.ius@juntadeandalucia.es
+
+  *
+ <font 18px/inherit;;#ff0000;;inherit>DATADOMAIN IUSAPBACK01</font>
+ <font 12,0000pt/inherit;;inherit;;inherit>Las notificaciones que realiza la cabina se realizan ante cambios de lo siguientes atributos:</font>
+
+^ORIGEN ^RAZÓN|
+|DD|filesystem warning|
+|DD|storage warning|
+|DD|hardwarefailure warning|
+
+Los correos que reciben las alertas son:
+
+  *  <del> spoc@fujitsu.es</del>
+  *  gtsw.alertas.ius@juntadeandalucia.es
+  *  alertas.coordinacion.sistemas.ius@juntadeandalucia.es
+  *  sistemas.gtab.ius@juntadeandalucia.es
+
+  *
+ <font 18px/inherit;;#ff0000;;inherit>DATADOMAIN IUSAPBACK02</font>
+ <font 12,0000pt/inherit;;inherit;;inherit>Las notificaciones de la cabina se realizan ante cambios de lo siguientes atributos:</font>
+
+  - // <font 12 0pt text-align:justify/inherit;;inherit;;#9fd6b9>cifs warning</font>    //
+  - // <font 12 0pt text-align:justify/inherit;;inherit;;#9fd6b9>storage warning</font>    //
+  - // <font 12 0pt text-align:justify/inherit;;inherit;;#9fd6b9>cluster warning</font>    //
+  - // <font 12 0pt text-align:justify/inherit;;inherit;;#9fd6b9>network warning</font>    //
+  - // <font 12 0pt text-align:justify/inherit;;inherit;;#9fd6b9>security warning</font>    //
+  - // <font 12 0pt text-align:justify/inherit;;inherit;;#9fd6b9>filesystem warning</font>    //
+  - // <font 12 0pt text-align:justify/inherit;;inherit;;#9fd6b9>environment warning</font>    //
+  - // <font 12 0pt text-align:justify/inherit;;inherit;;#9fd6b9>repolicatoin warning</font>    //
+  - // <font 12 0pt text-align:justify/inherit;;inherit;;#9fd6b9>hardwarefailure warning</font>    //
+  - // <font 12 0pt text-align:justify/inherit;;inherit;;#9fd6b9>systemmanteinance warning</font>    //
+  - // <font 12 0pt text-align:justify/inherit;;inherit;;#9fd6b9>syslog warning</font>    //
+  - // <font 12 0pt text-align:justify/inherit;;inherit;;#9fd6b9>firmware warning</font>    //
+ <font 12,0000pt/inherit;;inherit;;inherit>Los correos que reciben las alertas son:</font>
+
+  *  autosupport-alert@autosupport.datadomain.com
+  *  gtsw.alertas.ius@juntadeandalucia.es
+  *  alertas.coordinacion.sistemas.ius@juntadeandalucia.es
+  *  sistemas.gtab.ius@juntadeandalucia.es
+
+  *
+ <font 18px/inherit;;#ff0000;;inherit>EMC CLARRION CX3-80</font>
+ <font 12,0000pt/inherit;;inherit;;inherit>Tiene como IPs 10.241.129.8 para SPA y 10.241.129.9 para SPB</font>
+ <font inherit/inherit;;inherit;;inherit></font>
+ <font 12,0000pt/inherit;;inherit;;inherit>Los correos asociados a la cabina se envían al correo:</font>
+
+  *  notificaciones.gtab.ius@juntadeandalucia.es
+  *
+
+  *
+ <font 18px/inherit;;#ff0000;;inherit>LIBRERIA CINTA HPMSL6480 (nueva) con IP 10.241.130.7</font>
+ <font 14px/sans-serif;;inherit;;inherit>Los correos asociados a la cabina se envían al correo:</font>
+
+  *  gtsw.alertas.ius@juntadeandalucia.es
+
+  *
+ <font 18px/inherit;;#ff0000;;inherit>LIBRERIA CINTA HPMSL6030 (antigua) con IP 10.241.130.6</font>
+ <font 14px/sans-serif;;inherit;;inherit>Los correos asociados a la cabina se envían al correo:</font>
+
+  *  notificaciones.gtab.ius@juntadeandalucia.es
+
+  *
+ <font 18px/inherit;;#ff0000;;inherit>NETWORKER</font>
+
+^ORIGEN ^DESTINO|
+|ORAGRID - Bootstrap|notificaciones.gtab.ius@juntadeandalucia.es|
+|ORAGRID - Bus/Device Reset |notificaciones.gtab.ius@juntadeandalucia.es,<del>spoc@fujitsu.es,</del>alertas.coordinacion.sistemas.ius@juntadeandalucia.es|
+|ORAGRID - Cleaning cartridge required|notificaciones.gtab.ius@juntadeandalucia.es,alertas.coordinacion.sistemas.ius@juntadeandalucia.es|
+|ORAGRID - Device Disabled|notificaciones.gtab.ius@juntadeandalucia.es,<del>spoc@fujitsu.es,</del>alertas.coordinacion.sistemas.ius@juntadeandalucia.es|
+|ORAGRID - Filesystem full - waiting for adv_file space|notificaciones.gtab.ius@juntadeandalucia.es,<del>spoc@fujitsu.es,</del>alertas.coordinacion.sistemas.ius@juntadeandalucia.es|
+|ORAGRID - Index size|notificaciones.gtab.ius@juntadeandalucia.es,alertas.coordinacion.sistemas.ius@juntadeandalucia.es|
+|ORAGRID - Savegroup completion|notificaciones.gtab.ius@juntadeandalucia.es|
+|ORAGRID - Savegroup Failure|notificaciones.gtab.ius@juntadeandalucia.es|
+|ORAGRID - Tape mount request 3|notificaciones.gtab.ius@juntadeandalucia.es,<del>spoc@fujitsu.es,</del>alertas.coordinacion.sistemas.ius@juntadeandalucia.es|
+|IUSDESA02|notificaciones.gtab.ius@juntadeandalucia.es|
+|IUSSLNSRSRV01 - Bootstrap |notificaciones.gtab.ius@juntadeandalucia.es|
+|Bus/Device Reset|notificaciones.gtab.ius@juntadeandalucia.es,<del>spoc@fujitsu.es,</del>alertas.coordinacion.sistemas.ius@juntadeandalucia.es,sistemas.gtab.ius@juntadeandalucia.es|
+|Cleaning cartridge required|notificaciones.gtab.ius@juntadeandalucia.es,alertas.coordinacion.sistemas.ius@juntadeandalucia.es,sistemas.gtab.ius@juntadeandalucia.es|
+|Device Disabled |notificaciones.gtab.ius@juntadeandalucia.es,alertas.coordinacion.sistemas.ius@juntadeandalucia.es,sistemas.gtab.ius@juntadeandalucia.es,<del>spoc@fujitsu.es</del> |
+|Filesystem full |notificaciones.gtab.ius@juntadeandalucia.es,alertas.coordinacion.sistemas.ius@juntadeandalucia.es,sistemas.gtab.ius@juntadeandalucia.es|
+|Inactive Files Alert|notificaciones.gtab.ius@juntadeandalucia.es|
+|Index size|notificaciones.gtab.ius@juntadeandalucia.es,alertas.coordinacion.sistemas.ius@juntadeandalucia.es,sistemas.gtab.ius@juntadeandalucia.es|
+|Policy completion|notificaciones.gtab.ius@juntadeandalucia.es|
+|Savegroup completion|notificaciones.gtab.ius@juntadeandalucia.es|
+|Savegroup Failure|notificaciones.gtab.ius@juntadeandalucia.es,alertas.coordinacion.sistemas.ius@juntadeandalucia.es,sistemas.gtab.ius@juntadeandalucia.es|
+|Scheduled Clone Completion|notificaciones.gtab.ius@juntadeandalucia.es|
+|Scheduled Clone Failure|notificaciones.gtab.ius@juntadeandalucia.es|
+|Tape mount request 3|notificaciones.gtab.ius@juntadeandalucia.es,alertas.coordinacion.sistemas.ius@juntadeandalucia.es,sistemas.gtab.ius@juntadeandalucia.e|
+|VMWare Protection Policy|notificaciones.gtab.ius@juntadeandalucia.es|
+|Vmware Protection Policy Failure|notificaciones.gtab.ius@juntadeandalucia.es|
+| | |
+
+

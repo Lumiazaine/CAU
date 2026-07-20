@@ -1,0 +1,113 @@
+﻿
+<html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>LIBRO BLANCO - INTEGRACIÓN CI/CD</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #39546E;
+            margin: 0;
+            padding: 20px;
+            padding-top: 70px;
+            
+        }
+
+        .main-container {
+            max-width: 1550px;
+            margin: 0 auto;
+        }
+
+        .main-header {
+            background-color: #39546E;
+            color: white;
+            padding: 25px 20px;
+            font-size: 2rem;
+            font-weight: bold;
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .block {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 22px;
+            margin-bottom: 25px;
+            border: 1px solid #c5ccd4;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .block h2 {
+            margin-top: 0;
+            color: #39546E;
+            border-bottom: 2px solid #39546E;
+            padding-bottom: 10px;
+            
+        }
+        
+        a {
+            color: #0051A3;
+            text-decoration: none;
+            
+        }
+        
+        .btn-volver {
+            background-color: #39546E;
+            color: white;
+            padding: 10px 20px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+            
+        }
+
+        .btn-volver:hover {
+            background-color: #39546E; 
+            color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transform: translateY(-2px); 
+            
+        }
+  
+    </style>
+</head>
+
+<body>
+
+<!-- sustituir enlace si se requiere -->
+<a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_procedimientos_generales" class="btn-volver">Volver</a>
+
+    <div class="main-container">
+
+        <div class="main-header">LIBRO BLANCO - INTEGRACIÓN CI/CD</div>
+
+        <div style="margin-bottom: 20px;">
+        
+            <p>La siguiente norma de la ADA es de aplicación tanto para nuevos desarrollos como mantenimientos de productos software que se realicen sobre cualquier lenguaje y cualquier tecnología.</p>
+            <li style="margin-bottom: 20px; margin-left: 30px;"><a href="https://desarrollo.juntadeandalucia.es/recursos/reglas-pautas/norma-para-el-desarrollo-seguro">Normativa para el desarrollo seguro de la ADA</a></li>
+            
+            <p>Por otra parte, la metodología de Integración y Entrega Continua (CI/CD) es un conjunto de prácticas y herramientas que automatizan el proceso de desarrollo y despliegue de software. Este enfoque permite a los equipos de desarrollo integrar cambios de código con mayor frecuencia, probarlos automáticamente y desplegarlos en producción de forma más rápida y segura.</p>
+            
+            <p>Para que esta metodología sea adoptada por todos los equipos, se ha confeccionado el siguiente documento informativo o <b>Libro Blanco</b>, con los procedimientos operativos donde se detallan los flujos de trabajo en el uso de herramientas corporativas para las fases de desarrollo y despliegue de aplicaciones:</p> 
+            <li style="margin-bottom: 20px; margin-left: 30px;"><a target="_blank" href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=sje_nueva_sede_justicia_arquitectura_procedimientos_operativos_desarrollo_con_herramientas_v1.2.pdf">Procedimientos Operativos de Desarrollo con Herramientas</a></li>
+            <li style="margin-bottom: 20px; margin-left: 30px;"><a target="_blank" href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=pag_procedimientos_generales:LibroBlanco_Justicia_Arquitectura_Procedimientos_Operativos_Desarrollo_con_Herramientas_v1.2.pdf">Procedimientos Operativos de Desarrollo con Herramientas v1.2</a></li>
+            
+            <p>En él se incluyen referencias al <b>Manual de JIRA</b>, herramienta que permite la solicitud de trabajos:</p> 
+            <li style="margin-bottom: 20px; margin-left: 30px;"><a target="_blank" href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=pag_procedimientos_generales:manual_usuario_jira_12.0.pdf">Manual de Usuario de JIRA en el SSDJ</a></li>
+            
+            <p>y también al <b>Modelo de Relación con la Oficina de Interoperabilidad de Justicia (OTIJ)</b>:</p>
+            <li style="margin-bottom: 20px; margin-left: 30px;"><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_inte_2">Modelo de relación con OTIJ</a></li>
+            
+            <p>En el siguiente enlace puedes acceder a la guía básica de uso de la <b>herramienta de tiqueting Remedy</b></p>
+            <li style="margin-bottom: 20px; margin-left: 30px;"><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_apli:remedy:guia">Guía básica de uso de Remedy</a></li>
+            
+            <p>Para utilizar los <b>formularios, plantillas y otros recursos</b> relacionados con los proyectos en curso, accede al siguiente enlace:</p>
+            <li style="margin-bottom: 20px; margin-left: 30px;"><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_formu">Formularios y plantillas</a></li>
+
+        </div>
+
+</body>
+</html>

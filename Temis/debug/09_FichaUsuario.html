@@ -1,0 +1,899 @@
+﻿
+
+
+
+
+<html>
+<head>
+<title>Modificar Usuario</title>
+
+<link href="css/general.css" rel="stylesheet" type="text/css">
+
+	<script type="text/javascript" src="js/calendar.js"></script>
+	<script type="text/javascript" src="js/calendar-es.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/calendar-green.css" />
+
+
+
+<script language="javascript" src="js/JS_validacion.js"></script>
+<!-- [Biblioteca de CheckBox] -->
+	<script language="javascript" src="js/JS_checkbox.js"></script>
+	
+
+<script language="JavaScript" type="text/javascript">
+	
+	function muestraNIF()
+		{
+		//Selecciono Otros
+		if(document.forms[0].codigoDocumento.value == "O"){
+		   var objNif = document.getElementById("NIF");
+		   var objOtros = document.getElementById("OTROS");
+		   objNif.style.display = "none";
+		   objOtros.style.display = "block";
+		   document.forms[0].dni.value= "";
+		   document.forms[0].otro.value= "";
+		
+		//Selecciono NIF
+		 }else if(document.forms[0].codigoDocumento.value == "D"){
+		    var objNif = document.getElementById("NIF");
+		    var objOtros = document.getElementById("OTROS");
+		    objNif.style.display = "block";
+		    objOtros.style.display = "none";
+		     //Quito el valor del otro
+		    document.forms[0].otro.value= "";
+		    document.forms[0].dni.value= "";
+		
+		 }
+		 
+		 //No selecciono nada
+		 else{
+		   var objNif = document.getElementById("NIF");
+		    var objOtros = document.getElementById("OTROS");
+		    objNif.style.display = "none";
+		    objOtros.style.display = "none";
+		    //Quito el valor del dni y de otro
+		    document.forms[0].otro.value= "";
+		    document.forms[0].dni.value= "";
+		 }    
+		}
+		 	
+		
+
+
+	
+	function seleccionarPartidoJudicial()
+	{
+		var random_num = (Math.round((Math.random()*1000000000000)+1));					
+		var url = "UsuarioEleccionPartidoJudicial.do?nocache=" + random_num;
+		window.open(url,"","height=415px,width=465px,edge=Sunken,center= Yes,help=No,resizable=Yes,status=Yes,scrollbars=Yes");	
+	}
+	
+	function seleccionarMunicipioPorPartido()
+	{
+		var f = document.forms[0];
+		if(((f.rol.value == "9") || (f.rol.value != "9" && f.antiguoCodigoPartidoJudicial.value != f.codigoPartidoJudicial.value)) || f.perteneceAPartidos.value == "true")
+		{
+			var random_num = (Math.round((Math.random()*1000000000000)+1));						
+			var url = "UsuarioEleccionMunicipioAsociadoPartido.do?nocache=" + random_num + "&actual=" + document.forms[0].codigoPartidoJudicial.value;
+			window.open(url,"","height=415px,width=465px,edge=Sunken,center= Yes,help=No,resizable=Yes,status=Yes,scrollbars=Yes");	
+		}
+	}
+	
+	function seleccionarTipoOrganismo()
+	{
+		var f = document.forms[0];
+		if(((f.rol.value == "9") || (f.rol.value != "9" && f.antiguoCodigoPartidoJudicial.value != f.codigoPartidoJudicial.value)) || f.perteneceAPartidos.value == "true")
+		{
+			var random_num = (Math.round((Math.random()*1000000000000)+1));					
+			var url = "UsuarioEleccionTipoOrganismo.do?nocache=" + random_num + "&actual=" + document.forms[0].codigoMunicipio.value;
+			window.open(url,"","height=415px,width=465px,edge=Sunken,center= Yes,help=No,resizable=Yes,status=Yes,scrollbars=Yes");	
+		}
+		else
+		{
+			alert("Debe seleccionar un partido judicial nuevo");
+		}
+	}
+	
+	function seleccionarOrganismo()
+	{
+		var f = document.forms[0];
+		if(((f.rol.value == "9") || (f.rol.value != "9" && f.antiguoCodigoPartidoJudicial.value != f.codigoPartidoJudicial.value)) || f.perteneceAPartidos.value == "true")
+		{
+			var random_num = (Math.round((Math.random()*1000000000000)+1));					
+			var url = "UsuarioEleccionOrganismo.do?nocache=" + random_num + "&actual=" + document.forms[0].codigoTipoOrganismo.value + "&partido=" +f.codigoMunicipio.value;
+			window.open(url,"","height=415px,width=465px,edge=Sunken,center= Yes,help=No,resizable=Yes,status=Yes,scrollbars=Yes");	
+		}
+		else
+		{
+			alert("Debe seleccionar un partido judicial nuevo");
+		}
+	}
+
+	function seleccionarCargo()
+	{
+		var f = document.forms[0];
+		if((((f.rol.value == "9") || (f.rol.value != "9" && f.antiguoCodigoPartidoJudicial.value != f.codigoPartidoJudicial.value)) || f.perteneceAPartidos.value == "true" )
+		 && (f.perteneceAOrganismos.value=="true" || f.antiguoCodigoOrganismo.value != f.codigoOrganismo.value))
+		{
+			var random_num = (Math.round((Math.random()*1000000000000)+1));					
+			var url = "UsuarioEleccionCargo.do?nocache=" + random_num + "&actual=" + document.forms[0].codigoOrganismo.value;
+			window.open(url,"","height=415px,width=465px,edge=Sunken,center= Yes,help=No,resizable=Yes,status=Yes,scrollbars=Yes");	
+		}
+		else if(f.rol.value!=9 && f.antiguoCodigoPartidoJudicial.value == f.codigoPartidoJudicial.value && f.perteneceAPartidos.value == "false")
+		{
+			alert("Debe seleccionar un partido judicial nuevo");
+		}
+		else if(f.perteneceAOrganismos.value=="false" && f.antiguoCodigoOrganismo.value == f.codigoOrganismo.value)
+		{
+			alert("Debe seleccionar un organismo nuevo");
+		}	
+	}
+	
+	function seleccionarCuerpo()
+	{
+		var random_num = (Math.round((Math.random()*1000000000000)+1));					
+		var url = "UsuarioEleccionCuerpo.do?nocache=" + random_num;        
+		window.open(url,"","height=415px,width=465px,edge=Sunken,center= Yes,help=No,resizable=Yes,status=Yes,scrollbars=Yes");	
+	}
+	
+	
+	function seleccionarCategoria()
+	{
+		var random_num = (Math.round((Math.random()*1000000000000)+1));					
+		var url = "UsuarioEleccionCategoria.do?nocache=" + random_num;
+		window.open(url,"","height=415px,width=465px,edge=Sunken,center= Yes,help=No,resizable=Yes,status=Yes,scrollbars=Yes");	
+	}
+	
+	function seleccionarCaracter()
+	{
+		var random_num = (Math.round((Math.random()*1000000000000)+1));					
+		var url = "UsuarioEleccionCaracter.do?nocache=" + random_num;
+		window.open(url,"","height=415px,width=465px,edge=Sunken,center= Yes,help=No,resizable=Yes,status=Yes,scrollbars=Yes");	
+	}
+	
+	function seleccionarMotivoCese()
+	{
+		var random_num = (Math.round((Math.random()*1000000000000)+1));					
+		var url = "UsuarioEleccionMotivoCese.do?nocache=" + random_num;
+		window.open(url,"","height=415px,width=465px,edge=Sunken,center= Yes,help=No,resizable=Yes,status=Yes,scrollbars=Yes");	
+	}
+	
+	
+	function guardar()
+	{
+		var f = document.forms[0];
+
+		f.l_verificado.value = f.l_verificado.checked;
+		
+		if((((f.rol.value == "9") || (f.rol.value != "9" && f.antiguoCodigoPartidoJudicial.value != f.codigoPartidoJudicial.value)) || f.perteneceAPartidos.value == "true" )
+		 && (f.perteneceAOrganismos.value=="true" || f.antiguoCodigoOrganismo.value != f.codigoOrganismo.value))
+		{
+			if (validarCampos(f, true))
+			{
+				f.accion.value = "modificar";
+				f.submit();	
+			}
+		}
+		else if(f.rol.value!=9 && f.antiguoCodigoPartidoJudicial.value == f.codigoPartidoJudicial.value && f.perteneceAPartidos.value == "false")
+		{
+			alert("Debe seleccionar un partido judicial nuevo");
+		}
+		else if(f.perteneceAOrganismos.value=="false" && f.antiguoCodigoOrganismo.value == f.codigoOrganismo.value)
+		{
+			alert("Debe seleccionar un organismo nuevo");
+		}	
+
+	}
+	
+	
+	function validarCampos(f,v) 
+	{		
+		if (v)
+		{
+			var aCampos = new Array();
+
+			aCampos[aCampos.length] = [f.nombre, "Nombre", ['text', null, null]];				
+			aCampos[aCampos.length] = [f.apellido1, "Apellido1", ['text', null, null]];
+			aCampos[aCampos.length] = [f.apellido2, "Apellido2", ['text', null, null]];
+			aCampos[aCampos.length] = [f.sexo, "Sexo", ['radio', null, null]];
+			aCampos[aCampos.length] = [f.partidoJudicial, "Partido Judicial", ['text', null, null]];
+			aCampos[aCampos.length] = [f.organismo, "Organismo", ['text', null, null]];
+			aCampos[aCampos.length] = [f.cargo, "Cargo", ['text', null, null]];
+			aCampos[aCampos.length] = [f.cuerpo, "Cuerpo", ['text', null, null]];
+			aCampos[aCampos.length] = [f.categoria, "Categoria", ['text', null, null]];
+			aCampos[aCampos.length] = [f.usuario, "Identificador", ['text', null, 'text']];
+
+			if(f.codigoDocumento.value == "D"){
+				aCampos[aCampos.length] = [f.dni, "NIF", ['dni', null, null]];
+			}
+			if(f.codigoDocumento.value == "O"){
+				aCampos[aCampos.length] = [f.otro, "Documento", ['otro', null, null]];
+			}	
+			if (f.email.value != "")
+			{					
+				aCampos[aCampos.length] = [f.email, "EMail", ['email', null, null]];
+			}
+			if (f.emailExterno.value != "")
+			{					
+				aCampos[aCampos.length] = [f.emailExterno, "EMailExterno", ['emailExterno', null, null]];
+			}
+			if (f.ipVpn1v4.value != "")
+			{					
+				aCampos[aCampos.length] = [f.ipVpn1v4, "IPVPN1V4", ['ip', null, null]];
+			}
+			if (f.ipVpn2v4.value != "")
+			{					
+				aCampos[aCampos.length] = [f.ipVpn2v4, "IPVPN2V4", ['ip', null, null]];
+			}
+			if (f.ipVpn1v6.value != "")
+			{					
+				aCampos[aCampos.length] = [f.ipVpn1v6, "IPVPN1V6", ['ipv6', null, null]];
+			}
+			if (f.ipVpn2v6.value != "")
+			{					
+				aCampos[aCampos.length] = [f.ipVpn2v6, "IPVPN2V6", ['ipv6', null, null]];
+			}
+			
+			return validateRequiredFields(f, aCampos);
+
+			var validacion = validateRequiredFields(f, aCampos);
+
+			if (validacion && (f.usuario.value.length < 4))
+			{
+				alert('El identificador debe tener como minimo 4 caracteres.');
+				validacion = false;
+		}
+
+			return validacion;
+		}
+		else 
+		{
+			return true;
+		}	
+	}
+
+	
+	function cancelar()
+	{
+		var f = document.forms[0];
+		f.accion.value="cancelar";
+		f.submit();
+	}
+	
+	function anularPassword()
+	{
+		if(confirm('Va a anular el password del usuario. Desea continuar?'))
+		{
+			var f = document.forms[0];
+			f.accion.value ="anular";
+			f.submit();
+		}
+	}
+
+	function anularBaja()
+	{
+	  if(confirm('Esta accion permite deshacer la baja ocasionada al usuario por error en la introduccion de datos. Desea continuar?'))
+		{
+			var f = document.forms[0];
+			f.accion.value ="anularBaja";
+			f.submit();
+		}
+	}
+	
+	function otrosPuestos()
+	{
+		validarCampos();
+	  	var f = document.forms[0];
+	    if((((f.rol.value == "9") || (f.rol.value != "9" && f.antiguoCodigoPartidoJudicial.value != f.codigoPartidoJudicial.value)) || f.perteneceAPartidos.value == "true" )
+		 && (f.perteneceAOrganismos.value=="true" || f.antiguoCodigoOrganismo.value != f.codigoOrganismo.value))
+		{
+			if (validarCampos(f, true))
+			{
+		    	f.accion.value = "puestosModificar";
+				f.submit();
+			}
+		}
+		else if(f.rol.value!=9 && f.antiguoCodigoPartidoJudicial.value == f.codigoPartidoJudicial.value && f.perteneceAPartidos.value == "false")
+		{
+			alert("Debe seleccionar un partido judicial nuevo");
+		}
+		else if(f.perteneceAOrganismos.value=="false" && f.antiguoCodigoOrganismo.value == f.codigoOrganismo.value)
+		{
+			alert("Debe seleccionar un organismo nuevo");
+		}	
+	}
+	
+	function mostrarPerfiles()
+		{
+		   var f = document.forms[0];
+				f.accion.value="mostrarPerfiles";
+			    f.submit();
+		}
+		
+		
+	function advertenciaPartidoJudicial()
+	{
+		var f = document.forms[0];
+		if(confirm('Esta accion permite el cambio del Partido Judicial por un error cometido al introducir los datos pero no por haberse producido un Cambio de Destino del usuario. Si lo que desea hacer es cambiar el destino del usuario seleccione Cancelar y a continuacion pulse el boton Cambio de Destino, si no, seleccione Aceptar.'))
+		{
+			seleccionarPartidoJudicial();
+		}
+	}
+	
+	function advertenciaTipoOrganismo()
+	{
+		var f = document.forms[0];
+		var codigoMun = f.codigoMunicipio.value;
+		if(codigoMun == null || codigoMun == '' )
+		{
+			alert('Debe seleccionar un Municipio para poder cambiar el Tipo de Organismo.');
+		}else{
+			seleccionarTipoOrganismo();
+		}
+		
+	}
+
+	
+	function advertenciaOrganismo()
+	{
+		var f = document.forms[0];
+		var codigoMun = f.codigoMunicipio.value;
+		var codigoTipOrg = f.codigoTipoOrganismo.value;
+		if(codigoMun == null || codigoMun == '' ){
+			alert('Debe seleccionar un Municipio para poder cambiar el Organismo.');
+		}else if(codigoTipOrg == null || codigoTipOrg == ''){
+			alert('Debe seleccionar un Tipo de Organismo para poder cambiar el Organismo.');
+		}else{
+			if(confirm('Esta accion permite el cambio del Organismo por un error cometido al introducir los datos pero no por haberse producido un Cambio de Destino del usuario. Si lo que desea hacer es cambiar el destino del usuario seleccione Cancelar y a continuacion pulse el boton Cambio de Destino, si no, seleccione Aceptar.'))
+			{
+				seleccionarOrganismo();
+			}
+		}
+	}
+	
+	
+	function advertenciaUbicacion()
+	{		
+		if(confirm('Va a modificar la ubicación del usuario ¿Desea Continuar?'))
+		{
+			seleccionarUbicacion();
+		}
+		
+	}
+	
+	function baja()
+	{
+	   	var f = document.forms[0];
+	    if (validarCampos(f, true))
+			{
+				f.accion.value = "baja";
+		 		f.submit();  
+			}
+	}
+		
+ 
+	function cambiarDestino()
+		{
+		validarCampos();
+		var f = document.forms[0];
+	       if (validarCampos(f, true))
+			{
+				f.accion.value = "cambioDestino";
+				f.submit();	
+			}
+		}
+		
+		
+    function textCounter(field, countfield, maxlimit) 
+    {
+     if (field.value.length > maxlimit) 
+     field.value = field.value.substring(0, maxlimit);
+     else 
+     countfield.value = maxlimit - field.value.length;
+    }
+		
+	// TEMIS-73
+	function calcularAnagrama() {
+		var f = document.forms[0];
+		
+		var nif = f.dni.value;
+		var apellido1 = f.apellido1.value;
+		var apellido2 = f.apellido2.value;
+		var nombre = f.nombre.value;
+		
+		f.anagrama.value = nif + apellido1.substring(0,4) + apellido2.substring(0,3) + nombre.substring(0,1);
+	}//FIN TEMIS-73
+	
+	
+	function seleccionarUbicacion(){
+	
+		var f = document.forms[0];
+		f.accion.value = "ubicarUsuario";
+		f.submit();			
+	}
+			
+	
+	document.onkeypress=function(e){
+		var num = e?e.keyCode:event.keyCode;
+		if(num == 13)
+			{					
+				guardar();
+				return false;
+			}
+		}
+		
+</script>
+</head>
+<body>
+<form name="usuarioGuardarModificarForm" method="post" action="/Temis/UsuarioGuardarModificar.do">
+	<input type="hidden" name="accion" value="">
+	<input type="hidden" name="codigoUsuario" value="29485">
+	<input type="hidden" name="antiguoCodigoCargo" value="15">
+	<input type="hidden" name="rol" value="9">
+	<input type="hidden" name="antiguoCodigoPartidoJudicial" value="14056">
+	<input type="hidden" name="antiguoCodigoOrganismo" value="10478">
+	<input type="hidden" name="codigoPartidoJudicialPadre" value="">
+	<input type="hidden" name="codigoOrganismoPadre" value="">
+	<input type="hidden" name="perteneceAPartidos" value="true">
+	<input type="hidden" name="perteneceAOrganismos" value="true">
+	<input type="hidden" name="codigosUsuarios" value="">
+	<input type="hidden" name="antiguaFechaBaja" value="">
+	<input type="hidden" name="puestoPrincipal" value="-">
+	<input type="hidden" name="organismoHijo" value="">
+	<input type="hidden" name="listadoOrganismoHijo" value="">
+	<input type="hidden" name="error" value="false">
+	<input type="hidden" name="tipo" value="D"> 
+	
+	<!-- [COMIENZO CABECERA COMUN] -->
+	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+
+<HEAD>
+<LINK href="css/menu.css" rel="stylesheet" type="text/css">
+</HEAD>
+<table border="0" width="778" cellpadding="0" cellspacing="0" border=0>
+	<tr>
+		<td colspan="2">
+			<table border="0" cellspacing=0 cellpadding=0 bgcolor=#EEEDEB width=741>
+				<tr>
+					<td width="175"><img src="img/cabecera/01.gif"></td>
+					<td width="295"><img src="img/cabecera/02.gif"></td>
+					<td width="230"><img src="img/cabecera/03.gif"></td>					
+					<td width="33"><img src="img/cabecera/04.gif"></td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+
+	<!-- [FIN CABECERA COMUN] -->
+	
+
+	<table border="0" cellpadding="0" cellspacing="0" width="780">
+	<tr>
+		<td valign="top">
+			<!-- [COMIENZO MENU] -->
+			
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<div id="menu">
+
+	
+
+	
+	<!-- [COMIENZO CATEGORIA DE MENU] -->
+	<div class="Categoria">
+		Mantenimiento
+	</div>
+
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="AplicacionConsulta.do">Aplicaciones</a></div>
+	
+
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="CargoConsulta.do">Cargos</a></div>
+	
+
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="ComunidadConsulta.do">Comunidades</a></div>
+	
+
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="CuerpoConsulta.do">Cuerpos</a></div>
+		
+
+	
+
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="DominioConsulta.do">Dominios</a></div>
+	
+
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="EdificioConsulta.do">Edificios</a></div>
+	
+	
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="EspecializacionConsulta.do">Especializaciones</a></div>
+	
+
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="EsquemaConsulta.do">Esquemas</a></div>
+	
+	
+	
+	<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="FestivoConsulta.do">Festivos</a></div>	
+		
+	
+		
+	
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="MunicipioConsulta.do">Municipios</a></div>
+	
+
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="NivelConsulta.do">Niveles</a></div>
+	
+	
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="NoticiaConsulta.do">Noticias</a></div>
+	
+	
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="OrganismoConsulta.do">Organismos</a></div>
+	
+
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="PaisConsulta.do">Pa&iacute;ses</a></div>
+	
+
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="PoliticaConsulta.do">Pol&iacute;ticas</a></div>
+	
+
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="GrupoProcedimientosConsulta.do">Procedimientos</a></div>
+	
+
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="ProvinciaConsulta.do">Provincias</a></div>
+	
+	
+	
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="SesionConsulta.do">Sesiones</a></div>
+	
+	
+	
+	
+	
+	
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="SupercargoConsulta.do">Supercargos</a></div>
+	
+
+
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="SupertipoorganismoConsulta.do">Supertipos Organismos</a></div>
+	
+
+
+
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="TipoOrganismoConsulta.do">Tipos Organismos</a></div>
+	
+
+	
+		<div class="Accion"><span class="Flechita">&#187;&nbsp;</span><a href="UsuarioConsulta.do">Usuarios</a></div>	
+	
+	
+	
+	
+	
+	
+	<div class="FinMenu">&nbsp;</div>
+	
+	
+	
+    
+	
+    <div class="Categoria">
+    	
+		
+		OPCIONES
+	</div>
+    <div class="Accion">
+    	<span class="Flechita">&#187;&nbsp;</span>
+    	<a href="manual/ManualTemis.pdf">Manual</a>
+    </div>
+    
+    <div class="Accion">
+    	<span class="Flechita">&#187;&nbsp;</span>
+    	<a href="CerrarSesion.do">Salir</a>
+    </div>
+	<!-- [FIN CATEGORIA DE MENU] -->
+	
+	<!-- [FIN DE MENU] -->
+	<div class="FinMenu">&nbsp;</div>
+</div>
+
+
+			<!-- [FIN MENU] -->
+		</td>
+		<td  valign="top">
+	
+		<div align="center"><br>
+		
+	
+	    <table class=fondoTitulo  width=600 border=0 cellpadding=0 cellspacing=0>
+		    	
+		<tr>
+			<td class=titulo>&nbsp;:.&nbsp;Modificar Usuario</td>
+		</tr>
+	</table>
+
+	<table class=normal  width=600 border=0 cellpadding=0 cellspacing=0>
+
+
+		<tr>
+			<td width=22 class="descripcion"><img src="/Temis/img/vacio.gif" width="22"></td>
+			<td class=px ><img src="/Temis/img/vacio.gif"></td>
+			<td ><br>
+				<table border=0 cellpadding=0 cellspacing=0>	
+					<tr>
+						<td class="txtBold"  >Identificador:</td>
+						<td><input type="text" name="usuario" maxlength="15" size="25" value="15402487"></td>
+					</tr>
+					<tr>
+						<td class="txtBold"  >Usuario A. Directory:</td>
+						<td><input type="text" name="c_usuario" maxlength="20" size="50" value="IMALVAREZ"></td>
+					</tr>
+					<tr>
+						<td class="txtBold" >Nombre:</td>
+						<td><input type="text" name="nombre" maxlength="25" size="50" value="ISABEL Mª">
+						</td>
+					</tr>
+					<tr>
+						<td class="txtBold" >Primer Apellido:</td>
+						<td><input type="text" name="apellido1" maxlength="60" size="80" value="ÁLVAREZ"></td>
+					</tr>
+					<tr>
+						<td class="txtBold" >Segundo Apellido:</td>
+						<td><input type="text" name="apellido2" maxlength="60" size="80" value="GRANADOS"></td>
+					</tr>
+
+
+                    <tr>
+						<td></td>
+						<td class="txtBoldNew">
+							Apellidos Verificados:
+							<input type="checkbox" name="l_verificado" value="on" class="filaimpar">
+						</td>
+					</tr>
+  
+
+					<tr>
+						 <td class="txtBold">Documento:</td>
+       					 <td>
+       					 	<select name="codigoDocumento" onchange="muestraNIF()" style="width:200"><option value="D" selected="selected">NIF</option>
+<option value="O">OTRO</option></select>
+					      </td>
+			        </tr>
+			       
+			        <tr id = "NIF" >
+                    	<td class="txtBold"  >NIF:</td>
+						<td ><input type="text" name="dni" maxlength="9" size="11" value="15402487P"></td>
+						<input type="hidden" name="ocultoDni" value="15402487P">
+					</tr>
+			       	<tr id = "OTROS" style=display:'none'>
+                    	<td class="txtBold"  >Otro:</td>
+						<td ><input type="text" name="otro" maxlength="8" size="11" value=""></td>
+						<input type="hidden" name="ocultoOtro" value="">
+					</tr>
+					<tr>
+						<td></td>
+						<td class="txtBoldNew">
+							Hombre:
+							<input type="radio" name="sexo" value="H" class="filaimpar">
+							Mujer:
+							<input type="radio" name="sexo" value="M" checked="checked" class="filaimpar">
+						</td>
+					</tr>
+					
+					<tr>
+						<td class="txtBold" width="20%">Anagrama:</td>
+						<td width="80%">
+							<input type="text" name="anagrama" maxlength="17" size="23" value="">
+							<input type="button" name="calcular_anagrama" value="Calcular anagrama" onclick="javascript:calcularAnagrama();" style="width: 120px;" class="botonSmall">
+						</td>
+					</tr>
+											
+					<tr>
+						<td class="txtBold" >Partido Judicial:</td>
+						<td >
+							<input type="text" name="partidoJudicial" maxlength="60" size="80" value="Puente Genil" readonly="readonly">
+							<input type="hidden" name="codigoPartidoJudicial" value="14056">
+							
+								
+								<!--<a href="javaScript:seleccionarPartidoJudicial()">-->
+									<img src="/Temis/img/b_elegirpq.gif" height="17" width="17" align="absbottom" border="0" alt="seleccionar partido judicial" onclick="advertenciaPartidoJudicial()">
+								<!--</a>-->
+							
+							
+						</td>
+					</tr>
+					<tr>
+							<td class="txtBold" width="20%">Municipio:</td>
+							<td width="80%"><input type="text" name="municipios" maxlength="60" size="80" value="Puente Genil" readonly="readonly"> <input type="hidden" name="codigoMunicipio" value="14056"> 
+								<a href="javaScript:seleccionarMunicipioPorPartido()"><img src="/Temis/img/b_elegirpq.gif" height="17" width="17" align="absbottom" border="0" alt="seleccionar municipio"></a>
+							</td>
+						</tr>
+					<tr>
+					<tr>
+							<td class="txtBold" width="20%">Tipo Organismo:</td>
+							<td width="80%"><input type="text" name="tipoOrganismo" maxlength="60" size="80" value="Servicios Comunes" readonly="readonly"> <input type="hidden" name="codigoTipoOrganismo" value="24"> 
+								<a href="javaScript:advertenciaTipoOrganismo()"><img src="/Temis/img/b_elegirpq.gif" height="17" width="17" align="absbottom" border="0" alt="seleccionar tipo de organismo"></a>
+							</td>
+						</tr>
+					<tr>
+						<td class="txtBold" >Organismo:</td>
+						<td >
+							<input type="text" name="organismo" maxlength="60" size="80" value="Servicio Común de Tramitación del Tribunal de Instancia de Puente Genil" readonly="readonly">
+							<input type="hidden" name="codigoOrganismo" value="10478">	
+											
+							
+								<!--<a href="javaScript:seleccionarOrganismo()">-->
+									<img src="/Temis/img/b_elegirpq.gif" height="17" width="17" align="absbottom" border="0" alt="seleccionar organismo" onclick="advertenciaOrganismo()">
+								<!--</a>-->
+							
+							
+						</td>
+					</tr>
+					<tr>
+						<td class="txtBold" >Cargo:</td>
+						<td >
+							<input type="text" name="cargo" maxlength="60" size="40" value="Auxilio Judicial" readonly="readonly">
+							<input type="hidden" name="codigoCargo" value="15">	
+							
+							
+								<a href="javaScript:seleccionarCargo()"><img src="/Temis/img/b_elegirpq.gif" height="17" width="17" align="absbottom" border="0" alt="seleccionar cargo"></a>
+							
+							
+						</td>
+					</tr>	
+					<tr>
+						<td class="txtBold" width="20%">Cuerpo:</td>
+						<td width="80%">
+							<input type="text" name="cuerpo" maxlength="10" size="40" value="Auxilio judicial" readonly="readonly">
+							<input type="hidden" name="codigoCuerpo" value="1">	
+							
+  												
+								<a href="javaScript:seleccionarCuerpo()"><img src="/Temis/img/b_elegirpq.gif" height="17" width="17" align="absbottom" border="0" alt="seleccionar cuerpo"></a>
+							
+							
+						</td>
+					</tr>
+					<tr>
+						<td class="txtBold" width="20%">Categor&iacute;a:</td>
+						<td width="80%">
+							<input type="text" name="categoria" maxlength="10" size="40" value="Interino" readonly="readonly">
+							<input type="hidden" name="valorCategoria" value="I">
+												
+								<a href="javaScript:seleccionarCategoria()"><img src="/Temis/img/b_elegirpq.gif" height="17" width="17" align="absbottom" border="0" alt="seleccionar categor&iacute;a"></a>
+							
+						</td>
+					</tr>
+					<tr>
+						<td class="txtBold" width="20%">Car&aacute;cter:</td>
+						<td width="80%"><input type="text" name="caracter" maxlength="10" size="40" value="" readonly="readonly">
+						<input type="hidden" name="valorCaracter" value="">	
+											
+								<a href="javaScript:seleccionarCaracter()"><img src="/Temis/img/b_elegirpq.gif" height="17" width="17" align="absbottom" border="0" alt="seleccionar car&aacute;cter"></a>	
+						
+						</td>
+					</tr>
+					
+					<tr>
+						<td class="txtBold" >Email:</td>
+						<td ><input type="text" name="email" maxlength="80" size="90" value="isabelm.alvarez.granados@juntadeandalucia.es"></td>
+					</tr>	
+					<tr>
+						<td class="txtBold" >Email Externo:</td>
+						<td ><input type="text" name="emailExterno" maxlength="80" size="90" value=""></td>
+					</tr>	
+					<tr>
+						<td class="txtBold" >Tel&eacute;fono:</td>
+						<td ><input type="text" name="telefono" maxlength="20" size="25" value=""></td>
+					</tr>	
+					<tr>
+						<td class="txtBold" >Fax:</td>
+						<td ><input type="text" name="fax" maxlength="10" size="25" value=""></td>
+					</tr>	
+					<tr>
+						<td class="txtBold" >Fecha de Alta:</td>
+						<td >
+							<input type="text" name="fechaAlta" maxlength="10" size="15" value="15/07/2026" readonly="readonly">
+							
+								<a href="#" onclick="return showCalendar('fechaAlta', '%d/%m/%Y');">
+										<img src="/Temis/img/b_calendariopq.gif" height="17" width="17" align="absbottom" border="0" alt="fecha de alta">
+								</a>
+							
+						</td>
+					</tr>
+					<tr>
+						
+					</tr>
+					<tr>
+						<td class="txtBold" >Permisos :</td>
+						<td>
+							<select name="cambiarIdPassword" style="width:230"><option value="0">No puede modificar nada</option>
+								<option value="3" selected="selected">Puede modificar su contrase&ntilde;a</option>
+								<option value="6">Puede modificar su identificador</option>
+								<option value="9">Puede modificar su contrase&ntilde;a e identificador</option></select>
+						</td>
+					</tr>
+					
+					<tr>
+						<td class="txtBold" width="30%">Observaciones:</td>
+						<td width="80%">
+                            <textarea name="observaciones" cols="36" rows="3" onkeydown="textCounter(this.form.observaciones,this.form.remLen2,256);" onkeyup="textCounter(this.form.observaciones,this.form.remLen2,256);" style="font-family:Arial;font-size:8pt;">IN0000002553561</textarea>
+                            <input type="hidden" name="remLen2" value="256"> 
+						</td>
+					</tr>
+					<tr>
+						<td class="txtBold" >Ubicaci&oacute;n:</td>
+						<td>
+							<input type="text" name="ubicacion" maxlength="60" size="80" value="Servicio Común de Tramitación del Tribunal de Instancia de Puente Genil" readonly="readonly">
+							<input type="hidden" name="codigoUbicacion" value="10478">
+						</td>
+					</tr>
+					<tr>
+						<td class="txtBold" >IPVPN1V4:</td>
+						<td ><input type="text" name="ipVpn1v4" maxlength="15" size="20" value=""></td>
+					</tr>
+					<tr>
+						<td class="txtBold" >IPVPN2V4:</td>
+						<td ><input type="text" name="ipVpn2v4" maxlength="15" size="20" value=""></td>
+					</tr>
+					<tr>
+						<td class="txtBold" >IPVPN1V6:</td>
+						<td ><input type="text" name="ipVpn1v6" size="50" value=""></td>
+					</tr>
+					<tr>
+						<td class="txtBold" >IPVPN2V6:</td>
+						<td ><input type="text" name="ipVpn2v6" size="50" value=""></td>
+					</tr>
+					<tr>
+					
+					
+				</table>
+				<br>
+			</td>
+		</tr>
+	</table>
+	<table width=600 class="fondopie">
+		<tr>
+			<td align=right>
+				<input type="button" name="Ubicar" value="Ubicar" onclick="advertenciaUbicacion()" class="botonSmall">
+				<input type="button" name="Otros puestos" value="Otros puestos" onclick="otrosPuestos()" class="botonMedium">
+				<input type="button" name="Cambiar destino" value="Cambio de Destino" onclick="cambiarDestino()" class="botonMedium">
+				
+				
+					<input id="BtnBaja" name="BtnBaja" type="BUTTON" value="Baja/Cese" class="botonSmall" onclick="baja()">
+				
+					
+				
+					<input type="button" name="Anular" value="Anular Contrase&ntilde;a" onclick="anularPassword()" class="botonMedium">
+				
+				<input type="button" name="Aceptar" value="Aceptar" onclick="guardar()" class="botonSmall">
+				<input type="button" name="Cancelar" value="Cancelar" onclick="cancelar()" class="botonSmall">
+			</td>
+		</tr>
+	</table>
+
+    </div>
+</form>
+</body>
+</html>
+

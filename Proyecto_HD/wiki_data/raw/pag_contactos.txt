@@ -1,0 +1,2016 @@
+﻿
+<html>
+<html lang="es">
+
+<p style="text-align: center; color: red;"><span>SI DESEA REALIZAR ALGÚN CAMBIO EN LA PÁGINA DE CONTACTOS, POR FAVOR CREE UN TICKET REMEDY CON CATEGORÍA "APLICACIONES DOKUWIKI" INDICANDO DICHO CAMBIO Y REASIGNELO A SERVICIOS DEVOPS</span>.</p>
+
+<head>
+    <meta charset="UTF-8">
+    <title>SSDJ - Agenda de Contactos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #39546E;
+            margin: 0;
+            padding: 20px;
+            padding-top: 70px;
+            padding-bottom: 100px;
+            
+        }
+
+        .main-container {
+            max-width: 1500px;
+            margin: 0 auto;
+        }
+
+        .main-header {
+            background-color: #39546E;
+            color: white;
+            padding: 25px 20px;
+            font-size: 2rem;
+            font-weight: bold;
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .block {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .block h2 {
+            margin-top: 0;
+            color: #39546E;
+            border-bottom: 2px solid #39546E;
+            padding-bottom: 10px;
+        }
+
+        .sub-block {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .sub-block h3 {
+            margin-top: 0;
+            color: #39546E;
+            border-bottom: 2px solid #39546E;
+            padding-bottom: 10px;
+            font-size: 1.8rem;
+        }
+        
+        .btn-borde {
+            display: inline-block;
+            color: #39546E; 
+            background-color: white;
+            border: 5px solid #39546E;  
+            padding: 10px 22px;
+            border-radius: 10px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;      
+        }
+
+        .btn-borde:hover {
+            background-color: #39546E; 
+            color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transform: translateY(-2px); 
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            table-layout: fixed;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px 12px;
+            text-align: left;
+            word-wrap: break-word;
+        }
+
+        th:nth-child(1),
+        td:nth-child(1) {
+            width: 25%;
+        }
+
+        th:nth-child(2),
+        td:nth-child(2) {
+            width: 25%;
+        }
+
+        th:nth-child(3),
+        td:nth-child(3) {
+            width: 30%;
+        }
+
+        th:nth-child(4),
+        td:nth-child(4) {
+            width: 20%;
+        }
+
+        th:nth-child(5),
+        td:nth-child(5) {
+            width: 20%;
+        }
+
+        th:nth-child(6),
+        td:nth-child(6) {
+            width: 20%;
+        }
+
+        th:nth-child(7),
+        td:nth-child(7) {
+            width: 20%;
+        }
+
+        th:nth-child(8),
+        td:nth-child(8) {
+            width: 20%;
+        }
+
+        th {
+            background-color: #39546E;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        a {
+            color: #0051A3;
+            text-decoration: none;
+      
+        }
+        
+    </style>
+</head>
+
+<body>
+
+    <!-- Ancla invisible para el botón flotante Volver al Índice -->
+    <a id="top"></a>
+
+    <!-- Índice -->
+<div id="indice">
+  <div class="dropdown">
+    <a href="#ssdj" class="dropbtn">SSDJ</a>
+    <div class="dropdown-content">
+            <a href="#jefatura">Jefatura</a>
+            <a href="#personalssdj">Personal SSDJ</a>
+            <a href="#administracion">Administración</a>
+            <a href="#analitica">Analítica del Dato</a>
+            <a href="#procesal">Asesoría Procesal</a>
+            <a href="#capacitacion">Capacitación</a>
+            <a href="#desarrollo">Desarrollo</a>
+            <a href="#explotacion">Explotación - RunTime</a>
+            <a href="#infraestructuras">Sistemas</a>
+            <a href="#sacoep">Oficina Técnica (SACOEP)</a>
+            <a href="#puesto">Puesto de Trabajo</a>
+            <a href="#seguridad">Seguridad</a>
+            <a href="#audiovisuales">Sistemas Audiovisuales</a>
+        </div>
+        </div>
+                  
+   <div class="dropdown">
+    <a href="#proyectos" class="dropbtn">Proyectos en Curso</a>
+    <div class="dropdown-content">
+      <div class="sub-dropdown">
+        <a href="#ciberseguridad" class="sub-dropbtn">CiberSeguridad ▸</a>
+        <div class="sub-dropdown-content">
+          <a href="#hgis">HGIS</a>
+          <a href="#portal">Portal Adriano</a>
+        </div>
+      </div>
+      <a href="#dicireg">Dicireg</a>
+      <a href="#digitalizacion">Digitalización RRCC</a>
+      <a href="#interoperabilidad">Interoperabilidad</a>
+      <a href="#paneles">Paneles SSVV (FUJITSU)</a>
+      <a href="#nueva-sede-judicial-electronica">Nueva Sede Judicial Electrónica</a>
+      <a href="#automatizacion">RPA - Automatización de Procesos</a>
+      <div class="sub-dropdown">
+        <a href="#textualizacion" class="sub-dropbtn">Textualización ▸</a>
+        <div class="sub-dropdown-content">
+          <a href="#textualizacion-soltel">Textualización (Soltel)</a>
+        </div>
+        </div>
+      <a href="#turnos">Turnos</a>
+      <a href="#vdi">VDI</a>
+    </div>
+  </div>
+  
+  <div class="dropdown">
+    <a href="#delegaciones-territoriales" class="dropbtn">Delegaciones Territoriales</a>
+    <div class="dropdown-content">
+            <a href="#delegacion-territorial-almeria">Delegación Territorial de Almería</a>
+            <a href="#delegacion-territorial-cadiz">Delegación Territorial de Cádiz</a>
+            <a href="#delegacion-territorial-cordoba">Delegación Territorial de Córdoba</a>
+            <a href="#delegacion-territorial-granada">Delegación Territorial de Granada</a>
+            <a href="#delegacion-territorial-huelva">Delegación Territorial de Huelva</a>
+            <a href="#delegacion-territorial-jaen">Delegación Territorial de Jaén</a>
+            <a href="#delegacion-territorial-malaga">Delegación Territorial de Málaga</a>
+            <a href="#delegacion-territorial-sevilla">Delegación Territorial de Sevilla</a>
+        </div>
+        </div>
+        
+    <div class="dropdown">
+    <a href="#otros-ssdj" class="dropbtn">Otros SSDJ</a>
+    </div>
+</div>
+
+<style>
+  /* Indice */
+  #indice {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+  }
+
+  /* Botón principal */
+  .dropbtn {
+    background-color: #39546E;
+    color: white;
+    padding: 10px 20px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .dropbtn:hover {
+    background-color: #0056b3;
+  }
+
+  /* Contenedor del dropdown */
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  /* Contenido desplegable principal */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 220px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    z-index: 1;
+  }
+
+  /* Mostrar el contenido al pasar el ratón */
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+
+  /* Enlaces dentro del dropdown */
+  .dropdown-content a {
+    color: #333;
+    padding: 10px 16px;
+    text-decoration: none;
+    display: block;
+    background-color: white;
+    font-weight: normal;
+    transition: background 0.3s ease;
+  }
+
+  .dropdown-content a:hover {
+    background-color: #eaeaea;
+  }
+
+  /* Sub-dropdown (Jefatura) */
+  .sub-dropdown {
+    position: relative;
+  }
+
+  /* Contenido del submenú */
+  .sub-dropdown-content {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 100%;
+    background-color: #f9f9f9;
+    min-width: 180px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    z-index: 2;
+  }
+
+  /* Mostrar el submenú al pasar el ratón */
+  .sub-dropdown:hover .sub-dropdown-content {
+    display: block;
+  }
+
+  .sub-dropdown-content a {
+    padding: 10px 16px;
+  }
+
+  /* Margen de desplazamiento para secciones destino */
+  h2[id], h3[id] {
+    scroll-margin-top: 110px;
+  }
+  
+    .main-header[id] {
+    scroll-margin-top: 60px;
+  }
+</style>
+
+    <div class="main-container">
+        <div class="main-header" id="ssdj">SSDJ</div>
+        <div style="margin: 15px;">
+            <p>El Servicio de Sistemas Digitales para la Justicia (SSDJ) se encuentra en la Subdirección de Sistemas
+                Corporativos y Grandes Sistemas de la Agencia Digital de Andalucía.</p>
+            <p>Ejerce las competencias TIC para el buen funcionamiento de los Sistemas Digitales Judiciales de
+                Andalucía, cuyas competencias tiene la Secretaría General de Infraestructuras Judiciales, Modernización
+                Digital y Regeneración (SGIJMDR) de la Consejería de Justicia, Administración Local y Función Pública
+                (CJALFP).</p>
+                
+             <p><a href="https://capacitacion.justicia.junta-andalucia.es/course/view.php?id=100">Agenda de Correos y Teléfonos Corporativos</a></p>
+             
+            <a href="https://conversornumeracion-rcja.junta-andalucia.es/conversor-numeracion/conversor" class="btn-borde" target="_blank">Conversor de Numeración</a>
+            </div>
+
+                <!-- Bloque Jefatura -->
+                <div class="block">
+                    <h2 id="jefatura">Jefatura</h2>
+                    <table>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Cargo</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                        </tr>
+                        <tr>
+                            <td>Emilio Juan Cabezas Benítez</td>
+                            <td>Jefe de Servicio</td>
+                            <td><a href="mailto:emilioj.cabezas@juntadeandalucia.es">emilioj.cabezas@juntadeandalucia.es</a></td>
+                            <td><span title="647 916">600 147 916</span></td>
+                        </tr>
+                        <tr>
+                            <td>Mara Herrera Vega</td>
+                            <td>Adjunta</td>
+                            <td><a href="mailto:mariaa.herrera.vega@juntadeandalucia.es">mariaa.herrera.vega@juntadeandalucia.es</a></td>
+                            <td><span title="730 194">609 433 907</span></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Bloque Personal SSDJ -->
+                <div class="block">
+                    <h2 id="personalssdj">Personal SSDJ</h2>
+                    <table>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Cargo</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                        </tr>
+                        <tr>
+                            <td>Francisco Javier Ruiz Cortes</td>
+                            <td>Sistemas</td>
+                            <td><a href="mailto:fjavier.ruiz.cortes@juntadeandalucia.es">fjavier.ruiz.cortes@juntadeandalucia.es</a></td>
+                            <td><span title="748 321">670 948 321</span></td>
+                        </tr>
+                        <tr>
+                            <td>Eugenio Herrera Vega</td>
+                            <td>Puesto de Trabajo</td>
+                            <td><a href="mailto:eugenio.herrera@juntadeandalucia.es">eugenio.herrera@juntadeandalucia.es</a></td>
+                            <td><span title="610 275">660 063 272</span></td>
+                        </tr>
+                        <tr>
+                            <td>Paco Belmonte Espinosa</td>
+                            <td>Desarrollo/Explotación</td>
+                            <td><a href="mailto:paco.belmonte@juntadeandalucia.es">paco.belmonte@juntadeandalucia.es</a></td>
+                            <td><span title="632 973">671 532 973</span></td>
+                        </tr>
+                        <tr>
+                            <td>Alejandra Rodríguez Muñoz</td>
+                            <td>Administración</td>
+                            <td><a href="mailto:alejandra.rodriguez@juntadeandalucia.es">alejandra.rodriguez@juntadeandalucia.es</a></td>
+                            <td><span title="614 107">646 335 065</span></td>
+                        </tr>
+                        <tr>
+                            <td>María Gómez Lucea</td>
+                            <td>Desarrollo</td>
+                            <td><a href="mailto:maria.gomez.lucea@juntadeandalucia.es">maria.gomez.lucea@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>María Belén Barroso Pastor</td>
+                            <td>Desarrollo</td>
+                            <td><a href="mailto:mbelen.barroso@juntadeandalucia.es">mbelen.barroso@juntadeandalucia.es</a></td>
+                            <td><span title="745 121">670 945 121</span></td>
+                        </tr>
+                        <tr>
+                            <td>Coordinación</td>
+                            <td></td>
+                            <td><a href="mailto:coordinacion.ssdj.ius@juntadeandalucia.es">coordinacion.ssdj.ius@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Bloque Administración -->
+                <div class="block">
+                    <h2 id="administracion">Administración</h2>
+                    <table>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                        </tr>
+                        <tr>
+                            <td>Alejandra Rodríguez Muñoz</td>
+                            <td><a href="mailto:alejandra.rodriguez@juntadeandalucia.es">alejandra.rodriguez@juntadeandalucia.es</a></td>
+                            <td><span title="614 107">646 335 065</span></td>
+                        </tr>
+                        <tr>
+                            <td>Correo Genérico Administración</td>
+                            <td><a href="mailto:administracion.ius@juntadeandalucia.es">administracion.ius@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Bloque Analítica del dato -->
+                <div class="block">
+                    <h2 id="analitica">Analítica del Dato</h2>
+                    <table>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                        </tr>
+                        <tr>
+                            <td>Diego Gallardo Ortiz</td>
+                            <td><a href="mailto:diego.gallardo@soltel.es">diego.gallardo@soltel.es</a></td>
+                            <td>655 757 519</td>
+                        </tr>
+                        <tr>
+                            <td>Isabel Macarena Salgado Abolafia</td>
+                            <td><a href="mailto:isabel.macarena.salgado.abolafia@emeal.nttdata.com">isabel.macarena.salgado.abolafia@emeal.nttdata.com</a></td>
+                            <td>656 634 988</td>
+                        </tr>
+                        <tr>
+                            <td>Equipo Soporte Proyecto</td>
+                            <td><a href="mailto:esp.analiticadatos.ius@juntadeandalucia.es">esp.analiticadatos.ius@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Bloque Asesoría Procesal -->
+                <div class="block">
+                    <h2 id="procesal">Asesoría Procesal</h2>
+                    <table>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                        </tr>
+                        <tr>
+                            <td>Carmen Toribio Ángel</td>
+                            <td><a href="mailto:carmen.toribio@soltel.es">carmen.toribio@soltel.es</a></td>
+                            <td>680 681 463</td>
+                        </tr>
+                        <tr>
+                            <td>Coordinación</td>
+                            <td><a href="mailto:coordinacion.procesal.ius@juntadeandalucia.es">coordinacion.procesal.ius@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Equipo de Coordinación</td>
+                            <td><a href="mailto:procesal.ius@juntadeandalucia.es">procesal.ius@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Equipo</td>
+                            <td><a href="mailto:equipo.procesal.ius@juntadeandalucia.es">equipo.procesal.ius@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Bloque Capacitación -->
+                <div class="block">
+                    <h2 id="capacitacion">Capacitación</h2>
+                    <table>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                        </tr>
+                        <tr>
+                            <td>Mario Jiménez López</td>
+                            <td><a href="mailto:mario.jimenez@soltel.es">mario.jimenez@soltel.es</a></td>
+                            <td>635 778 572</td>
+                        </tr>
+                        <tr>
+                            <td>Coordinación</td>
+                            <td><a href="mailto:coordinacion.capacitacion.ius@juntadeandalucia.es">coordinacion.capacitacion.ius@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Equipo</td>
+                            <td><a href="mailto:equipo.capacitacion.ius@juntadeandalucia.es">equipo.capacitacion.ius@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Bloque Desarrollo -->
+                <div class="block">
+                    <h2 id="desarrollo">Desarrollo</h2>
+                    <table>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                        </tr>
+                        <tr>
+                            <td>Mª Belén Barroso Pastor</td>
+                            <td><a href="mailto:mbelen.barroso@juntadeandalucia.es">mbelen.barroso@juntadeandalucia.es</a></td>
+                            <td><span title="745 121">670 945 121</span></td>
+                        </tr>
+                        <tr>
+                            <td>Coordinación</td>
+                            <td><a href="mailto:coordinacion.desarrollo.ius@juntadeandalucia.es">coordinacion.desarrollo.ius@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Equipo</td>
+                            <td><a href="mailto:equipo.desarrollo.ius@juntadeandalucia.es">equipo.desarrollo.ius@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Bloque Explotación - DevOps -->
+                <div class="block">
+                    <h2 id="explotacion">Explotación - RunTime</h2>
+                    <table>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                        </tr>
+                        <tr>
+                            <td>David Rosado Guardiola</td>
+                            <td><a href="mailto:david.rosado@soltel.es">david.rosado@soltel.es</a></td>
+                            <td>692 194 484</td>
+                        </tr>
+                        <tr>
+                            <td>Coordinación</td>
+                            <td><a href="mailto:coordinacion.explotacion.ius@juntadeandalucia.es">coordinacion.explotacion.ius@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Equipo</td>
+                            <td><a href="mailto:equipo.explotacion.ius@juntadeandalucia.es">equipo.explotacion.ius@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Bloque Infraestructuras y Operaciones -->
+                <div class="block">
+                    <h2 id="infraestructuras">Sistemas</h2>
+                    <table>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                        </tr>
+                        <tr>
+                            <td>Francisco Javier Ruiz Cortés</td>
+                            <td><a href="mailto:fjavier.ruiz.cortes@juntadeandalucia.es">fjavier.ruiz.cortes@juntadeandalucia.es</a></td>
+                            <td><span title="748 321">670 948 321</span></td>
+                        </tr>
+                        <tr>
+                            <td>Rocio Medina Bermudez</td>
+                            <td><a href="mailto:rocio.medinabermudez@fujitsu.com">rocio.medinabermudez@fujitsu.com</a></td>
+                            <td>692 473 638</td>
+                        </tr>
+                        <tr>
+                            <td>Paco Belmonte Espinosa</td>
+                            <td><a href="mailto:paco.belmonte@juntadeandalucia.es">paco.belmonte@juntadeandalucia.es</a></td>
+                            <td><span title="632 973">671 532 973</span></td>
+                        </tr>
+                        <tr>
+                            <td>Coordinación</td>
+                            <td><a href="mailto:coordinacion.sistemas.ius@juntadeandalucia.es">coordinacion.sistemas.ius@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Equipo</td>
+                            <td><a href="mailto:equipo.sistemas.ius@juntadeandalucia.es">equipo.sistemas.ius@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Bloque Oficina Técnica (SACOEP)-->
+                <div class="block">
+                    <h2 id="sacoep">Oficina Técnica (SACOEP)</h2>
+                    <table>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                        </tr>
+                        <tr>
+                            <td>Maruja Martínez Camacho</td>
+                            <td><a href="mailto:marialuisa.martinez@soltel.es">marialuisa.martinez@soltel.es</a></td>
+                            <td>660 426 419</td>
+                        </tr>
+                        <tr>
+                            <td>Coordinación</td>
+                            <td><a href="mailto:coordinacion.ot.ius@juntadeandalucia.es">coordinacion.ot.ius@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Equipo</td>
+                            <td><a href="mailto:equipo.ot.ius@juntadeandalucia.es">equipo.ot.ius@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Bloque Puesto de Trabajo-->
+                <div class="block">
+                    <h2 id="puesto">Puesto de Trabajo</h2>
+                    <table>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                        </tr>
+                        <tr>
+                            <td>Eugenio Herrera Vega</td>
+                            <td><a href="mailto:eugenio.herrera@juntadeandalucia.es">eugenio.herrera@juntadeandalucia.es</a></td>
+                            <td><span title="610 275">660 063 272</span></td>
+                        </tr>
+                        <tr>
+                            <td>Coordinación</td>
+                            <td><a href="mailto:coordinacion.puestodetrabajo.ius@juntadeandalucia.es">coordinacion.puestodetrabajo.ius@juntadeandalucia.es</a>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Equipo</td>
+                            <td><a href="mailto:equipo.puestodetrabajo.ius@juntadeandalucia.es">equipo.puestodetrabajo.ius@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Lista Abierta</td>
+                            <td><a href="mailto:esp.consumibles.ius@juntadeandalucia.es">esp.consumibles.ius@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Bloque Seguridad-->
+                <div class="block">
+                    <h2 id="seguridad">Seguridad TIC</h2>
+                    <table>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                        </tr>
+                        <tr>
+                            <td>Francisco Javier Ruiz Cortés</td>
+                            <td><a href="mailto:fjavier.ruiz.cortes@juntadeandalucia.es">fjavier.ruiz.cortes@juntadeandalucia.es</a></td>
+                            <td>661 108 881</td>
+                        </tr>
+                        <tr>
+                            <td>Paco Belmonte Espinosa</td>
+                            <td><a href="mailto:paco.belmonte@juntadeandalucia.es">paco.belmonte@juntadeandalucia.es</a></td>
+                            <td><span title="632 973">671 532 973</span></td>
+                        </tr>
+                        <tr>
+                            <td>Lista Abierta</td>
+                            <td><a href="mailto:seguridad.tic.ius@juntadeandalucia.es">seguridad.tic.ius@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Bloque Sistemas Audiovisuales -->
+                <div class="block">
+                    <h2 id="audiovisuales">Sistemas Audiovisuales</h2>
+                    <table>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                        </tr>
+                        <tr>
+                            <td>Carlos Haya Zurita</td>
+                            <td><a href="mailto:carlos.haya@ts.fujitsu.com">carlos.haya@ts.fujitsu.com</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Carlos Ramos Guerrero</td>
+                            <td><a href="mailto:carlos.ramos@ts.fujitsu.com">carlos.ramos@ts.fujitsu.com</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Coordinación</td>
+                            <td><a href="mailto:coordinacion.ssaa.ius@juntadeandalucia.es">coordinacion.ssaa.ius@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Equipo</td>
+                            <td><a href="mailto:equipo.ssaa.ius@juntadeandalucia.es">equipo.ssaa.ius@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Comerciales</td>
+                            <td><a href="mailto:eladio.alcazar@fujitsu.com">eladio.alcazar@fujitsu.com</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Comerciales</td>
+                            <td><a href="mailto:antonio.ortiz@fujitsu.com">antonio.ortiz@fujitsu.com</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Comerciales</td>
+                            <td><a href="mailto:paula.gonzalezromero@fujitsu.com">paula.gonzalezromero@fujitsu.com</a></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- BLOQUE PROYECTOS -->
+            <div class="main-container">
+                <div class="main-header" id="proyectos">PROYECTOS EN CURSO</div>
+                <div style="margin: 15px;">
+
+                <!-- Bloque Ciberseguridad -->
+                <div class="block">
+                    <h2 id="ciberseguridad">CiberSeguridad</h2>
+                    <table>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Cargo</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                        </tr>
+                        <tr>
+                            <td>José Miguel Fernández Fernández</td>
+                            <td>Gestor de Proyecto</td>
+                            <td><a href="mailto:josemiguel.fernandezfernandez@emeal.nttdata.com">josemiguel.fernandezfernandez@emeal.nttdata.com</a></td>
+                            <td>655 779 269</td>
+                        </tr>
+                        <tr>
+                            <td>María Pacheco Gómez</td>
+                            <td>Gestor de Proyecto</td>
+                            <td><a href="mailto:maria.pacheco@soltel.es">maria.pacheco@soltel.es</a></td>
+                            <td>696 445 817</td>
+                        </tr>
+                        <tr>
+                            <td>Miryam Jiménez Pérez</td>
+                            <td>Responsable del Encargo</td>
+                            <td><a href="mailto:miryam.jimenez@juntadeandalucia.es">miryam.jimenez@juntadeandalucia.es</a></td>
+                            <td><span title="756 627">697 956 627</span></td>
+                        </tr>
+                        <tr>
+                            <td>Alejandro Alcalde</td>
+                            <td>Coordinador Encargo SSII</td>
+                            <td><a href="mailto:alejandro.alcalde@juntadeandalucia.es">alejandro.alcalde@juntadeandalucia.es</a></td>
+                            <td>697 957 964</td>
+                        </tr>
+                    </table>
+                </div>
+
+                    <!-- SUB-BLOQUE HGIS -->
+                    <div class="sub-block">
+                        <h3 id="hgis">HGIS - Nuevo Remedy (iOneTeam)</h3>
+                        <table>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Cargo</th>
+                                <th>Email</th>
+                                <th>Teléfono</th>
+                            </tr>
+                            <tr>
+                                <td>Celso Alonso Muñoz</td>
+                                <td>Jefe de Proyecto</td>
+                                <td><a href="mailto:celso.alonso@ioneteam.es">celso.alonso@ioneteam.es</a></td>
+                                <td>620 927 696</td>
+                            </tr>
+                            <tr>
+                                <td>Sonia Rus Gelo</td>
+                                <td>Gestora de Proyecto</td>
+                                <td><a href="mailto:sonia.rusgelo@nttdata.com">sonia.rusgelo@nttdata.com</a></td>
+                                <td>644 425 996</td>
+                            </tr>
+                            <tr>
+                                <td>José Miguel Fernández</td>
+                                <td>Gestor de Proyecto</td>
+                                <td><a href="mailto:josemiguel.fernandezfernandez@emeal.nttdata.com">josemiguel.fernandezfernandez@emeal.nttdata.com</a></td>
+                                <td>655 779 269</td>
+                            </tr>
+                            <tr>
+                                <td>Alfonso Moreno Pérez</td>
+                                <td>Coordinador Encargo SSII</td>
+                                <td><a href="mailto:alfonso.moreno.perez@juntadeandalucia.es">alfonso.moreno.perez@juntadeandalucia.es</a></td>
+                                <td><span title="768 067">671 568 067</span></td>
+                            </tr>
+
+                        </table>
+                    </div>
+
+                    <!-- SUB-BLOQUE PORTAL ADRIANO MINSAIT -->
+                    <div class="sub-block">
+                        <h3 id="portal">Portal Adriano (Minsait)</h3>
+                        <table>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Cargo</th>
+                                <th>Email</th>
+                                <th>Teléfono</th>
+                            </tr>
+                            <tr>
+                                <td>Alfonso Moreno Pérez</td>
+                                <td>Coordinador Encargo SSII</td>
+                                <td><a href="mailto:alfonso.moreno.perez@juntadeandalucia.es">alfonso.moreno.perez@juntadeandalucia.es</a></td>
+                                <td><span title="768 067">671 568 067</span></td>
+                            </tr>
+                            <tr>
+                                <td>Miguel Valencia Zurera</td>
+                                <td>Responsable de Ejecución</td>
+                                <td><a href="mailto:miguel.valencia@juntadeandalucia.es">miguel.valencia@juntadeandalucia.es</a></td>
+                                <td><span title="742 377">670 942 377</span></td>
+                            </tr>
+                            <tr>
+                                <td>Juan David Ayllón Burguillo</td>
+                                <td>Responsable de Desarrollo</td>
+                                <td><a href="mailto:juandavid.ayllon@juntadeandalucia.es">juandavid.ayllon@juntadeandalucia.es</a></td>
+                                <td><span title="763 595">671 563 595</span></td>
+                            </tr>
+                            <tr>
+                                <td>María Patrignani Cuerda</td>
+                                <td>Analista Portal </td>
+                                <td><a href="mailto:xxx@xxx.com"></a></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                <!-- BLOQUE DICIREG -->
+                <div class="block">
+                    <h2 id="dicireg">Dicireg</h2>
+                    <table>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Cargo</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                        </tr>
+                        <tr>
+                            <td>José Miguel Fernández Fernández</td>
+                            <td>Gestor de Proyecto</td>
+                            <td><a href="mailto:josemiguel.fernandezfernandez@emeal.nttdata.com">josemiguel.fernandezfernandez@emeal.nttdata.com</a></td>
+                            <td>655 779 269</td>
+                        </tr>
+                        <tr>
+                            <td>María Yolanda Hernández Parra</td>
+                            <td>Responsable de Proyecto</td>
+                            <td><a href="mailto:mariayolanda.hernandez@mjusticia.es">mariayolanda.hernandez@mjusticia.es</a></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+
+            <!-- BLOQUE DIGITALIZACION RRCC-->
+            <div class="block">
+                <h2 id="digitalizacion">Digitalización RRCC</h2>
+                <table>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Cargo</th>
+                        <th>Email</th>
+                        <th>Teléfono</th>
+                    </tr>
+                    <tr>
+                        <td>Ana Muñoz Roldán</td>
+                        <td>Gestor de Proyecto/Coordinadora Encargo</td>
+                        <td><a href="mailto:ana.m.roldan@juntadeandalucia.es">ana.m.roldan@juntadeandalucia.es</a></td>
+                        <td><span title="697 777">671 597 777</span></td>
+                    </tr>
+                    <tr>
+                        <td>Verónica Sánchez Guiseris</td>
+                        <td>Gestor de Proyecto/Técnico</td>
+                        <td><a href="mailto:veronica.sanchez.guiseris@juntadeandalucia.es">veronica.sanchez.guiseris@juntadeandalucia.es</a></td>
+                        <td><span title="695 784">671 595 784</span></td>
+                    </tr>
+                    <tr>
+                        <td>Carlos Morales García</td>
+                        <td>Jefe de Proyecto</td>
+                        <td><a href="mailto:carlos.morales@iconsulting365.com">carlos.morales@iconsulting365.com</a></td>
+                        <td>689 807 514</td>
+                    </tr>
+                    <tr>
+                        <td>Jorge Lozano Ayala</td>
+                        <td>Técnico</td>
+                        <td><a href="mailto:jorge.lozano.ayala@juntadeandalucia.es">jorge.lozano.ayala@juntadeandalucia.es</a></td>
+                        <td><span title="756 353">697 956 353</span></td>
+                    </tr>
+                </table>
+            </div>
+
+        <!-- BLOQUE INTEROPERABILIDAD-->
+        <div class="block">
+            <h2 id="interoperabilidad">Interoperabilidad</h2>
+            <table>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Cargo</th>
+                    <th>Email</th>
+                    <th>Teléfono</th>
+                </tr>
+                <tr>
+                    <td>Remedios Martínez de Marigorta Mesa</td>
+                    <td>Responsable Encargo</td>
+                    <td><a href="mailto:remedios.m.marigorta@juntadeandalucia.es">remedios.m.marigorta@juntadeandalucia.es</a></td>
+                    <td>671 560 087</td>
+                </tr>
+                <tr>
+                    <td>José Luis Salas Espina</td>
+                    <td>Responsable NIJA</td>
+                    <td><a href="mailto:joseluis.salas@juntadeandalucia.es ">joseluis.salas@juntadeandalucia.es</a></td>
+                    <td>671 590 074</td>
+                </tr>
+                <tr>
+                     <td>José Justo Aguilera Álvarez</td>
+                     <td>Responsable Integraciones</td>
+                     <td><a href="mailto:josej.aguilera@juntadeandalucia.es">josej.aguilera@juntadeandalucia.es</a></td>
+                     <td>671 595 014</td>
+                 </tr>
+                 <tr>
+                     <td>Rafael Pineda Bulnes</td>
+                     <td>Responsable Integraciones</td>
+                     <td><a href="mailto:rafael.pineda.bulnes@juntadeandalucia.es">rafael.pineda.bulnes@juntadeandalucia.es</a></td>
+                     <td>671 560 682</td>
+                 </tr>
+                
+                </table>
+           </div>
+
+            <!-- SUB-BLOQUE INTEROPERABILIDAD -->
+            <div class="sub-block">
+                <a id="sub-interoperabilidad"></a>
+                <table>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Cargo</th>
+                        <th>Email</th>
+                        <th>Teléfono</th>
+                     </tr>
+                    <tr>
+                    <td>Sebastián López Cano</td>
+                    <td>Jefe de Proyecto</td>
+                    <td><a href="mailto:sebastian.lopez.cano@nttdata.com">sebastian.lopez.cano@nttdata.com</a></td>
+                    <td>659 756 508</td>
+                    </tr>
+                    <tr>
+                        <td>Juan José Pozo Villalta</td>
+                        <td>Jefe de Proyecto </td>
+                        <td><a href="mailto:jjpozo@minsait.com">jjpozo@minsait.com</a></td>
+                        <td>629 865 123</td>
+                    </tr>
+                    <tr>
+                        <td>José Pablo Soriano Canela</td>
+                        <td>Jefe de Proyecto </td>
+                        <td><a href="mailto:jpsorianoc@minsait.com">jpsorianoc@minsait.com</a></td>
+                        <td>609 422 024</td>
+                    </tr>
+                    <tr>
+                        <td>David Florián Sanz</td>
+                        <td>Jefe de Proyecto </td>
+                        <td><a href="mailto:dflorian@minsait.com ">dflorian@minsait.com </a></td>
+                        <td>610 251 570</td>
+                    </tr>
+                    <tr>
+                        <td>José Antonio Álvarez Quintero</td>
+                        <td>Consultor Digital</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Jesús Suárez Luque</td>
+                        <td>Arquitecto de Sistemas</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>José Carlos García Rodríguez</td>
+                        <td>Diseñador de Soluciones</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Blanca Martín Carrillo</td>
+                        <td>Especialista en Medios Digitales</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+	                <tr>
+                        <td>Alejandro Sánchez Saavedra</td>
+                        <td>Analista de Negocio</td>
+                        <td></td>
+                        <td></td>
+                    </tr>                    
+                    <tr>
+                        <td>Alex Used Martinez</td>
+                        <td>Desarrollador</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Javier Torres Alba</td>
+                        <td>Desarrollador</td>
+                        <td></td>
+                        <td></td>
+                    </tr>                    
+                    <tr>
+                        <td>Guillermo Brugarolas Sobejano</td>
+                        <td>Especialista Seguridad</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Alejandro Yague Barbero</td>
+                        <td>Especialista en Pruebas</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Francisco Fabre Moreno</td>
+                        <td>Gestor de Aseguramiento de la Calidad</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Adrián Gomez Luna</td>
+                        <td>Diseñador de soluciones</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                         <td>Néstor Joaquín Cabanillas Sarmiento</td>
+                         <td>Desarrollador</td>
+                         <td></td>
+                         <td></td>
+                    </tr>
+                    <tr>
+                         <td>Agustín Manuel Rodríguez Morillo</td>
+                         <td>Desarrollador</td>
+                         <td></td>
+                         <td></td>
+                    </tr>
+                    <tr>
+                         <td>Juan José Casilla Salguero</td>
+                         <td>Gestor de aseguramiento de la calidad</td>
+                         <td></td>
+                         <td></td>
+                    </tr>
+                    <tr>
+                         <td>Álvaro Castillo Bermejo</td>
+                         <td>Especialista en medios digitales</td>
+                         <td></td>
+                         <td></td>
+                    </tr>
+
+                </table>
+            </div>
+
+        <!-- BLOQUE PANELES SSVV -->
+        <div class="block">
+            <h2 id="paneles">Paneles SSVV (FUJITSU)</h2>
+            <table>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Cargo</th>
+                    <th>Email</th>
+                    <th>Teléfono</th>
+                </tr>
+                <tr>
+                    <td>Jose Miguel Fernández Fernández</td>
+                    <td>Gestor de Proyecto</td>
+                    <td><a href="mailto:josemiguel.fernandezfernandez@nttdata.com">josemiguel.fernandezfernandez@nttdata.com</a></td>
+                    <td>655 779 269</td>
+                </tr>
+                <tr>
+                    <td>Ángel Jimeno Robles</td>
+                    <td>Jefe de proyecto</td>
+                    <td><a href="mailto:angel.jimeno@fujitsu.com">angel.jimeno@fujitsu.com</a></td>
+                    <td>626 695 109</td>
+                </tr>
+                <tr>
+                    <td>Carlos Haya Zurita</td>
+                    <td>Técnico nivel 2</td>
+                    <td><a href="mailto:carlos.haya@fujitsu.com">carlos.haya@fujitsu.com</a></td>
+                    <td>629 277 107</td>
+                </tr>
+                <tr>
+                    <td>Carlos Ramos Guerrero</td>
+                    <td>Técnico nivel 2</td>
+                    <td><a href="mailto:carlos.ramos@fujitsu.com">carlos.ramos@fujitsu.com</a></td>
+                    <td>629 277 160</td>
+                </tr>
+            </table>
+        </div>
+
+    <!-- BLOQUE NUEVA SEDE JUDICIAL ELECTRÓNICA -->
+    <div class="block">
+        <h2 id="nueva-sede-judicial-electronica">Nueva Sede Judicial Electrónica</h2>
+        <table>
+            <tr>
+                <th>Nombre</th>
+                <th>Cargo</th>
+                <th>Email</th>
+                <th>Teléfono</th>
+            </tr>
+            <tr>
+                <td>Andrea De Las Casas Vega</td>
+                <td>Gestor de Proyecto</td>
+                <td><a href="mailto:andrea.de.las.casas.vega@nttdata.com">andrea.de.las.casas.vega@nttdata.com</a></td>
+                <td>666 404 825</td>
+            </tr>
+            <tr>
+                <td>Lucía Martos (Accenture)</td>
+                <td>Jefa de Proyecto Lote1</td>
+                <td><a href="mailto:lucia.martos@accenture.com">lucia.martos@accenture.com</a></td>
+                <td>685 483 928</td>
+            </tr>
+            <tr>
+                <td>Francisco Javier Perez (Babel)</td>
+                <td>Jefe de Proyecto Lote2</td>
+                <td><a href="mailto:francisco.pgonzalez@babelgroup.com">francisco.pgonzalez@babelgroup.com</a></td>
+                <td>670 822 558</td>
+            </tr>
+            <tr>
+                <td>Lista Abierta</td>
+                <td></td>
+                <td><a href="mailto:esp.sede.ius@juntadeandalucia.es">esp.sede.ius@juntadeandalucia.es</a></td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- BLOQUE RPA - AUTOMATIZACIÓN DE PROCESOS -->
+    <div class="block">
+        <h2 id="automatizacion">RPA - Automatización de Procesos</h2>
+        <table>
+            <tr>
+                <th>Nombre</th>
+                <th>Cargo</th>
+                <th>Email</th>
+                <th>Teléfono</th>
+            </tr>
+            <tr>
+                <td>Mónica Payer</td>
+                <td>Jefa de Proyecto</td>
+                <td><a href="mailto:mpayer@minsait.com">mpayer@minsait.com</a></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Jorge Amor Perea</td>
+                <td>Gestor de Proyecto</td>
+                <td><a href="mailto:jorge.amorperea@emeal.nttdata.com">jorge.amorperea@emeal.nttdata.com</a></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Antonio Pinelo</td>
+                <td>Responsable del Encargo</td>
+                <td><a href="mailto:antoniod.pinelo@juntadeandalucia.es">antoniod.pinelo@juntadeandalucia.es</a></td>
+                <td></td>
+            </tr>
+
+        </table>
+    </div>
+
+    <!-- BLOQUE TEXTUALIZACIÓN -->
+    <div class="block">
+        <h2 id="textualizacion">Textualización</h2>
+        <table>
+            <tr>
+                <th>Nombre</th>
+                <th>Cargo</th>
+                <th>Email</th>
+                <th>Teléfono</th>
+            </tr>
+            <tr>
+                <td>José Miguel Fernández Fernández</td>
+                <td>Gestor de Proyecto</td>
+                <td><a href="mailto:josemiguel.fernandezfernandez@emeal.nttdata.com">josemiguel.fernandezfernandez@emeal.nttdata.com</a></td>
+                <td>655 779 269</td>
+            </tr>
+            <tr>
+                <td>Álvaro Haya</td>
+                <td>Jefe de Proyecto</td>
+                <td><a href="mailto:jalvaro.haya@soltel.es">jalvaro.haya@soltel.es</a></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Lista Abierta</td>
+                <td></td>
+                <td><a href="mailto:esp.textualizacion.ius@juntadeandalucia.es">esp.textualizacion.ius@juntadeandalucia.es</a></td>
+                <td></td>
+            </tr>
+        </table>
+   </div>
+
+        <!-- SUB-BLOQUE TEXTUALIZACIÓN (SOLTEL) -->
+        <div class="sub-block">
+            <h3 id="textualizacion-soltel">Textualización (Soltel)</h3>
+            <table>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Cargo</th>
+                    <th>Email</th>
+                    <th>Teléfono</th>
+                </tr>
+                <tr>
+                    <td>Álvaro Haya</td>
+                    <td>Gerente de Proyecto</td>
+                    <td><a href="mailto:jalvaro.haya@soltel.es">jalvaro.haya@soltel.es</a></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Adolfo Arguedas Lázaro</td>
+                    <td>Director de Proyectos</td>
+                    <td><a href="mailto:aarguedas@etiqmedia.com">aarguedas@etiqmedia.com</a></td>
+                    <td>654 908 823</td>
+                </tr>
+                <tr>
+                    <td>Pablo Gracia Utrilla</td>
+                    <td>Técnico Web</td>
+                    <td><a href="mailto:pgracia@etiqmedia.com">pgracia@etiqmedia.com</a></td>
+                    <td>640 290 290</td>
+                </tr>
+                <tr>
+                    <td>Juan Bautista Mesa</td>
+                    <td>Arquitecto Sistemas</td>
+                    <td><a href="mailto:juan.mesa@soltel.es">juan.mesa@soltel.es</a></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+
+    <!-- BLOQUE TURNOS -->
+    <div class="block">
+        <h2 id="turnos">Turnos</h2>
+        <table>
+            <tr>
+                <th>Nombre</th>
+                <th>Cargo</th>
+                <th>Email</th>
+                <th>Teléfono</th>
+            </tr>
+            <tr>
+                <td>Jose Miguel Fernández Fernández</td>
+                <td>Gestor de Proyecto</td>
+                <td><a href="mailto:josemiguel.fernandezfernandez@nttdata.com">josemiguel.fernandezfernandez@nttdata.com</a></td>
+                <td>655 779 269</td>
+            </tr>
+            <tr>
+                <td>Samuel Suárez Rios</td>
+                <td>Responsable de proyecto</td>
+                <td><a href="mailto:samuel.suarezrios@plexus.es">samuel.suarezrios@plexus.es</a></td>
+                <td>698 120 533</td>
+            </tr>
+        </table>
+    </div>
+    
+    <!-- BLOQUE VDI-->
+    <div class="block">
+        <h2 id="vdi">VDI</h2>
+        <table>
+            <tr>
+                <th>Nombre</th>
+                <th>Cargo</th>
+                <th>Email</th>
+                <th>Teléfono</th>
+            </tr>
+            <tr>
+                <td>Andrea De Las Casas Vega</td>
+                <td>Gestor de Proyecto</td>
+                <td><a href="mailto:andrea.de.las.casas.vega@nttdata.com">andrea.de.las.casas.vega@nttdata.com</a></td>
+                <td>666 404 825</td>
+            </tr>
+            <tr>
+                <td>Javier Yagüe Agüado</td>
+                <td>Jefe de proyecto</td>
+                <td><a href="mailto:jyague@taisa.com">jyague@taisa.com</a></td>
+                <td>626 314 666</td>
+            </tr>
+            <tr>
+                <td>Alfonso Moreno</td>
+                <td>Responsable del Encargo</td>
+                <td><a href="mailto:alfonso.moreno.perez@juntadeandalucia.es">alfonso.moreno.perez@juntadeandalucia.es</a></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Lista Abierta</td>
+                <td></td>
+                <td><a href="mailto:esp.vdi.ius@juntadeandalucia.es">esp.vdi.ius@juntadeandalucia.es</a></td>
+                <td></td>
+            </tr>
+        </table>
+    </div>        
+ </div>
+<!-- Bloque Jefatura -->
+                <div class="block">
+                    <h2 id="gabinetes">Gabinetes</h2>
+                    <table>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Cargo</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                        </tr>
+                        <tr>
+                            <td>Benito Ángel Prieto León</td>
+                            <td></td>
+                            <td><a href="mailto:benito.prieto@juntadeandalucia.es">benito.prieto@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Fidel Serradilla</td>
+                            <td></td>
+                            <td><a href="mailto:fidel.serradilla@juntadeandalucia.es">fidel.serradilla@juntadeandalucia.es</a></td>
+                            <td><span title=""</span></td>
+                        </tr>
+                        <tr>
+                            <td>Miguel Ángel Vera</td>
+                            <td></td>
+                            <td><a href="mailto:mangel.vera@juntadeandalucia.es">mangel.vera@juntadeandalucia.es</a></td>
+                            <td><span title=""</span></td>
+                        </tr>
+                        <tr>
+                            <td>Jose M Gómez Ruiz</td>
+                            <td></td>
+                            <td><a href="mailto:josem.gomez.ruiz@juntadeandalucia.es">josem.gomez.ruiz@juntadeandalucia.es</a></td>
+                            <td><span title=""</span></td>
+                        </tr>
+                        <tr>
+                            <td>Juán L Garrido</td>
+                            <td></td>
+                            <td><a href="mailto:juanl.garrido@juntadeandalucia.es">juanl.garrido@juntadeandalucia.es</a></td>
+                            <td><span title=""</span></td>
+                        </tr>
+                        <tr>
+                            <td>Marco A López</td>
+                            <td></td>
+                            <td><a href="mailto:marcoa.lopez@juntadeandalucia.es">marcoa.lopez@juntadeandalucia.es</a></td>
+                            <td><span title=""</span></td>
+                        </tr>
+                        <tr>
+                            <td>María A Herrera Vega</td>
+                            <td></td>
+                            <td><a href="mailto:mariaa.herrera.vega@juntadeandalucia.es">mariaa.herrera.vega@juntadeandalucia.es</a></td>
+                            <td><span title=""</span></td>
+                        </tr>
+                        <tr>
+                            <td>Miguel Orozco Espada</td>
+                            <td></td>
+                            <td><a href="mailto:miguel.orozco.espada@juntadeandalucia.es">miguel.orozco.espada@juntadeandalucia.es</a></td>
+                            <td><span title=""</span></td>
+                        </tr>
+                        <tr>
+                            <td>Miguel Ortega</td>
+                            <td></td>
+                            <td><a href="mailto:miguel.ortega@juntadeandalucia.es">miguel.ortega@juntadeandalucia.es</a></td>
+                            <td><span title=""</span></td>
+                        </tr>
+                    </table>
+                </div>
+
+<div class="main-container">
+        <div class="main-header" id="delegaciones-territoriales">DELEGACIONES TERRITORIALES</div>
+        <div style="margin: 15px;">
+        <p><b>INFORMÁTICA: </b><a href="mailto:ddtt.informatica.ius@juntadeandalucia.es">ddtt.informatica.ius@juntadeandalucia.es</a></p>
+        <p><b>GABINETES: </b><a href="mailto:ddtt.informatica.ius@juntadeandalucia.es">ddtt.gabinetes.ius@juntadeandalucia.es</a></p>
+        <p><b>RESPONSABLE GABINETE: </b><a href="mailto:marcoa.lopez@juntadeandalucia.es">marcoa.lopez@juntadeandalucia.es</a></p>
+        </div>
+
+                <!-- Bloque Delegación Territorial Almería-->
+                <div class="block">
+                    <h2 id="delegacion-territorial-almeria">Delegación Territorial de Almería - Dpto. de Informática</h2>
+                    <table>
+                    <div style="background-color: #D3DEF0; padding: 15px; border-radius: 8px;">
+                    <p style="margin: 2px 0;"><b>Correo: </b><a href="mailto:dtal.informatica.ius@juntadeandalucia.es">dtal.informatica.ius@juntadeandalucia.es</a></p>
+                    <p><b>Gabinete: </b><a href="mailto:fidel.serradilla@juntadeandalucia.es">fidel.serradilla@juntadeandalucia.es</a></p>
+                    <p style="margin: 2px 0;"><b>Dirección:</b></p>
+                    <p style="margin: 2px 0;"><b>Ciudad de la Justicia de Almería</b></p>
+                    <p style="margin: 2px 0;">Carretera de Ronda, 120</p>
+                    <p>04006 - Almería</p>
+                    </div>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Puesto</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                        </tr>
+                        <tr>
+                            <td>Diego María Martínez Mesas</td>
+                            <td>Jefe de la DP</td>
+                            <td><a href="mailto:diegom.martinez@juntadeandalucia.es">diegom.martinez@juntadeandalucia.es</a></td>
+                            <td>600 159 075 (689 075) / 697 955 427 (755 427)</td>
+                        </tr>
+                        <tr>
+                            <td>Juan Antonio Martínez Corral</td>
+                            <td>Personal DP</td>
+                            <td><a href="mailto:juan.martinez.corral@juntadeandalucia.es">juan.martinez.corral@juntadeandalucia.es</a></td>
+                            <td>600 159 079 (689 079) / 670 949 941 (749 941)</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <!-- Bloque Delegación Territorial Cádiz-->
+                <div class="block">
+                    <h2 id="delegacion-territorial-cadiz">Delegación Territorial de Cádiz - Dpto. de Informática</h2>
+                    <table>
+                    <div style="background-color: #D3DEF0; padding: 15px; border-radius: 8px;">
+                    <p style="margin: 2px 0;"><b>Correo: </b><a href="mailto:dtca.informatica.ius@juntadeandalucia.es">dtca.informatica.ius@juntadeandalucia.es</a></p>
+                    <p><b>Gabinete: </b><a href="mailto:mangel.vera@juntadeandalucia.es">mangel.vera@juntadeandalucia.es</a></p>
+                    <p style="margin: 2px 0;"><b>Dirección:</b></p>
+                    <p style="margin: 2px 0;"><b>Ciudad de la Justicia de Cádiz</b></p>
+                    <p>Estadio Nuevo Mirandilla. Avda. Juan Carlos I (Estadio Nuevo Mirandilla – Preferencia 3º planta), 11010, Cádiz. A/A Cristina Rodríguez</p>
+                    <p style="margin: 2px 0;"><b>Palacio de Justicia de Algeciras</b></p>
+                    <p>Despacho de informática primera planta. Plaza de la Constitución s/n. 11202, Algeciras, Cádiz. A/A Alfonso Jiménez</p>
+                    <p style="margin: 2px 0;"><b>Dpto. Informática Judicial (Jerez de la Frontera)</b></p>
+                    <p>Calle Indico s/nº Edificio Indico. 1ª planta. 11407, Jerez de la Frontera, Cádiz. A/A la atención de Manuel Mengual</p>
+                    </div>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Puesto</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                        </tr>
+                        <tr>
+                            <td>Antonio P. Serrano</td>
+                            <td>Jede de la DT</td>
+                            <td><a href="mailto:antoniop.serrano@juntadeandalucia.es">antoniop.serrano@juntadeandalucia.es</a></td>
+                            <td>609 839 296</td>
+                        </tr>
+                        <tr>
+                            <td>Cristina Rodríguez Ruperez</td>
+                            <td>Personal DT</td>
+                            <td><a href="mailto:cristinal.rodriguez@juntadeandalucia.es">cristinal.rodriguez@juntadeandalucia.es</a></td>
+                            <td><span title="604 423">646 650 395</span></td>
+                        </tr>
+                        <tr>
+                            <td>Miguel Ángel Vera</td>
+                            <td>Personal DT</td>
+                            <td><a href="mailto:mangel.vera@juntadeandalucia.es">mangel.vera@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Alfonso Jiménez Delgado</td>
+                            <td>Personal DT</td>
+                            <td><a href="mailto:alfonso.jimenez.delgado@juntadeandalucia.es">alfonso.jimenez.delgado@juntadeandalucia.es</a></td>
+                            <td><span title="695 712">671 595 712</span></td>
+                        </tr>
+                        <tr>
+                            <td>Manuel P. Mengual Jiménez</td>
+                            <td>Personal DT</td>
+                            <td><a href="mailto:manuelp.mengual@juntadeandalucia.es">manuelp.mengual@juntadeandalucia.es</a></td>
+                            <td><span title="745 873">670 945 873</span></td>
+                        </tr>
+                        <tr>
+                            <td>Alberto  J Díaz</td>
+                            <td>Personal DT</td>
+                            <td><a href="mailto:albertoj.diaz@juntadeandalucia.es">albertoj.diaz@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Ana María González</td>
+                            <td>Personal DT</td>
+                            <td><a href="mailto:amaria.gonzalez@juntadeandalucia.es">amaria.gonzalez@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Emilio José Romero Díaz</td>
+                            <td>Personal DT</td>
+                            <td><a href="mailto:emilioj.romero@juntadeandalucia.es">emilioj.romero@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Francisco Hernández Maza</td>
+                            <td>Personal DT</td>
+                            <td><a href="francisco.h.maza@juntadeandalucia.es">francisco.h.maza@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>José Antonio Ramírez Ardoy</td>
+                            <td>Personal DT</td>
+                            <td><a href="josea.ramirez.ardoy@juntadeandalucia.es">josea.ramirez.ardoy@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <!-- Bloque Delegación Territorial Córdoba-->
+                <div class="block">
+                    <h2 id="delegacion-territorial-cordoba">Delegación Territorial de Córdoba - Dpto. de Informática</h2>
+                    <table>
+                    <div style="background-color: #D3DEF0; padding: 15px; border-radius: 8px;">
+                    <p style="margin: 2px 0;"><b>Correo: </b><a href="mailto:dtco.informatica.ius@juntadeandalucia.es">dtco.informatica.ius@juntadeandalucia.es</a></p>
+                    <p><b>Gabinete: </b><a href="mailto:juanl.garrido@juntadeandalucia.es">juanl.garrido@juntadeandalucia.es</a></p>
+                    <p style="margin: 2px 0;"><b>Dirección:</b></p>
+                    <p style="margin: 2px 0;"><b>Ciudad de la Justicia de Córdoba</b></p>
+                    <p>C/ Isla Mallorca s/n 14011 - Córdoba (A/A Dpto. Informática, 2ª Planta)</p>
+                    </div>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Puesto</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                        </tr>
+                        <tr>
+                            <td>Javier Fuentes Merino</td>
+                            <td>Jefe de la DT</td>
+                            <td><a href="mailto:javier.fuentes@juntadeandalucia.es">javier.fuentes@juntadeandalucia.es</a></td>
+                            <td><span title="744 470">670 944 470</span></td>
+                        </tr>
+                        <tr>
+                            <td>Mª Carmen Cabezas Moyano</td>
+                            <td>Personal DT</td>
+                            <td><a href="mailto:mariac.cabezas@juntadeandalucia.es">mariac.cabezas@juntadeandalucia.es</a></td>
+                            <td><span title="745 532">670 945 532</span></td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <!-- Bloque Delegación Territorial Granada-->
+                <div class="block">
+                    <h2 id="delegacion-territorial-granada">Delegación Territorial de Granada - Dpto. de Informática</h2>
+                    <table>
+                    <div style="background-color: #D3DEF0; padding: 15px; border-radius: 8px;">
+                    <p style="margin: 2px 0;"><b>Correo: </b><a href="mailto:dtgr.informatica.ius@juntadeandalucia.es">dtgr.informatica.ius@juntadeandalucia.es</a></p>
+                    <p><b>Gabinete: </b><a href="mailto:juanm.cordoba@juntadeandalucia.es">juanm.cordoba@juntadeandalucia.es</a></p>
+                    <p style="margin: 2px 0;"><b>Dirección:</b></p>
+                    <p style="margin: 2px 0;"><b>Complejo Judicial La Caleta</b></p>
+                    <p style="margin: 2px 0;">Informática Judicial</p>
+                    <p>Av. Sur, 3 - Bajo, 18014, Granada (GRANADA)</p>
+                    <p style="margin: 2px 0;"><b>Tribunal Superior de Justicia de Andalucía</b></p>
+                    <p style="margin: 2px 0;">Oficina de Informática Judicial</p>
+                    <p>Plaza Nueva, 10 - Planta Baja, 18009, Granada (GRANADA)</p>
+                    <p style="margin: 2px 0;"><b>Palacio de Justicia de Motril</b></p>
+                    <p style="margin: 2px 0;">Despacho de Informática</p>
+                    <p>C/ Fielato de la Posta, s/n, Planta 1, 18600 Motril (GRANADA)</p>
+                    </div>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Puesto</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                        </tr>
+                        <tr>
+                            <td>Francisco J. Carretero Ruíz</td>
+                            <td>Jefe de la DT</td>
+                            <td><a href="mailto:fjavier.carretero@juntadeandalucia.es">fjavier.carretero@juntadeandalucia.es</a></td>
+                            <td>662 979 194 (629 194) / 671 597 531 (697 531)</td>
+                        </tr>
+                        <tr>
+                            <td>Alicia García</td>
+                            <td>Personal DT</td>
+                            <td><a href="mailto:alicia.garcia@juntadeandalucia.es">alicia.garcia@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Amparo Ruíz Ruíz</td>
+                            <td>Personal DT</td>
+                            <td><a href="mailto:amparo.ruiz.ruiz@juntadeandalucia.es">amparo.ruiz.ruiz@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Antonio Ortega San</td>
+                            <td>Personal DT</td>
+                            <td><a href="mailto:antonio.ortega.san@juntadeandalucia.es">antonio.ortega.san@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Juan C. González Cuellar</td>
+                            <td>Personal DT</td>
+                            <td><a href="mailto:juanc.gonzalez.cuellar@juntadeandalucia.es">juanc.gonzalez.cuellar@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Margarita Santos</td>
+                            <td>Personal DT</td>
+                            <td><a href="mailto:margarita.santos@juntadeandalucia.es">margarita.santos@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Mario García Casares</td>
+                            <td>Personal DT</td>
+                            <td><a href="mailto:mario.garcia.casares@juntadeandalucia.es">mario.garcia.casares@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Maximiliano Jeréz M.</td>
+                            <td>Personal DT</td>
+                            <td><a href="mailto:maximiliano.jerez.m@juntadeandalucia.es">maximiliano.jerez.m@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+                
+                 <!-- Bloque Delegación Territorial Huelva-->
+                <div class="block">
+                    <h2 id="delegacion-territorial-huelva">Delegación Territorial de Huelva - Dpto. de Informática</h2>
+                    <table>
+                    <div style="background-color: #D3DEF0; padding: 15px; border-radius: 8px;">
+                    <p style="margin: 2px 0;"><b>Correo: </b><a href="mailto:dthu.informatica.ius@juntadeandalucia.es">dthu.informatica.ius@juntadeandalucia.es</a></p>
+                    <p><b>Gabinete: </b><a href="mailto:benito.prieto@juntadeandalucia.es">benito.prieto@juntadeandalucia.es</a></p>
+                    <p style="margin: 2px 0;"><b>Dirección:</b></p>
+                    <p>Avda. Alemania 1 y 12-14 Alameda Sundhein, 17 y 28</p>
+                    </div>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Puesto</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                        </tr>
+                        <tr>
+                            <td>Miguel Fernández Sánchez</td>
+                            <td>Jefe de la DT</td>
+                            <td><a href="mailto:miguel.fernandez.s@juntadeandalucia.es">miguel.fernandez.s@juntadeandalucia.es</a></td>
+                            <td>671 534 163 (634 163) / 670 946 195 (746 195)</td>
+                        </tr>
+                        <tr>
+                            <td>Pedro Román Fernández Olalla</td>
+                            <td>Personal DT</td>
+                            <td><a href="mailto:pedror.fernandez@juntadeandalucia.es">pedror.fernandez@juntadeandalucia.es</a></td>
+                            <td>697 956 707</td>
+                        </tr>
+                        <tr>
+                            <td>Antonio Tur</td>
+                            <td>Personal DT</td>
+                            <td><a href="mailto:antonio.tur@juntadeandalucia.es">antonio.tur@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Carmen M. Miralles</td>
+                            <td>Personal DT</td>
+                            <td><a href="mailto:carmenm.miralles@juntadeandalucia.es">carmenm.miralles@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Juan M. Amador</td>
+                            <td>Personal DT</td>
+                            <td><a href="mailto:juanm.amador@juntadeandalucia.es">juanm.amador@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>M. Salvador López</td>
+                            <td>Personal DT</td>
+                            <td><a href="mailto:msalvador.lopez@juntadeandalucia.es">msalvador.lopez@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Rafael Naranjo López</td>
+                            <td>Personal DT</td>
+                            <td><a href="mailto:rafael.naranjo.lopez@juntadeandalucia.es">rafael.naranjo.lopez@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <!-- Bloque Delegación Territorial Jaén-->
+                <div class="block">
+                    <h2 id="delegacion-territorial-jaen">Delegación Territorial de Jaén - Dpto. de Informática</h2>
+                    <table>
+                    <div style="background-color: #D3DEF0; padding: 15px; border-radius: 8px;">
+                    <p style="margin: 2px 0;"><b>Correo: </b><a href="mailto:dtja.informatica.ius@juntadeandalucia.es">dtja.informatica.ius@juntadeandalucia.es</a></p>
+                    <p><b>Gabinete: </b><a href="mailto:miguel.ortega@juntadeandalucia.es">miguel.ortega@juntadeandalucia.es</a></p>
+                    <p style="margin: 2px 0;"><b>Dirección:</b></p>
+                    <p style="margin: 2px 0;"><b>Delegación del Gobierno en Jaén</b></p>
+                    <p style="margin: 2px 0;">Paseo de la Estación 21, planta baja</p>
+                    <p>23003 - Jaén</p>
+                    </div>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Puesto</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                        </tr>
+                        <tr>
+                            <td>Felipe González García</td>
+                            <td>Jefe de la DT</td>
+                            <td><a href="mailto:felipe.gonzalez.garcia@juntadeandalucia.es">felipe.gonzalez.garcia@juntadeandalucia.es</a></td>
+                            <td>662 977 766 (627 766) / 670 946 584 (746 584)</td>
+                        </tr>
+                        <tr>
+                            <td>José L. Cejudo</td>
+                            <td>Personal DT</td>
+                            <td><a href="mailto:josel.cejudo@juntadeandalucia.es">josel.cejudo@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <!-- Bloque Delegación Territorial Málaga-->
+                <div class="block">
+                    <h2 id="delegacion-territorial-malaga">Delegación Territorial de Málaga - Dpto. de Informática</h2>
+                    <table>
+                    <div style="background-color: #D3DEF0; padding: 15px; border-radius: 8px;">
+                    <p style="margin: 2px 0;"><b>Correo: </b><a href="mailto:dtma.informatica.ius@juntadeandalucia.es">dtma.informatica.ius@juntadeandalucia.es</a></p>
+                    <p><b>Gabinete: </b><a href="mailto:josem.gomez.ruiz@juntadeandalucia.e">josem.gomez.ruiz@juntadeandalucia.es</a></p>
+                    <p style="margin: 2px 0;"><b>Dirección:</b></p>
+                    <p style="margin: 2px 0;"><b>DT de Justicia en Málaga</b></p>
+                    <p style="margin: 2px 0;">Edificio Aries</p>
+                    <p style="margin: 2px 0;">Avda de la Aurora 65</p>
+                    <p>29006 - Málaga</p>
+                    <p style="margin: 2px 0;"><b>Ciudad de la Justicia de Málaga</b></p>
+                    <p style="margin: 2px 0;">C/ Fiscal Luis Portero s/n</p>
+                    <p>29010 – Málaga</p>
+                    <p style="margin: 2px 0;">Acceso al parking por:</p>
+                    <p style="margin: 2px 0;">C/ Pirandello 9</p>
+                    <p style="margin: 2px 0;">29010 - Málaga</p>
+                    <p>(Con control de la Guardía Civil avisar con antelación)</p>
+                    </div>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Puesto</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                        </tr>
+                        <tr>
+                            <td>David Tinaquero</td>
+                            <td>Jefe de la DT</td>
+                            <td><a href="mailto:david.tinaquero@juntadeandalucia.es">david.tinaquero@juntadeandalucia.es</a></td>
+                            <td>671 595 059</td>
+                        </tr>
+                        <tr>
+                            <td>Daniel Blanco Navarro</td>
+                            <td>Personal DT</td>
+                            <td><a href="mailto:daniel.blanco@juntadeandalucia.es">daniel.blanco@juntadeandalucia.es</a></td>
+                            <td>677 90 36 24</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <!-- Bloque Delegación Territorial Sevilla-->
+                <div class="block">
+                    <h2 id="delegacion-territorial-sevilla">Delegación Territorial de Sevilla - Dpto. de Informática</h2>
+                    <table>
+                    <div style="background-color: #D3DEF0; padding: 15px; border-radius: 8px;">
+                    <p style="margin: 2px 0;"><b>Correo: </b><a href="mailto:dtse.informatica.ius@juntadeandalucia.es">dtse.informatica.ius@juntadeandalucia.es</a></p>
+                    <p><b>Gabinete: </b><a href="mailto:miguel.orozco.espada@juntadeandalucia.es">miguel.orozco.espada@juntadeandalucia.es</a></p>
+                    <p style="margin: 2px 0;"><b>Dirección:</b></p>
+                    <p style="margin: 2px 0;">Plaza de la Contratación, 3</p>
+                    <p>41004 - Sevilla</p>
+                    </div>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Puesto</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                        </tr>
+                        <tr>
+                            <td>Juan V. Rodríguez</td>
+                            <td>Jefe de la DT</td>
+                            <td><a href="mailto:juanv.rodriguez@juntadeandalucia.es">juanv.rodriguez@juntadeandalucia.es</a></td>
+                            <td>600 156 708 (686 708) / 670 944 922 (744 922)</td>
+                        </tr>
+                        <tr>
+                            <td>Manuel J. Dominguez</td>
+                            <td>Personal DT</td>
+                            <td><a href="mailto:manuelj.dominguez@juntadeandalucia.e">manuelj.dominguez@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Fernando Pascual Martínez Puente</td>
+                            <td>Personal DT</td>
+                            <td><a href="mailto:fernandop.martinez@juntadeandalucia.es">fernandop.martinez@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Jose Andres Tinoco Pérez</td>
+                            <td>Personal DT</td>
+                            <td><a href="mailto:josea.tinoco@juntadeandalucia.es">josea.tinoco@juntadeandalucia.es</a></td>
+                            <td>670 94 44 53</td>
+                        </tr>
+                        <tr>
+                            <td>Manuel Sierra Orcera</td>
+                            <td>Personal DT</td>
+                            <td><a href="mailto:manuel.sierra.orcera@juntadeandalucia.es">manuel.sierra.orcera@juntadeandalucia.es</a></td>
+                            <td>670 94 19 09</td>
+                        </tr>
+                        <tr>
+                            <td>Nuria Arenas Pera</td>
+                            <td>Personal DT</td>
+                            <td><a href="mailto:nuria.arenas@juntadeandalucia.es">nuria.arenas@juntadeandalucia.es</a></td>
+                            <td>670 94 42 96</td>
+                        </tr>
+                        <tr>
+                            <td>Pedro Martinez Lallena</td>
+                            <td>Personal DT</td>
+                            <td><a href="mailto:pedro.martinez.lallena@juntadeandalucia.es">pedro.martinez.lallena@juntadeandalucia.es</a></td>
+                            <td>606 73 91 27</td>
+                        </tr>
+                        <tr>
+                            <td>Victor Bruno Chumillas Martínez</td>
+                            <td>Personal DT</td>
+                            <td><a href="mailto:victorb.chumillas@juntadeandalucia.es">victorb.chumillas@juntadeandalucia.es</a></td>
+                            <td>689 96 44 54</td>
+                        </tr>
+                    </table>
+                </div>
+ <div class="main-container">
+        <div class="main-header" id="otros-ssdj">Otros SSDJ</div>
+        <div style="margin: 15px;">
+                <table>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                        </tr>
+                        <tr>
+                            <td>Marisa Alvarado Rojas - Coordinación CAU</td>
+                            <td><a href="mailto:supervision.caujus.sandetel@juntadeandalucia.es">supervision.caujus.sandetel@juntadeandalucia.es</a></td>
+                            <td>647 469 943</td>
+                        </tr>
+                        <tr>
+                            <td>CAU</td>
+                            <td><a href="mailto:csu.ius@juntadeandalucia.es">csu.ius@juntadeandalucia.es</a></td>
+                            <td>955 040 955</td>
+                        </tr>
+                        <tr>
+                            <td>CAU Ministerio</td>
+                            <td><a href="mailto:cau@justicia.es">cau@justicia.es</a></td>
+                            <td>913 859 800</td>
+                        </tr>
+                        <tr>
+                            <td>Felipe López Relaño - SGT ADA Infraestructuras</td>
+                            <td><a href="mailto:xxx@xxx.com"></a></td>
+                            <td><span title="734 339">677 904 339</span></td>
+                        </tr>
+                        <tr>
+                            <td>Angel L. Sánchez del Junco - JS de Gestión de RRHH Admón Justicia - (HERMES)</td>
+                            <td><a href="mailto:angell.sanchez@juntadeandalucia.es">rrhh.oficinajudicial.ctrjal@juntadeandalucia.es - angell.sanchez@juntadeandalucia.es</a></td>
+                            <td>600 157 110 (687 110) - 689 928 808 (637 311)</td>
+                        </tr>
+                        <tr>
+                            <td>Pepe Reina - JS de de Archivo Judicial - D.G. de Planificación, Modernización y Gestión de Fondos - (JARA)</td>
+                            <td><a href="mailto:josej.reina@juntadeandalucia.es">josej.reina@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Paqui Macías - Asesora Técnica del Sº de Archivo Judicial - (JARA)</td>
+                            <td><a href="mailto:francisca.macias@juntadeandalucia.es">francisca.macias@juntadeandalucia.es</a></td>
+                            <td><span title="687 065">600 157 065</span></td>
+                        </tr>
+                        <tr>
+                            <td>Pilar Toro Sánchez-Blanco - JS de Calidad y Atención a la Ciudadanía (Portal Junta)</td>
+                            <td><a href="mailto:mariap.toro@juntadeandalucia.es">mariap.toro@juntadeandalucia.es - scac.cjalfp@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Francisca (Paqui) Trujillo Mesa - Servicio de Documentación, Información y Publicaciones (Portal Junta)</td>
+                            <td><a href="mailto:mariaf.trujillo@juntadeandalucia.es">mariaf.trujillo@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Servicio de Videoconferencia (Sandetel)</td>
+                            <td><a href="mailto:xxx@xxx.com"></a></td>
+                            <td><span title="360 999">955 060 999</span></td>
+                        </tr>
+                        <tr>
+                            <td>Pablo Jimenez-Villarejo Fdez - SCOOR Málaga</td>
+                            <td><a href="mailto:pemilio.jvillarejo.ius@juntadeandalucia.es">pemilio.jvillarejo.ius@juntadeandalucia.es - secretaria.coordinacion.malaga.ius@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Santiago Folch Cuesta - Servicio Gestión de RRHH Admón Justicia - (HERMES)</td>
+                            <td><a href="mailto:santiago.folch@juntadeandalucia.es">santiago.folch@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Lola Moyano Guerrero - Gabinete Estratégico en el Servicio de Administración Digital</td>
+                            <td><a href="mailto:mdolores.moyano@juntadeandalucia.es">mdolores.moyano@juntadeandalucia.es</a></td>
+                            <td><span title="757 390">697 957 390</span></td>
+                        </tr>
+                        <tr>
+                            <td>Antonio Ruíz - Gestor de Cuentas RCJA para SSDJ</td>
+                            <td><a href="mailto:antonio.ruiz@juntadeandalucia.es">antonio.ruiz@juntadeandalucia.es</a></td>
+                            <td><span title="758 676">697 958 676</span></td>
+                        </tr>
+                        <tr>
+                            <td>Fran Valle García - Técnico de proyectos de seguridad -Sandetel - Ciberseguridad ADA</td>
+                            <td><a href="mailto:fjose.valle@juntadeandalucia.es">fjose.valle@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Alberto J. Díaz Caballero - CiberSeguridad ADA</td>
+                            <td><a href="mailto:albertoj.diaz@juntadeandalucia.es">albertoj.diaz@juntadeandalucia.es</a></td>
+                            <td><span title="623 082">662 973 082</span></td>
+                        </tr>
+                        <tr>
+                            <td>David Berni Sánchez - Ciberseguridad ADA</td>
+                            <td><a href="mailto:david.berni@juntadeandalucia.es">david.berni@juntadeandalucia.es</a></td>
+                            <td><span title="753 920">697 953 920</span></td>
+                        </tr>
+                        <tr>
+                            <td>Alfredo Sarmiento - Ciberseguridad ADA</td>
+                            <td><a href="mailto:alfredo.sarmiento@juntadeandalucia.es">alfredo.sarmiento@juntadeandalucia.es</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Jefa de Proyecto de HERMES, en la Oficina Técnica de Proyectos del SAS</td>
+                            <td><a href="mailto:mdc.huertas@soprasteria.com">mdc.huertas@soprasteria.com</a></td>
+                            <td>691 335 583</td>
+                        </tr>
+                        <tr>
+                            <td>Red NEREA</td>
+                            <td><a href="mailto:nerea.sandetel@juntadeandalucia.es">nerea.sandetel@juntadeandalucia.es</a></td>
+                            <td><span title="769 351">671 569 351</span></td>
+                        </tr>
+                        <tr>
+                            <td>Mantenimiento Edificio</td>
+                            <td><a href="mailto:xxx@xxx.com"></a></td>
+                            <td>627 590 633 Javier Jefe Técnico</td>
+                        </tr>
+                        <tr>
+                            <td>Mantenimiento Edificio</td>
+                            <td><a href="mailto:xxx@xxx.com"></a></td>
+                            <td>657 424 514 Josué Técnico</td>
+                        </tr>
+                    </table>
+                </div>
+
+    <!-- Botón flotante -->
+    <button id="btnVolver">Volver al índice</button>
+
+    <!-- Script del botón -->
+    <script>
+        // Mostrar/ocultar el botón al hacer scroll
+        window.onscroll = function () {
+            let btn = document.getElementById("btnVolver");
+            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+                btn.style.display = "block";
+            } else {
+                btn.style.display = "none";
+            }
+        };
+
+        // Scroll suave al índice
+        document.getElementById("btnVolver").addEventListener("click", function () {
+            document.getElementById("top").scrollIntoView({ behavior: "smooth" });
+        });
+    </script>
+
+    <!-- Estilos del botón -->
+    <style>
+        #btnVolver {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 100px;
+            background-color: #39546E;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s ease;
+        }
+
+        #btnVolver:hover {
+            background-color: #39546E;
+        }
+        
+          #top {
+      scroll-margin-top: 100px;
+        }
+    </style>
+</body>
+
+</html>
+
+{{tag>validada}}
+
+

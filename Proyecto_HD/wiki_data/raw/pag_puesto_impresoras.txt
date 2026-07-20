@@ -1,0 +1,81 @@
+﻿
+<WRAP> <panel type="primary" title="PUESTO DE TRABAJO - IMPRESORAS">
+
+<WRAP> <panel type="info" title="Criterio de asignación de impresoras">
+
+Como regla general un órgano judicial tendrá asignado 2 impresoras de red multifunción. Se podrá aumentar caso que el número de usuarios sea mayor al habitual. Cuando el órgano judicial tenga menos personal (4-5) tendrá solo una. Las impresoras monopuesto serán instaladas a: Magistrados Jueces LAJs Fiscales IML (Directores, psicólogos) Excepciones Personal con informe médico (verificado por riesgos laborales) Situaciones especiales de localización del puesto
+
+</panel>
+
+</WRAP>
+
+<WRAP> <panel type="info" title="Solicitud de cambio o instalación de impresoras">
+
+Para solicitar un cambio de impresora a la instalación de una nueva impresora hay que poner ticket remedy asignado a 'Servicios/Puesto de Trabajo/Coordinación Puesto de Trabajo', indicando la necesidad que se tiene.
+
+</panel>
+</WRAP>
+
+
+<WRAP> <panel type="info" title="Procedimiento sustitución impresoras GM"> {{:procedimiento_sustitucion_impresoras_gm.pdf|Procedimiento sustitución impresoras GM}}  </panel>
+
+</WRAP>
+
+<WRAP> <panel type="info" title="Servicio de Impresión Gestionado">
+
+==== Contactos Implicados ====
+
+  * Puesto de Trabajo / Consumibles
+  * Administración / SACOEP
+  * Sistemas
+  * Proveedor GM
+
+==== Descripción ====
+
+**El objeto del contrato es un servicio de impresión gestionado (SIG), centralizado y unificado, incluyendo prestaciones asociadas**. Entre los servicios incluidos a prestar a destacar se encuentra:
+
+  * La** atención, seguimiento y resolución de incidencias y problemas. **Incluyendo la reparación y mantenimiento de todo el equipamiento, y/o el reemplazo selectivo o general del equipamiento.
+  * La instalación, despliegue y configuración de un **Sistema de Gestión Centralizada**, integrado en la Red Judicial, que permita el análisis y evaluación de las necesidades, la realización de informes estadísticos multiniveles, la gestión de alertas y mensajes de los diferentes equipamientos, y otros servicios de configuración, control y gestión de la flota de equipos.
+  * Cualquier servicio requerido para conseguir y garantizar las prestaciones de impresión, escaneo y gestión de faxes establecidas, a los usuarios.
+
+**Este servicio no tiene como alcance las fotocopiadoras y escáneres. ** \\ Contrato **Expdte 177339-2022** \\  \\ Ámbito: \\  \\ **[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/QueHacemos/Servicio de Impresión Gestionado/Órganos Judiciales y unidades al servicio de la Administración de Justicia en Andalucía en todas las Sedes de la Red Judicial de Andalucía/|Órganos Judiciales y unidades al servicio de la Administración de Justicia en Andalucía en todas las Sedes de la Red Judicial de Andalucía.]] \\
+ \\
+Contacto para incidencias y petición de consumibles: ** \\  \\ Remedy: Nivel 3 - GM Techonology \\  \\ **correo: [[avisos@gmtechnology.es|]] \\
+ \\
+Tlfno:****900834412 \\  \\ Contacto para incidencias con sistema de monitorización EPS: \\  \\ correo: [[johan.oostrom@gmtechnology.es|]] \\
+ \\
+Tlfno: **635660058
+
+==== Seguimiento ====
+
+Revisiones parque de impresión
+
+Despliegue
+
+==== Sistema de Monitorización ====
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/download/QueHacemos/Servicio de Impresión Gestionado/WebHome/instalacion nubeprint.pdf|Documentación técnica]]
+
+URL: [[https://auth.nddorbix.com/Account/Login|https://auth.nddorbix.com/Account/Login]]
+
+==== Procedimiento ====
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/QueHacemos/Servicio de Impresión Gestionado/Operativa Gestión de Incidencias de Impresoras/|Operativa Gestión de Incidencias de Impresoras]]
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/QueHacemos/Servicio de Impresión Gestionado/Operativa Peticiones de Necesidades de Impresoras o Nuevas Impresoras/|Operativa Peticiones de Necesidades de Impresoras o Nuevas Impresoras ]]
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/QueHacemos/Servicio de Impresión Gestionado/Operativa Sustitución de Impresoras/|Operativa Sustitución de Impresoras]]
+
+</panel> </WRAP>
+
+<WRAP> <panel type="info" title="Nombre del procedimiento 4">
+
+Texto 4
+
+</panel> </WRAP>
+
+</panel> </WRAP>
+
+{{tag>novalidada}}
+
+

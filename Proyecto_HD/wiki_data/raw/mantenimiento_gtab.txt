@@ -1,0 +1,131 @@
+﻿
+====== Tareas de mantenimiento diario ======
+
+===== Introducción =====
+
+En la realización de las tareas de mantenimiento diario, se realiza una supervisión del servicio de monitorización y una revisión de correos electrónicos en busca errores y resultado de tareas automatizadas.
+
+==== Revisión de alertas ====
+ <font 14px/sans-serif;;inherit;;inherit>La revisión de mantenimiento diario requiere como paso previo la creación de tique en Remedy.</font>
+ <font 14px/sans-serif;;inherit;;inherit>En dicha revisión se detallará brevemente las tareas realizadas y las incidencias detectadas así como referencia al tique asociado.</font>
+ <font 14px/sans-serif;;inherit;;inherit>En el petición Remedy seleccionar como clase SERVICIOS DE INFRAESTRUCTURA</font>  , el tipo
+ <font 14px/inherit;;inherit;;inherit>MONITORIZACIÓN</font> , categoría
+ <font 14px/inherit;;inherit;;inherit>CONFIGURACIÓN</font>
+ <font 14px text-align:left/sans-serif;;inherit;;inherit>Una vez registrada la incidencia en Remedy indicamos la incidencia creada en la bitácora: \\iusnas05.justicia.junta-andalucia.es\sij\Sistemas\00\04-Informes\06. Chequeos\Mantenimiento Diario\Operaciones_mantenimiento_2018.ods</font>
+
+===== Revisión de alertas Zabbix =====
+
+Las alertas se pueden consultar en el enlace de [[http://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/AGTAB|Alertas]]
+
+El equipo de GTAB tiene un [[http://iusslmonitor06.justicia.junta-andalucia.es/zabbix/zabbix.php?action=dashboard.view|cuadro de mandos]] en el sistema de monitorización:
+
+En dicho cuadro se muestra el estado de los diferentes servicios monitorizados y el resultado de la ejecución de diversas tareas automatizadas.
+
+Toda alerta detectada en el sistema de monitorización requiere tener asociados un ACK. En dicho ACK debe aparecer el **ticket remedy **asociado con un breve detalle y en su defecto el tratamiento que se le está aplicando a la alerta visual.
+===== Revisión de correos =====
+
+La cuenta de correo a revisar es notificaciones.gtab.ius@juntadeandalucia.es.
+ <font 10.5pt/Arial, sans-serif;;inherit;;inherit>En la revisión de los correos en busca de errores o fallos vamos a mirar lo siguiente:</font>
+
+  - V <font 10.5pt/inherit, serif;;inherit;;inherit>amos a revisar las carpetas:</font>
+
+Bandeja de entrada ⇒**//Almacenamiento// **
+  * 3PAR
+  * Data_Domain
+  * DS4700
+  * Libreria
+  * MSA_2040
+  * NetApp
+
+** <font 10.5pt/inherit, serif;;inherit;;inherit>//Bandeja de entrada//</font> **
+  * Correos del log de backup que tiene GTBD para las BBDD todos los días
+
+Remitente: Usuario FTP
+
+Asunto: Monitorización de RMAN ó EXPORT
+
+  * Correos de alertas/estados de los DataDomains
+
+Remitente: iusapback01 o iusapback02
+
+Asunto: DD Alert
+
+//Bandeja de entrada//  ⇒ **Networker iusdesa02**  (desuso)
+
+//Bandeja de entrada//  ⇒ **Networker IUSSLNSRSRV01 **  ⇒** root**
+  * Correos de los logs completos cuando termina una copia indicándonos los Warnings, Completados y Fallidos.
+ <font 14px text-align:start/sans-serif;;inherit;;inherit>Remitente: root IUSSLNSRSRV01</font>
+ <font 14px/sans-serif;;inherit;;inherit>Asunto: IUSSLNSRSR01's nsrpolicy completion</font>
+
+=== Networker de Oragrid ===
+ <font 14px text-align:start/sans-serif;;inherit;;inherit>//Bandeja de entrada//</font> //// <font 14px text-align:start/sans-serif;;inherit;;inherit>⇒</font>
+ <font 14px text-align:start/sans-serif;;inherit;;inherit>Networker ORAGRID</font>
+
+  * Correos de los logs completos cuando termina una copia indicándonos los Warnings, Completados y Fallidos.
+ <font 14px text-align:start/sans-serif;;inherit;;inherit>Remitente: root ORAGRID</font>
+ <font 14px/sans-serif;;inherit;;inherit>Asunto: oragrid's savegroup '//nombre_del_grupo//' completion</font>
+
+=== CRONS de ORAGRID ===
+
+// <font 14px text-align:start/sans-serif;;inherit;;inherit>Bandeja de entrada</font> // <font 14px text-align:start/sans-serif;;inherit;;inherit>⇒</font> // <font 14px text-align:start/sans-serif;;inherit;;inherit>Networker ORAGRID</font> // <font 14px text-align:start/sans-serif;;inherit;;inherit>⇒</font>
+ <font 14px text-align:start/sans-serif;;inherit;;inherit>root (Resultado de los crons de oragrid)</font>
+
+  * Correos de los logs completos de las tareas programadas como las clonaciones, reciclados o cruce de SaveSets
+ <font 14px text-align:start/sans-serif;;inherit;;inherit>Remitente: root ORAGRID</font>
+ <font 14px/sans-serif;;inherit;;inherit>Asunto: [Tarea programada][nombre del grupo]</font>
+
+[[http://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/TPGTAB|Nota: Para mas información del tipo de tareas y función consultar el enlace Tareas Programadas]].
+
+===== Revisión de los backup. =====
+ <font 10.5pt/inherit, serif;;inherit;;inherit>De Lunes a Viernes se deberá comprobar las copias de seguridad de los servidores Networkers, generando una petición en la herramienta Remedy, donde se indicará el resultado de los backups.</font>
+ <font 10.5pt/inherit, serif;;inherit;;inherit>- Si todos los backups se han realizado correctamente, se cerrará la petición indicándolo.</font>
+ <font 10.5pt/inherit, serif;;inherit;;inherit>- Si los fallos han sido por problemas de los clientes, se reasignará al grupo pertinente para que lo solvente.</font>
+ <font 10.5pt/inherit, serif;;inherit;;inherit>Para poder hacer un seguimiento de estos backups disponemos de una serie de correos que envía cada uno de los servidores de Networker.</font>
+ <font 10.5pt/inherit, serif;;inherit;;inherit>También tenemos que tener en cuenta que los lunes llegarán copias semanales y a principio de mes también tendremos las copias mensuales.</font>
+ <font 10.5pt/inherit, serif;;inherit;;inherit>**IUSDESA02 (En desuso)**</font> **** <font 10.5pt/inherit, serif;;inherit;;inherit>Remitente ⇒ LEGATO.NETWORKER@justicia.junta-andalucia.es</font>
+ <font 10.5pt/inherit, serif;;inherit;;inherit>Destinatario ⇒ notificaciones.gtab.ius@juntadeandalucia.es</font>
+ <font 10.5pt/inherit, serif;;inherit;;inherit>Ejemplo de un correo que nos muestra una copia Diaria:</font>
+ <font 10.5pt/inherit, serif;;inherit;;inherit>Siguiendo los colores y los números tenemos los siguientes datos:</font>
+
+  - Indica el tipo de copia en este caso es DIARIO, también podríamos tener copia SEMANAL o MENSUAL.
+  - Indica el número de fallos que se han producido, además podemos ver los clientes que han fallado y el error que se ha producido.
+  - Por último, vemos los clientes de los cuales se han realizado las copias correctamente.
+ <font 10.5pt/inherit, serif;;inherit;;inherit>**ORAGRID**</font> **** <font 10.5pt/inherit, serif;;inherit;;inherit>Remitente ⇒ ORAGRID root <root@oragrid.justicia.junta-andalucia.es></font>
+ <font 10.5pt/inherit, serif;;inherit;;inherit>Destinatario ⇒ notificaciones.gtab.ius@juntadeandalucia.es</font>
+ <font 10.5pt/inherit, serif;;inherit;;inherit>En este grupo revisamos los correos pertenecientes a las políticas de Adriano, BBDD y Comunes.</font>
+ <font 10.5pt/inherit, serif;;inherit;;inherit>Tenemos que tener en cuenta que las copias de Comunes se realizan los miércoles, viernes y domingo, por tanto, las copias del miércoles se revisan los jueves y las copias de los viernes y domingo las revisamos los lunes.</font>
+ <font 10.5pt/inherit, serif;;inherit;;inherit>Además tenemos en cuenta las copias del sábado que son level = full y level = 5, a las cuales prestamos especial importancia.</font>
+ <font 10.5pt/inherit, serif;;inherit;;inherit>Siguiendo los colores y los números tenemos los siguientes datos:</font>
+
+  - Indica el grupo, también los lunes tenemos que ver si es level = incre o es una copia del sábado que sería level = full o level = 5.
+  - Indica el número de fallos que se han producido, además podemos ver los clientes que han fallado y el error que se ha producido.
+  - Por último, vemos los clientes de los cuales se han realizado las copias correctamente.
+ <font 10.5pt/inherit, serif;;inherit;;inherit>**IUSSLNSRSRV01**</font> **** <font 10.5pt/inherit, serif;;inherit;;inherit>Remitente ⇒ root IUSSLNSRSRV01 <root@iusslnsrsrv01.justicia.junta-andalucia.es></font>
+ <font 10.5pt/inherit, serif;;inherit;;inherit>Destinatario ⇒ notificaciones.gtab.ius@juntadeandalucia.es</font>
+ <font 10.5pt/inherit, serif;;inherit;;inherit>En este grupo revisamos los correos pertenecientes a las copias de las máquinas virtuales, en las que nos aseguramos que el número de copias sea el correcto y se hayan realizado satisfactoriamente.</font>
+ <font 10.5pt/inherit, serif;;inherit;;inherit>De cada máquina virtual recibiremos varios correos en la que se indica que ha comenzado la copia, el número de copias y el estado en el que han finalizado y por último un correo indicando si ha terminado satisfactoriamente o con fallo.</font>
+ <font 10.5pt/inherit, serif;;inherit;;inherit>Este sería el **primer** correo donde podemos ver que nos indica que la copia comienza, además vemos el tipo de copia que se realiza dependiendo del día, y por último la máquina virtual que es.</font>
+ <font 10.5pt/inherit, serif;;inherit;;inherit>El **segundo** correo solo nos indica que la copian comienza y la máquina virtual que es.</font>
+ <font 10.5pt/inherit, serif;;inherit;;inherit>El **tercer** correo nos indica el número total de copias que se han realizado, las copias que se han realizado correctamente y las que han fallado. En este caso, podemos ver que todas las copias se han realizado correctamente.</font>
+ <font 10.5pt/inherit, serif;;inherit;;inherit>El **cuarto** correo nos muestra que la copia se ha realizado correctamente y la máquina virtual a la que pertenece el correo.</font>
+ <font 10.5pt/inherit, serif;;inherit;;inherit>El **quinto** correo nos indica de nuevo el tipo de copia que se realiza dependiendo del día, la máquina virtual a la que pertenece y el estado en el que ha finalizado la copia. En este caso, podemos ver que ha finalizado correctamente.</font>
+
+Hay un **último **correo resumen en el que se indica todas las máquinas virtuales a las que se le están haciendo copias. Las que se han hecho correctamente y las que han fallado. Este correo viene con el asunto "EMC Backup and Recovery Summary Report for IUSSLNSRPROXY02" el cual entra en la bandeja de entrada.
+ <font 10.5pt/sans-serif;;inherit;;inherit>Remitente Y destinatario ⇒ notificaciones.gtab.ius@juntadeandalucia.es</font>
+
+{{https://xwiki.justicia.junta-andalucia.es/xwiki/bin/download/Sistemas/MDGTAB/EMCFAILED.PNG?nolink&|EMCFAILED.PNG}} <font 10.5pt/inherit, serif;;inherit;;inherit>Además revisamos otros subgrupos no pertenecientes a máquinas virtuales.</font>
+ <font 10.5pt/inherit, serif;;inherit;;inherit>En este caso, también prestamos especial importancia a las copias semanales realizadas los sábados.</font>
+ <font 10.5pt/inherit, serif;;inherit;;inherit>Tenemos que tener en cuenta que los lunes llega la copia de Datos_Pro_Sem, y de martes a viernes la copia de Datos_Pro_Inc.</font>
+
+{{https://xwiki.justicia.junta-andalucia.es/xwiki/bin/download/Sistemas/MDGTAB/datosproinc.jpg?nolink&|datosproinc.jpg}} <font 10.5pt/inherit, serif;;inherit;;inherit>Siguiendo los colores y los números tenemos los siguientes datos:</font>
+
+  - Indica el grupo al que pertenece el correo y el número total de clientes.
+  - Indica el número de fallos que se han producido, además podemos ver los clientes que han fallado y el error que se ha producido.
+  - Por último, vemos los clientes de los cuales se han realizado las copias correctamente.
+
+===== Otras revisiones =====
+
+Revisamos el fichero de abuso de comunes, que se encuentra en la ruta ⇒ \\iusnas05.justicia.junta-andalucia.es\SIJ\Sistemas\00\04-Informes\07. Cuotas de almacenamiento\RegistroIncidenciasAbusos.ods \\
+Revisaremos si hay alguna unificación anotada para la semana que viene en el [[http://webcalendar.justicia.junta-andalucia.es:91|webcalendar]]
+
+

@@ -1,0 +1,176 @@
+﻿
+======SNG======
+
+ <html>
+  <table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse; width: 100%;">
+    <thead>
+      <tr style="background-color: #f2f2f2; font-weight: bold;">
+        <th style="padding: 12px 10px; text-align: left;">Servicio</th>
+        <th style="padding: 12px 10px; text-align: left;">URL</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background-color: white;">
+        <td style="padding: 12px 10px;">AdrianoFiscalia-Forma</td>
+        <td style="padding: 12px 10px;">http://integracionadrfisc-forma.justicia.junta-andalucia.es</td>
+      </tr>
+      <tr style="background-color: #f9f9f9;">
+        <td style="padding: 12px 10px;">Aegis</td>
+        <td style="padding: 12px 10px;">http://aegis.justicia.junta-andalucia.es/Aegis/menu/menu.action</td>
+      </tr>
+      <tr style="background-color: white;">
+        <td style="padding: 12px 10px;">AgendaCitacionesIML (AgendaIML)</td>
+        <td style="padding: 12px 10px;">https://agendaiml.justicia.junta-andalucia.es/</td>
+      </tr>
+      <tr style="background-color: #f9f9f9;">
+        <td style="padding: 12px 10px;">AgendaMenores</td>
+        <td style="padding: 12px 10px;">https://amenores.justicia.junta-andalucia.es/</td>
+      </tr>
+      <tr style="background-color: white;">
+        <td style="padding: 12px 10px;">AgendaSeñalamientos (Exterior/Forma)</td>
+        <td style="padding: 12px 10px;">https://agenda.justicia.junta-andalucia.es/</td>
+      </tr>
+      <tr style="background-color: #f9f9f9;">
+        <td style="padding: 12px 10px;">ALFRESCO (Externo/Portafirmas)</td>
+        <td style="padding: 12px 10px;">
+          http://alfresco.justicia.junta-andalucia.es/alfresco/<br>
+          https://ws138.juntadeandalucia.es
+        </td>
+      </tr>
+      <tr style="background-color: white;">
+        <td style="padding: 12px 10px;">ArchivoGestionArex</td>
+        <td style="padding: 12px 10px;">http://archivogestion.justicia.junta-andalucia.es/Arex/</td>
+      </tr>
+      <tr style="background-color: #f9f9f9;">
+        <td style="padding: 12px 10px;">Artifactory (Herramienta) / Artifactory2</td>
+        <td style="padding: 12px 10px;">
+          http://artifactory.justicia.junta-andalucia.es/artifactory/<br>
+          http://artifactory2.justicia.junta-andalucia.es/artifactory/
+        </td>
+      </tr>
+      <tr style="background-color: white;">
+        <td style="padding: 12px 10px;">Asistencia Remota</td>
+        <td style="padding: 12px 10px;">http://asistenciaremota.justicia.junta-andalucia.es/ASISTENCIA_REMOTA.htm</td>
+      </tr>
+      <tr style="background-color: #f9f9f9;">
+        <td style="padding: 12px 10px;">AWStats (Herramienta)</td>
+        <td style="padding: 12px 10px;">http://iusawstats01.justicia.junta-andalucia.es/awstats.php</td>
+      </tr>
+      <tr style="background-color: white;">
+        <td style="padding: 12px 10px;">Biblioteca_iml</td>
+        <td style="padding: 12px 10px;">http://biblioteca.justicia.junta-andalucia.es/Biblos/LanzaderaEscritorio.do</td>
+      </tr>
+      <tr style="background-color: #f9f9f9;">
+        <td style="padding: 12px 10px;">Cacti01(Herramientas) / Cacti02</td>
+        <td style="padding: 12px 10px;">
+          http://iusslevm05/cacti/<br>
+          http://iusslevm06/cacti/
+        </td>
+      </tr>
+      <tr style="background-color: white;">
+        <td style="padding: 12px 10px;">Calendario Sistemas(Herramientas)</td>
+        <td style="padding: 12px 10px;">https://ws138.juntadeandalucia.es/share/page/site/sistemas/calendar</td>
+      </tr>
+      <tr style="background-color: #f9f9f9;">
+        <td style="padding: 12px 10px;">Centralización de logs (Herramientas)</td>
+        <td style="padding: 12px 10px;">http://iussllogs01.justicia.junta-andalucia.es/</td>
+      </tr>
+      <tr style="background-color: white;">
+        <td style="padding: 12px 10px;">CitaPrevia Registro Civil Málaga</td>
+        <td style="padding: 12px 10px;">https://ws073.juntadeandalucia.es/QSIGE/apps/citaprevia/index.html</td>
+      </tr>
+      <tr style="background-color: #f9f9f9;">
+        <td style="padding: 12px 10px;">CMDB (Herramientas)</td>
+        <td style="padding: 12px 10px;">http://cmdb.justicia.junta-andalucia.es/</td>
+      </tr>
+      <tr style="background-color: white;">
+        <td style="padding: 12px 10px;">Consola Administrativa</td>
+        <td style="padding: 12px 10px;">https://consolaadministrativa.justicia.junta-andalucia.es/ConsolaAdministrativa/LanzaderaEscritorio.do</td>
+      </tr>
+      <tr style="background-color: #f9f9f9;">
+        <td style="padding: 12px 10px;">Consultas Adriano</td>
+        <td style="padding: 12px 10px;">http://consultasadriano.justicia.junta-andalucia.es/ConsultasAdriano/LanzaderaEscritorio.do</td>
+      </tr>
+      <tr style="background-color: white;">
+        <td style="padding: 12px 10px;">Consulta Subastas</td>
+        <td style="padding: 12px 10px;">https://ws064.juntadeandalucia.es/ConsultaSubastas/Login.do</td>
+      </tr>
+      <tr style="background-color: #f9f9f9;">
+        <td style="padding: 12px 10px;">Consumibles</td>
+        <td style="padding: 12px 10px;">https://consumibles.justicia.junta-andalucia.es/consumibles</td>
+      </tr>
+      <tr style="background-color: white;">
+        <td style="padding: 12px 10px;">Cronos</td>
+        <td style="padding: 12px 10px;">http://cronos.justicia.junta-andalucia.es/Cronos/LanzaderaEscritorio.do</td>
+      </tr>
+      <tr style="background-color: #f9f9f9;">
+        <td style="padding: 12px 10px;">EMAAT</td>
+        <td style="padding: 12px 10px;">http://emaatv2-forma.justicia.junta-andalucia.es/adrianoweb/index.action</td>
+      </tr>
+      <tr style="background-color: white;">
+        <td style="padding: 12px 10px;">Equipos Técnicos Familia</td>
+        <td style="padding: 12px 10px;">https://etfamilia.justicia.junta-andalucia.es/EntradaETFamilias.aspx</td>
+      </tr>
+      <tr style="background-color: #f9f9f9;">
+        <td style="padding: 12px 10px;">ESCRITORIO JUDICIAL</td>
+        <td style="padding: 12px 10px;">
+          http://escritoriojudicial.justicia.junta-andalucia.es/Escritorio/Inicio.do<br>
+          Forma<br>
+          Informes<br>
+          Resoluciones
+        </td>
+      </tr>
+      <tr style="background-color: white;">
+        <td style="padding: 12px 10px;">eTUL</td>
+        <td style="padding: 12px 10px;">https://etul.justicia.junta-andalucia.es/</td>
+      </tr>
+      <tr style="background-color: #f9f9f9;">
+        <td style="padding: 12px 10px;">Explorador Justicia</td>
+        <td style="padding: 12px 10px;">https://explorador.justicia.junta-andalucia.es/Explorador/LanzaderaEscritorio.do</td>
+      </tr>
+      <tr style="background-color: white;">
+        <td style="padding: 12px 10px;">Formación Justicia</td>
+        <td style="padding: 12px 10px;">https://formacion.justicia.junta-andalucia.es/</td>
+      </tr>
+      <tr style="background-color: #f9f9f9;">
+        <td style="padding: 12px 10px;">Gesto</td>
+        <td style="padding: 12px 10px;">https://gesto.justicia.junta-andalucia.es/</td>
+      </tr>
+      <tr style="background-color: white;">
+        <td style="padding: 12px 10px;">Gestor Documental</td>
+        <td style="padding: 12px 10px;">http://gestordocumental.justicia.junta-andalucia.es/GestorDocumental/LanzaderaEscritorio.do</td>
+      </tr>
+      <tr style="background-color: #f9f9f9;">
+        <td style="padding: 12px 10px;">Gestor Expedientes Penales (GEP)</td>
+        <td style="padding: 12px 10px;">https://gep.justicia.junta-andalucia.es/</td>
+      </tr>
+      <tr style="background-color: white;">
+        <td style="padding: 12px 10px;">Gestión Almacén</td>
+        <td style="padding: 12px 10px;">https://gestionalmacen.justicia.junta-andalucia.es/</td>
+      </tr>
+      <tr style="background-color: #f9f9f9;">
+        <td style="padding: 12px 10px;">Gestión Digital Justicia</td>
+        <td style="padding: 12px 10px;">http://gestiondigital.justicia.junta-andalucia.es/</td>
+      </tr>
+      <tr style="background-color: white;">
+        <td style="padding: 12px 10px;">GESTION JURISDICCIONAL Y EJECUCION</td>
+        <td style="padding: 12px 10px;">https://gestorjusticia.justicia.junta-andalucia.es/</td>
+      </tr>
+      <tr style="background-color: #f9f9f9;">
+        <td style="padding: 12px 10px;">Gestion Redacción Auto</td>
+        <td style="padding: 12px 10px;">https://gestionredaccionauto.justicia.junta-andalucia.es/</td>
+      </tr>
+      <tr style="background-color: white;">
+        <td style="padding: 12px 10px;">Gestión SAP</td>
+        <td style="padding: 12px 10px;">http://sap.justicia.junta-andalucia.es/</td>
+      </tr>
+      <tr style="background-color: #f9f9f9;">
+        <td style="padding: 12px 10px;">Gestión Turnos</td>
+        <td style="padding: 12px 10px;">http://gestionturnos.justicia.junta-andalucia.es/</td>
+      </tr>
+    </tbody>
+  </table>
+</html>
+
+
+

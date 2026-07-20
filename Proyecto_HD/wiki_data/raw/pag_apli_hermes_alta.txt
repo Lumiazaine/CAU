@@ -1,0 +1,35 @@
+﻿
+
+<WRAP> 
+<panel type="primary" title="Alta de usuario en Hermes">
+
+[[..:hermes:start|Volver atrás]]
+
+<WRAP> 
+<panel type="info">
+
+====== Alta en Hermes ======
+<html>
+El usuario debe crearse primero en Temis debido a la sincronización nocturna Temis - Hermes.<br> En este
+caso lo primero es comprobar que el usuario está dado de alta correctamente en TEMIS.<br><br>
+Si No está dado de alta en TEMIS procedemos a contactar con CAU para que ellos lo creen.<br><br>
+Si el usuario <b>no es personal externo</b> y está correctamente dado de alta en TEMIS nos queda comprobar que el usuario aparece en HERMES:<br><br>
+<b>HERMES > ADMINISTRACIÓN > USUARIOS > colocamos el nif y le damos a mostrar</B><br><br>
+</html>
+{{:pag_apli:hermes:alta_hermes1.png?700|}}
+<html>
+<br><br>Si el usuario <b>es personal externo,</b> comprobar que está dado de alta correctamente en TEMIS, después debemos crearlo de forma manual dentro de HERMES:<br><br>
+<b>HERMES > ADMINISTRACIÓN > USUARIOS > NUEVO</b><br><br>
+</html>
+
+
+</panel> 
+</WRAP>
+
+<WRAP> 
+
+</WRAP>
+
+[[..:hermes:start|Volver atrás]]
+
+{{tag>novalidada}}

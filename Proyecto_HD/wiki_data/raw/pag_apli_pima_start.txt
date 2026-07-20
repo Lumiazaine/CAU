@@ -1,0 +1,46 @@
+﻿
+
+<WRAP> 
+<panel type="primary" title="Pima"> 
+
+Los puntos de información para la promoción de la mediación (PIMA), pretenden conseguir la divulgación, sensibilización y promoción de la mediación en todos los órdenes jurisdiccionales.
+
+Los puntos están todos situados en espacios de fácil acceso, a los que pueden acercarse tanto los ciudadanos por iniciativa propia como por derivación judicial tanto si su procedimiento ya está iniciado o no.
+
+Para más información pinche [[https://juntadeandalucia.es/organismos/justiciaadministracionlocalyfuncionpublica/areas/justicia/mediacion.html#toc-puntos-de-informaci-n-para-la-mediaci-n-en-andaluc-a-pima-|aquí]]
+
+**Mediación**
+
+A la Consejería de Justicia, Administración Local y Función Pública, a través de la Dirección General de Justicia Juvenil y Cooperación, le compete la promoción e impulso de  actuaciones tendentes a la implantación, desarrollo y divulgación de la mediación y de otros sistemas no judiciales para la resolución de conflictos  que no estén específicamente atribuidos a otros órganos.
+
+Para más información pulse en el siguiente [[https://juntadeandalucia.es/organismos/justiciaadministracionlocalyfuncionpublica/areas/justicia/mediacion.html|enlace]]
+
+<WRAP> 
+<panel type="info" title="Acceso">
+  * **URL:** https://ws199.juntadeandalucia.es/apima/index.jsp
+  * **Contacta:** 
+  * **Formulario:**    Enlace a carpeta de red
+  * **BBDD:** 
+</panel>
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Capacitación">
+  * [[https://capacitacion.justicia.junta-andalucia.es/|Cursos y Manuales de Usuario]]
+  * [[https://videos.justicia.junta-andalucia.es/|Contenidos en video]]
+  * [[https://capacitacion.justicia.junta-andalucia.es/mod/glossary/view.php?id=196|Preguntas frecuentes (Portal de Capacitación)]]
+</panel>
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Procedimientos y Problemas Conocidos">
+  * [[pag_apli:pima:problemas|Procedimientos y Problemas Conocidos]] 
+</panel>
+</WRAP>
+
+</panel> 
+</WRAP>
+
+{{tag>validada}}
+
+

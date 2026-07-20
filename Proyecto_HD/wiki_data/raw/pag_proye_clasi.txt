@@ -1,0 +1,27 @@
+﻿
+
+<WRAP> 
+<panel type="primary" title="Clasificación Proyectos Según Financiación">
+
+<WRAP>
+<panel type="info" title="Documentos"> 
+  * {{ :excel_de_proyectos_segun_financiacion.xlsx |Excel Proyectos Según Financiación}}
+  * {{ :formacion_mrr.docx |Formación MRR}}
+</panel>
+</WRAP>
+
+<WRAP>
+<panel type="info" title="Proyectos Según Financiación">
+{{ ::financiacion_proyectos_1.png?1500 | }}
+</panel>
+</WRAP>
+
+<WRAP>
+<panel type="info" title="Formación MRR">
+{{ :formacion_mrr_1.png?700 |}}
+{{ :formacion_mrr_2.png?700 | }}
+</panel> </WRAP>
+
+{{tag>novalidada}}
+
+

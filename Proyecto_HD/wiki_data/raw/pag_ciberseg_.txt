@@ -1,0 +1,136 @@
+﻿
+<html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>CIBERSEGURIDAD</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #39546E;
+            margin: 0;
+            padding: 20px;
+            padding-top: 70px;
+            
+        }
+
+        .main-container {
+            max-width: 1550px;
+            margin-top: 20px;
+            
+        }
+
+        .main-header {
+            background-color: #39546E;
+            color: white;
+            padding: 25px 20px;
+            font-size: 2rem;
+            font-weight: bold;
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+            margin-bottom: 20px;
+            
+        }
+
+        .block {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 22px;
+            margin-bottom: 25px;
+            border: 1px solid #c5ccd4;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+            
+        }
+
+        .block h2 {
+            margin-top: 0;
+            color: #39546E;
+            border-bottom: 2px solid #39546E;
+            padding-bottom: 10px;
+            
+        }
+        
+        a {
+            color: #0051A3;
+            text-decoration: none;
+            
+        } 
+        
+    </style>
+</head>
+
+<body>
+
+    <div class="main-container">
+
+        <div class="main-header">CIBERSEGURIDAD</div>
+              <div style="margin: 15px;">
+        
+            <p>La <b>ciberseguridad </b> es el conjunto de prácticas, tecnologías y procesos diseñados para proteger sistemas informáticos, redes, dispositivos y datos contra ataques, daños o accesos no autorizados. Su objetivo principal es garantizar la confidencialidad, integridad y disponibilidad de la información.</p>
+        </div>
+        
+        <!-- Bloque ENS-->
+        <div class="block">
+        
+            <h2>ENS</h2>
+            <h3>Política de Seguridad de la Información</h3>
+            <ul>
+                <li><a href="https://capacitacion.justicia.junta-andalucia.es/pluginfile.php/1351/mod_resource/content/1/POL_001%20Pol%C3%ADtica_de_Seguridad_de_la_Informaci%C3%B3n_v1.0%28F%29.pdf">POL-001 Política de Seguridad de la Información</a></li>
+            </ul>
+            <h3>Comité de Seguridad</h3>
+            <ul>
+                <li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=cseg-001_nombramiento_del_comite_de_seguridad_interior_seguridad_tic_proteccion_de_datos_v1.2_f_.pdf">CSEG-001 Nombramiento del Comité de Seguridad Interior, Seguridad TIC y Protección de Datos</a></li>
+            </ul>
+            <h3>Responsables y Roles</h3>
+            <ul>
+                <li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=cseg-002_nombramiento_del_responsable_de_la_informacion_y_del_servicio_v1.1_f_.pdf">CSEG-002 Nombramiento del Responsable de la Información y los
+Servicios</a></li>
+                <li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=cseg-003_nombramiento_del_responsable_de_seguridad_tic_v1.1_f_.pdf">CSEG-003 Nombramiento del Responsable de Seguridad TIC</a></li>
+                <li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=cseg-004_nombramiento_del_responsable_del_sistema_de_informacion_v1.1_f_.pdf">CSEG-004 Nombramiento del Responsable del Sistema de Información</a></li>
+            </ul>
+            <h3>Normativas</h3>
+            <ul>
+                <li><a href="https://capacitacion.justicia.junta-andalucia.es/mod/page/view.php?id=1118">Normativas TIC y Procedimientos de Seguridad</a></li>
+            </ul>
+            <h3>Procedimientos</h3>
+            <ul>
+                <li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_procedimientos_generales:procedimientos_instrucciones_ssdj">Procedimientos e Instrucciones SSDJ</a></li>
+            </ul>
+        </div>
+        
+        <!-- Bloque CiberSeguridad -->
+        <div class="block">
+        
+            <h2>CiberSeguridad</h2>
+            
+            <ul>
+                <li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!svciber/doku.php">Portal Interno Ciberseguridad ADA</a></li>
+                <li><a href="https://wikifarm.cap.junta-andalucia.es/dokuwiki/!secinfo/doku.php?">Portal Interno Ciberseguridad CAPADR</a></li>
+                <li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_ciberseg:normativa">Normativa Legal</a></li>
+            </ul>
+        </div>
+        <!-- Bloque Formación -->
+        <div class="block">
+        
+            <h2>Formación</h2>
+            
+            <ul>
+                <li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!svciber/doku.php#fyc-%E2%80%93-formaci%C3%B3n-y-concienciaci%C3%B3n">Formación en CiberSeguridad Portal ADA</a></li>
+                <li><a href="https://wikifarm.cap.junta-andalucia.es/dokuwiki/!secinfo/doku.php?id=areas:formacion:start">Formación en CiberSeguridad Portal CAPADR</a></li>
+            </ul>
+        </div>
+        <!-- Bloque Procedimientos y Problemas Conocidos -->
+        <div class="block">
+        
+            <h2>Procedimientos y Problemas Conocidos</h2>
+            
+            <ul>
+                <li><a href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_ciberseg:problemas">Procedimientos y Problemas Conocidos</a></li>
+            </ul>
+        </div>
+     </div>
+</body>
+</html>
+
+{{tag>validada}}
+

@@ -1,0 +1,168 @@
+﻿
+===== Procedimiento Genérico de Gestión de Cambios y Configuraciones para Red Multisede y Multifabricante =====
+
+==== 1. Objetivo ====
+Establecer un proceso claro, homogéneo y eficiente para la gestión de cambios y configuraciones en la infraestructura de red corporativa, asegurando la seguridad, estabilidad, trazabilidad y continuidad del servicio en más de 160 sedes con dispositivos de 9 fabricantes distintos.
+
+==== 2. Alcance ====
+Este procedimiento aplica a todos los equipos de red (switches, firewalls, routers, etc.) y a todas las sedes de la organización. Considera todos los fabricantes y modelos gestionados, tanto en operaciones normales como en incidencias o proyectos.
+
+==== 3. Definiciones ====
+  * **Cambio:** Acción planificada o correctiva que modifica la configuración, hardware o software de dispositivos de red.
+  * **Configuración:** Conjunto de parámetros y estados operativos definidos en cada dispositivo.
+  * **RFC (Request for Change):** Formulario formal donde se detalla la solicitud de cambio.
+  * **Rollback:** Proceso para revertir un cambio realizado en caso de fallo.
+  * **CMDB (Configuration Management Database):** Base de datos donde se registra la información y estado de los activos y configuraciones.
+
+==== 4. Responsabilidades ====
+
+^ Rol                  ^ Responsabilidades principales                                ^
+| Técnicos GTSR| Planificación, coordinación, aprobación y seguimiento del cambio. |
+| Técnicos GTSR | Ejecución física del cambio en sedes, respaldo y pruebas.       |
+| Gestores de CMDB       | Actualización y mantenimiento del inventario y configuraciones. |
+
+==== 5. Procedimiento de Gestión de Cambios ====
+
+===== 5.1 Solicitud de Cambio (RFC) =====
+
+  * **Inicio:**  
+    El solicitante (puede ser un técnico, responsable de sede, o equipo central) llena el formulario RFC con los siguientes campos obligatorios:  
+    - Título y código del cambio.  
+    - Descripción detallada del cambio (qué, cómo, por qué).  
+    - Equipos afectados: fabricante, modelo, IP, ubicación física.  
+    - Alcance: sedes, VLANs, servicios implicados.  
+    - Justificación: motivo del cambio.  
+    - Impacto esperado (posible impacto en servicios, usuarios, seguridad).  
+    - Riesgos identificados.  
+    - Plan de pruebas.  
+    - Plan de rollback.  
+    - Fecha y ventana horaria preferente para la ejecución.  
+    - Recursos humanos y técnicos necesarios.
+
+  * **Distribución:**  
+    El RFC se envía a Gestor de Cambios, Equipo de Seguridad, y responsables de sedes afectadas.
+
+===== 5.2 Análisis y Evaluación =====
+
+  * **Revisión inicial:**  
+    El Gestor de Cambios evalúa:  
+    - Compleción de la información.  
+    - Impacto en continuidad del servicio.  
+    - Riesgos y plan de mitigación.  
+    - Compatibilidad con configuraciones actuales y normativas internas.  
+    - Necesidad de recursos o autorizaciones adicionales.
+
+  * **Clasificación:**  
+    - **Cambio estándar:** Procedimientos repetitivos y de bajo riesgo, con aprobación automática.  
+    - **Cambio normal:** Cambios con planificación y aprobación previa.  
+    - **Cambio urgente:** Cambios para resolver incidentes críticos con aprobación acelerada.
+
+  * **Consultas:**  
+    Si es necesario, se solicita opinión a:  
+    - Equipo de Seguridad.  
+    - Fabricante o soporte técnico externo.
+
+===== 5.3 Aprobación =====
+
+  * El Gestor de Cambios otorga la aprobación según la clasificación.  
+  * Se requiere firma digital o confirmación formal:  
+    - Para cambios normales: Técnicos GTSR + responsables de sedes.  
+    - Para cambios urgentes: aprobación Manager o Jefatura que se acelerada (por teléfono o correo, documentado).  
+  * El Gestor de CMDB verifica que la información está actualizada.
+
+===== 5.4 Planificación =====
+
+  * **Plan detallado:**  
+    - Fecha y hora definitiva de ejecución, preferentemente en ventanas de mantenimiento.  
+    - Definición clara de tareas paso a paso.  
+    - Designación de responsables técnicos por sede y fabricante.  
+    - Preparación de herramientas y acceso remoto/local.  
+    - Comunicación a usuarios afectados y áreas de soporte.  
+    - Creación de checklist de pre-ejecución (revisar estado del dispositivo, respaldos previos, etc.).
+
+  * **Backup y Pre-checks:**  
+    - Realizar backup completo de configuración actual y exportación a repositorio seguro.  
+    - Verificación de conectividad y estado actual del dispositivo.  
+    - Validación de versiones de firmware y compatibilidad.
+
+===== 5.5 Ejecución =====
+
+  * **Antes de iniciar:**  
+    - Confirmar ventana y comunicar inicio a responsables y usuarios.  
+    - Asegurar presencia física o remota del técnico asignado.
+
+  * **Durante el cambio:**  
+    - Documentar cada paso realizado (hora, acciones, comandos, resultados).  
+    - Aplicar la configuración o realizar los cambios físicos indicados.  
+    - Monitorizar logs y estado del dispositivo en tiempo real.  
+    - Resolver cualquier incidencia en el momento.  
+    - En caso de desviación o error, activar plan de rollback.
+
+===== 5.6 Validación Post-Cambio =====
+
+  * Ejecutar pruebas funcionales:  
+    - Comprobación de conectividad.  
+    - Verificación de políticas de firewall aplicadas.  
+    - Test de rendimiento y latencia si aplica.  
+    - Validación de acceso remoto y local.
+
+  * Supervisar logs y alertas durante al menos 1 hora post-cambio.  
+  * Recoger feedback de usuarios y responsables de sedes.
+
+===== 5.7 Cierre y Documentación =====
+
+  * Registrar resultados en el RFC:  
+    - Estado final (exitoso, con incidencias, revertido).  
+    - Observaciones relevantes.  
+    - Fecha y hora de cierre.  
+    - Firmas digitales o confirmaciones de responsables.
+
+  * Actualizar CMDB con nueva configuración y estado.  
+  * Comunicar cierre a todas las partes implicadas y al equipo de soporte.  
+  * Archivar backups y documentación asociada.
+
+==== 6. Procedimiento de Gestión de Configuraciones ====
+
+===== 6.1 Inventario =====
+
+  * Mantener actualizado en CMDB:  
+    - Todos los dispositivos con:  
+      - Fabricante, modelo, número de serie.  
+      - Ubicación física (sede, rack, puerto).  
+      - Dirección IP y VLAN asociadas.  
+      - Versión de firmware/software.  
+      - Estado operativo.
+
+===== 6.2 Control y Versionado de Configuraciones =====
+
+  * Establecer repositorio centralizado para respaldos automáticos.  
+  * Versionar cada configuración:  
+    - Antes del cambio (configuración base).  
+    - Después del cambio (configuración nueva).  
+  * Identificar cambios con etiquetas: fecha, responsable, motivo.
+
+===== 6.3 Auditorías Periódicas =====
+
+  * Ejecutar auditorías trimestrales para:  
+    - Verificar congruencia entre configuración documentada y real.  
+    - Detectar configuraciones no autorizadas o desviaciones.  
+    - Evaluar cumplimiento con estándares y normativas internas.  
+  * Informar desviaciones y proponer acciones correctivas.
+
+==== 7. Comunicación ====
+
+  * Mantener comunicación constante y transparente con todas las partes.  
+  * Anunciar ventanas de mantenimiento con al menos 72 horas de antelación.  
+  * Informar de cambios críticos o urgentes inmediatamente.  
+  * Publicar reportes post-cambio con resultados y aprendizajes.
+
+==== 8. Herramientas y Soporte ====
+
+  * Uso de plataformas de gestión de cambios (ej. Jira, ServiceNow).  
+  * Herramientas de backup y monitoreo compatibles con cada fabricante (RANCID, SolarWinds, etc.).  
+  * Documentación técnica accesible y actualizada en repositorios compartidos (Wiki, SharePoint).
+
+===== 9. Historial de cambios =====
+^ Versión ^ Fecha ^ Cambio ^ Autor ^  
+| 1.0 | 2025-07-24| Creación del documento | GTSR|
+

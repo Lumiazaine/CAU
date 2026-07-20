@@ -1,0 +1,62 @@
+﻿
+  * [[:visibilidades|Visibilidades CENDOJ <--> @driano ]]
+
+Visibilidad desde el CENDOJ hacia @driano
+Visibilidad 1
+
+Origen RedSARA_NAT (10.128.128.1)
+
+Destino bus-apigateway-apps-desa - 10.241.254.135 (10.128.127.80 - NAT Red Sara)
+
+              bus-apigateway-apps-pre - 10.241.254.46  (10.128.127.81 - NAT Red Sara)
+
+Puertos 443
+
+Objeto de dicha visibilidad:
+
+PD: Dicha visibilidad esta testada y confirmada por CGPJ
+
+Visibilidad 2
+
+Origen SWS17-PRE.PNJ.GGPJ.ES - 10.128.140.116 (NAT Red SARA)  (IP Real 10.172.72.224)
+
+Destino bus-apigateway-apps-pre - 10.241.254.46  (10.128.127.81 - NAT Red Sara)
+
+Puertos 443
+
+Objeto de dicha visibilidad:
+
+PD: Se deshabilita la regla, no tiene sentido.
+
+Visibilidad desde el @driano hacia CENDOJ
+Visibilidad 1
+
+Origen ADRPRESLDMZBU01 - 10.241.134.42
+
+             ADRPRESLDMZBU02 - 10.241.134.43
+
+             ADRPRESLDMZBU10 - 10.241.134.44
+
+             ADRPRESLDMZBU11 - 10.241.134.45
+
+             IUSSLINDRADESA17 - 10.241.247.67
+
+Destino SWS17-PRE.PNJ.GGPJ.ES - 10.128.140.116 (NAT Red SARA) (IP Real 10.172.72.224)
+
+Puertos 443, 80, 8080
+
+Objeto de dicha visibilidad:
+
+Zona Justicia Red Sara para el Exterior
+bus-apigateway-apps-desa.justicia.junta-andalucia.es - 10.128.127.80
+bus-apigateway-apps-pre.justicia.junta-andalucia.es - 10.128.127.81
+bus-servicios.justicia.junta-andalucia.es - 10.128.127.95
+bus-servicios-pre.justicia.junta-andalucia.es -  10.128.127.96
+dns.justicia.junta-andalucia.es - 10.128.128.15
+iusslp7text01.justicia.junta-andalucia.es - 10.128.127.98
+wscargador.justicia.junta-andalucia.es - 10.128.127.85
+wscargador-pre.justicia.junta-andalucia.es - 10.128.127.86
+
+El PNJ se presenta en Justicia con la IP 10.128.128.1
+
+Justicia se presenta en el PNJ con la IP 10.128.128.30

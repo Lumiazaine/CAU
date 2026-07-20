@@ -1,0 +1,89 @@
+﻿
+====== Política de seguridad y configuración de acceso ======
+
+<note important>Este documento define las políticas y configuraciones de seguridad recomendadas para la administración de dispositivos de red.</note>
+
+===== 1. Política de contraseñas =====
+
+Se establece una política de contraseñas conforme a los estándares de seguridad corporativos (**ISO 27001**, **NIST 800-63**).
+
+**Requisitos mínimos:**
+  * Longitud mínima de **12 caracteres**  
+  * Debe incluir **mayúsculas**, **minúsculas**, **números** y **caracteres especiales**  
+  * **No reutilizar** las últimas **5 contraseñas**  
+  * **Caducidad:** cada **90 días**  
+  * **Bloqueo de cuenta** tras **5 intentos fallidos consecutivos**
+
+Ejemplo de configuración CLI (HPE/Cisco):
+<code bash>
+password policy minimum-length 12
+password policy complexity enable
+password policy history 5
+password policy lifetime 90
+login lockout attempts 5
+</code>
+
+----
+
+===== 2. Autenticación y control de acceso  =====
+❌ No disponemos de TACACS+ y sus implicaciones actualmente
+
+  * Se **deshabilita el uso de usuarios locales** en los dispositivos de red  
+  * Toda la autenticación se realizará mediante un **servidor externo** (por ejemplo, **RADIUS** o **TACACS+**)  
+  * Las credenciales y perfiles de usuario se gestionarán de forma **centralizada**  
+  * Solo los usuarios de **grupos autorizados** tendrán acceso administrativo  
+
+Ejemplo de configuración:
+<code bash>
+aaa authentication login default group radius
+radius-server host 10.0.0.10 key ClaveSegura123
+no local-user admin
+</code>
+
+----
+
+===== 3. Control de acceso mediante ACLs =====
+
+Se implementarán **Listas de Control de Acceso (ACL)** que limiten el acceso de gestión a redes privadas autorizadas.
+
+**Recomendaciones:**
+  * Permitir solo IPs o rangos de gestión internos  
+  * Denegar todo acceso no autorizado  
+  * Aplicar ACL en todas las interfaces de gestión (físicas y virtuales)  
+
+Ejemplo de ACL:
+<code bash>
+ip access-list extended MGMT-ACCESS
+ permit tcp 192.168.100.0 0.0.0.255 any eq 22
+ permit tcp 192.168.100.0 0.0.0.255 any eq 443
+ deny ip any any log
+interface mgmt
+ ip access-group MGMT-ACCESS in
+</code>
+
+----
+
+===== 4. Gestión y segmentación de interfaces =====
+
+  * La administración se realizará **únicamente a través de la interfaz dedicada de gestión**  
+  * Esta interfaz estará **aislada** de las redes de producción  
+  * Se crearán **perfiles específicos** para cada interfaz, limitando los servicios permitidos (solo **SSH** y **HTTPS**)  
+  * Se deshabilitarán servicios inseguros (**Telnet**, **HTTP**, **SNMP público**)  
+  * Los puertos de gestión estarán en **redes privadas no enrutable desde Internet**  
+
+Ejemplo:
+<code bash>
+interface mgmt
+ description Interface de administración
+ ip address 192.168.100.2 255.255.255.0
+ management-only
+ no snmp-server community public
+ no telnet-server
+ enable ssh
+ enable https-server
+</code>
+
+----
+
+<note tip>Con esta configuración se garantiza que la administración de los equipos se realice de forma segura, centralizada y conforme a las políticas corporativas.</note>
+

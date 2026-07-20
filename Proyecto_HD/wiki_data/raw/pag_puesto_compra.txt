@@ -1,0 +1,208 @@
+﻿
+<panel>
+
+=== PROCEDIMIENTO DE GESTIÓN DE EXPEDIENTE DE COMPRA DE EQUIPAMIENTO MICROINFORMÁTICO ===
+
+\\
+
+1. Desde Jefatura del Servicio se propone realizar un expediente de compra de equipamiento microinformático para cubrir una serie de necesidades.
+
+
+a. Coordinación solicita a Servicios/Inventario:
+
+
+i. Detección de necesidades concretas de cada Delegación Provincial de ese equipamiento
+
+
+b. Servicios/Inventario:
+
+
+i. Abrimos carpeta de proyecto en el año en curso:
+
+
+1. Ruta ej: iusnas05\\SIJ\Planificación\Planificación-Inventario\Proyectos 2022\Proyecto
+
+
+2. Creamos dentro de la carpeta lo siguiente: 
+
+
+a. Documento de "Observaciones" 
+
+
+b. Creamos excel de recopilación de necesidades, donde se incluye: 
+
+
+i. Provincia, municipio, dirección, unidades de equipos. 
+
+
+ii. Enviamos a las Delegaciones las necesidades recopiladas en la hoja de control de "Pendiente de equipamiento" respecto a ese tipo de equipo. 
+
+
+iii. Les solicitamos mediante petición Remedy la revisión/actualización de éstos datos e incluyan las necesidades que hayan detectado recientemente. 
+
+
+iv. Una vez que todas las peticiones Remedy nos han sido devueltas con la información actualizada, las unificamos en el fichero de "Necesidades" que enviamos a Coordinación para que lo valoren. 
+
+
+c. Coordinación recibe el fichero de "Necesidades" 
+
+
+i. Valorarán según los criterios establecidos previamente por Jefatura/Coordinación, qué necesidades van a cubrir, por lo que ya podrán 
+gestionar los documentos técnicos necesarios para llevar a cabo la compra de equipamiento (pliego, memoria justificativa,….) 
+
+
+ii. Cuando se haya hecho efectiva la adjudicación del contrato (orden de encargo), informarán a Servicios/Inventario: 
+
+
+1. Distribución final 
+
+
+2. Proveedor 
+
+
+3. Fechas del despliegues acordadas 
+
+
+d. Servicios/Inventario: 
+
+
+i. Verificamos: 
+
+
+1. En carpeta del contrato cual es el código infocor del expediente. 
+
+
+2. Comprobamos la existencia del código de infocor en Crijha. Si no existe solicitamos a Administración la gestión del código. 
+
+
+3. Tipología del expediente 
+
+
+a. Bienes homologados (Código infocor termina en CAT) 
+
+
+b. Fuera de catálago (Código infocor termina en INF). En este caso se realiza lo siguiente: 
+
+
+i. Fichero de creación de activos. 
+
+
+1. Ubicación de plantilla: \\iusnas05\sij\Planificacion\PLANIFICACIÓN-INVENTARIO\Plantillas\CRIJA 
+
+
+2. Nombre del fichero: "Fichero de creación de activos - plantilla" 
+
+
+3. Completar todos los campos de la plantilla 
+
+
+ii. Crear petición en Remedy a Nivel 3 /Cau mantenimiento (Sadesi), adjuntando plantilla completada. 
+
+
+iii. Modificamos el nombre de la carpeta del proyecto: "Expte *-año descripción de los equipos (unidades)", ej: Expte. 572909-2022 Webcams (400 uds).
+
+
+1. El número del expediente se corresponde al nº que le hayan dado en la carpeta del contrato.
+
+
+2. Si el expediente es de Delegación y no tuviera codificación interna, se le atribuyo el código de infocor, ej: Expte. 595-2022 CPU de Granada (1 und)
+
+
+iii. Creamos fichero excell de distribución dentro de nuestra carpeta, en el cual se incluye:
+
+
+1. Provincia, municipio, dirección, organismo, unidades, persona de contacto, teléfono y observaciones de entrega.
+
+
+Ej: \\iusnas05\sij\Planificacion\PLANIFICACIÓN-INVENTARIO\Proyectos 2022\Expte. 572909-2022 Webcams (400 uds)\ Distribución webcams 542909-2022
+
+\\
+iv. Contactamos con el proveedor
+
+1. Verificamos que hayan recibido la orden de encargo
+
+2. Concretamos fecha prevista de disponibilidad del equipamiento
+
+3. Comprobamos si disponen de las etiquetas RFID, si no gestionamos las impresiones de las mismas con Crijha.
+
+v. Contactamos con las Delegaciones
+
+1. Verificamos las sedes de entrega y el personal disponible en la previsión de fecha de distribución que nos ha facilitado el proveedor.
+
+2. Actualizamos la información anterior en el fichero excel de distribución.
+
+vi. Enviamos al proveedor el fichero de distribución completado. Quedamos a la espera de recibir dicho fichero con las fechas definitivas de distribución.
+
+vii. Una vez recibimos el calendario de distribución definitivo:
+
+1. Enviamos a las Delegaciones un email con:
+
+a. Fecha exacta de entrega según proveedor
+
+b. Condiciones de entrega (incluye retirada de embalaje?, hasta que punto se entregan los equipos dentro del edificio?,…)
+
+2. Informamos al proveedor de las condiciones a cumplir en las entregas:
+
+a. Preaviso a la persona responsable de recepción con 24/48 horas de antelación
+
+b. Datos de vehículos y conductor, en el caso de que la sede lo requiera (ej: CCJJ de Córdoba, Menéndez Pelayo (Sevilla))
+
+c. Orientarlos en la gestión de los albaranes y como deben estar cumplimentados (dirección de facturación (SSCC) y dirección de cada sede en la que se entrega)
+
+Ej:
+
+DIRECCIÓN DE FACTURACIÓN:
+
+JUNTA DE ANDALUCIA
+
+CONSEJERÍA DE JUSTICIA , ADMINISTRACIÓN LOCAL Y FUNCIÓN PÚBLICA
+
+CALLE MUÑOZ TORRERO, 1
+
+41003 SEVILLA
+
+\\
+DIRECCIÓN SEDE DONDE SE ENTREGA:
+
+Delegación Provincial de la Consejería de Justicia, Administración Local y Función Pública
+
+Ciudad de la Justicia de Almería
+
+Ctra de Ronda 120
+
+04006 ALMERIA
+
+\\
+3. Pedimos al proveedor lo siguiente:
+
+- Albaranes originales en pdf. Dentro de la carpeta de su expediente se crea una nueva carpeta llamada "Albaranes recibidos", ahí se almacenan todos.
+
+- Listado de los nº de serie de los equipos a distribuir junto a las etiquetas RFID y el destino de los mismos. Se archiva dentro de la carpeta de su expediente se crea una nueva carpeta llamada "Inventario".
+
+\\
+4. Seguimiento diario de la distribución y actualización del fichero de seguimiento.
+
+\\
+5. Cuando la Delegación recibe los equipos, nosotros les enviamos el albarán original en pdf para que lo firme digitalmente el responsable del contrato y nos lo envíe por email.
+
+\\
+6. Los albaranes recibidos firmados digitalmente se archivan dentro de la carpeta de su expediente, en una nueva carpeta llamada "Albaranes firmados Dp".
+
+\\
+7 . Una vez recopilados todos los albaranes firmados digitalmente:
+
+- Se envían por email al proveedor
+
+- Se realiza una copia de la carpeta donde están archivados y se coloca en la carpeta del contrato para que Administración pueda facturar.
+
+- Se envía email a administración indicando que ya tienen en su carpeta todos los albaranes firmados, así que es posible realizar la facturación del mismo.
+
+\\
+- Desde Servicios / Inventario se hará seguimiento de que administración ponga la factura en carpeta contrato para poder establecer una fecha definitiva de inicio de garantía de los equipos que deberá ser validada por Coordinación.
+
+\\
+8. A partir de aquí entra en vigor el procedimiento: Procedimiento de altas, bajas, modificaciones y sustituciones definitivas de equipos.
+
+</panel>
+
+

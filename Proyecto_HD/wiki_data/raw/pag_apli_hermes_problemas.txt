@@ -1,0 +1,1717 @@
+﻿
+<WRAP> 
+<panel type="primary" title="Procedimientos y Problemas Conocidos de Hermes">
+
+[[start|Volver atrás]]
+
+<WRAP> 
+<panel type="info">
+
+====== Alta en Hermes ======
+
+El usuario debe crearse primero en Temis debido a la sincronización nocturna Temis - Hermes.
+
+En este caso lo primero es comprobar que el usuario está dado de alta correctamente en TEMIS.
+
+Si No está dado de alta en TEMIS procedemos a contactar con CAU para que ellos lo creen.
+
+Si el usuario **no es personal externo** y está correctamente dado de alta en TEMIS nos queda comprobar que el usuario aparece en HERMES:
+
+**HERMES > ADMINISTRACIÓN > USUARIOS > colocamos el nif y le damos a mostrar.**
+
+{{:pag_apli:hermes:alta_hermes1.png?1000|}}
+
+Si el usuario **es personal externo**, comprobar que está dado de alta correctamente en TEMIS, después debemos crearlo de forma manual dentro de HERMES:
+
+**HERMES > ADMINISTRACIÓN > USUARIOS > NUEVO**
+
+</panel> 
+</WRAP>
+
+<WRAP>
+<panel type="info">
+
+====== Procedimiento atención incidencias CAU ======
+
+Los **usuarios de Hermes**, tanto letrados como funcionarios, tendrán dos vías para gestionar sus incidencias o peticiones:
+
+**1. Incidencias relacionadas con problemas de Fichaje:**  
+  El usuario deberá registrar el ticket personalmente en la propia aplicación.  
+HERMES dispone de una sección específica llamada **Registro de Incidencias**, diseñada para facilitar este proceso, tal y como se muestra en las capturas.
+
+\\
+{{:aplichermes1.png?500}}{{:aplichermes2.png?300}}{{:aplichermes3.png?550}}
+\\
+
+**2. Incidencias sobre absentismo u otra casuística:**  
+
+**Aclaración sobre gestión y registro de incidencias HERMES**
+
+De acuerdo con la coordinación establecida entre el **Servicio de Gestión de RRHH** y el **Servicio de Sistemas Digitales para la Justicia (SSDD)**, se determina lo siguiente:
+
+  * **Incidencias de Usuarios de Justicia (Jueces, letrados, resto de personal de OOJJ)**:
+
+Serán resueltas directamente por el **Servicio de Gestión de RRHH**, responsable funcional de la aplicación HERMES y de la resolución de incidencias funcionales **dentro del propio HERMES**, siguiendo las pautas mencionadas anteriormente.
+
+Por ejemplo, las **Incidencias sobre absentismo u otra casuística (Gestión interna de RRHH):**
+El usuario deberá ponerse en contacto con los técnicos del **Servicio de Gestión de RRHH** o enviar un correo a: **rrhh.oficinajudicial.ctrjal@juntadeandalucia.es**.
+
+En consecuencia, **NO SE ACEPTARÁN TIQUES REMEDY** registrados por los propios usuarios, ya que la aplicación HERMES dispone de su propio gestor de incidencias interno.
+
+  * **Incidencias solicitadas por el propio Servicio de RRHH (Escalado/Soporte):**
+
+El personal de gestión de RRHH, **no tienen acceso a Remedy ni a Temis**, solicitará el soporte o el escalado del incidente (por problemas en la base de datos o en la aplicación) enviando un correo a **csu.ius@juntadeandalucia.es**.
+
+El equipo de **CAU** (siguiendo las instrucciones dadas) recibirá la solicitud por correo, abrirá el correspondiente **tique Remedy**, y responderá al correo del solicitante de RRHH informando del **número de tique Remedy asignado**.
+\\
+\\
+**3. Incidencias sobre adscripción de Usuarios de Justicia en Servicios Comunes:**
+Resolver este tipo de peticiones se hace en dos pasos por dos equipos de trabajo distintos.
+ 
+  * **Por un lado la gestión de los usuarios se debe hacer sobre el puesto principal en Mantenimiento Temis. > CAU** 
+Sincro Temis - Hermes (automático diario)> solo sincroniza puesto principal, en Hermes hasta que no haya mínimo un usuario activo adscrito a un órgano este no aparece visible dentro de Hermes para gestionar responsables.
+ 
+  * **En segundo lugar la gestión de responsables en Hermes se realiza dentro de la aplicación Hermes/Administración/Estructuras Orgánicas > Servicio de Gestión de RRHH**
+ 
+ 
+Incidencia tipo ejemplo:\\
+IN0000002520785\\
+SE SOLICITA QUE EN EL  HERMES DEL SCG APAREZCAN TODOS LOS AUXILIOS DESTINADOS EN MÁLAGA CAPITAL, AL PASAR A DEPENDER DE ESTE SERVICIO.
+ 
+
+Lo primero es indentificar a los usuarios Auxilios que se van a asignar al Servicio Común, en este caso General, pero aplica a cualquiera.
+ 
+NO nos vale con que nos digan "todos los Auxilios" deben identificar mediante formulario al menos el DNI, nombre y apellidos de cada usuario ya que luego hay que buscar a cada uno para asignarle el puesto en Mantenimiento Temis. Copiar y pegar evitará problemas de interpretación de datos.
+ 
+La tarea consiste en cambiar el destino del usuario en Ficha principal en Mantenimiento Temis. Aquí es donde hay que colocar el SSCC que se desee.\\
+Antes de realizar este paso comprobar que en la pestaña "Otros Puestos" tiene asignado el puesto que le vamos a quitar de la ficha principal.\\
+En caso de no tenerla asignar este puesto antes de realizar el cambio en ficha principal.
+ 
+Realizar el cambio en Mantenimiento Temis y esperar al día siguiente que se ejecute la sincronización automática entre Temis y Hermes (07:00 aprox)
+ 
+La particularidad que tiene Hermes sobre cualquier órgano nuevo es que hasta que no se adscriba mínimo un usuario activo sobre este órgano en ficha principal de Temis y se sincronice, este nuevo órgano no aparecerá visible en Hermes y por tanto no se puede agregar responsables.
+ 
+En caso de haber gestionado correctamente los usuarios en Temis y tras sincronización los técnicos de RRHH siguen sin poder ver un SSCC para gestionar responsables reasignar el tique a Servicios > DevOps para revisar y gestionar el SSCC en base de datos.
+
+----
+
+== Registro de ticket en Remedy (Aplica a la apertura por parte del CAU): ==
+
+  * **Clase:** APLICACIONES
+  * **Tipo:** HERMES
+  * **Asignada a Grupo:** Servicios
+  * **Asignada a:** DevOps
+
+----
+
+== Comunicación con el CSU: ==
+
+Para las incidencias que remitan de HERMES, se les ha dado instrucción a los usuarios externos de enviar un correo a **csu.ius@juntadeandalucia.es**, para su gestión. **Toda comunicación externa sobre incidencias HERMES debe ajustarse a lo indicado en este procedimiento.**
+
+</panel>
+</WRAP>
+
+
+<WRAP> 
+<panel type="info">
+
+====== Alta Festivo ======
+
+<html><b>Problema: </b> Nos indican que no existe el día festivo en HERMES para una municipio en concreto.<br><br> <b>Solución: </b>Para dar de alta en TEMIS a nuevos Festivos, entramos en el <b>Escritorio Judicial > Mantenimiento Temis,</b> en el menú de la izquierda pulsamos sobre la opción <b>'Festivos',</b> seleccionamos tipo de festivo, por ejemplo 'Fiesta Local', partido judicial y la fecha entre la que corresponde la festividad, a continuación pulsamos en <b>'Importar festivos':</b><BR><BR>
+
+</html> {{:altas_hermes_1.png?700}}<html> <br><br><b>IMPORTANTE: </b>También podemos realizarlo por base de datos, con usuario que tenga permiso de escritura sobre la tabla <b>TEMIS</b> en <b>PROD02</b> de la siguiente forma:<br><br> <b>1- </b>Consultamos el código del municipio <b>(X_MUNICIPIO):</b><br><br> <b>SELECT * FROM TEMIS.MUNICIPIOS WHERE T_MUNICIPIO LIKE '%NOMBRE DEL MUNICIPIO%';</b><br><br> <b>2- </b>Consultamos si ya existe el día festivo a insertar para éste municipio, consultando por el <b>"X_MUNICIPIO"</b> obtenido anteriormente:<br><br> <b>SELECT * FROM TEMIS.FESTIVOS WHERE mun_X_MUNICIPIO = X_MUNICIPIO;</b><br><br> Llegados a este punto tenemos dos opciones, <b>A</b> (Insertar el día festivo) o <b>B</b> (Modificar la fecha de un festivo)<br><br> <b>A- </b>Para insertar el día festivo, debemos realizar la siguiente sentencia:<br><br> <b> SET DEFINE OFF;
+<code>
+
+  Insert into FESTIVOS
+    (TFE_X_TIPO_FESTIVO, F_FECHA_FESTIVO, T_DESC_FESTIVO, MUN_X_MUNICIPIO)
+  Values
+    (3, TO_DATE('XX/XX/XXXX 00:00:00', 'MM/DD/YYYY HH24:MI:SS'), 'TIPO DE FESTIVO', X_MUNICIPIO);</b><br><br>
+
+<b>B- </b>Para modificar la fecha de un festivo se debe realizar la siguiente sentencia:<br><br>
+<b>UPDATE TEMIS.FESTIVOS SET F_FECHA_FESTIVO = 'XX/XX/XXXX' WHERE X_FESTIVO = X_FESTIVO DEL FESTIVO A MODIFICAR;  </b>
+<br><br><br>
+Una vez ejecutada y realizado el 'COMMIT' (Hay que solicitar ejecución de script a sistemas en Temis PROD02), les aparecerá el festivo insertado o modificado a los usuarios del municipio, en la aplicación Hermes aparecerá al día siguiente, ya que la sincronización Temis-Hermes se realiza por la noche.
+
+</code>
+
+</html> </panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== NO APARECE DISPONIBILIDAD PARA UN TIPO DE GUARDIA ======
+
+<html><b>Descripción de incidencia de ejemplo: </b>Usuario indica que se ha cambiado la disponibilidad de las guardias, pasando las mismas a presenciales, sin embargo en Hermes no le permite poner esa opción, solo aparece "Guardia de disponibilidad 8 días (Cod.54)" y necesita que aparezcan las presenciales (Cod.51) Adjunto captura:<br><br> </html> {{:guardias_hermes_1.png?1000}}
+
+<html> <br><br><b>Solución:</b><br><br> <b>1- </b>Accedemos a Hermes.<br><br> <b>2- </b>Administración - Catálogos - Tipos de guardia.<br><br> <b>3- </b>Le damos a mostrar para que nos aparezcan todos los tipos de guardia.<br><br> </html> {{:guardias_hermes_2.png?1000}}<html> <br><br><b>4- </b>Buscamos el tipo de guardia que queremos, le damos a la derecha al lápiz para modificar.<br><br> </html> {{:guardias_hermes_3.png?1000}}<html> <br><br><b>5- </b>Le damos a nuevo.<br><br> </html>{{:guardias_hermes_4.png?1000}}<html> <br><br><b>6- </b>Buscamos el organismo del usuario, en este caso es Juzgado de Primera Instancia e Instrucción Nº1 de Arcos de la Frontera.<br><br> </html> {{:guardias_hermes_5.png?1000}}<html> <br><br> <b>7- </b>Le damos a aceptar.<br><br> <b>8- </b>Comprobamos que ya le aparece.<br><br> </html> {{:guardias_hermes_6.png?1000}}</panel></WRAP>
+
+</panel> 
+</WRAP>
+
+<WRAP> 
+<panel type="info">
+
+====== GESTIÓN DE RESPONSABLES EN HERMES ======
+
+<html><b>Problema: </b> El usuario indica que no puede ver las solicitudes de un usuario - órgano del que es responsable o solicita alta como coordinador para firmar permisos de uno o más órganos en concreto.<br><br> <b>Solución: </b>Comprobar el rol del responsable, buscar el órgano del que se reporta el problema, si es un usuario, buscar el puesto principal del usuario en HERMES. Comprobar si el órgano tiene asociado al responsable que presente el problema y asociarlo.<BR><BR> <b>Incidencia de ejemplo: </b>IN0000002330379 > HERMES > ALTA COMO COORDINADORA PARA FIRMAR PERMISOS<br><br> <b>1- </b>Comprobar perfiles y roles del usuario:<br><br> <b>ADMINISTRACIÓN > Acceso > Usuarios </b><br><br>
+
+</html> {{:responsables_hermes_1.png?1000}}<html> <br> <br> </html> {{:responsables_hermes_2.png?1000}}<html> <br><br> <b>2- </b>Comprobar si el usuario aparece como responsable del órgano, en caso contrario añadirlo.<br><br> <b>ADMINISTRACIÓN > Estructura Orgánica > Estructuras Orgánicas</b><br><br> </html> {{:responsables_hermes_3.png?1000}}
+
+</panel>
+</WRAP>
+
+<WRAP> 
+<panel type="info">
+
+====== ERROR DÍAS DE ABSENTISMO ======
+
+<html> <b>Problema: </b> Usuario indica que le aparecen días de absentismo laboral en un periodo de fecha determinado, ocurre por que las fechas de alta y baja del puesto actual o alguno anterior no se corresponde con la realidad.<br><br> <b>Solución: </b>Corregir las fecha de alta y de baja de los puestos afectados, recalcular saldos del usuario y queda solucionado.<BR><BR>
+
+<b>1- CONTROL DE PRESENCIA > </b>fichajes > anomalías de fichajes –>Buscamos el usuario para comprobar las anomalías que nos indica.<br><br> </html> {{:absentismo_hermes_1.png?1000}}<html> <br><br><b>2- ADMINISTRACIÓN > </b>acceso > usuario > introducimos el usuario y le damos a mostrar > pinchar en el lápiz junto al usuario (modificar usuario) <br><br> </html> {{:absentismo_hermes_2.png?1000}}<html> <br><br> Comprobamos la fecha inicio y fecha fin del puesto en las fechas indicadas, comprobamos datos indicados en Remedy con los datos en Hermes y Mantemis.<br><br> </html> {{:absentismo_hermes_3.png?1000}}<html> <br><br>Se trata de modificar las fechas del puesto que presenta la anomalía respecto a los datos reales, si la fecha del puesto que intentamos modificar es anterior a la Fecha Antiguedad* de la ficha de usuario no nos deja hacer el cambio. Previamente debemos cambiar la Fecha Antiguedad* del usuario, para lo cual usamos de referencia la primera fecha de alta existente en otros puestos de Temis. <br><br> </html> {{:absentismo_hermes_4.png?1000}}<html> <br><br> Por tanto, si tenemos que cambiar una fecha de un puesto anterior, lo primero será cambiar la Fecha Antiguedad* de la ficha del usuario , pulsar abajo en aceptar para que se guarden los cambios.<br> Ahora volvemos al punto <b>2- </b>, si después de pulsar en editar usuario nos aparece el siguiente mensaje:<br><br> </html> {{:absentismo_hermes_5.png?1000}}<html> <br><br> Esto quiere decir que el usuario tiene solicitudes o incidencias pendientes de resolver que pueden afectar al saldo general y hasta que estas no se resuelvan el sistema no permite el cambio en las fechas de los puestos. Podemos comprobar estas incidencias entrando en:<br><br> <b>2.1- CONTROL DE PRESENCIA</b> > Saldos > Consulta de Saldos<br><br> </html> {{:absentismo_hermes_6.png?1000}}<html> <br><br> </html> {{:absentismo_hermes_7.png?1000}}
+
+<html> <br><br>Se aprecia que en el mes de Diciembre hay tramitaciones en curso que pueden afectar al saldo, para obtener mas detalles pinchamos en el icono a la izquierda del mes Diciembre, se nos abre una nueva ventana:<br><br> </html> {{:absentismo_hermes_8.png?1000}}<html> <br><br>Se aprecia que tiene solicitudes de permiso en tramite pendientes de ser aceptados, por tanto, a partir de aquí informamos al usuario de que hasta que no se resuelvan estas solicitudes el sistema no permitirá que modifiquemos las fechas de los puestos.<br> Puede ocurrir que el usuario tenga pendiente una incidencia con el sistema de fichajes en vez de una solicitud pendiente, en este caso el comportamiento del sistema es el mismo, no deja editar datos que puedan afectar a saldos hasta que no haya solicitudes o incidencias pendientes de aceptar. Desde administración podemos solucionar algo si se trata de una incidencia provocada por un error del usuario como por ejemplo un marcaje erróneo, o pulsar entrada en vez de salida.<br> Esto podemos solventarlo realizando de nuevo el punto 2.1 – Podemos entrar en ella dándole a ver detalles. Aquí podemos obtener una vista de la incidencia así como el numero de referencia de esta, la causa y justificación de esta misma.<br><br> </html> {{:absentismo_hermes_9.png?1000}}<html> <br><br>En este ejemplo se aprecia que se realizó el fichaje a la entrada pero no en la salida. Pinchamos en <b>Gestión de Fichajes.</b> Pinchar en el icono de la lupa para ver detalles de incidencia.<br><br> </html> {{:absentismo_hermes_10.png?1000}}<html> <br><br> <b>2.2- </b>Podemos gestionar las incidencias en CONTROL DE PRESENCIA > Incidencias > Consulta de Incidencias.<br> En esta ventana podemos editar la incidencia, justificarla y tramitarla (solucionarla). De esta manera solucionamos la incidencia que no nos permitía poder editar las fechas de los puestos del usuario. <br><br> </html> {{:absentismo_hermes_11.png?1000}}<html><br><br> <b>3- </b>Control de presencia > Saldos > Recalcular saldos > introducir el usuario y el mes que hemos corregido anteriormente y pulsamos en calcular.<br><br> </html> {{:absentismo_hermes_12.png?1000}}<html> <br><br><b>4- </b>Volver a ejecutar el punto 1 para comprobar que las anomalías indicadas han desaparecido.<br><br> <b>Incidencia ejemplo: IN0000002304876</b> </html>
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== NO SE PUEDE ENTRAR EN HERMES ======
+
+**Descripción de la incidencia No puede entrar en Hermes aparece 'Login incorrecto'. **Solución
+
+El usuario y contraseña de acceso a Hermes es la misma de acceso al Escritorio Judicial, por lo tanto el usuario podemos informar de cuál es mirando en temis.usuarios_global, no así la contraseña, que debe resertearsela el CAU.
+
+El acceso incorrecto a Hermes puede ser por varios motivos:
+
+  - El usuario está introduciendo el usuario o contraseña incorrectamente.
+  - El usuario ha sido dado de baja en temis, habría que comprobarlo en temis.usuarios_global o por mantenimiento temis. Puede ser que haya sido dado de alta hoy pero no se ha sincronizado temis-hermes (porque la sincronización temis-hermes se realiza por la noche) Se le indica al cau.
+  - El usuario es externo y no recuerda la contraseña de acceso, le reseteamos la contraseña desde la aplicación hermes, la nueva contraseña le llegará a su correo electrónico. Ejemplo: 1225722
+
+En la siguiente imagen se puede apreciar un usuario externo en Hermes, le aparece el icono 'resertear clave', si no fuera externo, no le saldría este icono:
+
+{{:pag_apli:hermes:usuarioexternohermes.jpg?800|}}
+
+Sólo en el caso de usuarios externos se le puede informar que además, puede cambiar la contraseña de acceso a hermes, dentro de la aplicación, en el menú 'Cambiar Contraseña':
+
+{{:pag_apli:hermes:usuarioexternohermes2.jpg?800|}}
+
+ \\ </panel></WRAP> \\  \\ <WRAP> <panel type="info">
+
+====== EN HERMES APARECE UN ORGANISMO QUE NO SE ENCUENTRA ======
+
+**Descripción de la incidencia**
+
+En Hermes aparece en el organo de origen que es el Juzgado de lo Penal nº14 de Málaga pero se encuentra dado de alta ya en otro.
+
+**Solución**
+
+Se consulta por Mantenimiento temis el organismo actual del usuario y se consulta el actual en Hermes. Si no coinciden y el cambio de organismo se ha hecho hoy, se informa que aparece distinto porque aún no se ha sincronizado temis-hermes (se hace por la noche).
+
+Si el cambio se hizo otro día, puede ser que se le haya puesto un cargo que no sincroniza en Hermes:
+
+CARGOS QUE SE SINCRONIZAN EN HERMES. Ejecutar la siguiente consulta en PROD04:
+
+SELECT X_CARGO, D_CARGO
+
+FROM HERMES.CPCARGOS CAR,
+
+HERMES.CPCUERPOS CUE
+
+WHERE CAR.CUE_X_CUERPO = CUE.X_CUERPO
+
+AND CAR.CUE_X_CUERPO IN (SELECT C_VALOR
+
+FROM HERMES.CPDOMINIOS DOM
+
+WHERE DOM.L_VALIDO = 'S'
+
+AND C_DOMINIO = 'CUERPO_FUNCIONARIO'
+
+)
+
+**Incidencia Remedy:**
+
+IN0000001494923
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== No accede a Hermes: Error de conexión ======
+
+**Descripción de la incidencia No puede acceder a Hermes, tiene conexion de red en su equipo. Solo le pasa a él. **Solución
+
+Asignad la incidencia a la Delegacion DP_<provincia> para que el técnico realice pruebas de acceso, sea in-sito o por acceso remoto como::Verificar si se encuentra en los rangos de IP de los compañeros (direcciones IP de los compañeros que sí funciona HERMES).
+
+Realizar: "c:\>nslookup hermes.justicia.junta-andalucia.es" ver si resuelve bien a la dirección 10.241.254.47. Si esto es satisfactorio, tambien hacer "c:\>telnet hermes.justicia.junta-andalucia.es 80" y ver que no hay error de conexión. Por último abrir navegador Mozilla Firefox abrir la URL [[http://hermes.justicia.junta-andalucia.es/Hermes/|http://hermes.justicia.junta-andalucia.es/Hermes/]] ¡Ojo! tal cual, con la H mayuscula y la / final.
+
+Ejemplo de incidencia Remedy 766488
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Vacaciones: cuenta día festivo ======
+
+**Descripción de la incidencia El usuario ha solicitado de asuntos particulares/vacaciones en un determinado periodo y en el cómputo de días le está incluyendo el 24 de diciembre como día laborable. **Solución
+
+En primer lugar comprobamos que esto está sucediendo, entrando a Hermes con nuestro usuario Administrador. Vamos al Menú 'Permisos y Licencias', 'Solicitudes', 'Consulta de solicitudes', en Cod.us insertamos el usuario Temis, confirmamos que en el calendario de festividades de la aplicación no consta el día 24 de diciembre.
+
+Se consulta a Delegación si hay que incluir este día.
+
+Ejemplo de incidencia Remedy //699474//  </panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== No está activa la solicitud de Permisos ======
+
+**Descripción de la incidencia Indican que no está activa todavía en el menú de Hermes la opción para solicitar nuevos permisos. **Solución
+
+Reseteamos la contraseña en Temis del usuario (Usuarios/ Modificar/ Anular contraseña) que presenta la incidencia, accedemos a Hermes con éste usuario.Accedemos a 'Permisos y Licencias, Solicitudes, Registro de Solicitud' y confirmamos que sí está activa la opción de solicitud de nuevos permisos en Nuevo HERMES, indicamos al CAU para que informe al usuario.
+
+Ejemplo de incidencia Remedy //700249//  </panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== No aparece el icono de acceso directo ======
+
+**Descripción de la incidencia**  No aparece el icono de acceso directo a la aplicación de nuevo Hermes. **Solución**
+
+En primer lugar hay que comprobar que efectivamente el organismo se ha migrado para que acceda a la nueva aplicación, una vez confirmado, dependiendo de quién reporte la incidencia:
+
+**Juzgado de Paz:**  La incidencia debe reasignarse a 'Servicios, Planificación, Juzgado de paz' para que SADESI (Juan Carlos Román) verifique si hay algún problema con el icono de acceso directo a Hermes para este usuario en concreto.
+
+**Otros casos:**  Se reasigna la incidencia a 'Sistemas/GTSW' para que comprueben cuál puede ser la causa.
+
+Ejemplo de incidencia Remedy //700332//</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Al consultar permisos no le salen datos ======
+
+**Descripción de la incidencia**  Al consultar los permisos aparece sin ningún dato, es decir, como si no hubiera consumido vacaciones. **Solución**
+
+1. En primer lugar comprobar si el organismo se encuentra entre los que se han migrado para que utilicen la nueva aplicación (hay documentos que proporciona el usuario de desarrollo encargado de la migración).
+
+**Se ha migrado:**
+
+__Juzgado de Paz:__  No se les ha migrado las vacaciones disfrutadas. Para saber las que tienen disponibles, deben consultarlo con su Delegación. Ejemplo de incidencia: //700365//. Se informa al CAU para posibles incidencias similares.
+
+Las incidencias de vacaciones y asuntos propios en los Juzgados de Paz deben dirigirse a Personal de las Delegaciones. Es Personal de las Delegaciones, con el perfil Delegado, quien debe gestionar y añadir/modificar todo lo relativo a esos permisos en Hermes (registrando los permisos anteriores y/o modificando los números de días). **¡Cuidado con asignar incidencias Remedy a las DP_***
+
+__Si no es Juzgado de Paz:__
+
+  * Comprobar las solicitudes de vacaciones en HERMES antiguo: [[https://10.241.254.20/permisos/index2.htm|https://10.241.254.20/permisos/index2.htm]]. Usar 'Solicitudes > Buscar por apellido > seleccionar consultar > pulsar en filtrar'.
+  * Consultar en nuevo Hermes si coinciden las solicitudes de permisos: Menú 'Permisos y Licencias > Solicitudes > Consulta de solicitudes', introduciendo el cod.ius y rango de fechas.
+  * Si en nuevo Hermes no aparecen solicitudes pero en el antiguo sí, reasignar a 'Desarrollo'.
+
+**No se ha migrado:**  El usuario no podría acceder a Hermes Nuevo, por lo tanto no puede consultar ni solicitar permisos.
+
+**Casos especiales:**
+
+__Permisos AÑO siguiente:__  Puede que el usuario quiera solicitar vacaciones/asuntos particulares del año siguiente al actual:
+
+  * Consultar los días en 'Administración > Número de días > Número de días' del año actual, insertar cod.ius.
+  * Insertar los mismos días en el nuevo ejercicio pulsando 'Nuevo' (por ejemplo 23 vacaciones y 11 asuntos particulares).
+  * Esto suele ocurrir cuando el usuario ha sido trasladado y no estaba en el organismo en el momento en que se registraron los datos del nuevo ejercicio. Ejemplo: //708865//.
+
+__Se han migrado los permisos pero no los números de días:__
+
+Se deben crear registros en nuevo Hermes con 22 días de vacaciones y 9 de asuntos particulares. Ejemplo: //713047//.
+
+Para 2013, se añaden 22 días de vacaciones y 3 de asuntos particulares.
+
+**Consultar por BBDD:**
+
+  * Número de días que tiene un usuario en Hermes: \\ ''select u.x_usuario, D.I_NUMDIA, D.TPM_X_TIPPRM from hermes.cpusuarios u, hermes.cpnumdia d where d.usu_x_usuario=u.x_usuario and u.x_usuario = 'X';''
+  * Número de días para 2012 en Chin (si no tiene, en Hermes debe tener 22/9): \\ ''select * from chin.chin_vacaciones_convenio where empleado = 'Z' and ejercicio=2012;''
+  * Número de solicitudes de permisos en Hermes: \\ ''select u.x_usuario, count (x_solicitud) from hermes.cpusuarios u, hermes.cpsolicitudes s where s.usu_x_usuario=u.x_usuario and u.x_usuario = 'X' group by u.x_usuario;''
+  * Solicitudes de vacaciones en 2012 en Chin: \\ ''select * from chin.chin_solicitudes_vacaciones where numero_empleado='Z' and ejercicio=2012;''
+
+Si el usuario tiene vacaciones en CHIN pero no en HERMES: no se ha migrado → reasignar a Desarrollo.
+
+Si el usuario tiene vacaciones en HERMES: está migrado. Si no tiene número de días, usar los de CHIN. Si no tiene en CHIN, se asignan por defecto 22 días de vacaciones y 9 de asuntos particulares.
+
+Ejemplo de incidencia Remedy //700365//  (Juzgado de Paz)
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== No permite solicitar día de Permiso - Flexibilidad horaria ======
+
+**Descripción de la incidencia**  El usuario indica que está intentando pedir días de permiso, pero el sistema no se lo permite. Para esos días tiene asignada flexibilidad horaria. **Solución**
+
+Se ha detectado un error en la nueva aplicación HERMES v.1.1.3PRO para las solicitudes de Flexibilidad horaria y Reducción de jornada. Si los funcionarios solicitan este tipo de permisos desde una fecha inicial hasta otra final, el sistema lo interpreta como una solicitud de permiso sin asistencia al trabajo. Por ello, si el usuario realiza otra solicitud de asuntos propios, vacaciones u otra dentro de ese rango de fechas, el sistema impide registrarla informando: //"Ya existe una petición en ese período"//.
+
+Este error está previsto que se corrija en la versión 1.2.0.
+
+**Mientras tanto, para solventar el problema en la versión actual 1.1.3PRO:**
+
+Cancelar la solicitud de Flexibilidad horaria o Reducción de jornada y realizar una nueva solicitud de la siguiente forma:
+
+  * **Solicitante:**  <El usuario que solicita la flexibilidad o reducción>
+  * **Concepto*:**  Flexi.Hora… o Reducc… según proceda.
+  * **Desde*:**  Fecha inicial
+  * **Hasta*:**  Misma fecha que en “Desde”
+  * **Duración:**  Marcar “Horas”
+  * **Hora Inicio*:**  07:00
+  * **Hora Fin*:**  07:01
+  * **Ejercicio*:**  Ejercicio en curso
+  * **Observaciones*:**  SOLICITUD DE <flexibilidad o reducción>, desde <fecha inicial> hasta <fecha final>
+Actualmente no se pueden asignar jornadas con flexibilidad al funcionario porque deben crearse. Desde el servicio de Informática se ha solicitado información al SERVICIO DE GESTIÓN DE RR.HH. DE LA ADMINISTRACIÓN DE JUSTICIA para configurar correctamente este tipo de jornadas en el sistema.
+
+Una vez creadas, los perfiles Delegados pueden asignarlas desde el apartado //2.5.3.3. Asignación De Jornadas//  (página 57) de la Guía del Delegado v02r01. También pueden asignarse Turnos, creando previamente en el sistema conjuntos de jornadas flexibles (por ejemplo: jornada flexible en los periodos de jornada intensiva, ordinaria o reducida).
+
+**Reducciones de jornada existentes en el sistema:**
+
+  * REDF1H Reducción 1 Hora Flexible
+  * REDR1H Reducción 1 Hora Rígido
+  * REDF2H Reducción 2 Horas Flexible
+  * REDR2H Reducción 2 Horas Rígido
+  * REDF3H Reducción 3 Horas Flexible
+  * REDR3H Reducción 3 Horas Rígido
+  * RED33 Reducción 33%
+  * RED50 Reducción 50%
+
+Estas reducciones se aplican desde el apartado //2.5.3.5 Reducciones de Jornadas//, página 62 de la Guía Delegado v02r01.
+
+Se reasigna la incidencia al grupo **'Nuevo Hermes Personal <Provincia>'**  informando de lo anterior.
+
+Ejemplo de incidencia Remedy //710912//</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Problema con Fichajes ======
+
+**Descripción de la incidencia**  Diferentes problemas con los fichajes.
+
+**Solución**
+
+En Hermes Nuevo solo aparecen los fichajes desde el día en que se realiza la migración hacia adelante. No se muestran los fichajes de meses anteriores. En ese caso, se informa al usuario y se reasigna la incidencia al grupo "Nuevo HERMES Personal <Provincia>". Ejemplo de incidencia: //711067//.
+
+**Problema 1**  (Ejemplo: 701211): El usuario ha fichado dos veces el día 9/11. Se comprueba en Hermes Nuevo desde el menú: "Control de presencia > Fichajes > Gestión de Fichajes", introduciendo el cod.ius del usuario y seleccionando la fecha.
+
+El sistema funciona así:
+
+  * Si el usuario ficha dos veces la **entrada**, el sistema toma el fichaje más temprano.
+  * Si ficha dos veces la **salida**, se toma el más tardío.
+  * Siempre se favorece al usuario.
+
+**Problema 2**  (Ejemplo: 705783): El usuario se equivocó y fichó salida en vez de entrada. Ahora tiene una anomalía.
+
+La aplicación Hermes detecta automáticamente la anomalía y genera una incidencia interna.
+
+El funcionario debe registrar la incidencia manualmente desde: "Anomalía del Fichaje > Registrar Incidencia", indicando el motivo ("me equivoqué", "olvidé fichar", etc.).
+
+Una vez registrada, la incidencia llega al Delegado, quien la acepta o rechaza.
+
+Correo tipo que se envía al usuario:
+
+//Para resolver este tipo de incidencias con los fichajes debe registrar la incidencia desde la aplicación Hermes.//
+
+//Puede ver cómo hacerlo en el portal Adriano://  [[http://juntadeandalucia.es/justicia/funcionario_justicia/cda/views/content/adri_fun_mostrar_pdf_unico_listado/0,21334,12351588_61046349,00.html|http://juntadeandalucia.es/justicia/funcionario_justicia/cda/views/content/adri_fun_mostrar_pdf_unico_listado/0,21334,12351588_61046349,00.html]]
+
+//Ir a la sección: Documentación de interés > Manuales y Guías de Usuario > Nuevo HERMES.//
+
+//En las preguntas frecuentes encontrará: “¿Cómo pongo una incidencia de fichaje?”//</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== No aparecen saldos de días disponibles ======
+
+**Descripción de la incidencia**  No le aparecen los saldos de días que tiene disponibles, ya que le aparece a CERO.
+
+**Solución**
+
+Se consulta el saldo de fichajes del usuario en Hermes: "Control de Presencia > Saldos > Consulta de Saldos".
+
+Se informa al funcionario que debe abrir una incidencia desde Hermes. Dicha incidencia llegará automáticamente al delegado, quien debe gestionarla.
+
+**Ejemplo de incidencia Remedy**: 706092
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== No aparece como responsable ======
+
+**Descripción de la incidencia El usuario es responsable de una delegación y solicita ver a los usuarios que se encuentran en él. **Explicación** Puede darse por varios casos, **1. No se encuentra de responsable en la estructura orgánica2. No tiene rol de responsableSolución
+
+**1er caso**
+
+Entramos a Hermes como administrador y vemos el organigrama Administración/Estructura orgánica/Estructuras orgánicas.
+
+Filtramos por el nombre del organismo que queremos
+
+{{:pag_apli:hermes:1629112507719-413.png?800|}}
+
+Pulsamos sobre el organismo que se quiera poner al usuario como responsable. Una vez dentro vamos a la pestaña 'Responsables' pulsamos en 'Nuevo' e introducimos el identificador del usuario responsable o sus apellidos, aceptamos y le asignamos un número de orden, aceptamos y ya tenemos al usuario como responsable.
+
+{{:pag_apli:hermes:1629112571504-499.png?800|}}
+
+{{:pag_apli:hermes:1629112609630-511.png?800|}}
+
+Para comprobar que se ha hecho, consultamos de nuevo el organigrama y el nombre de éste usuario debe aparecer junto con un icono verde a continuación del nombre del organismo, en azul los usuarios que existen dentro de él:
+
+{{:pag_apli:hermes:captura_de_pantalla_2025-07-01_110111.png?800}}
+
+**2ndo caso**
+
+También pueden que soliciten añadir para estos usuarios el rol delegado para ello en Hermes, 'Administración/ Usuario/ <buscamos el usuario>/Modificar' y en la pestaña 'roles/ Nuevo' añadimos lo siguiente (hay que asignarle un número de orden):
+
+{{:pag_apli:hermes:captura_de_pantalla_2025-07-01_110528.png?800}}
+
+Ejemplo de incidencia Remedy 709374
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Intenta modificar tipo jornada ======
+
+**Descripción de la incidencia**  El usuario indica que al intentar modificar el tipo de jornada dentro de Control de Presencia > Ficha de Personal para la certificación de guardia, la pantalla no responde. Aparece el mensaje "esperando" en la barra y no se realiza el cambio.
+
+**Solución**
+
+1. Consultar en **Personal > Asignación de Jornada**  el tipo que se indica en la incidencia.
+
+2. Tras comprobar, se aprecia que sí se ha modificado el tipo de jornada en Control de Presencia > Ficha de Personal.
+
+3. Se informa al usuario que:
+
+  * El proceso de modificación es muy lento.
+  * El comportamiento observado (barra de "esperando" sin respuesta inmediata) es conocido.
+  * Ya ha sido comunicado al Departamento de Desarrollo para revisión.
+
+**Ejemplo de incidencia Remedy**: 714440
+
+**Nota adicional (713042)**: Si preguntan cómo asignar jornadas por estructura territorial:
+
+  * Seguir el manual **'Guía Delegado v02r01'**, punto **2.2.5.2 "Asignación de Jornadas"**.
+  * Asignar a y marcar la casilla de **estructura orgánica**.
+  * **Est. Territorial**: Almería (municipio)
+  * **Fechas Desde/Hasta**: Intervalo de fechas correspondiente.
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== No muestra calendario ======
+
+**Descripción de la incidencia**  El usuario indica que no le aparece el calendario para seleccionar fechas en cualquier formulario de la aplicación, o que no se muestra correctamente el menú.
+
+**Solución**
+
+1. Verificar con el usuario si está utilizando el navegador **Mozilla Firefox**.
+
+2. Informar que la aplicación HERMES debe abrirse exclusivamente con **Mozilla Firefox**. Este tipo de problemas suele deberse al uso de otro navegador.
+
+3. Solicitar que pruebe nuevamente accediendo desde Firefox.
+
+**Ejemplo de incidencia Remedy**: No se han encontrado.
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Cargo incorrecto en Hermes ======
+
+**Descripción de la incidencia El usuario accede al Nuevo HERMES con normalidad pero el Cargo que le aparece no es el correcto, porque pertenece a otro cuerpo, por lo que solicita que se le modifique el cargo. **Solución
+
+Una vez que se comprueba que el usuario no es externo, se realiza el cambio de cargo en Temis. Con la sincronización nocturna de Temis-Hermes se apreciarán los cambios al día siguiente. Se informa y se cierra.
+
+----
+
+**En el caso de que Hermes no nos permita modificar el cargo desde la aplicación cuando le damos a aceptar los cambios…**
+
+{{:pag_apli:hermes:1629106270488-857.png?800|}}
+
+**1. **Accedemos a la base de datos "**PROD04**", esquema "**HERMES**".
+
+**2.**  Obtenemos el "**X_CARGO**" del cargo que le vamos a asignar al usuario, buscándolo por el nombre completo del mismo, o en el caso de que no estemos seguros de cual es su denominación exacta, con "like" y sus palabras clave, discriminando los resultados obtenidos:
+
+**select x_cargo from HERMES.CPCARGOS where d_cargo = '****<NOMBRE CARGO>****' ;**
+
+**o**
+
+**select * from HERMES.CPCARGOS where d_cargo like '****<<nowiki>PALABRAS CARGO</nowiki>>****' ;**
+
+**3.**  Obtenemos el "**X_USUARIO**" del usuario al que le vamos a modificar el cargo,** buscándolo por su ID**  (lo podemos obtener por ejemplo del campo "Usuario Temis" de Remedy):
+
+**Select x_usuario from HERMES.CPUSUARIOS where t_login = '****<ID DEL USUARIO>****';**
+
+**4. **Con el "**X_USUARIO**" del usuario **identificamos los puestos que tiene asignados**:
+
+**select * from HERMES.CPPUESTOS where usu_x_usuario = ****<X_USUARIO>****;**
+
+**Comparamos los datos de los registros obtenidos con los que nos muestra la aplicación de Hermes **e identificamos cual es el puesto que tenemos que modificar (normalmente es el que no tiene el campo "F_HASTA" informado, ya que suele ser el actual vigente). De éste obtenemos el "**X_PUESTO**".
+
+**5.**  Realizamos **copia de seguridad del registro del cargo que vamos a modificar**, obteniendo dicho registro completo mediante su "**X_PUESTO**":
+
+**select * from HERMES.CPPUESTOS where x_puesto = '****<X_PUESTO>****';**
+
+**6. **Con el "**X_PUESTO**" y "**X_CARGO**" obtenidos anteriormente, **creamos el script de update, lo guardamos en un archivo .sql y lo ejecutamos**:
+
+**//BEGIN \\  \\ UPDATE hermes.cppuestos set car_x_cargo = '// ****//<X_CARGO>//  ****//' where x_puesto = '//  ****//<X_PUESTO>//  ****//';//  **  **//COMMIT; \\  \\ dbms_output.put_line('Ejecución correcta'); \\  \\ EXCEPTION \\ WHEN OTHERS \\ THEN \\ ROLLBACK; \\ DBMS_OUTPUT.put_line ('Error ' || SQLCODE || ' ' || SQLERRM); \\ END;// \\ /**
+**7.** Comprobamos que el script se ha ejecutado correctamente  y que el "X_CARGO" del registro consta modificado. Realizamos **COMMIT **y **adjuntamos el script a la indicidencia**. 
+**8.**  **Accedemos a la aplicación de Hermes**, comprobamos que el cargo del usuario consta correctamente modificado, y realizamos la **sincronización Temis - Hermes**: {{:pag_apli:hermes:1628864028002-934.png?1000|}}
+**9.**  Se informa al usuario de la modificación. Ejemplo de incidencia Remedy 706609, IN0000001714603 </panel></WRAP> <WRAP> 
+<panel type="info">
+====== Días inhábiles ======
+
+**Descripción**  Para insertar nuevos días inhábiles en Hermes es necesario ejecutar manualmente ciertos scripts en base de datos.
+
+**Procedimiento**
+
+1. Solicitar a BBDD la ejecución del siguiente script en el esquema **HERMES**  de **PROD04**.
+
+ALTER TRIGGER HERMES.CP_TR_BIUD_CAL04 DISABLE;
+
+ALTER TRIGGER HERMES.CP_TR_BIUD_CAL03 DISABLE;
+
+ALTER TRIGGER HERMES.CP_TR_BU_CAL02 DISABLE;
+
+ALTER TRIGGER HERMES.CP_TR_BI_CAL01 DISABLE;
+
+insert into hermes.cpcalendarios(x_calendario, zon_x_zona, d_calendario, s_calendario, f_calendario, l_fija, l_valido, creador, f_creacion, modificador, f_modificacion) values (19655*, 1, 'Inhábil', 'Inhábil', to_date('24/12/2020', 'dd/mm/yyyy'), 'S', 'S', user, sysdate, user, sysdate);
+
+insert into hermes.cpcalendarios(x_calendario, zon_x_zona, d_calendario, s_calendario, f_calendario, l_fija, l_valido, creador, f_creacion, modificador, f_modificacion) values (19656*, 1, 'Inhábil', 'Inhábil', to_date('31/12/2020', 'dd/mm/yyyy'), 'S', 'S', user, sysdate, user, sysdate);
+
+ALTER TRIGGER HERMES.CP_TR_BIUD_CAL04 ENABLE;
+
+ALTER TRIGGER HERMES.CP_TR_BIUD_CAL03 ENABLE;
+
+ALTER TRIGGER HERMES.CP_TR_BU_CAL02 ENABLE;
+
+ALTER TRIGGER HERMES.CP_TR_BI_CAL01 ENABLE;
+
+* El valor de ''x_calendario''  debe ser el siguiente al máximo actual en la tabla. Aunque esta tabla no usa secuencia directamente, es necesario sincronizarla con la secuencia de la tabla **SQ_FESTIVOS**  de Temis.
+
+**2. Acceder a Temis en PROD02 y aumentar la secuencia:**
+
+SELECT TEMIS.SQ_FESTIVOS.NEXTVAL FROM DUAL; SELECT TEMIS.SQ_FESTIVOS.NEXTVAL FROM DUAL; COMMIT;
+
+**3. Verificación:**
+
+  * Comprobar que el valor máximo de ''CPCALENDARIOS''  = ''SQ_FESTIVOS - 1''.
+  * Para conocer el valor actual de la secuencia:
+
+SELECT TEMIS.SQ_FESTIVOS.CURRVAL FROM DUAL;
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Usuario no encontrado ======
+
+**NO PUEDE ACCEDER**
+
+Al acceder a Hermes pueden ocurrir errores que hagan que el usuario no pueda acceder:
+
+**Explicación**
+
+**1.**  Usuario no encontrado.
+
+**2.**  Clave incorrecta.
+
+**Solución**
+
+**1. Usuario no encontrado**
+
+Al escribir en el panel de acceso de Hermes Usuario (dni del usuario) y Clave (cualquier clave aleatoria) aparecerá el siguiente mensaje:
+
+{{ :pag_apli:hermes:1609098321586-440.png?nolink |}}
+
+Esto ocurrirá porque el usuario no está registrado en Hermes.
+
+Puede deberse a:
+
+**A. **Un alta incorrecta en Temis que hace que no se puedan volcar los datos entre Temis y Hermes.
+
+**B.**  El usuario fue dado de alta o reactivado en Temis en el mismo día en el que intentó acceder, y su usuario aún no se ha sincronizado con Hermes.
+
+**A. **Se revisarán los datos de su alta en Temis ya que el cargo, o relación cargo-cuerpo-categoría-carácter puede ser incorrecta, aquí se recomienda revisar si algún usuario con esa configuración puede acceder correctamente a Hermes. Para ello nos iremos a Mantenimiento Temis y comprobaremos el alta del usuario 24235402.
+
+{{ :pag_apli:hermes:1609098584789-471.png?nolink |}}
+
+Se observa que el Organismo es Fiscalía Provincial de Granada - Civil y dicho Organismo no está dado de alta en Hermes, por lo que el usuario no puede sincronizar en Hermes al no existir el Organismo en Hermes. Esto se comprueba dentro de Hermes en: Administración→Estructura Orgánica→Estructuras Orgánicas comprobando que no existe.
+
+
+**[[pag_apli:hermes:problemas#un_organo_existe_en_temis_pero_no_consta_en_la_estructura_organica_de_hermes|--- REVISAR QUE EL ÓRGANO DEL USUARIO NO ESTÉ DESHABILITADO EN HERMES ---**]]**
+
+
+Una vez que se corrige y se le pone el Organismo correctamente ya se produce correctamente la sincronización Temis-Hermes y se carga el usuario en Hermes.
+
+{{ :pag_apli:hermes:1609099222347-319.png?nolink |}}
+
+**B. **Accedemos a **"Mantenimiento Temis" > "Usuarios**" y buscamos por **ID del usuario**  afectado. Lo seleccionamos y pulsamos en "**Modificar**":
+
+{{ :pag_apli:hermes:1629122309398-363.png?nolink |}}
+
+En la siguiente ventana nos muestra los **datos del usuario**, en la que podemos **comprobar la fecha de alta**  del usuario en el campo "Fecha de alta":
+
+{{ :pag_apli:hermes:1629122470596-951.png?nolink |}}
+
+En el caso de que la fecha que conste sea la misma en la que se abrió la incidencia, es probable que **el perfil del usuario en Temis aún no se haya sincronizado o creado en Hermes**, y por ello éste no exista o conste de baja en dicha aplicación y por ello no pueda acceder.
+
+Para que se actualice o cree dicho usuario, se puede esperar a la **sincronización nocturna entre Temis y Hermes**, o bien **realizar manualmente dicha sincronización**. Para ello Accedemos a la aplicación de **Hermes**  y realizamos la sincronización manual (**"Administración" > "Sistema" > "Sincronizar Temis - Hermes"**):
+
+{{ :pag_apli:hermes:1628864028002-934.png?nolink |}}
+
+Revisamos el **log **que nos muestra al terminar la sincronización y comprobamos que dicho usuario se ha creado o actualizado. Ejemplo:
+
+//**Se actualiza el Usuario: 8728: 27500479, GABRIEL GARCIA RUIZ \\ Se activa el Usuario: 8728 anteriormente inactivo Se Elimina el puesto al usuario: 8728 \\ Inserta puesto al usuario: 8728 \\ Inserta puesto al usuario: 8728** //
+
+**2. Clave incorrecta.**
+
+Si accedemos con el Usuario (dni) y una clave aleatoria nos aparecerá el siguiente mensaje:
+
+{{ :pag_apli:hermes:1609099461081-523.png?nolink |}}
+
+Esto significa que el usuario introducido está correctamente dado de alta en Hermes pero la contraseña no es correcta (obvio, porque hemos introducido una al azar). Si abren incidencia sobre esto porque no recuerdan contraseña, simplemente habrá que resetear la contraseña del usuario en Escritorio Judicial (haciendo click en "Anular Contraseña" dentro de los datos de alta del usuario en Mantenimiento Temis), esto puede hacerlo el CAU. Si el CAU le resetea la contraseña y el usuario aún dice que no puede acceder, probaremos nosotros mismos con la clave que ha dado CAU para comprobar que todo está correcto.
+
+**Ejemplo inc. **
+
+**IN0000001591193**
+
+**Caso 1 - B: IN0000001715662**</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Carga muy lenta la página de HERMES ======
+
+**Descripción de la incidencia**  Indica que la página de Hermes se le carga con mucha lentitud.
+
+**Solución**
+
+Lo único que podemos hacer en este tipo de incidencias es reasignarlas a Sistemas 'GTSL' para que verifiquen el rendimiento de la aplicación o si hay algún problema con el servidor.
+
+Ejemplo de incidencia Remedy 708563
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Error sincronización Temis-Hermes ======
+
+**Error en la sincronización de TEMIS-HERMES**
+
+Se ha detectado que:
+
+  * Los órganos que no tienen asignado usuarios son borrados por la sincronización.
+  * Se producen errores de acceso por la incoherencia del organismo con su tipo de organismo.
+
+En la incidencia se nos indica que el usuario no puede acceder a Hermes, los errores son: ‘Usuario no encontrado’ o ‘En Hermes aparece mi anterior órgano’.
+
+Acciones a seguir:
+
+  * Comprobamos si en Temis existe el usuario, a que órgano pertenece y si está dado de baja.
+  * Comprobamos si en Hermes existe el usuario, a que órgano pertenece y si está dado de baja.
+  * Comprobar las trazas de la ejecución:
+
+Hermes proporciona este código que nos referencia en BBDD al detalle de lo ocurrido:
+
+*En este ejemplo se filtra por código de error y código de usuario.
+
+Vemos que el error se ha producido por duplicidad de la clave primaria, vemos en el campo módulo que PL produce el fallo, en código buscamos el nombre del pl:
+
+{{ :pag_apli:hermes:image-20210505173438-3.png?nolink |}}
+
+Buscamos en el PL el error que se ha grabado en BBDD:
+
+Comprobamos bajo qué condiciones se produce, en este caso existe un bucle que recupera los puestos, por lo que el error se produce al recuperar/actualizar los puestos de los usuarios, procedemos a revisar su coherencia desde la aplicación.
+
+**Solución:**
+
+  * Accedemos a Hermes, donde ya hemos comprobado que está dado de alta y buscamos su organización en el Menú de Administración, es decir, Administración → Estructura Orgánica → Estructuras Orgánicas buscando por nombre de organismo:
+
+  * Si existe el organismodebemos comprobar si es correcto:
+
+  * Accedemos a su detalle para ver si está informado, si no lo está no es correcto.
+  * Comprobamos si en BBDD tiene usuarios asignados, tabla CPUSUARIOS.
+  * Comprobamos si tiene organismo padre:
+      * No tiene: buscamos el tipo de organismo en la tabla de BBDD (CPTIPORG) que debería tener, si no existe lo creamos y sincronizamos, debemos confirmar que el detalle ya aparece informado.
+
+- Si no existe el organismo, pero si el tipo de organismolo buscamos por BBDD para comprobar que el campo L_VALIDO = ‘S’, si estuviese a ‘N’ lo modificamos y sincronizamos.
+
+*Se tiene que buscar y modificar tanto en la tabla del organismo como en la de detalle:
+
+SELECT * FROM HERMES.CPDETEOR where X_DETEOR IN ('3674');
+
+SELECT * FROM HERMES.CPESTORG WHERE X_ESTORG IN ('3674');
+
+{{ :pag_apli:hermes:1629109804452-668.png?nolink |}}
+
+  * Si no existe el organismo, y no el tipo de organismo:lo creamos y sincronizamos.
+
+Una vez la sincronización se realice con éxito comprobamos que los usuarios ya se han asignado al órgano, comprobamos por aplicación y BBDD (recordando que si un órgano no tiene usuarios asignados Hermes lo marca con L_VALIDO = ‘N’ y al modificar a ‘S’ el detalle estará vacío), habría que crear el usuario si no lo hemos hecho antes de sincronizar de nuevo.
+
+**INC. Ejemplo**
+
+IN0000001658922
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Anomalías en Fichaje Hermes ======
+
+**Descripción de la incidencia**  El usuario se queja porque tiene muchos absentismos que le están provocando una alteración en el cálculo de saldos. La causa se debe a que cuando el usuario dejó de pertenecer al juzgado anterior no se le dio la baja en dicho juzgado. Hasta que no volvió al juzgado a la Junta no se realizó dicha baja.
+
+**Explicación**  Al usuario no le han realizado la baja correctamente en Hermes cuando cesó del juzgado, por lo que al darle de alta al nuevo juzgado la fecha de baja no está correcta tanto en Temis como en Hermes, generando anomalías en los fichajes. El aplicativo de Hermes detecta que el usuario en el periodo de baja no ha fichado, por lo que se producen anomalías de tipo "Absentismo".
+
+**Solución**  En el manual, en el apartado de Anomalías de Fichaje, se indica que el usuario puede aceptar la anomalía para que el sistema la dé por correcta.
+
+Aprobar Anomalía. Se acepta y no se lleva a cabo ninguna actuación más. Ejemplo: Para corregir las alertas de las anomalías, el usuario debe aprobarlas. Cuando las acepte, dándole al ✔, se recalculan los saldos y desaparecen las anomalías. En el manual del usuario puede encontrar cómo realizar dichas modificaciones.
+
+**Manual Hermes**
+
+**Incidencia Ejemplo:**  IN0000001680698
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Vacaciones y asuntos propios ======
+
+**Vacaciones y asuntos propios**
+
+Nos solicitan que se le asignen a los usuarios el total de las vacaciones y asuntos propios que le corresponden.
+
+1. Preguntamos al usuario el numero de días y el concepto que quieren modificar, y se le solicita que adjunte a la incidencia la autorización de dicho cambio, firmada por su responsable, en el caso que se no sea Letrado, Magistrado o similar.
+
+2. Realizamos la búsqueda en el número de días por usuario.
+
+{{ :pag_apli:hermes:image-20210526172338-2.png?nolink |}}
+
+3. Modificamos el permiso con el numero de días total correspondiente
+
+{{ :pag_apli:hermes:image-20210526172338-3.png?nolink |}}
+
+4. En caso de que no exista el permiso, lo creamos
+
+{{ :pag_apli:hermes:image-20210526172338-4.png?nolink |}}
+
+**Inc. Ejemplo**
+
+**IN0000001683779**</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Pie de Firma ======
+
+**Descripción de la incidencia**  Problemas con el pie de Firma.
+
+**Solución**  Recibimos la siguiente consideración desde el servicio de personal de la Delegación de Gobierno en Cádiz:
+
+//A TRAVÉS DE INCIDENCIAS TELEFÓNICAS Y POR CORREO ELECTRÓNICO HEMOS SOLICITADO QUE EN LA NUEVA APLICACIÓN HERMES NOS APAREZCA LAS RESOLUCIONES FIRMADAS POR ALGUNA PERSONA RESPONSABLE Y NO LOS AUXILIARES O ADMINISTRATIVOS QUE TRAMITAN SOLICITUDES. COMO HASTA AHORA NO NOS HAN SOLUCIONADO EL PROBLEMA, ESPERAMOS QUE POR MEDIO DE ESTA INCIDENCIA LLEGUE A QUIEN CORRESPONDA ESTA COMPETENCIA. UN SALUDO.//
+
+Se reasigna a **'Nuevo HERMES Personal SSCC Gavidia'**  informando de dicha solicitud para que lo tengan en cuenta.
+
+**Ejemplo de incidencia Remedy:**  709494
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Un órgano existe en Temis, pero no consta en la estructura orgánica de Hermes ======
+
+**Descripción:**
+
+Esta casuística puede provocar que un usuario dado de alta en un órgano en Temis, el cual no conste en la estructura orgánica de Hermes, no pueda acceder a dicha aplicación con su **usuario, al intentar autenticarse**, la aplicación le mostrará el mensaje "**Usuario no encontrado**".
+
+{{ :pag_apli:hermes:1609098321586-440.png?nolink |}}
+
+**Explicación:**
+
+Esto puede deberse a que realmente **sí esté registrado el órgano en Hermes, pero este esté "deshabilitado"**  (no aparezca en la estructura orgánica) y la aplicación, al sincronizar con Temis, no active el usuario por estar adscrito a un órgano que no está vigente.
+
+**Solución:**
+
+**1. **Comprobamos que el órgano sí esté registrado en Hermes, para ello accedemos a la base de datos "**PROD04**", esquema "**HERMES**", y realizamos la consulta en la tabla "**CPESTORG**" introduciendo el nombre (o un "like" con las palabras clave en el caso de que no sepamos exactamente como se llama) en el campo "**D_ESTORG**":
+
+**select * from hermes.cpestorg where d_estorg = '****<NOMBRE DEL ÓRGANO>****';**
+
+**2. **En el caso de que el campo "**L_VALIDO**" contenga el valor "**N**", significa que está "deshabilitado", por lo que deberemos establecerle el valor "**S**" a dicho campo para que conste en la estructura orgánica de Hermes. El **update **lo realizaremos identificando el registro del órgano mediante su valor en el campo "**X_ESTORG**", el cual lo podemos obtener de la consulta anterior:
+
+**update hermes.cpestorg set l_valido='S' where x_estorg=****<X_ESTORG>****;**
+
+También realizaremos el mismo **update **en el registro del órgano que se encuentra en la tabla "**CPDETEOR**":
+
+**update hermes.cpdeteor set l_valido='S' where x_deteor=****<X_ESTORG>****;**
+
+**3. **Una vez actualizados los registros, es necesario realizar la** sincronización manual entre Temis y Hermes**, entrando como **administrador **a la aplicación (**Administración > Sistema > Sincronizar Temis - Hermes**):
+
+{{ :pag_apli:hermes:1628864028002-934.png?nolink |}}
+
+Una vez realizada la sincronización, la aplicación nos mostrará un "**log**" en el que nos especificará lo que se ha sincronizado.
+
+**4. **Deberemos revisar en dicho "**log**" que el usuario que no podía acceder se ha activado correctamente, aparecería un aviso parecido a este ejemplo:
+
+//Se actualiza el Usuario: 20266: 31831803, MARIA DIAZ MONTENEGRO \\ Se activa el Usuario: 20266 anteriormente inactivo Se Elimina el puesto al usuario: 20266 \\ Inserta puesto al usuario: 20266 \\ Inserta puesto al usuario: 20266//
+
+**5. **Una vez comprobado, **se indicará al usuario en cuestión que intente acceder de nuevo**, ya debería poder.
+
+Ejemplos de incidencias Remedy: IN0000001714772</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Solicitan nuevo campo en el listado de fichajes ======
+
+**Descripción de la incidencia**  Solicitan añadir el campo en el listado de fichajes.
+
+**Solución**  Se reasigna a **'Nuevo HERMES Personal SSCC Gavidia'**  informando de dicha solicitud para que lo tengan en cuenta.
+
+Ejemplo de incidencia Remedy: 710320
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== No aparecen resultados al realizar la búsqueda de solicitudes ======
+
+__**Descripción de la incidencia**__ 
+
+Al intentar realizar la búsqueda de solicitudes de un usuario en el apartado de " Consulta de Solicitudes" no hay datos que listar.
+
+__**Solución**__
+
+El usuario no visualiza las solicitudes ya que el usuario no tiene permisos para ello por lo que habría que dar permisos al usuario como uno de los responsables del organo para que pueda administrar las solicitudes de los usuarios que se encuentran en el órgano.
+
+{{ :pag_apli:hermes:1623915316044-800.png?nolink |}}
+
+En este apartado se encuentran los usuarios responsables del órgano los cuales puedes administrar las solicitudes de los usuarios, el usuario que no visualiza las solicitudes habría que darlo de alta pulsando en nuevo y rellenando los siguientes campos con los datos del responsable y dando le a aceptar para que guarde los cambios.
+
+Ya dado de alta el usuario ya debería de poder administrar las solicitudes.
+
+{{ :pag_apli:hermes:1623915638575-474.png?nolink |}}
+
+Ejemplo de incidencia Remedy IN0000001672745 </panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Permiso no disponible ======
+
+ \\  \\ Descripción de la incidencia
+
+El usuario intenta solicitar una petición pero le da el error "Permiso no disponible, no esta vigente para el usuario o las fechas indicadas en el permiso".
+
+Solución Revisamos el tipo de permiso en la aplicacion administracion/catalogo/Tipos de permiso, buscamos el permiso que esta solicitando el usuario y pulsamos al lapiz para editar el permiso: \\ {{ :pag_apli:hermes:1646737875772-497.png?nolink |}} \\ Vamos a organismos permitidos y comprobamos que el órgano del usuario exista en caso de no existir lo añadimos para que el usuario pueda realizar la solicitud. \\  \\ {{ :pag_apli:hermes:1646738128249-544.png?nolink |}} \\ Ejemplo de incidencia Remedy
+
+IN0000001803347
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Saldos en rojo ======
+
+**Descripción de la incidencia El usuario tiene problemas con el fichaje, el saldo aparece en rojo y en negativo. **Solución A:
+
+**1.**  Accedemos a HERMES → Control de Asistencia → Personal → Ficha personal.
+
+**2.**  Hacemos click en el día en el que nos piden (en este caso el 29/12) y vemos que el saldo aparece en rojo.
+
+**3.**  Le damos abajo a Recalcular saldos:
+
+{{ :pag_apli:hermes:image-20220406122302-1.png?nolink |}}
+
+**4.**  Y le damos a calcular:
+
+{{ :pag_apli:hermes:image-20220406122328-2.png?nolink |}}
+
+**5.**  Le damos a volver y vemos que el saldo ya no aparece en rojo.
+
+{{ :pag_apli:hermes:image-20220406122355-3.png?nolink |}}
+
+**Solución B: \\  \\ 1. Nos vamos a la aplicación HERMES Control de presencia/Personal {{ :pag_apli:hermes:1725346944736-597.png?nolink |}}2. Asignación de jornada/Nuevo {{ :pag_apli:hermes:1725347036210-479.png?nolink |}}3. Nos sale esta pantalla y cumplimentamos los datos {{ :pag_apli:hermes:1725347078751-138.png?nolink |}}4. Ponemos el check en el día de descanso Aceptar {{ :pag_apli:hermes:1725347102425-775.png?nolink |}}5. Para ver que se ha realizado correctamente se comprueba en Consulta de Saldos {{ :pag_apli:hermes:1725347168760-796.png?nolink |}}6. Control de presencia/ Saldos / Recalcular saldos poniendo el rango de fechas comunicado por el usuario que era erroneo. {{ :pag_apli:hermes:1725347262989-576.png?nolink |}}**Ejemplo de incidencia Remedy
+
+IN0000001774785
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Festivos locales en sábado ======
+
+**Descripción de la incidencia** \\ Se comprueba que la aplicación Hermes no contempla la inserción de días festivos locales (no nacionales) en sábado para funcionarios que no sean interinos o de nueva incorporación. Solo se considera para estos últimos, excluyendo al resto del personal activo.
+
+**Solución** \\ Antes de insertar los días correspondientes, se comprueba que no se haya dado de alta ningún funcionario nuevo en la zona/localidad a tratar. \\ Se revisan los datos en base de datos para las zonas afectadas, como ALMERÍA, ROQUETAS DE MAR o MÁLAGA, y se valida:
+
+  * Que los usuarios activos no tengan ya el día insertado.
+  * Que no existan usuarios con más de un puesto válido y sin fecha de baja.
+
+Se utilizan los siguientes scripts:
+
+**1. Para insertar el día festivo local en sábado:**
+<code>
+
+Insert into HERMES.CPNUMDIA
+(X_NUMDIA, EJE_X_EJERCICIO, TPM_X_TIPPRM, USU_X_USUARIO, I_NUMDIA, I_NUMHORA, T_MOTIVO, L_VALIDO, CREADOR, F_CREACION, MODIFICADOR, F_MODIFICACION, I_NUMDIA_CANOSOS)
+Values
+(hermes.cps_ndi.NEXTVAL, 300, 347, r_usuario.x_usuario, 1, NULL, NULL, 'S', 'Sabado local', SYSDATE, 'Sabado local', SYSDATE, 0);
+
+</code>
+
+**2. Script en PL/SQL para aplicar el insert masivo:**
+
+<code>
+DECLARE
+    CURSOR c_usuarios IS
+    SELECT DISTINCT X_USUARIO
+    FROM hermes.cpusuarios usu
+    INNER JOIN hermes.cppuestos pue ON USU.X_USUARIO = PUE.USU_X_USUARIO
+    INNER JOIN hermes.cpzonas zon ON PUE.ZON_X_ZONA = ZON.X_ZONA
+    WHERE usu.l_valido = 'S' AND usu.d_categoria_personal = 'F'
+   AND upper(zon.d_zona) = 'MÁLAGA' AND pue.l_valido = 'S' AND f_hasta IS NULL
+      AND usu.x_usuario NOT IN (
+        SELECT usu_x_usuario
+        FROM hermes.cpnumdia
+        WHERE TPM_X_TIPPRM = 347 AND EJE_X_EJERCICIO = 300
+      );
+
+BEGIN
+    FOR r_usuario IN c_usuarios LOOP
+        INSERT INTO HERMES.CPNUMDIA
+        VALUES (hermes.cps_ndi.NEXTVAL, 300, 347, r_usuario.x_usuario, 1, NULL, NULL, 'S', 'Sabado local', SYSDATE, 'Sabado local', SYSDATE, 0);
+        dbms_output.put_line('Se insertan los días por festivo local en sábado al usuario: ' || r_usuario.x_usuario);
+        COMMIT;
+    END LOOP;
+END;
+
+</code>
+
+**3. Script para usuarios que ya tienen 1 día y deben incrementar a 2:**
+<code>
+
+DECLARE
+    CURSOR c_usuarios_ya_tienen_1 IS
+    SELECT DISTINCT usu_x_usuario
+    FROM hermes.cpnumdia
+    WHERE TPM_X_TIPPRM = 347 AND EJE_X_EJERCICIO = 300 AND i_numdia = 1
+    AND usu_x_usuario IN (
+   SELECT X_USUARIO
+        FROM hermes.cpusuarios usu
+        INNER JOIN hermes.cppuestos pue ON USU.X_USUARIO = PUE.USU_X_USUARIO
+        INNER JOIN hermes.cpzonas zon ON PUE.ZON_X_ZONA = ZON.X_ZONA
+        WHERE usu.l_valido = 'S' AND usu.d_categoria_personal = 'F'
+        AND pue.l_valido = 'S' AND f_hasta IS NULL
+        AND upper(zon.d_zona) = 'MÁLAGA'
+    );
+
+BEGIN
+    FOR r_usuario IN c_usuarios_ya_tienen_1 LOOP
+        UPDATE HERMES.CPNUMDIA
+        SET i_numdia = 2, MODIFICADOR = 'Sábado local'
+        WHERE usu_x_usuario = r_usuario.usu_x_usuario AND TPM_X_TIPPRM = 347 AND EJE_X_EJERCICIO = 300 AND i_numdia = 1;
+        dbms_output.put_line('Se incrementan los días por festivo local en sábado al usuario: ' || r_usuario.usu_x_usuario);
+        COMMIT;
+    END LOOP;
+END;
+
+</code>
+
+**Referencia**: Correo Electrónico – Planificación HERMES 2023
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Solicitan añadir opción en menu principal ======
+
+__**Descripción de la incidencia**__
+
+Solicitan que aparezca en el menú de hermes una opción, para un determinado perfil, que actualmente no tiene activa.
+
+__**Solución**__
+
+Supongamos que necesitan que el perfil delegado visualice 'Anomalías de Fichajes' en el menú (732984).
+
+Entramos a hermes como administrador y accedemos a 'Administración/Sistema/Menús', en el combo 'Padre' seleccionamos 'Fichajes' y pulsamos sobre el botón 'Mostrar', a continuación saldrá una lista de submenús de fichajes, en 'Anomalía de Fichajes' le damos a 'Modificar Menú':
+
+{{ :pag_apli:hermes:captura2.jpg?nolink |}}
+
+Podremos comprobar los perfiles que pueden visualizar éste submenú, por ahora sólo los funcionarios. Para añadir el perfil Delegado, pulsamos en 'Nuevo':
+
+{{ :pag_apli:hermes:captura3.jpg?nolink |}}
+
+En la nueva ventana que se abre ponemos 'delegado' en 'Nombre' para buscarlo y pulsamos en 'Mostrar'. Cuando localicemos el rol correspondiente, marcamos su checkbox y pulsamos en 'Aceptar':
+
+{{ :pag_apli:hermes:captura4.jpg?nolink |}}
+
+Ya se ha añadido el rol delegado para que visualice el submenú 'Anomalías de Fichaje', por último sólo tenemos que pulsar en 'Aceptar' para confirmar los cambios:
+
+{{ :pag_apli:hermes:captura5.jpg?nolink |}}
+
+Para poder comprobar que el 'Rol Delegado' visualiza éste submenú, podemos entrar en Hermes con alguno de los usuarios de pruebas con perfil Delegado y confirmar que los cambios se han realizado satisfactoriamente.
+
+**NOTA: **En caso de que sea necesario que un perfil deje de visualizar una opción del menú, deberemos de pulsar sobre al icono de la papelara en la columna 'Opciones' (imagen superior) y posteriormente aceptar el cambio. Un ejemplo de ello lo tenemos en la incidencia 735815.
+
+Ejemplo de incidencia Remedy 732984 </panel></WRAP> \\ <WRAP> <panel type="info">
+
+====== Error computación horas ======
+
+ \\ Descripción de la incidencia
+
+El usuario indica que la aplicación no le ha computado las horas que realizó realmente.
+
+Solución \\ Hay que tener en cuenta que desde el día 1 de Marzo de 2013 se ha implantado en ésta aplicación dos tipos nuevos de jornada: ORDINARIA1: Para los días Lunes, Martes y Jueves, que permite imputar horas en horario de mañana y tarde (hasta las 20:00) ORDINARIA2: Para el Miércoles y Viernes. En la que únicamente se permite imputar en horario de mañana. La antigua jornada 'ORDINARIA' permitía la imputación hasta las 18:00, y se debe utilizar para asignar jornadas anteriores al 1 de Marzo de 2013. Ejemplo de incidencia Remedy
+
+737845: En el caso de ésta incidencia, el usuario tenía guardia de disponibilidad de 8 días y había asignado para éstos días (en el mes de Marzo), la jornada 'ORDINARIA'. Para cambiarla, debe entrar en el menú: Control de Presencia\ Personal\ Asignación de Jornada y modificar la asignación de jornada:
+
+{{:pag_apli:hermes:captura_de_pantalla_2025-07-01_133757.png?400}} \\  \\ Una vez realizados los cambios, puede consultar en Control de Presencia\ Personal\ Ficha Personal si el cómputo se realiza ya correctamente.
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Publicación Notas Informativas ======
+
+Para publicar una nota informativa realizaremos los siguientes pasos:
+
+**1.**  **Click en Administración → Nota Informativas → Nuevo**
+
+{{ :pag_apli:hermes:1607962774524-784.png?nolink |}}
+
+**2. Creación de nota informativa.**
+
+**Código. **Código único de la nota informativa. En caso de que ya esté registrado, nos aparece una alerta. Es recomendable apuntar este código para hacer búsquedas rápidas posteriormente si se quiere editar.
+
+**Descripción. **Título de la nota informativa.
+
+**Enlace. **URL de la nota informativa (opcional).
+
+El enlace tiene que tener dominio público por lo que hay que hacer lo siguiente:
+
+Convertir
+
+[[https://portaladriano.justicia.junta-andalucia.es/portal/adriano/.content/recursosexternos/ResolucionAmpliacionVacaciones.pdf|https://portaladriano.justicia.junta-andalucia.es/portal/adriano/.content/recursosexternos/ResolucionAmpliacionVacaciones.pdf]]
+
+A dominio público, hay que sustituir "[[https://portaladriano.justicia.junta-andalucia.es/portal/adriano/.content/recursosexternos/ResolucionAmpliacionVacaciones.pdf|portaladriano.justicia.junta-andalucia.es]]" por "www.juntadeandalucia.es/justicia" quedando:
+
+[[http://www.juntadeandalucia.es/justicia/portal/adriano/.content/recursosexternos/ResolucionAmpliacionVacaciones.pdf|http://www.juntadeandalucia.es/justicia/portal/adriano/.content/recursosexternos/ResolucionAmpliacionVacaciones.pdf]]
+
+**Comentario.**  Cuerpo de la nota informativa.
+
+**3. Asignación de visibilidad y fecha.**
+
+{{ :pag_apli:hermes:1608026964874-683.png?nolink |}}
+
+**Estación Orgánica. **Aquí pondremos "Consejería de Turismo, Regeneración, Justicia y Administración Local" si queremos que sea para toda Andalucía o "Delegación de Gobierno de X" donde X es una provincia andaluza si queremos que solo sea visible en una provincia.
+
+**Estación Territorial.**  Aquí pondremos "Andalucía - Región" si quieremos que sea para toda Andalucía o "X - Provincia" donde X es una provincia andaluza si queremos que solo sea visible en una provincia.
+
+**Fecha Desde. **Fecha desde la cual se publica la noticia.
+
+**Fecha Hasta. **Fecha hasta la cual estaría publicada la noticia. Si se deja en blanco la noticia estaría publicada siempre.
+
+Una vez creada la asignación dar a Aceptar.
+
+**4. Finalización de publicación de nota informativa.**
+
+Finalmente hacemos click en Aceptar para la publicación de la nota informativa.
+
+**EDICIÓN DE LA NOTA INFORMATIVA.**
+
+Si queremos editar una nota informativa creada, haremos una búsqueda (por ejemplo con el código) y daremos click al icono del lápiz para editar cualquier campo, visibilidad o fechas de una nota informativa.
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Solicitan añadir un perfil o rol a un usuario ======
+
+**Descripción:**
+
+Solicitan que un **usuario en Hermes tenga determinado perfil y/o rol**, o que éste tenga los mismos que otro usuario.
+
+Existen dos formas de otorgar dichos perfiles:
+
+**A.**  Mediante la **aplicación Hermes**.
+
+**B. **Mediante **base de datos (PROD04)**.
+
+**Solución:**
+
+A. Accedemos como **Administrador**  a Hermes.
+
+**1. **Vamos a "**Admisitración**" > "**Acceso**" > "**Usuarios**" e introducimos el **ID del usuario**  al que le vamos a modificar los perfiles y/o roles:
+
+{{ :pag_apli:hermes:1629116338564-608.png?nolink |}}
+
+**2. **Pulsamos sobre el icono del lápiz (**Modificar usuario**):
+
+{{ :pag_apli:hermes:1629116441709-281.png?nolink |}}
+
+**3.**  Vamos a la **pestaña Perfiles y/o Roles**  y pulsamos en "**Nuevo**":
+
+{{ :pag_apli:hermes:1629116547571-606.png?nolink |}}
+
+**4. **Seleccionamos el perfil o rol que se le va a establecer, introducimos el orden que le corresponde y pulsamos en "**Aceptar**":
+
+{{ :pag_apli:hermes:1629116670221-836.png?nolink |}}
+
+5. Finalmente **en la ventana del usuario**  volvemos a pulsar en "**Aceptar**".
+
+----
+
+**En el caso de que Hermes no nos permita modificar los datos del usuario desde la aplicación cuando le damos a aceptar los cambios…**
+
+{{ :pag_apli:hermes:1629106270488-857.png?nolink |}}
+
+**B.**  Accedemos a la base de datos "**PROD04**", esquema "**HERMES**".
+
+**1. **Obtenemos el "**X_USUARIO**" del usuario al que le vamos a añadir perfiles y/o roles,** buscándolo por su ID**  (lo podemos obtener por ejemplo del campo "Usuario Temis" de Remedy):
+
+**Select x_usuario from HERMES.CPUSUARIOS where t_login = '****<ID DEL USUARIO>****';**
+
+**2. **Con el "**X_USUARIO**" del usuario **identificamos los perfiles y/o roles que tiene asignados**:
+
+  * Perfiles (tabla "CPUSUPRF"): **select * from HERMES.cpusuprf where usu_x_usuario = ****<X_USUARIO>****;**
+  * Roles (tabla "CPUSUROL"): **select * from HERMES.cpusurol where usu_x_usuario =**** <X_USUARIO>****;**
+
+**3. **Obtenemos el **identificador del perfil y/o rol**  que tengamos que asignarle:
+
+  * Perfiles: **select * from HERMES.CPPERFILES; **  || Obtenemos el valor del campo "**X_PERFIL**".
+  * Roles: **select * from HERMES.CPROLES;**  || Obtenemos el valor del campo "**X_ROL**".
+
+**4.**  Realizamos el **insert **del perfil y/o rol:
+
+  * Perfiles, con el número de orden ("**N_ORDEN**") que hubiésemos introducido si lo hubiésemos hecho mediante la aplicación:
+
+**Insert into HERMES.CPUSUPRF**  **(X_USUPRF, USU_X_USUARIO, PRF_X_PERFIL, N_ORDEN, L_AUT, L_VALIDO, CREADOR, F_CREACION, MODIFICADOR, F_MODIFICACION Values (HERMES.CPS_UPR.nextval, ****<X_USUARIO>****, ****<X_PERFIL>****, ****<Nº DE ORDEN>****, 'N', 'S', 'Admin4', sysdate, 'Admin4', sysdate);**
+
+  * Roles:
+
+**Insert into HERMES.CPUSUROL (X_USUROL, USU_X_USUARIO, ROL_X_ROL, L_VALIDO, CREADOR, F_CREACION, MODIFICADOR, F_MODIFICACION) Values (HERMES.CPS_URO.nextval, ****<X_USUARIO>****, ****<X_ROL>****, 'S', 'Admin4', sysdate, 'Admin4', sysdate);**
+
+**Ejemplo de script:**
+
+//BEGIN//
+
+//Insert into HERMES.CPUSUPRF \\ (X_USUPRF, USU_X_USUARIO, PRF_X_PERFIL, N_ORDEN, L_AUT, L_VALIDO, CREADOR, F_CREACION, MODIFICADOR, F_MODIFICACION) \\ Values \\ (HERMES.CPS_UPR.nextval, 26372, 3, 10, 'N', 'S', 'Admin4', sysdate, 'Admin4', sysdate);//
+
+ \\ //Insert into HERMES.CPUSUPRF \\ (X_USUPRF, USU_X_USUARIO, PRF_X_PERFIL, N_ORDEN, L_AUT, L_VALIDO, CREADOR, F_CREACION, MODIFICADOR, F_MODIFICACION) \\ Values \\ (HERMES.CPS_UPR.nextval, 26372, 4, 20, 'N', 'S', 'Admin4', sysdate, 'Admin4', sysdate);//
+
+ \\ //Insert into HERMES.CPUSUROL \\ (X_USUROL, USU_X_USUARIO, ROL_X_ROL, L_VALIDO, CREADOR, F_CREACION, MODIFICADOR, F_MODIFICACION) \\ Values \\ (HERMES.CPS_URO.nextval, 26372, 4, 'S', 'Admin4', sysdate, 'Admin4', sysdate); //
+
+//COMMIT; \\  \\ dbms_output.put_line('Ejecución correcta'); \\  \\ EXCEPTION \\ WHEN OTHERS \\ THEN \\ ROLLBACK; \\ DBMS_OUTPUT.put_line ('Error ' || SQLCODE || ' ' || SQLERRM); \\ END;// \\ /
+
+**5. **Comprobamos, **tanto en base de datos como en la aplicación**, que el/los perfil/es y/o rol/es se han insertado correctamente.
+
+**6.**  Adjuntamos el script a la incidencia.
+
+Ejemplos de incidencias Remedy: IN0000001714603</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Solicitan añadir un tipo de permiso en un órgano ======
+
+**Descripción de la incidencia** \\ Un usuario solicita que le aparezca un tipo de permiso en el desplegable para que pueda gestionarlo en Hermes.
+
+**Explicación** \\ Para que en un órgano se pueda seleccionar un tipo de permiso determinado, debe existir un registro en la tabla ''HERMES.CPEXPRMORG''  (base de datos PROD04) que relacione dicho tipo de permiso con el órgano correspondiente.
+
+**Solución**
+
+**1. Obtener el identificador del tipo de permiso (''X_TIPPRM''):**
+<code>
+
+select X_TIPPRM
+from HERMES.CPTIPPRM
+where d_tipprm like '%<DENOMINACIÓN DEL TIPO DE PERMISO>%';
+
+</code>
+
+**2. Obtener el identificador del órgano del usuario (''X_ESTORG''):**
+
+<code>
+select X_ESTORG
+from HERMES.CPESTORG
+where d_estorg like '%<DENOMINACIÓN DEL ÓRGANO DEL USUARIO>%';
+
+</code>
+
+**3. Comprobar si ya existe el permiso asociado al órgano:**
+
+<code>
+select *
+from HERMES.CPEXPRMORG
+where tpm_x_tipprm = '<X_TIPPRM>'
+  and eor_x_estorg = '<X_ESTORG>';
+
+</code>
+
+**4. Si no existe, insertar el registro:**
+
+<code>
+BEGIN
+    insert into HERMES.CPEXPRMORG (
+   X_EXPRMORG, TPM_X_TIPPRM, EOR_X_ESTORG,
+        F_DESDE, F_HASTA, L_VALIDO,
+        CREADOR, F_CREACION, MODIFICADOR, F_MODIFICACION
+    )
+    values (
+        HERMES.CPS_EXP.NEXTVAL,
+        '<X_TIPPRM>',
+        '<X_ESTORG>',
+        SYSDATE, NULL, 'S',
+        'Admin4', SYSDATE, 'Admin4', SYSDATE
+    );
+    COMMIT;
+EXCEPTION
+    WHEN OTHERS THEN
+        ROLLBACK;
+        DBMS_OUTPUT.put_line('Error ' || SQLCODE || ' ' || SQLERRM);
+END;
+/
+
+</code>
+
+**5. Respuesta al CAU** \\ Por favor, informen al usuario que se ha añadido el tipo de permiso "//<DENOMINACIÓN DEL TIPO DE PERMISO>//" a su órgano. Ya debería aparecerle en el desplegable de Hermes.
+
+**Ejemplo de incidencia Remedy**: IN0000001786490
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Apertura nuevo ejercicio Hermes ======
+
+
+  - Introducción
+  - Ejecución de script para la apertura nuevo ejercicio
+  - Recargar paramétricas en la aplicación
+  - Asignación Jornada Reducida Fiesta Tradicional Navidad.
+  - Carga de Festivos
+  - Carga de Festivos Locales
+  - Tratamiento de interinos
+  - Ampliar listados Flexibilidad y Reducción de Jornada
+
+==== 1. Introducción ====
+
+Desde el Serv de RRHH de la Admón. de Justicia nos solicitan la apertura del nuevo año. Si no lo hacen, deberíamos nosotros iniciar el proceso a principios de Noviembre, cuando ya empiezan a llegar reclamaciones de que no se pueden pedir vacaciones.
+
+En la petición nos tiene que informar de los siguientes valores para el nuevo año:
+
+  * Fechas para la asignación de la JORNADA REDUCIDA FIESTA TRADICIONAL. NAVIDAD
+  * Número de días de vacaciones para el nuevo ejercicio
+  * Número de días de asuntos propios
+  * Número de días de compensación por festivo en sábado
+
+==== 2. Ejecución de script para la apertura nuevo ejercicio ====
+
+El proceso se reduce a descargar de SubVersion el script de apertura de año, parametrizarlo con la información proporcionada por Personal, y adjuntarlo a ticket para su ejecución por GTBD como HERMES@PROD04. El script incluye un comando SPOOL, especificar que se debe devolver a Explotación. La última ejecución duró casi 8 horas, avisad que se asegure que no se corta la comunicación.
+
+Ejemplo año 2022, hacer copia para el nuevo año:
+
+Script en: [[https://iusversion01.justicia.junta-andalucia.es/repos/java/Hermes/trunk/Scripts Sql/HERMES_Carga_ejecicio_2023/|https://iusversion01.justicia.junta-andalucia.es/repos/java/Hermes/trunk/Scripts%20Sql/HERMES_Carga_ejecicio_2022/]]
+
+2 bloques:
+
+1º bloque - [[https://iusversion01.justicia.junta-andalucia.es/repos/java/Hermes/trunk/Scripts Sql/HERMES-278_Carga_ejercicio_2022/PRE/1_carga_2022_cuadrantes_jornadas.sql|https://iusversion01.justicia.junta-andalucia.es/repos/java/Hermes/trunk/Scripts%20Sql/HERMES-278_Carga_ejercicio_2022/PRE/1_carga_2022_cuadrantes_jornadas.sql]]
+
+2º bloque - [[https://iusversion01.justicia.junta-andalucia.es/repos/java/Hermes/trunk/Scripts Sql/HERMES-278_Carga_ejercicio_2022/PRE/2_abrir_nuevo_ejercicio_2022.sql|https://iusversion01.justicia.junta-andalucia.es/repos/java/Hermes/trunk/Scripts%20Sql/HERMES-278_Carga_ejercicio_2022/PRE/2_abrir_nuevo_ejercicio_2022.sql]]
+
+Es único para PREPRODUCCIÓN y PRODUCCIÓN.
+
+En un primer bloque se cargan las jornadas, tiempos de realización de la jornada, tiempos de compensación para la jornada, turnos, ciclos y cuadrantes del nuevo año.
+
+Y en el 2º bloque se actualizan:
+
+- Números de días por usuario \\ - Se cierra el ejercicio de 4 años atrás \\ - Se crea el ejercicio 2023 \\ - Carga los datos generales días asignados por Tipos de permisos y ejercicio (cptpmeje)
+
+Es conveniente ejecutar antes en PREPRODUCCIÓN, sobre todo esta 1ª versión del script que no está probada a fecha nov22.
+
+Esta es la cabecera a actualizar:
+
+— parámetros — \\ define _EJERCICIO_=2023 \\ define _EJERCICIO_OLD_=2022
+
+define _DIAS_VACACIONES_=22 \\ define _DIAS_ASUNTOS_=11 \\ – Compensación de días por fiesta en sábados (MÁXIMO 2) \\ define _DIAS_COMPENSA_SABADOS_=0 \\ – Compensación por 24/31 dic. sábado o domingo (MÁXIMO 2) \\ define _DIAS_COMPENSA_NAVIDAD_SABDOM_=0
+
+**Ejecución desde nuestra máquina de salto entorno PREPRODUCCIÓN.**
+
+  * Descargar el fichero SVN en un directorio
+  * Podemos cambiar el COMMIT por un ROLLBACK para probar la ejecución
+  * Ejecutar en un CMD en ese directorio:
+      * sqlplus hermes/xxxxx@prepro01 @HERMES-Apertura-Ejercicio.sql
+
+==== 3. Recargar paramétricas en la aplicación ====
+
+Una vez se ha ejecutado el proceso correctamente en BBDD PROD04 habría que recargar paramétricas en la aplicación.
+
+Administración→Sistema→ Recargar Paramétricas
+
+{{ :pag_apli:hermes:1668674021595-717.png?nolink |}}
+
+==== 4. Asignación Jornada Reducida Fiesta Tradicional Navidad. ====
+
+Serv de RRHH de la Admón. de Justicia nos debe de informar de las fechas a cargar. Estos son un ejemplo:
+
+- Diciembre 2022: 22, 23, 27, 28, 29, 30
+
+- Enero 2023: 3,4 y 5
+
+- Diciembre 2023: 22, 26, 27, 28 y 29
+
+No se carga por scripts, se puede realizar mediante el frontal de la aplicación.
+
+**Control de Presencia→ Personal → Asignación de Jornada**
+
+{{ :pag_apli:hermes:1736427265356-432.png?nolink |}}
+
+Se elige el año que necesitemos → días que nos indican, jornada REDUC FIESTA TRADIC, NAVIDAD, VERANO, SEMANA SANTA.
+
+Esto actualiza la tabla en bbdd:
+
+SELECT * FROM HERMES.CPJORNADAS WHERE X_JORNADA = 21; → REDUC FIESTA TRADIC, NAVIDAD, VERANO, SEMANA SANTA.
+
+Esta pantalla inserta en la tabla cpcuadia (cambiar fecha a la que necesitemos):
+
+SELECT * FROM HERMES.CPCUADIA WHERE JOR_X_JORNADA = 21 AND F_DESDE >= '22/12/2022' AND creador = 'Admin4';
+
+==== 5. Carga de Festivos ====
+
+CALENDARIO DE FIESTAS LABORALES PARA ANDALUCÍA 2023, lo solicitan a través de la aplicación.
+
+Los Festivos Nacionales, autonómicos, etc se dan de alta en Temis a través del apartado Festivos en el menú de la izquierda.
+
+{{ :pag_apli:hermes:image-20221115143138-2.png?nolink |}}
+
+{{ :pag_apli:hermes:image-20221115143151-4.png?nolink |}}
+
+Una vez dados de alta en Temis, hay que ejecutar la sincronización de Temis - Hermes, en la aplicación Hermes, en el apartado Administración/Sistema/Sincronizar Temis - Hermes:
+
+{{ :pag_apli:hermes:1736427889166-590.png?nolink |}}
+
+Una vez terminada, revisar que ya aparece en los festivos de Hermes:
+
+{{ :pag_apli:hermes:image-20221115143144-3.png?nolink |}}
+
+**IMPORTANTE!!!**
+
+Una vez se realiza la carga de festivos, se procede a crear peticion a Sistemas - GTSW para la carga de festivos en remedy con el siguiente formato:
+
+01/01/2025 \\ 06/01/2025 \\ 28/02/2025 \\ 17/04/2025 \\ 18/04/2025 \\ …
+
+Para que los incluyan al final de los ficheros de IUSSWAIHV01:
+
+e:\remedy\artime\Calendario Externos.txt \\ e:\remedy\artime\Calendario CEIURIS.txt
+
+Ejemplo de incidencia: IN0000002335449
+
+==== 6. Carga de Festivos Locales ====
+
+Obtener los días Festivos cuando se publiquen en la siguiente url:
+
+[[https://www.juntadeandalucia.es/temas/trabajar/relaciones/calendario.html#toc-fiestas-locales|https://www.juntadeandalucia.es/temas/trabajar/relaciones/calendario.html#toc-fiestas-locales]]
+
+Y acceder a la publicación: [[https://www.juntadeandalucia.es/temas/trabajar/relaciones/calendario.html#toc-fiestas-locales|https://www.juntadeandalucia.es/temas/trabajar/relaciones/calendario.html#toc-fiestas-locales]]
+
+Obtener el listado y cargar en el fichero en la pestaña BOJA
+
+[[\\iusnas05\sij\Desarrollo\Locales_2022|]].xlsx
+
+Las pestañas obtienen los datos unas de otras, así que se debería de revisar todos los municipios, fechas, id, etc. Es posible encontrarse con municipios que no existen en Temis (comprobar en app), así que esa query no se ejecutaría, habría que eliminarla del listado.
+
+Ejecutar las querys en la bbdd de Temis.
+
+==== 7. Tratamiento de interinos ====
+
+Los días de vacaciones y asuntos propios de los interinos no se cargan en el procedimiento Apertura del año , ya que los interinos se calculan automáticamente por Hermes.
+
+Otro de los puntos de la configuración del año 2023 es saber el tratamiento de interinos. A los usuarios funcionarios se les asigna inicialmente los días definidos para cada permiso. (Vacaciones 22 días, Asuntos propios, etc).
+
+Con los interinos inicialmente no es así, hacemos una clasificación entre los interinos de larga duración ( al final se comportan como un funcionario, se les asignan los días como a un funcionario) y los interinos que no son de larga duración ( se le asignan 0 días en cada permiso y van ganando días conforme van pasando los días en 2020).
+
+Para lo cuál se debe consultar a cada una de las Delegaciones por este asunto, preguntando si quieren que desde el departamento de Informática asignemos los días y que nos indiquen que interinos van a ser de larga duración y van a tener todos los días como un usuario funcionario.
+
+Preparación de Listado de Interinos
+
+Obtenemos listado de usuarios por provincias para remitir a Serv de RRHH de la Admón. de Justicia para que los distribuya a las
+
+Nos suele poner petición indicando "En relación a cargos de los de los días de vacaciones y asuntos particulares, correspondientes al ejercicio 2023, de los interinos en la aplicación HERMES las Delegaciones comunican conocer el listado de interinos de su provincia".
+
+Query:
+
+select DECODE(SUBSTR(org.c_estorg, 1, 2),
+
+'04', 'Almeria'
+
+, '11', 'Cadiz'
+
+, '14', 'Cordoba'
+
+, '18', 'Granada'
+
+, '21', 'Huelva'
+
+, '23', 'Jaen'
+
+, '29', 'Malaga'
+
+, '41', 'Sevilla'
+
+, '00', 'TODO') provincia, \\ orig.usu_x_usuario X_USUARIO,USU.T_NIF NIF, USU.T_NOMBRE NOMBRE, USU.T_APELLIDO1 ||' '|| USU.T_APELLIDO2 APELLIDOS ,EJE.X_EJERCICIO,EJE.D_EJERCICIO, \\ TIP.X_TIPPRM ,TIP.D_TIPPRM TIPO_PERMISO, \\ ORIG.I_NUMDIA NUMERO_DIAS \\ from hermes.cpnumdia orig, HERMES.cp_vi_usuarios usu, HERMES.CPTIPPRM TIP, hermes.CPESTORG org,HERMES.CPEJERCICIOS EJE \\ where USU.X_USUARIO = ORIG.USU_X_USUARIO \\ and ORG.X_ESTORG = USU.EOR_X_ESTORG \\ AND ORIG.TPM_X_TIPPRM = TIP.X_TIPPRM \\ and orig.EJE_X_EJERCICIO = EJE.X_EJERCICIO \\ AND EJE.D_EJERCICIO = '2023' \\ AND TIP.D_TIPPRM in ('Asuntos Particulares','Vacaciones') \\ AND USU.D_CATEGORIA_PERSONAL = 'I' \\ AND TIP.L_valido = 'S' \\ AND ORIG.L_VALIDO = 'S' \\ AND usu.f_baja IS NULL \\ and org.c_estorg like '29%' – Código de la provincia \\ order by 1;
+
+El resultado de esta consulta lo volcamos en la plantilla:
+
+[[\\Iusnas05\SIJ\AM-DESARROLLO\EXPLOTACION\HERMES\Interinos|]] 2023
+
+Por ejemplo: Plantilla de Sevilla, volcamos los datos y en la columna K se genera la update que hay que realizar automaticamente, para remitirlo a Serv de RRHH de la Admón. de Justicia se oculta esta columna. Es necesario que nos rellenen los días en la columna en amarillo y posteriormente realizamos las updates correspondientes para la modificación.
+
+{{ :pag_apli:hermes:1669192781064-987.png?nolink |}}
+
+si nos siguen llegando incidencia solicitando los días para los interinos y la delegación no nos han remitido los listados porque prefieren que se carguen los días automáticamente por el programa Hermes.
+
+Si Nos están llegando incidencia de este tipo le indicamos que se pongan se pongan en contacto con su servicio de personal en su Delegación Territorial correspondiente.
+
+==== 8. Ampliar listados Flexibilidad y Reducción de Jornada ====
+
+Generar listado de solicitudes de Flexibilidad y Reducción con el tipo de solicitud y la provincia a la cual pertenece. en el cual habría que modificar la fecha_hasta, indicando la prorroga de la solicitud.
+
+Por ello le remitimos estos listados Serv de RRHH de la Admón. de Justicia indicando que es necesario remitirlos a la delegaciones provinciales y comprobar que solicitudes siguen vigentes y si es correcta la fecha_hasta.
+
+En caso de haber alguna incoherencia modificar dicha solicitud en el listado para actualizarlo de forma masiva.
+
+Query para obtener el listado:
+
+select DECODE(SUBSTR(org.c_estorg, 1, 2), '04', 'Almeria' \\ , '11', 'Cadiz' \\ , '14', 'Cordoba' \\ , '18', 'Granada' \\ , '21', 'Huelva' \\ , '23', 'Jaen' \\ , '29', 'Malaga' \\ , '41', 'Sevilla' \\ , '00', 'TODO') provincia,org.d_estorg, usu.x_usuario,usu.t_nif, usu.t_nombre, USU.T_APELLIDO1, usu.t_apellido2, tip.d_tipprm, sol.f_desde, sol.f_hasta, x_solicitud \\ from hermes.cpsolicitudes sol \\ inner join hermes.cptipprm tip on sol.tpm_x_tipprm = tip.x_tipprm \\ inner join hermes.cp_vi_usuarios usu on USU.X_USUARIO = SOL.USU_X_USUARIO \\ inner join hermes.CPESTORG org on ORG.X_ESTORG = USU.EOR_X_ESTORG \\ where tip.tipsol = 'F' \\ and (sol.f_hasta is null or sol.f_hasta =to_date('31/12/2022','DD/MM/YYYY')) \\ AND usu.f_baja IS NULL \\ order by provincia,t_nif desc;
+
+El resultado de esta consulta lo volcamos en la plantilla:
+
+[[\\Iusnas05\SIJ\AM-DESARROLLO\EXPLOTACION\HERMES\Solicitudes|]] Flexibilidad y Reducción
+
+Por ejemplo, plantilla PLantilla Flexibilidad Horaria. Se cargan los datos y esperamos respuesta.
+
+Una vez nos llega la respuesta, se añade a la columna la update correspondiente:
+
+==== 9. Carga de compensación festivos en sábado para festivos locales ====
+
+Se comprueba que la aplicación no tiene contemplado la inserción de días en sábado festivo locales (no nacionales) para usuarios que no sean interinos o nuevos funcionarios, es decir, para todos los funcionarios existentes.
+
+Antes de lanzar el script habilitar el dmbs de toad, guardar traza de salida y contrastar que el número de usuarios modificados coincide con el contador.
+
+Antes de insertar los días a los usuarios que le corresponden según la localidad comprobamos que no se haya creado ningún nuevo funcionario:
+
+select * from hermes.cpnumdia cpn where tpm_x_tipprm = 347 and eje_x_ejercicio = 300
+
+and usu_x_usuario in (select X_USUARIO from hermes.cpusuarios usu
+
+inner join hermes.cppuestos pue on USU.X_USUARIO = PUE.USU_X_USUARIO
+
+inner join hermes.cpzonas zon on PUE.ZON_X_ZONA = ZON.X_ZONA
+
+where usu.l_valido = 'S' and usu.d_categoria_personal = 'F' and pue.l_valido = 'S' and f_hasta is null
+
+and upper(zon.d_zona) = '<MUNICIPIO>') –1
+
+Para las zonas que hemos tenido registro se comprueba si los días son correctos o se deben añadir.
+
+Se valida que no existan usuarios con más de un puesto válido sin fecha de baja:
+
+SELECT
+
+usu_x_usuario, COUNT(*) AS CountOf
+
+FROM hermes.cppuestos
+
+where f_hasta is null –and L_valido = 'S'
+
+GROUP BY usu_x_usuario
+
+HAVING COUNT(*)>1;
+
+El insert debe tener el formato:
+
+Insert into HERMES.CPNUMDIA
+
+(X_NUMDIA, EJE_X_EJERCICIO, TPM_X_TIPPRM, USU_X_USUARIO, I_NUMDIA, I_NUMHORA, T_MOTIVO, L_VALIDO, CREADOR, F_CREACION, MODIFICADOR, F_MODIFICACION, I_NUMDIA_CANOSOS)
+
+Values
+
+(cps_ndi.NEXTVAL, 300, 347, X_USUARIO, 1, NULL, NULL, 'S', 'Sabado local', SYSDATE, 'Sabado local', SYSDATE, 0);
+
+**SCRIPT:**
+
+DECLARE
+
+CURSOR c_usuarios
+
+IS
+
+select distinct X_USUARIO
+
+from hermes.cpusuarios usu
+
+inner join hermes.cppuestos pue on USU.X_USUARIO = PUE.USU_X_USUARIO
+
+inner join hermes.cpzonas zon on PUE.ZON_X_ZONA = ZON.X_ZONA
+
+where usu.l_valido = 'S' and usu.d_categoria_personal = 'F'
+
+and upper(zon.d_zona) = 'MÁLAGA' and pue.l_valido = 'S' and f_hasta is null
+
+and usu.x_usuario not in
+
+(select usu_x_usuario from hermes.cpnumdia where usu_x_usuario = usu_x_usuario and TPM_X_TIPPRM = 347 and EJE_X_EJERCICIO = 300);
+
+BEGIN
+
+FOR r_usuario in c_usuarios LOOP
+
+Insert into HERMES.CPNUMDIA
+
+(X_NUMDIA, EJE_X_EJERCICIO, TPM_X_TIPPRM, USU_X_USUARIO, I_NUMDIA, I_NUMHORA, T_MOTIVO, L_VALIDO, CREADOR, F_CREACION, MODIFICADOR, F_MODIFICACION, I_NUMDIA_CANOSOS)
+
+Values
+
+(hermes.cps_ndi.NEXTVAL, 300, 347, r_usuario.x_usuario, 1, NULL, NULL, 'S', 'Sabado local', SYSDATE, 'Sabado local', SYSDATE, 0);
+
+dbms_output.put_line('Se insertan los días por festivo local en sábado al usuario: '||r_usuario.x_usuario);
+
+COMMIT;
+
+END LOOP;
+
+END;
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Inspección Provincial de Servicios ======
+
+Hermes en Producción ( PROD04)
+
+[Para cada caso modificar código de provincia y periodo]
+
+1. Deber Inexcusable
+<code>
+
+SELECT U.T_NIF, U.T_NOMBRE, U.T_APELLIDO1, U.T_APELLIDO2, DECODE(U.T_SEXO, 'M', 'Mujer', 'Hombre') SEXO, DECODE(NVL(U.D_CATEGORIA_PERSONAL, 'X'), 'F', 'Funcionario', 'Interino') Categoria, S.X_SOLICITUD ID_SOLICITUD, TO_CHAR(S.F_DESDE, 'dd/mm/yyyy') Fecha_inicio_solicitud, E.D_EJERCICIO, TO_CHAR(S.F_DESDE, 'q') Trimestre, DECODE(TO_NUMBER(TO_CHAR(S.F_DESDE, 'q')), '1', 'PRIMER', '2', 'PRIMER', 'SEGUNDO') Semestre, O.D_ESTORG, S.N_NUMDIA FROM  HERMES.CPSOLICITUDES S,  HERMES.CP_VI_USUARIOS U,  HERMES.CPEJERCICIOS E,  HERMES.CPESTORG O  WHERE  S.TPM_X_TIPPRM = 10  AND S.L_VALIDO = 'S'  AND S.EST_C_ESTADO IN ('A', 'P', 'T')  AND S.EJE_X_EJERCICIO IN (290, 291)  AND U.X_USUARIO = S.USU_X_USUARIO  AND S.EJE_X_EJERCICIO = E.X_EJERCICIO  AND S.F_DESDE <= TO_DATE('01/01/2019','dd/mm/yyyy')  AND O.L_VALIDO = 'S'  AND O.X_ESTORG = U.EOR_X_ESTORG  AND O.C_ESTORG LIKE '23%'  ORDER BY  S.F_DESDE, E.D_EJERCICIO;
+
+</code>
+
+2. Enfermedad hasta 3 días
+
+<code>
+SELECT  U.T_NIF, U.T_NOMBRE, U.T_APELLIDO1, U.T_APELLIDO2,  DECODE(U.T_SEXO, 'M', 'Mujer', 'Hombre') SEXO, DECODE(NVL(U.D_CATEGORIA_PERSONAL, 'X'), 'F', 'Funcionario', 'Interino') Categoria,  S.X_SOLICITUD ID_SOLICITUD, TO_CHAR(S.F_DESDE, 'dd/mm/yyyy') Fecha_inicio_solicitud,  S.N_NUMDIA Num_dias, E.D_EJERCICIO,  TO_CHAR(S.F_DESDE, 'q') Trimestre, DECODE(TO_NUMBER(TO_CHAR(S.F_DESDE, 'q')), '1', 'PRIMER', '2', 'PRIMER', 'SEGUNDO') Semestre,  O.D_ESTORG Organismo  FROM  HERMES.CPSOLICITUDES S,  HERMES.CP_VI_USUARIOS U,  HERMES.CPEJERCICIOS E,  HERMES.CPESTORG O  WHERE  S.TPM_X_TIPPRM IN (18)  AND S.L_VALIDO = 'S'  AND S.EST_C_ESTADO IN ('A', 'P', 'T')  AND S.EJE_X_EJERCICIO IN (290, 291)  AND U.X_USUARIO = S.USU_X_USUARIO  AND S.EJE_X_EJERCICIO = E.X_EJERCICIO  AND S.F_DESDE BETWEEN TO_DATE('01/01/2017','dd/mm/yyyy') AND TO_DATE('01/01/2019','dd/mm/yyyy')  AND O.L_VALIDO = 'S'  AND O.X_ESTORG = U.EOR_X_ESTORG  AND O.C_ESTORG LIKE '23%'  ORDER BY  S.F_DESDE, E.D_EJERCICIO;
+
+</code>
+
+3. Visita Médica
+
+<code>
+SELECT  U.T_NIF, U.T_NOMBRE, U.T_APELLIDO1, U.T_APELLIDO2,  DECODE(U.T_SEXO, 'M', 'Mujer', 'Hombre') SEXO,  DECODE(NVL(U.D_CATEGORIA_PERSONAL, 'X'), 'F', 'Funcionario', 'Interino') Categoria,  S.X_SOLICITUD ID_SOLICITUD,  TO_CHAR(S.F_DESDE, 'dd/mm/yyyy') Fecha_inicio_solicitud,  NVL(ROUND(N_NUMHORAS / 60 / 24, 3), N_NUMDIA) Numdias,  (SELECT D_TIPPRM FROM HERMES.CPTIPPRM WHERE X_TIPPRM = S.TPM_X_TIPPRM) Tipo_permiso,  E.D_EJERCICIO,  TO_CHAR(S.F_DESDE, 'q') Trimestre,  DECODE(TO_NUMBER(TO_CHAR(S.F_DESDE, 'q')), '1', 'PRIMER', '2', 'PRIMER', 'SEGUNDO') Semestre,  O.D_ESTORG  FROM  HERMES.CPSOLICITUDES S,  HERMES.CP_VI_USUARIOS U,  HERMES.CPEJERCICIOS E,  HERMES.CPESTORG O  WHERE  S.TPM_X_TIPPRM IN (61, 370)  AND S.L_VALIDO = 'S'  AND S.EST_C_ESTADO IN ('A', 'P', 'T')  AND S.EJE_X_EJERCICIO IN (290, 291)  AND U.X_USUARIO = S.USU_X_USUARIO  AND S.EJE_X_EJERCICIO = E.X_EJERCICIO  AND S.F_DESDE BETWEEN TO_DATE('01/01/2017','dd/mm/yyyy') AND TO_DATE('01/01/2019','dd/mm/yyyy')  AND O.L_VALIDO = 'S'  AND O.X_ESTORG = U.EOR_X_ESTORG  AND O.C_ESTORG LIKE '23%'  ORDER BY  S.F_DESDE, E.D_EJERCICIO;
+
+</code>
+
+4. Enfermedad más de 3 días
+
+<code>
+SELECT  U.T_NIF, U.T_NOMBRE, U.T_APELLIDO1, U.T_APELLIDO2,  DECODE(U.T_SEXO, 'M', 'Mujer', 'Hombre') SEXO,  DECODE(NVL(U.D_CATEGORIA_PERSONAL, 'X'), 'F', 'Funcionario', 'Interino') Categoria,  S.X_SOLICITUD ID_SOLICITUD,  TO_CHAR(S.F_DESDE, 'dd/mm/yyyy') Fecha_inicio_solicitud,  S.N_NUMDIA Num_dias,  E.D_EJERCICIO,  TO_CHAR(S.F_DESDE, 'q') Trimestre,  DECODE(TO_NUMBER(TO_CHAR(S.F_DESDE, 'q')), '1', 'PRIMER', '2', 'PRIMER', 'SEGUNDO') Semestre,  O.D_ESTORG Organismo  FROM  HERMES.CPSOLICITUDES S,  HERMES.CP_VI_USUARIOS U,  HERMES.CPEJERCICIOS E,  HERMES.CPESTORG O  WHERE  S.TPM_X_TIPPRM IN (19)  AND S.L_VALIDO = 'S'  AND S.EST_C_ESTADO IN ('A', 'P', 'T')  AND S.EJE_X_EJERCICIO IN (290, 291)  AND U.X_USUARIO = S.USU_X_USUARIO  AND S.EJE_X_EJERCICIO = E.X_EJERCICIO  AND S.F_DESDE BETWEEN TO_DATE('01/01/2017','dd/mm/yyyy') AND TO_DATE('01/01/2019','dd/mm/yyyy')  AND O.L_VALIDO = 'S'  AND O.X_ESTORG = U.EOR_X_ESTORG  AND O.C_ESTORG LIKE '23%'  ORDER BY  S.F_DESDE, E.D_EJERCICIO;
+
+</code>
+
+5. Absentismo
+
+<code>
+SELECT  U.T_NIF, U.T_NOMBRE, U.T_APELLIDO1, U.T_APELLIDO2,  DECODE(U.T_SEXO, 'M', 'Mujer', 'Hombre') SEXO,  DECODE(NVL(U.D_CATEGORIA_PERSONAL, 'X'), 'F', 'Funcionario', 'Interino') Categoria,  TO_CHAR(DET.FECHA_ALERTA, 'dd/mm/yyyy') Fecha_absentismo,  TO_CHAR(DET.FECHA_ALERTA, 'YYYY') Ejercicio,  TO_CHAR(DET.FECHA_ALERTA, 'q') Trimestre,  DECODE(TO_NUMBER(TO_CHAR(DET.FECHA_ALERTA, 'q')), '1', 'PRIMER', '2', 'PRIMER', 'SEGUNDO') Semestre,  O.D_ESTORG  FROM  HERMES.CPDETALEINC DET,  HERMES.CP_VI_USUARIOS U,  HERMES.CPESTORG O  WHERE  DET.ALE_X_ALERTA = 23  AND DET.FECHA_ALERTA BETWEEN TO_DATE('01/01/2018','dd/mm/yyyy') AND TO_DATE('01/07/2018','dd/mm/yyyy')  AND O.L_VALIDO = 'S'  AND O.X_ESTORG = U.EOR_X_ESTORG  AND O.C_ESTORG LIKE '23%'  AND U.L_EXTERNO = 'N'  AND U.L_EXENTOFICH = 'N'  AND DET.L_ACEPTADA = 'N'  AND U.CAR_X_CARGO NOT IN (284)  AND NOT EXISTS (  SELECT 1 FROM HERMES.CPFICHAJES F  WHERE  F.USU_X_USUARIO = U.X_USUARIO  AND F.F_FICHAJE BETWEEN TO_DATE('01/01/2018','dd/mm/yyyy') AND TO_DATE('01/07/2018','dd/mm/yyyy')  AND F.L_VALIDO = 'S'  AND ROWNUM = 1  )  AND DET.USU_X_USUARIO = U.X_USUARIO  ORDER BY  TRUNC(DET.FECHA_ALERTA);
+
+</code>
+
+6. Incumplimiento de jornada
+
+<code>
+SELECT datos.t_nif, datos.nombreusu, datos.sexo, datos.categoria, datos.mes , datos.provincia, datos.saldo_total , E.D_ESTORG , TO_CHAR( &fecha_inicio, 'q') trimestre , decode( to_number(TO_CHAR( &fecha_inicio, 'q')), '1' , 'PRIMER', '2' ,'PRIMER', 'SEGUNDO') Semestre FROM ( SELECT saldo.t_nif, saldo.eor_x_estorg , sexo, categoria , saldo.nombre nombreusu , to_char( &fecha_inicio, 'MONTH') mes , saldo.provincia provincia , SUBSTR(sign(saldo.saldo_total),-2,1)||TRIM(TO_CHAR(TRUNC(NVL(ABS(saldo.saldo_total),0) / 60),'999')) || ':' || TRIM(TO_CHAR(MOD(ABS(saldo.saldo_total), 60),'00')) saldo_total , saldo.topten FROM ( SELECT DECODE(SUBSTR(e.c_estorg, 1, 2), '04', 'Almería' , '11', 'Cádiz' , '14', 'Córdoba' , '18', 'Granada' , '21', 'Huelva' , '23', 'Jaén' , '29', 'Málaga' , '41', 'Sevilla' , 'XX') provincia , u.t_nif , u.eor_x_estorg , decode(u.t_sexo, 'M', 'Mujer', 'Hombre') Sexo, decode(NVL(u.d_categoria_personal, 'X'), 'F', 'Funcionario', 'Interino') Categoria , NVL(u.t_nombre,'')||' '||NVL(u.t_apellido1,'')||' '||NVL(u.t_apellido2,'') nombre , SUM (n_tiempo_indefinido) saldo_indef , to_number(SUM (((n_tiempo_rigido - n_tiempo_rigido_red))- ((n_teorico_rigido - n_tiempo_rigido_red) )+ (n_tiempo_flexible - n_tiempo_flexible_red)- (n_teorico_flexible - n_tiempo_flexible_red))) saldo_total , SUM (((n_tiempo_rigido - n_tiempo_rigido_red))- ((n_teorico_rigido - n_tiempo_rigido_red) )+ (n_tiempo_flexible - n_tiempo_flexible_red)- (n_teorico_flexible - n_tiempo_flexible_red)) topten FROM hermes.cp_vi_usuarios u, hermes.cpestorg e , TABLE(hermes.cp_pk_jornada.fconsulta_dias_empleado( &fecha_inicio, &fecha_fin, u.x_usuario)) WHERE u.l_valido = 'S' AND (u.f_baja is null or u.f_baja>= &fecha_fin ) AND u.l_externo = 'N' AND u.l_exentofich = 'N' AND e.l_valido = 'S' AND u.f_antiguedad <= &fecha_inicio AND e.x_estorg = u.eor_x_estorg AND SUBSTR(e.c_estorg, 1, 2) = &provincia GROUP BY DECODE(SUBSTR(e.c_estorg, 1, 2), '04', 'Almería' , '11', 'Cádiz' , '14', 'Córdoba' , '18', 'Granada' , '21', 'Huelva' , '23', 'Jaén' , '29', 'Málaga' , '41', 'Sevilla' , 'XX') , u.t_nif, u.EOR_X_ESTORG , NVL(u.t_nombre,'')||' '||NVL(u.t_apellido1,'')||' '||NVL(u.t_apellido2,'') , DECODE(u.t_sexo, 'M', 'Mujer', 'Hombre') , DECODE(NVL(u.d_categoria_personal, 'X'), 'F', 'Funcionario', 'Interino') )saldo ) datos , hermes.cpestorg e WHERE datos.eor_x_estorg = e.x_estorg AND e.l_valido = 'S' ORDER BY topten;
+
+</code>
+
+</panel></WRAP>
+
+<WRAP> <panel type="info">
+
+====== Estadísticas control de presencia ======
+
+Las consultas usadas para la obtención de datos para el informe de control de presencia son los siguientes:
+
+  * **Nº de usuarios que fichan con Hermes (dato final de diciembre de 2023)**
+Consultas
+
+—SEPARADO POR MESES Y PROVINCIAS \\  \\  \\ SELECT count( DISTINCT (usu.t_nif)) AS USUARIOS, \\ to_char(FICH.F_FICHAJE,'MONTH') as MES, \\ to_char(FICH.F_FICHAJE,'YYYY') as AÑO, \\ DECODE(SUBSTR(ORG.c_estorg, 1, 2), '04', 'Almería', '11', 'Cádiz', '14', 'Córdoba', '18', 'Granada', '21', 'Huelva', '23', 'Jaén', '29', 'Málaga', '41', 'Sevilla', 'XX') provincia, \\ to_char(FICH.F_FICHAJE,'MM') as NM \\ FROM hermes.cp_vi_usuarios usu INNER JOIN hermes.cpestorg org \\ ON org.x_estorg = usu.eor_x_estorg \\ INNER JOIN hermes.cpfichajes fich ON fich.usu_x_usuario = usu.x_usuario \\ INNER JOIN hermes.cptipfic tipp ON tipp.x_tipfic = fich.tfi_x_tipfic \\ WHERE fich.f_fichaje BETWEEN TO_DATE ('01/01/2021','dd/mm/yyyy') AND TO_DATE ('31/12/2023', 'dd/mm/yyyy') \\ Group bY to_char(FICH.F_FICHAJE,'YYYY'),to_char(FICH.F_FICHAJE,'MONTH'),DECODE(SUBSTR(ORG.c_estorg, 1, 2), '04', 'Almería', '11', 'Cádiz', '14', 'Córdoba', '18', 'Granada', '21', 'Huelva', '23', 'Jaén', '29', 'Málaga', '41', 'Sevilla', 'XX'), to_char(FICH.F_FICHAJE,'MM') \\ order by 3,4,5; \\  \\  \\ —SEPARADO PROVINCIAS \\  \\  \\ SELECT count( DISTINCT (usu.t_nif)) AS USUARIOS, \\ to_char(FICH.F_FICHAJE,'YYYY') as AÑO, \\ DECODE(SUBSTR(ORG.c_estorg, 1, 2), '04', 'Almería', '11', 'Cádiz', '14', 'Córdoba', '18', 'Granada', '21', 'Huelva', '23', 'Jaén', '29', 'Málaga', '41', 'Sevilla', 'XX') provincia \\ FROM hermes.cp_vi_usuarios usu INNER JOIN hermes.cpestorg org \\ ON org.x_estorg = usu.eor_x_estorg \\ INNER JOIN hermes.cpfichajes fich ON fich.usu_x_usuario = usu.x_usuario \\ INNER JOIN hermes.cptipfic tipp ON tipp.x_tipfic = fich.tfi_x_tipfic \\ WHERE fich.f_fichaje BETWEEN TO_DATE ('01/01/2021','dd/mm/yyyy') AND TO_DATE ('31/12/2023', 'dd/mm/yyyy') \\ Group bY to_char(FICH.F_FICHAJE,'YYYY'), \\ DECODE(SUBSTR(ORG.c_estorg, 1, 2), '04', 'Almería', '11', 'Cádiz', '14', 'Córdoba', '18', 'Granada', '21', 'Huelva', '23', 'Jaén', '29', 'Málaga', '41', 'Sevilla', 'XX') \\ order by 2,3;
+
+  * **Nº de incidencias de control de presencia gestionadas por los anteriores con la aplicación**
+Consultas
+
+—SEPARADO POR MESES Y PROVINCIAS \\  \\ select count(DISTINCT cin.x_incidencia) AS INICIDENCIAS, \\ to_char(cin.f_creacion,'MONTH') as MES, \\ to_char(cin.f_creacion,'YYYY') as AÑO, \\ DECODE(SUBSTR(ORG.c_estorg, 1, 2), '04', 'Almería', '11', 'Cádiz', '14', 'Córdoba', '18', 'Granada', '21', 'Huelva', '23', 'Jaén', '29', 'Málaga', '41', 'Sevilla', 'XX') provincia, \\ to_char(cin.f_creacion,'MM') as NM \\ FROM HERMES.CPINCIDENCIAS cin \\ INNER JOIN hermes.cp_vi_usuarios usu ON CIN.USU_X_USUARIO= USU.X_USUARIO \\ INNER JOIN hermes.cpestorg org ON org.x_estorg = usu.eor_x_estorg \\ WHERE CIN.USU_X_USUARIO IN( \\ SELECT DISTINCT usu.x_usuario \\ FROM hermes.cp_vi_usuarios usu INNER JOIN hermes.cpestorg org \\ ON org.x_estorg = usu.eor_x_estorg \\ INNER JOIN hermes.cpfichajes fich ON fich.usu_x_usuario = usu.x_usuario \\ INNER JOIN hermes.cptipfic tipp ON tipp.x_tipfic = fich.tfi_x_tipfic \\ WHERE fich.f_fichaje BETWEEN TO_DATE ('01/01/2021','dd/mm/yyyy') AND TO_DATE ('31/12/2023', 'dd/mm/yyyy')) \\ AND cin.f_creacion BETWEEN TO_DATE ('01/01/2021','dd/mm/yyyy') AND TO_DATE ('31/12/2023', 'dd/mm/yyyy') \\ Group bY to_char(cin.f_creacion,'YYYY'),to_char(cin.f_creacion,'MONTH'),DECODE(SUBSTR(ORG.c_estorg, 1, 2), '04', 'Almería', '11', 'Cádiz', '14', 'Córdoba', '18', 'Granada', '21', 'Huelva', '23', 'Jaén', '29', 'Málaga', '41', 'Sevilla', 'XX'), to_char(cin.f_creacion,'MM') \\ order by 3,4,5; \\  \\  \\ —SEPARADO POR PROVINCIAS \\  \\ select count(DISTINCT cin.x_incidencia) AS INICIDENCIAS, \\ to_char(cin.f_creacion,'YYYY') as AÑO, \\ DECODE(SUBSTR(ORG.c_estorg, 1, 2), '04', 'Almería', '11', 'Cádiz', '14', 'Córdoba', '18', 'Granada', '21', 'Huelva', '23', 'Jaén', '29', 'Málaga', '41', 'Sevilla', 'XX') provincia \\ FROM HERMES.CPINCIDENCIAS cin \\ INNER JOIN hermes.cp_vi_usuarios usu ON CIN.USU_X_USUARIO= USU.X_USUARIO \\ INNER JOIN hermes.cpestorg org ON org.x_estorg = usu.eor_x_estorg \\ WHERE CIN.USU_X_USUARIO IN( \\ SELECT DISTINCT usu.x_usuario \\ FROM hermes.cp_vi_usuarios usu INNER JOIN hermes.cpestorg org \\ ON org.x_estorg = usu.eor_x_estorg \\ INNER JOIN hermes.cpfichajes fich ON fich.usu_x_usuario = usu.x_usuario \\ INNER JOIN hermes.cptipfic tipp ON tipp.x_tipfic = fich.tfi_x_tipfic \\ WHERE fich.f_fichaje BETWEEN TO_DATE ('01/01/2021','dd/mm/yyyy') AND TO_DATE ('31/12/2023', 'dd/mm/yyyy')) \\ AND cin.f_creacion BETWEEN TO_DATE ('01/01/2021','dd/mm/yyyy') AND TO_DATE ('31/12/2023', 'dd/mm/yyyy') \\ Group bY to_char(cin.f_creacion,'YYYY'), \\ DECODE(SUBSTR(ORG.c_estorg, 1, 2), '04', 'Almería', '11', 'Cádiz', '14', 'Córdoba', '18', 'Granada', '21', 'Huelva', '23', 'Jaén', '29', 'Málaga', '41', 'Sevilla', 'XX') \\ order by 2,3;
+
+  * **Días reflejados de Huelga**
+Consulta
+
+select DISTINCT *from HERMES.cpsolicitudes cso \\ where cso.f_creacion BETWEEN TO_DATE ('01/01/2023','dd/mm/yyyy') AND TO_DATE ('31/12/2023', 'dd/mm/yyyy') \\ AND cso.F_DESDE BETWEEN TO_DATE ('01/01/2023','dd/mm/yyyy') AND TO_DATE ('31/12/2023', 'dd/mm/yyyy') \\ AND cso.F_HASTA BETWEEN TO_DATE ('01/01/2023','dd/mm/yyyy') AND TO_DATE ('31/12/2023', 'dd/mm/yyyy') \\ AND cso.TPM_X_TIPPRM IN('29','388') \\ AND cso.EST_C_ESTADO='A' \\ order by cso.F_DESDE asc;
+
+</panel>
+</WRAP>
+<WRAP> 
+<panel type="info">
+
+====== Error JOB Cálculo de Saldos ======
+
+ 
+- El job JCALSAL se ejecutaba cada noche pero devolvía error.
+- En la tabla CPEJEPRO (log de ejecución de procesos) aparecía el mensaje:
+  *"Error en fecha 07-05-2026 00:00:00"*
+- Los saldos de los días afectados eran significativamente inferiores
+  a los días anteriores o habían sido introducidos manualmente.
+- No se generaban saldos automáticos para ningún usuario desde esa fecha.
+
+ Un usuario tenía dos puestos activos simultáneamente en la tabla
+CPPUESTOS (L_VALIDO = 'S' y F_HASTA = NULL en ambos) debido a un alta
+por error. Esto provocaba que la vista CP_VI_USUARIOS_H devolviera dos
+registros para ese usuario, causando el error ORA-01427 en CP_PK_JORNADA
+y abortando el cálculo de saldos para todos los usuarios.
+
+SOLUCIÓN APLICADA
+-----------------
+Se invalidó el puesto dado de alta por error (X_PUESTO = 'xxxxxx'):
+ 
+  UPDATE HERMES.CPPUESTOS
+  SET F_HASTA        = TO_DATE('06/05/2026','DD/MM/YYYY'),
+      L_VALIDO       = 'N',
+      MODIFICADOR    = '[USUARIO]',
+      F_MODIFICACION = SYSDATE
+  WHERE X_PUESTO = 'xxxxxx';
+ 
+  COMMIT;
+ 
+SI VUELVE A OCURRIR
+-------------------
+1. Consultar el error en el log:
+ 
+  SELECT T_LOG, F_INICIO
+  FROM HERMES.CPEJEPRO
+  WHERE PRO_X_PROCEDIMIENTO = 5
+  ORDER BY F_INICIO DESC
+  FETCH FIRST 5 ROWS ONLY;
+ 
+2. Localizar usuarios con puestos duplicados activos:
+ 
+  SELECT USU_X_USUARIO, COUNT(*)
+  FROM HERMES.CPPUESTOS
+  WHERE F_HASTA IS NULL
+  AND L_VALIDO = 'S'
+  GROUP BY USU_X_USUARIO
+  HAVING COUNT(*) > 1;
+ 
+3. Ver el detalle del usuario afectado y determinar cuál es el erróneo:
+ 
+  SELECT X_PUESTO, EOR_X_ESTORG, F_DESDE, F_HASTA, L_VALIDO
+  FROM HERMES.CPPUESTOS
+  WHERE USU_X_USUARIO = [X_USUARIO]
+  ORDER BY F_DESDE;
+ 
+4. Invalidar el puesto erróneo y hacer COMMIT.
+
+</panel> 
+</WRAP>
+
+[[start|Volver atrás]]

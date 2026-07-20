@@ -1,0 +1,45 @@
+﻿
+====== Actualizar tabla temis.usuarios_global para usuario VPN ======
+
+Este procedimiento básicamente consiste en actualizar la tabla **temis.usuarios_global** de PROD02 para asignar una IP a un usuario de VPN.
+
+Por lo que a GTBD se refiere, se pasa a detallar los pasos para su ejecución.
+
+Adicionalmente se adjunta plantilla para actualizar la tabla **temis.usuarios_global** de PROD02 cuando se hacen asignaciones de VPN masivas.
+
+----
+
+**Ticket en REMEDY:**
+
+En el Diario del ticket, veremos la información de la cuenta LDAP que se usará para la VPN.
+
+Iremos al punto 1:
+
+//1.- GTBD, actualizad la tabla de temis usuarios-global, el campo IP del usuario EGONZALEZVA: 10.220.9.57//
+
+//Después reasignar a GTSW.//
+
+**//1. Conexión con PROD02.// **
+
+En primer lugar, debemos conectarnos a PROD02 como SYSTEM (password en el keepass).
+
+**2. Comprobación de que el usuario no tiene ninguna IP asignada:** \\
+Ejecutamos una de las siguientes sentencia (dependiendo si el usuario nos lo dan en mayúsculas o en minúsculas) para comprobar que el usuario existe y que no tiene ninguna IP asignada:
+
+//Ejemplo://
+
+select C_USUARIO, T_IPVPN1V4 from temis.usuarios_global where upper(c_usuario)=upper('//EGONZALEZVA//');
+
+**3. Ejecutamos el update correspondiente del campo //T_IPVPN1V4//:**
+
+//Ejemplos://
+
+update temis.usuarios_global set T_IPVPN1V4 = '10.220.9.57' where upper(c_usuario)=upper('//EGONZALEZVA//');
+
+**4. Comprobamos que el usuario tiene la IP asignada ejecutando de nuevo el **paso 2.
+
+**5. Si todo está correcto, hacemos ****"**commit;**".**
+
+**6. Anotamos los cambios en el **//Diario//** del ticket y lo reasignamos a GTSW.**
+
+

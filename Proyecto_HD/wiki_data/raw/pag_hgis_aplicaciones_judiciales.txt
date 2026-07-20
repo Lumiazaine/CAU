@@ -1,0 +1,109 @@
+﻿
+<WRAP> <panel type="primary" title="Categoría de Servicio: APLICACIONES JUDICIALES">
+
+\\
+<WRAP> <panel type="info" title="1. Introducción y Alcance">
+Esta categoría engloba todas las solicitudes, **Incidencias (INC)** y **Órdenes de Trabajo (WO)** relacionadas con **Aplicaciones de Judiciales** distintas al sistema procesal principal (ADRIANO). Es crucial para la correcta asignación al grupo resolutor adecuado y la gestión del ticket.
+</panel> </WRAP>
+
+<WRAP> <panel type="info" title="2. Flujo de Categorización General (BMC Helix)">
+Esta categoría utiliza una doble estructura de clasificación: Categoría Operacional (que describe el tipo de problema) y Categoría de Producto (que identifica la aplicación específica).
+
+A continuación, presentamos la correcta tipificación en desde SmartIT:
+
+===== 2.1. Categorización Operacional (N1 y N2) =====
+^ Nivel 1 ^ Nivel 2 (Problema) ^
+| Aplicaciones judiciales | Error funcional |
+| Aplicaciones judiciales | Lentitud |
+| Aplicaciones judiciales | Problemas de acceso |
+| Aplicaciones judiciales | Error técnico |
+| Aplicaciones judiciales | Configuración |
+| Aplicaciones judiciales | Instalación |
+| Aplicaciones judiciales | Asistencia funcional |
+
+===== 2.2.  Categorización de Producto (N1, N2 y N3) =====
+^ Nivel 1 ^ Nivel 2 ^ Nivel 3 (Producto) ^
+| Aplicaciones judiciales | Aplicaciones judiciales | Administración iml |
+| Aplicaciones judiciales | Aplicaciones judiciales | Agenda iml |
+| Aplicaciones judiciales | Aplicaciones judiciales | Arconte |
+| Aplicaciones judiciales | Aplicaciones judiciales | Ateneo (Cita previa) |
+| Aplicaciones judiciales | Aplicaciones judiciales | Cuenta de consignaciones |
+| Aplicaciones judiciales | Aplicaciones judiciales | Dicireg |
+| Aplicaciones judiciales | Aplicaciones judiciales | Escritorio judicial |
+| Aplicaciones judiciales | Aplicaciones judiciales | Evid (Escritorio Virtual de Inmediación Digital) |
+| Aplicaciones judiciales | Aplicaciones judiciales | Fortuny (distinto de EDOC) |
+| Aplicaciones judiciales | Aplicaciones judiciales | Fortuny (EDOC) |
+| Aplicaciones judiciales | Aplicaciones judiciales | Gestión de historiales iml |
+| Aplicaciones judiciales | Aplicaciones judiciales | Gestor de incidencias/peticiones |
+| Aplicaciones judiciales | Aplicaciones judiciales | Hermes |
+| Aplicaciones judiciales | Aplicaciones judiciales | Lexnet |
+| Aplicaciones judiciales | Aplicaciones judiciales | Nexo burofax |
+| Aplicaciones judiciales | Aplicaciones judiciales | Nueva sede judicial electrónica |
+| Aplicaciones judiciales | Aplicaciones judiciales | Orfila |
+| Aplicaciones judiciales | Aplicaciones judiciales | Otros |
+| Aplicaciones judiciales | Aplicaciones judiciales | Portafirmasng |
+| Aplicaciones judiciales | Aplicaciones judiciales | Portales adriano |
+| Aplicaciones judiciales | Aplicaciones judiciales | Quenda (Gestión de turnos) |
+| Aplicaciones judiciales | Aplicaciones judiciales | Siraj |
+| Aplicaciones judiciales | Aplicaciones judiciales | Temis |
+| Aplicaciones judiciales | Aplicaciones judiciales | Temisws |
+| Aplicaciones judiciales | Aplicaciones judiciales | Textualización |
+| Aplicaciones judiciales | Aplicaciones judiciales | Textualizacion l2 |
+| Aplicaciones judiciales | Aplicaciones judiciales | Verifirma |
+| Aplicaciones judiciales | Aplicaciones judiciales | Visor adriano |
+</panel> </WRAP>
+
+<WRAP> 
+<panel type="danger" title="3. Asignación de Tickets (Grupos Resolutores) - INFORMACIÓN CLAVE ">
+La asignación se realiza en base al Producto (N3) y puede variar si el ticket es una Incidencia (INC) o una Orden de Trabajo (WO).
+
+^ Producto (N3) ^ Tipo de Ticket ^ Grupo Resolutor Asignado ^ Notas / Excepciones ^
+| Administración iml | Solo INC | Servicios/RunTime | Peticiones NO EXISTEN. |
+| Agenda iml | Solo INC | Servicios/RunTime | Peticiones NO EXISTEN.  |
+| Arconte | INC / WO | Nivel 1/Centro de servicio al usuario | Comparten grupo resolutor |
+| Nexo burofax | INC / WO | **VER NOTAS** | **Diferencia de Nivel:** WO va a Nivel 1. INC va a Nivel 3/Nexo burofax. |
+| Ateneo (Cita previa) | INC / WO | Nivel 1/Centro de servicio al usuario | Comparten grupo resolutor |
+| Escritorio judicial | INC / WO | Nivel 1/Centro de servicio al usuario | Comparten grupo resolutor |
+| Evid (Escritorio Virtual de Inmediación Digital) | Solo WO | Nivel 1/Centro de servicio al usuario | Incidencias NO EXISTEN (derivan a Ministerio). |
+| Fortuny (EDOC) | Solo INC | DT_Provincia (problemas con EDOC) | Peticiones NO EXISTEN (derivan a Ministerio). |
+| Gestión de historiales iml | Solo INC | Servicios/RunTime | Peticiones NO EXISTEN.  |
+| Quenda (Gestión de turnos) | INC / WO | Nivel 1/Centro de servicio al usuario | Comparten grupo resolutor |
+| Hermes | Solo WO | Nivel 1/Centro de servicio al usuario | Incidencias NO SE GESTIONAN  |
+| Nueva sede judicial electrónica | INC / WO | **VER NOTAS** | **Diferencia de G.R.:** WO va a Servicios /Nueva sede. INC va a Nivel 1/Centro de servicio al usuario. |
+| Orfila | INC / WO | Nivel 3/Ministerio: cau@justicia.es | Comparten grupo resolutor |
+| Otros | INC / WO | Nivel 1/Centro de servicio al usuario | Comparten grupo resolutor |
+| Portafirmasng | INC / WO | Servicios internos/RunTime | Comparten grupo resolutor |
+| Portales adriano | INC / WO | Servicios/Oficina técnica | Comparten grupo resolutor |
+| Gestor de incidencias/peticiones | INC / WO | **VER NOTAS** | **Diferencia de G.R.:** WO va a Servicios internos/Desarrollo. INC va a Sistemas/GTSW. |
+| Temis | INC / WO | Servicios internos/RunTime | Comparten grupo resolutor |
+| Temisws | INC / WO | Servicios internos/RunTime | Comparten grupo resolutor|
+| Textualizacion | INC / WO | Servicios/Textualización | Comparten grupo resolutor |
+| Verifirma | Solo INC | Servicios/Adriano | Peticiones NO EXISTEN. |
+
+---
+
+ **3.1. Detalle de Asignación Diferenciada (Nexo, Sede, Gestor)**
+
+| Producto (N3) | Tipo de Ticket | Grupo Resolutor Asignado |
+| **Nexo burofax** | Orden de Trabajo (WO) | Nivel 1/Centro de servicio al usuario |
+| **Nexo burofax** | Incidencia (INC) | Nivel 3/ Nexo burofax |
+| **Nueva sede judicial electrónica** | Orden de Trabajo (WO) | Servicios /Nueva sede |
+| **Nueva sede judicial electrónica** | Incidencia (INC) | Nivel 1/Centro de servicio al usuario |
+| **Gestor de incidencias/peticiones** | Orden de Trabajo (WO) | Servicios internos/Desarrollo |
+| **Gestor de incidencias/peticiones** | Incidencia (INC) | Sistemas/GTSW |
+
+</panel>
+ </WRAP>
+
+<WRAP> <panel type="info" title="4. Zero Touch / Redirección DWP (No Genera Ticket ITSM)">
+Las siguientes aplicaciones, al ser seleccionadas en el portal de usuario (DWP), no generan un ticket ITSM en BMC Helix para los técnicos. En su lugar, el usuario recibe directamente la información de contacto o el enlace para remitirse al punto de soporte o aplicación correspondiente:
+
+  * **Dicireg**
+  * **Siraj**
+  * **Cuenta de consignaciones**
+  * **Lexnet**
+  * **Nueva sede judicial electrónica:** Se hace desde la propia página (hay que poner enlace).
+  * **Fortuny (distinto de EDOC)**
+**Nota para el Técnico:** Si un ticket de esta categoría entra por vía telefónica o email (no DWP), aplique el G.R. indicado en la Sección 3 o remítalo al centro de servicio (Nivel 1).
+</panel> </WRAP>
+</panel> </WRAP>

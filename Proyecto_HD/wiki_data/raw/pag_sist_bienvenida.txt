@@ -1,0 +1,317 @@
+﻿
+====== Kit de Bienvenida ======
+
+====== Introducción ======
+
+Desde el área de Sistemas se proporciona un servicio integral al área de Sistemas y Planificación del Servicio de Informática Judicial de la //Dirección General de Infraestructuras y Sistemas// (DGIS) de la //Consejería de Justicia e Interior// (CJI), que permita asumir la gestión integral de las plataformas e infraestructura tecnológicas hardware y software soporte de los sistemas de información judicial.
+
+Se entiende por gestión integral el diseño, instalación, configuración, administración, monitorización, soporte a usuarios, elaboración de toda la documentación técnica asociada, así como la optimización del rendimiento, disponibilidad, y la gestión de los niveles de calidad del servicio suministrado.
+
+====== Alcance del Servicio ======
+
+El servicio debe cubrir todo el entorno tecnológico de los sistemas judiciales responsabilidad de la Consejería:
+
+  * El Centro de Proceso de Datos principal, ubicado en las instalaciones del Servicio de Informática Judicial de la Consejería.
+  * Servidores e infraestructuras de comunicación de las sedes judiciales, incluídos sistemas audiovisuales (salas de vistas y videoconferencias) e infraestructuras que requieran configuración coordinada desde SSCC .
+  * Gestión de inventario y comunicaciones de los juzgados de paz.
+
+Actualmente se propociona servicio a:
+
+  * Nº de Sedes: 148
+  * Nº de Usuarios: 11797
+  * SSVV
+  * Juzgados de paz.
+
+===== Grupos de Trabajo =====
+
+Para la prestación del servicio se han definido una serie de grupos de trabajo:
+
+  * **[[:pag_gtab|GTAB]]** : Grupo de trabajo de Almacenamiento y Backup. Administra además la tecnología HP-UX.
+  * **[[:pag_gtbd|GTBD]]**: Grupo de trabajo que gestiona las Bases de Datos.
+  * **[[:pag_gtsl|GTSL]]**: Grupo de trabajo servidores Linux.
+  * **[[:pag_infraes|GTSR]]**: Grupo de trabajo de seguridad y redes. Administra infraestructura y servicios relacionados con las comunicaciones, así como proporcionar servicios relacionados con la Seguridad.
+  * **GTSW**: Grupo de trabajo servidores Windows. Administran infraestructura y servicios de negocio relativos a tecnología Windows. Administran además la plataforma de virtualización VMWARE.
+===== Líneas de Servicio =====
+
+Para el soporte se han establecido una serie de líneas de servicio:
+
+  * Servicios de gestión de servidores: servicio proporcionado por grupos GTAB, GTSL y GTSW.
+  * Servicios de gestión de las comunicaciones: servicio proporcionado por grupo GTSR.
+  * Servicios de seguridad: servicio proporcionado por todos los grupos de trabajo.
+  * Servicios de gestión de BD: proporcionado por GTBD.
+  * Servicios de Salvaguardia y Copias de Respaldo: proporcionado por GTAB
+  * Servicios de administración de Servidores de Aplicaciones y Servidores Web: proporcionado por GTSL y GTSW.
+  * Servicios de Administración de Servidores de Red: servicio proporcionado por GTSL y GTSW
+  * Servicios de relacionados con los Sistemas Audiovisuales: servicio proporcionado por técnicos de SSVV
+  * Servicios de gestión de la microinformática e Inventario: servicio proporcionado por miembros de planificación
+  * Servicios de despliegue y soporte en los proyectos tecnológicos: Servicio proporcionado por GTSL.
+
+===== Servicios de Negocio =====
+
+**GTSW:**
+
+  * [[http://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/Servicio+de+Negocio+Adriano|Servicio de Negocios Adriano]]
+  * [[http://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/Servicio+de+Negocio+Remedy|Servicio de Negocios Remedy ]]
+
+**GTSL:**
+
+  * **[[:pag_alfresco|Servicio de negocio Alfresco]]**
+  * [[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/cargador|Servicio de negocio Cargador]]
+  * [[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/ESCRITORIO JUDICIAL|Servicio de negocio Esctritorio Judicial]]
+  * **[[:pag_hermes|Servicio de negocio Hermes]]**
+  * **[[:pag_jara|Servicio de negocio Jara]]**
+  * [[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/Portafirmas|Servicio de negocio Portafirmas]]
+  * [[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/Portal Adriano|Servicio de negocio Portal Adriano]]
+  * [[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Aplicaciones/Sede|Servicio de negocio Sede Electrónica]]
+  * [[http://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/Servicio+temis|Servicio de negocio Temis]]
+
+===== Infraestructura =====
+
+[Resumen del equipamiento que tenemos en SSCC y en Sedes —Actualizar dibujos RACK]
+
+**Sede Servicio Centrales**
+
+  * Cabinas de Almacenamiento (Keepas de Almacenamiento)
+      * ALMERIA - ALCJ - HITACHI
+      * CORDOBA - CO1C - MSA-2040
+      * GRANADA - GR1C - MSA-2040
+      * GRANADA - GR3C- MSA-2040
+      * HUELVA - HU8C - MSA-2040
+      * SEVILLA - SE2C - DS-4700
+      * SEVILLA - SE4C - HP P6000 EVA
+      * SEVILLA - SE6C - MSA-2040
+  * Sais
+      * Sai SOCOMEC MASTERSYS 60KVA
+      * Sai MGE\EATON EVOLUTION 1550
+      * Sai MGE\EATON EVOLUTION S 3000
+      * Sai HP UPS R/T3000 G2
+      * Sai RIELLO UPS VST 1500
+      * Sai SOCOMEC NETSYS PR 1,7kVA
+  * Lineas de datos
+      * Principal, Macrolan 1G/1G
+      * Backup, Macrolan 100M/100M
+  * Elementos de Comunicaciones
+      * 2 Cortafuegos Fortinet 1000D Activo-Pasivo
+      * 2 Cortafuegos Fortinet 3600C Activo-Pasivo (Túneles VPN)
+      * 2 Balanceadores F5 BIGIP 4000
+      * 2 Switches HP 7510 (CORE de RED)
+      * 4 Switches HP 5820 (TOR)
+      * 6 Switches H3C 4800G (CORE servidores antiguo)
+      * 5 Switches para usuarios, y gestión de servidores.
+  * Servidores Blade, Chasis
+  * Librerías de Cintas
+  * Servidores Físicos
+  * Entorno de virtualización: Versión, nº servidores virtuales, etc.
+      * iusswvcs02:
+        * GTSL: 1 mv de producción, 7 mv de preproducción y 1 mv de formación
+      * iusswvcs03:
+        * GTSL 109 mv de producción, 25 mv de preproducción y 3 mv de formación.
+
+**Sedes**
+
+  * Nº de Servidores arquitectura x86/x64
+      * 166 Servidores x64
+      * 1 Servidores x83 (JUSTICIAJA2C)
+  * Líneas de datos
+      * 149 Lineas Principales
+      * 25 Lineas Backup
+  * Otros elementos de comunicación:
+      * 687 Switches
+      * 173 FWs-VPN
+  * Clusters Windows / Unix
+      * 8 Clusters
+  * Sais
+      * 234 [Actualizar]
+        * 30 - HP UPS R/T3000 G2
+        * 15 - MGE\EATON EVOLUTION S 3000
+        * 7 - MGE\EATON EVOLUTION 1550
+        * 162 - RIELLO UPS VST 1500
+        * 20 - SOCOMEC NETSYS PR 1,7kVA
+  * Cabinas de almacenamiento
+      * 8 Cabinas
+
+**Bases de Datos**
+
+  * Volumetrías almacenadas: [[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/Volumetria_BBDD_sedes|http://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/Volumetria_BBDD_sedes]]
+
+==== SSCC ====
+
+La información relativa a la infraestructura existente en SSCC está localizable en el siguiente [[http://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/SSCC|enlace]]
+
+==== Sedes ====
+
+Los diagramas de las infraestructuras de almacenamiento y red de las diferentes redes los podemos localizar en el siguiente [[http://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/Infraestructuras-sedes|enlace]].
+
+====== Organigrama ======
+
+{{https://xwiki.justicia.junta-andalucia.es/xwiki/bin/download/Sistemas/KBV/CUADROSIJ15-7-2018E.png?nolink&|Consultado  Jefe de Sistemas (pendiente de elaborar)}}
+
+====== Altas y Bajas Técnicos ======
+
+  * **Alta**
+Las altas de nuevos técnicos de sistemas se realizan mediante petición vía Remedy al grupo de Sistemas - Coordinación
+
+Indicando nombre, apellidos, Dni, correo electrónico de empresa y grupo de trabajo al que pertenece.
+
+Adjuntar solicitud debidamente rellena y firmada por nuevo técnico, la plantilla se encuentra en **[[\\iusnas05\sij\Comun\Procedimientos_Comunes\Alta_y_Baja_de_personal_SSCC|]].**
+
+**{{https://xwiki.justicia.junta-andalucia.es/xwiki/bin/download/Sistemas/KBV/Capturadepantalla2017-05-0512-14-10.png?nolink&|Capturadepantalla2017-05-0512-14-10.png}}**
+  * **Baja**
+Las bajas técnicos de sistemas se realizan mediante petición vía Remedy al grupo de Sistemas - Coordinación
+
+Indicando nombre, apellidos y Dni.
+
+{{https://xwiki.justicia.junta-andalucia.es/xwiki/bin/download/Sistemas/KBV/Capturadepantalla2017-05-0512-14-54.png?nolink&|Capturadepantalla2017-05-0512-14-54.png}}
+
+====== Herramientas de Gestión ======
+
+===== Gestión Documental =====
+
+La documentación de sistemas la podemos encontrar en el espacio de [[http://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/WebHome|sistemas]] de la [[http://xwiki.justicia.junta-andalucia.es/xwiki/bin/|xwiki. ]]
+
+Tanto la documentación antigua, como los datos que están sujetos a variaciones, como la documentación que todavía no se ha actualizado en la xwiki la podemos encontrar en el siguiente repositorio de la NAS **[[\\Iusnas05\sij\Sistemas|]]\**
+
+===== CMDB =====
+
+  * Inventario de ips [[http://gestioip/gestioip|gestioip]]
+  * [[http://cmdb.justicia.junta-andalucia.es/cmdbuild/management.jsp|CMDBUILD ]]
+  * Temis (Para el personal)
+  * Tablas ROE (Visbilidades y permisos en Aplicaciones)
+  * Inventario (tabla) de sistemas
+  * AD
+
+===== Gestión de la Demanda =====
+
+La gestión de la demanda se atiende con las siguientes herramientas:
+
+  * [[http://incidencias2.justicia.junta-andalucia.es/arsys/shared/login.jsp|Remedy]] herramienta de gestión de la demanda de todo el servicio. Existe un cliente pesado en \**\iusnas05\sij\Software\Puesto-Trabajo\Remedy\Clientes_7_01**
+      * El manual de operatoria Remedy se encuentra en el siguiente repositorio **[[\\iusnas05\sij\CAU-2012\Procedimiento|]] y Experiencia en CSU\Operatoria CSU\REMEDY**
+  * [[https://ws149.juntadeandalucia.es/jira2/|Jira]] para atender la demanda procedente del equipo de desarrollo.
+
+===== Almacén de credenciales =====
+
+Para mantener las credenciales se emplean el gestor de contraseñas [[http://keepass.info/|keepass]]. Existe una base de datos para cada grupo tecnológico y las podemos encontrar almacenadas en la ubicación **[[\\Iusnas05\sij\Sistemas\Claves|]]**.
+
+===== Herramientas de Sistemas =====
+
+**Todos los equipos:**
+
+  * [[https://iusslmonitor06.justicia.junta-andalucia.es/zabbix/|Zabbix old]]
+  * [[https://zabbix.justicia.junta-andalucia.es/zabbix/|Zabbix NA]]
+  * [[http://iusawstats01.justicia.junta-andalucia.es/awstats.php|AwStats]]
+  * [[http://iussllogs01.justicia.junta-andalucia.es/|SysLog]]
+  * [[https://infosistemas.justicia.junta-andalucia.es/listadoscripts/|Listado Scripts Sistemas]]
+  * [[https://correo.juntadeandalucia.es/|Web corporativa]]
+
+**GTAB:**
+
+  * Networker 8.2 - Sedes: [[http://iusslrdpats01.justicia.junta-andalucia.es:9000/|iusslrdpats01.justicia.junta-andalucia.es:9000]]
+  * Networker 9.2 - SSCC: [[http://iusslnsrsrv01.justicia.junta-andalucia.es:9000/|iusslnsrsrv01.justicia.junta-andalucia.es:9000]]
+  * DataDomain 2500: [[http://iusapback01.justicia.junta-andalucia.es/ddem/login/|iusapback01.justicia.junta-andalucia.es/ddem/login/]]
+  * DataDomain 4200: [[http://iusapback02.justicia.junta-andalucia.es/ddem/login/|iusapback02.justicia.junta-andalucia.es/ddem/login/]]
+  * DataDomain 2500 (Málaga): [[http://iusapback03.malaga.justicia.junta-andalucia.es/ddem/login/|iusapback03.malaga.justicia.junta-andalucia.es/ddem/login/]]
+  * DataDomain 6800: [[http://iusapback04.justicia.junta-andalucia.es/ddem/login/|iusapback04.justicia.junta-andalucia.es/ddem/login/]]
+  * HP 3PAR:[[https://iusswvcs03.justicia.junta-andalucia.es:8443/#/login|https://iusswvcs03.justicia.junta-andalucia.es:8443/#/login]]
+  * MSL6480: [[http://10.241.130.7/index.php|http://10.241.130.7/index.php]]
+  * MSA2040-MACJ: [[http://10.209.64.50/v3/index.html|http://10.209.64.50/v3/index.html]]
+  * MSA2040-SE6C: [[http://10.241.146.25/v3/index.html|http://10.241.146.25/v3/index.html]]
+  * MSA2040-HU8C: [[http://10.145.52.29/v3/index.html|http://10.145.52.29/v3/index.html]]
+  * MSA2040-GR3C: [[http://10.113.34.1/v3/index.html|http://10.113.34.1/v3/index.html]]
+  * MSA2040-GR1C: [[http://10.113.49.25/v3/index.html|http://10.113.49.25/v3/index.html]]
+  * MSA2040-CO1C: [[http://10.81.128.120/v3/index.html|http://10.81.128.120/v3/index.html]]
+
+**GTBD:**
+
+  * xwiki procedimientos GTBD: [[http://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/PGTBD|http://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/PGTBD]]
+  * xkiki general:[[http://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/WebHome|http://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/WebHome]]
+  * Grid Control: [[http://oragrid.justicia.junta-andalucia.es:7202/em/console/home|http://oragrid.justicia.junta-andalucia.es:7202/em/console/home]]
+  * sqlplus
+  * BMC Remedy
+  * KeePass
+
+**GTSR:**
+
+  * [[http://10.241.131.3:8080/imc/|IMC]]
+  * [[http://smokeping.justicia.junta-andalucia.es/cgi-bin/smokeping.cgi|SmokePing]]
+  * [[https://10.241.192.11/tmui/login.jsp?msgcode=2&|F5]]
+  * [[https://10.241.128.2/index.htm?action=login|Analyzer01]]: empleado para visualizar logs de cortafuegos de Sedes (no están todas).
+  * [[https://10.241.131.2/index.htm?action=login|Analyzer02]]: empleado para visualizar logs de cortafuegos de SSCC.
+  * [[http://10.241.192.9/login.htm|Fortimanager ]]
+  * [[https://10.241.252.1/login|Fw SSCC]]
+  * [[http://10.241.129.201:49152/viewvc/cvsroot/|RANCID]]
+  * [[http://10.241.129.201/gestioip/|GestioIP]]
+  * 3COM Network Director (en iussec07)
+
+**GTSW:**
+
+  * Herramientas Administración Windows Server
+  * DameWare
+  * [[https://iusswvcs03.justicia.junta-andalucia.es/vsphere-client/?csp|VMware vSphere Client]]
+  * [[https://iusswvcs04.justicia.junta-andalucia.es/websso/SAML2/SSO/vsphere.local?SAMLRequest=zZRdb9MwFIbv+RWR7xOnXmCp1XQqKxOT9lGWghA3yHVOV6PEDj5O0v17nLSFaoKpu+MuH+e8ec/7+GRysa3KoAWLyuiMjKKYBKClKZR+zMjn5VWYkovpmwmKqqz5rHEb/QA/G0AXzBDBOt92aTQ2FdgcbKskXOsCthnxQnNfprRwg/TGuRo5papB7FqJcRL9aPx7qYS/0E6EQheibPp7QNrBCtHQfHZ7w2ie39MW6w1YiEojRUmCK2MlDH4yshYlAgmu5xn5vkoFK5L1eDyK2bs4TeX5ap0U47fnIk1kKvsyXAhE1cKfRsTG20YntMsIi1kSxuchS5ZxylnMR6MoHY+/kWBhjTPSlO+V3uXTWM2NQIVciwqQO8l7w5xFMV/tipB/XC4X4eI+Xw4CrSrA3vnqjJyWBE+SMxJ8ORBiPSHPTCMfmLxsot47JtM9wWFUe7qAOEAm01cCbBTt9Q8gK3CiEE5M6LGRnS1W8z6R6/nClEo+BbOyNN2lBeF8Ss42MOCuhHvZa/9EFeF6KOV1nxg60I4E+aLX/9SIUq0V2Fcfxn/McgyCnUqC7mfmfm0K1UeLxzIn43iushdpfctuPj9eW3XCr4w0FUW5gUogFc7ZcBCmLB4xGif0w9an1J8uPAy0RfVbo+u6qDuLjH30DfGIfr29yQetUA0b06+Ur+fuqfa0+s/zB9DQiVUJS//sLwP/R1bnUMLjsVX6HM70cGKPf37TXw==&SigAlg=http://www.w3.org/2001/04/xmldsig-more#rsa-sha256&Signature=Hr1Z9/4CHL3eRyFBhtUgK37R6KLYS+He7jNXqwoxe7mfC8/H0WO+e5h4BI9xQpB9cN8k6D1nv4EOI7O0EBtOMH7ydl4+q0dtNNMwfwqOHMUYpFj7DF+h+YH0/c0yV37VfIkKnbkUEWNTymWdrZGzvslcLrNPlgIk5CneWkjZVBi2+3+OiKsfpRVSoR0Eh8op9z0IjgENS4go5ZhK86a48EavIvzFTK++06DgyrF1g8uGpUx05ZgNePhcCgcObcRrXulCEBUKl08//LLQFYGy/pfoXgi64kJ/arS24LoI00G3hB+Fko7mY7NnQY12P1Fkh+L+pBQlG74/xHRKdhZLlg==|VCenter04]]
+  * [[https://iusswvcs05.justicia.junta-andalucia.es/websso/SAML2/SSO/vsphere.local?SAMLRequest=zZRRb5swFIXf9yuQ38FAWFNZIVXWrFqlds1KNk17mQxcEk/GZr4G0n8/Q5ItqrYqfdsbmHuPz7mfzexqV0uvA4NCq5REQUg8UIUuhdqk5PP6xr8kV/M3M+S1bNiitVv1CD9bQOstEMFY13atFbY1mAxMJwq4VSXsUuKElq5MKG5H6a21DTJKRYvYdwWGb4MfrfteCO4elOU+VyWX7fAOSHvIETXNFvd3Mc2yB9phswUDgdQFl8S70aaA0U9KKi4RiHe7TMl3nkzzqEqiJJpUeV5FRcKnUFU5DyclTPPSleGKI4oO/jQits42Wq5sSuIwTvxw6sfJOrxkcciiJLi4SL4Rb2W01YWW74Taz6c1immOApniNSCzBRsMszgIWb4vQvZhvV75q4dsPQp0ogTz0VWn5LxJsCSZEO/LkVA8EHLMFLKRycsmmoNjMj8QHKOa8wX4ETKZvxJgK+igfwRZg+Ult3xGT43sbcUNGyZyu1xpKYonbyGl7q8NcOumZE0LI+6a25e9Diui9KuxlDXDxNCCssTLVoP+p5ZLUQkwrz6M/8hyCiI+lwQ9ZGbu2pRiGC2eypyN47nKQaRzLft8Ll5X99xdmULXFIst1Bwpt9b4ozCNwyimYULf79yUhtOFx0A7FL81+r4P+kmgzcY1hBH9en+XjVq+GG9M4ei4emafGkdr2J49goKe5xLWbu0vgf8jq0uQsDm1Sp/DmR9P7OnPb/4L&RelayState=b71491a4-c00c-4c9e-9fe4-7f00544e179f&SigAlg=http://www.w3.org/2001/04/xmldsig-more#rsa-sha256&Signature=Sm5XkaqdylFiJpx4ORsW3KJgrKwldITXnvvquGKibXjKOjHRRZyWEvdp3rnb6X96EYVOXorgzIGqofN5J1QCuwoJD10y5DVHQTGwr2UvDHDX7fMD7TT/81Hjc6T0s4CxOmyPvHpp9fM8e71XduJx4vaHALDcH6BXpUAGs7sw/f+5SdmTcjmceALxsoZLtnwqYAcnGDu9uOrE+Y6bzf1b7bnd4/eEOxqbPgSOT63fBwqOaUD//mrgk9FAaoZy1Y2EW7ced9Fwa62liFg0lVTrShUKtN8QoDZibBQZqZdQzSJzzBpkwb7dbFEoloA94C+zhfbCmIresfqdGd8g8Ap1jx/8FV4io8v8hAbqXcMXJjZkHpiVpsniqIxavsc9e3NV3J0xx+pT1XDqWt7+faz2Np6QDzjZM+xk26a76XOkqlnhhAVO3DnWAGUo0pZlKk8iQYf/XKPsh2+T6HO59LaRD6yXrg8VL+smxaSMwBJfZehzdb6zswGNjZWT9sRynPly&isDiscovery=true&appUrl=https://iusswvcs05.justicia.junta-andalucia.es/ui/login|VCenter05]]
+  * ISILON X410
+
+**GTSL:**
+
+  * Ansible
+
+**Otras herramientas:**
+
+  * [[http://www.google.com/url?q=http://estadisticaspapelcero.justicia.junta-andalucia.es&sa=D&sntz=1&usg=AFQjCNH-rKqPs68x1_lwdJwghXe4_H3W6w|http://estadisticaspapelcero.justicia.junta-andalucia.es]]
+
+===== Máquinas de Salto =====
+
+  * iusswrdpatw (10.241.252.14) Acceso Rdp. Java 1.4
+
+  * iusswrdpats01 (10.241.252.119) Acceso Rdp
+  * iusswrdpats03 (10.241.252.7) Acceso Rdp
+  * iusswrdpatsw02 (10.241.252.15) Acceso Rdp
+
+  * iusslrdpats01 (10.241.252.111) Acceso SSH
+  * iusslrdpats02 (10.241.252.20) Acceso SSH
+
+  * iusslrdpbd01 (10.241.130.118) Acceso SSH*
+
+====== Resolución incidencias: Servicio 24x7 ======
+
+Los siguientes diagramas representan el flujo básico de resolución de incidencias:
+
+===== Incidencias reactivas: =====
+
+Incidencias iniciadas desde CSU.
+
+{{https://xwiki.justicia.junta-andalucia.es/xwiki/bin/download/Sistemas/KBV/DiagramaFIncidenciaReactivaActual.jpg?nolink&|DiagramaFIncidenciaReactivaActual.jpg}}
+
+===== Incidencias proactivas =====
+
+Alertas detectadas por sistema de monitorización.
+
+{{https://xwiki.justicia.junta-andalucia.es/xwiki/bin/download/Sistemas/KBV/DiagramaFIncidenciaProactivaActual.jpg?nolink&|DiagramaFIncidenciaProactivaActual.jpg}}
+
+====== Contactos ======
+
+La agenda telefónica queda recogida en el siguiente [[http://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/LT|listín telefónico.]]
+
+Las listas de distribución de los diferentes grupos trabajo:
+
+^Nombre^Descripción^Lista de distribución|
+|GTAB|Grupo Trabajo Almacenamiento y Backup|[[_ckgedit_QUOT_sistemas.gtab.ius@juntadeandalucia.es_ckgedit_QUOT_ &lt;sistemas.gtab.ius@juntadeandalucia.es>|sistemas.gtab.ius@juntadeandalucia.es]]|
+|GTBD|Grupo Trabajo BD|[['Sistemas gtbd' &lt;sistemas.gtbd.ius@juntadeandalucia.es>|sistemas.gtbd.ius@juntadeandalucia.es]]|
+|GTSL|Grupo Trabajo Sistemas Linux|[[Sistemas gtsl &lt;sistemas.gtsl.ius@juntadeandalucia.es>|sistemas.gtsl.ius@juntadeandalucia.es]]|
+|GTSR|Grupo Trabajo Seguridad y Redes|[[Sistemas gtsr &lt;Sistemas.gtsr.ius@juntadeandalucia.es>|Sistemas.gtsr.ius@juntadeandalucia.es]]|
+|GTSW|Grupo Trabajo Sistemas Windows|[[_ckgedit_QUOT_Sistemas.gtsw.ius@juntadeandalucia.es_ckgedit_QUOT_ &lt;Sistemas.gtsw.ius@juntadeandalucia.es>|Sistemas.gtsw.ius@juntadeandalucia.es]]|
+|Planificación \\ SSVV|Grupo Trabajo Planificación y Sala de Vistas|[[_ckgedit_QUOT_planificacion.saladevista_ckgedit_QUOT_ &lt;planificacion.salasdevistas.ius@juntadeandalucia.es>|planificacion.salasdevistas.ius@juntadeandalucia.es]]|
+|Coordinación|Coordinacion Equipo de Sistemas|[[Coordinacion Sistemas &lt;Coordinacion.Sistemas.ius@juntadeandalucia.es>|Coordinacion.Sistemas.ius@juntadeandalucia.es]]|
+|Soporte Sistemas|Coordinadores de Grupo de Sistemas (GTBD, GTSL, \\ GTSR, GTSW y Jefe Proyecto)|[[Soporte Sistemas &lt;soporte.sistemas.ius@juntadeandalucia.es>|soporte.sistemas.ius@juntadeandalucia.es]]|
+
+====== Atención a terceros (Proveedores) ======
+
+Soporte a terceros queda recogida en la siguiente [[http://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/SAT3|tabla ]]
+
+====== Calendarios ======
+
+  * Los cambios y actuaciones más relevantes los podemos encontrar agendados en el [[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/MoccaCalendar/|calendario]]
+  * Podemos encontrar el calendario de guardias de sistemas en el enlace [[http://xwiki.justicia.junta-andalucia.es/xwiki/bin/download/Sistemas/Calendarios/PlanificacionGuardiasSistemas.xls|Calendario de Guardia de Sistemas]] (OBSOLETO)
+  * El calendario de guardia del personal técnico (SPU-CRIP) de las diferentes Delegaciones Provinciales está en el enlace [[http://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/OrganosJudiciales/WebHome|Calendario de Guardias Órganos Judiciales]]
+
+

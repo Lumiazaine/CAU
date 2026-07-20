@@ -1,0 +1,785 @@
+﻿
+
+
+[[start|Volver atrás]]
+
+<panel type="info">
+<WRAP info round box>
+====== Guía de Clasificación de Incidentes de Seguridad ======
+</WRAP>
+{{:id92nxzk_k_logos.png?150}}
+
+Esta guía tiene por objeto estandarizar el tratamiento de incidentes de seguridad en función de su clasificación, procedencia, escalado y comunicación, de acuerdo con las prácticas definidas por el CCN-CERT.
+
+El remitente de los correos que nos envían para notificar las incidencias de seguridad:
+
+incidentes.soc@juntadeandalucia.es (antes andalucia.cert@juntadeandalucia.es)
+
+
+
+==== 1. Reglas de Escalado según Procedencia del Ticket ====
+
+  * **▶ Ticket generado por Nivel 1 (N1)**
+      - Procedencia: llamada telefónica, correo del usuario, o gestor de incidencias.
+      - **Escalado inicial:**  DT_Provincia correspondiente.
+      - **Motivo:**  Se conoce la localización del incidente y el DT es responsable de su resolución inicial.
+  * **▶ Ticket generado desde Lucía (alertas de seguridad)**
+      - Procedencia: notificación automática vía email Lucía.
+      - **Escalado inicial:**  Ciberj.
+      - **Motivo:**  La ubicación del incidente se encuentra en el propio mensaje.
+      - **Acciones posteriores:**
+        - Si se identifica ubicación → Escalar a DT_Provincia.
+        - Si requiere notificación → Escalar a CiberJ.
+
+  * **▶ Escalado a CiberJ**
+      - Responsabilidad de notificar al **CCN-CERT (CSIRT)**  si procede.
+      - Encargado de cerrar el ticket en Lucía.
+
+  * **▶ Tickets relacionados**
+      - Si el ticket registrado por Lucía afecta a varias provincias se crearán uno por cada provincia relacionados con el principal, que es el registrado de forma automática         por lucía.
+    
+      * **▶ Automatización de asignación y cálculo de criticidad**
+      - Al crear un ticket y poner la "Categoría operacional y/o Categoría de producto (si procede), al guardar:
+                     __Se asigna automáticamente al equipo encargado de la solución.\\
+                       Se calcula la criticidad de forma automática según la elección de Categorías operacionales y/o de producto.__
+
+====   Tabla de cálculo de criticidad ====
+
+
+^ Tipo de incidente ^ PELIGROSIDAD ^ IMPACTO ^ URGENCIA ^ CRITICIDAD ^
+| Spam | MEDIO | LIMITADO | MEDIA | MEDIA |
+| Delito de odio | MEDIO | LIMITADO | MEDIA | MEDIA |
+| Pornografía infantil, contenido sexual o violento inadecuado | ALTO | LIMITADO | ALTA | ALTA |
+| Sistema infectado | ALTO | LIMITADO | ALTA | ALTA |
+| Servidor C&C (Mando y Control) | ALTO | LIMITADO | ALTA | ALTA |
+| Distribución de malware | MUY ALTO | GENERALIZADO | ALTA | CRITICA |
+| Configuración de malware | MUY ALTO | GENERALIZADO | ALTA | CRITICA |
+| Escaneo de redes (scanning) | BAJO | MENOR | BAJA | BAJA |
+| Análisis de paquetes (sniffing) | BAJO | MENOR | BAJA | BAJA |
+| Ingeniería social | MEDIO | LIMITADO | MEDIA | MEDIA |
+| Explotación de vulnerabilidades conocidas | MEDIO | LIMITADO | MEDIA | MEDIA |
+| Intento de acceso con vulneración de credenciales | MEDIO | LIMITADO | MEDIA | MEDIA |
+| Ataque desconocido | ALTO | LIMITADO | ALTA | ALTA |
+| Compromiso de cuenta con privilegios | ALTO | LIMITADO | ALTA | ALTA |
+| Compromiso de cuenta sin privilegios | MEDIO | LIMITADO | MEDIA | MEDIA |
+| Compromiso de aplicaciones | ALTO | LIMITADO | ALTA | ALTA |
+| Robo | MUY ALTO | GENERALIZADO | ALTA | CRITICA |
+| DoS (Denegación de servicio) | ALTO | LIMITADO | ALTA | ALTA |
+| DDoS (Denegación distribuida de servicio) | ALTO | LIMITADO | ALTA | ALTA |
+| Mala configuración | MEDIO | LIMITADO | MEDIA | MEDIA |
+| Sabotaje | MUY ALTO | GENERALIZADO | ALTA | CRITICA |
+| Interrupciones | MUY ALTO | GENERALIZADO | ALTA | CRITICA |
+| Acceso no autorizado a información | ALTO | LIMITADO | ALTA | ALTA |
+| Modificación no autorizada de información | ALTO | LIMITADO | ALTA | ALTA |
+| Perdida de información | MEDIO | LIMITADO | MEDIA | MEDIA |
+| Uso no autorizado de recursos | MEDIO | LIMITADO | MEDIA | MEDIA |
+| Derechos de autor | MEDIO | LIMITADO | MEDIA | MEDIA |
+| Suplantación | MEDIO | LIMITADO | MEDIA | MEDIA |
+| Phising | ALTO | LIMITADO | ALTA | ALTA |
+| Criptografía débil | MEDIO | LIMITADO | MEDIA | MEDIA |
+| Amplificador DDoS | MEDIO | LIMITADO | MEDIA | MEDIA |
+| Servicios con acceso potencial no deseado | MEDIO | LIMITADO | MEDIA | MEDIA |
+| Revelación de información | MEDIO | LIMITADO | MEDIA | MEDIA |
+| Sistema vulnerable | MEDIO | LIMITADO | MEDIA | MEDIA |
+| Otros | BAJO | MENOR | BAJA | BAJA |
+| APT | CRITICO | GENERALIZADO | CRITICA | CRITICA |
+
+
+     
+
+
+==== 2. Diagrama de Decisión para el Escalado de Incidentes ====
+
+¿De dónde proviene el ticket?
+
+  * **▶ Nivel 1 (usuario / gestor de incidencias):**→ Escalar a → **DT_Provincia**  → DT resuelve o escala a Sistemas
+  * **▶ Email Lucía (registro de incidente automático):**→ Escalar a → **Ciberj**:
+  - Se detecta ubicación → Escala a DT_Provincia.
+  - Si requiere intervención → Escala a **CiberJ**
+  - Si procede → **CiberJ notifica a CCN-CERT**
+  - Una vez modificado estado a "Resuelto" o "Cerrado" se envía correo para notificar del cierre de nuestro ticket.
+
+{{ :pag_ciberseg:ciberj_envio_de_correo_de_cierre.png?600 |}}
+
+</panel>
+<panel type="info">
+
+==== 3. Asignación de Incidentes de Seguridad ====
+
+      - Origen: N1 / Lucía
+      - Escalado: DT → si en **Descripción** en el apartado DATOS DEL EQUIPO, Máquina tiene el valor = Workstation
+      - Escalado: SISTEMAS → si en **Descripción** en el apartado DATOS DEL EQUIPO, Máquina tiene el valor = Sistems server
+
+{{ :pag_ciberseg:ciberj_asignacion_dt_o_sistemas.png?600 |}}
+
+
+ </panel>
+
+<panel type="info">
+
+==== 4. Referencias Operativas ====
+
+  * **Registro de incidentes:**  todos los tickets deben crearse y actualizarse en **JuDiT**.
+  * **Notificación formal:**  CiberJ es responsable de notificar al **CCN-CERT**.
+  * **Revisión periódica:**  Esta guía debe revisarse semestralmente o ante actualizaciones del CCN-STIC.
+</panel>
+
+<WRAP info round box>
+====== RESUMEN OPERATIVO PARA EQUIPOS RESOLUTORES (DT / Sistemas / CSU / RSEG) ======
+
+</WRAP>
+<panel type="info">
+
+
+====1️⃣ Roles y responsabilidades clave====
+
+**Usuario (Detector temprano)**
+  * Detecta anomalías y las notifica al CSU de inmediato.
+  * Tras reportar, queda como Informado, no ejecuta acciones técnicas. 
+**CSU / Nivel 1**
+  * Punto único de entrada de incidentes.
+  * Registra tique (manual o autogenerado desde Lucía).
+  * Realiza triaje básico y descarta falsos positivos.
+  * Asigna el tique a DT o Sistemas según el origen. 
+**Delegaciones Territoriales (DT)**
+  * Primer grupo resolutor técnico en proximidad.
+  * Aíslan equipos, realizan limpieza básica, recogen evidencias.
+  * Escalan a Sistemas si no tienen capacidad de resolución. 
+**Área de Sistemas (GTSR / GTSW / GTSL)**
+  * Soporte avanzado y análisis forense.
+  * Limpieza profunda, parcheo, análisis de red, restauración de servicio. 
+**Responsable de Sistema / Servicio**
+  * Responsable final (A) en contención/resolución.
+  * Autoriza medidas correctoras. 
+**RSEG – Responsable de Seguridad TIC**
+  * Supervisa incidentes de impacto Alto/Muy Alto/Crítico.
+  * Responsable de notificar al SOC para apertura en Lucía cuando proceda.
+  * Coordina con CSIRT y consolida lecciones aprendidas. 
+**SOC**
+  * Solo se informa en incidentes graves.
+  * Abre incidencia en plataforma Lucía cuando lo solicita RSEG. 
+</panel>
+
+<panel type="info">
+
+
+====2️⃣ Flujo maestro de gestión (paso a paso) ====
+
+**Detección y registro**
+  * Puede venir de usuario, herramientas internas (EDR, SIEM) o Lucía.
+  * Si entra desde Lucía → se crea tique automático en JuDiT.
+  * Todo incidente debe registrarse en categoría “Incidente de Seguridad”. 
+**Triaje y asignación (CSU)**
+  * Verificación básica.
+  * Clasificación preliminar.
+  * Asignación inmediata a DT o Sistemas según origen. 
+**Contención, análisis y resolución (DT / Sistemas)**
+  * Aislar equipos o segmentos afectados.
+  * Recoger evidencias (logs, cabeceras, capturas).
+  * Ejecutar medidas según Familia Técnica.
+  * Documentar absolutamente todo en el tique.
+  * Escalar si DT no puede resolver. 
+**Notificación externa al SOC (solo incidentes internos + impacto ≥ Alto)**
+  * La realiza el RSEG (es el único "A/R").
+  * Se envía correo al SOC con evidencias para que registren la incidencia en Lucía.
+**Validación y cierre**
+  * Una vez resuelto, se cierra el tique en JuDiT.
+  * Si el incidente provino de Lucía → JuDiT envía cierre automático a Lucía. 
+</panel>
+
+
+<panel type="info">
+
+====3️⃣ Qué debe hacer cada grupo resolutor según el tipo de incidente (Familias Técnicas)====
+**FAMILIA 1 — Contenido ilegal / Abusivo / Fraude**
+Ejemplos: spam, phishing, delitos, suplantación.
+
+Acciones clave:
+
+  * Bloquear/eliminar contenido o correo malicioso.
+  * Guardar evidencias (cabeceras, capturas).
+  * Escalar al RSEG si hay delitos o impacto ≥ Alto. 
+**FAMILIA 2 — Compromiso de identidades e información**
+Ejemplos: robo de credenciales, modificación no autorizada, fuga de info.
+
+Acciones clave:
+
+  * Aislar equipos implicados.
+  * Bloquear cuentas y forzar cambio de credenciales.
+  * Revisar permisos, restaurar datos, iniciar recuperación (si aplica).
+  * Revisar origen del incidente. 
+FAMILIA 3 — Código malicioso y ataques de red
+**Ejemplos: infección malware, C&C, DDoS, explotación de vulnerabilidades.**
+
+Acciones clave:
+
+  * Aislamiento de sistemas/segmentos afectados.
+  * Análisis forense: logs, tráfico, EDR, firewalls.
+  * Parcheo de vulnerabilidades.
+  * Limpieza profunda antes de volver a producción. 
+**FAMILIA 4 — Anomalías de configuración y disponibilidad**
+
+Ejemplos: mala configuración, sistemas vulnerables, fallos operativos.
+
+Acciones clave:
+  * Corregir configuración / actualizar componente.
+  * Comprobar mediante pruebas/escaneos que la brecha se ha cerrado. 
+</panel>
+
+<panel type="info">
+====4️⃣ Pruebas / Validaciones obligatorias antes de cerrar un incidente====
+De acuerdo al documento, los equipos resolutores deben garantizar:
+
+**Pruebas de contención**
+  * Confirmar aislamiento efectivo.
+  * Verificar eliminación de conectividad sospechosa.
+** Pruebas de erradicación**
+  * Analizar logs + revisar persistencia del atacante.
+  * Comprobar que no quedan restos de malware/configuración alterada.
+**Pruebas de recuperación**
+  * Restaurar servicios afectados.
+  * Validar permisos correctos.
+**  * Verificar integridad/confidencialidad de la información.
+ Pruebas de seguridad finales**
+  * Escaneos post-resolución.
+  * Confirmar que las vulnerabilidades han sido corregidas.
+  * Documentar resultados.
+</panel>
+<panel type="info">
+
+====5️⃣ Cuándo se debe notificar al SOC / Lucía====
+**Es obligatorio cuando:**
+  * El incidente es de origen interno, y
+  * Impacto es Alto, Muy Alto o Crítico.
+La notificación la hace solo el RSEG enviando correo al SOC con evidencias.
+
+Después, JuDiT devuelve cierre automático si el incidente provino de Lucía. 
+</panel>
+
+<panel type="info">
+
+====6️⃣ SLA que deben cumplir los equipos resolutores====
+(Resumen operativo)
+^ Impacto    ^ Respuesta (triaje)    ^ Contención/Resolución    ^ Notificación SOC |
+| Bajo       | 8h                    | 72h                      | No               |
+| Medio      | 4h                    | 48h                      | No               |
+| Alto       | 2h                    | 24h                      | Sí               |
+| Muy Alto   | 1h                    | 12h                      | Sí               |
+| Crítico    | Inmediato             | 24x7 continuo            | Sí (inmediata)   |
+</panel>
+
+
+
+
+
+ 
+
+
+<panel type="info">
+
+<WRAP info round box>
+====== Triaje de Ciberincidentes – Actuación Nivel 1 (N1) ======
+</WRAP>
+
+==== 1. Rol de N1 ====
+
+  - CAU/CRIP: primera capa de atención.
+  - Evalúa el incidente y decide: 
+    - Resolverlo directamente
+    - Escalar a SISTEMAS cuando proceda.
+
+
+==== 2. Cuestiones previas de evaluación ====
+
+Antes de clasificar el incidente:N1 debe responder:
+
+  - Conocimientos: ¿Dispongo de conocimientos para resolverlo?
+  - Recursos: ¿Tengo los permisos/herramientas necesarios?
+  - Responsabilidad: ¿Me corresponde según la matriz de roles?
+  - Impacto: ¿Qué dimensión se ve afectada? 
+    - Disponibilidad
+    - Integridad
+    - Confidencialidad
+
+==== 3. Clasificación inicial (tipo de incidente) ====
+
+N1 debe distinguir entre:
+
+**3.1. Naturaleza lógica** 
+
+Incidentes sobre software o cuentas (ej.: credenciales, caída de servicios). 
+
+**3.2. Naturaleza física**
+
+Incidentes sobre hardware o instalaciones (ej.: robo de dispositivos). 
+
+==== 4. Triaje para incidentes de Naturaleza Lógica ====
+
+**4.1. Verificación de Disponibilidad** 
+
+  - El usuario no tiene credenciales → Reset de contraseña del sistema afectado
+  - El usuario sí tiene credenciales pero el servicio no responde → 
+    - Verificar en Zabbix
+    - Escalar a SISTEMAS
+
+**4.2. Verificación de Integridad**
+
+  - Integridad afectada en PC/móvil → 
+    - Reset contraseña
+  - Análisis y plataformado
+    - Integridad afectada en servidor o infraestructura → 
+  - Verificación Zabbix
+  - Escalar a SISTEMAS
+**
+4.3. Verificación de Confidencialidad** 
+
+  - Cuenta usuario final comprometida → Reset de contraseña
+  - Información corporativa comprometida → 
+    - Verificar en Zabbix
+    - Escalar a SISTEMAS
+  - Incumplimiento de norma de clasificación → 
+    - Escalar al Responsable de la Información.
+
+==== 5. Triaje para incidentes de Naturaleza Física ====
+**
+5.1. Disponibilidad** 
+
+  - Robo de dispositivo corporativo → 
+    - Reset de contraseñas de todos los sistemas accesibles
+  - Fallo en dispositivo del usuario → 
+    - Diagnóstico
+    - Notificar a DT/CRIP
+
+**5.2. Integridad**
+
+  - No aplica a nivel físico
+
+**5.3. Confidencialidad** 
+
+  - No aplica a nivel físico
+
+==== 6. Ejemplos de actuación habitual N1 ====
+
+^ Evento ^ Contención (N1) ^ Actuación ^
+| Intentos de login fallido | Reset contraseña | Verificar licitud |
+| Spam | Indicar no interactuar | Seguir procedimiento de SPAM |
+| Acción sospechosa desde IP | Identificar y aislar | Ejecutar antivirus + revisar integridad |
+| Filtración de cuentas | Identificar cuentas + reset | Concienciación |
+| Robo de dispositivo | Bloqueo AD + resets | Notificar SISTEMAS |
+| Ingeniería social | Reset cuentas afectadas | Notificar SISTEMAS | 
+
+</panel>
+
+
+
+
+
+
+<WRAP> 
+<panel type="info">
+
+====== Procedimiento de Cambio Seguro de Contraseña en Sistemas de Información ======
+{{ :pag_ciberseg:pro-602_procedimiento_de_asignacion_distribucion_y_almacenamiento_de_contrasenas_v1.0_page-0002.jpg?direct&600 |}}
+{{ :pag_ciberseg:pro-602_procedimiento_de_asignacion_distribucion_y_almacenamiento_de_contrasenas_v1.0_page-0007.jpg?direct&600 |}}
+{{ :pag_ciberseg:pro-602_procedimiento_de_asignacion_distribucion_y_almacenamiento_de_contrasenas_v1.0_page-0008.jpg?direct&600 |}}
+{{ :pag_ciberseg:pro-602_procedimiento_de_asignacion_distribucion_y_almacenamiento_de_contrasenas_v1.0_page-0009.jpg?direct&600 |}}
+  * [[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=pro-602_procedimiento_de_asignacion_distribucion_y_almacenamiento_de_contrasenas_v1.0.pdf|Para visualización completa y descarga del procedimiento acceder al siguiente enlace]]
+
+</panel> 
+
+<WRAP> 
+<panel type="info">
+
+====== Procedimiento de Gestión de Accesos Técnicos a Bases de Datos ======
+==== 1. Objeto ====
+
+Establecer el procedimiento para la **asignación, uso, registro y revocación de accesos técnicos**  a las bases de datos gestionadas por la organización, garantizando la trazabilidad, justificación y cumplimiento del Esquema Nacional de Seguridad (ENS).
+
+==== 2. Alcance ====
+
+Este procedimiento aplica a todos los **usuarios con rol técnico**  que requieran acceso a sistemas gestores de bases de datos (SGBD) en **todos los entornos**: producción, preproducción, pruebas, capacitación, desarrollo.
+
+==== 3. Procedimiento ====
+
+**3.1 Solicitud de Acceso **
+
+  - El técnico deberá cumplimentar una **Solicitud de Acceso a Base de Datos**.
+  - La solicitud incluirá:
+      * Nombre completo y DNI del solicitante.
+      * Rol y necesidad justificada.
+      * Entornos a los que requiere acceso.
+      * Nivel de acceso solicitado (lectura, escritura, administración).
+      * Periodo de validez del acceso (si aplica).
+  - La solicitud debe estar **firmada por Jefatura**.
+
+**3.2 Asignación de Acceso **
+
+  - El Administrador de BBDD creará un **usuario nominativo**  en el SGBD (no se permiten cuentas genéricas).
+  - Se configurarán los privilegios mínimos necesarios (**principio de mínimo privilegio**).
+  - Se notificará al usuario técnico la creación del acceso, junto con las condiciones de uso.
+
+**3.3 Gestión de Bajas o Revocaciones **
+
+  - En caso de **baja del técnico**, **cambio de funciones**, o **finalización del proyecto**, el Responsable de Proyecto o RRHH deberá notificarlo inmediatamente al RSI.
+  - El Administrador de BBDD procederá a:
+      * **Revocar y/o eliminar**  el usuario de la base de datos.
+      * Registrar la fecha y motivo de la baja.
+  - En el caso de **cuentas compartidas (desaconsejadas)**:
+      * Cambiar las credenciales inmediatamente tras la baja de uno de los usuarios.
+      * Evaluar la migración a cuentas nominativas.
+  - Esta baja quedará documentada en el repositorio de SSDJ, incluyendo:
+      * Fecha de baja.
+      * Responsable que ordenó la revocación.
+      * Evidencia de ejecución (pantallazo, ticket cerrado, etc.).
+
+</panel> 
+<WRAP> 
+<panel type="info">
+
+====== Cambio de contraseña. **Mi Cuenta** (Junta de Andalucía) ======
+**Versión:** v09r00  
+
+**Fecha:** 20/08/2025  
+
+**Ámbito:** Usuarios Junta de Andalucía 
+ 
+**Aplicación:** MiCuenta – Gestión de Identidad Corporativa  
+
+{{ :pag_ciberseg:flujo_se_cambio_de_contrasena.png?600 |}}
+
+==== 1. Contexto y objetivo ====
+
+Este procedimiento tiene como objetivo guiar al usuario en el **cambio de contraseña corporativa** a través del portal **MiCuenta**, garantizando su correcta sincronización con:
+
+  * Office 365
+
+  * Servicios autenticados contra Directorio Corporativo
+
+  * Red Profesional
+
+  * VPN
+
+  * Servicios sectoriales corporativos
+
+El cambio de contraseña realizado en MiCuenta se propaga automáticamente al resto de sistemas corporativos asociados.
+
+==== 2. Origen de la información ====
+
+1.  Portal oficial: https://micuenta.juntadeandalucia.es 
+
+{{:pag_ciberseg:mi_cuenta.png?600|}}
+ 
+2.  Agencia Digital de Andalucía – Dirección General de Estrategia Digital
+
+==== 3. Métodos disponibles para el cambio de contraseña ====
+
+Existen **tres métodos** para cambiar la contraseña LDAP corporativa:
+
+1.  **MiCuenta** (recomendado)
+
+2.  **Correo corporativo**: https://correo.juntadeandalucia.es/
+
+      * Accesible desde dentro y fuera de la red corporativa  
+
+      * Mayor rapidez en la sincronización de credenciales  
+
+
+3.  **GUIA – Gestión de Identidad**: https://guia3.juntadeandalucia.es/identity
+
+En este procedimiento se describe **únicamente el método recomendado**.
+
+==== 4. Procedimiento paso a paso ====
+
+** 4.1 Acceso al portal**
+
+1.  Acceder a la URL: https://micuenta.juntadeandalucia.es
+
+2.  Pulsar **“Pulse para iniciar sesión”**
+
+{{:pag_ciberseg:mi_cuenta_2.png?600|}}
+
+
+----
+
+ **4.2 Autenticación**
+
+El sistema ofrece dos opciones de acceso:
+
+  * **Acceso con certificado digital**
+
+  * **Acceso con usuario y contraseña**
+<WRAP important round box>
+**Importante:**Si se accede con usuario y contraseña, el usuario debe introducirse **sin** `@juntadeandalucia.es`.
+</WRAP>
+
+**4.3 Cambio de contraseña**
+
+1.  Una vez autenticado, acceder al apartado **“Gestión de Cuenta”**
+
+2.  Seleccionar la opción **“Cambiar Contraseña”**
+
+{{ :pag_ciberseg:mi_cuenta_3.png?600|}}
+
+  - Introducir:
+
+    * Contraseña actual (si se solicita)
+
+    * Nueva contraseña
+
+    * Confirmación de la nueva contraseña
+
+      - Pulsar **Actualizar**
+
+**4.4 Reglas de la contraseña**
+
+La nueva contraseña debe cumplir las siguientes condiciones:
+
+  * Longitud mínima: **8 caracteres**
+
+  * Contener al menos **un dígito (0–9)**
+
+  * Contener **letras mayúsculas y minúsculas**
+
+  * Incluir al menos **un carácter especial**  (por ejemplo: `! @ # $ % & *`)
+
+  * No incluir datos personales evidentes del usuario
+
+==== 5. Consideraciones finales ====
+
+  * El cambio de contraseña se sincroniza con Office 365 y el resto de servicios corporativos.
+
+  * El proceso puede tardar algunos minutos en reflejarse en todos los sistemas.
+
+Para cualquier incidencia, duda o problema durante el proceso, el usuario debe **contactar con el CAU / soporte al puesto de trabajo**.
+
+</panel> 
+
+
+
+<WRAP> 
+<panel type="info">
+
+====== Procedimiento de Entrega de Información Sensible ======
+==== 1. Objetivo ====
+
+Establecer las directrices y procedimientos para la entrega segura de información sensible, garantizando la confidencialidad, integridad y trazabilidad conforme al Esquema Nacional de Seguridad (ENS).
+
+==== 2. Alcance ====
+
+Este protocolo aplica a todo el personal, departamentos y terceros que manejen o soliciten información clasificada como sensible dentro de la organización.
+
+==== 3. Definiciones ====
+
+  * **Información Sensible:**  Datos cuyo acceso no autorizado puede causar perjuicios a la organización o a los interesados.
+  * **Medios Seguros:**  Canales cifrados, dispositivos certificados o mecanismos autenticados para la transmisión de información.
+
+==== 4. Procedimiento ====
+
+**4.1 Solicitud de Información **
+
+  - Toda solicitud debe realizarse por escrito (correo institucional o sistema de tickets).
+  - Debe incluir: motivo, tipo de información, destinatario y nivel de clasificación.
+
+**4.2 Validación de la Solicitud **
+
+  - El Responsable de Seguridad o el Delegado de Protección de Datos (DPD) evaluará la legitimidad y proporcionalidad de la solicitud.
+  - Se verificará la identidad y autorización del solicitante.
+
+**4.3 Preparación de la Información **
+
+  - Se anonimizará o pseudonimizará la información cuando sea posible.
+  - Se aplicarán controles de acceso y marcas de clasificación.
+
+**4.4 Entrega de la Información **
+
+  - Se utilizarán medios seguros:
+      * Correo electrónico cifrado (S/MIME o PGP).
+      * Plataforma de transferencia segura (SFTP, HTTPS con autenticación).
+      * Entrega física en soporte cifrado (USB con cifrado AES-256).
+  - Se registrará la entrega en el Registro de Actividades de Tratamiento (RAT).
+
+**4.5 Confirmación de Recepción **
+
+  - El destinatario debe confirmar la recepción y destrucción segura de copias temporales si aplica.
+
+</panel> 
+</WRAP>
+
+<WRAP> 
+<panel type="info">
+
+====== Procedimiento para la obtención/renovación de certificados digitales ======
+
+==== Objetivo ====
+Establecer las pautas necesarias para la generación, renovación, custodia y registro de certificados digitales utilizados en los sistemas y servicios gestionados por el SSDJ.
+
+==== Alcance ====
+Este procedimiento aplica a todos los certificados digitales de servidor y sello electrónico utilizados en los distintos entornos del SSDJ, incluyendo entornos no productivos y producción.
+
+==== Definiciones ====
+  * **.key**: Fichero que contiene la clave privada. **NO DEBE COMPARTIRSE CON NADIE**.
+  * **.pkcs10 / CSR**: Solicitud de firma de certificado que contiene la clave pública.
+  * **.cer / .crt**: Certificado de clave pública emitido por una autoridad de certificación.
+  * **.p12 / .pfx**: Fichero que contiene el certificado público y la clave privada protegidos por contraseña.
+  * **.pem**: Formato de codificación Base64 (puede contener certificados, claves privadas, o ambos)
+  * **.der**: Formato binario de certificados (Distinguished Encoding Rules)
+  * **.p7b / .p7c**: Certificados en formato PKCS#7 (solo certificados, sin clave privada)
+  * **.p8**: Clave privada en formato PKCS#8
+
+**NOTA**: Es crucial verificar el contenido de un archivo **.pem** antes de compartirlo, mirando las etiquetas BEGIN/END, porque, puede contener: Solo certificado público (compartible), **Solo clave privada (NO compartible)**, **Ambos (NO compartible)** o Cadena de certificados (compartible). Se puede obtener con OpenSSL.
+
+==== Verificación previa ====
+Antes de iniciar el proceso, comprobar si el certificado ya existe y revisar su estado de caducidad.  
+Consultar los siguientes recursos:
+  * ''Inventario.ods'' (en la versión más actual)
+  * Gestor de contraseñas KeePass: ''Certificados.kdbx''
+Ruta: \\iusnas05\SIJ\72. Seguridad\01 Certificados\Gestion y custodia\ (en adelante \\RUTA_GESTION)
+
+==== Inicio del procedimiento ====
+Crear un tique en JuDiT para documentar y controlar el inicio de los trabajos.
+
+Incluir en el tique:
+  * Nombre del sistema o servicio asociado.
+  * Dominio del certificado.
+  * Fecha de caducidad (si aplica).
+  * Responsable funcional o solicitante.
+  * Enlace a la carpeta de trabajo en \\RUTA_GESTION (cuando esté creada).
+
+==== Preparación del entorno ====
+Crear una carpeta de trabajo en \\RUTA_GESTION\01 Almacen\ con la siguiente nomenclatura:  
+**<YYMMDD – descriptor>**, donde **YYMMDD** corresponde a la fecha de caducidad del certificado, que no conocemos a priori.
+
+==== Generación de claves (Etapa 1) ====
+<WRAP alert>
+Solicitar TODOS los certificados con algoritmo de cifrado y firma RSA, ya que, mediante ECC se han evidenciado múltiples fallos.
+</WRAP>
+
+<del>Según el tipo de certificado solicitado:
+  * Para certificados de Servidor Seguro SSL o WildCard:
+    * Certificado cualificado
+    * Clave: ECC P-384
+    * Herramienta: **gccc8ec.jar**</del>
+
+  * Para certificados de Servidor Seguro SSL, WildCard y de Sellos de aplicaciones:
+    * Certificado no cualificado
+    * Clave: RSA 2048
+    * Herramienta: **gccc8.jar**
+
+Las herramientas están disponibles en:  
+\\RUTA_GESTION\02 Herramientas
+
+Abrir la herramienta correspondiente (este proceso de realizará en dos etapas diferenciadas): 
+  * Etapa 1. Generación de las Claves.
+  - Seleccionar carpeta de destino: \\RUTA_GESTION\YYMMDD – descriptor
+  - Introducir nombre descriptivo del certificado (No se permiten los siguientes caracteres \ / : * ? " < > |)
+  - Pulsar **Generar claves** para que se generen los archivos **.key** y **.pkcs10**
+  - Comprobar que se han creado los archivos y cerrar la aplicación
+
+{{:pag_ciberseg:problemas:generador_clave.png?600|}}
+
+==== Solicitud del certificado ====
+Rellenar el formulario de solicitud, disponible en:
+  * \\RUTA_GESTION\03 Formularios
+  * o formulario online https://desarrollo.juntadeandalucia.es/recursos/servicios-apoyo/certificados-electronicos-servidor-y-sello#toc-documentaci-n
+
+Enviar a firma del Jefe de Servicio vía Port@firmas.
+
+Cuando esté firmado el formulario de solicitud, crear tique en NAOS con la categoría:  
+**Administración electrónica - Gestión de certificados de servidor y sello electrónico – (sin determinar)**
+
+Adjuntar:
+  * Formulario firmado (.pdf)
+  * Archivo .pkcs10 (CSR)
+  * **No incluir el archivo .key**
+
+Crear acceso directo al tique NAOS en la carpeta de trabajo.
+
+**NOTA:** En determinadas situaciones, NAOS nos solicitará añadir un registro TXT en DNS. En ese caso, crear un tique en JuDiT para que lo gestione el Departamento de Sistemas. Para comprobar que se ha realizado correctamente se puede utilizar la herramienta https://mxtoolbox.com/TXTLookup.aspx
+
+==== Identificación y procedimiento según el tipo de recepción ====
+
+Al resolverse el tique NAOS y recibir el/los archivo/s, podemos encontrarnos con dos escenarios. En todos los casos, debemos seguir uno de los dos escenarios que se describen a continuación.
+
+**Escenario 1: Solo recibimos el certificado público (.cer/.crt)**
+
+  * En este caso **debemos disponer** de la clave privada **.key** que generamos al crear el CSR.
+
+Generación del certificado (Etapa 2) 
+
+  - Abrir ''Certificados.kdbx''
+  - Crear una entrada nueva con la nomenclatura estándar (como las que hay creadas).
+  - Generar contraseña segura (ver imagen siguiente)
+  - Cerrar ''Certificados.kdbx''
+
+{{:pag_ciberseg:problemas:generar_clave_keepass.png?500|}}
+
+  - Abrir la misma herramienta utilizada en la Etapa 1 (**gccc8.jar** o <del>gccc8ec.jar</del>) y completar la Etapa 2. Generación del Certificado.
+  - Usar los archivos .key y .cer y la contraseña de KeePass generada anteriormente.
+  - Verificar el .p12 generado.
+  - Cambiar el nombre de la carpeta incluyendo la fecha de caducidad.
+
+**Escenario 2: Recibimos paquete completo con .p12**
+
+  * **NO es necesario** ejecutar la Etapa 2. Generación del Certificado.
+  * Los archivos ''.key'' recibidos son exportaciones de nuestra clave .key en diferentes formatos para compatibilidad.
+  * Debemos recibir un correo con la **contraseña del .p12** de forma segura.
+  * Comprobar las fechas de validez.
+
+==== Custodia en KeePass ====
+  - Abrir ''Certificados.kdbx''
+  - En caso de tratarse del Escenario 1, abrir la entrada creada anteriormente en KeePass. En caso del Escenario 2, crear entrada con la nomenclatura estándar y la contraseña proporcionada.
+  - Adjuntar archivos.
+  - En el campo "Notas" documentar:
+    * Emitido para: 
+    * Emitido por: 
+    * Válido hasta: 
+    * Número de serie: 
+    * Fecha de recepción: 
+    * Método recepción (tique NAOS, correo...): 
+    * Tique JuDiT: 
+    * Inventario de archivos recibidos: 
+    * Algoritmo de cifrado y firma: 
+  - Marcar campo **Expires** y fecha de caducidad.
+  - Campo **URL**: indicar la carpeta donde se guardan.
+
+==== Checklist final de custodia ====
+
+  ☐ Entrada creada en KeePass con nomenclatura correcta
+  ☐ Contraseña del .p12 guardada y verificada
+  ☐ Archivos adjuntos en KeePass
+  ☐ Notas completas con información del certificado
+  ☐ Fechas de caducidad documentadas
+  ☐ Archivos .key eliminados del sistema de archivos (solo mantener en Keepass)
+  ☐ Papelera vaciada y emails con claves eliminados
+  ☐ Actualizar ''Inventario.ods''
+
+**Recordatorio**: El archivo KeePass con los certificados debe estar en una ubicación compartida y segura, accesible solo por personal autorizado. Los archivos .crt o .cer públicos pueden compartirse con los proveedores directamente si lo solicitan, pero **NUNCA** compartir archivos .key.
+
+==== Entrega del certificado para su instalación ==== 
+   * Consultar ''Inventario.ods'' para conocer el responsable de la instalación, ya sea, el Departamento de Sistemas (GTSW, GTSL o GTSR) o el Gestor de Proyectos.
+   * Crear un archivo **.zip** que contenga el certificado público **.cer** y el contenedor seguro **.p12**, **protegido con la contraseña del certificado** (la misma que se generó y custodió en KeePass), con cifrado mínimo AES-256.
+   * **NO** incluir NUNCA el archivo **.key** bajo ninguna circunstancia.
+   * Subir el **.zip** a **Consigna**, proteger el acceso a Consigna con una **contraseña adicional**, establecer 1 o 2 semanas de disponibilidad y copiar la URL de descarga.
+   * Crear o reasignar el tique JuDiT existente al responsable de la instalación (Sistemas o Gestor de Proyectos).
+   * Indicar la URL de Consigna e indicar que su acceso está protegido por contraseña y que el .zip está protegido por la contraseña del certificado.
+   * Las contraseñas serán facilitadas por canal distinto y únicamente al responsable de la instalación. **Nunca incluir contraseñas en el tique JuDiT**.
+
+Ejemplo de texto para el tique:
+
+Se adjunta el certificado para la aplicación [nombre_aplicación] en entorno [PRE/PRO].
+El archivo comprimido (.zip) contiene el .cer y el .p12, y está protegido con contraseña.
+La URL de descarga en Consigna también está protegida por contraseña.
+Ambas contraseñas serán facilitadas por canal seguro.
+
+==== Finalización ====
+Actualizar la información en ''Inventario.ods'' (última versión disponible) con:
+
+   * Fecha de caducidad
+   * Tique JuDiT
+
+</panel> 
+</WRAP>
+
+[[start|Volver atrás]]
+
+{{tag>novalidada ciberseguridad cau csu desarrollo sistemas explotación}}

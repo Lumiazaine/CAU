@@ -1,0 +1,33 @@
+﻿
+====== Recursos RCJA ======
+
+**Aplicaciones principales**
+  * **[[http://sioweb.juntadeandalucia.es/rcja/sio/shared/login.jsp?/rcja/sio/|SIO]]** – Sistema de Información Organizativa  
+  * **[[https://intranet.juntadeandalucia.es/rcja/nix/portal/servicios.do?cmd=inicio|NIX]]** – Portal de Servicios  
+  * **[[https://intranet.juntadeandalucia.es/rcja/gdip/|GDIP]]** – Gestión de Diputaciones  
+  * **[[https://intranet.juntadeandalucia.es/rcja/WISIR/login.php|WISIR]]** – Sistema de Información de Recursos  
+  * **[[http://directorio.juntadeandalucia.es/myServlets/es.sadesi.admdirectorio.servlets.LoginInicial|Directorio]]** – Acceso a Directorio Corporativo  
+
+**Monitorización y gestión**
+  * [[http://10.241.131.29/nagios|Nagios]]  
+  * [[http://10.241.192.9/login.htm|FortiManager]]  
+  * [[https://10.241.131.2/login.htm|FortiAnalyzer]]  
+  * [[https://10.241.192.12|F5 Consola gráfica]]  
+  * [[https://lan.juntadeandalucia.es:8443/imc/|iMC Red.es]] ó [[https://10.215.129.15:8443/imc/|iMC Red.es (IP)]]  
+  * [[http://10.241.131.3:8080/imc/|iMC SSCC]]  
+
+**Gestión documental y proyectos**
+  * [[http://cmdb.justicia.junta-andalucia.es/cmdbuild/management.jsp|CMDB]]  
+  * [[http://iussltools01.justicia.junta-andalucia.es/redmine|Redmine]]  
+
+**Aplicaciones corporativas**
+  * [[http://vpn.juntadeandalucia.es/|Software para VPN]]  
+  * [[https://escritoriojudicial.justicia.junta-andalucia.es:446/Escritorio/Portal.do|Escritorio Judicial]]  
+  * [[http://www.pnj.cgpj.es|Punto Neutro Judicial (PNJ)]]  
+  * [[http://juntadeandalucia.es/index.html|Web Junta de Andalucía]]  
+
+----
+
+**Ruta de red compartida**
+  * `\\iusnas05\sij\Sistemas\00\03-SERVICIOS\S13-Comunicaciones\03-Infraestructura\RCJA`
+

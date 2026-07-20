@@ -1,0 +1,108 @@
+﻿
+
+<WRAP> 
+<panel type="primary" title="Procedimientos y Problemas Conocidos de Evid">
+
+[[start|Volver atrás]]
+
+<WRAP> 
+<panel type="info" title="Procedimientos">
+
+A continuación se resume el procedimiento establecido para solicitar y gestionar el alta de un Órgano en EVID:
+Para ver y descargar el procedimiento completo, pinchar en el siguiente enlace: 
+
+{{ :pag_apli:evid:protocolo_alta_evid_v3.odt |}}
+
+=== PROCEDIMIENTO ALTA ===
+
+1. El **usuario** debe de dar de alta una petición asignada a Nivel 1 – Centro de Servicio de Usuario (CAU) con la siguiente documentación:
+  * Un __Formulario de Solicitud Instalación Aplicaciones no Estándar__ firmado por el LAJ del órgano que se va a dar de alta para el uso de la herramienta.
+  * Un __Formulario de Solicitud EVID__ en el que se informarán los datos del Órgano y los usuarios solicitantes. También deben indicarse los Trámites que tendrán que estar disponibles el sistema EVID. También se indicará si precisa de cámara, micrófono y formación para el uso de la plataforma.
+  * Ambos formularios están ubicados en la siguiente ruta:
+                
+        [[https://capacitacion.justicia.junta-andalucia.es/course/section.php?id=261]]
+        
+2. La petición realizada por el usuario le llega al **CAU** y revisa la documentación adjuntada.
+  *    Si la documentación no está debidamente cumplimentada (excel de Toma de Datos y tantas Solicitudes de Instalación como usuarios se incluyen en el excel), el propio CAU lo reclama  al peticionario. 
+  * Si la documentación está debidamente cumplimentada, la petición se reasignará al Nivel 3 – MINISTERIO (InterCAU) para que gestione el alta en EVID.
+        
+3.  **CAU** abrirá una nueva petición para la gestión de materiales informáticos a suministrar. Un alta EVID permite la asignación de 2 WebCams y un auricular por usuario. La aportación de este material debe estar indicada en el formulario y será evaluada la necesidad. Para ello, el CAU debe crear petición de alta con la siguiente categorización (debe indicar este número de incidencia en el diario de la petición de Alta):
+    
+            ▪ Asignado a Grupo: Servicios
+            ▪ Asignado A: Suministros
+            ▪ Clasificación: PETICION
+            ▪ Clase: APLICACIONES
+            ▪ Tipo: EVID
+            ▪ Categoría: OTRAS
+            ▪ Descripción del Incidente: Suministro de WebCams y Auriculares para <Descripción del órgano-Provincia>  para su uso en EVID
+            ▪ Diario:        Para el alta EVID de la petición INXXXXXXXXXXXXX, solicitamos para (Descripción del Órgano con Provincia) el suministro de 2 Webcams y XX auriculares (según el Formulario de Solicitud EVID cumplimentado). Se han de entregar al LAJ: (Nombre del LAJ del órgano- provincia).Se detallan los usuarios destinatarios de los auriculares:(Nombre y Apellidos de los usuarios destinatarios, así como sus emails) (Esta información se recoge en el Formulario de Solicitud EVID).
+
+ 4. **Suministros** recibe la petición de material, comprueba que los datos de Órgano y usuarios son correctos, el material es el autorizado y gestiona el envío del mismo. La autorización corresponde a la misma petición de alta. Una vez que Suministros ha comprobado la entrega de material en la web de Suministros alojada en la URL:http://suministros.justicia.junta-andalucia.es/Suministros/menu.action
+La petición se soluciona y se reasigna al CAU para su cierre.
+    
+5. **CAU** recibe la petición solucionada de Suministros, indica en la petición de Alta que el material ha sido entregado al Organismo y usuarios y procede al cierre del ticket.
+    
+6. Una vez gestionada la petición de Alta por InterCAU, le llega a **CAU** un email informando de ello, tras lo cual el propio CAU informa, soluciona la petición de alta y reasigna al usuario final para que esté informado.
+    
+7. **CAU** gestiona las pruebas de correcto funcionamiento de web y auriculares, para lo que crea una petición al equipo de CRIP, con la siguiente categorización (debe indicar este número de incidencia en el diario de la petición de Alta):
+    
+            ▪ Asignado a Grupo: Servicios
+            ▪ Asignado a : SPU-CRIP
+            ▪ Origen: OTROS
+            ▪ Clasificación: PETICION
+            ▪ Clase: APLICACIONES
+            ▪ Tipo: EVID
+            ▪ Categoría: OTRAS
+            ▪ Descripción del Incidente: Solicitud de pruebas de correcto funcionamiento de los medios suministrados para EVID en <Descripción del órgano-Provincia>
+            ▪ Diario: Solicitamos para (Descripción del Órgano - Provincia) comprobar el correcto funcionamiento de los medios (auriculares y webcam) para su uso con EVID. La petición de alta asociada es INXXXXXXXXXXXXX. Los auriculares suministrados son nominativos , mientras que las 2 webcams han sido suministradas para el uso compartido.
+    EVID).
+
+   * Si es la primera vez que se solicita añadir el párrafo siguiente:
+Las pruebas solicitadas se realizarán, durante esta primera solicitud, “in situ”.
+Procedimentar los ajustes necesarios para realizar las siguientes peticiones de pruebas de manera remota.
+Los ajustes realizados durante el piloto se encuentran en la petición Remedy  IN0000002039035
+
+  * Si no es la primera vez incluir el párrafo siguiente:
+Las pruebas solicitadas se han de realizar de manera remota. 
+Se detallan los usuarios destinatarios de los auriculares: <Nombre y Apellidos de los usuarios destinatarios, así como sus emails> (Esta información se recoge en el Formulario de Solicitud EVID).
+              
+8. **CRIP** realiza las pruebas pertinentes y una vez finalizadas satisfactoriamente, el CRIP soluciona la petición y la reasigna al CAU.
+    
+9. **CAU** comprueba que las pruebas están realizadas por el CRIP y cierra la petición.
+    
+10. **CAU** gestiona las formación a usuarios, para lo que crea una petición al equipo de Implantadores, con la siguiente categorización (debe indicar este número de incidencia en el diario de la petición de Alta):
+    
+            ▪ Asignado a Grupo: Servicios
+            ▪ Asignado a : Implantadores
+            ▪ Origen: OTROS
+            ▪ Clasificación: PETICION
+            ▪ Clase: SOPORTE FORMATIVO
+            ▪ Tipo: EVID
+            ▪ Categoría: NUEVAS FUNCIONALIDADES
+            ▪ Descripción del Incidente: Solicitud de Formación EVID para <Descripción del órgano>
+            ▪ Diario:Solicitamos para (Descripción del Órgano con Provincia) formación Online de EVID. La petición de alta asociada es INXXXXXXXXXXXXX.
+              Se detallan los usuarios destinatarios de la misma:
+              <Nombre y Apellidos de los usuarios destinatarios, así como sus emails> (Esta información se recoge en el Formulario de Solicitud EVID).
+
+11. **Implantadores** agenda las sesiones de formación para el uso de EVID y una vez celebradas, soluciona el ticket de formación y reasigna a CAU.
+
+12. **CAU** comprueba que los usuarios pueden hacer uso de la plataforma EVID y cierra la petición de Alta.
+
+**NOTA 1**: Durante todo el proceso CAU deberá documentar los trabajos realizados en el documento  Seguimiento Peticiones Evid.ods alojado en la carpeta compartida \\iusnas05.justicia.junta-andalucia.es\sij\SACOEP\02.Ejecucion\02 Gestión de Proyectos\07. EVID\Peticiones en curso. En este documento deben anotarse los estados y fechas en las que se han ido realizando las acciones.
+
+**NOTA 2**: Una vez realizada la formación SACOEP deberá de realizar la monitorización del uso mediante estudio de DataLab (https://datalab.justicia.es/), accediendo al Panel D08. EVID: (Ver Gestionar usuarios acceso a DataLab)
+
+{{ :pag_apli:evid:flujograma.jpg?1100 |}}
+
+
+</panel>
+ 
+</WRAP>
+
+<WRAP> 
+
+</WRAP>
+
+[[start|Volver atrás]]
+
+{{tag>novalidada}}

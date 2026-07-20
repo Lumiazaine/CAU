@@ -1,0 +1,52 @@
+﻿
+====== Procedimiento de Monitorización y Diagnóstico ======
+
+===== Objetivo =====
+Establecer las pautas para la monitorización continua de la red, sus dispositivos y servicios asociados, así como la metodología de diagnóstico ante alertas o incidencias detectadas.
+
+===== Alcance =====
+Este procedimiento aplica al equipo de red y operaciones encargado de supervisar la infraestructura de comunicaciones y servicios en todas las sedes.
+
+===== Herramientas utilizadas =====
+  * Zabbix / PRTG / Nagios (o la plataforma de monitorización en uso)
+  * Syslog centralizado
+  * SNMP / ICMP / NetFlow
+  * Acceso a consola de switches, routers, firewalls y servidores
+  * Dashboards de monitorización y alertas configuradas
+
+===== Actividades de Monitorización =====
+  * Revisión diaria del dashboard de alertas críticas y advertencias.
+  * Comprobación de disponibilidad (ping) de dispositivos clave.
+  * Verificación del uso de CPU, memoria y almacenamiento de los equipos de red.
+  * Seguimiento de logs relevantes (eventos de caída, reinicios, errores de interfaz).
+  * Control de latencia y pérdida de paquetes en enlaces principales.
+  * Monitorización de túneles VPN y servicios críticos (DNS, correo, web internos...).
+  * Supervisión de enlaces WAN/ISP (uso de ancho de banda, caídas, fluctuaciones).
+
+===== Diagnóstico ante Incidencias =====
+  - Confirmar la alerta en la plataforma de monitorización.
+  - Validar conectividad con el dispositivo afectado (ping, traceroute, SNMP).
+  - Revisar logs del equipo implicado (via syslog o CLI).
+  - Verificar si se trata de una incidencia local o generalizada.
+  - Consultar cambios recientes aplicados en la red (coordinación con otros equipos).
+  - Escalar si se detecta caída de servicio o degradación significativa.
+
+===== Registro y Seguimiento =====
+  * Toda alerta e incidencia debe ser registrada en la herramienta de ticketing (Ej: Remedy, GLPI).
+  * Indicar fecha/hora de detección, diagnóstico inicial, acciones tomadas y resolución.
+  * Actualizar el estado del ticket conforme avance el análisis y resolución.
+  * Documentar lecciones aprendidas si aplica.
+
+===== Frecuencia de revisión =====
+  * Las tareas de monitorización se deben realizar **a diario** en horario laboral.
+  * Revisión de alertas críticas debe hacerse también en **fines de semana o festivos** si hay guardias.
+
+===== Referencias =====
+  * [[net:procedimientos:resolucion-incidencias|Procedimiento de Resolución de Incidencias]]
+  * [[net:procedimientos:gestion-cambios|Gestión de Cambios y Configuraciones]]
+
+===== Historial de cambios =====
+^ Versión ^ Fecha ^ Cambio ^ Autor ^  
+| 1.0 | 2025-07-24| Creación del documento | GTSR|
+
+

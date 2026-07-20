@@ -1,0 +1,33 @@
+﻿
+
+<WRAP> 
+<panel type="primary" title="Portal Adriano"> 
+
+<WRAP> 
+<panel type="info" title="Acceso">
+  * **URL corta:** https://lajunta.es/portaladriano
+  * **URL:** https://juntadeandalucia.es/organismos/justiciaadministracionlocalyfuncionpublica/areas/justicia.html
+  * **Contacta:** cau.transparenciayportal@juntadeandalucia.es
+</panel>
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Capacitación">
+  * [[https://capacitacion.justicia.junta-andalucia.es/|Cursos y Manuales de Usuario]]
+  * [[https://videos.justicia.junta-andalucia.es/|Contenidos en video]]
+  * [[https://capacitacion.justicia.junta-andalucia.es/mod/glossary/view.php?id=196|Preguntas frecuentes (Portal de Capacitación)]]
+</panel>
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Procedimientos y Problemas Conocidos de Portal Adriano">
+  * [[:pag_apli:portal_adriano:problemas|Soporte Portal Adriano]] 
+</panel>
+</WRAP>
+
+</panel> 
+</WRAP>
+
+{{tag>validada}}
+
+

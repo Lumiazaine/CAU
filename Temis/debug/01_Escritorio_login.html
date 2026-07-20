@@ -1,0 +1,372 @@
+﻿<body onload="actualizaReloj(); ">
+	
+	<div class="fondo">
+		<div id="cuerpo">
+			
+
+
+
+
+
+<div id="cabecera">
+  <div class="cabecera_fondo">
+ 	<ul class="menu">
+   	   <li><a title="Manual usuario" class="ayuda" href="javascript:verManualEscritorio()">Manual usuario</a></li>
+       <li><a title="Noticias" class="noticias" href="javascript:verNoticias()">Noticias</a></li>
+       <li><a title="Enlaces" class="enlaces" href="javascript:verEnlaces()">Enlaces</a></li>
+       
+    </ul>
+    <hr class="no_visible">
+    <h1 class="logo_junta">
+       <a title="JUNTA DE ANDALUCÍA - Consejería de Turismo, Regeneración, Justicia y Administración Local" href="/Escritorio/Inicio.do">
+           <img alt="JUNTA DE ANDALUCÍA - Consejería de Turismo, Regeneración, Justicia y Administración Local" src="img/logo_junta.gif">
+           <span>JUNTA DE ANDALUCÍA - Consejería de Justicia e Interior</span>
+        </a>
+    </h1>
+    <h1 class="aplicacion"><span>Escritorio Judicial - Consejería de Turismo, Regeneración, Justicia y Administración Local</span></h1>
+   </div>
+ </div>  
+<script language="javascript">
+
+	function cerrarSesion()
+	{
+		if (confirm('¿Está seguro de que quiere cerrar la sesión?'))
+		{
+			window.location.href = '/Escritorio/CerrarSesion.do';	
+		}
+	}
+	
+	function verManualEscritorio()
+	{
+		window.open('/Escritorio/VerManual.do');
+		
+	}
+	
+	function verEnlaces()
+	{
+		window.location.href = '/Escritorio/VerEnlaces.do';
+		
+	}
+	
+	function verNoticias()
+	{
+		window.location.href = '/Escritorio/VerNoticias.do' ;
+		
+	}
+
+		
+	
+
+</script> 
+			<hr class="no_visible">
+			
+
+
+
+
+
+	<ul id="menu_superior">
+   		
+     	 
+        
+        <li class="fecha" id="hora">10:19</li>
+        <li class="fecha">
+        	miércoles, 15 de julio de 2026
+		  	
+		</li>
+        
+   	</ul>
+
+<script language="javascript">
+
+	
+function cambiarPuesto()
+{
+	window.location.href = '/Escritorio/VerPuestosUsuario.do';	
+}
+
+
+
+</script>
+			<hr class="no_visible">
+			<div id="contenedor">
+				
+
+
+
+
+
+<div id="lateral_izquierdo">
+	<form name="aplicacionForm" action="/Escritorio/SeleccionarAplicacion.do" method="post">
+		
+	  	<input name="aplicacion" type="hidden" value="">
+	</form>
+</div>  
+
+
+
+
+
+		  			
+		  
+	    
+				<hr class="no_visible">
+				
+
+
+
+<div id="lateral_derecho">	
+	
+    
+		<div class="login">
+			<h2> Acceso </h2>
+			<form name="loginForm" action="/Escritorio/Login.do" method="post">
+				<fieldset>
+					<legend>Acceso restringido</legend>
+                    <div class="fila_form">
+                    	<label for="usuario">Usuario</label>
+                        <input name="usuario" id="usuario" type="text" value="">
+                    </div>
+                    <div class="fila_form">
+                    	<label for="contrasena">Contraseña</label>
+                        <input name="password" id="contrasena" type="password" value="">
+                    </div>
+                    <div class="botonera">
+                    	<input name="entrar" class="boton" id="entrar" type="submit" value="Entrar">
+                    </div>
+                    <div class="botonera">
+                    	<a style="font-size: 11pt; font-weight: bold;" href="AccesoCertificado.do">Acceso certificado</a>
+                    </div>
+                    <div class="botonera">
+                    	<a style="color: rgb(210, 0, 0); font-size: 14pt; font-weight: bold;" href="RecuperarPassword.do">¿Olvidó su contraseña?</a>
+                    	
+                    </div>
+				</fieldset>
+			</form>	
+		</div>		
+	
+	
+		
+</div>	
+<script language="javascript">
+
+	function nuevaSugerencia()
+	{
+		window.location.href = '<sslext:rewrite page="/NuevoComentario.do" />' ;
+		
+	}
+
+		
+	
+
+</script>	
+	
+	
+		 
+		
+		  		
+			  
+				
+		 
+		
+
+				<hr class="no_visible">
+				<div id="contenido">
+					
+
+
+<center>
+<form name="aplicacionPublicaForm" action="/Escritorio/SeleccionarAplicacionPublica.do" method="post">
+	
+	<input name="aplicacion" type="hidden" value="">
+</form>
+
+</center>
+
+					<hr class="no_visible">
+					
+
+
+
+
+
+	<h2>Error</h2>
+
+<ul class="error"><li>El nombre de usuario es obligatorio.</li></ul>
+
+
+  <div class="botonera">
+	
+		
+	
+	  &nbsp;&nbsp;&nbsp;&nbsp;<input onclick="javascript:window.location.href='/Escritorio/Inicio.do'" type="button" value="Volver">
+	
+	
+	
+  </div>
+ 
+
+				</div>
+			</div>
+			<div id="pie">
+				
+
+
+<p class="izquierda">
+	&nbsp;PRO &nbsp;-&nbsp;versión&nbsp;3.14.1&nbsp;&nbsp;
+</p>
+<p class="derecha">CONSEJERÍA DE TURISMO, REGENERACIÓN, JUSTICIA Y ADMINISTRACIÓN LOCAL</p>
+		
+			</div>
+		</div>
+	</div>
+	<br>
+		
+	
+
+<script language="JavaScript"> 
+		// ----------------------------------
+		// Para el control del doble click
+		var numClicks = 0;
+		var timeOut;
+		var codigoGlobal;
+		var entraPorStartClick = false; // para que no se ejecute dos veces en mozilla
+		
+		// ----------------------------------
+
+		/*
+			Metodo que actualiza el reloj con la hora del sistema del cliente
+		*/
+		function actualizaReloj()
+		{ 
+			var momentoActual = new Date(); 
+	
+		    var hora = momentoActual.getHours();
+    		var minuto = momentoActual.getMinutes();
+		    var segundo = momentoActual.getSeconds(); 
+	
+    		var horaImprimible = (hora<10?"0"+hora:hora) + ":" + (minuto<10?"0"+minuto:minuto);
+
+	    	var obj = document.getElementById("hora");
+			obj.innerHTML = horaImprimible;
+			
+    		setTimeout("actualizaReloj()",1000) 
+		} 		
+
+	
+
+	function modificarPasswordCorporativa()
+	{
+		window.document.location.href = '/Escritorio/ModificarPasswordCorporativa.do';
+	}
+	
+	function modificarPassword()
+	{
+		window.document.location.href = '/Escritorio/ModificarPassword.do';
+	}
+
+	function modificarIdentificador()
+	{
+		window.document.location.href = '/Escritorio/ModificarIdentificador.do';
+	}
+	
+	function consultaSesiones()
+	{
+		window.document.location.href = '/Escritorio/ConsultaSesionesUsuario.do';
+	}
+	
+	function nuevaSugerencia()
+	{
+		window.document.location.href = '/Escritorio/NuevoComentario.do';
+	}
+	
+	function verForo()
+	{
+		window.document.location.href = '/Escritorio/VerComentariosForo.do';
+	}
+	
+	function seleccionarAplicacion()
+	{
+		
+	    numClicks = 0;
+	    
+		var f = document.forms['aplicacionForm'];
+
+		f.aplicacion.value = codigoGlobal;
+		
+		f.submit();
+	}
+	
+	function seleccionarAplicacionPublica(codigo)
+	{
+		var f = document.forms['aplicacionPublicaForm'];
+
+		f.aplicacion.value = codigo;
+		
+		f.submit();
+	}
+	
+	function lanzarAplicacionMenu(codigo, accion)
+	{
+		if (!entraPorStartClick)
+		{
+			numClicks = 0;
+			clearTimeout(timeOut);
+			
+			var url = 'Lanzadera.do?id=' + codigo;
+			
+			if (accion.indexOf("S") != -1)
+			{
+				window.open(url, codigo, "toolbar=no, menubar=no, location=no, resizable=yes, status=yes, scrollbars=yes");
+			}
+			else
+			{
+				if (codigo==8) {
+					window.open(url, "_self");
+				} else {
+					window.open(url, codigo);
+				}
+				
+				
+			}	
+    	}
+		else
+		{
+			entraPorStartClick = false;
+		}		
+	}
+	
+	function startClick(codigo) {
+    	numClicks++;
+      	codigoGlobal = codigo;
+      	
+	    switch(numClicks) {
+    	    case 2:
+    	    	entraPorStartClick = true;
+        	    lanzarAplicacionMenu(codigo);
+            	break;
+	        case 1:
+
+    	        timeOut = setTimeout("seleccionarAplicacion()", 300);
+        	    break;
+		}
+	}
+	
+	function datosUsuario()
+	{
+		window.location.href = '/Escritorio/DatosUsuario.do';
+	}
+	
+	function usuarioBusqueda()
+	{
+		window.location.href = '/Escritorio/UsuarioBusqueda.do?accion=buscar';
+	}
+	
+
+</script>
+
+		
+
+	
+
+</body>

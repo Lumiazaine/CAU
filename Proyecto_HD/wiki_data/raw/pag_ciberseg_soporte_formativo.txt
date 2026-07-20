@@ -1,0 +1,96 @@
+﻿
+<WRAP info round box>
+
+===== Categoría de Servicio: Soporte formativo =====
+</WRAP>
+<WRAP round box  #E3F2FD>
+=== 1. Introducción y Alcance ===
+Esta categoría recoge todas las **Peticiones relacionadas con formación**, incluyendo asesoramiento, formación inicial, creación de contenidos y sesiones presenciales/telemáticas.
+Toda la categoría se asigna al grupo **Servicios / Capacitación**.
+</WRAP>
+
+
+<WRAP round box #F5F5F5>
+=== 2. Flujo de Categorización General (BMC Helix) ===
+
+^ Nivel ^ Campo BMC Helix ^ Valor asignado ^
+| Nivel 1 | Categoría Operacional N1 | Soporte formativo |
+| Nivel 2 | Categoría Operacional N2 | Formación inicial / Asesoramiento / Creación de contenido documental / Creación de contenido audiovisual / Formación de nuevas funcionalidades / Formación Reciclaje |
+| Nivel 3 | Categoría Operacional N3 | Presencial / Telemática |
+| Producto N2 | Categoría de producto N2 | Aplicaciones – Formación |
+| Producto N3 | Categoría de producto N3 | Lista completa de aplicaciones formativas |
+</WRAP>
+
+
+<WRAP round box #FFEBEE>
+=== 3. Asignación de Tickets (Grupos Resolutores) – INFORMACIÓN CLAVE ===
+
+Todos los tickets de esta categoría se asignan a:  
+**Servicios / Capacitación**
+</WRAP>
+
+
+<WRAP round box #FFEBEE>
+=== 4. Tabla de asignación de tickets ===
+
+
+^ Tipo de Ticket ^ Cat. N1 ^ Cat. N2 ^ Cat. N3 ^ Producto N3 ^ Grupo Resolutor ^
+| Petición | Soporte formativo | Formación inicial | Presencial | Acceda | Servicios/Capacitación |
+| Petición | Soporte formativo | Formación inicial | Telemática | Acceda | Servicios/Capacitación |
+| Petición | Soporte formativo | Asesoramiento | Presencial | Acceda | Servicios/Capacitación |
+| Petición | Soporte formativo | Asesoramiento | Telemática | Acceda | Servicios/Capacitación |
+| Petición | Soporte formativo | Creación de contenido documental | Presencial | Acceda | Servicios/Capacitación |
+| Petición | Soporte formativo | Creación de contenido documental | Telemática | Acceda | Servicios/Capacitación |
+| Petición | Soporte formativo | Creación de contenido audiovisual | Presencial | Acceda | Servicios/Capacitación |
+| Petición | Soporte formativo | Creación de contenido audiovisual | Telemática | Acceda | Servicios/Capacitación |
+| Petición | Soporte formativo | Formación de nuevas funcionalidades | Presencial | Acceda | Servicios/Capacitación |
+| Petición | Soporte formativo | Formación de nuevas funcionalidades | Telemática | Acceda | Servicios/Capacitación |
+| Petición | Soporte formativo | Formación Reciclaje | Presencial | Acceda | Servicios/Capacitación |
+| Petición | Soporte formativo | Formación Reciclaje | Telemática | Acceda | Servicios/Capacitación |
+
+
+
+A continuación se listan todas las aplicaciones como Producto N3, cada una duplicada en PRESENCIAL / TELEMÁTICA y combinada con TODAS las categorías N2.
+
+Las siguientes aplicaciones siguen exactamente las mismas filas que **Acceda**: 
+
+  * Adriano,
+  * Agenda IML,
+  * Arconte/Aurea,
+  * Ateneo,
+  * Cooperación jurídica internacional,
+  * Correo electrónico,
+  * Evid,
+  * Expediente digital,
+  * Expedientes gubernativos,
+  * Fortuny,
+  * Gestión de incidencias,
+  * Hermes,
+  * Himilcom,
+  * Iaap,
+  * Inforeg,
+  * Integración Adriano-Fiscalía,
+  * Internet/Intranet,
+  * Jara,
+  * Kit de bienvenida,
+  * Lexnet,
+  * Ofimática,
+  * Órdenes europeas de investigación,
+  * Orfila,
+  * Otras aplicaciones,
+  * PNJ (Exhortos),
+  * Portal Adriano,
+  * Protocolo adicciones,
+  * Protocolo adicciones IML,
+  * Quenda,
+  * Registros E/S juzgados-fiscalías,
+  * Resoluciones Cendoj,
+  * Sede judicial electrónica,
+  * Siraj,
+  * Sistema IML,
+  * Textualización,
+  * Webex.
+
+**Todas asignadas a: Servicios / Capacitación.**
+
+</WRAP>

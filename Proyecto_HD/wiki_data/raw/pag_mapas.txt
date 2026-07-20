@@ -1,0 +1,14 @@
+﻿
+====== Mapas ======
+
+===== Zabbix =====
+
+  * [[https://iusslmonitor06.justicia.junta-andalucia.es/zabbix/zabbix.php?action=map.view&sysmapid=26|Mapa Ciudad Justicia Cordoba ]]
+  * [[https://iusslmonitor06.justicia.junta-andalucia.es/zabbix/zabbix.php?action=map.view&sysmapid=34|Mapa Ciudad Justicia ]]Almeria
+  * [[https://iusslmonitor06.justicia.junta-andalucia.es/zabbix/zabbix.php?action=map.view&sysmapid=18|Mapa Ciudad Justicia ]]Malaga
+
+===== Mapas de Red =====
+
+  * Explorer - Sedes: \\iusnas05.justicia.junta-andalucia.es\sij\Sistemas\GTSR\Mapas de Red\
+===== Sedes =====
+   * [[:net:mapa_SEVCJ|SEVCJ]]

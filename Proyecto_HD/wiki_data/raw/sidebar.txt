@@ -1,0 +1,79 @@
+﻿
+
+
+  * {{mdi>home}}**[[:start|Página de inicio]]**
+
+----
+
+  * **[[:pag_novedades|Novedades]]**
+
+----
+
+  * **[[:pag_calendar|Calendario]]**
+  * **[[:pag_contactos|Contactos]]**
+  * **[[:pag_enlaces_interes|Enlaces de Interés]]**
+  * **[[:pag_edicion_doku|Edición Contenidos DokuWiki]]**
+  * **[[:pag_ubic|Ubicaciones en el SSDJ]]**
+
+----
+
+  * **[[:pag_org|Departamentos/Áreas]]**
+  * [[:pag_ciberseg:start|- Ciberseguridad]]
+  * [[:pag_admin|- Contratación]]
+  * [[:pag_sistemas|- Operaciones y Telecomunicaciones]]
+  * [[:pag_puesto|- Puesto de Trabajo]]
+  * [[:pag_audio:start|- Sistemas Audiovisuales]]
+  * [[:pag_capacitacion|- Capacitación]]
+
+----
+
+  * **[[:pag_comunicaciones|Comunicaciones]]**
+  * **[[:pag_apli|Sistemas de Información]]**
+
+----
+
+  * **[[:pag_procedimientos_generales|Procedimientos Generales]]**
+  * [[pag_procedimientos_generales:justif_fondos_europeos|- Justificación de Fondos Europeos]]
+  * [[:pag_procedimientos_generales:libro_blanco|- Libro Blanco]]
+  * [[:pag_procedimientos_generales:numo|- NUMO - Nuevo Modelo Organizativo]]
+  * [[:pag_procedimientos_generales:respuestas_escritos|- Respuestas a Preguntas Frecuentes]]
+
+                
+
+----
+
+  * **[[:pag_proye|Proyectos en curso]]**
+  * [[:pag_proye_clasi|- Clasificación proyectos según financiación]]
+  * [[:pag_ciberj|- CiberSeguridad]]
+  * [[:pag_dici|- Dicireg]]
+  * [[:pag_digi|- Digitalización RRCC]]
+  * [[:pag_hgis|- HGIS - Nuevo Remedy]]
+  * [[:pag_interoperabilidad|- Interoperabilidad]]
+  * [[:pag_sede|- Nueva Sede Judicial Electrónica]]
+  * [[:pag_rpa|- RPA - Automatización de Procesos]]
+  * [[:pag_textu|- Textualización]]
+  * [[:pag_vdi|- VDI]]
+
+----
+
+  * **[[:pag_proye_fin|Proyectos finalizados]]**
+  * [[:pag_paneles|- Paneles SSVV]]
+
+----
+
+  * **[[:pag_formu|Formularios y Plantillas]]**
+
+----
+
+  * {{mdi>book}} [[:pag_prueba2|Página de Ejemplos]]
+  * {{mdi>book}} [[:pag_tipo|Plantilla nuevas páginas]]
+
+----
+
+[[:pag_no_validadas|Páginas No validadas]]
+
+[[:pag_validada|Páginas Validadas]]
+
+[[:pag_revision_continua|Páginas en Revisión Continua]]
+
+

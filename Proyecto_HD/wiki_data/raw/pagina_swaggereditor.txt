@@ -1,0 +1,108 @@
+﻿
+<html> <html lang="es"> 
+<head>
+
+  <meta charset="UTF-8">
+  <title>SWAGGER EDITOR</title>
+  <style>
+      body {
+          font-family: Arial, sans-serif;
+          background-color: #39546E;
+          margin: 0;
+          padding: 20px;
+          padding-top: 70px;
+          
+      }
+
+
+
+      .main-container {
+          max-width: 1550px;
+          margin: 0 auto;
+      }
+
+
+
+      .main-header {
+          background-color: #39546E;
+          color: white;
+          padding: 25px 20px;
+          font-size: 2rem;
+          font-weight: bold;
+          border-radius: 8px 8px 0 0;
+          text-align: center;
+          margin-bottom: 20px;
+      }
+
+
+
+      .block {
+          background-color: #ffffff;
+          border-radius: 8px;
+          padding: 22px;
+          margin-bottom: 25px;
+          border: 1px solid #c5ccd4;
+          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+      }
+
+
+
+      .block h2 {
+          margin-top: 0;
+          color: #39546E;
+          border-bottom: 2px solid #39546E;
+          padding-bottom: 10px;
+          
+      }
+      
+      a {
+          color: #0051A3;
+          text-decoration: none;
+          
+      } 
+
+  </style>
+
+
+
+</head>
+
+<body>
+
+  <div class="main-container">
+
+
+
+      <div class="main-header">SWAGGER EDITOR</div>
+
+       <div class="block">
+          <h2>¿Qué es Swagger Editor?</h2>
+          <p>
+              Swagger Editor es una herramienta online que permite diseñar, documentar y validar
+              APIs REST utilizando la especificación OpenAPI. Proporciona un editor visual e interactivo
+              donde los desarrolladores pueden definir los endpoints, métodos, parámetros y respuestas
+              de una API de forma estructurada y estandarizada.
+          </p>
+
+          <p>
+              Esta herramienta es especialmente útil para garantizar que la documentación de una API
+              sea clara, consistente y fácilmente comprensible tanto para desarrolladores como para
+              otros equipos involucrados en el desarrollo de software.
+          </p>
+
+          <p>
+              A continuación se proporciona el enlace para acceder a la herramienta:
+          </p>
+
+          <ul>
+              <li>
+                  <a target="_blank" href="https://editor.swagger.io/">Swagger Editor</a>
+              </li>
+          </ul>
+      </div>
+
+
+
+</body> 
+</html>
+

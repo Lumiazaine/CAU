@@ -1,0 +1,41 @@
+﻿
+<WRAP> 
+<panel type="primary" title="EMAAT - NO VIGENTE">
+__Baja de la Aplicación eMaat - Consulta Intervinientes Centralizada Adriano:__
+
+Por parte de los equipos que recepcionen tickets relacionados con el acceso a la Aplicación eMaat, se debe diferenciar entre fiscales y funcionarios de las fiscalías y resto de usuarios de OOJJ. 
+
+  * La aplicación eMaat ha sido dada de baja, por tanto, deberán utilizar Adriano, ya que, incorpora la Consulta Centralizada de Intervinientes, como sustituta de eMaat, para la búsqueda centralizada de información sobre personas y empresas que intervienen en procedimientos judiciales que se tramiten en Andalucía. Esta consulta incluye campos de búsqueda que permiten acotar el ámbito a la provincia, partido judicial, jurisdicción y tipo de órgano. Al mismo tiempo, la Consulta incorpora filtros específicos asociados a los intervinientes (Tipo y número identificativo, tipo de persona y situación económica) y al asunto judicial (NIG y fecha de entrada).
+
+  * El resultado de la Consulta devolverá los datos de los intervinientes del procedimiento, el juzgado encargado de su tramitación, así como los datos del asunto (tipo, número y estado del procedimiento, fechas de entrada, incoación y última actuación y de estado).
+
+  * A continuacion, se ofrece la respueta que hay que ofrecer en función del tipo de usuario:
+
+<WRAP> 
+<panel type="info" title="Usuarios de OOJJ (No Fiscales ni funcionarios de las fiscalías):">
+
+**Respuesta:**
+
+//Le informamos que la aplicación eMaat ha sido dada de baja, siendo sustituida funcionalmente por la Consulta Centralizada de Intervinientes, disponible en el Sistema de Gestión Procesal Adriano.//
+
+</panel>
+</WRAP>
+
+
+<WRAP> 
+<panel type="info" title="Fiscales y funcionarios de las fiscalías:">
+En el Gestor Procesal Adriano nos hemos encontrado con el problema de que la consulta de los fiscales se limita a su municipio y no a la provincia, ni siquiera al partido judicial, por lo tanto, los usuarios de fiscalías están creando incidencias para su acceso. Mientras SBA incorpore una solución, hemos creado el problema PR0000000000305 para ir agrupando los tiques pendiente de esta resolución
+
+1. Asignar a **Servicios –> Procesal–> Carmen Toribio**.
+
+2. Añadir el siguiente mensaje en el **Diario**: //"SBA indica que no hay posibilidad de configuración en Adriano. Se deriva a Procesal como posible correctivo".//
+
+**Respuesta:**
+
+//Le informamos que la aplicación eMaat ha sido dada de baja, siendo sustituida funcionalmente por la Consulta Centralizada de Intervinientes, disponible en el Sistema de Gestión Procesal Adriano.//
+
+//No obstante, somos conscientes de que, en el caso concreto de los usuarios de las Fiscalías, la actual implementación limita las consultas al ámbito del municipio, sin permitir búsquedas más amplias por partido judicial o provincia. A este respecto, le informamos de que ya se ha identificado esta limitación y estamos trabajando en la implementación de una solución técnica que amplíe el ámbito de búsqueda.//
+
+</panel>
+ </WRAP></panel>
+ </WRAP>

@@ -1,0 +1,121 @@
+﻿
+<WRAP> <panel type="primary" title="Procedimientos y Problemas Conocidos de VPN">
+
+[[start|Volver atrás]]
+
+<WRAP> 
+<panel>
+
+====== Alta VPN ======
+
+Se genera ticket del tipo **PETICION/PUESTO DE TRABAJO/VPN PORTATILES/PETICION**. Ese ticket se reasigna a **Nivel 1 Microinformática**  para su gestión.
+
+  * [[https://sio-rcja.juntadeandalucia.es/arsys/forms/premedysio9/SRS%3AServiceRequestConsole/Default+Administrator+View/?cacheid=51740787|https://sio-rcja.juntadeandalucia.es/arsys/forms/premedysio9/SRS%3AServiceRequestConsole/Default+Administrator+View/?cacheid=51740787]]
+
+con el usuario: **supervision.caujus.sandetel**
+
+  * Realizar una petición del tipo **“Alta de Usuario VPN”**  con la siguiente configuración:
+
+  * **Punto de servicio:**  JUST-SEV-001 - SEAG2 - ALCALÁ DE GUADAIRA
+  * **Centro de facturación:**  OJUST - ÓRGANOS JUDICIALES
+  * **Centro de coste:**  CTRJAL-C4 – JUST
+  * **Usuario LDAP:**  xxxxxx
+  * **Descripción de la petición:**
+Incluir el número de ticket Remedy sobre el que se hace la petición y el rango de IP a utilizar dependiendo del cargo del usuario.
+
+==== Rangos de IP por perfil ====
+
+  * **ius_letrados_din**
+      * 10.122.152.0/24
+      * 10.122.153.0/24
+      * 10.122.154.0/24
+      * 10.220.8.23-31
+      * 10.220.28.0/24
+
+  * **ius_jueces_din**
+      * Usar las 50 IPs libres del rango 10.220.13.0/24
+      * También disponible: 10.122.156.0/24
+
+  * **ius_fiscales_din**
+      * 10.150.47.0/
+
+  * **Usuarios VDI**
+      * 10.122.121.0/24
+
+  * **iuse_externos_din**
+      * 10.122.121.0/24
+      * En peticiones de usuarios iuse (técnicos con LDAPs terminados en .ext), indicar en la descripción la empresa a la que pertenecen.
+
+  * Una vez recibida la confirmación de alta de VPN:
+      * Añadir la IP facilitada al usuario en **Temis**.
+      * Reasignar el ticket a **DP/CRIP**  para configuración de VPN en el equipo del usuario.
+
+</panel> 
+</WRAP>
+
+<WRAP> 
+<panel>
+====== Petición Alta Teletrabajo ======
+
+**1. Nueva solicitud del funcionario → Remedy**
+  * El funcionario abre petición Remedy solicitando el alta en teletrabajo.
+  * **Adjunta obligatoriamente la resolución de Personal → que la envía por correo o fax a [[csu.ius@juntadeandalucia.es]] / [[csu.jus@juntadeandalucia.es]] **
+
+**2. CAU verifica**
+  * CAU comprueba que la resolución está adjunta.
+  * CAU valida que el órgano actual del funcionario **coincide** con el órgano para el que se autoriza el teletrabajo en la resolución.
+
+**3. Acción CAU**
+  * Solicita a DT/CRIP el nombre del equipo.
+  * Gestiona el emparejamiento/VPN.
+
+Envía al usuario el correo con instrucciones de configuración.
+
+En el caso de VDI (VPN, identificable por el usuario por pegatinas PT-Virtualizado) hay que identificar que tiene un puesto virtualizado.
+
+**Si el usuario tiene equipo virtualizado:** [[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_procedimientos_vdi#solicitud_vpn_trabajo_remoto]]
+
+
+</panel> 
+</WRAP>
+
+<WRAP> 
+<panel>
+
+====== Problemas de conexión VPN con múltiples cuentas LDAP ======
+
+En algunos casos, técnicos que colaboran en varios proyectos de la Junta de Andalucía (JdA) pueden tener **más de una cuenta LDAP** asociada a su DNI. Esto puede provocar conflictos al intentar conectarse mediante VPN con **Checkpoint**, ya que este sistema autentica inicialmente mediante certificado digital y puede no saber a qué cuenta LDAP asociar la conexión.
+
+==== Síntomas ====
+
+  * Error de autenticación al intentar conectarse por VPN.
+  * El usuario ha sido recientemente dado de alta con una segunda cuenta LDAP.
+  * El problema persiste incluso tras verificar o cambiar la contraseña en el LDAP corporativo.
+
+==== Causa ====
+
+El conflicto se produce porque **Checkpoint**  detecta **dos cuentas LDAP con el mismo DNI**  y no puede determinar cuál utilizar.
+
+**Nota:**  Este tipo de situación es probable que se repita en el futuro con técnicos que tengan **dedicación parcial en varios proyectos de JdA**, por lo que es importante tener presente esta solución.
+
+==== Solución ====
+
+Para resolver este problema, se debe introducir la contraseña en el siguiente formato:
+
+  * **ldap@contraseña**
+Esto permite a **Checkpoint**  identificar correctamente la cuenta LDAP deseada.
+
+  * Solicitar la baja del LDAP que no utilice.
+
+==== Ejemplo ====
+
+Si el usuario tiene un LDAP llamado `usuario.ext` y su contraseña es `MiClaveSegura123`, deberá introducir:
+
+  * **usuario.ext@MiClaveSegura123**
+
+</panel> 
+</WRAP>
+
+[[start|Volver atrás]]
+
+{{tag>novalidada, csu, cau}}

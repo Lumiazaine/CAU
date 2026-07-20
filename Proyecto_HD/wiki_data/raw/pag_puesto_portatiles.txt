@@ -1,0 +1,86 @@
+﻿
+Hasta el momento, los equipos portátiles asignados a usuario son los siguientes según cargo:
+1.    Juez/Magistrado (Sigla: JUZ)
+2.    Letrado (Sigla: LET)
+3.    Fiscal (Sigla: FIS)
+4.    Director IML (Sigla: DIML)
+
+Está previsto en un  futuro inmediato proveer de un equipo portátil  a aquellos usuarios funcionarios  (auxilios judiciales, tramitadores, gestores) que tengan reconocido el teletrabajo.
+
+ENTREGA Y/O DEVOLUCIÓN DE PORTÁTILES
+Las entregas de equipo portátil a los cargos mencionados pueden deberse a nueva incorporación de usuario a Justicia (usuario sin equipo anterior) o bien deberse a una renovación del equipo que tenía anteriormente (por rotura, pérdida o por obsolescencia). En ambos casos deberá llegarnos SIEMPRE el ticket remedy con la comunicación  de actualización de inventario según las circunstancias:
+
+1.    Caso Nuevo equipamiento. La remedy debe traer los siguientes ficheros adjuntos:
+       a.    Acta de Recepción de portátil 
+       b.    Ficha de instalación de equipo
+2.    Caso Renovación de equipo portátil. La remedy debe traer los siguientes ficheros adjuntos:
+       a.    Acta de Devolución de portátil que devuelve
+       b.    Acta de Recepción de portátil nuevo  que recibe
+       c.    Ficha de instalación de equipo
+
+En ambos casos todas las Actas (de entrega y de devolución) deben venir selladas y firmadas por el usuario que recibe el equipo / que devuelve el equipo y además, por el técnico que hace la entrega. 
+
+** No se pueden archivar las Actas si falta alguna firma. Se reclama a la DP o al S_CRIP y no se actualiza inventario hasta recibirla.
+
+FORMATOS DE PLANTILLA
+
+1.    Acta de Recepción / Acta de Devolución. 
+       Hay generadas dos tipos de Actas de Recepción:
+       a.    Actas de Recepción de portátiles "NEXT GENERATION" cuyo formato está en:
+              i.    \\iusnas05\sij\Planificacion\PLANIFICACIÓN-INVENTARIO\Plantillas\Actas Portátiles
+              ii.    Plantilla: ACTA DE RECEPCION DE ORDENADOR PORTÁTIL NG_v1
+       b.    Actas de Recepción para el resto de portátiles del parque
+              i.    \\iusnas05\sij\Planificacion\PLANIFICACIÓN-INVENTARIO\Plantillas\Actas Portátiles
+              ii.    Plantilla: ACTA DE RECEPCION DE ORDENADOR PORTÁTIL_v1
+
+Los portátiles entregados pertenecientes al Expediente de compra: 670239-21 Portatiles Next Generation (4448 uds) deben venir con el Acta de recepción NEXT GENERATION que incluye los logos que aluden a la compra con fondos europeos. El resto de portátiles deben venir con el Acta normal (sin logo europeo).
+
+Hay un único modelo de Acta de Devolución cuyo formato está en:
+       a.    \\iusnas05\sij\Planificacion\PLANIFICACIÓN-INVENTARIO\Plantillas\Actas Portátiles
+       b.    Plantilla: ACTA DE DEVOLUCIÓN DE ORDENADOR PORTÁTIL_v1
+
+2.    Ficha de Instalación. 
+       Se trata de la plantilla en la que debe venir la información de los equipos para actualizar en inventario. Los campos son los siguientes.
+
+       * Nº de serie de equipo retirado (si procede retirada)
+       * Ubicación de equipo retirado
+       * Nº de serie de equipo entregado
+       * RFID de equipo entregado
+       * Ubicación de equipo entregado
+       * Nombre_Ad de equipo entregado
+       * Nombre y apellidos de usuario
+       * Cargo de usuario
+
+       El formato de la ficha de instalación está en: 
+
+       Ruta:\\iusnas05\sij\Planificacion\PLANIFICACIÓN-INVENTARIO\Plantillas
+       Plantilla: FICHA DE INSTALACIÓN DE EQUIPOS 2018
+
+DÓNDE ARCHIVAR LA DOCUMENTACIÓN
+
+1.    ACTA DE RECEPCIÓN
+       a.    Ruta: \\iusnas05\sij\Planificacion\PLANIFICACIÓN-INVENTARIO\Proyectos 2022\Portátiles\Actas Recibidas
+2.    ACTA DE DEVOLUCIÓN
+       a.    Ruta: \\iusnas05\sij\Planificacion\PLANIFICACIÓN-INVENTARIO\Proyectos 2022\Portátiles\Actas Devolución
+3.    FICHA DE INSTALACIÓN
+       a.    Ruta: \\iusnas05\sij\Planificacion\PLANIFICACIÓN-INVENTARIO\Proyectos 2022\Portátiles\Ficha de instalación
+
+CÓMO ARCHIVAR LA DOCUMENTACIÓN
+
+El documento a archivar llevará el siguiente formato:
+"NombredeUsuario" "SiglasCargo" "ProvinciaMunicipio" "NombredeÓrganoJudicial" "Nºpetición Remedy"
+
+Ejemplo:
+Enrique Rodriguez Ocaña LET COCO Juzgado de lo Social Nº 4 de Córdoba 1893023
+
+EJEMPLO DE GESTIÓN DE UNA PETICIÓN REMEDY: IN0000001869476
+
+ACLARACIÓN: En las rutas facilitadas hay que tener en cuenta que se ha referenciado a la carpeta de Proyectos del año en curso 2022.  Cada año se genera una nueva carpeta de proyectos "Proyecto 20XX" en la que se deberá volcar toda la carpeta llamada "Portátiles" para heredar toda la documentación que nos ha ido llegando desde el inicio de las entregas de portátiles.
+
+ROBOS Y PÉRDIDAS
+Para el caso en que un usuario haya sido objeto de sustracción / robo del equipo se archivará la documentación en ubicación:
+
+\\iusnas05\sij\Planificacion\PLANIFICACIÓN-INVENTARIO\Proyectos 2022\Portátiles\Pérdidas o Robos
+
+LICENCIAS INSTALADAS
+En caso de devolución de portátil, tanto si se hace mención o no de forma explícita en el diario de la petición remedy o en la ficha de instalación, es necesario llevar a cabo la comprobación de en qué estado quedan las posibles licencias que pudiere tener instaladas de Abbyy Transformer o de Dragon Speaking el equipo que se devuelve (ir a xWiki a la parte de las licencias Abbyy Transformer y de Dragon Speaking: 

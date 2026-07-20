@@ -1,0 +1,104 @@
+﻿
+====== Recover de EMITIDOS y DMP ======
+
+======
+. Preparar directorio de restauración  ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/Recover de DMP y EMITIDOS?section=1|Editar]]
+
+======
+1.1 WINDOWS  ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/Recover de DMP y EMITIDOS?section=2|Editar]]
+
+- Las restauraciones en **WINDOWS** se hacen en la ruta //\\iusnas05\Restauraciones//, dentro de una carpeta con el número del ticket que la requiera.
+
+Para que no haya problemas al hacer operaciones haciendo referencia a un fichero del directorio, mapearemos este recurso compartido con una letra de unidad (en mi caso elegí la Z{{https://xwiki.justicia.junta-andalucia.es/xwiki/resources/icons/silk/emoticon_smile.png?nolink&|emoticon_smile}}.
+
+1) Vamos a **Mi PC** > **Herramientas ** (en el panel de navegación superior) > **Conectar a unidad de red**
+
+2) Elegimos la unidad **Z:** y la carpeta **\\iusnas05\Restauraciones** y Finalizar.
+
+- Ahora podremos operar con los ficheros recuperados a través de una ruta tipo
+ <font inherit/inherit;;rgb(255, 0, 0);;inherit>Z:\IN0000001337612\GSE2.dmp</font>
+
+======
+1.2 HP-UX  ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/Recover de DMP y EMITIDOS?section=3|Editar]]
+
+- Las restauraciones en **HP-UX **se hacen en la ruta ///NFS_BACKUP/BBDD/_trabajo_//, dentro de una carpeta con el número del ticket que la requiera.
+
+En el proceso de restauración de ficheros de SSCC podremos elegir la ruta dentro de /NFS_BACKUP que deseemos, por lo que no requerimos ninguna operación como en el caso de **WINDOWS**.
+======
+2. Recuperar EMITIDOS y DMP  ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/Recover de DMP y EMITIDOS?section=4|Editar]]
+
+======
+2.1 SEDES  ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/Recover de DMP y EMITIDOS?section=5|Editar]]
+
+//Ejemplo de restauración con SE2CGSE2//
+
+- Desde la misma máquina de salto (10.241.252.119) entramos en un cmd y ejecutamos:
+
+**cmd**> //recover -s
+ <font inherit/inherit;;rgb(255, 0, 0);;inherit>oragrid</font> -c
+ <font inherit/inherit;;rgb(255, 0, 0);;inherit>SE2CGSE2</font> // \\
+ <font 14px font-style: normal; font-weight: 400; text-align: start; color: rgb(234,153,153)/sans-serif;;rgb(234,153,153);;inherit>oragrid</font>
+ <font 14px font-style: normal; font-weight: 400; text-align: start;/sans-serif;;inherit;;inherit>= Es el **servidor** (**-s**) de backup para las SEDES</font> \\
+ <font 14px font-style: normal; font-weight: 400; text-align: start;/sans-serif;;rgb(234, 153, 153) font-family: sans-serif; font-size: 14px; font-style: normal; font-weight: 400; text-align: start;;;inherit>SE2CGSE2</font>
+ <font 14px font-style: normal; font-weight: 400; text-align: start; color: rgb(0,0,0)/sans-serif;;rgb(234,153,153) font-family: sans-serif; font-size: 14px; font-style: normal; font-weight: 400; text-align: start; color: rgb(0,0,0);;inherit>= Es el **cliente** (**-c**) del que queremos coger el backup (se indicará en la petición, sino consultar con Adriano)</font>
+
+- Los siguientes comandos nos servirán para localizar, marcar y recuperar los ficheros que necesitemos del cliente:
+
+**recover**> //changetime 07/21/2018//
+ <font inherit/inherit;;rgb(153, 153, 153);;inherit>--> Modifica la fecha en formato (mm/dd/yyyy)</font> \\
+**recover**> //cd
+ <font 14px font-style: normal; font-weight: 400; text-align: start;/sans-serif;;inherit;;inherit>O:\GSE2\export</font> //
+ <font inherit/inherit;;rgb(153, 153, 153);;inherit>--> Moverse por directorios</font> \\
+**recover**> //ls -la//
+ <font inherit/inherit;;rgb(153, 153, 153);;inherit>--> Listar ficheros del directorio actual por nombre</font> \\
+**recover**> //add
+ <font 14px font-style: normal; font-weight: 400; text-align: start;/sans-serif;;inherit;;inherit>GSE2.dmp</font> // <font inherit/inherit;;rgb(153, 153, 153);;inherit>--> Añadir fichero a la lista de recuperación</font> \\
+ <font 14px font-style: normal; font-weight: 700; text-align: start;/sans-serif;;inherit;;inherit>recover</font>
+ <font 14px font-style: normal; font-weight: 400; text-align: start;/sans-serif;;inherit;;inherit>></font> // <font 14px font-weight: 400; text-align: start;/sans-serif;;inherit;;inherit>add O:\GSE2\export</font> // <font 14px font-style: normal; font-weight: 400; text-align: start; color: rgb(153, 153, 153);/sans-serif;;rgb(153, 153, 153);;inherit>--> Añade todos los ficheros dentro del directorio a la lista de recuperación</font> \\
+**recover**> //list// <font inherit/inherit;;rgb(153, 153, 153);;inherit>--> Mostrar ficheros de la lista para recuperar</font> \\
+**recover**> //delete O:\GSE2\export\GSE2.dmp//
+ <font inherit/inherit;;rgb(153, 153, 153);;inherit>--> Eliminar ficheros de la lista para recuperar</font> \\
+**recover**> //relocate Z:\INC_1322587// <font inherit/inherit;;rgb(153, 153, 153);;inherit>--> Definir directorio de recuperación</font> \\
+**recover**> //destination// <font inherit/inherit;;rgb(153, 153, 153);;inherit>--> Comprobar directorio de recuperación</font> \\
+**recover**> //recover//
+ <font inherit/inherit;;rgb(153, 153, 153);;inherit>--> Recuperar</font>
+
+- Para los EMITIDOS, si no se encuentran los ficheros solicitados en la fecha, conectarse por SSH al servidor **oragrid** y hacer por cada directorio:\\
+# //nsrinfo
+ <font inherit/inherit;;rgb(255, 0, 0);;inherit>justiciase4cad1.sevilla.justicia.junta-andalucia.es</font> | grep "\\\\ <font inherit/inherit;;rgb(255, 0, 0);;inherit>4109142024</font> \\\\ <font inherit/inherit;;rgb(255, 0, 0);;inherit>2014009028</font> "//
+
+Son importantes las **\\\\** porque **nsrinfo **reconoce **las 4 como 1**. También importantes las **dobles comillas**.
+
+- Para facilitar el trabajo a los compañeros de ADRIANO, dejaremos los EMITIDOS en una carpeta con el nombre de la carpeta superior a donde están dichos ficheros, es decir, para el ejemplo anterior sería crear una carpeta // <font inherit/inherit;;rgb(255, 0, 0);;inherit>2014009028</font> //  dentro de // <font inherit/inherit;;rgb(255, 0, 0);;inherit>Z:\IN0000001337612</font> //
+
+======
+2.2 SSCC  ======
+
+[[https://xwiki.justicia.junta-andalucia.es/xwiki/bin/edit/Sistemas/Recover de DMP y EMITIDOS?section=6|Editar]]
+
+Máquina de salto para recover gráfico: 10.241.252.14\\
+usuario de dominio: JUSTICIA\user
+
+  * Clientes Antiguos \\
+    Cliente para el recover: \\ **PRO** =desde IUSSUBD04 \\ **PRE**/**DES** =IUSSUBD10  * Nuevas PRE/DES: \\
+    Desde el NetWorker Management Console de IUSSLNSRSRV01 \\
+    Enterprise > iusslnsrsrv01 > clic derecho > Launch Application \\
+    New recover \\
+    - Traditional \\
+    - ISILON-NDMP.justicia.junta-andalucia.es / Recover to the same host \\
+    - /ifs/data/NFS-zone/Backup_centralizado/ = /NFS_BACKUP/ \\
+    - New destination path (dentro de la ISILON, en NFS_BACKUP) \\
+    - Perform the recovery > Recovery name \\
+    - Run recover
+
+

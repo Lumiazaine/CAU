@@ -1,0 +1,18 @@
+﻿
+__**Grupo de Trabajo de Sistemas Windows **__
+
+* [[:pag_wintel_vmware_updates|Aplicación de parches de VMWare]]
+
+* [[:pag_wintel_wsus|Aplicación de parches de seguiridad de Windows]]
+
+* [[:pag_wintel_remedy|Servicio Remedy]]
+
+* [[:pag_wintel_vmwarebkp|Copia de Seguridad y Restauración Vmware]]
+
+* [[:pag_wintel_altavm|Procedimiento Alta MV]]
+
+* [[:pag_wintel_pasopro|Procedimiento paso a producción]]
+
+{{tag>novalidada}}
+
+

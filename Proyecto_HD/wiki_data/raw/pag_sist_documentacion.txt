@@ -1,0 +1,60 @@
+﻿
+====== RANCID ======
+Última modificación por **Administrador Sistemas** el *12/11/2020 08:51:29*
+
+RANCID es una aplicación centralizada que permite consultar el estado de la configuración actual de los switches de la red judicial, así como llevar un control de versiones.
+
+  * Página oficial: [[http://www.shrubbery.net/rancid/|RANCID]]
+  * Seguimiento del proyecto en Redmine: [[http://iussltools01.justicia.junta-andalucia.es/redmine/issues/1836|Issue #1836]]
+  * Acceso: 10.241.129.201
+
+----
+
+===== Configuración del servicio =====
+  * Servidor actual: `iussltools03`
+  * Ruta de instalación: `/usr/local/rancid`
+  * Fichero de configuración de accesos: `/usr/local/rancid/.cloginrc`
+
+**Ficheros de configuración por provincia:**
+
+^ Provincia  ^ Ruta de configuración                             ^
+| ALMERIA    | `/usr/local/rancid/var/ALMERIA/router.db`         |
+| CADIZ      | `/usr/local/rancid/var/CADIZ/router.db`           |
+| CORDOBA    | `/usr/local/rancid/var/CORDOBA/router.db`         |
+| GRANADA    | `/usr/local/rancid/var/GRANADA/router.db`         |
+| HUELVA     | `/usr/local/rancid/var/HUELVA/router.db`          |
+| JAEN       | `/usr/local/rancid/var/JAEN/router.db`            |
+| MALAGA     | `/usr/local/rancid/var/MALAGA/router.db`          |
+| SEVILLA    | `/usr/local/rancid/var/SEVILLA/router.db`         |
+| SSCC       | `/usr/local/rancid/var/SSCC/router.db`            |
+
+----
+
+===== Acceso web =====
+  * [[http://iussltools03:49152/viewvc/cvsroot/|ViewVC (CVS Viewer)]]
+  * Servicio disponible en el puerto `49152`
+  * Script de arranque: `/etc/init.d/viewvc`
+
+----
+
+===== Schedule (Crontab) =====
+Configuración de las tareas programadas para la ejecución de RANCID:
+
+^ Hora   ^ Provincia  ^ Comando                                                    ^
+| 00:30  | SEVILLA    | `/usr/local/rancid/bin/rancid-run SEVILLA`                 |
+| 01:00  | ALMERIA    | `/usr/local/rancid/bin/rancid-run ALMERIA`                 |
+| 01:30  | CADIZ      | `/usr/local/rancid/bin/rancid-run CADIZ`                   |
+| 02:00  | CORDOBA    | `/usr/local/rancid/bin/rancid-run CORDOBA`                 |
+| 02:30  | GRANADA    | `/usr/local/rancid/bin/rancid-run GRANADA`                 |
+| 03:00  | HUELVA     | `/usr/local/rancid/bin/rancid-run HUELVA`                  |
+| 03:30  | JAEN       | `/usr/local/rancid/bin/rancid-run JAEN`                    |
+| 04:00  | MALAGA     | `/usr/local/rancid/bin/rancid-run MALAGA`                  |
+| 04:30  | SSCC       | `/usr/local/rancid/bin/rancid-run SSCC`                    |
+
+----
+
+**Notas:**
+  * Cada tarea ejecuta `rancid-run` para la provincia correspondiente.  
+  * La planificación está distribuida en intervalos de 30 minutos para evitar solapamientos.  
+  * El repositorio se actualiza automáticamente tras cada ejecución.  
+

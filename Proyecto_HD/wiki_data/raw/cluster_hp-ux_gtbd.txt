@@ -1,0 +1,29 @@
+﻿
+===== CLUSTER HP-UX GTBD =====
+
+**Ver status del cluster**
+	cmviewcl
+
+**Detener un package**
+Nota: al lanzar esta orden, el software del cluster deshabilita el AUTO_RUN del package, siendo necesario reactivarlo cuando se finalicen las operaciones.
+	cmhaltpkg package
+	cmhaltpkg -n NODO package
+
+**Arrancar un package**
+	cmrunpkg package
+	cmrunpkg -n NODO package
+
+**Activar el AUTO_RUN**
+Nota: adicionalmente arranca automaticamente el package si este se encuentra detenido.
+	cmmodpkg -e package
+
+**Activar el SWITCHING**
+	cmmodpkg -e -n NODO package
+
+
+**Detener un nodo del cluster**
+Nota: esto detiene el servicio de cluster en ese nodo hasta que se reinicie nuevamente el demonio, los cambios producidos en el cluster no se propagarán hasta que se reactive.
+	cmhaltnode -n NODO
+
+**Detener todo el cluster**
+	cmhaltcl CLUSTER

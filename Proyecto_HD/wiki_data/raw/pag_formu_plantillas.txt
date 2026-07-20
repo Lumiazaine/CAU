@@ -1,0 +1,1323 @@
+﻿
+
+<WRAP info round box>
+====== Plantillas de correo informativos al usuario ======
+</WRAP>
+
+<WRAP tip round box>
+
+Estas plantillas de correo deben ser utilizadas por todos los equipos resolutores de incidencias y peticiones.
+
+Uso:
+
+Desde REMEDY "Informar Funcionario"
+
+
+
+</WRAP>
+
+
+Las plantillas de correos se utilizan para comunicarnos con los usuarios manteniendo una estructura y modelo de comunicación uniforme y adaptado a la información que desde el SSDJ se desea transmitir a los usuarios.
+Estos correos informativos son los que se utilizarán para enviar desde Remedy, botón **Informar funcionario**.
+
+
+<panel type="info">
+
+
+<WRAP alert round box>
+===== Petición de servicio por un canal distinto a los habilitados =====
+Estimados/as usuarios/as,
+
+El canal oficial habilitado para la tramitación de peticiones e incidencias en materias de Justicia Digital es el CAU, siendo los canales para ello los siguientes:
+  - Aplicación de "Gestión de Incidencias" que tiene a su disposición en el menú Aplicaciones del Escritorio Judicial.
+  - Mediante correo electrónico: csu.ius@juntadeandalucia.es
+  - O bien, en el teléfono 955040955 (340955).
+Le recordamos que además, puede encontrar información de su interés en el Portal de Capacitación https://capacitacion.justicia.junta-andalucia.es/.
+ 
+Gracias.
+ 
+
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/
+</WRAP>
+</panel>
+
+<panel type="info">
+
+
+
+====== Adriano ======
+
+=====Solicitud de datos del procedimiento=====
+
+Buenos días.
+ 
+Le informamos que nuestra comunicación es debido a que necesitamos que nos facilite el número de procedimiento, NIG del mismo y captura del error que le ocasiona dicha incidencia.
+
+Rogamos responda a este mail aportando la información solicitada.
+
+En cuanto a la captura esta puede hacerla usando la herramienta RECORTES; búsquela en INICIO (esquina inferior izquierda) y teclee el nombre de la aplicación. Una vez abierta pulse en NUEVO y con el ratón, haga click y arrastre hasta seleccionar el área deseada. Tras ello, cliquee de nuevo botón derecho del ratón en la imagen y usamos GUARDAR COMO. De 
+esta manera podemos adjuntarla al correo.
+
+Atentamente.
+
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/
+=====Firma anulada=====
+
+Buenos días
+
+Le informamos que ya se han anulado las firmas solicitadas.
+
+Aprovechamos la ocasión para recordarle que para futuras ocasiones, tiene a su disposición la aplicación Gestión de Incidencias, a la cual se accede a través del menú Aplicaciones del Escritorio Judicial. Para una mayor eficacia, puede realizar el alta y seguimiento de incidencias, peticiones o consultas.
+
+Atentamente.  
+
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/
+
+
+----
+
+=====Cancelar firma en Adriano de documento firmado=====
+
+Buenos días
+
+Le informamos que para cancelar un documento ya firmado de forma total o parcial hay que usar el usuario de un nivel 1 (LAJ o MAG) el acontecimiento TRCANDOC, con ello, el documento quedará en "en elaboración" y se podrá modificar y eliminar de trámites en ejecución.  
+https://videos.justicia.junta-andalucia.es/w/1SQQik3gDF3gP6B2Sq5uqr
+
+Rogamos confirme si la solución, en caso de no funcionar, deberá remitirnos una captura.
+
+Rogamos responda a este mail aportando la información solicitada.
+
+En cuanto a la captura esta puede hacerla usando la herramienta RECORTES; búsquela en INICIO (esquina inferior izquierda) y teclee el nombre de la aplicación. Una vez abierta pulse en NUEVO y con el ratón, haga click y arrastre hasta seleccionar el área deseada. Tras ello, cliquee de nuevo botón derecho del ratón en la imagen y usamos GUARDAR COMO. De esta manera podemos adjuntarla al correo.
+
+Atentamente.
+
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/
+
+
+----
+
+=====Cierre información sobre DESACUMULACIÓN CASO 6.1=====
+
+Buenos días
+
+Le informamos que su incidencia ha sido cerrada. Las acumulaciones en el mismo juzgado, desde el trámite que está vivo, debe realizar el trámite DACU y seleccionar el procedimiento bloqueado, una vez realizado la des acumulación se habrá realizado correctamente.
+
+Aprovechamos la ocasión para recordarle que, para futuras ocasiones, tiene a su disposición la aplicación Gestión de Incidencias, a la cual se accede a través del menú Aplicaciones del Escritorio Judicial. Para una mayor eficacia, puede realizar el alta y seguimiento de incidencias, peticiones o consultas.
+
+https://videos.justicia.junta-andalucia.es/w/o4FeUW66VauRB8eHdqFz1r
+
+Atentamente.  
+
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/
+
+----------------------
+
+
+=====Rechazo eliminación procedimiento=====
+
+Buenos días.
+
+Le informamos que, en la plataforma Adriano, los procedimientos no pueden ser eliminados, anulados o borrados directamente.
+Para indicar la finalización de un procedimiento, le solicitamos que realice el cierre usted mismo/a, especificando el motivo correspondiente.
+
+Para llevar a cabo el cierre, tiene a su disposición las siguientes opciones:
+
+- **Creación de un AUTO:** Puede generar un auto que formalice la finalización del procedimiento y detalle las razones del cierre.  
+- **Cambio de fase y estado (ESEST o ESFA):** A través de la modificación de la fase y el estado del procedimiento, podrá indicar su cierre de manera clara y precisa.
+
+https://videos.justicia.junta-andalucia.es/w/eKe4YKS6EgmysUp8w4bAs4
+
+También puede realizar un TRPROC para transformar el procedimiento en el tipo que desea.
+
+https://videos.justicia.junta-andalucia.es/w/1G7m99pYxt6cgtoRJbDviQ
+
+Si surgiera alguna duda durante este proceso o necesitara asistencia adicional, le rogamos nos lo comunique para que podamos remitir su consulta al área de formación, donde le proporcionarán la ayuda necesaria.
+
+Atentamente.
+
+CAU (Centro de atención al usuario)\\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/
+
+------------------
+
+=====Actualización firma=====
+
+Buenos días.
+
+Le informamos que ya se han actualizado el estado de la firma.
+Aprovechamos la ocasión para recordarle que, para futuras ocasiones, tiene a su disposición la aplicación Gestión de Incidencias, a la cual se accede a través del menú Aplicaciones del Escritorio Judicial. Para una mayor eficacia, puede realizar el alta y seguimiento de incidencias, peticiones o consultas.
+
+Atentamente.
+
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/
+
+
+</panel>
+<panel type="info">
+
+====== Contraseña ======
+
+=====Cierre de cambio de contraseña LDAP=====
+
+Buenos días
+
+Le informamos que su incidencia ha sido solventada y se ha restablecido la contraseña por una temporal. Para conocerla llame al 955040955 e indique el ticket que aparece en el asunto.
+
+Aprovechamos la ocasión para recordarle que, para futuras ocasiones, tiene a su disposición la aplicación Gestión de Incidencias, a la cual se accede a través del menú Aplicaciones del Escritorio Judicial. Para una mayor eficacia, puede realizar el alta y seguimiento de incidencias, peticiones o consultas.
+
+Puede realizar el reseteo de contraseña desde el enlace siguiente accediendo con el certificado digital.
+https://micuenta.juntadeandalucia.es/micuenta/es.juntadeandalucia.micuenta.servlets.LoginInicial#
+
+Atentamente.  
+
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/
+
+
+----
+
+=====Información contraseñas Ilocalizable=====
+
+Buenos días
+
+Le informamos que hemos reseteado su contraseña, pero no ha sido posible contactar con usted, por favor contacte con nosotros para saber la nueva contraseña.
+
+Puede realizar el reseteo de contraseña desde el enlace siguiente accediendo con el certificado digital. https://micuenta.juntadeandalucia.es/micuenta/es.juntadeandalucia.micuenta.servlets.LoginInicial#
+
+Aprovechamos la ocasión para recordarle que, para futuras ocasiones, tiene a su disposición la aplicación Gestión de Incidencias, a la cual se accede a través del menú Aplicaciones del Escritorio Judicial. Para una mayor eficacia, puede realizar el alta y seguimiento de incidencias, peticiones o consultas.
+
+Atentamente.  
+
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/
+
+
+</panel>
+<panel type="info">
+
+====== Correo ======
+
+**Contraseña de correo NO JUSTICIA**
+
+Buenos días
+
+Le informamos que su incidencia ha sido cerrada, su correo electrónico no es gestionado por justicia. Puede cambiar su contraseña accediendo a: https://micuenta.juntadeandalucia.es 
+
+  - Pulse para iniciar sesión
+  - Acceder con certificado
+
+Aprovechamos la ocasión para recordarle que, para futuras ocasiones, tiene a su disposición la aplicación Gestión de Incidencias, a la cual se accede a través del menú Aplicaciones del Escritorio Judicial. Para una mayor eficacia, puede realizar el alta y seguimiento de incidencias, peticiones o consultas.
+
+Atentamente.  
+
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/
+----
+
+=====Aumento de buzón=====
+
+Buenos días
+
+Le informamos que no hemos recibido el formulario de solicitud que se le requirió para poder tramitar su solicitud.
+
+Le recordamos que dicho formulario debe venir firmado por el responsable del órgano o unidad funcional (que, en el caso de los órganos judiciales, es el Letrado de la Administración de Justicia titular o sustituto, y, en su defecto, el secretario Coordinador Provincial; en el caso de los Institutos de Medicina Legal, el director de este, y en el de Fiscalía, el Fiscal jefe) y con el sello del órgano o unidad funcional.
+
+Quedamos pendientes de recibirlo debidamente cumplimentado, con indicación del número de petición en el asunto del correo, para poder dar trámite a su solicitud. A través de nuestro correo csu.ius@juntadeandalucia.es
+
+Puede descargar el formulario desde el siguiente enlace: 
+
+AUMENTO BUZÓN: https://intranet.ada.junta-andalucia.es/intranet-ada/sites/default/files/2022-11/PlantillaAmpliacionBuzon_2022_v1r1.pdf
+
+Aprovechamos la ocasión para recordarle que, para futuras ocasiones, tiene a su disposición la aplicación Gestión de Incidencias, a la cual se accede\
+a través del menú Aplicaciones del Escritorio Judicial. Para una mayor eficacia, puede realizar el alta y seguimiento de incidencias, peticiones o consultas.
+
+Atentamente.  
+
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/
+
+
+</panel>
+
+<panel type="info">
+
+
+====== Escritorio Judicial ======
+
+**Consumibles desde CHROME**
+
+Buenos días
+
+Le informamos que para resolver su incidencia debe acceder al Escritorio Judicial desde Google Chrome y desde ahí se le abrirá el catálogo.
+http://escritoriojudicial.justicia.junta-andalucia.es/Escritorio/Inicio.do
+
+Aprovechamos la ocasión para recordarle que, para futuras ocasiones, tiene a su disposición la aplicación Gestión de Incidencias, a la cual se accede a través
+del menú Aplicaciones del Escritorio Judicial. Para una mayor eficacia, puede realizar el alta y seguimiento de incidencias, peticiones o consultas.
+
+Atentamente.  
+
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/
+
+
+----
+
+=====Fallo en el gestor de incidencias y herramienta CONSUMIBLES=====
+
+Buenos días
+
+Le informamos que para acceder a GESTOR de INCIDENCIAS deberá abrir Escritorio Judicial.
+
+Necesitamos que nos informe si su incidencia ha sido solventada. En caso de no estar solventada, rogamos remita respondiendo a este correo electrónico una captura
+de pantalla con el error dado.
+
+Indíquenos la información solicitada a través de la aplicación de "Gestión de Incidencias" que tiene a su disposición en el menú Aplicaciones del Escritorio Judicial,
+añadiendo nuevo comentario.
+
+Atentamente.  
+
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/
+
+----
+
+=====Rechazo pedido de tóner por estar agotado=====
+
+Buenos días
+
+Le informamos que el proveedor cobra por copia. Actualmente, las peticiones de tóner están siendo monitorizadas y a no ser que vean que el nivel de tinta es bajo,
+no suministrará consumible hasta que tengan una necesidad real según el sistema.
+
+Rogamos, soliciten tóner cuando la impresora indique que el nivel de tinta está bajo indicando el número de serie en el aplicativo consumibles del Escritorio Judicial.
+
+Aprovechamos la ocasión para recordarle que, para futuras ocasiones, tiene a su disposición la aplicación Gestión de Incidencias, a la cual se accede
+a través del menú Aplicaciones del Escritorio Judicial. Para una mayor eficacia, puede realizar el alta y seguimiento de incidencias, peticiones o consultas.
+
+Atentamente.  
+
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/
+
+
+----
+
+=====Rechazo petición de tóner=====
+
+Buenos días
+
+Le informamos que su incidencia ha sido cerrada. La solicitud de tóner debe ser solicitada a través del aplicativo Consumibles del Gestor Procesal.
+
+Aprovechamos la ocasión para recordarle que, para futuras ocasiones, tiene a su disposición la aplicación Gestión de Incidencias, a la cual se accede
+a través del menú Aplicaciones del Escritorio Judicial. Para una mayor eficacia, puede realizar el alta y seguimiento de incidencias, peticiones o consultas.
+
+Atentamente.  
+
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/
+
+
+</panel>
+
+<panel type="info">
+
+
+====== EVID / EJE / Formularios ======
+
+=====EJE (MJU) - Solicitud de alta=====
+
+Buenos días
+
+Le informamos que nuestra comunicación es debido a que necesitamos que nos confirme sí:
+
+- Confirmar si conoce y usa la funcionalidad integrada Sede Judicial Electrónica-Adriano de puesta a disposición del EJE. Información publicada en Portal Adriano en la url Solicitud copia acceso al EJE, así como en la propia SJE tanto para profesionales (https://sede.justicia.juntadeandalucia.es/portal/adriano/es/tramites-y-servicios/tramitespersonales/tramitespersonales) como también para ciudadanos, a través de las consultas de estado de tramitación de procedimientos en que estén registrados como parte.
+- Si conoce que en SJE los profesionales pueden pedir copia EJE a órganos judiciales recibiéndose en @driano (gadget solicitudes visibilidad), que confirme si tiene o no problemas o limitaciones y cuáles, si es por eso que pide ACCEDA Copia EJE.
+
+ACCEDA Copia EJE no está activado en la actualidad en el juzgado solicitante, y su posible uso está subordinado a imposibilidad de uso de la funcionalidad integrada en Adriano.
+
+Indíquenos la información solicitada a través de la aplicación de "Gestión de Incidencias" que tiene a su disposición en el menú Aplicaciones del Escritorio Judicial, añadiendo nuevo comentario.
+
+Atentamente.
+
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/
+
+
+----
+
+=====EVID - Solicitud de alta=====
+
+Buenos días
+
+Le informamos que necesitamos concretamente los siguientes documentos (formulario de solicitud y documento) para poder dar trámite a su petición de alta en la aplicación EVID.
+
+Le recordamos que dicho formulario debe venir firmado por el responsable del órgano o unidad funcional (que, en el caso de los órganos judiciales, es el Letrado de la Administración de Justicia titular o sustituto, y, en su defecto, el secretario Coordinador Provincial; en el caso de los Institutos de Medicina Legal, el director de este, y en el de Fiscalía, el Fiscal jefe) y con el sello del órgano o unidad funcional.
+
+Quedamos pendientes de recibirlo debidamente cumplimentado, con indicación del número de petición en el asunto del correo, para poder dar trámite a su solicitud. A través de nuestro correo csu.ius@juntadeandalucia.es
+
+Puede descargar el formulario desde el siguiente enlace:\
+https://capacitacion.justicia.junta-andalucia.es/course/section.php?id=261
+(en este Excel debe de rellenar tanto la hoja o pestaña ÓRGANO Y TRÁMITES como la de USUARIOS)
+
+Aprovechamos la ocasión para recordarle que, para futuras ocasiones, tiene a su disposición la aplicación Gestión de Incidencias, a la cual se accede a través del menú Aplicaciones del Escritorio Judicial. Para una mayor eficacia, puede realizar el alta y seguimiento de incidencias, peticiones o consultas.
+
+Atentamente.
+
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/course/view.php?id=51
+
+
+</panel>
+
+<panel type="info">
+
+
+====== Gestión de usuarios ======
+
+=====Alta colectivo LEXNET=====
+
+Buenos días
+
+Le informamos que con relación a la incidencia indicada en el asunto de este correo es para informarle de que los colectivos deben solicitar el alta de su buzón al CAU mediante correo electrónico a csu.ius@juntadeandalucia.es, adjuntando dos ficheros:
+
+1. Oficio con firma y sello del colectivo solicitando el alta en Lexnet.
+2. Fichero Excel de solicitud al Ministerio con los datos cumplimentados.
+
+Quedamos pendientes de recibirlo debidamente cumplimentado, con indicación del número de petición en el asunto del correo, para poder dar trámite a su solicitud.
+A través de nuestro correo csu.ius@juntadeandalucia.es
+
+Puede encontrar toda la documentación en el siguiente enlace: https://juntadeandalucia.es/organismos/justiciaadministracionlocalyfuncionpublica/areas/justicia/servicios-profesionales/lexnet.html
+
+Atentamente.
+
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/course/view.php?id=51
+
+----
+
+=====Altas=====
+
+Buenos días
+
+Le informamos que ya ha sido dada de alta.
+
+Aprovechamos la ocasión para recordarle que, para futuras ocasiones, tiene a su disposición la aplicación Gestión de Incidencias, a la cual se accede a través del menú Aplicaciones del Escritorio Judicial. Para una mayor eficacia, puede realizar el alta y seguimiento de incidencias, peticiones o consultas.
+
+Tiene a su disposición la herramienta formativa en: https://capacitacion.justicia.junta-andalucia.es/course/view.php?id=51
+
+Atentamente.
+
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/course/view.php?id=51
+
+----
+
+=====Cierre de solicitud de alta Adriano=====
+
+Buenos días
+
+Le informamos que su petición se ha llevado a cabo. Le informamos que su solicitud de alta en el sistema @driano ha sido tramitada y aparecerá activada el día de mañana a partir de las 07:30 horas.
+
+Aprovechamos la ocasión para recordarle que, para futuras ocasiones, tiene a su disposición la aplicación Gestión de Incidencias, a la cual se accede a través del menú Aplicaciones del Escritorio Judicial. Para una mayor eficacia, puede realizar el alta y seguimiento de incidencias, peticiones o consultas.
+
+Tiene a su disposición la herramienta formativa en: https://capacitacion.justicia.junta-andalucia.es/
+
+Atentamente.
+
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/
+
+
+----
+
+=====Cierre de cambio de datos en TEMIS =====
+
+Buenos días
+
+Le informamos que su petición ha sido realizada. Hemos modificado los datos solicitados y a partir de las 24 horas del cambio aparecerán actualizados.
+De lo contrario contáctenos de nuevo, por favor.
+
+Aprovechamos la ocasión para recordarle que, para futuras ocasiones, tiene a su disposición la aplicación Gestión de Incidencias, a la cual se accede a través del menú Aplicaciones del Escritorio Judicial. Para una mayor eficacia, puede realizar el alta y seguimiento de incidencias,
+peticiones o consultas.
+
+Atentamente.
+
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/
+
+
+----
+
+
+
+=====Cierre solicitud de traslado finalizada=====
+
+Buenos días
+
+Le informamos que su traslado ha sido finalizado correctamente.
+
+Aprovechamos la ocasión para recordarle que, para futuras ocasiones, tiene a su disposición la aplicación Gestión de Incidencias, a la cual se accede a través del menú Aplicaciones del Escritorio Judicial. Para una mayor eficacia, puede realizar el alta y seguimiento de incidencias, peticiones o consultas.
+
+Tiene a su disposición la herramienta formativa en: https://capacitacion.justicia.junta-andalucia.es/
+
+Atentamente.
+
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/
+
+</panel>
+
+<panel type="info">
+
+====== Información General ======
+
+=====Plantilla genérica=====
+
+Buenos días:
+ 
+Le informamos en relación a la incidencia indicada en el asunto que ________ personalizar_______________
+ 
+Indíquenos la información solicitada a través de la aplicación de "Gestión de Incidencias" que tiene a su disposición en el menú Aplicaciones del Escritorio Judicial, añadiendo nuevo comentario.
+ 
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/
+ 
+
+
+
+
+=====Solicitud de formulario de alta=====
+ 
+Buenos días.
+
+Le informamos en relación a la incidencia indicada en el asunto, por favor debe remitir el siguiente formulario. Firmado y sellado por el responsable.
+ 
+https://capacitacion.justicia.junta-andalucia.es/course/section.php?id=261
+ 
+Quedamos a la espera del dato solicitado.
+ 
+Aprovechamos la ocasión para recordarle que, para futuras ocasiones, tiene a su disposición la aplicación Gestión de Incidencias, a la cual se accede a través del menú Aplicaciones del Escritorio Judicial. Para una mayor eficacia, puede realizar el alta y seguimiento de incidencias, peticiones o consultas.
+ 
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/
+
+
+=====Intento de contacto=====
+
+Buenos días.
+
+Le informamos que hemos intentado comunicarnos con usted sin éxito por el ticket del asunto al teléfono XXXXXXXXX.
+Por favor póngase en contacto con nosotros al 955040955 e indique el ticket que aparece en el asunto. A este respecto, no dude en contactar con nosotros, o facilitarnos un teléfono donde podamos localizarle.
+
+Atentamente.
+
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/
+
+
+=====Cierre de incidencia solventada=====
+
+Buenos días
+
+Le informamos que su incidencia ha sido solventada con la solución  XXXXXXXXXXXX.
+
+Aprovechamos la ocasión para recordarle que, para futuras ocasiones, tiene a su disposición la aplicación Gestión de Incidencias, a la cual se accede a través del menú Aplicaciones del Escritorio Judicial. Para una mayor eficacia, puede realizar el alta y seguimiento de incidencias, peticiones o consultas.
+
+Atentamente.
+
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/
+
+----
+
+=====Cierre por duplicidad=====
+
+Buenos días
+
+Le informamos que su incidencia  se va a proceder al cierre por encontrarse duplicada con el ticket xxxxxxx, el cual continúa abierto y en curso.
+Si lo necesita, puede reclamar el ticket principal entrando en el Gestor de Incidencias, accediendo al detalle del ticket y picando en el botón “Nuevo Comentario”.
+Por favor, no abra incidencias nuevas si ya tiene una activa, añada un comentario, para evitar duplicidades.
+
+Atentamente.
+
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/
+
+=====Cierre por ilocalizable=====
+
+Buenos días
+
+Le informamos que hemos intentado contactar con usted en varias ocasiones sin éxito al teléfono XXXXXXXXX.
+El motivo de la llamada es para solicitar información acerca de xxxxxxxxxxxx. Le informamos que procedemos al cierre de su incidencia. 
+
+Aprovechamos la ocasión para recordarle que, para futuras ocasiones, tiene a su disposición la aplicación Gestión de Incidencias, a la cual se accede a través del menú Aplicaciones del Escritorio Judicial. Para una mayor eficacia, puede realizar el alta y seguimiento de incidencias, peticiones o consultas. 
+Procedemos al cierre del ticket  a la espera de que vuelva a contactar con nosotros, le recordamos tiene a su disposición la aplicación “Gestión de Incidencias”, a la cual se accede a través del menú Aplicaciones del Escritorio Judicial.
+
+Atentamente.
+
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/
+
+</panel>
+
+<panel type="info">
+
+====== ISL ======
+
+=====ISL – Consulta de credenciales=====
+
+Buenos días
+
+Le informamos que para acceder a ISL debe descargar el aplicativo desde la web: https://soporteisl.sandetel.es/users/programs
+
+Los datos de acceso si ya está completada su alta son:
+
+Usuario: \\ldap\\usuarioldap.correoelectronico  **<--** Respetar las barras
+
+Contraseña: La misma del correo electrónico de la Junta de Andalucía. Si no la conoce, llame al 955040955
+
+Una vez pulsado login, deberá acceder en la barra de arriba al botón "Equipos", dentro de la opción, aparecerá el nombre del equipo del Juzgado con un monitor en verde. Si aparece en gris, es que el equipo del juzgado está apagado.
+
+Al pulsar sobre el nombre, le pedirá un segundo dato: Secreta2020
+
+Aprovechamos la ocasión para recordarle que, para futuras ocasiones, tiene a su disposición la aplicación Gestión de Incidencias, a la cual se accede a través del menú Aplicaciones del Escritorio Judicial. Para una mayor eficacia, puede realizar el alta y seguimiento de incidencias, peticiones o consultas.
+
+Atentamente.
+
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/
+
+----
+
+=====ISL – Instalador=====
+
+Buenos días
+
+Le informamos en relación a la petición indicada en el asunto le informamos que ya se ha efectuado el alta en la aplicación para teletrabajo.
+
+Antes de nada, debe revisar el documento de seguridad publicado en el Portal Adriano y aplicar las medidas oportunas en su equipo de trabajo si fuese necesario, concretamente “Manual para la configuración básica de seguridad en Ordenador Personal”, disponible en: https://capacitacion.justicia.junta-andalucia.es/
+
+Posteriormente deberá instalar el programa ISL disponible en el siguiente enlace: https://soporteisl.sandetel.es/start/ISLLight?platform=win32
+
+Una vez seguido el manual, para finalizar dicha instalación, tendrá que ejecutar el programa instalado "ISL Light" y pulsar "INICIAR SESIÓN". 
+Se abrirá una web donde le solicitará usuario y contraseña. En usuario deberá introducir su correo electrónico sin @juntadeandalucia.es y la contraseña es la misma que la del correo electrónico.
+
+Una vez pulsado login, deberá acceder en la barra de arriba al botón "Equipos", dentro de la opción, aparecerá el nombre del equipo del Juzgado con un monitor en verde. Si aparece en gris, es que el equipo del juzgado está apagado.
+
+Al pulsar sobre el nombre, le pedirá un segundo dato: Secreta2020
+
+Aprovechamos la ocasión para informarles que para cualquier asistencia que precise, puede contactar con nosotros en el teléfono 955040955 o e-mail csu.ius@juntadeandalucia.es, o bien puede acceder a la aplicación de "Gestión de Incidencias" que tiene a su disposición en el menú Aplicaciones del Escritorio Judicial.
+
+Atentamente.
+
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/
+
+</panel>
+
+<panel type="info">
+
+====== Orfila y Agenda IML ======
+
+=====Baja de Agenda IML y modificación por ORFILA=====
+
+Buenos días
+
+Le informamos que, a raíz de la entrada de Orfila, se han realizado modificaciones en:
+
+**Agenda IML**
+
+Le informamos que se deshabilitará para los Órganos Judiciales. Por tanto, cualquier petición de cita o comunicación que desde los Órganos Judiciales vaya a dirigirse a los profesionales de IMLCFs de Andalucía, debe realizarse vía LexNet.
+
+Los IMLCFs podrán seguir usando internamente esta aplicación para el resto de funcionalidades.
+
+**Gestión Historiales IML:**
+
+Se encontrará únicamente en modo consulta de los datos existentes hasta la fecha indicada.
+
+No podrán almacenar nuevos datos ni editar/eliminar los existentes.
+
+Aprovechamos la ocasión para recordarle que, para futuras ocasiones, tiene a su disposición la aplicación Gestión de Incidencias, a la cual se accede a través del menú Aplicaciones del Escritorio Judicial. Para una mayor eficacia, puede realizar el alta y seguimiento de incidencias, peticiones o consultas.
+
+Atentamente.
+
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/
+
+</panel>
+
+<panel type="info">
+
+====== Otros CAU ======
+
+=====Derivación al CAU del Ministerio=====
+
+Buenos días
+
+Le informamos que para solucionar su incidencia debe de contactar con el CAU del ministerio:  
+
+Teléfono: 913 85 98 00\\
+Correo: cau@justicia.es
+
+Aprovechamos la ocasión para recordarle que, para futuras ocasiones, tiene a su disposición la aplicación Gestión de Incidencias, a la cual se accede a través del menú Aplicaciones del Escritorio Judicial. Para una mayor eficacia, puede realizar el alta y seguimiento de incidencias, peticiones o consultas.
+
+Atentamente.
+
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/
+
+----
+
+=====Derivación técnico ayuntamiento – Juzgado de Paz=====
+
+Buenos días
+
+Le informamos que desde el operador se ha resuelto incidencia debido a que tiene conexión con el router. El informático del ayuntamiento deberá revisar el cableado y PC del juzgado.
+
+Para los Juzgados de Paz es de aplicación la Ley 5/2010 de 11 de junio, de Autonomía Local de Andalucía.
+
+En su artículo 9, "Competencias Municipales", y en el punto 27, "Provisión de medios materiales y humanos para el ejercicio de las funciones de los Juzgados de Paz", se indica que la atención al personal de los Juzgados de Paz han de ser atendida a todos los efectos por los Ayuntamientos.
+
+Desde el punto de vista técnico, la Junta de Andalucía sólo proporciona la conexión a Inforeg vía Red Corporativa si el Ayuntamiento no tiene acceso a las redes SARA y NEREA proporcionado por la Diputación Provincial (hay localidades de varias provincias que se conectan así).
+
+El resto de medios materiales (ordenadores, impresoras, etc.) son responsabilidad exclusiva de los respectivos Ayuntamientos desde 2010.
+
+Atentamente.
+
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/
+
+----
+
+=====Derivar a mantenimiento=====
+
+Buenos días
+
+Le informamos que la incidencia que nos reporta no es una incidencia informática. Deberá contactar con mantenimiento.
+
+Aprovechamos la ocasión para recordarle que, para futuras ocasiones, tiene a su disposición la aplicación Gestión de Incidencias, a la cual se accede a través del menú Aplicaciones del Escritorio Judicial. Para una mayor eficacia, puede realizar el alta y seguimiento de incidencias, peticiones o consultas.
+
+Atentamente.
+
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/
+
+</panel>
+
+<panel type="info">
+
+====== Problemas generales y críticas ======
+
+**Problema general**
+
+Buenos días
+
+Le informamos que existe un problema general PRxxxxxxxxxx y se está trabajando en él para resolverlo en la mayor brevedad posible.
+
+Aprovechamos la ocasión para recordarle que, para futuras ocasiones, tiene a su disposición la aplicación Gestión de Incidencias, a la cual se accede a través del menú Aplicaciones del Escritorio Judicial. Para una mayor eficacia, puede realizar el alta y seguimiento de incidencias, peticiones o consultas.
+
+Atentamente.
+
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/
+
+----
+
+**Críticas (incidencia general en curso)**
+
+Buenos días
+
+Le informamos que existe una incidencia general en el ticket IN000000xxxxxx y se está trabajando en él para resolverlo en la mayor brevedad posible.
+
+Atentamente.
+
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/
+
+----
+**
+Problema general (referencia PR0000000000298)**
+
+Buenos días
+
+Le informamos que existe un problema general PR0000000000298 y se está trabajando en él para resolverlo en la mayor brevedad posible.
+
+Atentamente.
+
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/
+
+----
+
+**Problema resuelto**
+
+Buenas días
+
+Le informamos que ha habido un problema general y ya se encuentra resuelto.
+
+Atentamente.
+
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/
+
+</panel>
+
+<panel type="info">
+
+
+====== Rechazos ======
+
+=====Rechazo atención procuradores=====
+
+Buenos días
+
+Le informamos en relación a la incidencia indicada en el asunto le informamos que estos casos deberán ser redirigidos directamente a los responsables del personal externo a la Administración de Justicia solicitantes.
+
+Atentamente.
+
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/
+
+----
+
+=====Rechazo de solicitud de teletrabajo=====
+
+Buenos días
+
+Le informamos que su incidencia ha sido cerrada. Para poder gestionar su activación del teletrabajo, deberá remitir su reclamación a su delegación y ellos son los que comenzarán con el trámite siguiendo el procedimiento establecido.
+
+Aprovechamos la ocasión para recordarle que, para futuras ocasiones, tiene a su disposición la aplicación Gestión de Incidencias, a la cual se accede a través del menú Aplicaciones del Escritorio Judicial. Para una mayor eficacia, puede realizar el alta y seguimiento de incidencias, peticiones o consultas.
+
+Atentamente.
+
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/
+
+
+</panel>
+
+<panel type="info">
+
+
+====== Remisión de información adicional ======
+
+=====Solicitud de datos (impresora, teléfono, IMEI, etc.)=====
+
+Buenos días
+
+Le informamos que necesitamos que nos concrete la información técnica siguiente:
+
+- Línea de teléfono, modelo, IMEI y número de serie
+- En caso de impresora, número de serie, código IMP, y nombre completo
+- En caso de contacto telefónico, número de teléfono y horario preferente de contacto
+- En caso de procedimiento, número de procedimiento y NIG
+
+Rogamos responda a este mail aportando la información solicitada.
+
+En cuanto a la captura esta puede hacerla usando la herramienta RECORTES; búsquela en INICIO (esquina inferior izquierda) y teclee el nombre de la aplicación. Una vez abierta pulse en NUEVO y con el ratón, haga click y arrastre hasta seleccionar el área deseada. Tras ello, cliquee de nuevo botón derecho del ratón en la imagen y usamos GUARDAR COMO. De esta manera podemos adjuntarla al correo.
+
+Atentamente.
+
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/
+
+----
+
+=====Solicitud de formulario u oficio firmado y sellado=====
+
+Buenos días
+
+Le informamos  que no hemos recibido el formulario/oficio firmado y sellado, o bien no se ve legible.
+Rogamos nos lo reenvíe cumplimentado y con firma y sello del responsable del órgano al correo csu.ius@juntadeandalucia.es, indicando el número de petición en el asunto del correo. Le adjuntamos enlace donde puede descargarlo https://capacitacion.justicia.junta-andalucia.es/course/section.php?id=261
+	
+Atentamente.
+
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/course/view.php?id=51
+
+
+</panel>
+
+<panel type="info">
+
+
+====== Teletrabajo/ VPN  ======
+
+**VPN solicitada por CAU tras validación**
+
+Buenos días
+
+Le informamos que hemos procedido a solicitar la creación de acceso VPN en el nuevo entorno de escritorio virtual tras haber recibido la validación por parte de inventario.
+
+Aprovechamos la ocasión para recordarle que, para futuras ocasiones, tiene a su disposición la aplicación Gestión de Incidencias, a la cual se accede a través del menú Aplicaciones del Escritorio Judicial. Para una mayor eficacia, puede realizar el alta y seguimiento de incidencias, peticiones o consultas.
+
+Atentamente.
+
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/
+
+----
+
+**Validación previa de inventario para alta VPN**
+
+Buenos días
+
+Le informamos que toda petición de VPN en el nuevo entorno debe ser validada previamente por inventario. 
+
+Dado que esta validación aún no consta registrada, trasladamos la incidencia al área correspondiente para su valoración.
+
+Atentamente.
+
+CAU (Centro de atención al usuario)\\
+Servicio de Sistemas Digitales para la Justicia\\
+**ADA Agencia digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+csu.ius@juntadeandalucia.es\\
+https://capacitacion.justicia.junta-andalucia.es/
+
+</panel>
+
+<panel type="info">
+
+<WRAP info round box>
+
+====== Correos de Soporte formativo ======
+</WRAP>
+<WRAP tip round box>
+
+Estos modelos de mail solo están autorizados a utilizarlos el equipo de Capacitación
+</WRAP>
+**Envío de la Moodle**
+
+Buenos días.
+
+En relación con la solicitud mencionada en el asunto, le informamos que en la plataforma de capacitación, accesible para todos los usuarios, podrá encontrar diversos cursos que podrían ser de su interés y utilidad.
+
+El curso en cuestión está disponible en la siguiente dirección electrónica: https://capacitacion.justicia.junta-andalucia.es/
+
+Así mismo, le invitamos a ponerse en contacto con nosotros nuevamente si su duda no ha sido completamente resuelta o si surgieran nuevas consultas. Puede hacerlo a través de la aplicación “Gestión de Incidencias”, la cual se encuentra en el menú de Aplicaciones del Escritorio Judicial, o bien mediante el Centro de Atención al Usuario (CAU) de Justicia.
+
+Atentamente.
+
+Equipo de Capacitación Justicia Digital Andalucía\\
+Servicio de Sistemas Digitales para la Justicia \\
+**ADA Agencia Digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+implantacion.ius@juntadeandalucia.es
+https://capacitacion.justicia.junta-andalucia.es/
+----
+
+**Cierre por Ilocalizable**
+
+Buenos días.
+
+Le informamos que hemos intentado contactar con usted en varias ocasiones sin éxito al teléfono XXXXXXXXX.
+
+El motivo de la llamada es para solicitar información acerca de la petición de formación. A este respecto le informamos que en la plataforma de capacitación, accesible para todos los usuarios, podrá encontrar diversos cursos que podrían ser de su interés y utilidad. El curso en cuestión está disponible en la siguiente dirección electrónica:
+https://capacitacion.justicia.junta-andalucia.es/
+
+Procedemos al cierre de la petición a la espera de que vuelva a contactar con nosotros, le recordamos tiene a su disposición la aplicación "Gestión de Incidencias", a la cual se accede a través del menú Aplicaciones del Escritorio Judicial, o bien mediante el Centro de Atención al Usuario (CAU) de Justicia.
+
+Atentamente.
+
+Equipo de Capacitación Justicia Digital Andalucía\\
+Servicio de Sistemas Digitales para la Justicia \\
+**ADA Agencia Digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+implantacion.ius@juntadeandalucia.es
+https://capacitacion.justicia.junta-andalucia.es/
+
+
+----
+
+**Correo de Confirmación**
+
+Buenos días.
+
+Le informamos que tiene agendada una formación de nuevo Adriano para el próximo DÍA, XX de MES, en horario de 9:00 a 14:00.
+
+En caso de petición de cambio o imposibilidad de asistir, por favor, contacte con nosotros.
+
+Atentamente.
+
+Equipo de Capacitación Justicia Digital Andalucía\\
+Servicio de Sistemas Digitales para la Justicia \\
+**ADA Agencia Digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+implantacion.ius@juntadeandalucia.es
+https://capacitacion.justicia.junta-andalucia.es/
+
+
+----
+
+**Cierre por Duplicidad**
+
+Buenos días.
+
+Le informamos que procedemos con el cierre de la presente, la presente solicitud de formación se encuentra gestionándose en IN000000XXXXXXX.
+
+Procedemos al cierre de la petición a la espera de que vuelva a contactar con nosotros, le recordamos tiene a su disposición la aplicación "Gestión de Incidencias", a la cual se accede a través del menú Aplicaciones del Escritorio Judicial, o bien mediante el Centro de Atención al Usuario (CAU) de Justicia..
+
+Atentamente.
+
+Equipo de Capacitación Justicia Digital Andalucía\\
+Servicio de Sistemas Digitales para la Justicia \\
+**ADA Agencia Digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+implantacion.ius@juntadeandalucia.es
+https://capacitacion.justicia.junta-andalucia.es/
+
+
+----
+
+**Correo Abandono**
+
+Buenos días.
+
+Le informamos que hemos intentado comunicarnos con usted sin éxito al teléfono XXXXXXXXX.
+
+El motivo de nuestra llamada es para la realización de la sesión formativa agendada.
+
+Próximamente volveremos a intentar contactar con usted para agendar una nueva sesión formativa.
+
+A este respecto, no dude en contactar con nosotros, o facilitarnos un teléfono donde podamos localizarle.
+
+Atentamente.
+
+Equipo de Capacitación Justicia Digital Andalucía\\
+Servicio de Sistemas Digitales para la Justicia \\
+**ADA Agencia Digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+implantacion.ius@juntadeandalucia.es
+https://capacitacion.justicia.junta-andalucia.es/
+
+
+----
+
+
+**Intento de Contacto**
+
+Buenos días.
+
+Le informamos que hemos intentado comunicarnos con usted sin éxito al teléfono XXXXXXXXX.
+
+El motivo de nuestra llamada es para concretar ciertos puntos sobre su solicitud de formación.
+
+A este respecto, no dude en contactar con nosotros, o facilitarnos un teléfono donde podamos localizarle.
+
+Atentamente.
+
+Equipo de Capacitación Justicia Digital Andalucía\\
+Servicio de Sistemas Digitales para la Justicia \\
+**ADA Agencia Digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+implantacion.ius@juntadeandalucia.es
+https://capacitacion.justicia.junta-andalucia.es/
+
+
+----
+
+**Solicitud de datos necesarios para la solicitud de formación**
+
+(En solicitudes grupales de formación el LAJ o Juez interesado deberá remitir formulario indicando los datos que se recogen en este correo)
+
+Buenos días.
+
+Le informamos que hemos intentado comunicarnos con usted sin éxito al teléfono XXXXXXXXX.
+
+El motivo de nuestra comunicación es para informarle que para continuar con la solicitud de formación/refuerzo/reciclaje, es necesario nos envíe un oficio firmado y sellado por el responsable del órgano, indicando la siguiente información:
+
+Tipo de acción de refuerzo/nueva incorporación/reciclaje
+
+Órgano/órganos para los que los solicita
+
+Número de usuarios
+
+Datos de los usuarios/perfiles, destino, teléfono y email de contacto corporativo
+
+Motivo de la petición
+
+Atentamente.
+
+Equipo de Capacitación Justicia Digital Andalucía\\
+Servicio de Sistemas Digitales para la Justicia \\
+**ADA Agencia Digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+implantacion.ius@juntadeandalucia.es
+https://capacitacion.justicia.junta-andalucia.es/
+
+----
+
+
+**Correo cierre de solicitud formadores de apoyo**
+
+Buenos días.
+
+Le informamos que su solicitud no puede ser atendida desde el departamento de Formación Justicia Digital de Andalucía; nuestra labor es Formativa, siempre serán sesiones programadas y de una duración determinada.
+
+Procedemos al cierre de la petición a la espera de que vuelva a contactar con nosotros, le recordamos tiene a su disposición la aplicación "Gestión de Incidencias", a la cual se accede a través del menú Aplicaciones del Escritorio Judicial, o bien mediante el Centro de Atención al Usuario (CAU) de Justicia.
+
+Atentamente.
+
+Equipo de Capacitación Justicia Digital Andalucía\\
+Servicio de Sistemas Digitales para la Justicia \\
+**ADA Agencia Digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+implantacion.ius@juntadeandalucia.es
+https://capacitacion.justicia.junta-andalucia.es/
+
+
+----
+
+
+**Correo si entra algo después de las 14:00h**
+
+Buenas tardes.
+
+Le informamos que necesitamos contactar con usted para ampliar información necesaria para la correcta gestión de su solicitud.
+
+Nos pondremos en contacto con usted a la mayor brevedad posible, o bien mediante el Centro de Atención al Usuario (CAU) de Justicia..
+
+Atentamente.
+
+Equipo de Capacitación Justicia Digital Andalucía\\
+Servicio de Sistemas Digitales para la Justicia \\
+**ADA Agencia Digital de Andalucía** \\
+Consejería de Industria, Energía y Minas\\
+Junta de Andalucía\\
+implantacion.ius@juntadeandalucia.es
+https://capacitacion.justicia.junta-andalucia.es/
+
+
+
+</panel>
+
+

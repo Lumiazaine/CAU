@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+<html lang="es" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>pag_esque_bbdd</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="keywords" content="validada"/>
+<link rel="search" type="application/opensearchdescription+xml" href="/dokuwiki/!ssdj/lib/exe/opensearch.php" title="Servicio de Sistemas Digitales para la Justicia"/>
+<link rel="start" href="/dokuwiki/!ssdj/"/>
+<link rel="contents" href="/dokuwiki/!ssdj/doku.php?id=pag_esque_bbdd&amp;do=index" title="Índice"/>
+<link rel="manifest" href="/dokuwiki/!ssdj/lib/exe/manifest.php"/>
+<link rel="alternate" type="application/rss+xml" title="Cambios recientes" href="/dokuwiki/!ssdj/feed.php"/>
+<link rel="alternate" type="application/rss+xml" title="Espacio de nombres actual" href="/dokuwiki/!ssdj/feed.php?mode=list&amp;ns="/>
+<link rel="alternate" type="text/html" title="HTML sencillo" href="/dokuwiki/!ssdj/doku.php?do=export_xhtml&amp;id=pag_esque_bbdd"/>
+<link rel="alternate" type="text/plain" title="Etiquetado Wiki" href="/dokuwiki/!ssdj/doku.php?do=export_raw&amp;id=pag_esque_bbdd"/>
+<link rel="canonical" href="http://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_esque_bbdd"/>
+<link rel="stylesheet" href="/dokuwiki/!ssdj/lib/exe/css.php?t=bootstrap3&amp;tseed=fade0092c81b3b15be1b7fd1b8394d30"/>
+<link type="text/css" rel="stylesheet" href="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net-fixedheader-dt/css/fixedHeader.dataTables.min.css"/>
+<link type="text/css" rel="stylesheet" href="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net-fixedcolumns-dt/css/fixedColumns.dataTables.min.css"/>
+<link type="text/css" rel="stylesheet" href="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net-bs/css/dataTables.bootstrap.min.css"/>
+<link type="text/css" rel="stylesheet" href="/dokuwiki/!ssdj/lib/plugins/icons/assets/font-awesome/css/font-awesome.min.css"/>
+<link type="text/css" rel="stylesheet" href="/dokuwiki/!ssdj/lib/plugins/icons/assets/material-design-icons/css/materialdesignicons.min.css"/>
+<!--[if gte IE 9]><!-->
+<script >/*<![CDATA[*/var NS='';var SIG=" --- \/\/[[|JUST9 Sandetel Ext]] 2026\/06\/23 13:06\/\/";var JSINFO = {"confirm_delete":"Seguro desea eliminar esta p\u00e1gina?","doku_base":"\/dokuwiki\/!ssdj\/","cg_rev":"","dw_version":51.3,"chrome_version":0,"hide_captcha_error":"none","ckg_dbl_click":"","ckg_canonical":0,"doku_url":"http:\/\/extranet.chap.junta-andalucia.es\/dokuwiki\/!ssdj\/","has_tags":"Tag","has_wrap":"Wrap","wrapDiv":"WRAP","wrapSpan":"wrap","ckgEdPaste":"off","rel_links":1,"ckg_template":"bootstrap3","plugins":{"edittable":{"default columnwidth":""}},"htmlok":1,"plugin":{"datatables":{"config":[],"enableForAllTables":0}},"isadmin":0,"isauth":1,"move_renameokay":false,"id":"pag_esque_bbdd","namespace":"","ACT":"export_xhtml","useHeadingNavigation":0,"useHeadingContent":0};
+/*!]]>*/</script>
+<script charset="utf-8" src="/dokuwiki/!ssdj/lib/exe/jquery.php?tseed=34a552433bc33cc9c3bc32527289a0b2" defer="defer"></script>
+<script charset="utf-8" src="/dokuwiki/!ssdj/lib/exe/js.php?t=bootstrap3&amp;tseed=fade0092c81b3b15be1b7fd1b8394d30" defer="defer"></script>
+<script type="text/javascript" charset="utf-8" src="/dokuwiki/!ssdj/lib/plugins/ckgedit/scripts/mediamgr.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net/js/jquery.dataTables.min.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net-fixedheader-dt/js/fixedHeader.dataTables.min.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net-fixedcolumns-dt/js/fixedColumns.dataTables.min.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net-buttons/js/dataTables.buttons.min.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net-buttons/js/buttons.html5.min.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net-buttons/js/buttons.print.min.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/jszip/dist/jszip.min.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/pdfmake/build/pdfmake.min.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/pdfmake/build/vfs_fonts.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net-bs/js/dataTables.bootstrap.min.js" defer="defer"></script>
+<script type="text/javascript" src="/dokuwiki/!ssdj/lib/plugins/datatables/assets/datatables.net-buttons-bs/js/buttons.bootstrap.min.js" defer="defer"></script>
+<!--<![endif]-->
+
+    <script type="text/javascript">
+    //<![CDATA[ 
+    function LoadScript( url )
+    {
+     document.write( '<scr' + 'ipt type="text/javascript" src="' + url + '"><\/scr' + 'ipt>' ) ;        
+
+    }
+   function LoadScriptDefer( url )
+    {
+     document.write( '<scr' + 'ipt type="text/javascript" src="' + url + '" defer><\/scr' + 'ipt>' ) ;        
+
+    }
+//]]> 
+
+ </script>
+ </head>
+<body>
+<div class="dokuwiki export">
+
+<h1 class="sectionedit1" id="bbdd">BBDD</h1>
+<div class="level1">
+
+<p>
+
+<table border="1" cellpadding="6" cellspacing="0">
+  <thead>
+    <tr>
+      <th style="width: 200px; text-align: center; font-weight: bold;">Aplicación</th>
+      <th style="width: 250px; text-align: center; font-weight: bold;">Esquema</th>
+      <th style="width: 150px; text-align: center; font-weight: bold;">BBDD</th>
+      <th style="width: 300px; text-align: center; font-weight: bold;">Tablespaces</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="background-color: white;">
+      <td>Temis</td>
+      <td>TEMIS</td>
+      <td>PROD02</td>
+      <td></td>
+    </tr>
+    <tr style="background-color: #f2f2f2;">
+      <td>Sede</td>
+      <td>SEDEJUS<br>MANSEDEJUS</td>
+      <td>PROD01</td>
+      <td></td>
+    </tr>
+    <tr style="background-color: white;">
+      <td>RenewTimestamp</td>
+      <td>RENEWTIMESTAMPOWNER</td>
+      <td>PROD07</td>
+      <td></td>
+    </tr>
+    <tr style="background-color: #f2f2f2;">
+      <td>WsFirmador</td>
+      <td>WSFIRMADOR<br>WSFIRMADOR_HIST</td>
+      <td>PROD06</td>
+      <td>TS_PFIRMA_V3_1_BLOB<br>TS_PFIRMA_V3_1_INDICES<br>TS_PFIRMA_V3_1_DATOS</td>
+    </tr>
+    <tr style="background-color: white;">
+      <td>PortafirmasNg</td>
+      <td>PFIRMAMG_V3_1</td>
+      <td>PROD07</td>
+      <td></td>
+    </tr>
+    <tr style="background-color: #f2f2f2;">
+      <td>Suministros / Consumibles</td>
+      <td>SUMINISTROS</td>
+      <td>PROD02</td>
+      <td></td>
+    </tr>
+    <tr style="background-color: white;">
+      <td>Equipos inventario</td>
+      <td>EQUIPOS</td>
+      <td>PROD02</td>
+      <td></td>
+    </tr>
+    <tr style="background-color: #f2f2f2;">
+      <td>Cargador</td>
+      <td>CARGADOR</td>
+      <td>PROD02</td>
+      <td></td>
+    </tr>
+    <tr style="background-color: white;">
+      <td>Hermes</td>
+      <td>HERMES<br>MANHERMES</td>
+      <td>PROD04</td>
+      <td></td>
+    </tr>
+    <tr style="background-color: #f2f2f2;">
+      <td>Remedy</td>
+      <td>ARADMIN</td>
+      <td>PROD01</td>
+      <td></td>
+    </tr>
+    <tr style="background-color: white;">
+      <td>Portal Adriano</td>
+      <td>OPENCMSV8</td>
+      <td>PROD03</td>
+      <td>OPENCMSV8_DATA<br>OPENCMSV8_INDEX</td>
+    </tr>
+    <tr style="background-color: #f2f2f2;">
+      <td>Escritorio Judicial</td>
+      <td>WSFIRMADOR<br>MANWSFIRMADOR</td>
+      <td>PROD02</td>
+      <td>WSFIRMADOR_DATA</td>
+    </tr>
+    <tr style="background-color: white;">
+      <td>Jara</td>
+      <td>JARA</td>
+      <td>PROD02</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+
+</p>
+<div class="tags"><span>
+	<a href="/dokuwiki/!ssdj/doku.php?id=tag:validada&amp;do=showtag&amp;tag=validada" class="wikilink1" title="tag:validada" rel="tag">validada</a>
+</span></div>
+
+</div>
+
+<!-- no cachefile used, but created /srv/www/dokuwikifarm/ssdj/data/cache/2/241f2c5cdcda8fda64c02998ab8e4a3b.xhtml -->
+</div>
+</body>
+</html>
+

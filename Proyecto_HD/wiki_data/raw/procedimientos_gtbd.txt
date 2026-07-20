@@ -1,0 +1,13 @@
+﻿
+===== Índice de Documentación =====
+
+  * [[:operativa|Operativa]]
+  * [[:tareas_de_mantenimiento|Tareas de Mantenimiento]]
+  * [[:tareas_programadas|Tareas Programadas]]
+  * [[:procedimientos_generales|Procedimientos Generales]]
+  * [[:informacion_de_los_contactos|Información de los contactos]]
+  * [[:reparto_de_instancias|Reparto de Instancias]]
+  * [[:soporte_oracle|Soporte Oracle]]
+  * [[:directrices_despliegues|Directrices Despliegues]]
+  * [[:Parcheo%20BBDD|Parcheo BBDD 19C clusterware]]
+

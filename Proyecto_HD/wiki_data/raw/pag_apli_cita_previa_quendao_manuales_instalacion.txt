@@ -1,0 +1,25 @@
+﻿
+<WRAP> 
+<panel type="primary" title="Manuales de Asistencia In-Situ e Instalación">
+
+[[:pag_apli:cita_previa_2030_ateneo:start|Volver atrás]]
+
+<WRAP> 
+<panel type="info" title="Manuales de Asistencia In-Situ">
+
+  * {{ :pag_apli:cita_previa_quendao:turnos_rrcc_manual_cambio_papel_dispensadores_v1.pdf | Suministro y colocación del papel térmico de los dispensadores}}
+  * {{ :pag_apli:cita_previa_quendao:instalacion_configuracion_posiflex_pp8803_0102.pdf | Instalación impresora de sobremesa Posiflex PP8803}}
+  * {{ :pag_apli:cita_previa_quendao:faqs_v.01.01.pdf |  Problemas típicos, su causa y su posible solución (FAQ's)}}
+
+</panel>
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Manuales de Instalación">
+
+  * {{ :pag_apli:cita_previa_quendao:configuracion_repositorio_aplicaciones_soc_samsung_0101.odt | Configuración repositorio aplicaciones SOC Samsung}}
+  * {{ :pag_apli:cita_previa_quendao:instalacion_configuracion_aplicaciones_y_bbdd_0101.odt | Instalación y Configuración de Aplicaciones y BBDD}}
+  * {{ :pag_apli:cita_previa_quendao:instalacion_configuracion_servidor_aplicaciones_y_bbdd_0100.odt | Instalación y Configuración de Servidores de Aplicaciones y BBDD}}
+
+</panel>
+</WRAP>

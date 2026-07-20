@@ -1,0 +1,141 @@
+﻿
+<WRAP> <panel type="primary" title="Problemas Conocidos de PortafirmasNG"> [[:pag_apli:portafirmasng:start|Volver atrás]]
+<WRAP>
+<panel type="info">
+
+====== Alta usuario en PortafirmasNG ======
+<html>
+Para realizar un alta en PortafirmasNG debemos de seguir los siguientes pasos:<br><br>
+1- En primer paso deberemos de acceder a nuestro Escritorio Judicial, una vez dentro debemos irnos a Mantenimiento Temis.<br>
+2- Nos dirigiremos a el apartados de aplicaciones y una vez dentro buscaremos el aplicativo PortafirmasNG y lo seleccionamos.<br>
+3- Bajamos y pulsamos en perfiles y una vez dentro de perfiles seleccionamos el perfil <b>Acceso</b> y pulsamos en <b>Asignar.</b><br>
+4- El siguiente paso seria seleccionar el tipo de Asignación que en este caso sería Tipo <b>Usuario.</b><br>
+5- Buscaremos el usuario que solicita el acceso en dicha aplicación lo seleccionamos y pulsamos en <b>Asignar.</b><br>
+6- Tras esto, para poder visualizar al usuario en PortafirmasNG, es necesario que CAU le indique que debe tratar de acceder a la aplicación mediante su certificado electrónico. Esto mostrará un error de inicio de sesión, lo cuál es normal.<br>
+7- Una vez hecho esto y la incidencia se nos reasigne, podremos encontrar al usuario correctamente dado de alta en el apartado <b>Usuarios</b> dentro de <b>Administración</b>.
+
+
+
+</html>
+</panel>
+
+
+</WRAP>
+
+<WRAP> <panel type="info" >
+
+====== Alta de Cargo Organismo ======
+
+Descripción: El usuario indica que necesita acceso a PortafirmasNG pero cuando vamos a la aplicación para darle el alta vemos que el organismo que nos indica no aparece en el listado de CARGOS/ORGANISMOS existentes en PortafirmasNG.
+
+La aplicación PortafirmasNG da error si intentas crear el organismos desde la interfaz de administrador, por tanto, tenemos que hacerlo por BBDD.
+
+Insert into PFIRMAMG_V3_1.PF_USUARIOS (X_USUARIO, C_CREADO, F_CREADO, C_MODIFICADO, F_MODIFICADO, C_IDENTIFICADOR, C_ANAGRAMA, D_NOMBRE, D_APELL1, D_APELL2, L_VIGENTE, C_TIPO, D_OBSERVACIONES, ORG_X_ORGANISMO, C_GUIA, F_CHECK_ORGANISMO) Values (PFIRMAMG_V3_1.PF_S_USU.NEXTVAL, '1', sysdate, '1', sysdate, '**CONTENCIOSO 3 EJIDO AUXILIO**', NULL, '**Cargo Auxilios contencioso 3 ejido**', NULL, NULL,'S', 'CARGO', NULL, 1, NULL, sysdate);
+
+Consideraciones a tener en cuenta:
+
+- El campo C_IDENTIFICADOR no puede contener mas de 30 caracteres.
+
+- El campo D_NOMBRE no puede contener mas de 50 caracteres.
+
+Se ha creado una plantilla para facilitar los casos en los que haya que insertar múltiples Cargos Organismos como en el caso de Granada con la entrada en el sistema de Archivo Judicial Territorial.
+
+Esta plantilla está ubicada en: [[\\iusnas05\SIJ\60|]].Desarrollo\DevOps\Procedimientos\PORTAFIRMASNG\Alta de Cargo_Organismo en PortafirmasNG\ plantilla_cargos_portafirmas_insert.xlsx
+
+Una vez preparados los scripts hay que abrir un tique a SISTEMAS > GTBD indicando el siguiente mensaje: < Solicitamos ejecutar el script adjunto en la BBDD PROD07, esquema PFIRMAMG_V3_1. >
+
+Una vez ejecutado el script podemos comprobar que el organismos se ha insertado correctamente dentro de la aplicación PortafirmasNG > Administración > Organismos > Cargos
+
+INCIDENCIA DE EJEMPLO:
+
+IN0000002365362 > descripción del problema del usuario
+
+IN0000002380842 > tique para sistemas/gtbd </panel> </WRAP>
+
+
+
+
+<WRAP> <panel type="info" >
+
+====== Alta en PortafirmasNG para firmar en Jara ======
+
+__Descripción:__
+
+El usuario solicita estar dado de alta en el portafirmas para poder solicitar expedientes y remitir transferencias por Jara.
+
+__Solución:__
+
+1. Accedemos a PortafirmasNG con nuestro certificado.
+
+2. Hacemos click en **ADMINISTRACION** - **USUARIOS**.
+
+3. Escribir en el buscador el usuario y buscar.
+
+4. En la ficha de usuario, a la derecha, en acciones, le damos al primer dibujo (lápiz) que es "editar".
+
+5. Hacemos click en **PERFILES**, luego abajo a la derecha, en añadir, y le damos a desplegar.
+
+6. Seleccionar el perfil **FIRMA** y en motivo añadimos el código de la incidencia Remedy. Aceptar y guardar.
+
+7. Hacemos click en **CARGOS**, luego seleccionar del listado el nombre del organismo en la que tiene delegada la firma el letrado en Jara.
+
+8. Marcar casilla "Puesto por defecto" . Añadir y guardar.
+
+INCIDENCIAS: ?????? </panel> </WRAP>
+<WRAP> <panel type="info" >
+
+====== Añadir permisos de redacción ======
+
+__Descripción:__
+
+El usuario solicita tener permisos de redacción.
+
+__Solución:__
+
+1. Accedemos a PortafirmasNG con nuestro certificado.
+
+2. Hacemos click en **ADMINISTRACION** - **USUARIOS**.
+
+3. Escribir en el buscador el usuario y buscar.
+
+4. En la ficha de usuario, a la derecha, en acciones
+
+{{:pag_apli:portafirmasng:redaccion_pf_2.png?800|}}
+
+5. Hacemos click en **PERFILES**, luego abajo a la derecha, en añadir, y le damos a desplegar.
+
+{{:pag_apli:portafirmasng:redaccion_pf_3.png?800|}}
+
+6. Seleccionar el perfil **REDACCIÓN** y en motivo añadimos el código de la incidencia Remedy. Aceptar y guardar.
+
+{{:pag_apli:portafirmasng:redaccion_pf_4.png?800|}}
+
+INCIDENCIAS: ?????? </panel> </WRAP>
+
+<WRAP> <panel type="info" >
+
+====== Gestión de permisos de Usuario ======
+
+Descripción: El usuario solicita que se le de permiso de redactor o firma en la aplicación.
+
+Solución: 1. Accedemos a PortafirmasNG con nuestro certificado.
+
+2. Hacemos click en **ADMINISTRACION** - **USUARIOS**.
+
+3. Escribir en el buscador el usuario y buscar.
+
+4. En la ficha de usuario, a la derecha, en acciones, le damos al primer dibujo (lápiz) que es "editar".
+
+5. Hacemos click en **PERFILES**, luego abajo a la derecha, en añadir, y le damos a desplegar.
+
+6. Solicitamos el perfil que queremos y en motivo añadimos el código de la incidencia Remedy.
+
+7. Aceptar - guardar.
+
+INCIDENCIAS: IN0000001779705 </panel> </WRAP>
+
+</panel> </WRAP> [[:pag_apli:portafirmasng:start|Volver atrás]]
+
+{{tag>novalidada}}
+
+

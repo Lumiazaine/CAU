@@ -1,0 +1,189 @@
+﻿
+<WRAP> 
+<panel type="primary" title="Guía Básica de Uso de Remedy">
+
+[[start|Volver atrás]]
+
+<WRAP> 
+<panel>
+
+===== Pantalla principal =====
+
+{{:pag_apli:remedy:guia:pantalla_principal.png?800|Pantalla Principal}}
+
+</panel> 
+</WRAP>
+
+<WRAP> 
+<panel>
+
+===== Crear un nuevo tique  =====
+
+1. Escribe el dni sin letra en el campo **Usuario Temis** del usuario afectado en el tique y haz clic sobre **Datos usuario** para que se rellene automáticamente los datos del usuario.
+
+**Importante**: Para cumplir con los requisitos del Esquema Nacional de Seguridad (ENS), está estrictamente **prohibido** registrar, compartir o escribir contraseñas de cualquier Sistema de Información en esta plataforma o en los tickets.
+
+{{:pag_apli:remedy:guia:crear_incidencia_usuario.png?800|Pestaña Usuario}}
+
+2. A continuación haz clic sobre la pestaña **Incidente** para ver la siguiente pantalla.
+
+{{:pag_apli:remedy:guia:crear_incidencia_incidente.png?800|Pestaña Incidente}}
+
+3. En el campo **Origen** selecciona el origen de la creación del tique.
+
+4. En **Clasificación** selecciona si se trata de una **INCIDENCIA, CONSULTA** o **PETICIÓN**.
+
+5. Del mismo modo, selecciona la **Clase, Tipo** y **Categoría** del elemento sobre el que hace referencia el tique.
+
+6. En el campo **Descripción del Incidente** escribe la descripción del tique. Este campo tiene una limitación de texto, si fuera necesario, puedes seguir la descripción en el campo **Diario**.
+
+7. Por último selecciona en el campo **Asignada A Grupo** y **Asignada A** el equipo técnico que se va a encargar de resolver el tique.
+
+**Nota:** El orden que sigas para rellenar los datos es indiferente, salvo el punto 7.
+
+8. Finalmente, pulsa sobre el botón **Guardar** situado en la esquina superior derecha y observa el la zona inferior izquierda que aparece el id del nuevo tique generado.
+
+{{:pag_apli:remedy:guia:id_tique_creado.png|Id del nuevo tique}}
+
+</panel> 
+</WRAP>
+
+<WRAP> 
+<panel>
+
+===== Buscar o Consultar tiques =====
+
+1. Desde la pantalla principal, haz clic en **Buscar Incidencias** para acceder al listado. Si tienes varias ventanas abiertas y deseas cambiar entre ellas, haz clic en el menú **Ventana** y selecciona la que necesites. En este caso, elige **1. Página de inicio (Buscar)** para volver a la pantalla principal.
+
+2. Pulsa sobre el botón **Buscar Incidencias** y observa que ahora el fondo de la pantalla es azul. En la creación de un tique es de color verde.
+
+3. Para buscar un tique por su número de ID, escríbelo en el campo //ID Incidencia//. Puedes obviar el texto IN y los ceros, tecleando solo el número. Pulsa **Buscar** en la zona superior derecha o **Ctrl + Intro** para obtener el resultado de la búsqueda.
+
+{{:pag_apli:remedy:guia:buscar_incidencia_usuario.png?800|Buscar Incidencia pestaña Usuario}}
+
+4. Si no conoces el número de ID puedes buscar por cualquier otro campo o conjunto de ellos.
+**Nota**: En amarillo se han señalado los campos usuales de búsqueda.
+
+{{:pag_apli:remedy:guia:buscar_incidencia_incidente.png?800|Buscar Incidencia pestaña Incidente}}
+
+5. Para realizar consultas avanzadas utiliza el botón **Opciones avanzadas** en la esquina superior derecha. Se abrirá la barra **Criterios de búsqueda** en la zona inferior.
+
+{{:pag_apli:remedy:guia:criterios_de_busqueda.png?600|}}
+
+**Nota**: Mira el apartado [[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_apli:remedy:guia#uso_de_variables_de_sistemas_en_las_consultas_keywords|Uso de Variables de Sistemas en las Consultas (keywords)]] para ver ejemplos de uso.
+
+6. Por último, si tras una búsqueda te interesa guardarla ve al menú **Acciones** y **Guardar búsqueda...**.
+
+7. Una vez guardada ve al menú **Acciones** y en **Mis búsquedas** puedes seleccionar entre las consultas que hayas guardado.
+
+</panel> 
+</WRAP>
+
+<WRAP>
+<panel>
+
+===== Uso de Variables de Sistemas en las Consultas (keywords) =====
+
+Puedes utilizar variables de sistema o palabras clave (keywords) en las búsquedas:
+
+  * **$DATE$**  → Fecha actual en formato UNIX (segundos desde 01/01/1970). Puedes restar o sumar segundos.  
+  * **$USER$**  → Login del usuario actual (ej: jgarcia). No es válida para el campo 'Asignado Usuario'.  
+  * **$NULL$**  → Compara con campos vacíos.  
+
+También puedes utilizar el valor numérico en lugar de su texto:
+
+^Estado  ^Prioridad  |
+|Cerrada → 4  |CRITICA → 2  |
+|Solucionada → 3  |CUALIFICADA → 4  |
+|Reasignada → 2  |URGENTE → 1  |
+|Asignada → 1  |RECLAMADA → 3  |
+|Abierta → 0  |NORMAL → 0  |
+
+==== Ejemplos prácticos ====
+
+  * **Tiques creados por mí en los últimos 30 días:**  'Recogida Por' = $USER$ AND 'Fecha Apertura' > ($DATE$ - (60*60*24*30))
+  * **Tiques abiertos con fecha de solución:**  'Estado' < 3 AND 'Fecha Solución' != $NULL$
+  * **Tiques abiertos no asignados (Huérfanos):**  'Asignado Usuario'= $NULL$ AND 'Estado' < 3
+  * **Tiques abiertos y reasignados a un grupo hace más de 10 días:**  'Asignada A' = "XXXXXXXX" AND 'Fecha Asignación' < $DATE$ - (60*60*24*10) AND 'Estado' < 3
+  * **Tickets abiertos y creados por mí que aún no están asignados a un técnico:**  'Recogida Por' = $USER$ AND 'Asignado Usuario' = $NULL$ AND 'Estado' < 4
+  * **Tiques abiertos distintos a prioridad NORMAL sin asignar a ningún usuario:**  'Prioridad' > 0 AND 'Asignado Usuario' = $NULL$ AND 'Estado' < 3
+  * **Tiques en estado Solucionada con fecha de solución superior a 90 días (Se utiliza para cierres latentes):**  'Estado' = 3 AND 'Fecha Solución' < $DATE$ - (60*60*24*90)
+
+</panel> 
+</WRAP>
+
+<WRAP> 
+<panel>
+
+===== Reasignar un tique =====
+
+Para reasignar un tique a otro equipo resolutor debes seguir los siguientes pasos:
+
+1. En **Asignado A Grupo** selecciona un item y a continuación en **Asignada A** el grupo resolutor al que quieras reasignar.
+
+{{:pag_apli:remedy:guia:reasignar.png?400|}}
+
+2. Haz clic sobre el botón **Reasignar** y se abrirá la siguiente ventana.
+
+{{:pag_apli:remedy:guia:accion_reasignar.png?600|}}
+
+3. En esta ventana aparecerán rellenos los campos **Asignada A Grupo** y **Asignada a** con la selección que hiciste en la ventana anterior.
+4. Escribe un comentario y a continuación pulsa sobre Aceptar.
+5. En la ventana principal del tique pulsa **F5** para actualizar y verás que la asignación y el comentario en el Diario se han realizado correctamente.
+
+</panel> 
+</WRAP>
+
+<WRAP> 
+<panel>
+
+===== Solucionar un tique =====
+
+Accede al siguiente enlace para saber como debes gestionar la resolución de un tique [[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_apli:remedy:problemas#procedimiento_para_solucionar_un_tique|Como solucionar un tique]]
+
+</panel> 
+</WRAP>
+
+<WRAP> 
+<panel>
+
+===== Cerrar un tique =====
+
+Los tickets solo pueden cerrarse cuando han sido creados por el propio técnico para solicitar soporte sobre un problema que ya le han resuelto.
+En cualquier otro caso, el cierre debe realizarlo el grupo responsable de atención al usuario o soporte, siguiendo el procedimiento establecido.
+
+</panel> 
+</WRAP>
+
+<WRAP> 
+<panel>
+
+===== Crear un Informe =====
+
+1. Realizar una consulta para obtener los registros deseados.
+
+2. Para abrir la Consola de Informes, en la barra de menú, seleccionar **Herramientas > Informe...**. Se abrirá la ventana de **Estilos de informe**.
+
+3. Para crear un Nuevo Informe hacer clic en **Informe > Nuevo**.
+
+4. Para Seleccionar Campos, en la pestaña **Campos**, seleccionar los campos que se desean mostrar en el informe. Los campos se pueden ordenar según el orden deseado.
+
+Como ejemplo, se pueden utilizar los siguientes campos:
+
+{{:pag_apli:remedy:guia:estilo_informe_remedy.png?200|}}
+
+5. Para guardar y Ejecutar el Informe, hacer clic en **Informe > Guardar** para guardar el informe.
+
+**Nota:** En caso de error al guardar el informe acceder a [[https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/doku.php?id=pag_apli:remedy:problemas#error_arwarn_60_al_crear_un_informe|Error ARWARN [60] al crear un informe]] para solucionar el error.
+
+6. Para exportar a .csv, una vez generado el informe, acceder a **Informe > Exportar a > Archivo...
+
+</panel> 
+</WRAP>
+
+</panel> 
+</WRAP>
+
+[[start|Volver atrás]]
+
+{{tag>validada,cau,csu,sistemas,explotacion,ddtt}}

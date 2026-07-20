@@ -1,0 +1,53 @@
+﻿
+=====Soporte AT3=====
+
+===Infraestructuras===
+Para el equipamiento cuyo periodo de garantía ha pasado, tenemos el mantenimiento corporativo de la Junta de Andalucía, que está organizado según el proveedor:
+
+https://ovctic.i-administracion.junta-andalucia.es/proyectos/mantenimiento/
+
+Conversor de números de RCJA:
+
+https://ovctic.i-administracion.junta-andalucia.es/node/2254
+
+Procedimiento de como actuar con los proveedores
+
+Para el resto de equipamiento en garantía o con contratos específicos de mantenimiento:
+
+https://xwiki.justicia.junta-andalucia.es/xwiki/bin/view/Sistemas/SAT3
+
+<panel type="success" title="Infraestructuras">
+^ Proveedor ^ Tfno. ^ Correo ^ Notas ^
+| ADA - Telefónica (F5 y Cortafuegos) | Juan Antonio Moreno 955065058\\Antonio Manuel Aceituno (647775126)\\Jaime Luis González (616265414) | juan.moreno.alvarez@juntadeandalucia.es\\acortes@ayesa.com\\jaimeluis.gonzalezabaitua@telefonica.com | Jefe de proyecto (ADA)\\Técnico de Seguridad y Comunicaciones (ADA)\\Jefe de Proyecto Especialista Sistemas Balanceados (Telefónica) |
+| CICA | Enrique Brioso Bernal (670945887)\\Moisés Moreno Suárez (671421223)\\Ignacio Capilla Lobo (671421220)\\David Rodríguez Salguero (671421219)\\Jesús David Herrera (600919961) |  | Calendario de guardias |
+| COMPAREX | 954 498 282 | moises.gutierrez@comparex.es | |
+| ELPRO | 958121012 | sat@elpro.es | |
+| EMC - Isilon | 900 100 805 | soporte.sistemas.ius@juntadeandalucia.es | Keepass Almacenamiento |
+| EMC | 900 100 805 | http://powerlink.emc.com\\https://support.emc.com/myservice360/\\Sistemas.gtab.ius@juntadeandalucia.es | Keepass Almacenamiento |
+| F5 |  | https://websupport.f5.com/ | Keepass Licencias |
+| FORTINET | 900 866 024 | http://support.fortinet.com | Keepass GTSR |
+| IECISA (IBM) | 912964242 |  | Número de contrato: 48761 |
+| HP - 3PAR\\Suse Linux\\HP-IMC | Soporte Hw/Sw: 955 064 855\\Garantía: 902 010 333\\Mantenimiento: 902 220 030\\902012959 / 902012969 | https://www.hpe.com/es/es/contact-hpe.html | Usuario: licencias.sistemas.ius@juntadeandalucia.es |
+| HPUX e Integrity | Hardware:\\91 631 2505 (L-V 8:30-17:30, agosto hasta 14:30)\\91 631 2509 (resto de horas)\\Software:\\91 631 2505 (mismo horario) | https://support.hpe.com/hpesc/public/home\\https://cf.passport.hpe.com/hppcf/login.do\\Usuario: licencias.sistemas.ius@juntadeandalucia.es | Nº contrato HP-UX: 101487390536\\SAID Nuevos: 108238595564 (CP: 41003)\\Support agreement: 70R850357009STD48 (SAR), 108229232009 (SAID) |
+| HP-NETWORKING | 902 010 333 | https://softwaresupport.hpe.com/ | Keepass GTSR |
+| NETAPP |  | Enrique Duarte - Project Manager Fujitsu - 629158059 - enriquea.duarte@ts.fujitsu.com\\Daniel Mayoral - Técnico - 682741802 - Daniel.MAYORAL@netapp.com | Contactos obtenidos para la migración de las NetApp de SSCC y MACJ |
+| Novell |  | CustomerResolution@microfocus.com\\https://www.novell.com/customercenter/\\https://scc.suse.com/subscriptions/ | Keepass GTSL |
+| Oracle |  | https://naossuite.i-administracion.junta-andalucia.es/autoservicio/ | Usuario corporativo |
+| Oracle |  | https://support.oracle.com/epmos/faces/MosIndex.jspx | Usuario corporativo con identificador de soporte de Junta de Andalucía (Keepass GTBD) |
+| Oracle | 952 108 484 |  | Horario de Guardia (24x7) fuera del horario normal de atención\\**Horario Normal (NAOS):**\\16 Sep - 14 Jun L-J: 9-18h, V: 8-15h\\15 Jun - 15 Sep L-V: 8-15h |
+| RCJA, NIX |  | https://intranet.juntadeandalucia.es/rcja/nix/portal/servicios.do?cmd=inicio | Keepass GTSR |
+| RCJA SIO | 300 001 | http://sioweb.juntadeandalucia.es/rcja/sio/shared/login.jsp?/rcja/sio/\\**Usuario corporativo:** Raquel González Santos\\Jesús Morán Montes | |
+| RCJA WISIR |  | https://intranet.juntadeandalucia.es/rcja/WISIR/login.php | Keepass GTSR |
+| Sophos | 917938501 | soporte@sophos.com\\https://secure2.sophos.com/es-es/support/contact-support.aspx | Keepass GTSW |
+| Solutia | +34 955 51 60 82\\Gabriel: 627685029 | soporte@gruposolutia.com | Soporte Técnico y Servicios IT |
+| Virtual Print | 954711330\\Mar Vilchez: 665 26 70 88 | soporte@virtualprint.es\\mdm.vilchez@virtualprint.es\\www.virtualprint.es | |
+| VMWARE | Soporte HP:\\902 012 959 (8:00 - 18:00)\\902 012 969 (Resto Horarios) | vi-hotline@vmware.com\\https://www.vmware.com/support/contacts/us_support.html | VMWARE: Actualizaciones/Parches\\HP Soporte Telefónico e incidencias\\HP Enterprise Agreement - Nº de contrato: 1082 1523 3497\\Keepass GTSW |
+</panel>
+
+
+<panel type="success" title="Desarrollo">
+^ Proveedor ^ Tfno. ^ Correo ^ Notas ^
+| Fujitsu | 620 413 502 Carlos Ramos | carlos.ramos@ts.fujitsu.com | SSVV - Arconte - Aurea |
+| Indra |  | atadriano.ius@juntadeandalucia.es | AT Adriano |
+| Ricoh | 671 78 38 02 | soporte.firmaelectronica@ricoh.es | @firma |
+ </panel>

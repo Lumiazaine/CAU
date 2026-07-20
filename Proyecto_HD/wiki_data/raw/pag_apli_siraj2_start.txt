@@ -1,0 +1,42 @@
+﻿
+<WRAP> 
+<panel type="primary" title="SIRAJ2"> 
+
+SIRAJ2 (Sistema de Información de Registros Administrativos de Apoyo a la Administración de Justicia ) es un sistema informático que permite la gestión de los seis Registros Administrativos de Apoyo a la Actividad judicial:
+
+  * Registro Central de Penados.
+  * Registro Central de Medidas Cautelares, Requisitorias y Sentencias No Firmes.
+  * Registro Central de Delincuentes Sexueles y Trata de Seres Humanos.
+  * Registro Central para la Protección de las Victimas de Violencia Doméstica.
+  * Registro Central de Rebeldes Civiles.
+  * Registro Central de Sentencias de Responsabilidad Penal de los Menores.
+
+<WRAP> 
+<panel type="info" title="Acceso">
+  * **URL:** [[https://www.administraciondejusticia.gob.es/-/soluciones-siraj-2|SIRAJ2]]
+  * **Contacta:** 
+  * **Formulario:** 
+</panel>
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Capacitación">
+  * [[https://capacitacion.justicia.junta-andalucia.es|Contenidos Digitales de Capacitación (Portal de Capacitación de Justicia Digital Andalucía)]]
+  * [[https://videos.justicia.junta-andalucia.es/home|Portal de contenidos en vídeo de Justicia Digital Andalucía]]
+  * [[https://aulaenlinea.justicia.es/|Aula en línea de Servicio de Formación de la SGNTJ]]
+  * [[https://eur02.safelinks.protection.outlook.com/?url=https%3A%2F%2Fmju.acblnk.com%2Furl%2Fver%2F817846252%2F3287089%2Fc0fe1e824c3f71ccc62d92998c9abe8e&data=05%7C02%7Cpaco.belmonte%40juntadeandalucia.es%7Cf6632833e5e345c19ec208ddb3f9a352%7C6f790c0b1f114877a4dff835ab8e7e1f%7C0%7C0%7C638864606949855019%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=h6ERwnA%2BNnsVlRyimG9%2FP7bIgaBCVpSli2ufRliaMhI%3D&reserved=0|Guía de novedades versión 4.7 de fecha 05/06/2025]]
+</panel>
+</WRAP>
+
+<WRAP> 
+<panel type="info" title="Procedimientos y Problemas Conocidos">
+  * [[pag_apli:siraj2:problemas|Procedimientos y Problemas Conocidos]] 
+</panel>
+</WRAP>
+
+</panel> 
+</WRAP>
+
+{{tag>validada}}
+
+

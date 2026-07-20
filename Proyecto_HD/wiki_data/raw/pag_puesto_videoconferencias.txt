@@ -1,0 +1,9 @@
+﻿
+Se recoge el procedimiento a seguir para el flujo de los trabajos a realizar para el conexionado de videoconferencias de rebote, a través de las peticiones Remedy . Este procedimiento requiere como soporte básico para su ejecución el listado de videoconferencias solicitadas por las DPs y autorizadas por Coordinación. Dicho listado se encuentra adjunto en página.
+
+1. La DP abre petición remedy de solicitud de hibridación de puerto a Sistemas.\\
+2. Sistemas debe solicitar la aprobación de Coordinación por lo que debe remitir a Servicios / Inventario la petición. \\
+  - Servicios / Inventario solicita a DP: Marca, Modelo, Nº de Serie y RFID del equipo a instalar así como Ubicación y Nombre de Sala donde va a  ir ubicado.
+  - Verificación de que dicha ubicación y sala está dentro del listado de las que se han autorizado (Fichero: "Necesidades VConf - Rebote.ods").
+    *  En caso afirmativo, inventario recoge los datos,  actualiza inventario y reasigna a Planificación/Coordinación para que valide y facilite los datos: IPs, etc..para la hibridación de los puertos, a Sistemas.
+    *  En caso de no aparecer en el listado de las autorizadas aclarar con DP y si procede, escalar a Coordinación.

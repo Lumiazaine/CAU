@@ -1,0 +1,100 @@
+﻿
+<html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>CONTRATACIÓN</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #39546E;
+            margin: 0;
+            padding: 20px;
+            padding-top: 70px;
+            
+        }
+
+        .main-container {
+            max-width: 1550px;
+            margin-top: 20px;
+            
+        }
+
+        .main-header {
+            background-color: #39546E;
+            color: white;
+            padding: 25px 20px;
+            font-size: 2rem;
+            font-weight: bold;
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+            margin-bottom: 20px;
+            
+        }
+
+        .block {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 22px;
+            margin-bottom: 25px;
+            border: 1px solid #c5ccd4;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+            
+        }
+
+        .block h2 {
+            margin-top: 0;
+            color: #39546E;
+            border-bottom: 2px solid #39546E;
+            padding-bottom: 10px;
+            
+        }
+        
+        a {
+            color: #0051A3;
+            text-decoration: none;
+            
+        } 
+        
+    </style>
+</head>
+
+<body>
+
+    <div class="main-container">
+
+        <div class="main-header">ATENCIÓN EN SEDES JUDICIALES</div>
+        
+     
+<!-- Bloque 1 -->
+        <div class="block">
+            <h2>Equipos que llevan la resolución de cuestiones informáticas en Sevilla</h2>
+            
+            <p style="margin-top: 20px;">1. <b>Equipo CRIPS</b>, debe encargarse de las sedes judiciales siguientes:</p>
+            
+            <p style="margin-top: 20px;">Prado. Avda. de Carlos V, s/n (Prado de San Sebastián), y C\ Menéndez Pelayo, 2.</p>
+            <p>Patología Forense, IMLCF. C\ Miguel Romero Martínez, 2.</p>
+            <p>Todos los pueblos.</p>
+            <p>Palmas Altas, edificio A. C\ Energia Solar, 1. Edificio A.</p>
+            <p>Buhaira 31, hasta nuevo aviso, ya que el equipo del Basado Centro aún no está operativo en dicha sede. Avda. de la Buhaira, 31.</p>
+            
+            <p style="margin-top: 20px;">2. <b>Equipo del Basado Sevilla</b>, debe encargarse de las sedes judiciales siguientes:</p>
+            
+            <p style="margin-top: 20px;">Viapol. C\ Vermondo Resta, s/n.</p>
+            <p>Palmas Altas, edificio B. C\ Energia Solar, 1. Edificio B./p>
+            <p>Buhaira 29. Avda. de la Buhaira, 29.</p>
+            <p>Noga. Avda. de la Buhaira, 26.</p>
+            
+            <p style="margin-top: 20px;">Es necesario tener en cuenta esta información para la asignación de tiques en Remedy de forma correcta.</p>
+        </div>
+        
+<!-- Bloque 2 -->
+        <div class="block">
+            <h2>Configuración de Sevilla atención CRIP/Basado</h2>
+            
+            <p align="center"><img style="margin-top: 10px; max-width:100%; height:auto;" src="/dokuwiki/!ssdj/lib/exe/fetch.php?t=1781684781&w=499&h=119&tok=69cfcd&media=crip.jpg"></p>
+        </div>          
+    </div>
+
+</body>
+</html>

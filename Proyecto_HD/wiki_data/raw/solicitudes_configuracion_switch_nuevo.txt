@@ -1,0 +1,57 @@
+﻿
+===== 🛠️ Procedimiento: Solicitud de configuración de un nuevo switch =====
+
+==== Descripción ====
+Cuando se recibe un switch nuevo en una sede o CPD, es necesario solicitar su configuración al equipo de GTSR.  
+
+
+**Esta solicitud debe realizarse exclusivamente mediante ticket en Remedy.**
+
+----
+
+==== Pasos a seguir ====
+
+**1. Abrir ticket en Remedy** con los siguientes datos:
+
+^ Campo              ^ Información a Rellenar                     ^
+| Tipo de solicitud  | Configuración de nuevo switch             |
+| Grupo asignado     | GTSR                                       |
+| Prioridad          | Según criticidad del entorno              |
+
+**2. Incluir en el cuerpo del ticket la siguiente información obligatoria:**
+
+^ Campo                                 ^ Descripción                                                   ^
+| Modelo del switch                     | Ej: Aruba JL256A 2930F-48G-PoE+-4SFP+                         |
+| Número de puertos                     | Ej: 48 + 4 SFP+                                               |
+| Número de serie                       | (Si está disponible)                                          |
+| Ubicación física / sede              | Dirección o nombre de la sede o CPD                          |
+| Persona de contacto en la sede       | Nombre completo + teléfono o extensión                       |
+| Ventana de mantenimiento propuesta   | Fecha y hora en la que se puede intervenir                   |
+| ¿Sustitución o ampliación?           | Indicar si reemplaza un switch o si se añade como ampliación |
+| ¿Replica configuración de otro switch? | Indicar equipo de referencia si aplica                      |
+| Función del Switch                   | Indicar el equipo para que se va usar y que servicios va a proporcionar |
+
+**3. Incluir datos de parte lógica de red por sede:**
+
+Este apartado define la estructura lógica de red utilizada en una sede, incluyendo segmentación por VLAN, direcciones IP asignadas, roles de red, y criterios básicos de comunicación.
+
+La red de cada sede se organiza por VLAN, con rangos IP definidos para cada tipo de dispositivo o servicio. La siguiente tabla muestra un ejemplo genérico de estructura:
+
+^ VLAN     ^ Nombre / Uso              ^ Rango IP           ^ Máscara        ^ Gateway         ^ DHCP ^ Notas                          ^
+| VLAN 10  | Usuarios oficina          | 192.168.10.0/24    | 255.255.255.0  | 192.168.10.1     | Sí   | Equipos personales y fijos     |
+| VLAN 20  | Infraestructura (switches, firewall) | 192.168.20.0/24    | 255.255.255.0  | 192.168.20.1     | No   | IPs fijas                      |
+
+
+==== 📌 Notas adicionales ====
+
+  * No realizar ninguna conexión ni modificación de red sin la aprobación de GTSR.
+  * Toda la infraestructura debe estar documentada con planos de red y reservas IP actualizadas.
+  * Todas las VLAN deben definirse en los switches y propagarse vía trunk hasta el firewall o router.
+  * En entornos con alta disponibilidad (HA), deben contemplarse IPs virtuales (VIP) y redundancia de enlaces.
+  * Indicar claramente si el switch es parte de un sistema **crítico** o de **alta disponibilidad (HA)**.
+  * Si se trata de una sustitución, especificar **modelo y ubicación** del switch antiguo.
+  * Esta información debe ser revisada y validada por CRIP antes de ser definitiva.
+
+=====  Historial de cambios =====
+^ Versión ^ Fecha ^ Cambio ^ Autor ^  
+| 1.0 | 2025-07-18 | Creación del documento | GTSR|

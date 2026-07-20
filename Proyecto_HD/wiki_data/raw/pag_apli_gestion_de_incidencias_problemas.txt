@@ -1,0 +1,65 @@
+﻿
+<WRAP> 
+<panel type="primary" title="Problemas Conocidos de Gestión de Incidencias"> 
+
+[[start|Volver]]
+
+<WRAP> <panel type="info" >
+
+===== El Gestor de Incidencias no se abre. =====
+
+Solo funciona en Internet Explorer o Edge en modo compatibilidad IE.
+
+Para que funcione correctamente en Edge hay que activar el modo compatibilidad, para ello es necesario realizar los siguientes pasos:
+
+1. Accedemos a la configuración de Edge, en la barra de búsqueda escribimos “Compatibilidad”. 2. Dentro de esta búsqueda activamos las siguientes opciones:
+
+{{:el_gestor_de_incidencias_no_se_abre_01.png?nolink&}}
+
+3. En el apartado "Páginas del modo internet explorer" hay que añadir las siguientes urls:
+
+[[https://incidencias2.justicia.junta-andalucia.es/arsys/shared/login.jsp|https://incidencias2.justicia.junta-andalucia.es/arsys/shared/login.jsp]] [[http://conexionremedy.justicia.junta-andalucia.es/ConexionRemedy/jsp/login.jsp|http://conexionremedy.justicia.junta-andalucia.es/ConexionRemedy/jsp/login.jsp]]
+
+{{:el_gestor_de_incidencias_no_se_abre_02.png?nolink&}}
+
+La primera vez que se acceda, si no funciona se deben marcar las siguientes opciones:
+
+1. Botón "e" en la esquina superior derecha, para abrir el modo compatibilidad:
+
+{{:el_gestor_de_incidencias_no_se_abre_03.png?nolink&}}
+
+2. Marcar los dos checks, y pulsar "Listo".
+
+{{:el_gestor_de_incidencias_no_se_abre_04.png?nolink&}}
+
+**NOTA:** Si no funcionara hay que actualizar Edge a la última versión (Ir a la esquina superior derecha, tres puntos > Ayuda y comentarios > Acerca de Microsoft Edge).
+
+</panel> </WRAP>
+
+<WRAP> 
+<WRAP> <panel type="info">
+
+===== ARERR [329] Contraseña o cadena de autentificación no válida para un usuario existente =====
+
+**Descripción**
+
+El usuario no puede acceder a la gestion de incidencias. Al acceder, le aparece el error:
+
+Los siguientes errores ocurrieron mientras se intentaba procesar su petición: ARERR [329] Contraseña o cadena de autentificación no válida para un usuario existente.
+
+**Causas y/o solución**
+
+Un usuario sin password establecido en TEMIS, puede acceder al escritorio judicial [[http://escritoriojudicial.justicia.junta-andalucia.es/Escritorio/Inicio.do|http://escritoriojudicial.justicia.junta-andalucia.es/Escritorio/Inicio.do]].\\
+\\
+De ahí, puede acceder a "Gestion de Incidencias", ¡OJO! con navegador <<Internet Explorer>>, otro navegador no podrá visualizar la pantalla inicial (queda en blanco, pero sí está logado).\\
+\\
+Cuando, el usuario cambie la password o su usuario, esto quedará reflejado en la BD de Remedy a las 24 horas, pues hay un **proceso nocturno** en Remedy que sincroniza con TEMIS. Lo cual hará que no pueda entrar en "Gestión de Incidencias" hasta el día siguiente.\\
+\\
+Por seguridad debe de introducirse password a su usuario.
+
+</panel> 
+</WRAP>
+
+[[start|Volver]]
+
+{{tag>novalidada}}

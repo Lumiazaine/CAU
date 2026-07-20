@@ -1,0 +1,194 @@
+﻿
+<html> <html lang="es"> 
+<head>
+
+  <meta charset="UTF-8">
+  <title>PLANTILLAS VERIFICACIÓN SALUD DE LAS APLICACIONES </title>
+  <style>
+      body {
+          font-family: Arial, sans-serif;
+          background-color: #39546E;
+          margin: 0;
+          padding: 20px;
+          padding-top: 70px;
+          
+      }
+
+
+
+      .main-container {
+          max-width: 1550px;
+          margin: 0 auto;
+      }
+
+
+
+      .main-header {
+          background-color: #39546E;
+          color: white;
+          padding: 25px 20px;
+          font-size: 2rem;
+          font-weight: bold;
+          border-radius: 8px 8px 0 0;
+          text-align: center;
+          margin-bottom: 20px;
+      }
+
+
+
+      .block {
+          background-color: #ffffff;
+          border-radius: 8px;
+          padding: 22px;
+          margin-bottom: 25px;
+          border: 1px solid #c5ccd4;
+          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+      }
+
+
+
+      .block h2 {
+          margin-top: 0;
+          color: #39546E;
+          border-bottom: 2px solid #39546E;
+          padding-bottom: 10px;
+          
+      }
+      
+      a {
+          color: #0051A3;
+          text-decoration: none;
+          
+      } 
+
+  </style>
+
+<title>Tabla HTML</title>
+    <style>
+        /* Estilos para la tabla */
+        table {
+            border-collapse: collapse; /* Para que los bordes se unan */
+            width: 50%; /* Ancho de la tabla */
+            margin: 20px auto; /* Centrar la tabla */
+            border: 1px solid #ccc; /* Borde general de la tabla */
+        }
+        /* Estilos para las celdas de encabezado (primera fila) */
+        th {
+            background-color: #f2f2f2; /* Color de fondo para los títulos */
+            color: #333; /* Color de texto */
+            padding: 10px; /* Espaciado interno */
+            border: 1px solid #aaa; /* Borde para las celdas de título */
+            text-align: left; /* Alineación del texto */
+        }
+        /* Estilos para las celdas de datos */
+        td {
+            padding: 8px; /* Espaciado interno */
+            border: 1px solid #ddd; /* Borde para las celdas de datos */
+            text-align: left; /* Alineación del texto */
+        }
+        /* Estilo para filas pares (opcional, para mejor lectura) */
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+
+</head>
+
+<body>
+
+  <div class="main-container">
+
+      <div class="main-header">PLANTILLAS VERIFICACIÓN SALUD DE LAS APLICACIONES</div>
+
+      <div style="margin-bottom: 20px;">
+          <p>En esta página aparecerán todas las plantillas que utilizará el equipo de salud del servicio de la OTIJ a la hora de certificar y validar un servicio o componente.</p>
+          
+           <table>
+  <thead> <!-- Encabezados de la tabla -->
+    <tr>
+      <th>Código Entregable</th>
+      <th>Descripción</th>
+      <th>Plantilla</th>
+    </tr>
+  </thead>
+  <tbody> <!-- Cuerpo de la tabla -->
+    <!-- Fila 1 (ya es el encabezado) -->
+    <!-- Fila 2 -->
+    <tr>
+      <td>PPC</td>
+      <td><strong>Plan de pruebas de certificación</strong><br>
+      Se incluye la plantilla del informe de certificación de las pruebas ejecutadas
+      </td>
+      <td><a target="_blank" href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=ppc_proy_mod_comp_plan_de_pruebas_de_certificacion_0101.odt">Informe de certificación</a></td>
+    </tr>
+    <!-- Fila 3 -->
+    <tr>
+      <td>PPI</td>
+      <td><strong>Informe de integración</strong><br>
+      Se incluye la plantilla del informe de integración de las pruebas ejecutadas
+      </td>
+      <td><a target="_blank" href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=ppi__proy___mod___comp__plan_de_pruebas_de_integración_0101.odt">Informe de integración</a></td>
+    </tr>
+     <tr>
+      <td>IPR</td>
+      <td><strong>Informe de pruebas de rendimiento</strong><br>
+      Se incluye la plantilla del informe de las pruebas de rendimiento.
+      </td>
+      <td><a target="_blank" href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=ipr__proy___mod___comp__informerevisionpruebasrendimiento.odt">Informe de Pruebas de Rendimiento</a></td>
+    </tr>
+      <td>IRT</td>
+      <td><strong>Informe de revisión técnica</strong><br>
+      Se incluye el informe de revisión de los indicadores de un componente o servicio
+      </td>
+      <td><a target="_blank" href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=irt__proy___mod___comp__informe_de_revisión_tecnica_0101.odt">Informe de revisión técnica</a></td>
+    </tr>
+    <!-- Fila 7 -->
+    <tr>
+      <td>IPP</td>
+      <td><strong>Informe de pruebas de paso a producción</strong><br>
+      Se incluye la plantilla del informe de que el componente o servicio puede pasar a producción
+      </td>
+      <td><a target="_blank" href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=ipp__proy___mod___comp__informe_pruebas_paso_produccion_0101.odt">Informe de pruebas de paso a producción</a></td>
+    </tr>
+    <!-- Fila 8 -->
+    <tr>
+      <td>IPA</td>
+      <td><strong>Informe de aceptación</strong><br>
+      Se incluye la plantilla del informe de aceptación de las pruebas ejecutadas con las incidencias detectadas
+      </td>
+      <td><a target="_blank" href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=ipa__proy___mod___comp__informe_de_aceptación_0101.odt">Informe de aceptación</a></td>
+    </tr>
+    <!-- Fila 9 -->
+    <tr>
+      <td>FI</td>
+      <td><strong>Ficha de indicadores</strong><br>
+      Se incluye la plantilla que contiene información de los indicadores usados
+      </td>
+      <td><a target="_blank" href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=fi__proy___mod___comp__fichas_de_indicadores_0201.odt">Ficha de indicadores</a></td>
+    </tr>
+    <!-- Fila 10 -->
+    <tr>
+      <td>PLA</td>
+      <td><strong>Plantilla de entregables genérica</strong><br>
+      Se incluye la plantilla de entregables genéricos
+      </td>
+      <td><a target="_blank" href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=pla__proy___mod___comp__plantillaentregablegenerica_ng.odt">Plantilla de entregables genérica</a></td>
+    </tr>
+    <!-- Fila 11 -->
+    <!-- Fila 12 -->
+    <tr>
+      <td>DC</td>
+      <td><strong>Defecto de código</strong><br>
+      Se incluye una plantilla con el excel para documentar los defectos encontrados en el código
+      </td>
+      <td><a target="_blank" href="https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj/lib/exe/fetch.php?media=dc__proy___mod___comp_defecto_codigo_xxyy.ods">Defecto de código</a></td>
+    </tr>
+  </tbody>
+</table>
+             
+      
+      </div>
+
+</body> 
+</html>
+

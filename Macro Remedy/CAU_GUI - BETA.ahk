@@ -422,29 +422,44 @@ Button25: ;Botón Buscar
     if (!CheckRemedy()) {
         return
     }
+    
     InputBox, repeatCount, Repeticiones, ¿Cuántas veces deseas repetir la acción?, , 300, 150
     if ErrorLevel {
-        MsgBox, Cancelado por el usuario.
+        MsgBox, 16, Cancelado, Cancelado por el usuario.
+        return
+    }
+    
+    ; Validar que sea un número entero y esté en el rango correcto
+    if repeatCount is not integer
+    {
+        MsgBox, 48, Error, Por favor, introduce solo números enteros.
         return
     }
     if (repeatCount <= 0 || repeatCount > 999) {
-        MsgBox, Número inválido. Introduce un número entre 1 y 999.
+        MsgBox, 48, Error, Número inválido. Introduce un número entre 1 y 999.
         return
     }
+    
     Loop %repeatCount%
     {
         try {
-            Alba(42)
+            Alba(0)
             Sleep, 1500
-            MsgBox, 64, Estado de Macro, Macro ejecuntandose %A_Index% de %repeatCount% no tocar.,1
+            
+            ; Reemplazamos MsgBox por ToolTip para no interrumpir/pausar el flujo de la macro
+            ToolTip, Macro ejecutándose: %A_Index% de %repeatCount% (No tocar)
+            
             WriteLog("Macro repeticion (Iteración: " . A_Index . ")")
             Send, ^{Enter}{Enter}
         } catch e {
             WriteError("Error en iteración " . A_Index . ": " . e.Message)
         }
-        Sleep 1000  ; Puedes ajustar el tiempo de espera si es necesario
+        
+        Sleep, 1000  ; Espera entre iteraciones
     }
-    MsgBox, % "Se ha completado correctamente " . repeatCount . " veces."
+    
+    ToolTip ; Quita el ToolTip de la pantalla al terminar
+    MsgBox, 64, Completado, % "Se ha completado correctamente " . repeatCount . " veces."
     return
 
 #7:: ; AFK mode

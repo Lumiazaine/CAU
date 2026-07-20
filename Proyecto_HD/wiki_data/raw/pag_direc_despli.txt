@@ -1,0 +1,69 @@
+﻿
+====== Directrices de Despliegues ======
+
+==== 1. Introducción ====
+
+En este documento se dan las directrices a seguir para la realización de los despliegues. Los equipos implicado en los despliegues, por parte de Sistemas, son:
+
+  * Grupo de Trabajo Base de Datos (GTBD)
+  * Grupo de Trabajo Sistemas Linux (GTSL)
+  * Grupo de Trabajo Sistemas Windows (GTSW)
+
+==== 2. Planificación ====
+
+  * Los despliegues se deben de planificar la semana anterior en una reunión, preferiblemente los viernes (unificada por todos los proveedores/aplicación (@driano, AM, Nueva Sede, etc.)).
+  * Los despliegues de distintos entornos deben estar separados por al menos un día laborable.
+  * No se realizarán despliegues en entornos productivos el día anterior a un día no laborable.
+  * Los despliegues en entornos de preproducción se realizarán preferentemente en horario de mañana (ventana de 10:00 a 14:00). Los de Producción se realizarán en horario de tarde (ventana de 16:00 a 18:00).
+  * Cada equipo de Sistemas (GTBD, GTSL o GTSW) tienen dos huecos de actuaciones (entre las que se encuentran los despliegues) en horario de mañana y dos en hora de tarde. No se puede realizar más despliegues de los que encajen en esos dos huecos por equipo.
+  * Todo despliegue debe pasar, sin excepción, por entornos preproductivos antes de llegar a Producción.
+  * Dado que hay que tener una planificación, los equipos deben solicitar la ventana de actuación con antelación cuando crean que va a tener listo un despliegue.
+
+Esta planificación se hace con una semana de antelación, cerrandose el viernes en la reunión del Comité de Aprobación de Cambios.
+
+<code>
+      Plantilla de petición de despliegue.
+      Destinatario:  cac.ius@juntadeandalucia.es
+      Asunto: Solicitud de ventana de despliegue - X ver. X.X.X
+      Cuerpo:
+      Se solicita ventana para el día XX/XX/XXXX para el despliegue de la aplicación YYYYY versión X.X.X en entorno Preproducción/Producción
+      Link a JIRA
+
+</code>
+
+<code>
+  (Si se solicita más de un despliegue en la semana del mismo aplicativo (por ejemplo, pre lunes y pro miercoles) añadir cuantas lineas sean necesarias respetando el formato)
+
+</code>
+
+==== 3. Entrega ====
+
+  * Los despliegues en distintos entornos deben ser iguales entre sí. Siempre el mismo código y la misma estructura de BBDD, salvando configuraciones y datos específicos de cada entorno.
+  * Despliegue es un cambio en la versión de la aplicación, cambios en el código o en el modelo de datos en BBDD. Otro tipo de cambio no se consideran Despliegue y no se gestionan por Jira.
+  * Los despliegues se solicitarán mediante JIRA. Se recibirá un Jira para cada entorno, siempre al menos tres horas antes de la hora planificada del mismo. En caso de no recibirse con la indicada antelación se considerará cancelado automáticamente y deberá procederse a una nueva planificación en la siguiente reunión.
+  * Deben respetarse los flujos definidos en JIRA para cada caso. (NUNCA usar el botón "asignar" directamente).
+  * La primera asignación, de cualquier despliegue, debe ser siempre al grupo GTSL.
+  * Antes de asignar el jira de Producción debe haberse verificado el entorno anterior, y quedar reflejado en el estado del Jira correspondiente.
+  * Los entornos de Preproducción y Producción deben mantener coherencia en las versiones implantadas, salvo el margen de validación entre despliegues, no mayor a una semana. Se debe terminar un ciclo completo de despliegue antes de iniciar el despliegue de la siguiente versión.
+
+==== 4. Entregable ====
+
+  * El Jira de despliegue debe contener la ruta a la documentación que debe subirse a Alfresco. Existe plantilla estándar de dicha documentación a entregar.
+  * La documentación entregada debe contener siempre las instrucciones para una posible marcha atrás. Sistemas se reserva el derecho de poner en práctica este procedimiento de forma aleatoria.
+  * El nombre del Jira debe contener el entorno y la versión numérica del despliegue.
+  * Todo código software a compilar debe estar subido a repositorio local de SSDJ.
+  * Todo artefacto o librería, de la cual dependa la compilación, debe estar subido a repositorio local de SSDJ.
+  * Todo código SQL, a ejecutar, debe estar subido a repositorio local de SSDJ en formato ANSI (incluidos los de marcha atrás).
+  * Una vez entregado código o sentencias SQL en el entorno preproductivo no puede modificarse dicha entrega. Debe quedar intacto a modo de histórico. Todo cambio que se quiera hacer en dicho código debe hacerse en una versión posterior. Tampoco debe modificarse un jira una vez entregado.
+  * Es responsabilidad del proveedor gestionar los puntos anteriores. Para ello dispondrán de los usuarios necesarios para tal efecto.
+
+==== 5. Gestión de Problemas ====
+
+  * En caso de despliegues no satisfactorio queda bajo criterio de Sistemas realizar las correcciones menores que se aporten en el Jira dentro de la ventana horaria designada para el despliegue o realizar la marcha atrás.
+
+==== 6. Solicitudes de Nueva Implantación ====
+
+  * Existe en Alfresco una plantilla específica para esto.
+{{tag>validada}}
+
+
