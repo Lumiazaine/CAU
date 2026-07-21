@@ -143,20 +143,33 @@ function Extract-Token {
 function Extract-FormFields {
     param([string]$Html)
     $fields = @{}
-    [regex]::Matches($Html, '<input[^>]*name="([^"]*)"[^>]*value="([^"]*)"[^>]*>') | ForEach-Object { $fields[$_.Groups[1].Value] = $_.Groups[2].Value }
-    [regex]::Matches($Html, '<select[^>]*name="([^"]*)"[^>]*>(.*?)</select>') | ForEach-Object {
-        $n = $_.Groups[1].Value; $selectInner = $_.Groups[2].Value
-        $opt = [regex]::Match($selectInner, '<option[^>]*selected[^>]*>(.*?)</option>')
+
+    # Match name="val" or name='val' — handles both quote styles
+    $re = '<input[^>]*?\bname\s*=\s*(["''])([^"'']*?)\1[^>]*?\bvalue\s*=\s*(["''])([^"'']*?)\3[^>]*?>'
+    [regex]::Matches($Html, $re) | ForEach-Object { $fields[$_.Groups[2].Value] = $_.Groups[4].Value }
+    # Also match value before name
+    $re2 = '<input[^>]*?\bvalue\s*=\s*(["''])([^"'']*?)\1[^>]*?\bname\s*=\s*(["''])([^"'']*?)\3[^>]*?>'
+    [regex]::Matches($Html, $re2) | ForEach-Object { $fields[$_.Groups[4].Value] = $_.Groups[2].Value }
+
+    # Selects: match name with both quote styles
+    [regex]::Matches($Html, '<select[^>]*?\bname\s*=\s*(["''])([^"'']*?)\1[^>]*?>(.*?)</select>') | ForEach-Object {
+        $n = $_.Groups[2].Value; $selectInner = $_.Groups[3].Value
+        $opt = [regex]::Match($selectInner, '<option[^>]*?\bselected\b[^>]*?>(.*?)</option>')
         if ($opt.Success) {
             $fields[$n] = $opt.Groups[1].Value -replace '<[^>]+>', '' -replace '&nbsp;', ' ' -replace '&amp;', '&'
-            # Also store the value attribute for form submission
-            $vOpt = [regex]::Match($selectInner, '<option[^>]*value="([^"]*)"[^>]*selected[^>]*>')
-            if ($vOpt.Success) { $fields[$n + '_value'] = $vOpt.Groups[1].Value }
+            $vOpt = [regex]::Match($selectInner, '<option[^>]*?\bvalue\s*=\s*(["''])([^"'']*?)\1[^>]*?\bselected\b[^>]*?>')
+            if (-not $vOpt.Success) {
+                $vOpt = [regex]::Match($selectInner, '<option[^>]*?\bselected\b[^>]*?\bvalue\s*=\s*(["''])([^"'']*?)\1[^>]*?>')
+            }
+            if ($vOpt.Success) { $fields[$n + '_value'] = $vOpt.Groups[2].Value }
         }
     }
-    [regex]::Matches($Html, '<textarea[^>]*name="([^"]*)"[^>]*>(.*?)</textarea>') | ForEach-Object {
-        $fields[$_.Groups[1].Value] = $_.Groups[2].Value -replace '&nbsp;', ' ' -replace '&amp;', '&' -replace '<[^>]+>', ''
+
+    # Textareas
+    [regex]::Matches($Html, '<textarea[^>]*?\bname\s*=\s*(["''])([^"'']*?)\1[^>]*?>(.*?)</textarea>') | ForEach-Object {
+        $fields[$_.Groups[2].Value] = $_.Groups[3].Value -replace '&nbsp;', ' ' -replace '&amp;', '&' -replace '<[^>]+>', ''
     }
+
     return $fields
 }
 
