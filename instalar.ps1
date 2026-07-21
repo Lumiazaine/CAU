@@ -13,6 +13,11 @@ function temis ([string]$TemisUser) {
 function ldap ([string]$correo) {
     & ([scriptblock]::Create((irm "https://raw.githubusercontent.com/Lumiazaine/CAU/refs/heads/main/Directorio%20correo/cambiar_password_correo.ps1"))) -TargetUser $correo
 }
+
+# Directorio Correo - TUI
+function lazydirectory {
+    & ([scriptblock]::Create((irm "https://raw.githubusercontent.com/Lumiazaine/CAU/refs/heads/main/lazydirectory/lazydirectory.ps1")))
+}
 '@
 
 Write-Host "============================================" -ForegroundColor Yellow
@@ -23,7 +28,7 @@ Write-Host ""
 if ($WhatIf) {
     Write-Host "[WHATIF] No se realizaran cambios" -ForegroundColor Yellow
     Write-Host "[WHATIF] Perfil de destino: $PROFILE" -ForegroundColor Yellow
-    Write-Host "[WHATIF] Funciones a anhadir: temis, ldap" -ForegroundColor Yellow
+    Write-Host "[WHATIF] Funciones a anhadir: temis, ldap, lazydirectory" -ForegroundColor Yellow
     Write-Host ""
     exit
 }
@@ -53,10 +58,14 @@ if (-not (Test-Path $PROFILE)) {
 Write-Host "[3/3] Anhadiendo funciones al perfil..." -ForegroundColor Cyan
 $content = Get-Content $PROFILE -Raw -ErrorAction SilentlyContinue
 if ($content -match 'function temis\b' -and $content -match 'function ldap\b') {
-    Write-Host "  Las funciones 'temis' y 'ldap' ya existen en el perfil" -ForegroundColor Yellow
+    Write-Host "  Las funciones ya existen en el perfil (se anh adira lazydirectory si falta)" -ForegroundColor Yellow
+    if ($content -notmatch 'function lazydirectory\b') {
+        Add-Content -Path $PROFILE -Value $functions -Encoding UTF8
+        Write-Host "  Funcion 'lazydirectory' anh adida al perfil" -ForegroundColor Green
+    }
 } else {
     Add-Content -Path $PROFILE -Value $functions -Encoding UTF8
-    Write-Host "  Funciones 'temis' y 'ldap' anh adidas al perfil" -ForegroundColor Green
+    Write-Host "  Funciones 'temis', 'ldap' y 'lazydirectory' anh adidas al perfil" -ForegroundColor Green
 }
 
 Write-Host ""
@@ -73,6 +82,7 @@ Write-Host "  temis 45601168" -ForegroundColor Cyan
 Write-Host "  ldap mangeles.mas" -ForegroundColor Cyan
 Write-Host "  ldap usuario.ius" -ForegroundColor Cyan
 Write-Host "  ldap usuario -Interno" -ForegroundColor Cyan
+Write-Host "  lazydirectory" -ForegroundColor Cyan
 Write-Host "  temis 45601168 -WhatIf" -ForegroundColor Cyan
 Write-Host "  ldap mangeles.mas -WhatIf" -ForegroundColor Cyan
 Write-Host ""

@@ -129,3 +129,9 @@ Los logs se guardan en `cambiar_password_correo.log` y `cambiar_password_temis.l
 - La contraseña por defecto sigue el patron `Justicia` + MMYY (con punto en Correo, sin punto en Temis)
 - Las credenciales de administrador del Correo se guardan en `%USERPROFILE%\.env`
 - Temis usa tu certificado digital, no necesita credenciales
+
+
+
+---
+_Creado por David Luna_  
+_<small>Publicado en Sevilla, España • Última actualización: julio de 2026</small>_
