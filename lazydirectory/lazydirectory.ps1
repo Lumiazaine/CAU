@@ -157,19 +157,6 @@ function Extract-FormFields {
 function Extract-DisplayData {
     param([string]$Html)
     $data = @{}
-    $labelMap = @{
-        'Nombre' = 'cn'; 'Identificador' = 'uid'; 'Correo' = 'mail'
-        'Descripci' = 'description'; 'Apellido1' = 'sn'; 'Apellido2' = 'empleadoApellido2_sa'
-        'Tel.fono' = 'telephoneNumber'; 'M.vil' = 'mobile'; 'Fax' = 'facsimileTelephoneNumber'
-        'Direcci' = 'postalAddress'; 'C.P.' = 'postalCode'; 'Ciudad' = 'l'
-        'Provincia' = 'st'; 'Cargo' = 'title'; 'Depto' = 'departmentNumber'
-        'Organismo' = 'o'; 'Centro Gestor' = 'centroGestor'; 'Centro Destino' = 'centroDestino'
-        'Edificio' = 'edificio'; 'Servicio' = 'servicio'; 'Puesto' = 'puestoTrabajo'
-        'UID Number' = 'uidNumber'; 'GID Number' = 'gidNumber'
-        'Home Directory' = 'homeDirectory'; 'Login Shell' = 'loginShell'
-        'Tipo de usuario' = 'tipoUsuario'; '.ltimo cambio' = 'ultimoCambioPassword'
-        'Tel' = 'telephoneNumber'
-    }
 
     function Clean-Val {
         param([string]$s)
@@ -178,46 +165,91 @@ function Extract-DisplayData {
         return $s.Trim()
     }
 
-    # Strategy 1: <td>Label:</td><td>Value</td> (most common in modify forms)
-    $tdPairs = [regex]::Matches($Html, '(?s)<td[^>]*>(.*?)</td>\s*<td[^>]*>(.*?)</td>')
-    foreach ($pair in $tdPairs) {
-        $labelHtml = Clean-Val $pair.Groups[1].Value
-        $valHtml = Clean-Val $pair.Groups[2].Value
-        foreach ($lk in $labelMap.Keys) {
-            if ($labelHtml -match [regex]::Escape($lk)) {
-                if ($valHtml -and -not $data.ContainsKey($labelMap[$lk])) {
-                    $data[$labelMap[$lk]] = $valHtml
+    # Map Directorio field names to our display names
+    $fieldMap = @{
+        'Nombre' = 'cn'
+        'Identificador' = 'uid'
+        'Tipo de entrada' = 'tipoUsuario'
+        'Correo electr.nico' = 'mail'
+        '.ltimo cambio de contrase.a' = 'ultimoCambioPassword'
+        'Tel.fono Fijo' = 'telephoneNumber'
+        'Tel.fono M.vil' = 'mobile'
+        'Fax' = 'facsimileTelephoneNumber'
+        'Dni' = 'dni'
+        'Cargo' = 'title'
+        'departmentNumber' = 'departmentNumber'
+        'Edificio' = 'edificio'
+        'Servicio' = 'servicio'
+        'Puesto de Trabajo' = 'puestoTrabajo'
+        'Provincia' = 'st'
+        'Comentarios' = 'description'
+        'Cuota' = 'cuotaBuzonMax'
+        'Perfil de acceso WiFi' = 'tipoWiFi'
+        'Caducar contrase.a' = 'passCaducado'
+    }
+
+    # Strategy 1: form_field divs (modify form)
+    $fieldBlocks = [regex]::Matches($Html, '(?s)<div\s+class="form_field">(.*?)</div>\s*</div>')
+    if ($fieldBlocks.Count -eq 0) {
+        $fieldBlocks = [regex]::Matches($Html, '(?s)<div\s+class="form_field">(.*?)</div>')
+    }
+    foreach ($block in $fieldBlocks) {
+        $blockHtml = $block.Groups[1].Value
+        $labelM = [regex]::Match($blockHtml, '<div\s+class="form_field_label[^"]*">(.*?)</div>')
+        $valM = [regex]::Match($blockHtml, '<div\s+class="form_field_value[^"]*">(.*?)</div>')
+        if (-not $labelM.Success -or -not $valM.Success) { continue }
+
+        $labelText = Clean-Val $labelM.Groups[1].Value
+        $valText = Clean-Val $valM.Groups[1].Value
+        if (-not $labelText -or -not $valText) { continue }
+
+        foreach ($fk in $fieldMap.Keys) {
+            if ($labelText -match [regex]::Escape($fk)) {
+                if (-not $data.ContainsKey($fieldMap[$fk])) {
+                    $data[$fieldMap[$fk]] = $valText
                 }
                 break
             }
         }
     }
 
-    # Strategy 2: label+value in same block (span/div)
-    if ($data.Count -eq 0) {
-        foreach ($lk in $labelMap.Keys) {
-            $p = [regex]::Escape($lk) + '.*?:\s*(.*?)(?=<br|<BR|</td|</div|</span|<input|<select|<textarea|$)'
-            $m = [regex]::Match($Html, $p)
-            if ($m.Success) {
-                $val = Clean-Val $m.Groups[1].Value
-                if ($val -and -not $data.ContainsKey($labelMap[$lk])) {
-                    $data[$labelMap[$lk]] = $val
-                }
-            }
+    # Strategy 2: hidden inputs with special names
+    $hiddenMap = @{
+        'nombreUsuario' = 'cn'
+    }
+    foreach ($hn in $hiddenMap.Keys) {
+        $m = [regex]::Match($Html, 'name="' + [regex]::Escape($hn) + '"\s*value="([^"]*)"')
+        if ($m.Success -and $m.Groups[1].Value -and -not $data.ContainsKey($hiddenMap[$hn])) {
+            $data[$hiddenMap[$hn]] = $m.Groups[1].Value
         }
     }
 
-    # Strategy 3: <th>/<td> label rows
-    if ($data.Count -eq 0) {
-        $allCells = [regex]::Matches($Html, '(?s)<t[dh][^>]*>(.*?)</t[dh]>')
-        $texts = @()
-        foreach ($c in $allCells) { $texts += Clean-Val $c.Groups[1].Value }
-        for ($i = 0; $i -lt $texts.Count - 1; $i++) {
-            foreach ($lk in $labelMap.Keys) {
-                if ($texts[$i] -match [regex]::Escape($lk) -and -not $data.ContainsKey($labelMap[$lk])) {
-                    $val = Clean-Val $texts[$i + 1]
-                    if ($val -and $val.Length -lt 100) { $data[$labelMap[$lk]] = $val }
-                }
+    # Strategy 3: select option text (for tipo de usuario / tipo de entrada)
+    $selectM = [regex]::Match($Html, 'name="tipoEntrada"[^>]*>.*?<option[^>]*selected[^>]*>(.*?)</option>')
+    if ($selectM.Success -and -not $data.ContainsKey('tipoUsuario')) {
+        $data['tipoUsuario'] = Clean-Val $selectM.Groups[1].Value
+    }
+
+    # Strategy 4: search result rows (email shown in list)
+    $resultRows = [regex]::Matches($Html, '(?s)<div\s+class="fila_par"[^>]*>.*?<span\s+class="campo ancho2">(.*?)</span>\s*<span\s+class="campo ancho2">(.*?)</span>')
+    if ($resultRows.Count -gt 0) {
+        # First span = email, second span = name
+        $email = Clean-Val $resultRows[0].Groups[1].Value
+        $name = Clean-Val $resultRows[0].Groups[2].Value
+        if ($email -and -not $data.ContainsKey('mail')) { $data['mail'] = $email }
+        if ($name -and -not $data.ContainsKey('cn')) { $data['cn'] = $name }
+    }
+
+    # Strategy 5: Password overlay fields (has "Último cambio de contraseña")
+    $overlayBlocks = [regex]::Matches($Html, '(?s)<div\s+class="form_field">.*?<div\s+class="form_field_label">(.*?)</div>.*?<div\s+class="form_field_value">(.*?)</div>')
+    foreach ($block in $overlayBlocks) {
+        $labelText = Clean-Val $block.Groups[1].Value
+        $valText = Clean-Val $block.Groups[2].Value
+        if (-not $labelText -or -not $valText) { continue }
+        foreach ($fk in $fieldMap.Keys) {
+            if ($labelText -match [regex]::Escape($fk) -and -not $data.ContainsKey($fieldMap[$fk])) {
+                $data[$fieldMap[$fk]] = $valText
+                break
             }
         }
     }
@@ -390,7 +422,7 @@ function Get-UserProfile {
         accion = 'consulta'; botonPulsado = ''; datoAuxiliar = ''
         tokenParametro = $script:token
         filtroAtributo = 'identificador'
-        filtroTipoBusqueda = 'exacto'
+        filtroTipoBusqueda = 'igual'
         filtroValor = $UID
         marcarSirhus = $(if ($esInt) { 'NO' } else { 'SI' })
         marcarInternos = $(if ($esInt) { 'SI' } else { 'NO' })
@@ -600,8 +632,8 @@ function screen-search {
     if ($opt -eq "0") { return $null }
 
     $fieldMap = @{
-        "1" = "identificador"; "2" = "dni"; "3" = "mail"
-        "4" = "cn"; "5" = "tipoUsuario"; "6" = "edificio"; "7" = "servicio"
+        "1" = "identificador"; "2" = "dni"; "3" = "correo"
+        "4" = "nombre"; "5" = "tipoUsuario"; "6" = "edificio"; "7" = "servicio"
     }
     $searchField = $fieldMap[$opt]
     if (-not $searchField) { return $null }
@@ -614,7 +646,7 @@ function screen-search {
     Write-Host "  4. conteniendo a" -ForegroundColor Cyan
     Write-Host ""
     $tOpt = prompt "Tipo (1-4): " "1"
-    $typeMap = @{"1" = "empezando"; "2" = "exacto"; "3" = "terminando"; "4" = "conteniendo"}
+    $typeMap = @{"1" = "empezando"; "2" = "igual"; "3" = "terminando"; "4" = "conteniendo"}
     $searchType = $typeMap[$tOpt]
     if (-not $searchType) { $searchType = "empezando" }
 
