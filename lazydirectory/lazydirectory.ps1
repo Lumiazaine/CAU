@@ -145,8 +145,14 @@ function Extract-FormFields {
     $fields = @{}
     [regex]::Matches($Html, '<input[^>]*name="([^"]*)"[^>]*value="([^"]*)"[^>]*>') | ForEach-Object { $fields[$_.Groups[1].Value] = $_.Groups[2].Value }
     [regex]::Matches($Html, '<select[^>]*name="([^"]*)"[^>]*>(.*?)</select>') | ForEach-Object {
-        $n = $_.Groups[1].Value; $s = [regex]::Match($_.Groups[2].Value, '<option[^>]*value="([^"]*)"[^>]*selected[^>]*>')
-        if ($s.Success) { $fields[$n] = $s.Groups[1].Value }
+        $n = $_.Groups[1].Value; $selectInner = $_.Groups[2].Value
+        $opt = [regex]::Match($selectInner, '<option[^>]*selected[^>]*>(.*?)</option>')
+        if ($opt.Success) {
+            $fields[$n] = $opt.Groups[1].Value -replace '<[^>]+>', '' -replace '&nbsp;', ' ' -replace '&amp;', '&'
+            # Also store the value attribute for form submission
+            $vOpt = [regex]::Match($selectInner, '<option[^>]*value="([^"]*)"[^>]*selected[^>]*>')
+            if ($vOpt.Success) { $fields[$n + '_value'] = $vOpt.Groups[1].Value }
+        }
     }
     [regex]::Matches($Html, '<textarea[^>]*name="([^"]*)"[^>]*>(.*?)</textarea>') | ForEach-Object {
         $fields[$_.Groups[1].Value] = $_.Groups[2].Value -replace '&nbsp;', ' ' -replace '&amp;', '&' -replace '<[^>]+>', ''
@@ -168,85 +174,34 @@ function Extract-DisplayData {
     # Map Directorio field names to our display names
     # Keys use . as regex wildcard (matches any char, e.g. ó, ñ, Ú)
     $fieldMap = @{
-        'Nombre y apellidos' = 'cn'
-        'Nombre' = 'cn'
+        'Nombre y apellidos' = 'nombreUsuario'
+        'Nombre' = 'nombreUsuario'
         'Identificador' = 'uid'
-        'Tipo de entrada' = 'tipoUsuario'
-        'Tipo de usuario' = 'tipoUsuario'
+        'Tipo de entrada' = 'tipoEntrada'
+        'Tipo de usuario' = 'tipoEntrada'
         'Correo electr.nico' = 'mail'
         '.ltimo cambio de contrase.a' = 'ultimoCambioPassword'
-        'Tel.fono Fijo' = 'telephoneNumber'
-        'Tel.fono M.vil' = 'mobile'
-        'Fax' = 'facsimileTelephoneNumber'
-        'Dni' = 'dni'
-        'Cargo' = 'title'
+        'Cuota' = 'cuota'
         'departmentNumber' = 'departmentNumber'
+        'Cargo' = 'cargo'
         'Edificio' = 'edificio'
         'Servicio' = 'servicio'
         'Puesto de Trabajo' = 'puestoTrabajo'
-        'Provincia' = 'st'
-        'Comentarios' = 'description'
-        'Cuota' = 'cuotaBuzonMax'
-        'Perfil de acceso WiFi' = 'tipoWiFi'
+        'Tel.fono Fijo' = 'telefonoFijo'
+        'Tel.fono M.vil' = 'telefonoMovil'
+        'Fax' = 'fax'
+        'Dni' = 'dni'
+        'Provincia' = 'provincia'
+        'Reserva de Recursos' = 'JAreserva'
+        'Habilitar Consigna' = 'consigna'
+        'Perfil de acceso WiFi' = 'JAperfilAcceso'
         'Caducar contrase.a' = 'passCaducado'
+        'Comentarios' = 'comentarios'
     }
     # Sort by descending length so more specific labels match first
     $sortedKeys = $fieldMap.Keys | Sort-Object { $_.Length } -Descending
 
-    # Strategy 1: form_field divs (modify form)
-    $fieldBlocks = [regex]::Matches($Html, '(?s)<div\s+class="form_field">(.*?)</div>\s*</div>')
-    if ($fieldBlocks.Count -eq 0) {
-        $fieldBlocks = [regex]::Matches($Html, '(?s)<div\s+class="form_field">(.*?)</div>')
-    }
-    foreach ($block in $fieldBlocks) {
-        $blockHtml = $block.Groups[1].Value
-        $labelM = [regex]::Match($blockHtml, '<div\s+class="form_field_label[^"]*">(.*?)</div>')
-        $valM = [regex]::Match($blockHtml, '<div\s+class="form_field_value[^"]*">(.*?)</div>')
-        if (-not $labelM.Success -or -not $valM.Success) { continue }
-
-        $labelText = Clean-Val $labelM.Groups[1].Value
-        $valText = Clean-Val $valM.Groups[1].Value
-        if (-not $labelText -or -not $valText) { continue }
-
-        foreach ($fk in $sortedKeys) {
-            if ($labelText -match $fk) {
-                $target = $fieldMap[$fk]
-                if (-not $data.ContainsKey($target) -or [string]::IsNullOrEmpty($data[$target])) {
-                    $data[$target] = $valText
-                }
-                break
-            }
-        }
-    }
-
-    # Strategy 2: hidden inputs with special names
-    $hiddenMap = @{
-        'nombreUsuario' = 'cn'
-    }
-    foreach ($hn in $hiddenMap.Keys) {
-        $m = [regex]::Match($Html, 'name="' + [regex]::Escape($hn) + '"\s*value="([^"]*)"')
-        if ($m.Success -and $m.Groups[1].Value -and -not $data.ContainsKey($hiddenMap[$hn])) {
-            $data[$hiddenMap[$hn]] = $m.Groups[1].Value
-        }
-    }
-
-    # Strategy 3: select option text (for tipo de usuario / tipo de entrada)
-    $selectM = [regex]::Match($Html, 'name="tipoEntrada"[^>]*>.*?<option[^>]*selected[^>]*>(.*?)</option>')
-    if ($selectM.Success -and -not $data.ContainsKey('tipoUsuario')) {
-        $data['tipoUsuario'] = Clean-Val $selectM.Groups[1].Value
-    }
-
-    # Strategy 4: search result rows (email shown in list)
-    $resultRows = [regex]::Matches($Html, '(?s)<div\s+class="fila_par"[^>]*>.*?<span\s+class="campo ancho2">(.*?)</span>\s*<span\s+class="campo ancho2">(.*?)</span>')
-    if ($resultRows.Count -gt 0) {
-        # First span = email, second span = name
-        $email = Clean-Val $resultRows[0].Groups[1].Value
-        $name = Clean-Val $resultRows[0].Groups[2].Value
-        if ($email -and -not $data.ContainsKey('mail')) { $data['mail'] = $email }
-        if ($name -and -not $data.ContainsKey('cn')) { $data['cn'] = $name }
-    }
-
-    # Strategy 5: Password overlay fields
+    # Strategy 1: Password overlay fields (highest priority — correct "Nombre" value)
     $overlayBlocks = [regex]::Matches($Html, '(?s)<div\s+class="form_field">.*?<div\s+class="form_field_label">(.*?)</div>.*?<div\s+class="form_field_value">(.*?)</div>')
     foreach ($block in $overlayBlocks) {
         $labelText = Clean-Val $block.Groups[1].Value
@@ -261,6 +216,51 @@ function Extract-DisplayData {
                 break
             }
         }
+    }
+
+    # Strategy 2: search result rows (email + name in search results)
+    $resultRows = [regex]::Matches($Html, '(?s)<div\s+class="fila_par"[^>]*>.*?<span\s+class="campo ancho2">(.*?)</span>\s*<span\s+class="campo ancho2">(.*?)</span>')
+    if ($resultRows.Count -gt 0) {
+        $email = Clean-Val $resultRows[0].Groups[1].Value
+        $name = Clean-Val $resultRows[0].Groups[2].Value
+        if ($email -and -not $data.ContainsKey('mail')) { $data['mail'] = $email }
+        if ($name -and -not $data.ContainsKey('nombreUsuario')) { $data['nombreUsuario'] = $name }
+    }
+
+    # Strategy 3: form_field divs (modify form + delete overlay)
+    $fieldBlocks = [regex]::Matches($Html, '(?s)<div\s+class="form_field">(.*?)</div>\s*</div>')
+    if ($fieldBlocks.Count -eq 0) {
+        $fieldBlocks = [regex]::Matches($Html, '(?s)<div\s+class="form_field">(.*?)</div>')
+    }
+    foreach ($block in $fieldBlocks) {
+        $blockHtml = $block.Groups[1].Value
+        $labelM = [regex]::Match($blockHtml, '<div\s+class="form_field_label[^"]*">(.*?)</div>')
+        $valM = [regex]::Match($blockHtml, '<div\s+class="form_field_value[^"]*">(.*?)</div>')
+        if (-not $labelM.Success -or -not $valM.Success) { continue }
+
+        # Skip if value div contains input/select/textarea
+        $valInner = $valM.Groups[1].Value
+        if ($valInner -match '<(input|select|textarea)\b') { continue }
+
+        $labelText = Clean-Val $labelM.Groups[1].Value
+        $valText = Clean-Val $valInner
+        if (-not $labelText -or -not $valText) { continue }
+
+        foreach ($fk in $sortedKeys) {
+            if ($labelText -match $fk) {
+                $target = $fieldMap[$fk]
+                if (-not $data.ContainsKey($target) -or [string]::IsNullOrEmpty($data[$target])) {
+                    $data[$target] = $valText
+                }
+                break
+            }
+        }
+    }
+
+    # Strategy 4: hidden inputs with user data
+    $hiddenM = [regex]::Match($Html, 'name="nombreUsuario"\s*value="([^"]*)"')
+    if ($hiddenM.Success -and $hiddenM.Groups[1].Value -and -not $data.ContainsKey('nombreUsuario')) {
+        $data['nombreUsuario'] = $hiddenM.Groups[1].Value
     }
 
     return $data
@@ -477,6 +477,7 @@ function Get-UserProfile {
         $body2 = MkBody 'modificacion' 'pantalla1' $dn $script:token
         $r2 = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body2
         $html2 = $r2.Content
+        $script:lastRawHtml = $html2
 
         $debugFile = Join-Path $script:DEBUG_DIR ("profile_" + $UID.Replace('.','_') + ".html")
         $html2 | Out-File -FilePath $debugFile -Encoding UTF8
@@ -798,10 +799,9 @@ function screen-profile {
     Write-Host "|"
     Write-Host "|  DATOS DEL USUARIO" -ForegroundColor Cyan
     Write-Host "|" -ForegroundColor DarkGray
-    row "Nombre"        $(if ($f['cn']) { $f['cn'] } else { $f['nombreUsuario'] }) "Green"
-    row "Apellidos"     $(if ("$($f['sn']) $($f['empleadoApellido2_sa'])".Trim()) { "$($f['sn']) $($f['empleadoApellido2_sa'])".Trim() } else { $f['apellido1'] })
+    row "Nombre"        $(if ($f['nombreUsuario']) { $f['nombreUsuario'] } else { $f['cn'] }) "Green"
     row "Identificador" $(if ($f['uid']) { $f['uid'] } else { $f['identificador'] }) "Green"
-    row "Tipo usuario"  $(if ($f['tipoUsuario']) { $f['tipoUsuario'] } else { $f['employeeType'] })
+    row "Tipo usuario"  $f['tipoEntrada']
     row "Correo"        $f['mail'] "DarkYellow"
     row "Ultimo cambio" $f['ultimoCambioPassword'] "DarkYellow"
     row "DN"            $f['dn']
@@ -809,21 +809,22 @@ function screen-profile {
     Write-Host "|  EDITAR DATOS" -ForegroundColor Cyan
     Write-Host "|" -ForegroundColor DarkGray
     row "DNI"           $f['dni']
-    row "Cargo"         $(if ($f['title']) { $f['title'] } else { $f['cargo'] })
     row "Depto"         $f['departmentNumber']
+    row "Cargo"         $f['cargo']
     row "Servicio"      $f['servicio']
     row "Edificio"      $f['edificio']
-    row "Puesto"        $f['puestoTrabajo']
-    row "Telefono"      $(if ($f['telephoneNumber']) { $f['telephoneNumber'] } else { $f['telefonoFijo'] })
-    row "Movil"         $(if ($f['mobile']) { $f['mobile'] } else { $f['telefonoMovil'] })
-    row "Fax"           $(if ($f['facsimileTelephoneNumber']) { $f['facsimileTelephoneNumber'] } else { $f['fax'] })
-    row "Provincia"     $f['st']
-    row "Comentarios"   $(if ($f['description']) { $f['description'] } else { $f['comentarios'] })
+    row "Telefono"      $f['telefonoFijo']
+    row "Movil"         $f['telefonoMovil']
+    row "Fax"           $f['fax']
+    row "Provincia"     $f['provincia']
+    row "Cuota (MB)"    $f['cuota']
+    row "Comentarios"   $f['comentarios']
     Write-Host "|"
     Write-Host "|  OPCIONES" -ForegroundColor Cyan
     Write-Host "|  1. Cambiar contrasena" -ForegroundColor Cyan
     Write-Host "|  2. Ver campos raw (todos)" -ForegroundColor Cyan
     Write-Host "|  3. Ver HTML debug" -ForegroundColor Cyan
+    Write-Host "|  4. Editar datos" -ForegroundColor Cyan
     Write-Host "|  0. Volver al menu" -ForegroundColor Red
     Write-Host "|"
     Write-Host ("'" + ("-" * ($script:columns - 2)) + "'") -ForegroundColor DarkGray
@@ -833,6 +834,165 @@ function screen-profile {
     if ($opt -eq "1") { screen-password }
     elseif ($opt -eq "2") { screen-raw-fields }
     elseif ($opt -eq "3") { screen-debug-html }
+    elseif ($opt -eq "4") { screen-edit }
+}
+
+function Parse-SelectOptions {
+    param([string]$Html, [string]$SelectName)
+    $result = @()
+    $m = [regex]::Match($Html, '(?s)<select[^>]*name="' + [regex]::Escape($SelectName) + '"[^>]*>(.*?)</select>')
+    if (-not $m.Success) { return $result }
+    [regex]::Matches($m.Groups[1].Value, '<option[^>]*(value="([^"]*)")?[^>]*>(.*?)</option>') | ForEach-Object {
+        $v = if ($_.Groups[2].Success) { $_.Groups[2].Value } else { '' }
+        $t = $_.Groups[3].Value -replace '<[^>]+>', '' -replace '&nbsp;', ' ' -replace '&amp;', '&'
+        $result += @{ value = $v; text = $t.Trim() }
+    }
+    return $result
+}
+
+function Select-Option {
+    param([string]$Prompt, [string]$Current, [array]$Options)
+    $i = 0
+    $selIdx = -1
+    foreach ($o in $Options) {
+        $mark = if ($o.text -eq $Current -or $o.value -eq $Current) { ' *' } else { '' }
+        Write-Host ("     $i. " + $o.text + $mark) -ForegroundColor $(if ($mark) { 'Green' } else { 'DarkGray' })
+        $i++
+    }
+    Write-Host ("     Enter = mantener actual: $Current") -ForegroundColor DarkGray
+    $choice = prompt ("  $Prompt [$Current]: ")
+    if (-not $choice) { return $Current }
+    $idx = 0
+    if ([int]::TryParse($choice, [ref]$idx) -and $idx -ge 0 -and $idx -lt $Options.Count) {
+        return $Options[$idx].text
+    }
+    return $choice
+}
+
+function screen-edit {
+    $f = $script:lastProfileFields
+    $html = $script:lastRawHtml
+    if (-not $f -or -not $html) { Write-Log "No hay perfil cargado" "WARN"; pause; return }
+
+    $uid = if ($f['uid']) { $f['uid'] } else { $f['identificador'] }
+    $dn = if ($f['dn']) { $f['dn'] } else { "uid=$uid,o=$script:ramaLdap,o=empleados,o=juntadeandalucia,c=es" }
+
+    $editableFields = @(
+        @{ label = 'DNI'; key = 'dni'; type = 'text' }
+        @{ label = 'DepartmentNumber'; key = 'departmentNumber'; type = 'text' }
+        @{ label = 'Cargo'; key = 'cargo'; type = 'text' }
+        @{ label = 'Servicio'; key = 'servicio'; type = 'text' }
+        @{ label = 'Telefono Fijo'; key = 'telefonoFijo'; type = 'text' }
+        @{ label = 'Telefono Movil'; key = 'telefonoMovil'; type = 'text' }
+        @{ label = 'Fax'; key = 'fax'; type = 'text' }
+        @{ label = 'Provincia'; key = 'provincia'; type = 'select' }
+        @{ label = 'Comentarios'; key = 'comentarios'; type = 'text' }
+    )
+
+    $newValues = @{}
+    foreach ($ef in $editableFields) {
+        ui; header
+        Write-Host (".- EDITANDO $uid" + (" " * ($script:columns - 16 - $uid.Length)) + ".") -ForegroundColor Cyan
+        Write-Host "|"
+        Write-Host "|  Introduce nuevos valores. Enter para mantener actual." -ForegroundColor Yellow
+        Write-Host "|  Escribe . para dejar vacio." -ForegroundColor Yellow
+        Write-Host "|"
+        Write-Host ("|  Editando campo $($ef.label):") -ForegroundColor White
+        Write-Host "|"
+        $current = if ($f.ContainsKey($ef.key) -and $f[$ef.key]) { $f[$ef.key] } else { '' }
+        Write-Host ("|  Actual: ") -NoNewline; Write-Host $current -ForegroundColor Green
+        Write-Host "|"
+
+        if ($ef.type -eq 'select') {
+            $opts = Parse-SelectOptions -Html $html -SelectName $ef.key
+            if ($opts.Count -gt 0) {
+                $val = Select-Option -Prompt $ef.label -Current $current -Options $opts
+            } else {
+                $val = prompt ("  $($ef.label) [$current]: ") $current
+            }
+        } else {
+            $input = prompt ("  $($ef.label) [.] " + "(Enter=keep, .=clear): " ) '~~KEEP~~'
+            if ($input -eq '~~KEEP~~') { $val = $current }
+            elseif ($input -eq '.') { $val = '' }
+            else { $val = $input }
+        }
+        $newValues[$ef.key] = $val
+    }
+
+    # Show summary
+    ui; header
+    Write-Host (".- RESUMEN CAMBIOS" + (" " * ($script:columns - 18)) + ".") -ForegroundColor Cyan
+    Write-Host "|"
+    $changed = $false
+    foreach ($ef in $editableFields) {
+        $old = if ($f.ContainsKey($ef.key) -and $f[$ef.key]) { $f[$ef.key] } else { '' }
+        $new = $newValues[$ef.key]
+        $mark = if ($old -ne $new) { ' >>' } else { '' }
+        if ($mark) { $changed = $true }
+        Write-Host ("|  " + $ef.label.PadRight(20) + ": ") -NoNewline
+        if ($mark) { Write-Host ("$old -> $new") -ForegroundColor Yellow }
+        else { Write-Host "$old" -ForegroundColor DarkGray }
+    }
+    Write-Host "|"
+    if (-not $changed) { Write-Host "|  Sin cambios" -ForegroundColor DarkGray; pause; return }
+
+    $confirm = prompt "Guardar cambios? (s/N): " "n"
+    if ($confirm -ne 's') { Write-Log "Cancelado" "WARN"; pause; return }
+
+    # Save
+    try {
+        # Get fresh token
+        $r = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession
+        $script:token = Extract-Token $r.Content
+        if (-not $script:token) { throw "No se pudo extraer token" }
+
+        # Build POST body from modify form hidden fields + new values
+        $body = @{}
+        [regex]::Matches($html, '<input[^>]*type="hidden"[^>]*name="([^"]*)"[^>]*value="([^"]*)"[^>]*>') | ForEach-Object {
+            $body[$_.Groups[1].Value] = $_.Groups[2].Value
+        }
+        [regex]::Matches($html, '<input[^>]*type="hidden"[^>]*value="([^"]*)"[^>]*name="([^"]*)"[^>]*>') | ForEach-Object {
+            if (-not $body.ContainsKey($_.Groups[2].Value)) { $body[$_.Groups[2].Value] = $_.Groups[1].Value }
+        }
+
+        # Add filter/checkbox fields
+        $body['tokenParametro'] = $script:token
+        $esInt = ($script:ramaLdap -eq "ius")
+        if (-not $body.ContainsKey('filtroAtributo')) { $body['filtroAtributo'] = 'identificador' }
+        if (-not $body.ContainsKey('filtroTipoBusqueda')) { $body['filtroTipoBusqueda'] = 'empezando' }
+        if (-not $body.ContainsKey('filtroValor')) { $body['filtroValor'] = $uid }
+        if (-not $body.ContainsKey('marcarSirhus')) { $body['marcarSirhus'] = $(if ($esInt) { 'NO' } else { 'SI' }) }
+        if (-not $body.ContainsKey('marcarInternos')) { $body['marcarInternos'] = $(if ($esInt) { 'SI' } else { 'NO' }) }
+
+        # Override editable fields
+        foreach ($ef in $editableFields) {
+            $body[$ef.key] = $newValues[$ef.key]
+        }
+
+        # Set save action
+        $body['accion'] = 'modificacion'
+        $body['botonPulsado'] = 'confirmarModificacion'
+        $body['datoAuxiliar'] = $dn
+
+        Write-Log "Guardando cambios..." "INFO"
+        $r2 = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
+
+        if ($r2.Content -match 'actualiz.+correctamente|mensaje_ok|Modificaci.n guardada') {
+            Write-Log "Datos actualizados correctamente" "OK"
+            # Reload profile
+            Get-UserProfile -UID $uid
+            screen-profile
+        } else {
+            $debugFile = Join-Path $script:DEBUG_DIR ("edit_" + $uid.Replace('.','_') + ".html")
+            $r2.Content | Out-File -FilePath $debugFile -Encoding UTF8
+            Write-Log "Parece que hubo un error. HTML guardado en $debugFile" "WARN"
+            Write-Log "Revisa el archivo para ver el mensaje del servidor" "WARN"
+            pause
+        }
+    } catch {
+        Write-Log ("Error: " + $_.Exception.Message) "ERROR"
+        pause
+    }
 }
 
 function screen-raw-fields {
