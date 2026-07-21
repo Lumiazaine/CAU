@@ -158,26 +158,70 @@ function Extract-DisplayData {
     param([string]$Html)
     $data = @{}
     $labelMap = @{
-        'Nombre:' = 'cn'; 'Identificador:' = 'uid'; 'Correo electr.nico:' = 'mail'
-        'Descripci.n:' = 'description'; 'Apellido1:' = 'sn'; 'Apellido2:' = 'empleadoApellido2_sa'
-        'Tel.fono:' = 'telephoneNumber'; 'M.vil:' = 'mobile'; 'Fax:' = 'facsimileTelephoneNumber'
-        'Direcci.n:' = 'postalAddress'; 'C.P.:' = 'postalCode'; 'Ciudad:' = 'l'
-        'Provincia:' = 'st'; 'Cargo:' = 'title'; 'Depto:' = 'departmentNumber'
-        'Organismo:' = 'o'; 'C.entro Gestor:' = 'centroGestor'; 'C.entro Destino:' = 'centroDestino'
-        'Edificio:' = 'edificio'; 'Servicio:' = 'servicio'; 'Puesto:' = 'puestoTrabajo'
-        'UID Number:' = 'uidNumber'; 'GID Number:' = 'gidNumber'
-        'Home Directory:' = 'homeDirectory'; 'Login Shell:' = 'loginShell'
-        'Tipo de usuario:' = 'tipoUsuario'; '.ltimo cambio de contrase.a:' = 'ultimoCambioPassword'
+        'Nombre' = 'cn'; 'Identificador' = 'uid'; 'Correo' = 'mail'
+        'Descripci' = 'description'; 'Apellido1' = 'sn'; 'Apellido2' = 'empleadoApellido2_sa'
+        'Tel.fono' = 'telephoneNumber'; 'M.vil' = 'mobile'; 'Fax' = 'facsimileTelephoneNumber'
+        'Direcci' = 'postalAddress'; 'C.P.' = 'postalCode'; 'Ciudad' = 'l'
+        'Provincia' = 'st'; 'Cargo' = 'title'; 'Depto' = 'departmentNumber'
+        'Organismo' = 'o'; 'Centro Gestor' = 'centroGestor'; 'Centro Destino' = 'centroDestino'
+        'Edificio' = 'edificio'; 'Servicio' = 'servicio'; 'Puesto' = 'puestoTrabajo'
+        'UID Number' = 'uidNumber'; 'GID Number' = 'gidNumber'
+        'Home Directory' = 'homeDirectory'; 'Login Shell' = 'loginShell'
+        'Tipo de usuario' = 'tipoUsuario'; '.ltimo cambio' = 'ultimoCambioPassword'
+        'Tel' = 'telephoneNumber'
     }
-    foreach ($label in $labelMap.Keys) {
-        $pattern = [regex]::Escape($label) + '\s*(.*?)(?=<br|<BR|</td|</div|<input|<select|<textarea|$)'
-        $m = [regex]::Match($Html, $pattern)
-        if ($m.Success) {
-            $val = $m.Groups[1].Value -replace '<[^>]+>', '' -replace '&nbsp;', ' ' -replace '&amp;', '&' -replace '&lt;', '<' -replace '&gt;', '>' -replace '\s+', ' '
-            $val = $val.Trim()
-            if ($val) { $data[$labelMap[$label]] = $val }
+
+    function Clean-Val {
+        param([string]$s)
+        $s = $s -replace '<[^>]+>', '' -replace '&nbsp;', ' ' -replace '&amp;', '&'
+        $s = $s -replace '&lt;', '<' -replace '&gt;', '>' -replace '\s+', ' '
+        return $s.Trim()
+    }
+
+    # Strategy 1: <td>Label:</td><td>Value</td> (most common in modify forms)
+    $tdPairs = [regex]::Matches($Html, '(?s)<td[^>]*>(.*?)</td>\s*<td[^>]*>(.*?)</td>')
+    foreach ($pair in $tdPairs) {
+        $labelHtml = Clean-Val $pair.Groups[1].Value
+        $valHtml = Clean-Val $pair.Groups[2].Value
+        foreach ($lk in $labelMap.Keys) {
+            if ($labelHtml -match [regex]::Escape($lk)) {
+                if ($valHtml -and -not $data.ContainsKey($labelMap[$lk])) {
+                    $data[$labelMap[$lk]] = $valHtml
+                }
+                break
+            }
         }
     }
+
+    # Strategy 2: label+value in same block (span/div)
+    if ($data.Count -eq 0) {
+        foreach ($lk in $labelMap.Keys) {
+            $p = [regex]::Escape($lk) + '.*?:\s*(.*?)(?=<br|<BR|</td|</div|</span|<input|<select|<textarea|$)'
+            $m = [regex]::Match($Html, $p)
+            if ($m.Success) {
+                $val = Clean-Val $m.Groups[1].Value
+                if ($val -and -not $data.ContainsKey($labelMap[$lk])) {
+                    $data[$labelMap[$lk]] = $val
+                }
+            }
+        }
+    }
+
+    # Strategy 3: <th>/<td> label rows
+    if ($data.Count -eq 0) {
+        $allCells = [regex]::Matches($Html, '(?s)<t[dh][^>]*>(.*?)</t[dh]>')
+        $texts = @()
+        foreach ($c in $allCells) { $texts += Clean-Val $c.Groups[1].Value }
+        for ($i = 0; $i -lt $texts.Count - 1; $i++) {
+            foreach ($lk in $labelMap.Keys) {
+                if ($texts[$i] -match [regex]::Escape($lk) -and -not $data.ContainsKey($labelMap[$lk])) {
+                    $val = Clean-Val $texts[$i + 1]
+                    if ($val -and $val.Length -lt 100) { $data[$labelMap[$lk]] = $val }
+                }
+            }
+        }
+    }
+
     return $data
 }
 
@@ -585,8 +629,9 @@ function screen-search {
         pause; return $null
     }
 
-    if ($users.Count -eq 1 -and $users[0].fields) {
-        $script:lastProfileFields = $users[0].fields
+    if ($users.Count -eq 1) {
+        $profileId = if ($users[0].uid) { $users[0].uid } else { $Query }
+        Get-UserProfile -UID $profileId
         screen-profile; return $null
     }
 
@@ -698,6 +743,7 @@ function screen-profile {
     Write-Host "|  OPCIONES" -ForegroundColor Cyan
     Write-Host "|  1. Cambiar contrasena" -ForegroundColor Cyan
     Write-Host "|  2. Ver campos raw (todos)" -ForegroundColor Cyan
+    Write-Host "|  3. Ver HTML debug" -ForegroundColor Cyan
     Write-Host "|  0. Volver al menu" -ForegroundColor Red
     Write-Host "|"
     Write-Host ("'" + ("-" * ($script:columns - 2)) + "'") -ForegroundColor DarkGray
@@ -706,6 +752,7 @@ function screen-profile {
     $opt = prompt "Opcion: " "0"
     if ($opt -eq "1") { screen-password }
     elseif ($opt -eq "2") { screen-raw-fields }
+    elseif ($opt -eq "3") { screen-debug-html }
 }
 
 function screen-raw-fields {
@@ -734,6 +781,33 @@ function screen-raw-fields {
         elseif ($input -eq "s" -and $end -lt $total - 1) { $page++ }
         elseif ($input -eq "a" -and $page -gt 0) { $page-- }
     }
+}
+
+function screen-debug-html {
+    $f = $script:lastProfileFields
+    if (-not $f) { return }
+    $uid = if ($f['uid']) { $f['uid'] } else { $f['identificador'] }
+    $html = $script:lastRawHtml
+    if (-not $html) { Write-Log "No hay HTML guardado" "WARN"; pause; return }
+    
+    ui; header
+    Write-Host (".- HTML DEBUG" + (" " * ($script:columns - 12)) + ".") -ForegroundColor Cyan
+    
+    # Find sections around known labels
+    $labelsToFind = @('Nombre', 'Identificador', 'Correo', 'DN', 'dn', 'uid')
+    foreach ($lb in $labelsToFind) {
+        $idx = $html.IndexOf($lb, [System.StringComparison]::OrdinalIgnoreCase)
+        if ($idx -ge 0) {
+            $start = [Math]::Max(0, $idx - 50)
+            $end = [Math]::Min($html.Length, $idx + 150)
+            $snippet = $html.Substring($start, $end - $start)
+            $snippet = $snippet -replace '<', '<' -replace '>', '>'
+            Write-Host ("|  ..." + $snippet + "...") -ForegroundColor DarkYellow
+            Write-Host "|"
+        }
+    }
+    Write-Host ("'" + ("-" * ($script:columns - 2)) + "'") -ForegroundColor DarkGray
+    pause
 }
 
 function screen-password {
