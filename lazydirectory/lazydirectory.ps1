@@ -831,12 +831,19 @@ function Select-Option {
     }
     Write-Host ("     Enter = mantener actual: $Current") -ForegroundColor DarkGray
     $choice = prompt ("  $Prompt [$Current]: ")
-    if (-not $choice) { $OutValue.Value = $Current; return $Current }
+    if (-not $choice) {
+        $match = $Options | Where-Object { $_.text -eq $Current -or $_.value -eq $Current } | Select-Object -First 1
+        if ($match) { $OutValue.Value = $match.value; return $match.text }
+        $OutValue.Value = $Current; return $Current
+    }
     $idx = 0
     if ([int]::TryParse($choice, [ref]$idx) -and $idx -ge 0 -and $idx -lt $Options.Count) {
         $OutValue.Value = $Options[$idx].value
         return $Options[$idx].text
     }
+    # Try matching by text
+    $match = $Options | Where-Object { $_.text -eq $choice -or $_.value -eq $choice } | Select-Object -First 1
+    if ($match) { $OutValue.Value = $match.value; return $match.text }
     $OutValue.Value = $choice
     return $choice
 }
@@ -881,8 +888,10 @@ function screen-edit {
         if ($ef.type -eq 'select') {
             $opts = Parse-SelectOptions -Html $html -SelectName $ef.key
             if ($opts.Count -gt 0) {
-                $curText = if ($f.ContainsKey($ef.key) -and $f[$ef.key]) { $f[$ef.key] } else { '' }
-                if (-not $curText -and $f.ContainsKey($ef.key + '_value')) { $curText = $f[$ef.key + '_value'] }
+                # Prefer _value (option value) over display text for matching
+                $curText = if ($f.ContainsKey($ef.key + '_value') -and $f[$ef.key + '_value']) { $f[$ef.key + '_value'] } `
+                    elseif ($f.ContainsKey($ef.key) -and $f[$ef.key]) { $f[$ef.key] } `
+                    else { '' }
                 $submitVal = $null
                 $selText = Select-Option -Prompt $ef.label -Current $curText -Options $opts -OutValue ([ref]$submitVal)
                 $newValues[$ef.key] = $selText
@@ -963,7 +972,12 @@ function screen-edit {
         $body['botonPulsado'] = 'confirmarModificacion'
         $body['datoAuxiliar'] = $dn
 
-        Write-Log "Guardando cambios..." "INFO"
+        # Add dn explicitly (needed by server)
+        if (-not $body.ContainsKey('dn')) { $body['dn'] = $dn }
+
+        $bodyKeys = ($body.Keys | Sort-Object) -join ', '
+        Write-Log ("POST keys: $bodyKeys") "INFO"
+        Write-Log ("Enviando cambios...") "INFO"
         $r2 = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
 
         if ($r2.Content -match 'actualiz.+correctamente|mensaje_ok|Modificaci.n guardada') {
@@ -979,6 +993,15 @@ function screen-edit {
             pause
         }
     } catch {
+        $debugFile = Join-Path $script:DEBUG_DIR ("edit_" + $uid.Replace('.','_') + ".html")
+        if ($_.Exception.Response) {
+            try {
+                $sr = New-Object System.IO.StreamReader($_.Exception.Response.GetResponseStream())
+                $errHtml = $sr.ReadToEnd(); $sr.Close()
+                $errHtml | Out-File -FilePath $debugFile -Encoding UTF8
+                Write-Log "HTML error guardado en $debugFile" "WARN"
+            } catch { Write-Log "No se pudo leer respuesta del servidor" "WARN" }
+        }
         Write-Log ("Error: " + $_.Exception.Message) "ERROR"
         pause
     }
