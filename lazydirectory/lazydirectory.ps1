@@ -201,19 +201,21 @@ function Extract-DisplayData {
     # Sort by descending length so more specific labels match first
     $sortedKeys = $fieldMap.Keys | Sort-Object { $_.Length } -Descending
 
-    # Strategy 1: Password overlay fields (highest priority — correct "Nombre" value)
-    $overlayBlocks = [regex]::Matches($Html, '(?s)<div\s+class="form_field">.*?<div\s+class="form_field_label">(.*?)</div>.*?<div\s+class="form_field_value">(.*?)</div>')
-    foreach ($block in $overlayBlocks) {
-        $labelText = Clean-Val $block.Groups[1].Value
-        $valText = Clean-Val $block.Groups[2].Value
-        if (-not $labelText -or -not $valText) { continue }
-        foreach ($fk in $sortedKeys) {
-            if ($labelText -match $fk) {
-                $target = $fieldMap[$fk]
-                if (-not $data.ContainsKey($target) -or [string]::IsNullOrEmpty($data[$target])) {
-                    $data[$target] = $valText
+    # Strategy 1: Password overlay fields only (id="capa_password_*")
+    $pwDiv = [regex]::Match($Html, '(?s)<div[^>]*\bid="capa_password_[^"]*"[^>]*>(.*?)</div>\s*</div>')
+    if ($pwDiv.Success) {
+        [regex]::Matches($pwDiv.Groups[1].Value, '(?s)<div\s+class="form_field">.*?<div\s+class="form_field_label">(.*?)</div>.*?<div\s+class="form_field_value">(.*?)</div>') | ForEach-Object {
+            $labelText = Clean-Val $_.Groups[1].Value
+            $valText = Clean-Val $_.Groups[2].Value
+            if (-not $labelText -or -not $valText) { return }
+            foreach ($fk in $sortedKeys) {
+                if ($labelText -match $fk) {
+                    $target = $fieldMap[$fk]
+                    if (-not $data.ContainsKey($target) -or [string]::IsNullOrEmpty($data[$target])) {
+                        $data[$target] = $valText
+                    }
+                    break
                 }
-                break
             }
         }
     }
@@ -623,52 +625,22 @@ function screen-main {
     header
     panel "MENU PRINCIPAL" {
         Write-Host "|"
-        Write-Host "|  1. Conectar a Directorio" -ForegroundColor Cyan
-        Write-Host "|  2. Buscar usuario" -ForegroundColor Cyan
-        Write-Host "|  3. Ver perfil" -ForegroundColor Cyan
-        Write-Host "|  4. Cambiar contrasena" -ForegroundColor Cyan
+        Write-Host "|  1. Buscar usuario" -ForegroundColor Cyan
+        Write-Host "|  2. Ver perfil" -ForegroundColor Cyan
+        Write-Host "|  3. Cambiar contrasena" -ForegroundColor Cyan
         Write-Host "|"
         Write-Host "|  0. Salir" -ForegroundColor Red
         Write-Host "|"
-        if (-not $script:authenticated) {
-            Write-Host "|  >> Conecta primero (opcion 1)" -ForegroundColor Yellow
-        } else {
-            Write-Host ("|  >> Rama: $script:ramaLdap") -ForegroundColor Green
-            if ($script:lastProfileFields -and $script:lastProfileFields['uid']) {
-                Write-Host ("|     Usuario: $($script:lastProfileFields['uid'])") -ForegroundColor DarkGray
-            }
+        Write-Host ("|  >> Rama: $script:ramaLdap") -ForegroundColor Green
+        if ($script:lastProfileFields -and $script:lastProfileFields['uid']) {
+            Write-Host ("|     Usuario: $($script:lastProfileFields['uid'])") -ForegroundColor DarkGray
         }
         Write-Host "|"
     }
-    footer @("1-4 opciones", "0/q salir", "s <uid> busqueda rapida")
+    footer @("1-3 opciones", "0/q salir", "s <uid> busqueda rapida")
     Write-Host ""
     Write-Host "Opcion: " -ForegroundColor Yellow -NoNewline
     return Read-Host
-}
-
-function screen-connect {
-    ui
-    header
-    panel "CONEXION AL DIRECTORIO" {
-        Write-Host "|"
-        Write-Host "|  Conectando como administrador..." -ForegroundColor White
-        Write-Host "|"
-        Write-Host "|  La rama LDAP se detectara automaticamente" -ForegroundColor Cyan
-        Write-Host "|  al buscar un usuario:" -ForegroundColor Cyan
-        Write-Host "|  - usuario.ius   -> Internos (ius)" -ForegroundColor Cyan
-        Write-Host "|  - usuario       -> Sirhus (jus)" -ForegroundColor Cyan
-        Write-Host "|"
-    }
-    footer @("Enter conectar", "0 volver")
-    Write-Host ""
-
-    try {
-        Connect-Directorio -Branch "jus"
-        Write-Log "Conectado (rama por defecto: jus)" "OK"
-    } catch {
-        Write-Log ("Error: " + $_.Exception.Message) "ERROR"
-    }
-    pause
 }
 
 function screen-search {
@@ -805,20 +777,6 @@ function screen-profile {
     row "Correo"        $f['mail'] "DarkYellow"
     row "Ultimo cambio" $f['ultimoCambioPassword'] "DarkYellow"
     row "DN"            $f['dn']
-    Write-Host "|"
-    Write-Host "|  EDITAR DATOS" -ForegroundColor Cyan
-    Write-Host "|" -ForegroundColor DarkGray
-    row "DNI"           $f['dni']
-    row "Depto"         $f['departmentNumber']
-    row "Cargo"         $f['cargo']
-    row "Servicio"      $f['servicio']
-    row "Edificio"      $f['edificio']
-    row "Telefono"      $f['telefonoFijo']
-    row "Movil"         $f['telefonoMovil']
-    row "Fax"           $f['fax']
-    row "Provincia"     $f['provincia']
-    row "Cuota (MB)"    $f['cuota']
-    row "Comentarios"   $f['comentarios']
     Write-Host "|"
     Write-Host "|  OPCIONES" -ForegroundColor Cyan
     Write-Host "|  1. Cambiar contrasena" -ForegroundColor Cyan
@@ -1122,21 +1080,26 @@ function screen-quick-search {
 # ============================================================
 
 try {
+    # Auto-connect at startup
+    Write-Log "Conectando al Directorio..." "INFO"
+    try { Connect-Directorio -Branch "jus" } catch {
+        Write-Log ("Error de conexion: " + $_.Exception.Message) "ERROR"
+    }
+
     $running = $true
     while ($running) {
         $opt = screen-main
-        if (-not $script:authenticated -and $opt -ne "1" -and $opt -ne "0" -and $opt -ne "q") {
-            Write-Log "Conectando automaticamente..." "INFO"
+        if (-not $script:authenticated) {
+            Write-Log "Reconectando..." "WARN"
             try { Connect-Directorio -Branch "jus" } catch {
-                Write-Log ("Error de conexion: " + $_.Exception.Message) "ERROR"
+                Write-Log ("Error: " + $_.Exception.Message) "ERROR"
                 pause; continue
             }
         }
         switch -Wildcard ($opt) {
-            "1" { screen-connect }
-            "2" { screen-search }
-            "3" { if (-not $script:lastProfileFields) { Write-Log "Busca un usuario primero" "WARN"; pause; continue }; screen-profile }
-            "4" { if (-not $script:lastProfileFields) { Write-Log "Busca un usuario primero" "WARN"; pause; continue }; screen-password }
+            "1" { screen-search }
+            "2" { if (-not $script:lastProfileFields) { Write-Log "Busca un usuario primero" "WARN"; pause; continue }; screen-profile }
+            "3" { if (-not $script:lastProfileFields) { Write-Log "Busca un usuario primero" "WARN"; pause; continue }; screen-password }
             "0" { $running = $false }
             "q" { $running = $false }
             default {
