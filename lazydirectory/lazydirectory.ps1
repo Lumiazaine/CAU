@@ -411,9 +411,11 @@ function Get-UserProfile {
 
     $Branch = Ensure-Branch $UID
     $esInt = ($Branch -eq "ius")
+    $fields = @{}
 
     Write-Log "Cargando perfil de $UID..." "INFO"
 
+    # Step 1: Search with "empezando" to get results page + password overlay
     $r = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession
     $script:token = Extract-Token $r.Content
     if (-not $script:token) { throw "No se pudo extraer token" }
@@ -422,7 +424,7 @@ function Get-UserProfile {
         accion = 'consulta'; botonPulsado = ''; datoAuxiliar = ''
         tokenParametro = $script:token
         filtroAtributo = 'identificador'
-        filtroTipoBusqueda = 'igual'
+        filtroTipoBusqueda = 'empezando'
         filtroValor = $UID
         marcarSirhus = $(if ($esInt) { 'NO' } else { 'SI' })
         marcarInternos = $(if ($esInt) { 'SI' } else { 'NO' })
@@ -434,29 +436,62 @@ function Get-UserProfile {
 
     $r = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
     $script:token = Extract-Token $r.Content
-
     $html = $r.Content
-    $debugFile = Join-Path $script:DEBUG_DIR ("profile_" + $UID.Replace('.','_') + ".html")
-    $html | Out-File -FilePath $debugFile -Encoding UTF8
-    Write-Log ("HTML guardado en " + $debugFile) "INFO"
 
-    $fields = Extract-FormFields $html
-
-    # _modificacion suffix (Directorio modify form naming convention)
-    $allInputs = [regex]::Matches($html, 'name="([^"]*)"\s*value="([^"]*)"')
-    foreach ($m in $allInputs) {
-        $n = $m.Groups[1].Value; $v = $m.Groups[2].Value
-        if (-not $fields.ContainsKey($n)) { $fields[$n] = $v }
-        if ($n -match '^(.+)_modificacion$') {
-            $base = $Matches[1]
-            if (-not $fields.ContainsKey($base)) { $fields[$base] = $v }
-        }
-    }
-
-    # Display data as fallback
     $display = Extract-DisplayData $html
     foreach ($kv in $display.GetEnumerator()) {
         if (-not $fields.ContainsKey($kv.Key) -or [string]::IsNullOrEmpty($fields[$kv.Key])) {
+            $fields[$kv.Key] = $kv.Value
+        }
+    }
+
+    # Step 2: Search with "igual" to get modify form (editable fields)
+    $r = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession
+    $script:token = Extract-Token $r.Content
+    if (-not $script:token) { throw "No se pudo extraer token" }
+
+    $body2 = @{
+        accion = 'consulta'; botonPulsado = ''; datoAuxiliar = ''
+        tokenParametro = $script:token
+        filtroAtributo = 'identificador'
+        filtroTipoBusqueda = 'igual'
+        filtroValor = $UID
+        marcarSirhus = $(if ($esInt) { 'NO' } else { 'SI' })
+        marcarInternos = $(if ($esInt) { 'SI' } else { 'NO' })
+        marcarExternos = 'NO'; marcarGenericos = 'NO'; marcarNA = 'NO'
+        numUsuariosAntiguo = '25'; numUsuarios = '25'
+    }
+    if ($esInt) { $body2['seleccionarInternos'] = 'on' }
+    else { $body2['seleccionarSirhus'] = 'on' }
+
+    $r = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body2
+    $html2 = $r.Content
+
+    $debugFile = Join-Path $script:DEBUG_DIR ("profile_" + $UID.Replace('.','_') + ".html")
+    $html2 | Out-File -FilePath $debugFile -Encoding UTF8
+
+    $formFields = Extract-FormFields $html2
+
+    $allInputs = [regex]::Matches($html2, 'name="([^"]*)"\s*value="([^"]*)"')
+    foreach ($m in $allInputs) {
+        $n = $m.Groups[1].Value; $v = $m.Groups[2].Value
+        if (-not $formFields.ContainsKey($n)) { $formFields[$n] = $v }
+        if ($n -match '^(.+)_modificacion$') {
+            $base = $Matches[1]
+            if (-not $formFields.ContainsKey($base)) { $formFields[$base] = $v }
+        }
+    }
+
+    $display2 = Extract-DisplayData $html2
+    foreach ($kv in $display2.GetEnumerator()) {
+        if (-not $formFields.ContainsKey($kv.Key) -or [string]::IsNullOrEmpty($formFields[$kv.Key])) {
+            $formFields[$kv.Key] = $kv.Value
+        }
+    }
+
+    # Merge: overlay first (user info), modify form second (editable), overlay wins on conflicts
+    foreach ($kv in $formFields.GetEnumerator()) {
+        if (-not $fields.ContainsKey($kv.Key)) {
             $fields[$kv.Key] = $kv.Value
         }
     }
@@ -731,46 +766,31 @@ function screen-profile {
     $displayId = if ($uid) { $uid } else { "desconocido" }
 
     ui; header
-    Write-Host (".- PERFIL LDAP: $displayId" + (" " * ($script:columns - 20 - $displayId.Length)) + ".") -ForegroundColor Cyan
+    Write-Host (".- $displayId" + (" " * ($script:columns - 6 - $displayId.Length)) + ".") -ForegroundColor Cyan
     Write-Host "|"
-    Write-Host "|  DATOS PERSONALES" -ForegroundColor Cyan
-    row "UID"         $(if ($f['uid']) { $f['uid'] } else { $f['identificador'] }) "Green"
-    row "DN"          $f['dn']
-    row "Nombre"      $f['cn']
-    row "Apellido1"   $f['sn']
-    row "Apellido2"   $f['empleadoApellido2_sa']
-    row "Email"       $f['mail'] "DarkYellow"
-    row "Descripcion" $f['description']
+    Write-Host "|  DATOS DEL USUARIO" -ForegroundColor Cyan
+    Write-Host "|" -ForegroundColor DarkGray
+    row "Nombre"        $(if ($f['cn']) { $f['cn'] } else { $f['nombreUsuario'] }) "Green"
+    row "Apellidos"     $(if ("$($f['sn']) $($f['empleadoApellido2_sa'])".Trim()) { "$($f['sn']) $($f['empleadoApellido2_sa'])".Trim() } else { $f['apellido1'] })
+    row "Identificador" $(if ($f['uid']) { $f['uid'] } else { $f['identificador'] }) "Green"
+    row "Tipo usuario"  $(if ($f['tipoUsuario']) { $f['tipoUsuario'] } else { $f['employeeType'] })
+    row "Correo"        $f['mail'] "DarkYellow"
+    row "Ultimo cambio" $f['ultimoCambioPassword'] "DarkYellow"
+    row "DN"            $f['dn']
     Write-Host "|"
-    Write-Host "|  CONTACTO" -ForegroundColor Cyan
-    row "Telefono"    $f['telephoneNumber']
-    row "Movil"       $f['mobile']
-    row "Fax"         $f['facsimileTelephoneNumber']
-    row "Direccion"   $f['postalAddress']
-    row "CP"          $f['postalCode']
-    row "Ciudad"      $f['l']
-    row "Provincia"   $f['st']
-    Write-Host "|"
-    Write-Host "|  PUESTO" -ForegroundColor Cyan
-    row "Cargo"       $f['title']
-    row "Depto"       $f['departmentNumber']
-    row "Organismo"   $f['o']
-    row "Centro Gestor" $f['centroGestor']
-    row "Centro Destino" $f['centroDestino']
-    row "Edificio"    $f['edificio']
-    row "Servicio"    $f['servicio']
-    row "Puesto"      $f['puestoTrabajo']
-    Write-Host "|"
-    Write-Host "|  CUENTA" -ForegroundColor Cyan
-    row "UID Number"  $f['uidNumber']
-    row "GID Number"  $f['gidNumber']
-    row "Home Dir"    $f['homeDirectory']
-    row "Login Shell" $f['loginShell']
-    row "Tipo User"   $(if ($f['tipoUsuario']) { $f['tipoUsuario'] } else { $f['employeeType'] })
-    row "Ultimo Pass" $f['ultimoCambioPassword']
-    row "Cuota Buzon" $f['cuotaBuzonMax']
-    row "Cuota FJ"    $f['cuotaFJMax']
-    if ($f['buzonExternosDeshabilitado']) { row "Buzon Ext" $f['buzonExternosDeshabilitado'] }
+    Write-Host "|  EDITAR DATOS" -ForegroundColor Cyan
+    Write-Host "|" -ForegroundColor DarkGray
+    row "DNI"           $f['dni']
+    row "Cargo"         $(if ($f['title']) { $f['title'] } else { $f['cargo'] })
+    row "Depto"         $f['departmentNumber']
+    row "Servicio"      $f['servicio']
+    row "Edificio"      $f['edificio']
+    row "Puesto"        $f['puestoTrabajo']
+    row "Telefono"      $(if ($f['telephoneNumber']) { $f['telephoneNumber'] } else { $f['telefonoFijo'] })
+    row "Movil"         $(if ($f['mobile']) { $f['mobile'] } else { $f['telefonoMovil'] })
+    row "Fax"           $(if ($f['facsimileTelephoneNumber']) { $f['facsimileTelephoneNumber'] } else { $f['fax'] })
+    row "Provincia"     $f['st']
+    row "Comentarios"   $(if ($f['description']) { $f['description'] } else { $f['comentarios'] })
     Write-Host "|"
     Write-Host "|  OPCIONES" -ForegroundColor Cyan
     Write-Host "|  1. Cambiar contrasena" -ForegroundColor Cyan
