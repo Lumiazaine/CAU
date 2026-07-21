@@ -21,7 +21,7 @@ $script:columns = 80
 function ui {
     $script:columns = [Math]::Max(80, [Console]::WindowWidth)
 }
-function bar { param([string]$c = "DarkGray"); Write-Host ("─" * $script:columns) -ForegroundColor $c }
+function bar { param([string]$c = "DarkGray"); Write-Host ("-" * $script:columns) -ForegroundColor $c }
 function empty { Write-Host (" " * $script:columns) -ForegroundColor DarkGray }
 
 function header {
@@ -29,16 +29,16 @@ function header {
     $w = $script:columns
     $conn = if ($script:authenticated) { "CONECTADO" } else { "DESCONECTADO" }
     $cc = if ($script:authenticated) { "Green" } else { "Red" }
-    Write-Host ("┌" + ("─" * ($w - 2)) + "┐") -ForegroundColor DarkGray
-    Write-Host ("│" + (" " * ($w - 2)) + "│") -ForegroundColor DarkGray
-    Write-Host ("│  LAZYTEMIS v$script:VERSION") -ForegroundColor Yellow -NoNewline
+    Write-Host ("." + ("-" * ($w - 2)) + ".") -ForegroundColor DarkGray
+    Write-Host ("|" + (" " * ($w - 2)) + "|") -ForegroundColor DarkGray
+    Write-Host ("|  LAZYTEMIS v$script:VERSION") -ForegroundColor Yellow -NoNewline
     $rest = $w - 24 - $conn.Length
     if ($rest -gt 0) { Write-Host (" " * $rest) -NoNewline } else { Write-Host "" -NoNewline }
-    Write-Host "│" -ForegroundColor DarkGray
-    Write-Host ("│  " + (" " * 18)) -NoNewline
+    Write-Host "|" -ForegroundColor DarkGray
+    Write-Host ("|  " + (" " * 18)) -NoNewline
     Write-Host $conn -ForegroundColor $cc -NoNewline
-    Write-Host (" " * ($w - 24 - $conn.Length)) -NoNewline; Write-Host "│" -ForegroundColor DarkGray
-    Write-Host ("└" + ("─" * ($w - 2)) + "┘") -ForegroundColor DarkGray
+    Write-Host (" " * ($w - 24 - $conn.Length)) -NoNewline; Write-Host "|" -ForegroundColor DarkGray
+    Write-Host ("'" + ("-" * ($w - 2)) + "'") -ForegroundColor DarkGray
     Write-Host ""
 }
 
@@ -48,9 +48,9 @@ function footer {
     $text = ""
     foreach ($k in $Keys) { $text += "  $k" }
     if ($text.Length -ge $w - 2) { $text = $text.Substring(0, $w - 5) }
-    Write-Host ("┌" + ("─" * ($w - 2)) + "┐") -ForegroundColor DarkGray
-    Write-Host ("│" + $text.PadRight($w - 2) + "│") -ForegroundColor DarkGray
-    Write-Host ("└" + ("─" * ($w - 2)) + "┘") -ForegroundColor DarkGray
+    Write-Host ("." + ("-" * ($w - 2)) + ".") -ForegroundColor DarkGray
+    Write-Host ("|" + $text.PadRight($w - 2) + "|") -ForegroundColor DarkGray
+    Write-Host ("'" + ("-" * ($w - 2)) + "'") -ForegroundColor DarkGray
 }
 
 function prompt {
@@ -83,14 +83,14 @@ function Write-Log {
 function panel {
     param([string]$Title, [scriptblock]$Body)
     $w = $script:columns
-    Write-Host ("┌─ " + $Title + (" " * ($w - 6 - $Title.Length)) + "┐") -ForegroundColor Cyan
+    Write-Host (".- " + $Title + (" " * ($w - 6 - $Title.Length)) + ".") -ForegroundColor Cyan
     & $Body
-    Write-Host ("└" + ("─" * ($w - 2)) + "┘") -ForegroundColor DarkGray
+    Write-Host ("'" + ("-" * ($w - 2)) + "'") -ForegroundColor DarkGray
 }
 
 function row {
     param([string]$Label, [string]$Value, [string]$Color = "White")
-    Write-Host ("│  " + $Label.PadRight(16) + ": ") -NoNewline
+    Write-Host ("|  " + $Label.PadRight(16) + ": ") -NoNewline
     Write-Host $Value -ForegroundColor $Color
 }
 
@@ -289,22 +289,22 @@ function screen-main {
     ui
     header
     panel "MENU PRINCIPAL" {
-        Write-Host "│"
-        Write-Host "│  1. Conectar a Temis" -ForegroundColor Cyan
-        Write-Host "│  2. Buscar usuario" -ForegroundColor Cyan
-        Write-Host "│  3. Ver perfil" -ForegroundColor Cyan
-        Write-Host "│  4. Cambiar contrasena" -ForegroundColor Cyan
-        Write-Host "│  5. Listar por organismo" -ForegroundColor Cyan
-        Write-Host "│"
-        Write-Host "│  0. Salir" -ForegroundColor Red
-        Write-Host "│"
+        Write-Host "|"
+        Write-Host "|  1. Conectar a Temis" -ForegroundColor Cyan
+        Write-Host "|  2. Buscar usuario" -ForegroundColor Cyan
+        Write-Host "|  3. Ver perfil" -ForegroundColor Cyan
+        Write-Host "|  4. Cambiar contrasena" -ForegroundColor Cyan
+        Write-Host "|  5. Listar por organismo" -ForegroundColor Cyan
+        Write-Host "|"
+        Write-Host "|  0. Salir" -ForegroundColor Red
+        Write-Host "|"
         if (-not $script:authenticated) {
-            Write-Host "│  >> Conecta primero (opcion 1)" -ForegroundColor Yellow
+            Write-Host "|  >> Conecta primero (opcion 1)" -ForegroundColor Yellow
         } elseif ($script:lastProfileFields) {
-            Write-Host ("│  >> Usuario: $($script:lastProfileFields['usuario']) ($($script:lastProfileFields['dni']))") -ForegroundColor Green
-            Write-Host ("│     $($script:lastProfileFields['nombre']) $($script:lastProfileFields['apellido1']) $($script:lastProfileFields['apellido2'])") -ForegroundColor DarkGray
+            Write-Host ("|  >> Usuario: $($script:lastProfileFields['usuario']) ($($script:lastProfileFields['dni']))") -ForegroundColor Green
+            Write-Host ("|     $($script:lastProfileFields['nombre']) $($script:lastProfileFields['apellido1']) $($script:lastProfileFields['apellido2'])") -ForegroundColor DarkGray
         }
-        Write-Host "│"
+        Write-Host "|"
     }
     footer @("1-5 opciones", "0/q salir", "s <dni> busqueda rapida")
     Write-Host ""
@@ -316,14 +316,14 @@ function screen-search {
     ui
     header
     panel "BUSQUEDA DE USUARIOS" {
-        Write-Host "│"
-        Write-Host "│  1. Por usuario / DNI" -ForegroundColor Cyan
-        Write-Host "│  2. Por nombre" -ForegroundColor Cyan
-        Write-Host "│  3. Por apellidos" -ForegroundColor Cyan
-        Write-Host "│  4. Por cargo" -ForegroundColor Cyan
-        Write-Host "│"
-        Write-Host "│  0. Volver" -ForegroundColor Red
-        Write-Host "│"
+        Write-Host "|"
+        Write-Host "|  1. Por usuario / DNI" -ForegroundColor Cyan
+        Write-Host "|  2. Por nombre" -ForegroundColor Cyan
+        Write-Host "|  3. Por apellidos" -ForegroundColor Cyan
+        Write-Host "|  4. Por cargo" -ForegroundColor Cyan
+        Write-Host "|"
+        Write-Host "|  0. Volver" -ForegroundColor Red
+        Write-Host "|"
     }
     footer @("1-4 criterio", "0 volver")
     Write-Host ""
@@ -368,11 +368,11 @@ function screen-results {
         ui; header
         $total = $Users.Count
         $pages = [Math]::Max(1, [Math]::Ceiling($total / $pageSize))
-        Write-Host ("┌─ $Title ($total usuarios)" + (" " * ($script:columns - 25 - $Title.Length)) + "┐") -ForegroundColor Cyan
-        Write-Host "│" -NoNewline
+        Write-Host (".- $Title ($total usuarios)" + (" " * ($script:columns - 25 - $Title.Length)) + ".") -ForegroundColor Cyan
+        Write-Host "|" -NoNewline
         $hdr = "{0,3} {1,-5} {2,-33} {3,-13} {4,-20}" -f "#", "COD", "NOMBRE COMPLETO", "DNI", "CARGO"
         Write-Host $hdr.PadRight($script:columns - 3) -NoNewline
-        Write-Host "│" -ForegroundColor DarkGray
+        Write-Host "|" -ForegroundColor DarkGray
         $start = $page * $pageSize; $end = [Math]::Min($start + $pageSize - 1, $total - 1)
         for ($i = $start; $i -le $end; $i++) {
             $u = $Users[$i]
@@ -380,11 +380,11 @@ function screen-results {
             $line = ("{0,3} {1,-5} {2,-33} {3,-13} {4,-20}" -f ($i+1), $u.codigo, $fullName.Substring(0, [Math]::Min(33, $fullName.Length)), $u.dni, $u.cargo.Substring(0, [Math]::Min(20, $u.cargo.Length)))
             # Truncate if too long
             if ($line.Length -gt $script:columns - 3) { $line = $line.Substring(0, $script:columns - 6) }
-            Write-Host "│ " -NoNewline; Write-Host $line -ForegroundColor White -NoNewline
+            Write-Host "| " -NoNewline; Write-Host $line -ForegroundColor White -NoNewline
             $pad = $script:columns - 4 - $line.Length
-            if ($pad -gt 0) { Write-Host (" " * $pad) -NoNewline }; Write-Host "│" -ForegroundColor DarkGray
+            if ($pad -gt 0) { Write-Host (" " * $pad) -NoNewline }; Write-Host "|" -ForegroundColor DarkGray
         }
-        Write-Host ("└" + ("─" * ($script:columns - 2)) + "┘") -ForegroundColor DarkGray
+        Write-Host ("'" + ("-" * ($script:columns - 2)) + "'") -ForegroundColor DarkGray
         Write-Host ""
         Write-Host ("Pagina $($page+1)/$pages") -ForegroundColor DarkGray -NoNewline
         if ($start -gt 0) { Write-Host "  [a] anterior" -ForegroundColor Cyan -NoNewline }
@@ -407,16 +407,16 @@ function screen-profile {
     if (-not $f) { Write-Log "No hay perfil cargado" "WARN"; pause; return }
 
     ui; header
-    Write-Host ("┌─ PERFIL DE USUARIO: $($f['usuario'])" + (" " * ($script:columns - 28 - $($f['usuario']).Length)) + "┐") -ForegroundColor Cyan
-    Write-Host "│"
-    Write-Host "│  DATOS PERSONALES" -ForegroundColor Cyan
+    Write-Host (".- PERFIL DE USUARIO: $($f['usuario'])" + (" " * ($script:columns - 28 - $($f['usuario']).Length)) + ".") -ForegroundColor Cyan
+    Write-Host "|"
+    Write-Host "|  DATOS PERSONALES" -ForegroundColor Cyan
     row "Usuario"     "$($f['usuario'])  ($($f['dni']))" "Green"
     row "Nombre"      "$($f['nombre']) $($f['apellido1']) $($f['apellido2'])"
     row "Sexo"        $f['sexo']
     row "Email"       $f['email'] "DarkYellow"
     row "Telefono"    $f['telefono']
-    Write-Host "│"
-    Write-Host "│  PUESTO" -ForegroundColor Cyan
+    Write-Host "|"
+    Write-Host "|  PUESTO" -ForegroundColor Cyan
     row "Partido Jud" $f['partidoJudicial']
     row "Organismo"   $f['organismo']
     row "Tipo Org"    $f['tipoOrganismo']
@@ -424,20 +424,20 @@ function screen-profile {
     row "Cuerpo"      $f['cuerpo']
     row "Categoria"   $f['categoria']
     row "Caracter"    $f['caracter']
-    Write-Host "│"
-    Write-Host "│  UBICACION" -ForegroundColor Cyan
+    Write-Host "|"
+    Write-Host "|  UBICACION" -ForegroundColor Cyan
     row "Ubicacion"   $f['ubicacion']
     row "Municipio"   $f['municipios']
     row "Fecha Alta"  $f['fechaAlta']
-    Write-Host "│"
-    Write-Host "│  RED" -ForegroundColor Cyan
+    Write-Host "|"
+    Write-Host "|  RED" -ForegroundColor Cyan
     row "VPN IPv4"    "$($f['ipVpn1v4']) / $($f['ipVpn2v4'])"
     row "VPN IPv6"    "$($f['ipVpn1v6']) / $($f['ipVpn2v6'])"
-    Write-Host "│"
-    Write-Host "│  OBSERVACIONES" -ForegroundColor Cyan
-    Write-Host ("│    " + $f['observaciones']) -ForegroundColor White
-    Write-Host "│"
-    Write-Host ("└" + ("─" * ($script:columns - 2)) + "┘") -ForegroundColor DarkGray
+    Write-Host "|"
+    Write-Host "|  OBSERVACIONES" -ForegroundColor Cyan
+    Write-Host ("|    " + $f['observaciones']) -ForegroundColor White
+    Write-Host "|"
+    Write-Host ("'" + ("-" * ($script:columns - 2)) + "'") -ForegroundColor DarkGray
 
     Write-Host ""
     Write-Host "  1. Cambiar contrasena" -ForegroundColor Cyan
@@ -452,12 +452,12 @@ function screen-password {
     if (-not $f) { return }
 
     ui; header
-    Write-Host ("┌─ CAMBIAR CONTRASENA" + (" " * ($script:columns - 23)) + "┐") -ForegroundColor Cyan
-    Write-Host "│"
-    Write-Host ("│  Usuario: $($f['usuario'])") -ForegroundColor White
-    Write-Host ("│  DNI:     $($f['dni'])") -ForegroundColor White
-    Write-Host "│"
-    Write-Host ("└" + ("─" * ($script:columns - 2)) + "┘") -ForegroundColor DarkGray
+    Write-Host (".- CAMBIAR CONTRASENA" + (" " * ($script:columns - 23)) + ".") -ForegroundColor Cyan
+    Write-Host "|"
+    Write-Host ("|  Usuario: $($f['usuario'])") -ForegroundColor White
+    Write-Host ("|  DNI:     $($f['dni'])") -ForegroundColor White
+    Write-Host "|"
+    Write-Host ("'" + ("-" * ($script:columns - 2)) + "'") -ForegroundColor DarkGray
 
     $month = Get-Date -Format "MM"; $year = Get-Date -Format "yy"
     $defaultPass = "Justicia$month$year"
@@ -492,9 +492,9 @@ function screen-password {
 function screen-list-by-org {
     ui; header
     panel "LISTAR POR ORGANISMO" {
-        Write-Host "│"
-        Write-Host "│  Deja vacio para omitir criterio" -ForegroundColor DarkGray
-        Write-Host "│"
+        Write-Host "|"
+        Write-Host "|  Deja vacio para omitir criterio" -ForegroundColor DarkGray
+        Write-Host "|"
     }
     $pj = prompt "Codigo Partido Judicial: "
     $org = prompt "Codigo Organismo: "
@@ -561,10 +561,10 @@ try {
     }
 } finally {
     ui; header
-    Write-Host ("┌" + ("─" * ($script:columns - 2)) + "┐") -ForegroundColor DarkGray
-    Write-Host ("│" + (" " * ($script:columns - 2)) + "│") -ForegroundColor DarkGray
-    Write-Host ("│  LAZYTEMIS finalizado" + (" " * ($script:columns - 23)) + "│") -ForegroundColor Yellow
-    Write-Host ("│" + (" " * ($script:columns - 2)) + "│") -ForegroundColor DarkGray
-    Write-Host ("└" + ("─" * ($script:columns - 2)) + "┘") -ForegroundColor DarkGray
+    Write-Host ("." + ("-" * ($script:columns - 2)) + ".") -ForegroundColor DarkGray
+    Write-Host ("|" + (" " * ($script:columns - 2)) + "|") -ForegroundColor DarkGray
+    Write-Host ("|  LAZYTEMIS finalizado" + (" " * ($script:columns - 23)) + "|") -ForegroundColor Yellow
+    Write-Host ("|" + (" " * ($script:columns - 2)) + "|") -ForegroundColor DarkGray
+    Write-Host ("'" + ("-" * ($script:columns - 2)) + "'") -ForegroundColor DarkGray
     Write-Host ""
 }
