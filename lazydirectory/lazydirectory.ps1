@@ -822,9 +822,8 @@ function Parse-SelectOptions {
 }
 
 function Select-Option {
-    param([string]$Prompt, [string]$Current, [array]$Options)
+    param([string]$Prompt, [string]$Current, [array]$Options, [ref]$OutValue)
     $i = 0
-    $selIdx = -1
     foreach ($o in $Options) {
         $mark = if ($o.text -eq $Current -or $o.value -eq $Current) { ' *' } else { '' }
         Write-Host ("     $i. " + $o.text + $mark) -ForegroundColor $(if ($mark) { 'Green' } else { 'DarkGray' })
@@ -832,11 +831,13 @@ function Select-Option {
     }
     Write-Host ("     Enter = mantener actual: $Current") -ForegroundColor DarkGray
     $choice = prompt ("  $Prompt [$Current]: ")
-    if (-not $choice) { return $Current }
+    if (-not $choice) { $OutValue.Value = $Current; return $Current }
     $idx = 0
     if ([int]::TryParse($choice, [ref]$idx) -and $idx -ge 0 -and $idx -lt $Options.Count) {
+        $OutValue.Value = $Options[$idx].value
         return $Options[$idx].text
     }
+    $OutValue.Value = $choice
     return $choice
 }
 
@@ -880,17 +881,23 @@ function screen-edit {
         if ($ef.type -eq 'select') {
             $opts = Parse-SelectOptions -Html $html -SelectName $ef.key
             if ($opts.Count -gt 0) {
-                $val = Select-Option -Prompt $ef.label -Current $current -Options $opts
+                $curText = if ($f.ContainsKey($ef.key) -and $f[$ef.key]) { $f[$ef.key] } else { '' }
+                if (-not $curText -and $f.ContainsKey($ef.key + '_value')) { $curText = $f[$ef.key + '_value'] }
+                $submitVal = $null
+                $selText = Select-Option -Prompt $ef.label -Current $curText -Options $opts -OutValue ([ref]$submitVal)
+                $newValues[$ef.key] = $selText
+                $newValues[$ef.key + '_submit'] = $submitVal
             } else {
-                $val = prompt ("  $($ef.label) [$current]: ") $current
+                $v = prompt ("  $($ef.label) [$current]: ") $current
+                $newValues[$ef.key] = $v
+                $newValues[$ef.key + '_submit'] = $v
             }
         } else {
             $input = prompt ("  $($ef.label) [.] " + "(Enter=keep, .=clear): " ) '~~KEEP~~'
-            if ($input -eq '~~KEEP~~') { $val = $current }
-            elseif ($input -eq '.') { $val = '' }
-            else { $val = $input }
+            if ($input -eq '~~KEEP~~') { $val = $current; $newValues[$ef.key] = $val }
+            elseif ($input -eq '.') { $newValues[$ef.key] = '' }
+            else { $newValues[$ef.key] = $input }
         }
-        $newValues[$ef.key] = $val
     }
 
     # Show summary
@@ -899,13 +906,20 @@ function screen-edit {
     Write-Host "|"
     $changed = $false
     foreach ($ef in $editableFields) {
-        $old = if ($f.ContainsKey($ef.key) -and $f[$ef.key]) { $f[$ef.key] } else { '' }
-        $new = $newValues[$ef.key]
-        $mark = if ($old -ne $new) { ' >>' } else { '' }
+        $oldKey = $ef.key
+        if ($ef.type -eq 'select') { $oldKey = $ef.key + '_submit' }
+        $old = if ($f.ContainsKey($oldKey) -and $f[$oldKey]) { $f[$oldKey] } else { '' }
+        if (-not $old -and $f.ContainsKey($ef.key)) { $old = $f[$ef.key] }
+
+        $newKey = if ($ef.type -eq 'select') { $ef.key + '_submit' } else { $ef.key }
+        $displayNew = $newValues[$ef.key]
+        $new = $newValues[$newKey]
+
+        $mark = if ($new -and $old -ne $new) { ' >>' } else { '' }
         if ($mark) { $changed = $true }
         Write-Host ("|  " + $ef.label.PadRight(20) + ": ") -NoNewline
         if ($mark) { Write-Host ("$old -> $new") -ForegroundColor Yellow }
-        else { Write-Host "$old" -ForegroundColor DarkGray }
+        else { Write-Host ($old -replace '^(.{30}).*$', '$1...') -ForegroundColor DarkGray }
     }
     Write-Host "|"
     if (-not $changed) { Write-Host "|  Sin cambios" -ForegroundColor DarkGray; pause; return }
@@ -940,7 +954,8 @@ function screen-edit {
 
         # Override editable fields
         foreach ($ef in $editableFields) {
-            $body[$ef.key] = $newValues[$ef.key]
+            $submitKey = if ($ef.type -eq 'select') { $ef.key + '_submit' } else { $ef.key }
+            $body[$ef.key] = $newValues[$submitKey]
         }
 
         # Set save action
