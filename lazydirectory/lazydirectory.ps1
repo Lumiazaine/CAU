@@ -166,10 +166,13 @@ function Extract-DisplayData {
     }
 
     # Map Directorio field names to our display names
+    # Keys use . as regex wildcard (matches any char, e.g. ó, ñ, Ú)
     $fieldMap = @{
+        'Nombre y apellidos' = 'cn'
         'Nombre' = 'cn'
         'Identificador' = 'uid'
         'Tipo de entrada' = 'tipoUsuario'
+        'Tipo de usuario' = 'tipoUsuario'
         'Correo electr.nico' = 'mail'
         '.ltimo cambio de contrase.a' = 'ultimoCambioPassword'
         'Tel.fono Fijo' = 'telephoneNumber'
@@ -187,6 +190,8 @@ function Extract-DisplayData {
         'Perfil de acceso WiFi' = 'tipoWiFi'
         'Caducar contrase.a' = 'passCaducado'
     }
+    # Sort by descending length so more specific labels match first
+    $sortedKeys = $fieldMap.Keys | Sort-Object { $_.Length } -Descending
 
     # Strategy 1: form_field divs (modify form)
     $fieldBlocks = [regex]::Matches($Html, '(?s)<div\s+class="form_field">(.*?)</div>\s*</div>')
@@ -203,10 +208,11 @@ function Extract-DisplayData {
         $valText = Clean-Val $valM.Groups[1].Value
         if (-not $labelText -or -not $valText) { continue }
 
-        foreach ($fk in $fieldMap.Keys) {
-            if ($labelText -match [regex]::Escape($fk)) {
-                if (-not $data.ContainsKey($fieldMap[$fk])) {
-                    $data[$fieldMap[$fk]] = $valText
+        foreach ($fk in $sortedKeys) {
+            if ($labelText -match $fk) {
+                $target = $fieldMap[$fk]
+                if (-not $data.ContainsKey($target) -or [string]::IsNullOrEmpty($data[$target])) {
+                    $data[$target] = $valText
                 }
                 break
             }
@@ -240,15 +246,18 @@ function Extract-DisplayData {
         if ($name -and -not $data.ContainsKey('cn')) { $data['cn'] = $name }
     }
 
-    # Strategy 5: Password overlay fields (has "Último cambio de contraseña")
+    # Strategy 5: Password overlay fields
     $overlayBlocks = [regex]::Matches($Html, '(?s)<div\s+class="form_field">.*?<div\s+class="form_field_label">(.*?)</div>.*?<div\s+class="form_field_value">(.*?)</div>')
     foreach ($block in $overlayBlocks) {
         $labelText = Clean-Val $block.Groups[1].Value
         $valText = Clean-Val $block.Groups[2].Value
         if (-not $labelText -or -not $valText) { continue }
-        foreach ($fk in $fieldMap.Keys) {
-            if ($labelText -match [regex]::Escape($fk) -and -not $data.ContainsKey($fieldMap[$fk])) {
-                $data[$fieldMap[$fk]] = $valText
+        foreach ($fk in $sortedKeys) {
+            if ($labelText -match $fk) {
+                $target = $fieldMap[$fk]
+                if (-not $data.ContainsKey($target) -or [string]::IsNullOrEmpty($data[$target])) {
+                    $data[$target] = $valText
+                }
                 break
             }
         }
@@ -415,85 +424,104 @@ function Get-UserProfile {
 
     Write-Log "Cargando perfil de $UID..." "INFO"
 
-    # Step 1: Search with "empezando" to get results page + password overlay
+    # Build common POST body base
+    function MkBody {
+        param([string]$Action, [string]$Btn, [string]$Aux, [string]$Token)
+        $b = @{
+            accion = $Action; botonPulsado = $Btn; datoAuxiliar = $Aux
+            tokenParametro = $Token
+            filtroAtributo = 'identificador'
+            filtroTipoBusqueda = 'empezando'
+            filtroValor = $UID
+            marcarSirhus = $(if ($esInt) { 'NO' } else { 'SI' })
+            marcarInternos = $(if ($esInt) { 'SI' } else { 'NO' })
+            marcarExternos = 'NO'; marcarGenericos = 'NO'; marcarNA = 'NO'
+            numUsuariosAntiguo = '25'; numUsuarios = '25'
+        }
+        if ($esInt) { $b['seleccionarInternos'] = 'on' }
+        else { $b['seleccionarSirhus'] = 'on' }
+        return $b
+    }
+
+    # Step 1: buscar -> results page with password overlay
     $r = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession
     $script:token = Extract-Token $r.Content
     if (-not $script:token) { throw "No se pudo extraer token" }
 
-    $body = @{
-        accion = 'consulta'; botonPulsado = ''; datoAuxiliar = ''
-        tokenParametro = $script:token
-        filtroAtributo = 'identificador'
-        filtroTipoBusqueda = 'empezando'
-        filtroValor = $UID
-        marcarSirhus = $(if ($esInt) { 'NO' } else { 'SI' })
-        marcarInternos = $(if ($esInt) { 'SI' } else { 'NO' })
-        marcarExternos = 'NO'; marcarGenericos = 'NO'; marcarNA = 'NO'
-        numUsuariosAntiguo = '25'; numUsuarios = '25'
-    }
-    if ($esInt) { $body['seleccionarInternos'] = 'on' }
-    else { $body['seleccionarSirhus'] = 'on' }
-
+    $body = MkBody 'consulta' '' '' $script:token
     $r = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
     $script:token = Extract-Token $r.Content
-    $html = $r.Content
+    $searchHtml = $r.Content
 
-    $display = Extract-DisplayData $html
+    $display = Extract-DisplayData $searchHtml
     foreach ($kv in $display.GetEnumerator()) {
         if (-not $fields.ContainsKey($kv.Key) -or [string]::IsNullOrEmpty($fields[$kv.Key])) {
             $fields[$kv.Key] = $kv.Value
         }
     }
 
-    # Step 2: Search with "igual" to get modify form (editable fields)
-    $r = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession
-    $script:token = Extract-Token $r.Content
-    if (-not $script:token) { throw "No se pudo extraer token" }
-
-    $body2 = @{
-        accion = 'consulta'; botonPulsado = ''; datoAuxiliar = ''
-        tokenParametro = $script:token
-        filtroAtributo = 'identificador'
-        filtroTipoBusqueda = 'igual'
-        filtroValor = $UID
-        marcarSirhus = $(if ($esInt) { 'NO' } else { 'SI' })
-        marcarInternos = $(if ($esInt) { 'SI' } else { 'NO' })
-        marcarExternos = 'NO'; marcarGenericos = 'NO'; marcarNA = 'NO'
-        numUsuariosAntiguo = '25'; numUsuarios = '25'
+    # Extract DN from password overlay
+    $dn = ''
+    $dnMatch = [regex]::Match($searchHtml, 'name="dn"\s*value="([^"]+)"')
+    if (-not $dnMatch.Success) {
+        $dnMatch = [regex]::Match($searchHtml, "datoAuxiliar\s*=\s*'(uid=[^']+)'")
     }
-    if ($esInt) { $body2['seleccionarInternos'] = 'on' }
-    else { $body2['seleccionarSirhus'] = 'on' }
+    if ($dnMatch.Success) { $dn = $dnMatch.Groups[1].Value }
 
-    $r = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body2
-    $html2 = $r.Content
+    # Step 2: fetch modify form (editable fields) via accion=modificacion
+    if ($dn) {
+        $r = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession
+        $script:token = Extract-Token $r.Content
+        if (-not $script:token) { throw "No se pudo extraer token" }
 
-    $debugFile = Join-Path $script:DEBUG_DIR ("profile_" + $UID.Replace('.','_') + ".html")
-    $html2 | Out-File -FilePath $debugFile -Encoding UTF8
+        $body2 = MkBody 'modificacion' 'pantalla1' $dn $script:token
+        $r2 = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body2
+        $html2 = $r2.Content
 
-    $formFields = Extract-FormFields $html2
+        $debugFile = Join-Path $script:DEBUG_DIR ("profile_" + $UID.Replace('.','_') + ".html")
+        $html2 | Out-File -FilePath $debugFile -Encoding UTF8
 
-    $allInputs = [regex]::Matches($html2, 'name="([^"]*)"\s*value="([^"]*)"')
-    foreach ($m in $allInputs) {
-        $n = $m.Groups[1].Value; $v = $m.Groups[2].Value
-        if (-not $formFields.ContainsKey($n)) { $formFields[$n] = $v }
-        if ($n -match '^(.+)_modificacion$') {
-            $base = $Matches[1]
-            if (-not $formFields.ContainsKey($base)) { $formFields[$base] = $v }
+        $formFields = Extract-FormFields $html2
+        $display2 = Extract-DisplayData $html2
+
+        # Merge: modify form display + form fields
+        $merge = @{}
+        foreach ($kv in $display2.GetEnumerator()) { $merge[$kv.Key] = $kv.Value }
+        foreach ($kv in $formFields.GetEnumerator()) {
+            if (-not $merge.ContainsKey($kv.Key)) { $merge[$kv.Key] = $kv.Value }
+        }
+
+        # Add all inputs not already captured
+        [regex]::Matches($html2, 'name="([^"]*)"\s*value="([^"]*)"') | ForEach-Object {
+            $n = $_.Groups[1].Value; $v = $_.Groups[2].Value
+            if (-not $merge.ContainsKey($n)) { $merge[$n] = $v }
+        }
+
+        # Handle _modificacion suffix — create base-name entries
+        foreach ($k in $merge.Keys) {
+            if ($k -match '^(.+)_modificacion$') {
+                $base = $Matches[1]
+                if (-not $merge.ContainsKey($base)) {
+                    $merge[$base] = $merge[$k]
+                }
+            }
+        }
+
+        foreach ($kv in $merge.GetEnumerator()) {
+            if (-not $fields.ContainsKey($kv.Key) -or [string]::IsNullOrEmpty($fields[$kv.Key])) {
+                $fields[$kv.Key] = $kv.Value
+            }
+        }
+
+        # Extract dn from modify form too
+        $dnM = [regex]::Match($html2, 'name="dn"\s*value="([^"]+)"')
+        if ($dnM.Success -and (-not $fields.ContainsKey('dn') -or [string]::IsNullOrEmpty($fields['dn']))) {
+            $fields['dn'] = $dnM.Groups[1].Value
         }
     }
 
-    $display2 = Extract-DisplayData $html2
-    foreach ($kv in $display2.GetEnumerator()) {
-        if (-not $formFields.ContainsKey($kv.Key) -or [string]::IsNullOrEmpty($formFields[$kv.Key])) {
-            $formFields[$kv.Key] = $kv.Value
-        }
-    }
-
-    # Merge: overlay first (user info), modify form second (editable), overlay wins on conflicts
-    foreach ($kv in $formFields.GetEnumerator()) {
-        if (-not $fields.ContainsKey($kv.Key)) {
-            $fields[$kv.Key] = $kv.Value
-        }
+    if (-not $fields.ContainsKey('dn') -or [string]::IsNullOrEmpty($fields['dn'])) {
+        if ($dn) { $fields['dn'] = $dn }
     }
 
     $script:lastProfileFields = $fields
