@@ -17,7 +17,7 @@
 <input type="hidden" name="accion" value="consulta">
 <input type="hidden" name="botonPulsado" value="">
 <input type="hidden" name="datoAuxiliar" value="" >
-<input type="hidden" name="tokenParametro" value="84f1519d-0243-4932-81b5-6bd6402e9fe8">
+<input type="hidden" name="tokenParametro" value="21f349fc-0eb3-4162-9b26-4a1b8eb51ff9">
 <header>
   <div id="header_topbar">
     <div class="inside">
@@ -201,6 +201,55 @@
           <!-- ************************************* -->
           <!-- *   F I L T R O   B U S Q U E D A   * -->
           <!-- ************************************* -->
+          <div class="buscador_contenido">
+              Buscar por:&nbsp;&nbsp;
+              <select name="filtroAtributo" onChange="javascript:validaFiltroBusqueda('cambioFiltro','cambioFiltro');" title="Buscar por">
+                <option value="identificador" selected>Identificador</option>
+                <option value="dni"           >DNI</option>
+                <option value="correo"        >Correo electrónico</option>
+                <option value="nombre"        >Nombre y/o Apellidos</option>
+                <option value="tipoUsuario"   >Tipo de Usuario</option>
+                <option value="edificio">Edificio</option>
+                <option value="servicio">Servicio</option>
+                </select>
+              &nbsp;&nbsp;
+              <select name="filtroTipoBusqueda" size="1" title="Tipo de busqueda">
+                <option value="empezando"   selected  >empezando por</option>
+                <option value="igual"             >igual a</option>
+                <option value="terminando"   >terminando en</option>
+                <option value="conteniendo" >conteniendo a</option>
+              </select>
+              &nbsp;&nbsp;
+              <input name="filtroValor" type="text" maxlength="50" size="20" value="david.luna.ius" title="Valor">
+            </div>
+            <div class="buscador_contenido"><span class="form_text">Indique al menos cuatro caracteres para realizar la búsqueda.</span></div>
+            <div class="buscador_contenido">
+              <!-- Tipos de usuarios -->
+              <input type="hidden" name="marcarSirhus"    value="NO">
+              <input type="hidden" name="marcarInternos"  value="SI">
+              <input type="hidden" name="marcarExternos"  value="NO">
+              <input type="hidden" name="marcarGenericos" value="NO">
+              <input type="hidden" name="marcarNA"        value="NO">
+              Tipo de Usuario (*):&nbsp;&nbsp;
+              <input type="checkbox" name="seleccionarSirhus"    title="Sirhus">Sirhus&nbsp;&nbsp;
+              <input type="checkbox" name="seleccionarInternos" checked title="Internos">Internos&nbsp;&nbsp;
+              <input type="checkbox" name="seleccionarExternos"   title="Externos">Externos&nbsp;&nbsp;
+              <input type="checkbox" name="seleccionarGenericos"  title="Genericos">Genéricos&nbsp;&nbsp;
+              <input type="checkbox" name="seleccionarNA"  title="Otros">Otros&nbsp;
+            </div>
+            <div class="buscador_contenido">
+              <input type="hidden" name="numUsuariosAntiguo" value="25">
+              Número de usuarios por tipo (*):&nbsp;&nbsp;
+              <input type="text" name="numUsuarios" value="25" size="4" maxlength="4" title="Numero de usuarios">
+            </div>            
+            <div class="buscador_contenido"><span class="form_text">(*): Campos obligatorios</span></div>
+            <!-- Botones -->
+            <div class="botones" id="botones_buscador">
+              <a class="button" name="MOSTRAR_RESULTADOS" title="Mostrar Resultados" id="MOSTRAR_RESULTADOS" 
+              href="javascript:validaFiltroBusqueda('SI','consulta')">MOSTRAR RESULTADOS</a>
+              <a class="button" name="PERMISOS_APLICACIONES" title="Permisos Aplicaciones" id="PERMISOS_APLICACIONES" 
+                href="javascript:validaFiltroBusqueda('SI','permisos');">PERMISOS APLICACIONES</a>
+              </div>
           </div>
 
         <div class="resultados_busqueda">
@@ -215,7 +264,138 @@
     <!-- *                                                                         * -->
     <!-- *************************************************************************** -->
     <h2>USUARIOS INTERNOS</h2>
-      <p>No existe ningún usuario de este tipo con los criterios de búsqueda seleccionados en su organismo.</p>
+      <div class="listado">
+          <div class="cabecera">
+            <span class="capa_oculta">&nbsp;</span>
+            <span class="campo ancho2">Correo electrónico</span>
+            <span class="campo ancho2">Nombre y Apellidos</span>
+            <span class="icono">Contraseña</span>
+            <span class="icono">Editar</span>
+            <span class="icono">Borrar</span>
+          </div>
+          <div class="fila_par" id="fila_0">
+              <a id="ancla_fila_0" name="ancla_fila_0" id="ancla_fila_0" title="Ancla">
+                <span class="capa_oculta">&nbsp;</span></a>
+              <span class="campo ancho2">david.luna.ius@juntadeandalucia.es</span>
+              <span class="campo ancho2">David Luna González</span>
+              <span class="icono">
+                <a href="#ancla_fila_0" id="icono_password_0" 
+                    name="icono_password_0" onClick="javascript:mostrar_capa('password','0','1')" 
+                    title="Cambiar Contraseña">
+                    <span class="material-symbols-outlined icon_listados">key</span></a>
+                </span>
+              <span class="icono">
+                <a href="#ancla_fila_0" onClick="javascript:enviar('modificacion','pantalla1','uid=david.luna.ius,o=ius,o=empleados,o=juntadeandalucia,c=es');" id="icono_editar_0" 
+                  name="icono_editar_0" title="Editar Usuario">
+                  <span class="material-symbols-outlined icon_listados">edit</span>
+                </a>
+              </span>
+              <span class="icono">             
+                <a href="#ancla_fila_0" onClick="javascript:mostrar_capa('borrar','0','1')" 
+                   id="icono_borrar_0" name="icono_borrar_0" title="Borrar Usuario">
+                     <span class="material-symbols-outlined icon_listados">delete</span>
+                   </a>
+                </span>
+            </div>
+
+            <!-- ******************************************* -->
+            <!-- *      I N T E R N O S   B O R R A R      * -->
+            <!-- ******************************************* -->
+            <div class="fila_detalle" id="capa_borrar_0">
+              <div class="titulo"><h3>DATOS DEL USUARIO</h3></div>
+              <div class="form_field">
+                <div class="form_field_label"><label>Nombre:</label></div>
+                <div class="form_field_value">david.luna.ius</div>
+                <input type="hidden" name="uid_borrar" value="david.luna.ius">
+              </div>
+              <div class="form_field">
+                <div class="form_field_label"><label>Nombre y apellidos:</label></div>
+                <div class="form_field_value">David Luna González</div>
+              </div>
+              <div class="form_field">
+                <div class="form_field_label"><label>Correo electrónico:</label></div>
+                <div class="form_field_value">david.luna.ius@juntadeandalucia.es</div>
+              </div>
+              <span class="form_text">
+                <p>
+                  Pulse el botón "BORRAR" para confirmar el cambio. 
+                </p>
+                <p>
+                  Tenga en cuenta que el usuario también será borrado de forma automática
+                  de todas aquellas listas del Correo Corporativo en las que figure como miembro, moderador o administrador.
+                </p>
+                </span>
+              <!-- Botones -->
+              <div class="botones" id="botones_internos_borrar">
+                <a class="button" name="BORRAR_0" title="BORRAR" id="BORRAR_0" href="javascript:enviar('borrado','confirmar','0')">BORRAR</a>
+              </div>
+            </div>
+            <!-- ********************************************************* -->
+            <!-- *   I N T E R N O S   C A M B I A R   P A S S W O R D   * -->
+            <!-- ********************************************************* -->
+            <div class="fila_detalle" id="capa_password_0">
+              <div class="titulo"><h3>DATOS DEL USUARIO</h3></div>
+              <input type="hidden" name="usuarioWindows" value="NO">
+              <input type="hidden" name="passCaducadoCP" value="SI">
+              <input type="hidden" name="dn" value="uid=david.luna.ius,o=ius,o=empleados,o=juntadeandalucia,c=es">
+              <div class="form_field">
+                <div class="form_field_label">Nombre:</div>
+                <div class="form_field_value">David Luna González</div>
+              </div>
+              <div class="form_field">
+                <div class="form_field_label">Identificador:</div>
+                <div class="form_field_value">david.luna.ius</div>
+              </div>
+              <div class="form_field">
+                  <div class="form_field_label">Tipo de usuario:</div>
+                  <div class="form_field_value">Con buzón de correo.</div>
+                </div>
+                <div class="form_field">
+                  <div class="form_field_label">Correo electrónico:</div>
+                  <div class="form_field_value">david.luna.ius@juntadeandalucia.es</div>
+                </div>
+              <div class="form_field">
+                  <div class="form_field_label">Último cambio de contraseña:</div>
+                  <div class="form_field_value">20/07/2026</div>
+                </div>
+              <div class="form_field">
+                  <div class="form_field_label"><label>Contraseña:</label></div>
+                  <div class="form_field_value">
+                    <input type='password' class="input_text" title='Contraseña' name='pwd_modificacion' value='' size='15' onkeyup="chkPass(this.value,'0');">
+                    &nbsp;
+                    <div id="scoreBarBorder_0" class="scoreBarBorder">
+                      <div id="score_0" class="score">0%</div>
+                      <div id="scorebar_0" class="scorebar">&nbsp;</div>
+                    </div>
+                    <span id="complexity_0" class="complexity">&nbsp;</span>
+                  </div>
+                </div>
+                <div class="form_field">
+                  <div class="form_field_label"><label>Confirme Contraseña:</label></div>
+                  <div class="form_field_value">
+                    <input type='password' class="input_text" title='Confirmacion de contraseña' name='pwd2_modificacion' value='' size='15'>
+                  </div>
+                </div>
+                <div class="form_field">
+                  <div class="form_field_label"><label>Obligar al usuario a actualizar la contraseña:</label></div>
+                  <div class="form_field_value"><input type='checkbox' title='Forzar passCaducado' name='pc' value='' checked></div>
+                </div>
+                <div class="form_field">
+                  <div class="form_field_label"><label>Usuario Windows:</label></div>
+                  <div class="form_field_value"><input type='checkbox' title='Usuario windows' name='uw' value='' ></div>
+                </div>
+                <h3>NORMAS PARA EL CAMBIO DE CONTRASEÑA:</h3>
+<ul>
+	<li>Debe incluir un mínimo de 12 caracteres.</li>
+	<li>Debe incluir al menos un dígito (0 - 9).</li>
+	<li>Debe tener al menos un carácter de letras mayúsculas o minúsculas (Excepto la ñ y las letras acentuadas).</li>
+	<li>No puede contener el <em>usuario</em>, ni el <em>nombre</em>, ni el <em>primer apellido</em>, ni los caracteres especiales '@' y '"'.</li>
+	<li>Debe incluir al menos uno de los siguientes símbolos: !#$%&'()*+,-./:;&lt;=&gt;?[\]^_`{|}~</li>
+</ul> <div class="botones" id="botones_internos_cambia_password">
+                <a class="button" name="ACTUALIZAR_0" title="Actualizar" id="ACTUALIZAR_0" href="javascript:validaPantallaCambioPassword('0','1');">ACTUALIZAR</a>
+              </div>
+            </div>
+            </div>
       <!-- *************************************************************************** -->
     <!-- *                                                                         * -->
     <!-- *            E      X      T      E     R      N      O      S            * -->
