@@ -4,7 +4,7 @@ param([switch]$WhatIf)
 # LAZYDIRECTORY - Terminal Directorio Correo
 # ============================================================
 
-$script:VERSION = "1.0"
+$script:VERSION = "1.1"
 $script:SCRIPT_DIR = if ($PSScriptRoot) { $PSScriptRoot } else { (Get-Location).Path }
 $script:LOG_FILE = Join-Path $script:SCRIPT_DIR "lazydirectory.log"
 $script:DEBUG_DIR = Join-Path $script:SCRIPT_DIR "debug"
@@ -154,22 +154,25 @@ function Extract-FormFields {
     return $fields
 }
 
+$script:cachedCreds = $null
+
 function Connect-Directorio {
     param([string]$Branch = "jus")
 
     $script:ramaLdap = $Branch
     $script:isInterno = ($Branch -eq "ius")
 
-    $creds = Get-Credentials
-    if (-not $creds) { $creds = Get-CredentialsInteractive }
-    $adminUser = $creds.User
-    $adminPass = $creds.Pass
+    if (-not $script:cachedCreds) {
+        $script:cachedCreds = Get-Credentials
+        if (-not $script:cachedCreds) { $script:cachedCreds = Get-CredentialsInteractive }
+    }
+    $adminUser = $script:cachedCreds.User
+    $adminPass = $script:cachedCreds.Pass
 
     Write-Log "Paso 1/4: Obteniendo token de login..." "INFO"
     $r = Invoke-WebRequest -Uri "$script:BASE.LoginInicial" -UseBasicParsing -SessionVariable script:webSession
     $script:token = Extract-Token $r.Content
     if (-not $script:token) { throw "No se pudo extraer token de login" }
-    Write-Log "Token obtenido" "OK"
 
     Write-Log "Paso 2/4: Iniciando sesion como $adminUser..." "INFO"
     $body = @{
@@ -182,7 +185,6 @@ function Connect-Directorio {
         if ($r.Content -match 'error|Error|incorrecto|incorrecta') { throw "Credenciales incorrectas" }
         $script:token = Extract-Token ($r.Content -replace '\\n', '')
     }
-    Write-Log "Sesion iniciada" "OK"
 
     Write-Log "Paso 3/4: Seleccionando modo administrador..." "INFO"
     $body = @{
@@ -194,7 +196,6 @@ function Connect-Directorio {
     $r = Invoke-WebRequest -Uri "$script:BASE.LoginUsuario" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
     $script:token = Extract-Token $r.Content
     if (-not $script:token) { throw "No se pudo extraer token tras modo admin" }
-    Write-Log "Modo admin seleccionado" "OK"
 
     Write-Log "Paso 4/4: Seleccionando rama LDAP ($Branch)..." "INFO"
     $body = @{
@@ -206,29 +207,35 @@ function Connect-Directorio {
     $r = Invoke-WebRequest -Uri "$script:BASE.LoginUsuario" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
     $script:token = Extract-Token $r.Content
     if (-not $script:token) { throw "No se pudo extraer token tras seleccionar rama" }
-    Write-Log "Rama $Branch seleccionada" "OK"
 
     $script:authenticated = $true
-    Write-Log "Directorio conectado (rama: $Branch)" "OK"
+    Write-Log ("Directorio conectado: " + $Branch) "OK"
 }
 
 # ============================================================
 # SEARCH
 # ============================================================
 
-function Search-User {
-    param([string]$Query = "", [string]$SearchField = "identificador", [string]$SearchType = "empezando", [string]$Branch = "")
-
-    if ($Branch) {
-        $esInt = ($Branch -eq "ius")
-    } else {
-        $esInt = $script:isInterno
+function Ensure-Branch {
+    param([string]$Query)
+    $targetBranch = if ($Query -match '\.ius') { 'ius' } else { 'jus' }
+    if ($targetBranch -ne $script:ramaLdap) {
+        Write-Log "Cambiando a rama $targetBranch..." "INFO"
+        Connect-Directorio -Branch $targetBranch
     }
+    return $targetBranch
+}
 
-    Write-Log "Buscando '$Query' por '$SearchField'..." "INFO"
+function Search-User {
+    param([string]$Query = "", [string]$SearchField = "identificador", [string]$SearchType = "empezando")
+
+    $branch = Ensure-Branch $Query
+    $esInt = ($branch -eq "ius")
+
+    Write-Log "Buscando '$Query' por '$SearchField' en $branch..." "INFO"
+
     $r = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession
     $script:token = Extract-Token $r.Content
-    Write-Log ("Token UsuariosMain: " + $script:token) "INFO"
     if (-not $script:token) { throw "No se pudo extraer token de UsuariosMain" }
 
     $body = @{
@@ -245,13 +252,7 @@ function Search-User {
     if ($esInt) { $body['seleccionarInternos'] = 'on' }
     else { $body['seleccionarSirhus'] = 'on' }
 
-    # Log search body for debug
-    $bodyStr = ($body.GetEnumerator() | ForEach-Object { "$($_.Key)=$($_.Value)" }) -join '&'
-    Write-Log ("POST body: " + $bodyStr.Substring(0, [Math]::Min(200, $bodyStr.Length))) "INFO"
-
     $r = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
-    # Token despues de busqueda puede no existir si no hay resultados
-    $script:token = Extract-Token $r.Content
     $html = $r.Content
     $script:lastRawHtml = $html
 
@@ -259,96 +260,47 @@ function Search-User {
 
     $debugFile = Join-Path $script:DEBUG_DIR ("search_" + $Query.Replace('.','_') + ".html")
     $html | Out-File -FilePath $debugFile -Encoding UTF8
-    Write-Log ("HTML guardado en " + $debugFile) "INFO"
 
     $users = @()
 
-    # Strategy 1: find all hidden inputs with name="dn"
-    $dnInputs = [regex]::Matches($html, 'name="dn"\s*value="([^"]+)"')
-    Write-Log ("name=dn encontrados: " + $dnInputs.Count) "INFO"
-
-    if ($dnInputs.Count -gt 0) {
-        for ($i = 0; $i -lt $dnInputs.Count; $i++) {
-            $dn = $dnInputs[$i].Groups[1].Value
-            $uid = ''
-            $ui = [regex]::Match($dn, 'uid=([^,]+)')
-            if ($ui.Success) { $uid = $ui.Groups[1].Value }
-            $users += @{ dn = $dn; uid = $uid; nombre = ''; apellidos = ''; email = ''; desc = ''; branch = $Branch }
-        }
+    # Exact hit — server returned modify form with name="dn"
+    $dnMatch = [regex]::Match($html, 'name="dn"\s*value="([^"]+)"')
+    if ($dnMatch.Success) {
+        $dn = $dnMatch.Groups[1].Value
+        $uid = ''
+        $u = [regex]::Match($dn, 'uid=([^,]+)')
+        if ($u.Success) { $uid = $u.Groups[1].Value }
+        $fields = Extract-FormFields $html
+        $users += @{ dn = $dn; uid = $uid; nombre = $fields['cn']; apellidos = $fields['sn']; email = $fields['mail']; desc = $fields['description']; branch = $branch; fields = $fields }
+        $script:lastProfileFields = $fields
+        Write-Log ("Encontrado: " + $uid) "OK"
+        $script:lastResultData = $users
+        return $users
     }
 
-    # Strategy 1b: find all uid= patterns not in Strategy 1
-    if ($users.Count -eq 0) {
-        $allUids = [regex]::Matches($html, 'uid=([^,<&"\s''"]+)')
-        $seenUids = @{}
-        foreach ($m in $allUids) {
-            $uidVal = $m.Groups[1].Value
-            if (-not $seenUids.ContainsKey($uidVal) -and $uidVal -ne '') {
-                $seenUids[$uidVal] = $true
-                $users += @{ dn = "uid=$uidVal,o=$Branch,o=empleados,o=juntadeandalucia,c=es"; uid = $uidVal; nombre = ''; apellidos = ''; email = ''; desc = ''; branch = $Branch }
-            }
-        }
-        Write-Log ("uids encontrados en HTML: " + $seenUids.Count) "INFO"
+    # Partial — extract every uid= from HTML, skip system accounts
+    $systemUids = @('just9.sandetel.ext', 'sadesi', 'admin', 'just9', 'sirhus', 'externo', 'interno')
+    $allUids = [regex]::Matches($html, 'uid=([a-zA-Z0-9._-]+)')
+    $seen = @{}
+    foreach ($m in $allUids) {
+        $uid = $m.Groups[1].Value.ToLower()
+        if ($seen.ContainsKey($uid)) { continue }
+        if ($systemUids -contains $uid) { continue }
+        if ($uid -match '^\d+$') { continue }
+        $seen[$uid] = $true
+        $users += @{ dn = "uid=$uid,o=$branch,o=empleados,o=juntadeandalucia,c=es"; uid = $uid; nombre = ''; apellidos = ''; email = ''; desc = ''; branch = $branch }
     }
+    Write-Log ("uids encontrados en HTML: " + $seen.Count) "INFO"
 
-    # Strategy 2: parse table rows for display info
-    if ($users.Count -gt 0) {
-        $rowMatches = [regex]::Matches($html, '(?s)<tr[^>]*>(.*?)</tr>')
-        foreach ($rm in $rowMatches) {
-            $rowHtml = $rm.Groups[1].Value
-            $cells = [regex]::Matches($rowHtml, '<td[^>]*>(.*?)</td>')
-            if ($cells.Count -lt 2) { continue }
-
-            $cellVals = @()
-            foreach ($c in $cells) {
-                $v = $c.Groups[1].Value -replace '<[^>]+>', '' -replace '&nbsp;', ' ' -replace '\s+', ' '
-                $cellVals += $v.Trim()
-            }
-
-            # Try to match this row to one of our users
-            $rowUid = ''
-            $uiM = [regex]::Match($rowHtml, 'uid=([^,]+)')
-            if ($uiM.Success) { $rowUid = $uiM.Groups[1].Value }
-
-            for ($j = 0; $j -lt $users.Count; $j++) {
-                $match = $false
-                if ($rowUid -and $users[$j].uid -eq $rowUid) { $match = $true }
-                if (-not $match -and $cellVals[0] -and $users[$j].uid -eq $cellVals[0]) { $match = $true }
-                if ($match) {
-                    if (-not $users[$j].nombre -and $cellVals.Count -gt 0) { $users[$j].nombre = $cellVals[0] }
-                    if (-not $users[$j].apellidos -and $cellVals.Count -gt 1) { $users[$j].apellidos = $cellVals[1] }
-                    if (-not $users[$j].email -and $cellVals.Count -gt 2) { $users[$j].email = $cellVals[2] }
-                    if (-not $users[$j].desc -and $cellVals.Count -gt 3) { $users[$j].desc = $cellVals[3] }
-                    break
-                }
-            }
-        }
-    }
-
-    # Strategy 3: single user modify form
-    if ($users.Count -eq 0) {
-        $dnMatch = [regex]::Match($html, 'name="dn"\s*value="([^"]+)"')
-        if ($dnMatch.Success) {
-            $dn = $dnMatch.Groups[1].Value
-            $uid = ''
-            $u = [regex]::Match($dn, 'uid=([^,]+)')
-            if ($u.Success) { $uid = $u.Groups[1].Value }
-            $fields = Extract-FormFields $html
-            $users += @{ dn = $dn; uid = $uid; nombre = $fields['cn']; apellidos = $fields['sn']; email = $fields['mail']; desc = $fields['description']; branch = $Branch; fields = $fields }
-            $script:lastProfileFields = $fields
-            Write-Log ("Unico usuario: " + $uid) "OK"
-        }
-    }
-
-    Write-Log ("Usuarios encontrados: " + $users.Count) "INFO"
+    Write-Log ("Usuarios: " + $users.Count) "INFO"
     $script:lastResultData = $users
     return $users
 }
 
 function Get-UserProfile {
-    param([string]$UID, [string]$Branch = "")
+    param([string]$UID)
 
-    if (-not $Branch) { $Branch = $script:ramaLdap }
+    $Branch = Ensure-Branch $UID
     $esInt = ($Branch -eq "ius")
 
     Write-Log "Cargando perfil de $UID..." "INFO"
@@ -385,9 +337,10 @@ function Get-UserProfile {
 # ============================================================
 
 function Set-UserPassword {
-    param([string]$DN, [string]$UID, [string]$TargetUser, [string]$NewPassword, [string]$Branch = "", [switch]$WhatIf)
+    param([string]$DN, [string]$UID, [string]$TargetUser, [string]$NewPassword, [switch]$WhatIf)
 
-    if (-not $Branch) { $Branch = $script:ramaLdap }
+    $searchId = if ($UID) { $UID } else { $TargetUser }
+    $Branch = Ensure-Branch $searchId
     $esInt = ($Branch -eq "ius")
 
     Write-Log "Obteniendo token para cambio de contrasena..." "INFO"
@@ -500,26 +453,20 @@ function screen-connect {
     header
     panel "CONEXION AL DIRECTORIO" {
         Write-Host "|"
-        Write-Host "|  Selecciona la rama LDAP:" -ForegroundColor White
+        Write-Host "|  Conectando como administrador..." -ForegroundColor White
         Write-Host "|"
-        Write-Host "|  1. SIRHUS (jus) - Usuarios externos/Justicia" -ForegroundColor Cyan
-        Write-Host "|  2. Internos (ius) - Usuarios .ius" -ForegroundColor Cyan
-        Write-Host "|"
-        Write-Host "|  0. Volver" -ForegroundColor Red
+        Write-Host "|  La rama LDAP se detectara automaticamente" -ForegroundColor Cyan
+        Write-Host "|  al buscar un usuario:" -ForegroundColor Cyan
+        Write-Host "|  - usuario.ius   -> Internos (ius)" -ForegroundColor Cyan
+        Write-Host "|  - usuario       -> Sirhus (jus)" -ForegroundColor Cyan
         Write-Host "|"
     }
-    footer @("1-2 rama", "0 volver")
+    footer @("Enter conectar", "0 volver")
     Write-Host ""
-    $opt = prompt "Rama LDAP: " "1"
-    switch ($opt) {
-        "1" { $branch = "jus" }
-        "2" { $branch = "ius" }
-        default { return }
-    }
 
     try {
-        Connect-Directorio -Branch $branch
-        Write-Log "Conectado al Directorio (rama: $branch)" "OK"
+        Connect-Directorio -Branch "jus"
+        Write-Log "Conectado (rama por defecto: jus)" "OK"
     } catch {
         Write-Log ("Error: " + $_.Exception.Message) "ERROR"
     }
@@ -573,7 +520,7 @@ function screen-search {
     if (-not $query) { return $null }
 
     Write-Log "Buscando..." "INFO"
-    $users = Search-User -Query $query -SearchField $searchField -SearchType $searchType -Branch $script:ramaLdap
+    $users = Search-User -Query $query -SearchField $searchField -SearchType $searchType
 
     if ($users.Count -eq 0) {
         Write-Log "No se encontraron usuarios" "WARN"
@@ -586,7 +533,7 @@ function screen-search {
         $profileId = if ($u.uid) { $u.uid } else { $u.nombre }
         if (-not $profileId) { $profileId = $Query }
         Write-Log "Cargando perfil de $profileId..." "INFO"
-        Get-UserProfile -UID $profileId -Branch $script:ramaLdap
+        Get-UserProfile -UID $profileId
         screen-profile
     }
     return $null
@@ -759,10 +706,10 @@ function screen-password {
 
     try {
         if ($confirm -eq 's' -or $confirm -eq 'S') {
-            Set-UserPassword -DN $targetDn -UID $targetUser -TargetUser $targetUser -NewPassword $pass -Branch $script:ramaLdap
+            Set-UserPassword -DN $targetDn -UID $targetUser -TargetUser $targetUser -NewPassword $pass
             Write-Log "Contrasena cambiada exitosamente" "OK"
         } elseif ($confirm -eq 'w' -or $confirm -eq 'W') {
-            Set-UserPassword -DN $targetDn -UID $targetUser -TargetUser $targetUser -NewPassword $pass -Branch $script:ramaLdap -WhatIf
+            Set-UserPassword -DN $targetDn -UID $targetUser -TargetUser $targetUser -NewPassword $pass -WhatIf
             Write-Log "Simulacion completada" "OK"
         }
     } catch { Write-Log ("Error: " + $_.Exception.Message) "ERROR" }
@@ -772,12 +719,12 @@ function screen-password {
 function screen-quick-search {
     param([string]$Query)
     Write-Log "Buscando $Query..." "INFO"
-    $users = Search-User -Query $Query -SearchField "identificador" -Branch $script:ramaLdap
+    $users = Search-User -Query $Query -SearchField "identificador"
     if ($users.Count -eq 0) { Write-Log "No encontrado" "WARN"; pause; return }
     if ($users.Count -eq 1) {
         $u = $users[0]
         $profileId = if ($u.uid) { $u.uid } else { $Query }
-        Get-UserProfile -UID $profileId -Branch $script:ramaLdap
+        Get-UserProfile -UID $profileId
         screen-profile
         return
     }
@@ -786,7 +733,7 @@ function screen-quick-search {
         $u = $users[$sel]
         $profileId = if ($u.uid) { $u.uid } else { $u.nombre }
         if (-not $profileId) { $profileId = $Query }
-        Get-UserProfile -UID $profileId -Branch $script:ramaLdap
+        Get-UserProfile -UID $profileId
         screen-profile
     }
 }
@@ -799,16 +746,22 @@ try {
     $running = $true
     while ($running) {
         $opt = screen-main
+        if (-not $script:authenticated -and $opt -ne "1" -and $opt -ne "0" -and $opt -ne "q") {
+            Write-Log "Conectando automaticamente..." "INFO"
+            try { Connect-Directorio -Branch "jus" } catch {
+                Write-Log ("Error de conexion: " + $_.Exception.Message) "ERROR"
+                pause; continue
+            }
+        }
         switch -Wildcard ($opt) {
             "1" { screen-connect }
-            "2" { if (-not $script:authenticated) { Write-Log "Conecta primero" "WARN"; pause; continue }; screen-search }
-            "3" { if (-not $script:authenticated) { Write-Log "Conecta primero" "WARN"; pause; continue }; if (-not $script:lastProfileFields) { Write-Log "Busca un usuario primero" "WARN"; pause; continue }; screen-profile }
-            "4" { if (-not $script:authenticated) { Write-Log "Conecta primero" "WARN"; pause; continue }; if (-not $script:lastProfileFields) { Write-Log "Busca un usuario primero" "WARN"; pause; continue }; screen-password }
+            "2" { screen-search }
+            "3" { if (-not $script:lastProfileFields) { Write-Log "Busca un usuario primero" "WARN"; pause; continue }; screen-profile }
+            "4" { if (-not $script:lastProfileFields) { Write-Log "Busca un usuario primero" "WARN"; pause; continue }; screen-password }
             "0" { $running = $false }
             "q" { $running = $false }
             default {
                 if ($opt -match '^s\s+(.+)') {
-                    if (-not $script:authenticated) { Write-Log "Conecta primero" "WARN"; pause; continue }
                     screen-quick-search $Matches[1]
                 } else {
                     Write-Log "Opcion no valida" "WARN"; pause

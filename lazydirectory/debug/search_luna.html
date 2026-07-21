@@ -1,0 +1,253 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="es" >
+<head>
+  <title>Usuarios</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <link rel="stylesheet" href="/css/admdir.css" type="text/css">
+  <link rel="stylesheet" href="/css/pwdmeter.css" type="text/css">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <style  type="text/css"></style>
+  <script language="javascript" src="/scripts/usuarios.js" type="text/javascript"></script>
+  <script language="javascript" src="/scripts/pwdmeter.js" type="text/javascript"></script>
+</head>
+<body onLoad="javascript:ocultaCortinilla();muevePosicion('');">
+<form id="formulario"  method="post" action="es.sadesi.admdirectorio.servlets.UsuariosMain">
+<input type="hidden" name="accion" value="consulta">
+<input type="hidden" name="botonPulsado" value="">
+<input type="hidden" name="datoAuxiliar" value="" >
+<input type="hidden" name="tokenParametro" value="959a516a-d2e5-4c09-82dc-70e5cec8df75">
+<header>
+  <div id="header_topbar">
+    <div class="inside">
+      <div class="logo"><img src="/img/logo_ja.png"></div>
+      <nav aria-label="navegacion principal" class="top_menu">
+        <ul class="top_menu_options">
+          <li id="appbar_button">
+            <a href="#"><span class="material-symbols-outlined">apps</span></a>
+            <ul id="appbar_dropdown">
+              <li>
+                <a href="https://correo.juntadeandalucia.es/" target="_blank">
+                  <img src="/img/icon-appbar-4-webmail.png" alt="Acceso a Webmail">
+                </a>
+              </li>
+              <li>
+                <a href="https://consigna.juntadeandalucia.es/" target="_blank">
+                  <img src="/img/icon-appbar-4-consigna.png" alt="Acceso a Consigna">
+                </a>
+              </li>
+              <li>
+                <a href="https://redprofesional.juntadeandalucia.es/" target="_blank">
+                  <img src="/img/icon-appbar-4-red-profesional.png" alt="Acceso a Red Profesional">
+                </a>
+              </li>
+              <li>
+                <a href="https://ficheros.juntadeandalucia.es/" target="_blank">
+                  <img src="/img//icon-appbar-ficheros.png" alt="Ficheros Junta">
+                </a>
+              </li>
+              <li>
+                <a href="https://reservas.juntadeandalucia.es/" target="_blank">
+                  <img src="/img/icon-appbar-reservas_b.png" alt="Reserva de Recursos">
+                </a>
+              </li>
+              <li>
+                <a href="https://micuenta.juntadeandalucia.es/" target="_blank">
+                  <img src="/img/icon-appbar-4-micuenta.png" alt="Mi Cuenta">
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li id="close_button">
+            <a href="#">
+              <span id="user_name_in_menu">&nbsp;just9.sandetel.ext - jus</span>
+              <span class="material-symbols-outlined">keyboard_arrow_down</span>
+            </a>
+            <ul id="close_dropdown">
+              <li>
+                <a href="/logout.jsp">
+                  <span class="material-symbols-outlined">cancel</span>&nbsp;Cerrar sesión</a>                
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="https://ayuda-productividad.juntadeandalucia.es/aplicaciones/admdir/" target="_blank">
+              <span class="material-symbols-outlined icon_menu dis_margin_mobile">help</span><span class="hid_mobile">Ayuda</span></a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+      
+  </div>
+  
+  <div id="header_menubar">
+    <div class="inside">
+      <div class="admdir_logo">
+        <a href="https://directorio.juntadeandalucia.es/"><img src="/img/admdir_logo.png"></a>
+      </div>
+      <nav aria-label="navegacion" class="main_menu">
+        <ul class="main_menu_options">
+          <li>
+              <a href="/myServlets/es.sadesi.admdirectorio.servlets.AdministradorMain">
+                <span class="material-symbols-outlined icon_menu">home</span>
+                <span class="hid_mobile hid_tablet">Inicio</span></a>
+            </li>
+            <li>
+              <a href="/myServlets/es.sadesi.admdirectorio.servlets.UsuariosMain">
+                <span class="material-symbols-outlined icon_menu">group</span>
+                <span class="hid_mobile hid_tablet">Usuarios</span></a>
+            </li>
+            <li>
+              <a href="/myServlets/es.sadesi.admdirectorio.servlets.ListasMain">
+                <span class="material-symbols-outlined icon_menu">library_books</span>
+                <span class="hid_mobile hid_tablet">Listas</span></a>
+            </li>
+            <li id="submenu_sirhus_button">
+                <a href="#">
+                  <span class="material-symbols-outlined icon_menu">accessibility</span>
+                  <span class="hid_mobile hid_tablet">Sirhus</span></a>                
+                <ul id="submenu_sirhus">
+                  <li><a href="/myServlets/es.sadesi.admdirectorio.servlets.SirhusAltas">Altas</a></li>
+                  <li><a href="/myServlets/es.sadesi.admdirectorio.servlets.SirhusBajas">Bajas</a></li>
+                  <li><a href="/myServlets/es.sadesi.admdirectorio.servlets.SirhusTraslados">Traslados</a></li>
+                </ul>
+              </li>
+            <li id="submenu_recursos_button">
+              <a href="#">
+                <span class="material-symbols-outlined icon_menu">apartment</span>
+                <span class="hid_mobile hid_tablet">Recursos</span></a>
+                <ul id="submenu_recursos">
+                  <li><a href="/myServlets/es.sadesi.admdirectorio.servlets.RecursosAdmDelegado"   >Adm. Delegados</a></li>
+                  <li><a href="/myServlets/es.sadesi.admdirectorio.servlets.RecursosEdificios "    >Edificios</a></li>
+                  <li><a href="/myServlets/es.sadesi.admdirectorio.servlets.RecursosNodos"         >Nodos</a></li>
+                  <li><a href="/myServlets/es.sadesi.admdirectorio.servlets.RecursosPuestosTrabajo">Puestos de Trabajo</a></li>
+                  <li><a href="/myServlets/es.sadesi.admdirectorio.servlets.RecursosProveedores"   >Proveedores</a></li>
+                  <li><a href="/myServlets/es.sadesi.admdirectorio.servlets.RecursosServicios"     >Servicios</a></li>
+                  <li><a href="/myServlets/es.sadesi.admdirectorio.servlets.RecursosZtna"          >Ztna</a></li>
+                </ul>
+            </li>
+            <li>
+              <a href="/myServlets/es.sadesi.admdirectorio.servlets.FiltrosMain">
+                <span class="material-symbols-outlined icon_menu">filter_alt</span>
+                <span class="hid_mobile hid_tablet">Filtros</span></a>
+            </li>
+            </ul>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<div class="cabecera_cortinilla" id="cabecera_cortinilla">
+  Cargando página... Por favor, espere...
+</div>
+
+<main>
+  <nav aria-label="Migas de pan" class="miga_contenedor">
+    <a href="/myServlets/es.sadesi.admdirectorio.servlets.UsuariosMain">Usuarios</a>&nbsp;>&nbsp;
+    <span>Buscador</span>
+  </nav>
+  <div class="inside">
+    <div id="vista_datos"> 
+      <div id="datos_usuario" class="card">
+        <div class="card_header">
+          <div class="card_header_title">
+            <h1>Usuarios</h1>
+          </div>
+        </div>
+
+        <!-- *************************************** -->
+        <!-- *      S   U   B   M   E   N   U      * -->
+        <!-- *************************************** -->
+        <div id="submenu" class="submenu">
+          <ul>
+            <li class="activo submenu_usuarios">
+                <a href="javascript:inicializaTiposUsuario('consulta','','');">
+                  <span class="material-symbols-outlined icon_menu">search</span>
+                  <span class="hid_mobile hid_tablet">Buscador</span>
+                </a>
+              </li>
+              <li class="submenu_usuarios">
+                <a href="javascript:enviar('nuevo','pantalla1','');">
+                  <span class="material-symbols-outlined icon_menu">person_add</span>
+                  <span class="hid_mobile hid_tablet">Nuevo Usuario</span>
+                </a>
+              </li>
+              <li class="submenu_usuarios">
+                <a href="javascript:enviar('altasMasivas','pantalla1','');">
+                  <span class="material-symbols-outlined icon_menu">groups</span>
+                  <span class="hid_mobile hid_tablet">Operaciones Masivas</span>
+                </a>
+              </li>
+              <li class="submenu_usuarios">
+                <a href="javascript:enviar('consultaEstado','pantalla1','')">
+                  <span class="material-symbols-outlined icon_menu">find_in_page</span>
+                  <span class="hid_mobile hid_tablet">Consulta Estado Sirhus</span>
+                </a>
+              </li>
+              <li class="submenu_usuarios">
+                <a href="javascript:inicializaTiposUsuario('listados','pantalla1','');">
+                  <span class="material-symbols-outlined icon_menu">list_alt</span>
+                  <span class="hid_mobile hid_tablet">Listados de Usuarios</span>
+                </a>
+              </li>
+            </ul>
+        </div>
+
+        <!-- ******************************************* -->
+        <!-- *      B   U   S   C   A   D   O   R      * -->
+        <!-- ******************************************* -->
+        <div class="buscador">
+          <!-- ************************************* -->
+          <!-- *   F I L T R O   B U S Q U E D A   * -->
+          <!-- ************************************* -->
+          </div>
+
+        <div class="resultados_busqueda">
+          <!-- ************************************************************** -->
+    <!-- *                                                            * -->
+    <!-- *            S      I      R      H     U      S             * -->
+    <!-- *                                                            * -->
+    <!-- ************************************************************** -->
+    <h2>USUARIOS DE SIRHUS</h2>
+      <p>No existe ningún usuario de este tipo con los criterios de búsqueda seleccionados en su organismo.</p>
+      <!-- *************************************************************************** -->
+    <!-- *                                                                         * -->
+    <!-- *            I      N      T      E     R      N      O      S            * -->
+    <!-- *                                                                         * -->
+    <!-- *************************************************************************** -->
+    <!-- *************************************************************************** -->
+    <!-- *                                                                         * -->
+    <!-- *            E      X      T      E     R      N      O      S            * -->
+    <!-- *                                                                         * -->
+    <!-- *************************************************************************** -->
+    <!-- ********************************************************************************** -->
+    <!-- *                                                                                * -->
+    <!-- *            G      E      N      E     R      I      C      O      S            * -->
+    <!-- *                                                                                * -->
+    <!-- ********************************************************************************** -->
+    <!-- *************************************************************************** -->
+    <!-- *                                                                         * -->
+    <!-- *            S      I      N            T      I      P      O            * -->
+    <!-- *                                                                         * -->
+    <!-- *************************************************************************** -->
+    </div>
+      </div>
+    </div>
+  </div>
+</main>
+<footer>
+  <div class="inside">
+    <ul>
+      <li><span class="server">© Junta de Andalucía 2026</span></li>
+    </ul>
+  </div>
+</footer>
+</form>
+<script type="text/javascript" src="/scripts/jquery.min.js"></script>
+<script type="text/javascript" src="/scripts/jquery-migrate.min.js"></script>
+<script type="text/javascript" src="/scripts/back-to-top.js"></script>
+
+</body>
+</html>
+
