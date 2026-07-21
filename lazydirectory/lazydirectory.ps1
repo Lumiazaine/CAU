@@ -154,6 +154,33 @@ function Extract-FormFields {
     return $fields
 }
 
+function Extract-DisplayData {
+    param([string]$Html)
+    $data = @{}
+    $labelMap = @{
+        'Nombre:' = 'cn'; 'Identificador:' = 'uid'; 'Correo electr.nico:' = 'mail'
+        'Descripci.n:' = 'description'; 'Apellido1:' = 'sn'; 'Apellido2:' = 'empleadoApellido2_sa'
+        'Tel.fono:' = 'telephoneNumber'; 'M.vil:' = 'mobile'; 'Fax:' = 'facsimileTelephoneNumber'
+        'Direcci.n:' = 'postalAddress'; 'C.P.:' = 'postalCode'; 'Ciudad:' = 'l'
+        'Provincia:' = 'st'; 'Cargo:' = 'title'; 'Depto:' = 'departmentNumber'
+        'Organismo:' = 'o'; 'C.entro Gestor:' = 'centroGestor'; 'C.entro Destino:' = 'centroDestino'
+        'Edificio:' = 'edificio'; 'Servicio:' = 'servicio'; 'Puesto:' = 'puestoTrabajo'
+        'UID Number:' = 'uidNumber'; 'GID Number:' = 'gidNumber'
+        'Home Directory:' = 'homeDirectory'; 'Login Shell:' = 'loginShell'
+        'Tipo de usuario:' = 'tipoUsuario'; '.ltimo cambio de contrase.a:' = 'ultimoCambioPassword'
+    }
+    foreach ($label in $labelMap.Keys) {
+        $pattern = [regex]::Escape($label) + '\s*(.*?)(?=<br|<BR|</td|</div|<input|<select|<textarea|$)'
+        $m = [regex]::Match($Html, $pattern)
+        if ($m.Success) {
+            $val = $m.Groups[1].Value -replace '<[^>]+>', '' -replace '&nbsp;', ' ' -replace '&amp;', '&' -replace '&lt;', '<' -replace '&gt;', '>' -replace '\s+', ' '
+            $val = $val.Trim()
+            if ($val) { $data[$labelMap[$label]] = $val }
+        }
+    }
+    return $data
+}
+
 $script:cachedCreds = $null
 
 function Connect-Directorio {
@@ -271,6 +298,12 @@ function Search-User {
         $u = [regex]::Match($dn, 'uid=([^,]+)')
         if ($u.Success) { $uid = $u.Groups[1].Value }
         $fields = Extract-FormFields $html
+        $display = Extract-DisplayData $html
+        foreach ($kv in $display.GetEnumerator()) {
+            if (-not $fields.ContainsKey($kv.Key) -or [string]::IsNullOrEmpty($fields[$kv.Key])) {
+                $fields[$kv.Key] = $kv.Value
+            }
+        }
         $users += @{ dn = $dn; uid = $uid; nombre = $fields['cn']; apellidos = $fields['sn']; email = $fields['mail']; desc = $fields['description']; branch = $branch; fields = $fields }
         $script:lastProfileFields = $fields
         Write-Log ("Encontrado: " + $uid) "OK"
@@ -326,7 +359,32 @@ function Get-UserProfile {
     $r = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
     $script:token = Extract-Token $r.Content
 
-    $fields = Extract-FormFields $r.Content
+    $html = $r.Content
+    $debugFile = Join-Path $script:DEBUG_DIR ("profile_" + $UID.Replace('.','_') + ".html")
+    $html | Out-File -FilePath $debugFile -Encoding UTF8
+    Write-Log ("HTML guardado en " + $debugFile) "INFO"
+
+    $fields = Extract-FormFields $html
+
+    # _modificacion suffix (Directorio modify form naming convention)
+    $allInputs = [regex]::Matches($html, 'name="([^"]*)"\s*value="([^"]*)"')
+    foreach ($m in $allInputs) {
+        $n = $m.Groups[1].Value; $v = $m.Groups[2].Value
+        if (-not $fields.ContainsKey($n)) { $fields[$n] = $v }
+        if ($n -match '^(.+)_modificacion$') {
+            $base = $Matches[1]
+            if (-not $fields.ContainsKey($base)) { $fields[$base] = $v }
+        }
+    }
+
+    # Display data as fallback
+    $display = Extract-DisplayData $html
+    foreach ($kv in $display.GetEnumerator()) {
+        if (-not $fields.ContainsKey($kv.Key) -or [string]::IsNullOrEmpty($fields[$kv.Key])) {
+            $fields[$kv.Key] = $kv.Value
+        }
+    }
+
     $script:lastProfileFields = $fields
     Write-Log ("Campos extraidos: " + $fields.Count) "OK"
     return $fields
@@ -527,6 +585,11 @@ function screen-search {
         pause; return $null
     }
 
+    if ($users.Count -eq 1 -and $users[0].fields) {
+        $script:lastProfileFields = $users[0].fields
+        screen-profile; return $null
+    }
+
     $sel = screen-results -Users $users -Title "RESULTADOS"
     if ($sel -ge 0) {
         $u = $users[$sel]
@@ -626,6 +689,8 @@ function screen-profile {
     row "GID Number"  $f['gidNumber']
     row "Home Dir"    $f['homeDirectory']
     row "Login Shell" $f['loginShell']
+    row "Tipo User"   $(if ($f['tipoUsuario']) { $f['tipoUsuario'] } else { $f['employeeType'] })
+    row "Ultimo Pass" $f['ultimoCambioPassword']
     row "Cuota Buzon" $f['cuotaBuzonMax']
     row "Cuota FJ"    $f['cuotaFJMax']
     if ($f['buzonExternosDeshabilitado']) { row "Buzon Ext" $f['buzonExternosDeshabilitado'] }
