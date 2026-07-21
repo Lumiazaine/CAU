@@ -29,6 +29,11 @@ Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine  # si fall
 .\CAU_GUI_Refactored.ahk
 .\compilar.bat                                   # compilar a EXE con Ahk2Exe
 
+# lazydirectory (menú desde v1.1)
+.\lazydirectory\lazydirectory.ps1                # auto-conecta al inicio, sin opción conectar
+# Menú: 1=Buscar, 2=Perfil, 3=Password, 0=Salir, s <uid>=búsqueda rápida
+# Desde perfil: 1=Password, 2=Campos raw, 3=HTML debug, 4=Editar datos
+
 # Scripts CAUJUS
 .\CAUJUS.ps1                                     # PowerShell (recomendado)
 .\CAUJUS.ps1 -LogLevel Debug                     # logging detallado
