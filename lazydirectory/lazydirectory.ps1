@@ -810,11 +810,12 @@ function screen-profile {
 function Parse-SelectOptions {
     param([string]$Html, [string]$SelectName)
     $result = @()
-    $m = [regex]::Match($Html, '(?s)<select[^>]*name="' + [regex]::Escape($SelectName) + '"[^>]*>(.*?)</select>')
+    $esc = [regex]::Escape($SelectName)
+    $m = [regex]::Match($Html, '(?s)<select[^>]*?\bname\s*=\s*["'']' + $esc + '["''][^>]*?>(.*?)</select>')
     if (-not $m.Success) { return $result }
-    [regex]::Matches($m.Groups[1].Value, '<option[^>]*(value="([^"]*)")?[^>]*>(.*?)</option>') | ForEach-Object {
-        $v = if ($_.Groups[2].Success) { $_.Groups[2].Value } else { '' }
-        $t = $_.Groups[3].Value -replace '<[^>]+>', '' -replace '&nbsp;', ' ' -replace '&amp;', '&'
+    [regex]::Matches($m.Groups[1].Value, '<option[^>]*?(?:\bvalue\s*=\s*["'']([^"'']*?)["''])?[^>]*?>(.*?)</option>') | ForEach-Object {
+        $v = if ($_.Groups[1].Success) { $_.Groups[1].Value } else { '' }
+        $t = $_.Groups[2].Value -replace '<[^>]+>', '' -replace '&nbsp;', ' ' -replace '&amp;', '&'
         $result += @{ value = $v; text = $t.Trim() }
     }
     return $result
@@ -849,6 +850,9 @@ function screen-edit {
 
     $editableFields = @(
         @{ label = 'DNI'; key = 'dni'; type = 'text' }
+        @{ label = 'Tipo entrada'; key = 'tipoEntrada'; type = 'select' }
+        @{ label = 'Servidor Correo'; key = 'servidorCorreo'; type = 'select' }
+        @{ label = 'Cuota (MB)'; key = 'cuota'; type = 'text' }
         @{ label = 'DepartmentNumber'; key = 'departmentNumber'; type = 'text' }
         @{ label = 'Cargo'; key = 'cargo'; type = 'text' }
         @{ label = 'Servicio'; key = 'servicio'; type = 'text' }
