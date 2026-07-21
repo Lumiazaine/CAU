@@ -201,21 +201,20 @@ function Extract-DisplayData {
     # Sort by descending length so more specific labels match first
     $sortedKeys = $fieldMap.Keys | Sort-Object { $_.Length } -Descending
 
-    # Strategy 1: Password overlay fields only (id="capa_password_*")
-    $pwDiv = [regex]::Match($Html, '(?s)<div[^>]*\bid="capa_password_[^"]*"[^>]*>(.*?)</div>\s*</div>')
-    if ($pwDiv.Success) {
-        [regex]::Matches($pwDiv.Groups[1].Value, '(?s)<div\s+class="form_field">.*?<div\s+class="form_field_label">(.*?)</div>.*?<div\s+class="form_field_value">(.*?)</div>') | ForEach-Object {
-            $labelText = Clean-Val $_.Groups[1].Value
-            $valText = Clean-Val $_.Groups[2].Value
-            if (-not $labelText -or -not $valText) { return }
-            foreach ($fk in $sortedKeys) {
-                if ($labelText -match $fk) {
-                    $target = $fieldMap[$fk]
-                    if (-not $data.ContainsKey($target) -or [string]::IsNullOrEmpty($data[$target])) {
-                        $data[$target] = $valText
-                    }
-                    break
+    # Strategy 1: Overlay form_fields with plain labels (no <label> tag — unique to capa_password)
+    [regex]::Matches($Html, '(?s)<div\s+class="form_field">\s*<div\s+class="form_field_label">((?!<label>)[^<]*?)</div>\s*<div\s+class="form_field_value">(.*?)</div>') | ForEach-Object {
+        $labelText = Clean-Val $_.Groups[1].Value
+        $valInner = $_.Groups[2].Value
+        if (-not $labelText -or $valInner -match '<(input|select|textarea)\b') { return }
+        $valText = Clean-Val $valInner
+        if (-not $valText) { return }
+        foreach ($fk in $sortedKeys) {
+            if ($labelText -match $fk) {
+                $target = $fieldMap[$fk]
+                if (-not $data.ContainsKey($target) -or [string]::IsNullOrEmpty($data[$target])) {
+                    $data[$target] = $valText
                 }
+                break
             }
         }
     }
