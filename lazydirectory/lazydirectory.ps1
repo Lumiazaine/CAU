@@ -671,6 +671,8 @@ function screen-main {
         Write-Host "|  1. Buscar usuario" -ForegroundColor Cyan
         Write-Host "|  2. Ver perfil" -ForegroundColor Cyan
         Write-Host "|  3. Cambiar contrasena" -ForegroundColor Cyan
+        Write-Host "|  4. Listas" -ForegroundColor Cyan
+        Write-Host "|  5. Sirhus" -ForegroundColor Cyan
         Write-Host "|"
         Write-Host "|  0. Salir" -ForegroundColor Red
         Write-Host "|"
@@ -680,7 +682,7 @@ function screen-main {
         }
         Write-Host "|"
     }
-    footer @("1-3 opciones", "0/q salir", "s <uid> busqueda rapida")
+    footer @("1-5 opciones", "0/q salir", "s <uid> busqueda rapida")
     Write-Host ""
     Write-Host "Opcion: " -ForegroundColor Yellow -NoNewline
     return Read-Host
@@ -1146,6 +1148,147 @@ function screen-password {
     pause
 }
 
+function Fetch-Servlet {
+    param([string]$ServletName, [string]$Label)
+    Write-Log "Obteniendo $Label..." "INFO"
+    $r = Invoke-WebRequest -Uri "$script:BASE.$ServletName" -UseBasicParsing -WebSession $script:webSession
+    $html = $r.Content
+    $debugFile = Join-Path $script:DEBUG_DIR ("$ServletName.html")
+    $html | Out-File -FilePath $debugFile -Encoding UTF8
+    Write-Log ("Respuesta: " + $html.Length + " bytes, guardado en $debugFile") "INFO"
+    return $html
+}
+
+function screen-listas {
+    ui; header
+    Write-Host (".- LISTAS" + (" " * ($script:columns - 10)) + ".") -ForegroundColor Cyan
+    Write-Host "|"
+    Write-Host "|  Accediendo al modulo de Listas..." -ForegroundColor Yellow
+    Write-Host "|"
+    Write-Host ("'" + ("-" * ($script:columns - 2)) + "'") -ForegroundColor DarkGray
+    
+    try {
+        $html = Fetch-Servlet -ServletName "ListasMain" -Label "Listas"
+    } catch {
+        Write-Log ("Error: " + $_.Exception.Message) "ERROR"
+        pause; return
+    }
+
+    # Extract page title or heading
+    $title = "-"
+    $tM = [regex]::Match($html, '<h[1-3][^>]*>(.*?)</h[1-3]>')
+    if ($tM.Success) { $title = ($tM.Groups[1].Value -replace '<[^>]+>', '').Trim() }
+
+    ui; header
+    panel "LISTAS ($title)" {
+        # Extract any table/result rows
+        $tabla = [regex]::Match($html, '(?s)<table[^>]*>.*?</table>')
+        if ($tabla.Success) {
+            Write-Host "|  (tabla encontrada, " + $tabla.Length + " bytes)"
+        }
+        # Show some text content
+        $textContent = $html -replace '<[^>]+>', ' ' -replace '\s+', ' ' -replace '&nbsp;', ' '
+        $lines = $textContent -split '\.' | Where-Object { $_.Trim().Length -gt 10 } | Select-Object -First 15
+        foreach ($ln in $lines) {
+            $t = $ln.Trim()
+            if ($t) { Write-Host ("|  " + $t.Substring(0, [Math]::Min(70, $t.Length))) -ForegroundColor DarkYellow }
+        }
+    }
+    Write-Host ("  HTML guardado: $script:DEBUG_DIR\ListasMain.html") -ForegroundColor DarkGray
+    pause
+}
+
+function screen-sirhus {
+    while ($true) {
+        ui; header
+        panel "SIRHUS" {
+            Write-Host "|"
+            Write-Host "|  1. Altas (nuevo usuario externo)" -ForegroundColor Cyan
+            Write-Host "|  2. Bajas" -ForegroundColor Cyan
+            Write-Host "|  3. Traslados" -ForegroundColor Cyan
+            Write-Host "|  4. Consulta Estado Sirhus" -ForegroundColor Cyan
+            Write-Host "|"
+            Write-Host "|  0. Volver" -ForegroundColor Red
+            Write-Host "|"
+        }
+        footer @("1-4 opciones", "0 volver")
+        Write-Host ""
+        $opt = prompt "Opcion: " "0"
+        if ($opt -eq "0") { return }
+        elseif ($opt -eq "1") { screen-sirhus-page "SirhusAltas" "Altas" }
+        elseif ($opt -eq "2") { screen-sirhus-page "SirhusBajas" "Bajas" }
+        elseif ($opt -eq "3") { screen-sirhus-page "SirhusTraslados" "Traslados" }
+        elseif ($opt -eq "4") { screen-sirhus-consulta-estado }
+        else { Write-Log "Opcion no valida" "WARN"; pause }
+    }
+}
+
+function screen-sirhus-page {
+    param([string]$ServletName, [string]$Label)
+    try {
+        $html = Fetch-Servlet -ServletName $ServletName -Label $Label
+    } catch {
+        Write-Log ("Error: " + $_.Exception.Message) "ERROR"
+        pause; return
+    }
+
+    $title = "-"
+    $tM = [regex]::Match($html, '<h[1-3][^>]*>(.*?)</h[1-3]>')
+    if ($tM.Success) { $title = ($tM.Groups[1].Value -replace '<[^>]+>', '').Trim() }
+
+    ui; header
+    panel "$Label ($title)" {
+        $textContent = $html -replace '<[^>]+>', ' ' -replace '\s+', ' ' -replace '&nbsp;', ' '
+        $lines = $textContent -split '\.' | Where-Object { $_.Trim().Length -gt 10 } | Select-Object -First 20
+        foreach ($ln in $lines) {
+            $t = $ln.Trim()
+            if ($t) { Write-Host ("|  " + $t.Substring(0, [Math]::Min(75, $t.Length))) -ForegroundColor DarkYellow }
+        }
+    }
+    Write-Host ("  HTML guardado: $script:DEBUG_DIR\$ServletName.html") -ForegroundColor DarkGray
+    pause
+}
+
+function screen-sirhus-consulta-estado {
+    Write-Log "Consultando estado Sirhus..." "INFO"
+    try {
+        $r = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession
+        $script:token = Extract-Token $r.Content
+        $body = @{
+            accion = 'consultaEstado'; botonPulsado = 'pantalla1'; datoAuxiliar = ''
+            tokenParametro = $script:token
+            filtroAtributo = 'identificador'; filtroTipoBusqueda = 'empezando'; filtroValor = ''
+            marcarSirhus = 'SI'; marcarInternos = 'NO'; marcarExternos = 'NO'; marcarGenericos = 'NO'; marcarNA = 'NO'
+            numUsuariosAntiguo = '25'; numUsuarios = '25'
+            seleccionarSirhus = 'on'
+        }
+        $r2 = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
+        $html = $r2.Content
+        $debugFile = Join-Path $script:DEBUG_DIR "ConsultaEstadoSirhus.html"
+        $html | Out-File -FilePath $debugFile -Encoding UTF8
+        Write-Log ("Respuesta: " + $html.Length + " bytes, guardado") "INFO"
+    } catch {
+        Write-Log ("Error: " + $_.Exception.Message) "ERROR"
+        pause; return
+    }
+
+    $title = "-"
+    $tM = [regex]::Match($html, '<h[1-3][^>]*>(.*?)</h[1-3]>')
+    if ($tM.Success) { $title = ($tM.Groups[1].Value -replace '<[^>]+>', '').Trim() }
+
+    ui; header
+    panel "CONSULTA ESTADO SIRHUS ($title)" {
+        $textContent = $html -replace '<[^>]+>', ' ' -replace '\s+', ' ' -replace '&nbsp;', ' '
+        $lines = $textContent -split '\.' | Where-Object { $_.Trim().Length -gt 10 } | Select-Object -First 20
+        foreach ($ln in $lines) {
+            $t = $ln.Trim()
+            if ($t) { Write-Host ("|  " + $t.Substring(0, [Math]::Min(75, $t.Length))) -ForegroundColor DarkYellow }
+        }
+    }
+    Write-Host ("  HTML guardado: $script:DEBUG_DIR\ConsultaEstadoSirhus.html") -ForegroundColor DarkGray
+    pause
+}
+
 function screen-quick-search {
     param([string]$Query)
     Write-Log "Buscando $Query..." "INFO"
@@ -1193,6 +1336,8 @@ try {
             "1" { screen-search }
             "2" { if (-not $script:lastProfileFields) { Write-Log "Busca un usuario primero" "WARN"; pause; continue }; screen-profile }
             "3" { if (-not $script:lastProfileFields) { Write-Log "Busca un usuario primero" "WARN"; pause; continue }; screen-password }
+            "4" { screen-listas }
+            "5" { screen-sirhus }
             "0" { $running = $false }
             "q" { $running = $false }
             default {
