@@ -214,47 +214,53 @@ function Extract-DisplayData {
     # Sort by descending length so more specific labels match first
     $sortedKeys = $fieldMap.Keys | Sort-Object { $_.Length } -Descending
 
+    # Helper: Parse label+value pairs from form_field blocks directly
+    function Parse-FormFields {
+        param([string]$HtmlSource)
+        $results = @()
+        $m = [regex]::Matches($HtmlSource, '(?s)<div\s+class="form_field">.*?<div\s+class="form_field_label[^"]*">(.*?)</div>\s*<div\s+class="form_field_value[^"]*">(.*?)</div>')
+        foreach ($mm in $m) {
+            $labelText = Clean-Val $mm.Groups[1].Value
+            $valText = Clean-Val $mm.Groups[2].Value
+            if (-not $labelText -or -not $valText) { continue }
+            if ($mm.Groups[2].Value -match '<(input|select|textarea)\b') { continue }
+            $results += @{ label = $labelText; value = $valText }
+        }
+        return $results
+    }
+
+    function Note-Data {
+        param([string]$Label, [string]$Value)
+        if (-not $Label -or -not $Value) { return }
+        foreach ($fk in $sortedKeys) {
+            if ($Label -match $fk) {
+                $target = $fieldMap[$fk]
+                if (-not $data.ContainsKey($target) -or [string]::IsNullOrEmpty($data[$target])) {
+                    $data[$target] = $Value
+                }
+                break
+            }
+        }
+    }
+
     # Strategy 1: Password overlay form_fields (within capa_password_* div)
-    # Locate the password overlay section first, then parse its form_fields
-    $pwStart = $Html.IndexOf('id="capa_password_', [System.StringComparison]::OrdinalIgnoreCase)
-    if ($pwStart -ge 0) {
-        # Rewind to opening <div
-        $pwStart = $Html.LastIndexOf('<div', $pwStart)
+    $pwIdx = $Html.IndexOf('id="capa_password_', [System.StringComparison]::OrdinalIgnoreCase)
+    if ($pwIdx -ge 0) {
+        $pwStart = $Html.LastIndexOf('<div', $pwIdx)
         if ($pwStart -ge 0) {
-            # Find the closing: capa_password's </div> + parent </div> followed by <!-- or <h2>
+            # Find ALL end-marker candidates past pwStart
             $endMarkers = @('</div>\s*</div>\s*<!--', '</div>\s*</div>\s*<h2', '</div>\s*</div>\s*$')
             $pwEnd = -1
-            foreach ($marker in $endMarkers) {
-                $m = [regex]::Match($Html, $marker, [System.Text.RegularExpressions.RegexOptions]::IgnoreCase, [System.TimeSpan]::FromSeconds(1))
-                if ($m.Success -and $m.Index -gt $pwStart) {
-                    if ($pwEnd -eq -1 -or $m.Index -lt $pwEnd) { $pwEnd = $m.Index }
+            $allEnds = [regex]::Matches($Html, '(?:' + ($endMarkers -join '|') + ')', 'IgnoreCase, Singleline')
+            foreach ($me in $allEnds) {
+                if ($me.Index -gt $pwStart -and ($pwEnd -eq -1 -or $me.Index -lt $pwEnd)) {
+                    $pwEnd = $me.Index
                 }
             }
             if ($pwEnd -gt $pwStart) {
                 $pwContent = $Html.Substring($pwStart, $pwEnd - $pwStart)
-                # Parse form_fields within capa_password (always has plain text values, no inputs)
-                [regex]::Matches($pwContent, '(?s)<div\s+class="form_field">(.*?)</div>\s*</div>') | ForEach-Object {
-                    $blockHtml = $_.Groups[1].Value
-                    $labelM = [regex]::Match($blockHtml, '<div\s+class="form_field_label[^"]*">(.*?)</div>')
-                    $valM = [regex]::Match($blockHtml, '<div\s+class="form_field_value[^"]*">(.*?)</div>')
-                    if (-not $labelM.Success -or -not $valM.Success) { return }
-                    $valInner = $valM.Groups[1].Value
-                    if ($valInner -match '<(input|select|textarea)\b') { return }
-                    $labelText = Clean-Val $labelM.Groups[1].Value
-                    $valText = Clean-Val $valInner
-                    if (-not $labelText -or -not $valText) { return }
-                    foreach ($fk in $sortedKeys) {
-                        if ($labelText -match $fk) {
-                            $target = $fieldMap[$fk]
-                            # Prefer first match (delete overlay Nombre:uid comes before password overlay Nombre:real)
-                            # But password overlay comes last, so we actually want LAST match
-                            # Simple approach: keep first, since password-overlay has the right data for JUS
-                            if (-not $data.ContainsKey($target) -or [string]::IsNullOrEmpty($data[$target])) {
-                                $data[$target] = $valText
-                            }
-                            break
-                        }
-                    }
+                foreach ($pair in (Parse-FormFields $pwContent)) {
+                    Note-Data $pair.label $pair.value
                 }
             }
         }
@@ -270,33 +276,8 @@ function Extract-DisplayData {
     }
 
     # Strategy 3: form_field divs (modify form + delete overlay)
-    $fieldBlocks = [regex]::Matches($Html, '(?s)<div\s+class="form_field">(.*?)</div>\s*</div>')
-    if ($fieldBlocks.Count -eq 0) {
-        $fieldBlocks = [regex]::Matches($Html, '(?s)<div\s+class="form_field">(.*?)</div>')
-    }
-    foreach ($block in $fieldBlocks) {
-        $blockHtml = $block.Groups[1].Value
-        $labelM = [regex]::Match($blockHtml, '<div\s+class="form_field_label[^"]*">(.*?)</div>')
-        $valM = [regex]::Match($blockHtml, '<div\s+class="form_field_value[^"]*">(.*?)</div>')
-        if (-not $labelM.Success -or -not $valM.Success) { continue }
-
-        # Skip if value div contains input/select/textarea
-        $valInner = $valM.Groups[1].Value
-        if ($valInner -match '<(input|select|textarea)\b') { continue }
-
-        $labelText = Clean-Val $labelM.Groups[1].Value
-        $valText = Clean-Val $valInner
-        if (-not $labelText -or -not $valText) { continue }
-
-        foreach ($fk in $sortedKeys) {
-            if ($labelText -match $fk) {
-                $target = $fieldMap[$fk]
-                if (-not $data.ContainsKey($target) -or [string]::IsNullOrEmpty($data[$target])) {
-                    $data[$target] = $valText
-                }
-                break
-            }
-        }
+    foreach ($pair in (Parse-FormFields $Html)) {
+        Note-Data $pair.label $pair.value
     }
 
     # Strategy 4: hidden inputs with user data
@@ -417,9 +398,10 @@ function Search-User {
 
     $users = @()
 
-    # Exact hit — server returned modify form with name="dn"
-    $dnMatch = [regex]::Match($html, 'name="dn"\s*value="([^"]+)"')
-    if ($dnMatch.Success) {
+    # Exact hit = exactly one password overlay (name="dn" per overlay)
+    $dnMatches = [regex]::Matches($html, 'name="dn"\s*value="([^"]+)"')
+    if ($dnMatches.Count -eq 1) {
+        $dnMatch = $dnMatches[0]
         $dn = $dnMatch.Groups[1].Value
         $uid = ''
         $u = [regex]::Match($dn, 'uid=([^,]+)')
@@ -438,19 +420,40 @@ function Search-User {
         return $users
     }
 
-    # Partial — extract every uid= from HTML, skip system accounts
-    $systemUids = @('just9.sandetel.ext', 'sadesi', 'admin', 'just9', 'sirhus', 'externo', 'interno')
-    $allUids = [regex]::Matches($html, 'uid=([a-zA-Z0-9._-]+)')
+    # Partial — parse search result rows (fila_par / fila_impar)
     $seen = @{}
-    foreach ($m in $allUids) {
-        $uid = $m.Groups[1].Value.ToLower()
-        if ($seen.ContainsKey($uid)) { continue }
-        if ($systemUids -contains $uid) { continue }
-        if ($uid -match '^\d+$') { continue }
+    [regex]::Matches($html, '(?s)<div\s+class="fila_(?:par|impar)"[^>]*>.*?</div>') | ForEach-Object {
+        $rowHtml = $_.Value
+        $spans = [regex]::Matches($rowHtml, '<span\s+class="campo ancho2">(.*?)</span>')
+        $email = if ($spans.Count -ge 1) { ($spans[0].Groups[1].Value -replace '<[^>]+>', '' -replace '&nbsp;', ' ' -replace '&amp;', '&' -replace '\s+', ' ').Trim() } else { '' }
+        $name  = if ($spans.Count -ge 2) { ($spans[1].Groups[1].Value -replace '<[^>]+>', '' -replace '&nbsp;', ' ' -replace '&amp;', '&' -replace '\s+', ' ').Trim() } else { '' }
+
+        # Extract uid from edit link's onClick: enviar(...,'uid=...')
+        $uid = ''
+        $uidM = [regex]::Match($rowHtml, "enviar\('[^']+','[^']+','uid=([^,]+)")
+        if ($uidM.Success) { $uid = $uidM.Groups[1].Value.ToLower() }
+
+        if (-not $uid) {
+            # Fallback: extract uid from email
+            $atM = [regex]::Match($email, '^([^@]+)@')
+            if ($atM.Success) { $uid = $atM.Groups[1].Value.ToLower() }
+        }
+        if (-not $uid) { return }
+        if ($seen.ContainsKey($uid)) { return }
         $seen[$uid] = $true
-        $users += @{ dn = "uid=$uid,o=$branch,o=empleados,o=juntadeandalucia,c=es"; uid = $uid; nombre = ''; apellidos = ''; email = ''; desc = ''; branch = $branch }
+
+        # Split name into nombre/apellidos
+        $parts = $name -split '\s+', 2
+        $nombre = if ($parts[0]) { $parts[0] } else { '' }
+        $apellidos = if ($parts.Count -ge 2) { $parts[1] } else { '' }
+
+        $users += @{
+            dn = "uid=$uid,o=$branch,o=empleados,o=juntadeandalucia,c=es"
+            uid = $uid; nombre = $nombre; apellidos = $apellidos
+            email = $email; desc = ''; branch = $branch
+        }
     }
-    Write-Log ("uids encontrados en HTML: " + $seen.Count) "INFO"
+    Write-Log ("filas encontradas: " + $seen.Count) "INFO"
 
     Write-Log ("Usuarios: " + $users.Count) "INFO"
     $script:lastResultData = $users
@@ -966,58 +969,66 @@ function screen-edit {
 
     # Save
     try {
-        # Get fresh token
+        Write-Log "Preparando guardado..." "INFO"
+
+        # Step 1: fetch modify form fresh
         $r = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession
         $script:token = Extract-Token $r.Content
         if (-not $script:token) { throw "No se pudo extraer token" }
 
-        # Build POST body from modify form hidden fields + new values
-        $body = @{}
-        [regex]::Matches($html, '<input[^>]*type="hidden"[^>]*name="([^"]*)"[^>]*value="([^"]*)"[^>]*>') | ForEach-Object {
-            $body[$_.Groups[1].Value] = $_.Groups[2].Value
-        }
-        [regex]::Matches($html, '<input[^>]*type="hidden"[^>]*value="([^"]*)"[^>]*name="([^"]*)"[^>]*>') | ForEach-Object {
-            if (-not $body.ContainsKey($_.Groups[2].Value)) { $body[$_.Groups[2].Value] = $_.Groups[1].Value }
-        }
-
-        # Add filter/checkbox fields
-        $body['tokenParametro'] = $script:token
         $esInt = ($script:ramaLdap -eq "ius")
-        if (-not $body.ContainsKey('filtroAtributo')) { $body['filtroAtributo'] = 'identificador' }
-        if (-not $body.ContainsKey('filtroTipoBusqueda')) { $body['filtroTipoBusqueda'] = 'empezando' }
-        if (-not $body.ContainsKey('filtroValor')) { $body['filtroValor'] = $uid }
-        if (-not $body.ContainsKey('marcarSirhus')) { $body['marcarSirhus'] = $(if ($esInt) { 'NO' } else { 'SI' }) }
-        if (-not $body.ContainsKey('marcarInternos')) { $body['marcarInternos'] = $(if ($esInt) { 'SI' } else { 'NO' }) }
+        $fetchBody = @{
+            accion = 'modificacion'; botonPulsado = 'pantalla1'
+            datoAuxiliar = $dn; tokenParametro = $script:token
+            filtroAtributo = 'identificador'; filtroTipoBusqueda = 'empezando'; filtroValor = $uid
+            marcarSirhus = $(if ($esInt) { 'NO' } else { 'SI' })
+            marcarInternos = $(if ($esInt) { 'SI' } else { 'NO' })
+            marcarExternos = 'NO'; marcarGenericos = 'NO'; marcarNA = 'NO'
+            numUsuariosAntiguo = '25'; numUsuarios = '25'
+        }
+        if ($esInt) { $fetchBody['seleccionarInternos'] = 'on' }
+        else { $fetchBody['seleccionarSirhus'] = 'on' }
 
-        # Override editable fields
+        $r2 = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $fetchBody
+        $modifyHtml = $r2.Content
+        $script:token = Extract-Token $modifyHtml
+        if (-not $script:token) { Write-Log "Token no encontrado, usando anterior" "WARN" }
+
+        # Step 2: extract ALL fields from fresh modify form
+        $formFields = Extract-FormFields $modifyHtml
+        $allInputs = [regex]::Matches($modifyHtml, '\bname\s*=\s*["'']([^"'']*?)["''][^>]*?\bvalue\s*=\s*["'']([^"'']*?)["'']')
+        foreach ($m in $allInputs) {
+            $n = $m.Groups[1].Value; $v = $m.Groups[2].Value
+            if (-not $formFields.ContainsKey($n)) { $formFields[$n] = $v }
+        }
+
+        # Step 3: build POST body = all form fields + new values
+        $body = @{}
+        foreach ($kv in $formFields.GetEnumerator()) { $body[$kv.Key] = $kv.Value }
+        $body['tokenParametro'] = $script:token
+        $body['botonPulsado'] = 'confirmarModificacion'
+
+        # Override with new values
         foreach ($ef in $editableFields) {
             $submitKey = if ($ef.type -eq 'select') { $ef.key + '_submit' } else { $ef.key }
-            $body[$ef.key] = $newValues[$submitKey]
+            if ($newValues.ContainsKey($submitKey)) { $body[$ef.key] = $newValues[$submitKey] }
         }
 
-        # Set save action
-        $body['accion'] = 'modificacion'
-        $body['botonPulsado'] = 'confirmarModificacion'
-        $body['datoAuxiliar'] = $dn
+        # Ensure key fields
+        if (-not $body.ContainsKey('datoAuxiliar')) { $body['datoAuxiliar'] = $dn }
+        if (-not $body.ContainsKey('accion')) { $body['accion'] = 'modificacion' }
 
-        # Add dn explicitly (needed by server)
-        if (-not $body.ContainsKey('dn')) { $body['dn'] = $dn }
+        Write-Log ("Enviando cambios (" + $body.Count + " campos)...") "INFO"
+        $r3 = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
 
-        $bodyKeys = ($body.Keys | Sort-Object) -join ', '
-        Write-Log ("POST keys: $bodyKeys") "INFO"
-        Write-Log ("Enviando cambios...") "INFO"
-        $r2 = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
-
-        if ($r2.Content -match 'actualiz.+correctamente|mensaje_ok|Modificaci.n guardada') {
+        if ($r3.Content -match 'actualiz.+correctamente|mensaje_ok|Modificaci.n guardada|correctamente') {
             Write-Log "Datos actualizados correctamente" "OK"
-            # Reload profile
             Get-UserProfile -UID $uid
             screen-profile
         } else {
             $debugFile = Join-Path $script:DEBUG_DIR ("edit_" + $uid.Replace('.','_') + ".html")
-            $r2.Content | Out-File -FilePath $debugFile -Encoding UTF8
-            Write-Log "Parece que hubo un error. HTML guardado en $debugFile" "WARN"
-            Write-Log "Revisa el archivo para ver el mensaje del servidor" "WARN"
+            $r3.Content | Out-File -FilePath $debugFile -Encoding UTF8
+            Write-Log "Posible error. HTML guardado en $debugFile" "WARN"
             pause
         }
     } catch {
