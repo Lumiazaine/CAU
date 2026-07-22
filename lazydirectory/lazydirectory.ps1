@@ -214,20 +214,48 @@ function Extract-DisplayData {
     # Sort by descending length so more specific labels match first
     $sortedKeys = $fieldMap.Keys | Sort-Object { $_.Length } -Descending
 
-    # Strategy 1: Overlay form_fields with plain labels (no <label> tag — unique to capa_password)
-    [regex]::Matches($Html, '(?s)<div\s+class="form_field">\s*<div\s+class="form_field_label">((?!<label>)[^<]*?)</div>\s*<div\s+class="form_field_value">(.*?)</div>') | ForEach-Object {
-        $labelText = Clean-Val $_.Groups[1].Value
-        $valInner = $_.Groups[2].Value
-        if (-not $labelText -or $valInner -match '<(input|select|textarea)\b') { return }
-        $valText = Clean-Val $valInner
-        if (-not $valText) { return }
-        foreach ($fk in $sortedKeys) {
-            if ($labelText -match $fk) {
-                $target = $fieldMap[$fk]
-                if (-not $data.ContainsKey($target) -or [string]::IsNullOrEmpty($data[$target])) {
-                    $data[$target] = $valText
+    # Strategy 1: Password overlay form_fields (within capa_password_* div)
+    # Locate the password overlay section first, then parse its form_fields
+    $pwStart = $Html.IndexOf('id="capa_password_', [System.StringComparison]::OrdinalIgnoreCase)
+    if ($pwStart -ge 0) {
+        # Rewind to opening <div
+        $pwStart = $Html.LastIndexOf('<div', $pwStart)
+        if ($pwStart -ge 0) {
+            # Find the closing: capa_password's </div> + parent </div> followed by <!-- or <h2>
+            $endMarkers = @('</div>\s*</div>\s*<!--', '</div>\s*</div>\s*<h2', '</div>\s*</div>\s*$')
+            $pwEnd = -1
+            foreach ($marker in $endMarkers) {
+                $m = [regex]::Match($Html, $marker, [System.Text.RegularExpressions.RegexOptions]::IgnoreCase, [System.TimeSpan]::FromSeconds(1))
+                if ($m.Success -and $m.Index -gt $pwStart) {
+                    if ($pwEnd -eq -1 -or $m.Index -lt $pwEnd) { $pwEnd = $m.Index }
                 }
-                break
+            }
+            if ($pwEnd -gt $pwStart) {
+                $pwContent = $Html.Substring($pwStart, $pwEnd - $pwStart)
+                # Parse form_fields within capa_password (always has plain text values, no inputs)
+                [regex]::Matches($pwContent, '(?s)<div\s+class="form_field">(.*?)</div>\s*</div>') | ForEach-Object {
+                    $blockHtml = $_.Groups[1].Value
+                    $labelM = [regex]::Match($blockHtml, '<div\s+class="form_field_label[^"]*">(.*?)</div>')
+                    $valM = [regex]::Match($blockHtml, '<div\s+class="form_field_value[^"]*">(.*?)</div>')
+                    if (-not $labelM.Success -or -not $valM.Success) { return }
+                    $valInner = $valM.Groups[1].Value
+                    if ($valInner -match '<(input|select|textarea)\b') { return }
+                    $labelText = Clean-Val $labelM.Groups[1].Value
+                    $valText = Clean-Val $valInner
+                    if (-not $labelText -or -not $valText) { return }
+                    foreach ($fk in $sortedKeys) {
+                        if ($labelText -match $fk) {
+                            $target = $fieldMap[$fk]
+                            # Prefer first match (delete overlay Nombre:uid comes before password overlay Nombre:real)
+                            # But password overlay comes last, so we actually want LAST match
+                            # Simple approach: keep first, since password-overlay has the right data for JUS
+                            if (-not $data.ContainsKey($target) -or [string]::IsNullOrEmpty($data[$target])) {
+                                $data[$target] = $valText
+                            }
+                            break
+                        }
+                    }
+                }
             }
         }
     }

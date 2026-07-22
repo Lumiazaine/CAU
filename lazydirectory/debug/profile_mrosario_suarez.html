@@ -1,0 +1,896 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="es">
+<head>
+  <title>Usuarios - Modificacion </title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="Content-Script-Type" content="text/javascript; charset=UTF-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <link rel="stylesheet" href="/css/admdir.css" type="text/css">
+  <link rel="stylesheet" href="/css/pwdmeter.css" type="text/css">
+  <style  type="text/css"></style>
+  <script language="javascript" src="/scripts/pwdmeter.js" type="text/javascript"></script>
+  <script language="javascript" src="/scripts/usuarios.js" type="text/javascript"></script>
+</head>
+<body onLoad="javascript:ocultaCortinilla();actualizaCamposFJ();">
+<form id="formulario" method="post" action="es.sadesi.admdirectorio.servlets.UsuariosMain">
+<input type="hidden" name="accion"                     value="modificacion">
+<input type="hidden" name="botonPulsado"               value="pantalla1">
+<input type="hidden" name="codConsejeria"              value="610" >
+<input type="hidden" name="datoAuxiliar"               value="uid=mrosario.suarez,o=jus,o=empleados,o=juntadeandalucia,c=es" >
+<input type="hidden" name="employeeType"               value="">
+<input type="hidden" name="esUsuarioGuia"              value="SI">
+<input type="hidden" name="validarDni"                 value="false">
+<input type="hidden" name="tokenParametro"             value="cbdb817a-ea1e-4f5e-a4d0-a51fe77e20dc">
+<input type="hidden" name="filtroAtributo"             value="identificador">
+<input type="hidden" name="filtroTipoBusqueda"         value="empezando">
+<input type="hidden" name="filtroValor"                value="mrosario.suarez">
+<input type="hidden" name="marcarSirhus"               value="SI">
+<input type="hidden" name="marcarInternos"             value="NO">
+<input type="hidden" name="marcarExternos"             value="NO">
+<input type="hidden" name="marcarGenericos"            value="NO">
+<input type="hidden" name="marcarNA"                   value="NO">
+<input type="hidden" name="FJCuota"                    value="10240">
+<input type="hidden" name="buzonExternosDeshabilitado" value="SI">
+<input type="hidden" name="cuotaBuzonMax"              value="10240">
+<input type="hidden" name="cuotaFJMax"                 value="10240">
+<header>
+  <div id="header_topbar">
+    <div class="inside">
+      <div class="logo"><img src="/img/logo_ja.png"></div>
+      <nav aria-label="navegacion principal" class="top_menu">
+        <ul class="top_menu_options">
+          <li id="appbar_button">
+            <a href="#"><span class="material-symbols-outlined">apps</span></a>
+            <ul id="appbar_dropdown">
+              <li>
+                <a href="https://correo.juntadeandalucia.es/" target="_blank">
+                  <img src="/img/icon-appbar-4-webmail.png" alt="Acceso a Webmail">
+                </a>
+              </li>
+              <li>
+                <a href="https://consigna.juntadeandalucia.es/" target="_blank">
+                  <img src="/img/icon-appbar-4-consigna.png" alt="Acceso a Consigna">
+                </a>
+              </li>
+              <li>
+                <a href="https://redprofesional.juntadeandalucia.es/" target="_blank">
+                  <img src="/img/icon-appbar-4-red-profesional.png" alt="Acceso a Red Profesional">
+                </a>
+              </li>
+              <li>
+                <a href="https://ficheros.juntadeandalucia.es/" target="_blank">
+                  <img src="/img//icon-appbar-ficheros.png" alt="Ficheros Junta">
+                </a>
+              </li>
+              <li>
+                <a href="https://reservas.juntadeandalucia.es/" target="_blank">
+                  <img src="/img/icon-appbar-reservas_b.png" alt="Reserva de Recursos">
+                </a>
+              </li>
+              <li>
+                <a href="https://micuenta.juntadeandalucia.es/" target="_blank">
+                  <img src="/img/icon-appbar-4-micuenta.png" alt="Mi Cuenta">
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li id="close_button">
+            <a href="#">
+              <span id="user_name_in_menu">&nbsp;just9.sandetel.ext - jus</span>
+              <span class="material-symbols-outlined">keyboard_arrow_down</span>
+            </a>
+            <ul id="close_dropdown">
+              <li>
+                <a href="/logout.jsp">
+                  <span class="material-symbols-outlined">cancel</span>&nbsp;Cerrar sesión</a>                
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="https://ayuda-productividad.juntadeandalucia.es/aplicaciones/admdir/" target="_blank">
+              <span class="material-symbols-outlined icon_menu dis_margin_mobile">help</span><span class="hid_mobile">Ayuda</span></a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+      
+  </div>
+  
+  <div id="header_menubar">
+    <div class="inside">
+      <div class="admdir_logo">
+        <a href="https://directorio.juntadeandalucia.es/"><img src="/img/admdir_logo.png"></a>
+      </div>
+      <nav aria-label="navegacion" class="main_menu">
+        <ul class="main_menu_options">
+          <li>
+              <a href="/myServlets/es.sadesi.admdirectorio.servlets.AdministradorMain">
+                <span class="material-symbols-outlined icon_menu">home</span>
+                <span class="hid_mobile hid_tablet">Inicio</span></a>
+            </li>
+            <li>
+              <a href="/myServlets/es.sadesi.admdirectorio.servlets.UsuariosMain">
+                <span class="material-symbols-outlined icon_menu">group</span>
+                <span class="hid_mobile hid_tablet">Usuarios</span></a>
+            </li>
+            <li>
+              <a href="/myServlets/es.sadesi.admdirectorio.servlets.ListasMain">
+                <span class="material-symbols-outlined icon_menu">library_books</span>
+                <span class="hid_mobile hid_tablet">Listas</span></a>
+            </li>
+            <li id="submenu_sirhus_button">
+                <a href="#">
+                  <span class="material-symbols-outlined icon_menu">accessibility</span>
+                  <span class="hid_mobile hid_tablet">Sirhus</span></a>                
+                <ul id="submenu_sirhus">
+                  <li><a href="/myServlets/es.sadesi.admdirectorio.servlets.SirhusAltas">Altas</a></li>
+                  <li><a href="/myServlets/es.sadesi.admdirectorio.servlets.SirhusBajas">Bajas</a></li>
+                  <li><a href="/myServlets/es.sadesi.admdirectorio.servlets.SirhusTraslados">Traslados</a></li>
+                </ul>
+              </li>
+            <li id="submenu_recursos_button">
+              <a href="#">
+                <span class="material-symbols-outlined icon_menu">apartment</span>
+                <span class="hid_mobile hid_tablet">Recursos</span></a>
+                <ul id="submenu_recursos">
+                  <li><a href="/myServlets/es.sadesi.admdirectorio.servlets.RecursosAdmDelegado"   >Adm. Delegados</a></li>
+                  <li><a href="/myServlets/es.sadesi.admdirectorio.servlets.RecursosEdificios "    >Edificios</a></li>
+                  <li><a href="/myServlets/es.sadesi.admdirectorio.servlets.RecursosNodos"         >Nodos</a></li>
+                  <li><a href="/myServlets/es.sadesi.admdirectorio.servlets.RecursosPuestosTrabajo">Puestos de Trabajo</a></li>
+                  <li><a href="/myServlets/es.sadesi.admdirectorio.servlets.RecursosProveedores"   >Proveedores</a></li>
+                  <li><a href="/myServlets/es.sadesi.admdirectorio.servlets.RecursosServicios"     >Servicios</a></li>
+                  <li><a href="/myServlets/es.sadesi.admdirectorio.servlets.RecursosZtna"          >Ztna</a></li>
+                </ul>
+            </li>
+            <li>
+              <a href="/myServlets/es.sadesi.admdirectorio.servlets.FiltrosMain">
+                <span class="material-symbols-outlined icon_menu">filter_alt</span>
+                <span class="hid_mobile hid_tablet">Filtros</span></a>
+            </li>
+            </ul>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<div class="cabecera_cortinilla" id="cabecera_cortinilla">
+  Cargando página... Por favor, espere...
+</div>
+
+<main>
+  <nav aria-label="Migas de pan" class="miga_contenedor">
+    <a href="/myServlets/es.sadesi.admdirectorio.servlets.UsuariosMain">Usuarios</a>&nbsp;>&nbsp;
+    <span>Modificación</span>
+  </nav>
+  <div class="inside">
+    <div id="vista_datos"> 
+      <div id="datos_usuario" class="card">
+        <div class="card_header">
+          <div class="card_header_title">
+            <h1>Usuarios - Modificación</h1>
+          </div>
+        </div>
+
+        <!-- *************************************** -->
+        <!-- *      S   U   B   M   E   N   U      * -->
+        <!-- *************************************** -->
+        <div id="submenu" class="submenu">
+          <ul>
+            <li class="activo submenu_usuarios">
+                <a href="javascript:inicializaTiposUsuario('consulta','','');">
+                  <span class="material-symbols-outlined icon_menu">search</span>
+                  <span class="hid_mobile hid_tablet">Buscador</span>
+                </a>
+              </li>
+              <li class="submenu_usuarios">
+                <a href="javascript:enviar('nuevo','pantalla1','');">
+                  <span class="material-symbols-outlined icon_menu">person_add</span>
+                  <span class="hid_mobile hid_tablet">Nuevo Usuario</span>
+                </a>
+              </li>
+              <li class="submenu_usuarios">
+                <a href="javascript:enviar('altasMasivas','pantalla1','');">
+                  <span class="material-symbols-outlined icon_menu">groups</span>
+                  <span class="hid_mobile hid_tablet">Operaciones Masivas</span>
+                </a>
+              </li>
+              <li class="submenu_usuarios">
+                <a href="javascript:enviar('consultaEstado','pantalla1','')">
+                  <span class="material-symbols-outlined icon_menu">find_in_page</span>
+                  <span class="hid_mobile hid_tablet">Consulta Estado Sirhus</span>
+                </a>
+              </li>
+              <li class="submenu_usuarios">
+                <a href="javascript:inicializaTiposUsuario('listados','pantalla1','');">
+                  <span class="material-symbols-outlined icon_menu">list_alt</span>
+                  <span class="hid_mobile hid_tablet">Listados de Usuarios</span>
+                </a>
+              </li>
+            </ul>
+          </ul>
+        </div>
+
+        <!-- *******************************************-->
+        <!-- *                                         *-->
+        <!-- *   P A N T A L L A   P R I N C I P A L   *-->
+        <!-- *                                         *-->
+        <!-- *******************************************-->
+        <fieldset>
+          <!-- Campo Identificador -->
+          <div class="form_field">
+            <div class="form_field_label"><label>Identificador:</label></label></div>
+            <div class="form_field_value">mrosario.suarez</div>
+          </div>
+
+          <!-- Campo Nombre -->
+          <!-- Campo Nombre -->
+            <div class="form_field">
+              <div class="form_field_label"><label>Nombre:</label></div>
+              <div class="form_field_value2">
+                Maria Del Rosario Suarez Barranquero<input type='hidden' name='nombreUsuario' value='Maria Del Rosario Suarez Barranquero'>
+              </div>
+            </div>
+          <!-- *************************************************** -->
+          <!-- *   O R G A N I S M O S   A D I C I O N A L E S   * -->
+          <!-- *************************************************** -->
+          <div class="form_field">
+              <div class="form_field_label_multiple"><label>Organismos adicionales:</label></div>
+              <div class="form_field_value">
+                <ul>
+                  <li>
+                    <select name="acronimoNuevo" id="acronimoNuevo">
+                      <option value="">&nbsp;</option>
+                      <option value="aac">aac</option>
+                        <option value="aacid">aacid</option>
+                        <option value="aae">aae</option>
+                        <option value="aaiicc">aaiicc</option>
+                        <option value="accua">accua</option>
+                        <option value="acrea">acrea</option>
+                        <option value="acsa">acsa</option>
+                        <option value="ada">ada</option>
+                        <option value="adca">adca</option>
+                        <option value="admdirectorio">admdirectorio</option>
+                        <option value="admonpublica">admonpublica</option>
+                        <option value="aeropolis">aeropolis</option>
+                        <option value="agaeve">agaeve</option>
+                        <option value="agapa">agapa</option>
+                        <option value="agenciaedu">agenciaedu</option>
+                        <option value="agricultura">agricultura</option>
+                        <option value="agua">agua</option>
+                        <option value="aidea">aidea</option>
+                        <option value="amaya">amaya</option>
+                        <option value="aopja">aopja</option>
+                        <option value="assda">assda</option>
+                        <option value="ata">ata</option>
+                        <option value="atlazul">atlazul</option>
+                        <option value="atrian">atrian</option>
+                        <option value="avra">avra</option>
+                        <option value="caa">caa</option>
+                        <option value="caac">caac</option>
+                        <option value="cagpds">cagpds</option>
+                        <option value="caizem">caizem</option>
+                        <option value="car93">car93</option>
+                        <option value="cca">cca</option>
+                        <option value="ccph">ccph</option>
+                        <option value="ccuentas">ccuentas</option>
+                        <option value="ccul">ccul</option>
+                        <option value="cdefp">cdefp</option>
+                        <option value="ced">ced</option>
+                        <option value="ced-al">ced-al</option>
+                        <option value="ced-ca">ced-ca</option>
+                        <option value="ced-co">ced-co</option>
+                        <option value="ced-gr">ced-gr</option>
+                        <option value="ced-hu">ced-hu</option>
+                        <option value="ced-ja">ced-ja</option>
+                        <option value="ced-ma">ced-ma</option>
+                        <option value="ced-se">ced-se</option>
+                        <option value="ceec">ceec</option>
+                        <option value="ceeta">ceeta</option>
+                        <option value="cefag">cefag</option>
+                        <option value="cefta">cefta</option>
+                        <option value="cehap">cehap</option>
+                        <option value="cehyfe">cehyfe</option>
+                        <option value="ceice">ceice</option>
+                        <option value="ceis">ceis</option>
+                        <option value="centa">centa</option>
+                        <option value="cert">cert</option>
+                        <option value="ces">ces</option>
+                        <option value="cetursa">cetursa</option>
+                        <option value="cfatv">cfatv</option>
+                        <option value="cfiot">cfiot</option>
+                        <option value="cfr">cfr</option>
+                        <option value="chap">chap</option>
+                        <option value="chie">chie</option>
+                        <option value="chyfe">chyfe</option>
+                        <option value="ciberseguridad">ciberseguridad</option>
+                        <option value="cica">cica</option>
+                        <option value="cipsc">cipsc</option>
+                        <option value="cjalfp">cjalfp</option>
+                        <option value="cji">cji</option>
+                        <option value="cpc">cpc</option>
+                        <option value="cpie">cpie</option>
+                        <option value="crissh">crissh</option>
+                        <option value="csalud">csalud</option>
+                        <option value="ctagr">ctagr</option>
+                        <option value="ctal">ctal</option>
+                        <option value="ctam">ctam</option>
+                        <option value="ctas">ctas</option>
+                        <option value="ctbc">ctbc</option>
+                        <option value="ctcd">ctcd</option>
+                        <option value="ctcg">ctcg</option>
+                        <option value="ctd">ctd</option>
+                        <option value="cteicu">cteicu</option>
+                        <option value="cthu">cthu</option>
+                        <option value="ctja">ctja</option>
+                        <option value="ctmaco">ctmaco</option>
+                        <option value="ctpda">ctpda</option>
+                        <option value="ctpdandalucia">ctpdandalucia</option>
+                        <option value="ctrjal">ctrjal</option>
+                        <option value="cuii">cuii</option>
+                        <option value="cultura">cultura</option>
+                        <option value="dac">dac</option>
+                        <option value="deportes">deportes</option>
+                        <option value="dgob">dgob</option>
+                        <option value="easp">easp</option>
+                        <option value="edu">edu</option>
+                        <option value="empleo">empleo</option>
+                        <option value="epc">epc</option>
+                        <option value="epes">epes</option>
+                        <option value="epgasa">epgasa</option>
+                        <option value="epgtda">epgtda</option>
+                        <option value="ephag">ephag</option>
+                        <option value="ephponiente">ephponiente</option>
+                        <option value="eppa">eppa</option>
+                        <option value="epsa">epsa</option>
+                        <option value="epsbg">epsbg</option>
+                        <option value="eptda">eptda</option>
+                        <option value="esero">esero</option>
+                        <option value="extenda">extenda</option>
+                        <option value="f3cm">f3cm</option>
+                        <option value="faee">faee</option>
+                        <option value="faisem">faisem</option>
+                        <option value="fao">fao</option>
+                        <option value="fava">fava</option>
+                        <option value="fbar">fbar</option>
+                        <option value="fcea">fcea</option>
+                        <option value="fdana">fdana</option>
+                        <option value="fibao">fibao</option>
+                        <option value="fibico">fibico</option>
+                        <option value="fimabis">fimabis</option>
+                        <option value="fisevi">fisevi</option>
+                        <option value="fomento">fomento</option>
+                        <option value="fps">fps</option>
+                        <option value="freaae">freaae</option>
+                        <option value="general">general</option>
+                        <option value="hacienda">hacienda</option>
+                        <option value="iaap">iaap</option>
+                        <option value="iaj">iaj</option>
+                        <option value="iam">iam</option>
+                        <option value="iaph">iaph</option>
+                        <option value="ieca">ieca</option>
+                        <option value="iehpa">iehpa</option>
+                        <option value="ifapa">ifapa</option>
+                        <option value="igra">igra</option>
+                        <option value="igualdad">igualdad</option>
+                        <option value="imibic">imibic</option>
+                        <option value="industria">industria</option>
+                        <option value="itj">itj</option>
+                        <option value="ius">ius</option>
+                        <option value="iuse">iuse</option>
+                        <option value="jus">jus</option>
+                        <option value="justicia">justicia</option>
+                        <option value="legado">legado</option>
+                        <option value="medioambiente">medioambiente</option>
+                        <option value="mision">mision</option>
+                        <option value="nerea">nerea</option>
+                        <option value="nix">nix</option>
+                        <option value="operativa">operativa</option>
+                        <option value="pabellon">pabellon</option>
+                        <option value="pag">pag</option>
+                        <option value="pita">pita</option>
+                        <option value="pol">pol</option>
+                        <option value="portal">portal</option>
+                        <option value="presidencia">presidencia</option>
+                        <option value="prueba">prueba</option>
+                        <option value="pta">pta</option>
+                        <option value="pts">pts</option>
+                        <option value="rcja">rcja</option>
+                        <option value="rcta">rcta</option>
+                        <option value="rla">rla</option>
+                        <option value="rtva">rtva</option>
+                        <option value="sae">sae</option>
+                        <option value="saludresponde">saludresponde</option>
+                        <option value="sandetel">sandetel</option>
+                        <option value="sas">sas</option>
+                        <option value="sdtel">sdtel</option>
+                        <option value="slsepa">slsepa</option>
+                        <option value="soprea">soprea</option>
+                        <option value="sspa">sspa</option>
+                        <option value="stpark">stpark</option>
+                        <option value="trade">trade</option>
+                        <option value="turismo">turismo</option>
+                        <option value="uma">uma</option>
+                        <option value="unircja">unircja</option>
+                        <option value="universidad">universidad</option>
+                        <option value="veia">veia</option>
+                        <option value="veinet">veinet</option>
+                        <option value="vivienda">vivienda</option>
+                        <option value="wdigital">wdigital</option>
+                        </select>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          <!-- ************************************* -->
+          <!-- *   T I P O   D E   E N T R A D A   * -->
+          <!-- ************************************* -->
+          <div class="form_field">
+              <div class="form_field_label"><label>Tipo de entrada:</label></div>
+              <div class="form_field_value">
+                <select name="tipoEntrada" onChange="javascript:enviar('modificacion','cambioTipoEntrada','uid=mrosario.suarez,o=jus,o=empleados,o=juntadeandalucia,c=es')" 
+                  title="Tipo de entrada">
+                  <option value="buzon" selected>Con buzón de correo</option>
+                  <option value="aplicaciones" >Otras aplicaciones</option>
+                </select>
+              </div>
+            </div>
+          <!-- *********************** -->
+            <!-- *   M A I L H O S T   * -->
+            <!-- *********************** -->
+            <div class="form_field">
+              <div class="form_field_label"><label>Servidor de Correo:</label></div>
+              <div class="form_field_value">
+                <select name="servidorCorreo" title="Servidor de correo">
+                    <option value="Centralizado" selected>Centralizado</option>
+                    <option value="juntadeandalucia-es.mail.protection.outlook.com" >juntadeandalucia-es.mail.protection.outlook.com</option>
+                    </select>
+                  </div>
+            </div>
+            <!-- ***************************** -->
+            <!-- *   L A B E L E D   U R I   * -->
+            <!-- ***************************** -->
+            <div class="form_field">
+              <div class="form_field_label"><label>Servidor de Webmail:</label></div>
+              <div class="form_field_value">
+                
+                    Centralizado
+                    <input type="hidden" name="servidorWebmail" value="Centralizado">
+                  </div>
+            </div>
+            <!-- ************************* -->
+            <!-- *   M A I L Q U O T A   * -->
+            <!-- ************************* -->
+            <div class="form_field">
+              <div class="form_field_label"><label>Cuota (*):</label></div>
+              <div class="form_field_value">
+                <input type="hidden" name="cuotaAntigua" value="250">
+                <input type="hidden" name="seHaMostradoQuota" value="true">
+                <input type='text' class="input_text" name='cuota' value='250' title='Cuota' size='5'>&nbsp;Megabytes.
+                </div>
+            </div>
+          <!-- ************************************************** -->
+          <!-- *    J  A  O  R  G  A  N  I  Z  A  C  I  O  N    * -->
+          <!-- ************************************************** -->
+          <!-- *************************************** -->
+            <!-- *   C E N T R O   D I R E C T I V O   * -->
+            <!-- *************************************** -->
+            <div class="form_field">            
+                  <div class="form_field_label"><label>C. directivo:</label></div>
+                  <div class="form_field_value">ÓRGANOS JUDICIALES</div>
+                  <input type="hidden" name="codCentroDirectivo"  value="3427410" >
+                </div>
+              <!-- *********************************** -->
+            <!-- *   C E N T R O   D E S T I N O   * -->
+            <!-- *********************************** -->
+            <div class="form_field">
+                  <div class="form_field_label"><label>C. Destino:</label></div>
+                  <div class="form_field_value">SERV.COMUN TRAMIT.TRIB.INST.DOS HERMANAS</div>
+                  <input type="hidden" name="codCentroDestino"  value="3638210" >
+                </div>
+              <!-- ******************************* -->
+          <!-- *      C   A   R   G   O      * -->
+          <!-- ******************************* -->
+          <div class="form_field">
+                <div class="form_field_label"><label>Identificador del cargo en Sirhus:</label></div>
+                <div class="form_field_value">21546410</div>
+              </div>
+            <div class="form_field">
+                <div class="form_field_label"><label>Descripción del cargo en Sirhus:</label></div>
+                <div class="form_field_value">TRAMITACION PA SCT TI</div>
+              </div>
+            <div class="form_field">
+                <div class="form_field_label"><label>Nivel en Sirhus:</label></div>
+                <div class="form_field_value">0</div>
+              </div>
+            <!-- ******************************************* -->
+          <!-- *      E   D   I   F   I   C   I   O      * -->
+          <!-- ******************************************* -->
+          <div class="form_field">
+            <div class="form_field_label"><label>Edificio:</label></div>
+            <div class="form_field_value">
+              <input type="hidden" name="edificio" title='Edificio' value="">
+                </div>
+          </div>
+
+          <!-- ******************************************* -->
+          <!-- *      S   E   R   V   I   C   I   O      * -->
+          <!-- ******************************************* -->
+          <div class="form_field">
+            <div class="form_field_label"><label>Servicio:</label></div>
+            <div class="form_field_value">
+              <input type="text" class="input_text" name="servicio" title='Servicio' value="" size="40">
+                </div>
+          </div>
+
+          <!-- ************************************************* -->
+          <!-- *    P  U  E  S  T  O    T  R  A  B  A  J  O    * -->
+          <!-- ************************************************* -->
+          <div class="form_field">
+              <div class="form_field_label_multiple"><label>Puesto de Trabajo:</label></div>
+              <div class="form_field_value">
+                <ul>
+                  <li>
+                      <select name="puestoTrabajoNuevo" id="puestoTrabajoNuevo">
+                        <option value="">&nbsp;</option>
+                        <option value="NoImpresion">NoImpresion</option>
+                          </select>
+                    </li>
+                  </ul>
+              </div>
+            </div>
+          <!-- ************************************ -->
+          <!-- *       J   A   Z   T   N   A      * -->
+          <!-- ************************************ -->
+          <div class="form_field">
+              <div class="form_field_label_multiple"><label>Ztna:</label></div>
+              <div class="form_field_value">
+                <ul>
+                  </ul>
+              </div>
+            </div>
+          <!-- ********************************************** -->
+          <!-- *    T  E  L  E  F  O  N  O    F  I  J  O    * -->
+          <!-- ********************************************** -->
+          <div class="form_field">
+            <div class="form_field_label"><label>Teléfono Fijo:</label></div>
+            <div class="form_field_value">
+              <input type='text' class="input_text" name='telefonoFijo' value='' maxlength='20' title='Telefono fijo'>
+                <input type="hidden" name='modificar_TelefonoFijo' value='true'>
+              </div>
+          </div>
+
+          <!-- ************************************************* -->
+          <!-- *    T  E  L  E  F  O  N  O    M  O  V  I  L    * -->
+          <!-- ************************************************* -->
+          <div class="form_field">
+            <div class="form_field_label"><label>Teléfono Móvil:</label></div>
+            <div class="form_field_value">
+              <input type='text' class="input_text" name='telefonoMovil' value='' maxlength='20' title='Telefono Movil'>
+                <input type="hidden" name='modificar_TelefonoMovil' value="true">
+              </div>
+          </div>
+
+          <!-- *********************** -->
+          <!-- *      F   A   X      * -->
+          <!-- *********************** -->
+          <div class="form_field">
+            <div class="form_field_label"><label>Fax:</label></div>
+            <div class="form_field_value">
+              <input type='text' class="input_text" name='fax' value='' maxlength='20' title='Fax' >
+                <input type="hidden" name='modificar_Fax' value="true">
+              </div>
+          </div>
+
+          <!-- *********************** -->
+          <!-- *      D   N   I      * -->
+          <!-- *********************** -->
+          <div class="form_field">
+                <div class="form_field_label"><label>DNI (*):</label></div>
+                <div class="form_field_value">
+                  28722708D<input type="hidden" name='dni' value='28722708D'>
+                </div>
+              </div>
+            <!-- ******************************** -->
+          <!-- *    J  A  F  E  C  A  C  C    * -->
+          <!-- ******************************** -->
+          <div class="form_field">
+              <div class="form_field_label"><label>Fecha de acceso al puesto en Sirhus:</label></div>
+              <div class="form_field_value">08/07/2026</div>
+            </div>
+          <!-- ******************************** -->
+          <!-- *    J  A  A  C  T  F  I  R    * -->
+          <!-- ******************************** -->
+          <div class="form_field">
+              <div class="form_field_label"><label>Fecha de puesta en firme en Sirhus:</label></div>
+              <div class="form_field_value">08/07/2026</div>
+            </div>
+          <!-- *********************************** -->
+          <!-- *    P  R  O  V  I  N  C  I  A    * -->
+          <!-- *********************************** -->
+          <div class="form_field">
+              <div class="form_field_label"><label>Provincia:</label></div>
+              <div class="form_field_value">
+                <select name="provincia" title="Provincia">
+                  <option value="99">&nbsp;</option>
+                  <option value="04" >Almería</option>
+                  <option value="11" >Cádiz</option>
+                  <option value="14" >Córdoba</option>
+                  <option value="18" >Granada</option>
+                  <option value="21" >Huelva</option>
+                  <option value="23" >Jaen</option>
+                  <option value="29" >Málaga</option>
+                  <option value="41" selected>Sevilla</option>
+                </select>
+              </div>
+            </div>
+          <!-- ********************************** -->
+          <!-- *    U  I  D    S  H  O  R  T    * -->
+          <!-- ********************************** -->
+          <div class="form_field">
+                <div class="form_field_label_multiple"><label>Suscripción a listas de sindicatos:</label></div>
+                <div class="form_field_value">
+                  <ul>
+                    <li>
+                          <div class="li_delete">
+                            <a name="Agrega_Suscripcion_0" title="Suscribirse a la lista ccoo" 
+                              id="Agrega_Suscripcion_0" href="javascript:enviar('modificacion','agregarSuscripcion','uid=mrosario.suarez,o=jus,o=empleados,o=juntadeandalucia,c=es#ccoo')">
+                              <span class="material-symbols-outlined icon_listados">delete</span></a>
+                            ccoo</div>
+                        </li>
+                      <li>
+                          <div class="li_delete">
+                            <a name="Agrega_Suscripcion_1" title="Suscribirse a la lista cgt" 
+                              id="Agrega_Suscripcion_1" href="javascript:enviar('modificacion','agregarSuscripcion','uid=mrosario.suarez,o=jus,o=empleados,o=juntadeandalucia,c=es#cgt')">
+                              <span class="material-symbols-outlined icon_listados">delete</span></a>
+                            cgt</div>
+                        </li>
+                      <li>
+                          <div class="li_delete">
+                            <a name="Agrega_Suscripcion_2" title="Suscribirse a la lista csif" 
+                              id="Agrega_Suscripcion_2" href="javascript:enviar('modificacion','agregarSuscripcion','uid=mrosario.suarez,o=jus,o=empleados,o=juntadeandalucia,c=es#csif')">
+                              <span class="material-symbols-outlined icon_listados">delete</span></a>
+                            csif</div>
+                        </li>
+                      <li>
+                          <div class="li_delete">
+                            <a name="Agrega_Suscripcion_3" title="Suscribirse a la lista cta" 
+                              id="Agrega_Suscripcion_3" href="javascript:enviar('modificacion','agregarSuscripcion','uid=mrosario.suarez,o=jus,o=empleados,o=juntadeandalucia,c=es#cta')">
+                              <span class="material-symbols-outlined icon_listados">delete</span></a>
+                            cta</div>
+                        </li>
+                      <li>
+                          <div class="li_delete">
+                            <a name="Agrega_Suscripcion_4" title="Suscribirse a la lista isa" 
+                              id="Agrega_Suscripcion_4" href="javascript:enviar('modificacion','agregarSuscripcion','uid=mrosario.suarez,o=jus,o=empleados,o=juntadeandalucia,c=es#isa')">
+                              <span class="material-symbols-outlined icon_listados">delete</span></a>
+                            isa</div>
+                        </li>
+                      <li>
+                          <div class="li_delete">
+                            <a name="Borrar_Suscripcion_5" title="Borrar Suscripcion a la lista saf" 
+                              id="Borrar_Suscripcion_5" href="javascript:enviar('modificacion','borrarSuscripcion','uid=mrosario.suarez,o=jus,o=empleados,o=juntadeandalucia,c=es#saf')">
+                              <span class="material-symbols-outlined icon_listados">delete</span></a>
+                            saf</div>
+                        </li>
+                      <li>
+                          <div class="li_delete">
+                            <a name="Agrega_Suscripcion_6" title="Suscribirse a la lista sgdt" 
+                              id="Agrega_Suscripcion_6" href="javascript:enviar('modificacion','agregarSuscripcion','uid=mrosario.suarez,o=jus,o=empleados,o=juntadeandalucia,c=es#sgdt')">
+                              <span class="material-symbols-outlined icon_listados">delete</span></a>
+                            sgdt</div>
+                        </li>
+                      <li>
+                          <div class="li_delete">
+                            <a name="Agrega_Suscripcion_7" title="Suscribirse a la lista ugt" 
+                              id="Agrega_Suscripcion_7" href="javascript:enviar('modificacion','agregarSuscripcion','uid=mrosario.suarez,o=jus,o=empleados,o=juntadeandalucia,c=es#ugt')">
+                              <span class="material-symbols-outlined icon_listados">delete</span></a>
+                            ugt</div>
+                        </li>
+                      <li>
+                          <div class="li_delete">
+                            <a name="Agrega_Suscripcion_8" title="Suscribirse a la lista uso" 
+                              id="Agrega_Suscripcion_8" href="javascript:enviar('modificacion','agregarSuscripcion','uid=mrosario.suarez,o=jus,o=empleados,o=juntadeandalucia,c=es#uso')">
+                              <span class="material-symbols-outlined icon_listados">delete</span></a>
+                            uso</div>
+                        </li>
+                      <li>
+                          <div class="li_delete">
+                            <a name="Agrega_Suscripcion_9" title="Suscribirse a la lista ustea" 
+                              id="Agrega_Suscripcion_9" href="javascript:enviar('modificacion','agregarSuscripcion','uid=mrosario.suarez,o=jus,o=empleados,o=juntadeandalucia,c=es#ustea')">
+                              <span class="material-symbols-outlined icon_listados">delete</span></a>
+                            ustea</div>
+                        </li>
+                      </ul>
+                </div>
+              </div>
+            <div class="form_field">
+                <div class="form_field_label"><label>Colectivo:</label></div>
+                <div class="form_field_value">J</div>
+              </div>
+            <div class="form_field">
+                <div class="form_field_label"><label>Categoría personal:</label></div>
+                <div class="form_field_value">D</div>
+              </div>
+            <div class="form_field">
+              <div class="form_field_label_multiple"><label>"Ficheros Junta":</label></div>
+              <input type="hidden" name="JAcloudQuota_old" value="0">
+              <div class="form_field_value">
+                      Habilitar acceso:
+                      <select name="JAcloud" title="Tipo de usuario en Ficheros Junta" onChange="javascript:actualizaCamposFJ();">
+                        <option value="SI">SI</option>
+                        <option value="NO" selected>NO</option>
+                      </select>
+                      <br>
+                      No tiene usuarios con cuota disponibles para dar de alta.
+                      <br>
+                      Tipo de usuario:
+                      <select name="JAcloudTipoUsuario" title="Tipo de usuario de Ficheros Junta">
+                        <option value="CuotaCero">Sólo consulta</option>
+                      </select>
+                    </div>
+                  </div>
+          <div class="form_field">
+              <div class="form_field_label"><label>"Reserva de Recursos":</label></div>
+              <div class="form_field_value">
+                <select name="JAreserva" title="Reserva de Recursos">
+                    <option value="SI" >SI</option>
+                    <option value="NO" >NO</option>
+                    <option value="ADMIN" >Administrador de Sede</option>
+                    <option value="LECTURA" >Lectura de Sede</option>
+                  </select>
+                </div>
+            </div>
+          <!-- Consigna -->
+          <div class="form_field">
+            <div class="form_field_label"><label>Habilitar Consigna:</label></div>
+            <div class="form_field_value">
+              <select name="consigna" title="Consigna">
+                  <option value="0" >SI</option>
+                  <option value="1" >NO</option>
+                </select>
+              </div>
+          </div>
+          <div class="form_field">
+              <div class="form_field_label_multiple"><label>Límites Consigna:</label></div>
+              <div class="form_field_value">
+                Máximo:
+                <input type="text" name="JAconsignaLimitesMax" value="3GB" maxlength=10 size=10>
+                <br>
+                A partir de:
+                <input type="text" name="JAconsignaLimitesSoft" value="1GB" maxlength=10 size=10>
+                limitar a:
+                <select name="JAconsignaLimitesTime" title="Limitar a">
+                  <option value="3600" >1 hora</option>
+                  <option value="86400" >1 dia</option>
+                  <option value="604800" >1 semana</option>
+                  <option value="1209600" >2 semanas</option>
+                  <option value="2592000" selected>1 mes</option>
+                </select>
+              </div>
+            </div>
+          <!-- JAperfilAcceso -->
+          <div class="form_field">
+            <div class="form_field_label"><label>Perfil de acceso WiFi:</label></div>
+            <div class="form_field_value">            
+              <select name="JAperfilAcceso" title="JAperfilAcceso">
+<option value=""></option>
+<option value="DENEGADO">DENEGADO</option>
+<option value="ITINERANTE">ITINERANTE</option>
+<option value="WIFI">WIFI</option>
+</select>
+</div>
+          </div>
+
+          <!-- Caducar el password -->
+          <div class="form_field">
+              <div class="form_field_label"><label>Caducar contraseña:</label></div>
+              <div class="form_field_value">
+                <select name="passCaducado" title="Caducar contraseña">
+                  <option value="SIN_CAMBIOS" >Sin cambios</option>
+                  <option value="CADUCAR">Caducar</option>            
+                </select>
+              </div>
+            </div>
+          <!-- Campo Comentarios -->
+          <div class="form_field">
+            <div class="form_field_label"><label>Comentarios:</label></div>
+            <div class="form_field_value">
+              <input type='text' class="input_text" size='40' name='comentarios' value='' maxlength='200' title='Comentarios'>
+              </div>
+          </div>
+
+          <!--
+          /***********************************************/
+          /*      C   A   D   U   C   I   D   A   D      */
+          /***********************************************/
+          -->
+          <div class="form_field">
+              <div class="form_field_label">&nbsp;</div>
+              <div class="form_field_value">
+                <input type=radio title='No tiene caducidad' name="caducidadNO" id="caducidadNO" value="NO" 
+                checked onClick="javascript:desactivaCaducidad()">
+                La entrada LDAP no tiene fecha de caducidad
+              </div>
+            </div>
+            <div class="form_field">
+              <div class="form_field_label"><label>&nbsp;</label></div>          
+              <div class="form_field_value">
+                <input type=radio title='Si tiene caducidad' name="caducidadSI" id="caducidadSI" value="SI" 
+                 onClick="javascript:activaCaducidad();">
+                La entrada LDAP sí tiene fecha de caducidad
+              </div>
+            </div>
+            <div id="camposCaducidad" style="visibility: hidden; display: none;">
+              <div class="form_field">
+                <div class="form_field_label"><label>Fecha de caducidad:</div>
+                <div class="form_field_value">
+                <input type="text"  title="Dia" name="caducidadDia" id="caducidadDia" size='2' disabled 
+                value=''  maxlength='2'>
+                /
+                <input type="text"  title="Mes" name="caducidadMes" id="caducidadMes" size='2' disabled 
+                value=''  maxlength='2'>
+                /
+                <input type="text"  title="Anno" name="caducidadAnno" id="caducidadAnno" size='2' disabled 
+                value='' maxlength='2'>
+                (dd/mm/aa)
+              </div>
+            </div>
+          </div>
+          
+          <div class="form_text">(*) Campos obligatorios</div>
+
+          <!-- *********************************************** -->
+          <!-- *   L I S T A S   A D M I N I S T R A D A S   * -->
+          <!-- *********************************************** -->
+          <!-- *************************************** -->
+          <!-- *   L I S T A S   M O D E R A D A S   * -->
+          <!-- *************************************** -->
+          <!-- *************************************** -->
+          <!-- *   L I S T A S   S U S C R I T A S   * -->
+          <!-- *************************************** -->
+          <div class="form_text">A continuación se muestran las listas a las que el usuario está suscrito:</div>
+            <div class="form_field">
+              <div class="form_field_label_multiple"><label>Listas:</label></div>
+              <div class="form_field_value">
+                <ul>
+                  <li>
+                          todos los usuarios<a id="icono_editar_lista_0" name="icono_editar_lista_0" title="Editar Lista" 
+                            href="javascript:editarLista('modificacion','modificacion','uid=todos.jus,o=jus,o=empleados,o=juntadeandalucia,c=es')">
+                            <span class="material-symbols-outlined icon_listados">edit</span></a>
+                        </li>
+                      </ul>
+              </div>
+            </div>
+          <!-- ***************************************** -->
+          <!-- *   C U E N T A S   -   M A N A G E R   * -->
+          <!-- ***************************************** -->
+          <!-- ******************************************** -->
+          <!-- *   D   A   T   O   S      R   C   J   A   * -->
+          <!-- ******************************************** -->
+          </fieldset>
+        <!-- *************************************** -->
+        <!-- *      B   O   T   O   N   E   S      * -->
+        <!-- *************************************** -->
+        <div class="botones">
+          <a class="button" name="ACTUALIZAR" title="Actualizar" id="ACTUALIZAR" href="javascript:validaModificacion('uid=mrosario.suarez,o=jus,o=empleados,o=juntadeandalucia,c=es');">ACTUALIZAR</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<footer>
+  <div class="inside">
+    <ul>
+      <li><span class="server">© Junta de Andalucía 2026</span></li>
+    </ul>
+  </div>
+</footer>
+</form>
+<script type="text/javascript" src="/scripts/jquery.min.js"></script>
+<script type="text/javascript" src="/scripts/jquery-migrate.min.js"></script>
+<script type="text/javascript" src="/scripts/back-to-top.js"></script>
+</body>
+</html>
+
+
+
