@@ -926,17 +926,19 @@ function screen-search {
 
 function screen-results {
     param([array]$Users, [string]$Title = "RESULTADOS")
-    $page = 0; $pageSize = 15
+    $pageSize = 15; $cursor = 0; $page = 0
 
     while ($true) {
-        ui; header
         $total = $Users.Count
+        if ($total -eq 0) { return -1 }
         $pages = [Math]::Max(1, [Math]::Ceiling($total / $pageSize))
-        Write-Host (".- $Title ($total usuarios)" + (" " * ($script:columns - 25 - $Title.Length)) + ".") -ForegroundColor Cyan
-        Write-Host "|" -NoNewline
-        $hdr = "{0,3} {1,-20} {2,-25} {3,-30}" -f "#", "UID", "NOMBRE", "EMAIL"
-        Write-Host $hdr.PadRight($script:columns - 3) -NoNewline
-        Write-Host "|" -ForegroundColor DarkGray
+        if ($cursor -ge $total) { $cursor = $total - 1 }
+        $page = [Math]::Floor($cursor / $pageSize)
+
+        ui; header
+        Write-Host (".- $Title ($total usuarios)" + (" " * ($script:columns - 20 - $Title.Length)) + ".") -ForegroundColor Cyan
+        $hdr = ("{0,3} {1,-20} {2,-25} {3,-30}" -f "#", "UID", "NOMBRE", "EMAIL")
+        Write-Host ("| " + $hdr.PadRight($script:columns - 4)) -ForegroundColor DarkGray
         $start = $page * $pageSize; $end = [Math]::Min($start + $pageSize - 1, $total - 1)
         for ($i = $start; $i -le $end; $i++) {
             $u = $Users[$i]
@@ -945,26 +947,37 @@ function screen-results {
             $fullName = "$($u.nombre) $($u.apellidos)".Trim()
             if (-not $fullName) { $fullName = "-" }
             $line = ("{0,3} {1,-20} {2,-25} {3,-30}" -f ($i+1), $uidStr.Substring(0, [Math]::Min(20, $uidStr.Length)), $fullName.Substring(0, [Math]::Min(25, $fullName.Length)), $emailStr.Substring(0, [Math]::Min(30, $emailStr.Length)))
-            if ($line.Length -gt $script:columns - 3) { $line = $line.Substring(0, $script:columns - 6) }
-            Write-Host "| " -NoNewline; Write-Host $line -ForegroundColor White -NoNewline
-            $pad = $script:columns - 4 - $line.Length
-            if ($pad -gt 0) { Write-Host (" " * $pad) -NoNewline }; Write-Host "|" -ForegroundColor DarkGray
+            if ($line.Length -gt $script:columns - 5) { $line = $line.Substring(0, $script:columns - 8) }
+            $isCur = ($i -eq $cursor)
+            if ($isCur) {
+                Write-Host "| " -NoNewline; Write-Host $line -ForegroundColor White -BackgroundColor DarkCyan -NoNewline
+                $pad = $script:columns - 4 - $line.Length
+                if ($pad -gt 0) { Write-Host (" " * $pad) -NoNewline -BackgroundColor DarkCyan }; Write-Host "|" -ForegroundColor DarkGray
+            } else {
+                Write-Host "| " -NoNewline; Write-Host $line -ForegroundColor White -NoNewline
+                $pad = $script:columns - 4 - $line.Length
+                if ($pad -gt 0) { Write-Host (" " * $pad) -NoNewline }; Write-Host "|" -ForegroundColor DarkGray
+            }
         }
         Write-Host ("'" + ("-" * ($script:columns - 2)) + "'") -ForegroundColor DarkGray
-        Write-Host ""
-        Write-Host ("Pagina $($page+1)/$pages") -ForegroundColor DarkGray -NoNewline
-        if ($start -gt 0) { Write-Host "  [a] anterior" -ForegroundColor Cyan -NoNewline }
-        if ($end -lt $total - 1) { Write-Host "  [s] siguiente" -ForegroundColor Cyan -NoNewline }
+
+        Write-Host ("  Resultado $($cursor+1) de $total") -ForegroundColor DarkGray -NoNewline
+        if ($start -gt 0) { Write-Host "  [p] ant" -ForegroundColor Cyan -NoNewline }
+        if ($end -lt $total - 1) { Write-Host "  [n] sig" -ForegroundColor Cyan -NoNewline }
         Write-Host ""
 
-        $input = prompt "Selecciona # para ver perfil (0=volver): " "0"
-        if ($input -eq "0") { return -1 }
-        elseif ($input -eq "s" -and $end -lt $total - 1) { $page++ }
-        elseif ($input -eq "a" -and $page -gt 0) { $page-- }
-        elseif ($input -match '^\d+$') {
-            $idx = [int]$input - 1
-            if ($idx -ge 0 -and $idx -lt $total) { return $idx }
-        }
+        $k = Get-Key
+        if ($k.Key -eq 'UP' -or $k.Key -eq 'K') { if ($cursor -gt 0) { $cursor-- }; continue }
+        if ($k.Key -eq 'DOWN' -or $k.Key -eq 'J') { if ($cursor -lt $total - 1) { $cursor++ }; continue }
+        if ($k.Key -eq 'PAGEUP') { $cursor = [Math]::Max(0, $cursor - $pageSize); continue }
+        if ($k.Key -eq 'PAGEDOWN') { $cursor = [Math]::Min($total - 1, $cursor + $pageSize); continue }
+        if ($k.Key -eq 'HOME') { $cursor = 0; continue }
+        if ($k.Key -eq 'END') { $cursor = $total - 1; continue }
+        if ($k.Key -eq 'ENTER') { return $cursor }
+        if ($k.Key -eq '0' -or $k.Key -eq 'ESCAPE') { return -1 }
+        if ($k.Key -eq '?') { Show-Help -Screen "results"; continue }
+        if ($k.Key -eq 'N') { $cursor = [Math]::Min($total - 1, $cursor + $pageSize); continue }
+        if ($k.Key -eq 'P') { $cursor = [Math]::Max(0, $cursor - $pageSize); continue }
     }
 }
 
