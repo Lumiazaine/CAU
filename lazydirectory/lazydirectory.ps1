@@ -988,33 +988,101 @@ function screen-profile {
     $uid = if ($f['uid']) { $f['uid'] } else { $f['identificador'] }
     $displayId = if ($uid) { $uid } else { "desconocido" }
 
-    ui; header
-    Write-Host (".- $displayId" + (" " * ($script:columns - 6 - $displayId.Length)) + ".") -ForegroundColor Cyan
-    Write-Host "|"
-    Write-Host "|  DATOS DEL USUARIO" -ForegroundColor Cyan
-    Write-Host "|" -ForegroundColor DarkGray
-    row "Nombre"        $(if ($f['nombreUsuario']) { $f['nombreUsuario'] } else { $f['cn'] }) "Green"
-    row "Identificador" $(if ($f['uid']) { $f['uid'] } else { $f['identificador'] }) "Green"
-    row "Tipo usuario"  $f['tipoEntrada']
-    row "Correo"        $f['mail'] "DarkYellow"
-    row "Ultimo cambio" $f['ultimoCambioPassword'] "DarkYellow"
-    row "DN"            $f['dn']
-    Write-Host "|"
-    Write-Host "|  OPCIONES" -ForegroundColor Cyan
-    Write-Host "|  1. Cambiar contrasena" -ForegroundColor Cyan
-    Write-Host "|  2. Ver campos raw (todos)" -ForegroundColor Cyan
-    Write-Host "|  3. Ver HTML debug" -ForegroundColor Cyan
-    Write-Host "|  4. Editar datos" -ForegroundColor Cyan
-    Write-Host "|  0. Volver al menu" -ForegroundColor Red
-    Write-Host "|"
-    Write-Host ("'" + ("-" * ($script:columns - 2)) + "'") -ForegroundColor DarkGray
+    $profileFields = @(
+        @{ label = "Nombre";         key = "nombreUsuario"; fallback = "cn";              color = "Green" }
+        @{ label = "Identificador";  key = "uid";           fallback = "identificador";   color = "Green" }
+        @{ label = "Tipo usuario";   key = "tipoEntrada";                                  color = "White" }
+        @{ label = "Correo";         key = "mail";                                         color = "DarkYellow" }
+        @{ label = "Ultimo cambio";  key = "ultimoCambioPassword";                         color = "DarkYellow" }
+        @{ label = "DNI";            key = "dni";                                          color = "White" }
+        @{ label = "Cargo";          key = "cargo";                                        color = "White" }
+        @{ label = "Servicio";       key = "servicio";                                     color = "White" }
+        @{ label = "Telefono";       key = "telefonoFijo";                                 color = "White" }
+        @{ label = "Movil";          key = "telefonoMovil";                                color = "White" }
+        @{ label = "Provincia";      key = "provincia";                                    color = "White" }
+        @{ label = "Department";     key = "departmentNumber";                             color = "White" }
+        @{ label = "Cuota";          key = "cuota";                                        color = "White" }
+        @{ label = "Comentarios";    key = "comentarios";                                  color = "DarkYellow" }
+        @{ label = "DN";             key = "dn";                                           color = "DarkGray" }
+    )
 
-    Write-Host ""
-    $opt = prompt "Opcion: " "0"
-    if ($opt -eq "1") { screen-password }
-    elseif ($opt -eq "2") { screen-raw-fields }
-    elseif ($opt -eq "3") { screen-debug-html }
-    elseif ($opt -eq "4") { screen-edit }
+    $visibleFields = @()
+    foreach ($pf in $profileFields) {
+        $val = if ($f.ContainsKey($pf.key) -and $f[$pf.key]) { $f[$pf.key] } `
+               elseif ($pf.ContainsKey('fallback') -and $f.ContainsKey($pf.fallback) -and $f[$pf.fallback]) { $f[$pf.fallback] } `
+               else { $null }
+        if ($val) { $visibleFields += @{ label = $pf.label; value = $val; color = $pf.color } }
+    }
+
+    $useColumns = $script:columns -ge 120
+    $scrollPos = 0
+    $actionRow = $visibleFields.Count
+    if ($useColumns) {
+        $colCount = [Math]::Ceiling($visibleFields.Count / 2)
+        $maxVisible = $colCount + 6
+    } else {
+        $maxVisible = 12
+    }
+
+    while ($true) {
+        ui; header
+        Write-Host (".- $displayId" + (" " * ($script:columns - 8 - $displayId.Length)) + ".") -ForegroundColor Cyan
+        Write-Host "|"
+        Write-Host "|  DATOS DEL USUARIO" -ForegroundColor Cyan
+        Write-Host "|"
+
+        if ($useColumns) {
+            $half = [Math]::Ceiling($visibleFields.Count / 2)
+            for ($i = 0; $i -lt $half; $i++) {
+                $left = $visibleFields[$i]
+                $rightIdx = $i + $half
+                $right = if ($rightIdx -lt $visibleFields.Count) { $visibleFields[$rightIdx] } else { $null }
+                $valLeft = if ($left.value.Length -gt 25) { $left.value.Substring(0, 24) + "~" } else { $left.value }
+                Write-Host ("|  " + $left.label.PadRight(16) + ": ") -NoNewline
+                Write-Host $valLeft.PadRight(26) -ForegroundColor $left.color -NoNewline
+                if ($right) {
+                    $valRight = if ($right.value.Length -gt 25) { $right.value.Substring(0, 24) + "~" } else { $right.value }
+                    Write-Host ($right.label.PadRight(16) + ": ") -NoNewline
+                    Write-Host $valRight -ForegroundColor $right.color
+                } else { Write-Host "" }
+            }
+        } else {
+            $end = [Math]::Min($scrollPos + $maxVisible - 1, $visibleFields.Count - 1)
+            for ($i = $scrollPos; $i -le $end; $i++) {
+                $pf = $visibleFields[$i]
+                row $pf.label $pf.value $pf.color
+            }
+        }
+
+        Write-Host "|"
+        Write-Host "|  OPCIONES" -ForegroundColor Cyan
+        Write-Host "|  [1] Cambiar contrasena" -ForegroundColor Cyan
+        Write-Host "|  [2] Campos raw" -ForegroundColor Cyan
+        Write-Host "|  [3] HTML debug" -ForegroundColor Cyan
+        Write-Host "|  [4] Editar datos" -ForegroundColor Cyan
+        Write-Host "|  [0] Volver" -ForegroundColor Red
+        Write-Host "|"
+        Write-Host ("'" + ("-" * ($script:columns - 2)) + "'") -ForegroundColor DarkGray
+
+        footer @("[1-4] Accion", "[e] Editar", "[c] Pass", "[?] Ayuda", "[0] Volver")
+
+        $k = Get-Key
+        if ($k.Key -eq '0' -or $k.Key -eq 'ESCAPE') { return }
+        if ($k.Key -eq '1') { screen-password; continue }
+        if ($k.Key -eq '2') { screen-raw-fields; continue }
+        if ($k.Key -eq '3') { screen-debug-html; continue }
+        if ($k.Key -eq '4' -or $k.Key -eq 'E') { screen-edit; continue }
+        if ($k.Key -eq 'C') { screen-password; continue }
+        if ($k.Key -eq 'J' -or $k.Key -eq 'DOWN') {
+            if (-not $useColumns -and $scrollPos + $maxVisible -lt $visibleFields.Count) { $scrollPos++ }
+            continue
+        }
+        if ($k.Key -eq 'K' -or $k.Key -eq 'UP') {
+            if (-not $useColumns -and $scrollPos -gt 0) { $scrollPos-- }
+            continue
+        }
+        if ($k.Key -eq '?') { Show-Help -Screen "profile"; continue }
+    }
 }
 
 function Parse-SelectOptions {
