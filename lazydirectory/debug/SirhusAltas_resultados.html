@@ -1,0 +1,265 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="es">
+<head>
+  <title>SIRHUS - ALTAS</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <link rel="stylesheet" href="/css/admdir.css" type="text/css">
+  <style  type="text/css">    </style>
+  <script language="javascript" src="/scripts/sirhus.js" type="text/javascript"></script>
+</head>
+<body onLoad="javascript:ocultaCortinilla()">
+<form id="formulario"  method="post" action="es.sadesi.admdirectorio.servlets.SirhusAltas" >
+<input type="hidden" name="accion" value="consulta">
+<input type="hidden" name="botonPulsado" value="">
+<input type="hidden" name="posSeleccion" value="" >
+<input type="hidden" name="tokenParametro" value="f3f8e7c7-bba3-4482-b9ff-b90c520e3bad">
+<input type="hidden" name="tipoActualizacion" value="">
+<header>
+  <div id="header_topbar">
+    <div class="inside">
+      <div class="logo"><img src="/img/logo_ja.png"></div>
+      <nav aria-label="navegacion principal" class="top_menu">
+        <ul class="top_menu_options">
+          <li id="appbar_button">
+            <a href="#"><span class="material-symbols-outlined">apps</span></a>
+            <ul id="appbar_dropdown">
+              <li>
+                <a href="https://correo.juntadeandalucia.es/" target="_blank">
+                  <img src="/img/icon-appbar-4-webmail.png" alt="Acceso a Webmail">
+                </a>
+              </li>
+              <li>
+                <a href="https://consigna.juntadeandalucia.es/" target="_blank">
+                  <img src="/img/icon-appbar-4-consigna.png" alt="Acceso a Consigna">
+                </a>
+              </li>
+              <li>
+                <a href="https://redprofesional.juntadeandalucia.es/" target="_blank">
+                  <img src="/img/icon-appbar-4-red-profesional.png" alt="Acceso a Red Profesional">
+                </a>
+              </li>
+              <li>
+                <a href="https://ficheros.juntadeandalucia.es/" target="_blank">
+                  <img src="/img//icon-appbar-ficheros.png" alt="Ficheros Junta">
+                </a>
+              </li>
+              <li>
+                <a href="https://reservas.juntadeandalucia.es/" target="_blank">
+                  <img src="/img/icon-appbar-reservas_b.png" alt="Reserva de Recursos">
+                </a>
+              </li>
+              <li>
+                <a href="https://micuenta.juntadeandalucia.es/" target="_blank">
+                  <img src="/img/icon-appbar-4-micuenta.png" alt="Mi Cuenta">
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li id="close_button">
+            <a href="#">
+              <span id="user_name_in_menu">&nbsp;just9.sandetel.ext - jus</span>
+              <span class="material-symbols-outlined">keyboard_arrow_down</span>
+            </a>
+            <ul id="close_dropdown">
+              <li>
+                <a href="/logout.jsp">
+                  <span class="material-symbols-outlined">cancel</span>&nbsp;Cerrar sesión</a>                
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="https://ayuda-productividad.juntadeandalucia.es/aplicaciones/admdir/" target="_blank">
+              <span class="material-symbols-outlined icon_menu dis_margin_mobile">help</span><span class="hid_mobile">Ayuda</span></a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+      
+  </div>
+  
+  <div id="header_menubar">
+    <div class="inside">
+      <div class="admdir_logo">
+        <a href="https://directorio.juntadeandalucia.es/"><img src="/img/admdir_logo.png"></a>
+      </div>
+      <nav aria-label="navegacion" class="main_menu">
+        <ul class="main_menu_options">
+          <li>
+              <a href="/myServlets/es.sadesi.admdirectorio.servlets.AdministradorMain">
+                <span class="material-symbols-outlined icon_menu">home</span>
+                <span class="hid_mobile hid_tablet">Inicio</span></a>
+            </li>
+            <li>
+              <a href="/myServlets/es.sadesi.admdirectorio.servlets.UsuariosMain">
+                <span class="material-symbols-outlined icon_menu">group</span>
+                <span class="hid_mobile hid_tablet">Usuarios</span></a>
+            </li>
+            <li>
+              <a href="/myServlets/es.sadesi.admdirectorio.servlets.ListasMain">
+                <span class="material-symbols-outlined icon_menu">library_books</span>
+                <span class="hid_mobile hid_tablet">Listas</span></a>
+            </li>
+            <li id="submenu_sirhus_button">
+                <a href="#">
+                  <span class="material-symbols-outlined icon_menu">accessibility</span>
+                  <span class="hid_mobile hid_tablet">Sirhus</span></a>                
+                <ul id="submenu_sirhus">
+                  <li><a href="/myServlets/es.sadesi.admdirectorio.servlets.SirhusAltas">Altas</a></li>
+                  <li><a href="/myServlets/es.sadesi.admdirectorio.servlets.SirhusBajas">Bajas</a></li>
+                  <li><a href="/myServlets/es.sadesi.admdirectorio.servlets.SirhusTraslados">Traslados</a></li>
+                </ul>
+              </li>
+            <li id="submenu_recursos_button">
+              <a href="#">
+                <span class="material-symbols-outlined icon_menu">apartment</span>
+                <span class="hid_mobile hid_tablet">Recursos</span></a>
+                <ul id="submenu_recursos">
+                  <li><a href="/myServlets/es.sadesi.admdirectorio.servlets.RecursosAdmDelegado"   >Adm. Delegados</a></li>
+                  <li><a href="/myServlets/es.sadesi.admdirectorio.servlets.RecursosEdificios "    >Edificios</a></li>
+                  <li><a href="/myServlets/es.sadesi.admdirectorio.servlets.RecursosNodos"         >Nodos</a></li>
+                  <li><a href="/myServlets/es.sadesi.admdirectorio.servlets.RecursosPuestosTrabajo">Puestos de Trabajo</a></li>
+                  <li><a href="/myServlets/es.sadesi.admdirectorio.servlets.RecursosProveedores"   >Proveedores</a></li>
+                  <li><a href="/myServlets/es.sadesi.admdirectorio.servlets.RecursosServicios"     >Servicios</a></li>
+                  <li><a href="/myServlets/es.sadesi.admdirectorio.servlets.RecursosZtna"          >Ztna</a></li>
+                </ul>
+            </li>
+            <li>
+              <a href="/myServlets/es.sadesi.admdirectorio.servlets.FiltrosMain">
+                <span class="material-symbols-outlined icon_menu">filter_alt</span>
+                <span class="hid_mobile hid_tablet">Filtros</span></a>
+            </li>
+            </ul>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<div class="cabecera_cortinilla" id="cabecera_cortinilla">
+  Cargando página... Por favor, espere...
+</div>
+
+<main>
+  <nav aria-label="Migas de pan" class="miga_contenedor">
+    <a href="/myServlets/es.sadesi.admdirectorio.servlets.SirhusAltas">Sirhus - Altas</a>
+  </nav>
+  <div class="inside">
+    <div id="vista_datos"> 
+      <div id="datos_usuario" class="card">
+        <div class="card_header">
+          <div class="card_header_title">
+            <h1>Sirhus - Altas</h1>
+          </div>
+        </div>
+        <!-- ******************************************* -->
+        <!-- *      B   U   S   C   A   D   O   R      * -->
+        <!-- ******************************************* -->
+        <div class="buscador">
+
+          <div class="buscador_contenido">
+            
+              Buscar por:&nbsp;&nbsp;
+              <select name="filtroAtributo" onChange="javascript:enviar('cambioFiltro','','')" title="Buscar por">
+                <option value="identificador" >Identificador</option>
+                <option value="nombre"        selected>Nombre</option>
+                <option value="centroDirectivo"> Centro Directivo</option>
+                </select>
+              &nbsp;&nbsp;
+              <select name="filtroTipoBusqueda" size="1" title="Tipo de busqueda">
+                <option value="empezando"     >empezando por</option>
+                <option value="igual"             >igual a</option>
+                <option value="terminando"   >terminando en</option>
+                <option value="conteniendo" selected>conteniendo a</option>
+              </select>
+              &nbsp;&nbsp;
+              <input type="text" name="filtroValor" maxlength="50" size="20" value="veronica" title="Valor">
+            </div>
+          <div class="botones">
+            <a class="button" name="MOSTRAR_RESULTADOS" title="Mostrar Resultados" id="MOSTRAR_RESULTADOS" href="javascript:enviar('consulta','','');">
+            MOSTRAR RESULTADOS</a>
+            <a class="button" name="IMPRIMIR" title="Imprimir" id="IMPRIMIR" href="javascript:impresionParcial();">IMPRIMIR</a>
+                <a class="button" name="IMPRIMIR_TODO" title="Imprimir Todo" id="IMPRIMIR_TODO" href="javascript:enviar('impresionCompleta','','');">
+                IMPRIMIR TODO</a>
+                <a class="button" name="VALIDAR" title="Validar" id="VALIDAR" href="javascript:validacionParcial();">VALIDAR</a>
+                <a class="button" name="VALIDAR_TODO" onClick="javascript:document.getElementById('validarTodo').style.display='block';" title="Validar Todo" 
+                id="VALIDAR_TODO" >VALIDAR TODO</a>
+            </div>
+        </div>
+      
+
+        <!-- ******************************************* -->
+        <!-- *      L   I   S   T   A   D   O   S      * -->
+        <!-- ******************************************* -->
+        <div class="mensaje_info" id="validarTodo" style="display:none">
+            <p>
+              <b>AVISO:</b> Esta acción se ejecutará de forma retardada en horario nocturno, por lo que no verá ningún cambio
+              hasta mañana en esta sección.
+            </p>
+            <p>
+              <input type="radio" name="accionValidacion" title='Actualizar a los servidores por defecto del organismo' id="type_1" value="ACTUALIZAR">
+              Actualizar los servidores de correo y de webmail de los usuarios con los servidores por defecto del organismo.
+            </p>
+            <p>
+              <input type="radio" name="accionValidacion" title='Mantener los servidores actuales de los usuarios' id="type_2" value="MANTENER">
+              Mantener los servidores de correo y de webmail actuales de los usuarios.
+            </p>
+            <div class="botones">
+              <a class="button" name="ACEPTAR" title="Aceptar" id="ACEPTAR" href="javascript:validacionTotal();">ACEPTAR</a>
+              <a class="button" name="CANCELAR" title="Cancelar" id="CANCELAR" onClick="javascript:document.getElementById('validarTodo').style.display='none';">CANCELAR</a>
+            </div>
+          </div>
+
+          <div class="resultados_busqueda">
+            <div class="listado">
+              <div class="cabecera">
+                <span class="campo" style="width:30px"><input type="checkbox" name="checkboxAll" onClick="javascript:checkAll()" title="Seleccionar todos"></span>
+                <span class="campo" style="width:20%">Nombre y Apellidos</span>
+                <span class="campo" style="width:20%">Identificador</span>
+                <span class="campo" style="width:30%">C.Directivo (C.Destino)</span>
+                <span class="campo" style="width:15%;text-align:center;">Servidor de correo</span>
+                <span class="campo" style="width:15%;text-align:center;">Servidor de Webmail</span>
+              </div>
+              <div class="fila_par" id="fila_0">
+                  <span class="campo" style="width:30px">
+                    <input type="checkbox" name="checkbox" title="Seleccionar" onClick="javascript:activaDesactiva_checbox_all()">
+                    <input type="hidden" name="usuarioSeleccionado" value="NO">
+                    <input type="hidden" name="dn" value="uid=veronica.garrido,o=jus,o=empleados,o=juntadeandalucia,c=es">
+                  </span>
+                  <span class="campo" style="width:20%">Veronica Garrido Callejon</span>
+                  <span class="campo" style="width:20%">veronica.garrido</span>
+                  <span class="campo" style="width:30%">
+                    ÓRGANOS JUDICIALES&nbsp;(SERV.COMUN TRAMIT.TRIB.INST.ARCOS FTRA.)</span>
+                  <span class="campo" style="width:15%;text-align: center;">
+                    <select name="servidorCorreo" title="Servidor de correo">
+                        <option value="Centralizado" selected>Centralizado</option>
+                          <option value="juntadeandalucia-es.mail.protection.outlook.com" >juntadeandalucia-es.mail.protection.outlook.com</option>
+                          </select>
+                    </span>
+                  <span class="campo" style="width:15%;text-align:center;">                
+                    
+                      Centralizado
+                      <input type="hidden" name="servidorWebmail" value="Centralizado">
+                    </span>
+                </div>
+                </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</main>
+<footer>
+  <div class="inside">
+    <ul>
+      <li><span class="server">© Junta de Andalucía 2026</span></li>
+    </ul>
+  </div>
+</footer>
+</form>
+<script type="text/javascript" src="/scripts/jquery.min.js"></script>
+<script type="text/javascript" src="/scripts/jquery-migrate.min.js"></script>
+<script type="text/javascript" src="/scripts/back-to-top.js"></script>
+</body>
+</html>
+
+

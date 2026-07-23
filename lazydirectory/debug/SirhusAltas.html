@@ -1,0 +1,160 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es">
+	<head>
+		<title>Administrador del Directorio Corporativo</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="description">
+		<meta name="viewport" content="width=device-width">
+		<meta name="mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<meta name="mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<link rel="apple-touch-icon" href="/login_prod/favicon-128.png">
+		<link rel="icon" href="favicon.ico">
+		<link rel="icon" sizes="16x16" type="image/png" href="/login_prod/favicon-16.png">
+		<link rel="icon" sizes="32x32" type="image/png" href="/login_prod/favicon-32.png">
+		<link rel="icon" sizes="64x64" type="image/png" href="/login_prod/favicon-64.png">
+		<link rel="icon" sizes="128x128" type="image/png" href="/login_prod/favicon-128.png">
+		<link rel="manifest" href="/login_prod/manifest.json">
+		<link rel="stylesheet" href="/login_prod/font-awesome.css">
+		<link rel="stylesheet" href="/login_prod/login_styles.css?refreshme=1">
+		<script>
+			require = function () {
+			// handled in the view "sandetel.js"
+			_require_queue.push(arguments);
+			};
+			_require_queue = [];
+		</script>
+		<style type="text/css">
+			@font-face {
+			font-family: 'FontAwesome';
+			src: url('https://netdna.bootstrapcdn.com/font-awesome/4.0.3/fonts/fontawesome-webfont.eot?v=4.0.3');
+			src: url('https://netdna.bootstrapcdn.com/font-awesome/4.0.3/fonts/fontawesome-webfont.eot?#iefix&v=4.0.3') format('embedded-opentype'), url('https://netdna.bootstrapcdn.com/font-awesome/4.0.3/fonts/fontawesome-webfont.woff?v=4.0.3') format('woff'), url('https://netdna.bootstrapcdn.com/font-awesome/4.0.3/fonts/fontawesome-webfont.ttf?v=4.0.3') format('truetype'), url('https://netdna.bootstrapcdn.com/font-awesome/4.0.3/fonts/fontawesome-webfont.svg?v=4.0.3#fontawesomeregular') format('svg');
+			font-weight: normal;
+			font-style: normal;
+			}
+			@-moz-keyframes spin {
+			0% { -moz-transform: rotate(0deg); }
+			100% { -moz-transform: rotate(359deg); }
+			}
+			@-webkit-keyframes spin {
+			0% { -webkit-transform: rotate(0deg); }
+			100% { -webkit-transform: rotate(359deg); }
+			}
+			@-o-keyframes spin {
+			0% { -o-transform: rotate(0deg); }
+			100% { -o-transform: rotate(359deg); }
+			}
+			@-ms-keyframes spin {
+			0% { -ms-transform: rotate(0deg); }
+			100% { -ms-transform: rotate(359deg); }
+			}
+			@keyframes spin {
+			0% { transform: rotate(0deg); }
+			100% { transform: rotate(359deg); }
+			}
+		</style>
+		<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+	</head>
+	<body>
+		<div class="login">
+		<div class="login-wrapper">
+		<div class="cuerpo-dentro">
+			<div class="cuerpo-izquierdo">
+				<ul class="login-header-logos">
+					<li>
+						<img 
+							class="login-header-logos-red" 
+							srcset="
+								/login_prod/logo_admdir-450w.png 450w,
+								/login_prod/logo_admdir-900w.png 900w"
+
+							src="/login_prod/logo_admdir.png" 
+							alt="Logo Administrador de Directorio Corporativo (Ir a inicio)"
+						/>
+					</li>
+				</ul>
+				<h1 class="home-title login-header-title">
+					<span>Administrador de Directorio Corporativo</span>
+				</h1>
+			</div>
+			<div class="form-login">
+				<ul class="sandetel-system-messages">
+					<li class="hidden"></li>
+					<li class="sandetel-message sandetel-state-error" style="opacity: 0.9">
+						Se ha perdido la sesi&oacute;n. Por favor, introduzca de nuevo su usuario y su contrase&ntilde;a.</li>
+					</ul>
+				<form method="post" action="/myServlets/es.sadesi.admdirectorio.servlets.LoginInicial" id="formulario">
+					<input type="hidden" name="accionInicial" value="inicio">
+					<input type="hidden" name="tokenParametro" value="ed3f1a4e-fc45-4675-91ba-e0e0fec39521">
+
+        <fieldset>
+						<section class="login-section-sso sandetel-card">
+							<h3>Inicio de sesión con acceso único</h3>
+							<img 
+								class="login-section-imgsso" 
+								srcset="
+									/micuenta/login_prod/ssolog-233w.png 233w,
+									/micuenta/login_prod/ssolog-466w.png 466w
+								"
+								src="/micuenta/login_prod/ssolog.png" 
+								alt="SSOweb Sistema de login único"
+							/>
+							<a class="button-login-a" name="INICIAR_SESION" title="Iniciar Sesión" id="INICIAR_SESION" onClick="document.location.href='/saml/login?idp=https://ssoweb.juntadeandalucia.es/opensso'">
+							<input type="button" style="min-width: 100%;" class="sandetel-button button-login show-desktop-login" value="Pulse para iniciar sesión" />
+							<input type="button" style="min-width: 100%;" class="sandetel-button button-login show-responsive-login" value="Iniciar sesión" />
+							</a>
+							<p class="login-message-form">Si no puedes acceder, intenta iniciar sesión con el <a id="mostrar-alternativo" href="#">Inicio Alternativo</a></p>
+							<div class="acceso-alternativo">
+								<span class="capa_oculta"><input type="submit" name="SUBMIT" title="Submit" value="SUBMIT"></span>
+								<label class="label-alternativo" for="login-name">Nombre de usuario:</label>
+								<input value="" type="text" id="login-name" title="Usuario" name="administrador" class="sandetel-input-text rcmloginuser">
+								<label class="label-alternativo" for="login-pwd">Contraseña:</label>
+								<input value="" autocapitalize="off" autocorrect="off" type="password" id="login-pwd" title="password" name="clave" class="sandetel-input-password rcmloginpwd">
+								<input type="submit" name="login" value="Entrar" class="sandetel-button sandetel-button-submit button-login sandetel-button-total">    
+								<div>
+						</section>
+					</fieldset>
+        </form>
+				</div>
+				</div>
+			</div>
+			<div class="footer-login">
+				<footer class="sandetel-page-footer">
+					<div class="sandetel-inner">
+            <ul>
+              <li>
+								<span class="server">© Junta de Andalucía 2025</span>
+              </li>
+							<li>
+								<span class="server">Administrador de Directorio v1.67.0</span>
+              </li>
+							<!--<li><span class="server"></span></li>-->
+							<!--<li>
+								<a href="https://correo.juntadeandalucia.es/ayuda/index.html#/term_admdir" class="sandetel-menu-content" target="blank" title="Ir a la página de la Junta sobre Términos de uso de admdir (Abre ventana nueva)">Términos de uso</a>
+							</li>-->
+              <li>
+								<a href="https://ayuda-productividad.juntadeandalucia.es/aplicaciones/administrador-de-directorio/" class="sandetel-menu-content" target="blank" title="Ir a la página de Ayuda de admdir (Abre ventana nueva)">Ayuda</a>
+              </li>
+							<!--
+              <li>
+								<a href="/accesibilidadadmdir.html" target="blank" title="Ir a la página de la declaración de accesibilidad">Accesibilidad</a>
+              </li>
+							-->
+              <li>
+								<a href="https://ayuda-productividad.juntadeandalucia.es/soporte/" class="sandetel-menu-content" target="blank" title="Ir a la página de Soporte para consultas o incidencias (Abre ventana nueva)">Soporte</a>
+							</li>
+							<li>
+								<a href="https://https://ayuda-productividad.juntadeandalucia.es/como-empezar/como-empezar-acceso-unico/" class="sandetel-menu-content" target="blank" title="Ir a la página de información sobre Sistema de acceso único (Abre ventana nueva)">Sistema de acceso único</a>
+              </li>
+            </ul>
+          </div>
+				</footer>
+        </div>       
+  </div>
+		<script src="/login_prod/jquery.js"></script>
+		<script src="/login_prod/login_scripts.js"></script>
+	</body>
+</html>
+
