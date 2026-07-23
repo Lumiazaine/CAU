@@ -20,6 +20,9 @@ $script:authenticated = $false
 $script:columns = 80
 $script:ramaLdap = "jus"
 $script:isInterno = $false
+$script:sirhusFiltroAtributo = ""
+$script:sirhusFiltroTipoBusqueda = ""
+$script:sirhusFiltroValor = ""
 
 function ui {
     $script:columns = [Math]::Max(80, [Console]::WindowWidth)
@@ -362,7 +365,12 @@ function Ensure-Branch {
 }
 
 function Search-User {
-    param([string]$Query = "", [string]$SearchField = "identificador", [string]$SearchType = "empezando")
+    param([string]$Query = "", [string]$SearchField = "identificador", [string]$SearchType = "conteniendo")
+
+    # Auto-detect DNI: 7-8 digitos sin letra → buscar por dni exacto
+    if ($Query -match '^\d{7,8}$') {
+        $SearchField = "dni"; $SearchType = "igual"
+    }
 
     $branch = Ensure-Branch $Query
     $esInt = ($branch -eq "ius")
@@ -476,7 +484,7 @@ function Get-UserProfile {
             accion = $Action; botonPulsado = $Btn; datoAuxiliar = $Aux
             tokenParametro = $Token
             filtroAtributo = 'identificador'
-            filtroTipoBusqueda = 'empezando'
+            filtroTipoBusqueda = 'conteniendo'
             filtroValor = $UID
             marcarSirhus = $(if ($esInt) { 'NO' } else { 'SI' })
             marcarInternos = $(if ($esInt) { 'SI' } else { 'NO' })
@@ -597,7 +605,7 @@ function Set-UserPassword {
         accion = 'consulta'; botonPulsado = ''; datoAuxiliar = ''
         tokenParametro = $script:token
         filtroAtributo = 'identificador'
-        filtroTipoBusqueda = 'empezando'
+        filtroTipoBusqueda = 'conteniendo'
         filtroValor = $searchUser
         marcarSirhus = $(if ($esInt) { 'NO' } else { 'SI' })
         marcarInternos = $(if ($esInt) { 'SI' } else { 'NO' })
@@ -628,7 +636,7 @@ function Set-UserPassword {
         accion = 'modificacion'; botonPulsado = 'confirmarPassword'
         datoAuxiliar = '0'; tokenParametro = $script:token
         filtroAtributo = 'identificador'
-        filtroTipoBusqueda = 'empezando'
+        filtroTipoBusqueda = 'conteniendo'
         filtroValor = $searchUser
         marcarSirhus = $(if ($esInt) { 'NO' } else { 'SI' })
         marcarInternos = $(if ($esInt) { 'SI' } else { 'NO' })
@@ -669,7 +677,7 @@ function screen-main {
     panel "MENU PRINCIPAL" {
         Write-Host "|"
         Write-Host "|  1. Buscar usuario" -ForegroundColor Cyan
-        Write-Host "|  2. Ver perfil" -ForegroundColor Cyan
+        Write-Host "|  2. Crear usuario" -ForegroundColor Cyan
         Write-Host "|  3. Cambiar contrasena" -ForegroundColor Cyan
         Write-Host "|  4. Listas" -ForegroundColor Cyan
         Write-Host "|  5. Sirhus" -ForegroundColor Cyan
@@ -719,23 +727,11 @@ function screen-search {
     $searchField = $fieldMap[$opt]
     if (-not $searchField) { return $null }
 
-    Write-Host ""
-    Write-Host "  TIPO DE BUSQUEDA:" -ForegroundColor White
-    Write-Host "  1. empezando por" -ForegroundColor Cyan
-    Write-Host "  2. igual a" -ForegroundColor Cyan
-    Write-Host "  3. terminando en" -ForegroundColor Cyan
-    Write-Host "  4. conteniendo a" -ForegroundColor Cyan
-    Write-Host ""
-    $tOpt = prompt "Tipo (1-4): " "1"
-    $typeMap = @{"1" = "empezando"; "2" = "igual"; "3" = "terminando"; "4" = "conteniendo"}
-    $searchType = $typeMap[$tOpt]
-    if (-not $searchType) { $searchType = "empezando" }
-
     $query = prompt "Valor a buscar: "
     if (-not $query) { return $null }
 
     Write-Log "Buscando..." "INFO"
-    $users = Search-User -Query $query -SearchField $searchField -SearchType $searchType
+    $users = Search-User -Query $query -SearchField $searchField -SearchType "conteniendo"
 
     if ($users.Count -eq 0) {
         Write-Log "No se encontraron usuarios" "WARN"
@@ -982,7 +978,7 @@ function screen-edit {
         $fetchBody = @{
             accion = 'modificacion'; botonPulsado = 'pantalla1'
             datoAuxiliar = $dn; tokenParametro = $script:token
-            filtroAtributo = 'identificador'; filtroTipoBusqueda = 'empezando'; filtroValor = $uid
+            filtroAtributo = 'identificador'; filtroTipoBusqueda = 'conteniendo'; filtroValor = $uid
             marcarSirhus = $(if ($esInt) { 'NO' } else { 'SI' })
             marcarInternos = $(if ($esInt) { 'SI' } else { 'NO' })
             marcarExternos = 'NO'; marcarGenericos = 'NO'; marcarNA = 'NO'
@@ -1004,7 +1000,19 @@ function screen-edit {
             if (-not $formFields.ContainsKey($n)) { $formFields[$n] = $v }
         }
 
-        # Step 3: build POST body = all form fields + new values
+        # Step 3: handle _modificacion suffix — create base-name entries
+        $suffixKeys = @()
+        foreach ($k in $formFields.Keys) {
+            if ($k -match '^(.+)_modificacion$') { $suffixKeys += $k }
+        }
+        foreach ($sk in $suffixKeys) {
+            $base = $sk -replace '_modificacion$', ''
+            if (-not $formFields.ContainsKey($base)) {
+                $formFields[$base] = $formFields[$sk]
+            }
+        }
+
+        # Step 4: build POST body = all form fields + new values
         $body = @{}
         foreach ($kv in $formFields.GetEnumerator()) { $body[$kv.Key] = $kv.Value }
         $body['tokenParametro'] = $script:token
@@ -1215,38 +1223,603 @@ function screen-sirhus {
         Write-Host ""
         $opt = prompt "Opcion: " "0"
         if ($opt -eq "0") { return }
-        elseif ($opt -eq "1") { screen-sirhus-page "SirhusAltas" "Altas" }
-        elseif ($opt -eq "2") { screen-sirhus-page "SirhusBajas" "Bajas" }
-        elseif ($opt -eq "3") { screen-sirhus-page "SirhusTraslados" "Traslados" }
+        elseif ($opt -eq "1") { screen-sirhus-altas }
+        elseif ($opt -eq "2") { screen-sirhus-bajas }
+        elseif ($opt -eq "3") { screen-sirhus-generic "SirhusTraslados" "TRASLADOS" }
         elseif ($opt -eq "4") { screen-sirhus-consulta-estado }
         else { Write-Log "Opcion no valida" "WARN"; pause }
     }
 }
 
-function screen-sirhus-page {
-    param([string]$ServletName, [string]$Label)
-    try {
-        $html = Fetch-Servlet -ServletName $ServletName -Label $Label
-    } catch {
-        Write-Log ("Error: " + $_.Exception.Message) "ERROR"
-        pause; return
+function Parse-SirhusResults {
+    param([string]$Html)
+    $users = @()
+
+    # Try div-based rows first (fila_par/fila_impar)
+    $divRows = [regex]::Matches($Html, '(?s)<div\s+class="fila_(?:par|impar)"[^>]*>.*?</div>')
+    if ($divRows.Count -gt 0) {
+        foreach ($row in $divRows) {
+            $rowHtml = $row.Value
+            $dnM = [regex]::Match($rowHtml, 'name="dn"\s*value="([^"]+)"')
+            if (-not $dnM.Success) { continue }
+            $dn = $dnM.Groups[1].Value
+            $uid = ''
+            $u = [regex]::Match($dn, 'uid=([^,]+)')
+            if ($u.Success) { $uid = $u.Groups[1].Value }
+            $spans20 = [regex]::Matches($rowHtml, '<span\s+class="campo"[^>]*style="width:20%"[^>]*>(.*?)</span>')
+            $nombre = if ($spans20.Count -ge 1) { ($spans20[0].Groups[1].Value -replace '<[^>]+>', '').Trim() } else { '' }
+            $span30 = [regex]::Match($rowHtml, '<span\s+class="campo"[^>]*style="width:30%"[^>]*>(.*?)</span>')
+            $centro = if ($span30.Success) { ($span30.Groups[1].Value -replace '<[^>]+>', '').Trim() } else { '' }
+            $users += @{ dn = $dn; uid = $uid; nombre = $nombre; centro = $centro }
+        }
+        return $users
     }
 
-    $title = "-"
-    $tM = [regex]::Match($html, '<h[1-3][^>]*>(.*?)</h[1-3]>')
-    if ($tM.Success) { $title = ($tM.Groups[1].Value -replace '<[^>]+>', '').Trim() }
+    # Fallback: table-based rows (<tr>/<td>)
+    [regex]::Matches($Html, '(?s)<tr[^>]*>.*?</tr>') | ForEach-Object {
+        $row = $_.Value
+        if ($row -match '<th') { return }
+        $dnM = [regex]::Match($row, 'name="dn"\s*value="([^"]+)"')
+        if (-not $dnM.Success) { return }
+        $dn = $dnM.Groups[1].Value
+        $u = [regex]::Match($dn, 'uid=([^,]+)')
+        $uid = if ($u.Success) { $u.Groups[1].Value } else { '' }
+        $cells = [regex]::Matches($row, '<td[^>]*>(.*?)</td>')
+        $nombre = if ($cells.Count -ge 1) { ($cells[0].Groups[1].Value -replace '<[^>]+>', '' -replace '&nbsp;', ' ').Trim() } else { '' }
+        $centro = if ($cells.Count -ge 3) { ($cells[2].Groups[1].Value -replace '<[^>]+>', '' -replace '&nbsp;', ' ').Trim() } else { '' }
+        $users += @{ dn = $dn; uid = $uid; nombre = $nombre; centro = $centro }
+    }
+    return $users
+}
 
-    ui; header
-    panel "$Label ($title)" {
-        $textContent = $html -replace '<[^>]+>', ' ' -replace '\s+', ' ' -replace '&nbsp;', ' '
-        $lines = $textContent -split '\.' | Where-Object { $_.Trim().Length -gt 10 } | Select-Object -First 20
-        foreach ($ln in $lines) {
-            $t = $ln.Trim()
-            if ($t) { Write-Host ("|  " + $t.Substring(0, [Math]::Min(75, $t.Length))) -ForegroundColor DarkYellow }
+function Show-SirhusList {
+    param([array]$Users, [string]$Title = "SIRHUS ALTAS")
+    if (-not $script:sirhusSelected) { $script:sirhusSelected = @{} }
+    $pageSize = 5; $cursor = 0; $page = 0
+    while ($true) {
+        $total = $Users.Count
+        if ($total -eq 0) { return $false }
+        $pages = [int][Math]::Max(1, [Math]::Ceiling($total / $pageSize))
+
+        if ($cursor -ge $total) { $cursor = $total - 1 }
+        $page = [int][Math]::Floor($cursor / $pageSize)
+
+        ui; header
+        Write-Host (".- $Title ($total usuarios)" + (" " * ($script:columns - 15 - $Title.Length)) + ".") -ForegroundColor Cyan
+        Write-Host "|" -NoNewline
+        $hdr = "    {0,-22} {1,-28} {2,-20}" -f "NOMBRE", "IDENTIFICADOR", "CENTRO DIRECTIVO"
+        Write-Host $hdr.PadRight($script:columns - 3) -NoNewline; Write-Host "|" -ForegroundColor DarkGray
+
+        $start = [int]($page * $pageSize); $end = [int][Math]::Min($start + $pageSize - 1, $total - 1)
+        for ($i = $start; $i -le $end; $i++) {
+            $u = $Users[$i]
+            $n = $u.nombre
+            if ($n.Length -gt 22) { $n = $n.Substring(0, 20) + ".." }
+            $id = $u.uid
+            if ($id.Length -gt 28) { $id = $id.Substring(0, 26) + ".." }
+            $ct = $u.centro
+            if ($ct.Length -gt 20) { $ct = $ct.Substring(0, 18) + ".." }
+            $sel = if ($script:sirhusSelected.ContainsKey($i)) { "*" } else { " " }
+            $isCur = ($i -eq $cursor)
+            if ($isCur) { Write-Host "|" -NoNewline; Write-Host "[$sel]" -NoNewline -BackgroundColor DarkCyan }
+            else { Write-Host "| [$sel]" -NoNewline }
+            Write-Host (" " + "{0,2}" -f ($i+1)) -NoNewline
+            if ($isCur) { Write-Host (" {0,-22}" -f $n) -NoNewline -ForegroundColor White -BackgroundColor DarkCyan }
+            else { Write-Host (" {0,-22}" -f $n) -NoNewline -ForegroundColor White }
+            if ($isCur) { Write-Host ("{0,-28}" -f $id) -NoNewline -ForegroundColor DarkYellow -BackgroundColor DarkCyan }
+            else { Write-Host ("{0,-28}" -f $id) -NoNewline -ForegroundColor DarkYellow }
+            if ($isCur) { Write-Host ("{0,-20}" -f $ct) -NoNewline -ForegroundColor DarkGray -BackgroundColor DarkCyan }
+            else { Write-Host ("{0,-20}" -f $ct) -NoNewline -ForegroundColor DarkGray }
+            Write-Host "|"
+        }
+        Write-Host ("'" + ("-" * ($script:columns - 2)) + "'") -ForegroundColor DarkGray
+
+        Write-Host ("Pagina $($page+1)/$pages  ") -ForegroundColor DarkGray -NoNewline
+        if ($start -gt 0) { Write-Host "[a]nterior " -ForegroundColor Cyan -NoNewline }
+        if ($end -lt $total - 1) { Write-Host "[s]iguiente " -ForegroundColor Cyan -NoNewline }
+        Write-Host ""
+        Write-Host "  [^][v] navegar  [Espacio] toggle  [t] todos" -ForegroundColor Cyan
+        Write-Host "  [v]alidar  [b]uscar  [0] volver" -ForegroundColor Green
+
+        $key = [System.Console]::ReadKey($true)
+        $vk = [int]$key.Key
+        $ch = $key.KeyChar
+
+        if ($vk -eq 38 -and $cursor -gt 0) { $cursor--; continue }       # Up
+        if ($vk -eq 40 -and $cursor -lt $total - 1) { $cursor++; continue } # Down
+        if ($vk -eq 33) { $cursor = [Math]::Max(0, $cursor - $pageSize); continue }  # PageUp
+        if ($vk -eq 34) { $cursor = [Math]::Min($total - 1, $cursor + $pageSize); continue } # PageDown
+        if ($vk -eq 36) { $cursor = 0; continue }  # Home
+        if ($vk -eq 35) { $cursor = $total - 1; continue }  # End
+
+        if ($vk -eq 32 -or $ch -eq ' ') {  # Space
+            if ($script:sirhusSelected.ContainsKey($cursor)) { $script:sirhusSelected.Remove($cursor) }
+            else { $script:sirhusSelected[$cursor] = $true }
+            continue
+        }
+
+        if ($ch -eq 'v' -or $ch -eq 'V') {
+            if ($script:sirhusSelected.Count -eq 0) { Write-Log "Nada seleccionado" "WARN"; pause; continue }
+            return $true
+        }
+        if ($ch -eq 'b' -or $ch -eq 'B') {
+            $query = prompt "  Buscar (nombre contiene): " ""
+            if (-not $query) { continue }
+            return @{ Action = "search"; Value = $query; Field = "nombre"; Type = "conteniendo" }
+        }
+        if ($ch -eq 't' -or $ch -eq 'T') {
+            if ($script:sirhusSelected.Count -eq $total) { $script:sirhusSelected.Clear() }
+            else { 0..($total-1) | ForEach-Object { $script:sirhusSelected[$_] = $true } }
+            continue
+        }
+        if ($ch -eq '0' -or $vk -eq 27) { return $false }  # 0 or Escape
+    }
+}
+
+function screen-sirhus-altas {
+    Write-Log "Cargando Sirhus - Altas..." "INFO"
+    $html = $null; $script:token = $null
+    # Try GET first; fallback to POST with accion=consulta (SirhusAltas often returns 0 on GET)
+    try { $html = Fetch-Servlet -ServletName "SirhusAltas" -Label "SirhusAltas" } catch { }
+    if ([string]::IsNullOrWhiteSpace($html)) {
+        Write-Log "GET devolvio vacio, intentando POST accion=consulta..." "WARN"
+        $body = @{ accion = 'consulta'; botonPulsado = ''; filtroAtributo = ''; filtroTipoBusqueda = ''; filtroValor = '' }
+        try {
+            $r = Invoke-WebRequest -Uri "$script:BASE.SirhusAltas" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
+            $html = $r.Content
+            Write-Log ("Respuesta POST: " + $html.Length + " bytes") "INFO"
+            $debugFile = Join-Path $script:DEBUG_DIR "SirhusAltas.html"
+            $html | Out-File -FilePath $debugFile -Encoding UTF8
+        } catch { Write-Log ("Error en POST: " + $_.Exception.Message) "ERROR"; pause; return }
+    }
+    if ([string]::IsNullOrWhiteSpace($html)) { Write-Log "No se pudo cargar SirhusAltas" "ERROR"; pause; return }
+    $script:token = Extract-Token $html
+
+    $ff = Extract-FormFields $html
+    $script:sirhusFiltroAtributo = if ($ff.ContainsKey('filtroAtributo')) { $ff['filtroAtributo'] } else { '' }
+    $script:sirhusFiltroTipoBusqueda = if ($ff.ContainsKey('filtroTipoBusqueda')) { $ff['filtroTipoBusqueda'] } else { '' }
+    $script:sirhusFiltroValor = if ($ff.ContainsKey('filtroValor')) { $ff['filtroValor'] } else { '' }
+
+    $users = Parse-SirhusResults $html
+    Write-Log ("Usuarios pendientes: " + $users.Count) "INFO"
+    if ($users.Count -eq 0) { Write-Log "Sin usuarios pendientes" "WARN"; pause; return }
+
+    $script:sirhusSelected = @{}
+    while ($true) {
+        $result = Show-SirhusList -Users $users -Title "SIRHUS ALTAS"
+        if ($result -eq $false) { $script:sirhusSelected = @{}; return }
+        elseif ($result -is [hashtable] -and $result.Action -eq "search") {
+            $script:sirhusFiltroAtributo = $result.Field
+            $script:sirhusFiltroTipoBusqueda = $result.Type
+            $script:sirhusFiltroValor = $result.Value
+            Write-Log "Buscando '$($result.Value)' por $($result.Field)..." "INFO"
+            $body = @{
+                accion = 'consulta'; botonPulsado = ''; tokenParametro = $script:token
+                filtroAtributo = $script:sirhusFiltroAtributo
+                filtroTipoBusqueda = $script:sirhusFiltroTipoBusqueda
+                filtroValor = $script:sirhusFiltroValor
+            }
+            try {
+                $r = Invoke-WebRequest -Uri "$script:BASE.SirhusAltas" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
+                $script:token = Extract-Token $r.Content
+                $resultHtml = $r.Content
+            } catch { Write-Log ("Error: " + $_.Exception.Message) "ERROR"; pause; continue }
+            $debugFile = Join-Path $script:DEBUG_DIR "SirhusAltas_resultados.html"
+            $resultHtml | Out-File -FilePath $debugFile -Encoding UTF8
+            $users = Parse-SirhusResults $resultHtml
+            Write-Log ("Resultados: " + $users.Count) "INFO"
+            if ($users.Count -eq 0) { Write-Log "Sin resultados" "WARN"; pause }
+            $script:sirhusSelected = @{}
+        }
+        elseif ($result -eq $true) {
+            $indices = $script:sirhusSelected.Keys | Sort-Object
+            Sirhus-Validar -Users $users -Indices $indices -Tipo "parcial" `
+                -FiltroAtributo $script:sirhusFiltroAtributo `
+                -FiltroTipoBusqueda $script:sirhusFiltroTipoBusqueda `
+                -FiltroValor $script:sirhusFiltroValor
+            $script:sirhusSelected = @{}
+            # Re-fetch users list after validation
+            try {
+                $html = $null
+                try { $html = Fetch-Servlet -ServletName "SirhusAltas" -Label "SirhusAltas" } catch { }
+                if ([string]::IsNullOrWhiteSpace($html)) {
+                    $body = @{ accion = 'consulta'; botonPulsado = ''; filtroAtributo = ''; filtroTipoBusqueda = ''; filtroValor = '' }
+                    $r = Invoke-WebRequest -Uri "$script:BASE.SirhusAltas" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
+                    $html = $r.Content
+                }
+                $script:token = Extract-Token $html
+                $ff = Extract-FormFields $html
+                $script:sirhusFiltroAtributo = if ($ff.ContainsKey('filtroAtributo')) { $ff['filtroAtributo'] } else { '' }
+                $script:sirhusFiltroTipoBusqueda = if ($ff.ContainsKey('filtroTipoBusqueda')) { $ff['filtroTipoBusqueda'] } else { '' }
+                $script:sirhusFiltroValor = if ($ff.ContainsKey('filtroValor')) { $ff['filtroValor'] } else { '' }
+                $users = Parse-SirhusResults $html
+                Write-Log ("Usuarios pendientes tras validar: " + $users.Count) "INFO"
+                if ($users.Count -eq 0) { Write-Log "No quedan usuarios pendientes" "OK"; pause; return }
+            } catch { Write-Log "Error al recargar lista" "WARN" }
         }
     }
-    Write-Host ("  HTML guardado: $script:DEBUG_DIR\$ServletName.html") -ForegroundColor DarkGray
-    pause
+}
+
+function Sirhus-Validar {
+    param([array]$Users, [int[]]$Indices, [string]$Tipo = "parcial",
+          [string]$FiltroAtributo = "", [string]$FiltroTipoBusqueda = "", [string]$FiltroValor = "")
+
+    $selectedUsers = if ($Tipo -eq "total") { $Users } else { $Indices | ForEach-Object { $Users[$_] } }
+
+    Write-Log "Validando $($Indices.Count) seleccionados de $($Users.Count) totales" "INFO"
+    foreach ($i in $Indices) { Write-Log "  indice=$i uid=$($Users[$i].uid)" "INFO" }
+
+    # Build POST body — same as browser validacionParcial()
+    $selectedSet = @{}; foreach ($idx in $Indices) { $selectedSet[$idx] = $true }
+    $parts = New-Object System.Collections.Generic.List[string]
+    $parts.Add('accion=validacionParcial')
+    $parts.Add('botonPulsado=')
+    $parts.Add('posSeleccion=')
+    $parts.Add(('tokenParametro=' + [System.Net.WebUtility]::UrlEncode($script:token)))
+    $parts.Add('tipoActualizacion=')
+    if ($FiltroAtributo) { $parts.Add(('filtroAtributo=' + [System.Net.WebUtility]::UrlEncode($FiltroAtributo))) }
+    if ($FiltroTipoBusqueda) { $parts.Add(('filtroTipoBusqueda=' + [System.Net.WebUtility]::UrlEncode($FiltroTipoBusqueda))) }
+    if ($FiltroValor) { $parts.Add(('filtroValor=' + [System.Net.WebUtility]::UrlEncode($FiltroValor))) }
+    for ($i = 0; $i -lt $Users.Count; $i++) {
+        $selVal = if ($selectedSet.ContainsKey($i)) { "SI" } else { "NO" }
+        if ($selectedSet.ContainsKey($i)) { $parts.Add('checkbox=on') }
+        $parts.Add(('usuarioSeleccionado=' + $selVal))
+        $parts.Add(('dn=' + [System.Net.WebUtility]::UrlEncode($Users[$i].dn)))
+        $parts.Add('servidorCorreo=Centralizado')
+        $parts.Add('servidorWebmail=Centralizado')
+    }
+    $bodyString = $parts -join '&'
+
+    # Log body for debugging
+    $bodyDebug = Join-Path $script:DEBUG_DIR "SirhusAltas_body.txt"
+    $bodyString | Out-File -FilePath $bodyDebug -Encoding UTF8
+
+    try {
+        $r = Invoke-WebRequest -Uri "$script:BASE.SirhusAltas" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $bodyString -ContentType "application/x-www-form-urlencoded"
+        $resp = $r.Content
+        $debugFile = Join-Path $script:DEBUG_DIR "SirhusAltas_validar.html"
+        $resp | Out-File -FilePath $debugFile -Encoding UTF8
+        Write-Log "Respuesta guardada en $debugFile" "INFO"
+
+        if ($resp -match 'actualiz.+correctamente|correcto|ok|mensaje_ok|Se han validado|validado') {
+            Write-Log "Validacion completada correctamente" "OK"
+        } else {
+            Write-Log "Verificar resultado, revisa el HTML guardado" "WARN"
+        }
+    } catch {
+        Write-Log ("Error: " + $_.Exception.Message) "ERROR"
+        try {
+            if ($_.Exception.Response) {
+                $stream = $_.Exception.Response.GetResponseStream()
+                $reader = New-Object System.IO.StreamReader($stream)
+                $resp = $reader.ReadToEnd(); $reader.Close()
+                $debugFile = Join-Path $script:DEBUG_DIR "SirhusAltas_validar.html"
+                $resp | Out-File -FilePath $debugFile -Encoding UTF8
+                Write-Log "Body de error guardado en $debugFile" "WARN"
+            }
+        } catch { }
+    }
+}
+
+function Load-SirhusList {
+    param([string]$ServletName, [string]$Label)
+    Write-Log "Cargando $Label..." "INFO"
+    $html = $null
+    try { $html = Fetch-Servlet -ServletName $ServletName -Label $Label } catch { }
+    if ([string]::IsNullOrWhiteSpace($html)) {
+        Write-Log "GET devolvio vacio, intentando POST accion=consulta..." "WARN"
+        $body = @{ accion = 'consulta'; botonPulsado = ''; filtroAtributo = ''; filtroTipoBusqueda = ''; filtroValor = '' }
+        try {
+            $r = Invoke-WebRequest -Uri "$script:BASE.$ServletName" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
+            $html = $r.Content
+            Write-Log ("Respuesta POST: " + $html.Length + " bytes") "INFO"
+            $debugFile = Join-Path $script:DEBUG_DIR "${ServletName}.html"
+            $html | Out-File -FilePath $debugFile -Encoding UTF8
+        } catch { Write-Log ("Error en POST: " + $_.Exception.Message) "ERROR"; return $null }
+    }
+    return $html
+}
+
+function screen-sirhus-generic {
+    param([string]$ServletName, [string]$Label)
+    $html = Load-SirhusList -ServletName $ServletName -Label $Label
+    if (-not $html) { pause; return }
+
+    $script:token = Extract-Token $html
+
+    while ($true) {
+        $q = prompt "  Buscar (nombre contiene): " ""
+        if (-not $q) { Write-Log "Cancelado" "WARN"; pause; return }
+        $f = "nombre"; $t = "conteniendo"
+        if ($q -match '^\d{7,8}$') { $f = "dni"; $t = "igual" }
+
+        Write-Log "Buscando '$q' por $f..." "INFO"
+        $body = @{
+            accion = 'consulta'; botonPulsado = ''; tokenParametro = $script:token
+            filtroAtributo = $f; filtroTipoBusqueda = $t; filtroValor = $q
+        }
+        try {
+            $r = Invoke-WebRequest -Uri "$script:BASE.$ServletName" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
+            $script:token = Extract-Token $r.Content
+            $resultHtml = $r.Content
+        } catch { Write-Log ("Error: " + $_.Exception.Message) "ERROR"; pause; return }
+
+        $debugFile = Join-Path $script:DEBUG_DIR "${ServletName}_resultados.html"
+        $resultHtml | Out-File -FilePath $debugFile -Encoding UTF8
+
+        $users = Parse-SirhusResults $resultHtml
+        Write-Log ("Usuarios encontrados: " + $users.Count) "INFO"
+
+        if ($users.Count -eq 0) { Write-Log "Sin resultados" "WARN"; pause; return }
+
+        $page = 0; $pageSize = 20
+
+        while ($true) {
+            ui; header
+            $total = $users.Count
+            $pages = [Math]::Max(1, [Math]::Ceiling($total / $pageSize))
+            Write-Host (".- SIRHUS $Label ($total usuarios)" + (" " * ($script:columns - 25)) + ".") -ForegroundColor Cyan
+            Write-Host "|" -NoNewline
+            $hdr = "{0,3} {1,-22} {2,-28} {3,-20}" -f "#", "NOMBRE", "IDENTIFICADOR", "CENTRO DIRECTIVO"
+            Write-Host $hdr.PadRight($script:columns - 3) -NoNewline; Write-Host "|" -ForegroundColor DarkGray
+
+            $start = $page * $pageSize; $end = [Math]::Min($start + $pageSize - 1, $total - 1)
+            for ($i = $start; $i -le $end; $i++) {
+                $u = $users[$i]
+                $n = $u.nombre
+                if ($n.Length -gt 22) { $n = $n.Substring(0, 20) + ".." }
+                $id = $u.uid
+                if ($id.Length -gt 28) { $id = $id.Substring(0, 26) + ".." }
+                $ct = $u.centro
+                if ($ct.Length -gt 20) { $ct = $ct.Substring(0, 18) + ".." }
+                Write-Host ("| " + "{0,2}" -f ($i+1)) -NoNewline
+                Write-Host "    " -NoNewline
+                Write-Host ("{0,-22}" -f $n) -ForegroundColor White -NoNewline
+                Write-Host ("{0,-28}" -f $id) -ForegroundColor DarkYellow -NoNewline
+                Write-Host ("{0,-20}" -f $ct) -ForegroundColor DarkGray -NoNewline
+                Write-Host "|"
+            }
+            Write-Host ("'" + ("-" * ($script:columns - 2)) + "'") -ForegroundColor DarkGray
+
+            Write-Host ("Pagina $($page+1)/$pages") -ForegroundColor DarkGray -NoNewline
+            if ($start -gt 0) { Write-Host "  [a]nterior" -ForegroundColor Cyan -NoNewline }
+            if ($end -lt $total - 1) { Write-Host "  [s]iguiente" -ForegroundColor Cyan -NoNewline }
+            Write-Host ""
+            Write-Host ""
+            Write-Host "  Opciones:" -ForegroundColor Cyan
+            Write-Host "  [0] Volver" -ForegroundColor Red
+            $input = prompt "  Accion: " "0"
+
+            if ($input -eq "0" -or $input -eq "q") { return }
+            elseif ($input -eq "s" -and $end -lt $total - 1) { $page++ }
+            elseif ($input -eq "a" -and $page -gt 0) { $page-- }
+        }
+    }
+}
+
+function screen-sirhus-bajas {
+    Write-Log "Cargando Sirhus - Bajas..." "INFO"
+    $html = Load-SirhusList -ServletName "SirhusBajas" -Label "BAJAS"
+    if (-not $html) { pause; return }
+    $script:token = Extract-Token $html
+
+    $ff = Extract-FormFields $html
+    $script:sirhusFiltroAtributo = if ($ff.ContainsKey('filtroAtributo')) { $ff['filtroAtributo'] } else { '' }
+    $script:sirhusFiltroTipoBusqueda = if ($ff.ContainsKey('filtroTipoBusqueda')) { $ff['filtroTipoBusqueda'] } else { '' }
+    $script:sirhusFiltroValor = if ($ff.ContainsKey('filtroValor')) { $ff['filtroValor'] } else { '' }
+
+    $users = Parse-SirhusBajasResults $html
+    Write-Log ("Usuarios en Bajas: " + $users.Count) "INFO"
+    if ($users.Count -eq 0) { Write-Log "Sin usuarios en Bajas" "WARN"; pause; return }
+
+    $script:sirhusSelected = @{}
+    while ($true) {
+        $result = Show-SirhusBajasList -Users $users
+        if ($result -eq $false) { $script:sirhusSelected = @{}; return }
+        elseif ($result -is [hashtable] -and $result.Action -eq "search") {
+            $script:sirhusFiltroAtributo = $result.Field
+            $script:sirhusFiltroTipoBusqueda = $result.Type
+            $script:sirhusFiltroValor = $result.Value
+            Write-Log "Buscando '$($result.Value)' por $($result.Field)..." "INFO"
+            $body = @{
+                accion = 'consulta'; botonPulsado = ''; tokenParametro = $script:token
+                filtroAtributo = $script:sirhusFiltroAtributo
+                filtroTipoBusqueda = $script:sirhusFiltroTipoBusqueda
+                filtroValor = $script:sirhusFiltroValor
+            }
+            try {
+                $r = Invoke-WebRequest -Uri "$script:BASE.SirhusBajas" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
+                $script:token = Extract-Token $r.Content
+                $resultHtml = $r.Content
+            } catch { Write-Log ("Error: " + $_.Exception.Message) "ERROR"; pause; continue }
+            $debugFile = Join-Path $script:DEBUG_DIR "SirhusBajas_resultados.html"
+            $resultHtml | Out-File -FilePath $debugFile -Encoding UTF8
+            $users = Parse-SirhusBajasResults $resultHtml
+            Write-Log ("Resultados: " + $users.Count) "INFO"
+            if ($users.Count -eq 0) { Write-Log "Sin resultados" "WARN"; pause }
+            $script:sirhusSelected = @{}
+        }
+        elseif ($result -eq $true) {
+            $indices = $script:sirhusSelected.Keys | Sort-Object
+            $script:sirhusSelected = @{}
+            if ($indices.Count -eq 0) { continue }
+            $su = $users[$indices[0]]
+            Write-Log "Cambiando contrasena para $($su.uid)..." "INFO"
+            # Use the same password logic as cambiar_password_correo.ps1
+            $month = Get-Date -Format "MM"
+            $year = Get-Date -Format "yy"
+            $pwd = "Justicia.$month$year"
+            Write-Log "Nueva contrasena: $pwd" "INFO"
+
+            $body = @{
+                accion = 'cambioPassword'
+                botonPulsado = ''
+                posSeleccion = ''
+                tokenParametro = $script:token
+                tipoActualizacion = ''
+                dn = $su.dn
+                pwd_sirhusBajas = $pwd
+                pwd2_sirhusBajas = $pwd
+                usuarioWindows = 'NO'
+            }
+            try {
+                $r = Invoke-WebRequest -Uri "$script:BASE.SirhusBajas" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
+                $resp = $r.Content
+                $debugFile = Join-Path $script:DEBUG_DIR "SirhusBajas_cambiarpass.html"
+                $resp | Out-File -FilePath $debugFile -Encoding UTF8
+                if ($resp -match 'actualiz.+correctamente|correcto|ok|mensaje_ok') {
+                    Write-Log "Contrasena cambiada correctamente" "OK"
+                } else {
+                    Write-Log "Verificar resultado en $debugFile" "WARN"
+                }
+            } catch {
+                Write-Log ("Error: " + $_.Exception.Message) "ERROR"
+                try {
+                    if ($_.Exception.Response) {
+                        $stream = $_.Exception.Response.GetResponseStream()
+                        $reader = New-Object System.IO.StreamReader($stream)
+                        $resp = $reader.ReadToEnd(); $reader.Close()
+                        $debugFile = Join-Path $script:DEBUG_DIR "SirhusBajas_cambiarpass.html"
+                        $resp | Out-File -FilePath $debugFile -Encoding UTF8
+                    }
+                } catch { }
+            }
+        }
+    }
+}
+
+function Show-SirhusBajasList {
+    param([array]$Users)
+    if (-not $script:sirhusSelected) { $script:sirhusSelected = @{} }
+    $pageSize = 5; $cursor = 0; $page = 0
+    while ($true) {
+        $total = $Users.Count
+        if ($total -eq 0) { return $false }
+        $pages = [int][Math]::Max(1, [Math]::Ceiling($total / $pageSize))
+
+        if ($cursor -ge $total) { $cursor = $total - 1 }
+        $page = [int][Math]::Floor($cursor / $pageSize)
+
+        ui; header
+        Write-Host (".- SIRHUS BAJAS ($total usuarios)" + (" " * ($script:columns - 24)) + ".") -ForegroundColor Cyan
+        Write-Host "|" -NoNewline
+        $hdr = "    {0,-28} {1,-22} {2,-18}" -f "NOMBRE", "IDENTIFICADOR", "FECHA BAJA"
+        Write-Host $hdr.PadRight($script:columns - 3) -NoNewline; Write-Host "|" -ForegroundColor DarkGray
+
+        $start = [int]($page * $pageSize); $end = [int][Math]::Min($start + $pageSize - 1, $total - 1)
+        for ($i = $start; $i -le $end; $i++) {
+            $u = $Users[$i]
+            $n = $u.nombre
+            if ($n.Length -gt 28) { $n = $n.Substring(0, 26) + ".." }
+            $id = $u.uid
+            if ($id.Length -gt 22) { $id = $id.Substring(0, 20) + ".." }
+            $fb = if ($u.fechaBaja) { $u.fechaBaja } else { "" }
+            if ($fb.Length -gt 18) { $fb = $fb.Substring(0, 16) + ".." }
+            $sel = if ($script:sirhusSelected.ContainsKey($i)) { "*" } else { " " }
+            $isCur = ($i -eq $cursor)
+            if ($isCur) { Write-Host "|" -NoNewline; Write-Host "[$sel]" -NoNewline -BackgroundColor DarkCyan }
+            else { Write-Host "| [$sel]" -NoNewline }
+            Write-Host (" " + "{0,2}" -f ($i+1)) -NoNewline
+            if ($isCur) { Write-Host (" {0,-28}" -f $n) -NoNewline -ForegroundColor White -BackgroundColor DarkCyan }
+            else { Write-Host (" {0,-28}" -f $n) -NoNewline -ForegroundColor White }
+            if ($isCur) { Write-Host ("{0,-22}" -f $id) -NoNewline -ForegroundColor DarkYellow -BackgroundColor DarkCyan }
+            else { Write-Host ("{0,-22}" -f $id) -NoNewline -ForegroundColor DarkYellow }
+            if ($isCur) { Write-Host ("{0,-18}" -f $fb) -NoNewline -ForegroundColor DarkGray -BackgroundColor DarkCyan }
+            else { Write-Host ("{0,-18}" -f $fb) -NoNewline -ForegroundColor DarkGray }
+            Write-Host "|"
+        }
+        Write-Host ("'" + ("-" * ($script:columns - 2)) + "'") -ForegroundColor DarkGray
+
+        Write-Host ("Pagina $($page+1)/$pages  ") -ForegroundColor DarkGray -NoNewline
+        if ($start -gt 0) { Write-Host "[a]nterior " -ForegroundColor Cyan -NoNewline }
+        if ($end -lt $total - 1) { Write-Host "[s]iguiente " -ForegroundColor Cyan -NoNewline }
+        Write-Host ""
+        Write-Host "  [^][v] navegar  [Espacio] toggle  [t] todos" -ForegroundColor Cyan
+        Write-Host "  [c]ontrasena  [b]uscar  [0] volver" -ForegroundColor Green
+
+        $key = [System.Console]::ReadKey($true)
+        $vk = [int]$key.Key
+        $ch = $key.KeyChar
+
+        if ($vk -eq 38 -and $cursor -gt 0) { $cursor--; continue }
+        if ($vk -eq 40 -and $cursor -lt $total - 1) { $cursor++; continue }
+        if ($vk -eq 33) { $cursor = [Math]::Max(0, $cursor - $pageSize); continue }
+        if ($vk -eq 34) { $cursor = [Math]::Min($total - 1, $cursor + $pageSize); continue }
+        if ($vk -eq 36) { $cursor = 0; continue }
+        if ($vk -eq 35) { $cursor = $total - 1; continue }
+
+        if ($vk -eq 32 -or $ch -eq ' ') {
+            if ($script:sirhusSelected.ContainsKey($cursor)) { $script:sirhusSelected.Remove($cursor) }
+            else { $script:sirhusSelected[$cursor] = $true }
+            continue
+        }
+
+        if ($ch -eq 'c' -or $ch -eq 'C') {
+            if ($script:sirhusSelected.Count -eq 0) { Write-Log "Nada seleccionado" "WARN"; pause; continue }
+            return $true
+        }
+        if ($ch -eq 'b' -or $ch -eq 'B') {
+            $query = prompt "  Buscar (nombre contiene): " ""
+            if (-not $query) { continue }
+            return @{ Action = "search"; Value = $query; Field = "nombre"; Type = "conteniendo" }
+        }
+        if ($ch -eq 't' -or $ch -eq 'T') {
+            if ($script:sirhusSelected.Count -eq $total) { $script:sirhusSelected.Clear() }
+            else { 0..($total-1) | ForEach-Object { $script:sirhusSelected[$_] = $true } }
+            continue
+        }
+        if ($ch -eq '0' -or $vk -eq 27) { return $false }
+    }
+}
+
+function Parse-SirhusBajasResults {
+    param([string]$Html)
+    $users = @()
+
+    # Match all row divs (fila_par/fila_impar) and detalle divs (fila_detalle)
+    $rowDivs = [regex]::Matches($Html, '(?s)<div\s+class="fila_(?:par|impar)"[^>]*id="fila_(\d+)"[^>]*>.*?</div>')
+    $detalleDivs = [regex]::Matches($Html, '(?s)<div\s+class="fila_detalle"[^>]*id="capa_password_(\d+)"[^>]*>.*?</div>')
+
+    Write-Log ("Bajas HTML: $($rowDivs.Count) rows, $($detalleDivs.Count) detalles") "INFO"
+
+    # Build detalle lookup by index
+    $detalleMap = @{}
+    foreach ($dd in $detalleDivs) {
+        $detalleMap[$dd.Groups[1].Value] = $dd.Value
+    }
+
+    foreach ($row in $rowDivs) {
+        $idx = $row.Groups[1].Value
+        $rowHtml = $row.Value
+
+        # Extract nombre (first span width:20%)
+        $nM = [regex]::Match($rowHtml, '<span\s+class="campo"[^>]*style="width:20%"[^>]*>(.*?)</span>')
+        $nombre = if ($nM.Success) { ($nM.Groups[1].Value -replace '<[^>]+>', '').Trim() } else { '' }
+
+        # Extract uid/identificador (second span width:20%)
+        $spans20 = [regex]::Matches($rowHtml, '<span\s+class="campo"[^>]*style="width:20%"[^>]*>(.*?)</span>')
+        $uid = if ($spans20.Count -ge 2) { ($spans20[1].Groups[1].Value -replace '<[^>]+>', '').Trim() } else { '' }
+
+        # Extract centro (span width:40%)
+        $cM = [regex]::Match($rowHtml, '<span\s+class="campo"[^>]*style="width:40%[^>]*>(.*?)</span>')
+        $centro = if ($cM.Success) { ($cM.Groups[1].Value -replace '<[^>]+>', '').Trim() } else { '' }
+
+        # Extract fecha_baja (first span width:10%)
+        $fM = [regex]::Match($rowHtml, '<span\s+class="campo"[^>]*style="width:10%[^>]*>(.*?)</span>')
+        $fechaBaja = if ($fM.Success) { ($fM.Groups[1].Value -replace '<[^>]+>', '').Trim() } else { '' }
+
+        # Extract dn from corresponding detalle div
+        $dn = ''
+        if ($detalleMap.ContainsKey($idx)) {
+            $dM = [regex]::Match($detalleMap[$idx], 'name="dn"\s*value="([^"]+)"')
+            if ($dM.Success) { $dn = $dM.Groups[1].Value }
+        }
+
+        $users += @{ dn = $dn; uid = $uid; nombre = $nombre; centro = $centro; fechaBaja = $fechaBaja }
+    }
+
+    Write-Log ("Parse-SirhusBajasResults: $($users.Count) usuarios parseados") "INFO"
+    return $users
 }
 
 function screen-sirhus-consulta-estado {
@@ -1254,39 +1827,77 @@ function screen-sirhus-consulta-estado {
     try {
         $r = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession
         $script:token = Extract-Token $r.Content
-        $body = @{
-            accion = 'consultaEstado'; botonPulsado = 'pantalla1'; datoAuxiliar = ''
-            tokenParametro = $script:token
-            filtroAtributo = 'identificador'; filtroTipoBusqueda = 'empezando'; filtroValor = ''
-            marcarSirhus = 'SI'; marcarInternos = 'NO'; marcarExternos = 'NO'; marcarGenericos = 'NO'; marcarNA = 'NO'
-            numUsuariosAntiguo = '25'; numUsuarios = '25'
-            seleccionarSirhus = 'on'
+        if (-not $script:token) { throw "No se pudo extraer token" }
+    } catch {
+        Write-Log ("Error: " + $_.Exception.Message) "ERROR"; pause; return
+    }
+
+    while ($true) {
+        ui; header
+        Write-Host (".- CONSULTA ESTADO SIRHUS" + (" " * ($script:columns - 25)) + ".") -ForegroundColor Cyan
+        Write-Host "|"
+        Write-Host "|  Introduce DNI (8 digitos sin letra):" -ForegroundColor Yellow
+        Write-Host "|  0 = Volver" -ForegroundColor Red
+        Write-Host "|"
+        $dni = prompt "  DNI: " ""
+        if ($dni -eq "0" -or -not $dni) { return }
+
+        if ($dni -notmatch '^\d{7,8}$') {
+            Write-Log "DNI invalido (deben ser 7-8 digitos)" "WARN"; pause; continue
         }
-        $r2 = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
-        $html = $r2.Content
+
+        Write-Log "Consultando estado para DNI $dni..." "INFO"
+        try {
+            $body = @{
+                accion = 'consultaEstado'; botonPulsado = 'pantalla2'; datoAuxiliar = ''
+                tokenParametro = $script:token
+                dni = $dni
+                marcarSirhus = 'SI'; marcarInternos = 'NO'; marcarExternos = 'NO'; marcarGenericos = 'NO'; marcarNA = 'NO'
+                numUsuariosAntiguo = '25'; numUsuarios = '25'
+                seleccionarSirhus = 'on'
+            }
+            $r2 = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
+            $html = $r2.Content
+        } catch {
+            Write-Log ("Error: " + $_.Exception.Message) "ERROR"; pause; continue
+        }
+
         $debugFile = Join-Path $script:DEBUG_DIR "ConsultaEstadoSirhus.html"
         $html | Out-File -FilePath $debugFile -Encoding UTF8
-        Write-Log ("Respuesta: " + $html.Length + " bytes, guardado") "INFO"
-    } catch {
-        Write-Log ("Error: " + $_.Exception.Message) "ERROR"
-        pause; return
-    }
 
-    $title = "-"
-    $tM = [regex]::Match($html, '<h[1-3][^>]*>(.*?)</h[1-3]>')
-    if ($tM.Success) { $title = ($tM.Groups[1].Value -replace '<[^>]+>', '').Trim() }
-
-    ui; header
-    panel "CONSULTA ESTADO SIRHUS ($title)" {
-        $textContent = $html -replace '<[^>]+>', ' ' -replace '\s+', ' ' -replace '&nbsp;', ' '
-        $lines = $textContent -split '\.' | Where-Object { $_.Trim().Length -gt 10 } | Select-Object -First 20
-        foreach ($ln in $lines) {
-            $t = $ln.Trim()
-            if ($t) { Write-Host ("|  " + $t.Substring(0, [Math]::Min(75, $t.Length))) -ForegroundColor DarkYellow }
+        # Extract fields from form_field_label / form_field_value divs
+        $data = @{}
+        $pairs = [regex]::Matches($html, '(?s)<div\s+class="form_field_label">(.*?)</div>\s*<div\s+class="form_field_value">(.*?)</div>')
+        foreach ($m in $pairs) {
+            $label = $m.Groups[1].Value -replace '<[^>]+>', '' -replace '&nbsp;', ' ' -replace '\s+', ' ' -replace '^\s+|\s+$', '' -replace ':$', ''
+            $value = $m.Groups[2].Value -replace '<[^>]+>', '' -replace '&nbsp;', ' ' -replace '\s+', ' ' -replace '^\s+|\s+$', ''
+            if ($label -match 'Nombre') { $data['NOMBRE'] = $value }
+            elseif ($label -match 'D\.?N\.?I') { $data['DNI'] = $value }
+            elseif ($label -match '^Estado') { $data['ESTADO'] = $value }
+            elseif ($label -match 'Correo') { $data['CORREO'] = $value }
+            elseif ($label -match 'Situaci') { $data['SITUACION'] = $value }
         }
+
+        ui; header
+        Write-Host (".- CONSULTA SIRHUS (DNI $dni)" + (" " * ($script:columns - 24)) + ".") -ForegroundColor Cyan
+        Write-Host "|"
+        if ($data.Count -gt 0) {
+            $order = @("NOMBRE", "DNI", "ESTADO", "CORREO", "SITUACION")
+            foreach ($k in $order) {
+                if ($data.ContainsKey($k)) {
+                    Write-Host ("|  $k : ") -NoNewline -ForegroundColor Cyan
+                    Write-Host $data[$k] -ForegroundColor White
+                }
+            }
+        } else {
+            Write-Host "|  (sin datos estructurados)" -ForegroundColor DarkGray
+            Write-Host "|  HTML: $debugFile" -ForegroundColor DarkGray
+        }
+        Write-Host "|"
+        Write-Host "  [Enter] otra consulta  [0] volver" -ForegroundColor Cyan
+        $k = prompt "  > " "0"
+        if ($k -eq "0") { return }
     }
-    Write-Host ("  HTML guardado: $script:DEBUG_DIR\ConsultaEstadoSirhus.html") -ForegroundColor DarkGray
-    pause
 }
 
 function screen-quick-search {
@@ -1308,6 +1919,237 @@ function screen-quick-search {
         if (-not $profileId) { $profileId = $Query }
         Get-UserProfile -UID $profileId
         screen-profile
+    }
+}
+
+# ============================================================
+# CREAR USUARIO
+# ============================================================
+
+function screen-crear-usuario {
+    $tipoOpt = ""
+    while ($tipoOpt -eq "" -or $tipoOpt -notmatch '^[0-3]$') {
+        ui; header
+        panel "CREAR USUARIO" {
+            Write-Host "|  Selecciona el tipo de usuario:" -ForegroundColor White
+            Write-Host "|"
+            Write-Host "|  1. Interno (ius)" -ForegroundColor Cyan
+            Write-Host "|  2. Generico (jus)" -ForegroundColor Cyan
+            Write-Host "|  3. Externo" -ForegroundColor Cyan
+            Write-Host "|"
+            Write-Host ("|  Rama actual: $script:ramaLdap") -ForegroundColor Green
+            Write-Host "|"
+        }
+        footer @("1-3 tipo", "0 cancelar")
+        $tipoOpt = prompt "Tipo: " "0"
+        if ($tipoOpt -eq "" -or $tipoOpt -eq "0") { Write-Log "Cancelado" "WARN"; return }
+    }
+
+    $tipoMap = @{ "1" = "interno"; "2" = "generico"; "3" = "externo" }
+    $branchMap = @{ "1" = "ius"; "2" = "jus"; "3" = "jus" }
+    $empleadoTipo = $tipoMap[$tipoOpt]
+    $targetBranch = $branchMap[$tipoOpt]
+    $esInt = ($empleadoTipo -eq "interno")
+
+    if ($script:ramaLdap -ne $targetBranch) {
+        Write-Log "Cambiando a rama $targetBranch..." "INFO"
+        Connect-Directorio -Branch $targetBranch
+        if (-not $script:authenticated) { Write-Log "Error al cambiar de rama" "ERROR"; pause; return }
+    }
+
+    ui; header
+    panel "CREAR USUARIO - Datos basicos" {
+        Write-Host ("|  Tipo: $empleadoTipo  |  Rama: $targetBranch") -ForegroundColor Yellow
+        Write-Host "|"
+    }
+
+    $nombre = prompt "Nombre: "
+    if (-not $nombre) { Write-Log "Nombre requerido" "WARN"; pause; return }
+
+    if ($esInt) {
+        $apellido1 = prompt "Primer apellido: "
+        $apellido2 = prompt "Segundo apellido: "
+        $dni = prompt "DNI: "
+    } else {
+        $apellido1 = prompt "Primer apellido (opcional): "
+        if (-not $apellido1) { $apellido1 = "" }
+        $apellido2 = prompt "Segundo apellido (opcional): "
+        if (-not $apellido2) { $apellido2 = "" }
+        $dni = prompt "DNI (opcional): "
+        if (-not $dni) { $dni = "" }
+    }
+
+    $autoUid = ""
+    if ($esInt -and $apellido1) {
+        $autoUid = ($nombre -replace '\s', '').ToLower() + "." + ($apellido1 -replace '\s', '').ToLower()
+    }
+
+    ui; header
+    panel "CREAR USUARIO - Identificador" {
+        if ($autoUid) { Write-Host ("|  UID sugerido: $autoUid") -ForegroundColor DarkGray }
+        Write-Host "|"
+    }
+
+    if ($esInt) {
+        $sug = $autoUid
+        $uidIn = prompt "UID [$sug]: " $sug
+        $uid = if ($uidIn) { $uidIn } else { $sug }
+    } else {
+        $uid = prompt "UID: "
+        if (-not $uid) { Write-Log "UID requerido" "WARN"; pause; return }
+    }
+
+    $month = Get-Date -Format "MM"; $year = Get-Date -Format "yy"
+    $defaultPass = "Justicia.$month$year"
+    $pass = prompt "Password [$defaultPass]: " $defaultPass
+
+    $cuota = if ($esInt) { "1024" } else { "250" }
+    $uidManager = ""; $centroDirectivo = ""; $centroDestino = ""
+
+    if ($empleadoTipo -eq "generico") {
+        ui; header
+        panel "CREAR USUARIO - Opciones generico" {
+            Write-Host ("|  UID: $uid") -ForegroundColor Yellow
+            Write-Host "|"
+        }
+        $uidManager = prompt "Gestor (email): "
+        $centroDirectivo = prompt "Centro directivo [A0]: " "A0"
+        if (-not $centroDirectivo) { $centroDirectivo = "A0" }
+        $centroDestino = prompt "Centro destino [A0]: " "A0"
+        if (-not $centroDestino) { $centroDestino = "A0" }
+        $cuotaIn = prompt "Cuota (MB) [$cuota]: " $cuota
+        if ($cuotaIn) { $cuota = $cuotaIn }
+    } else {
+        $cuotaIn = prompt "Cuota (MB) [$cuota]: " $cuota
+        if ($cuotaIn) { $cuota = $cuotaIn }
+    }
+
+    ui; header
+    panel "CREAR USUARIO - RESUMEN" {
+        Write-Host ("|  Tipo:     $empleadoTipo") -ForegroundColor Yellow
+        Write-Host ("|  Nombre:   $nombre") -ForegroundColor Green
+        Write-Host ("|  Apellidos: $apellido1 $apellido2") -ForegroundColor Green
+        Write-Host ("|  DNI:      $dni") -ForegroundColor Green
+        Write-Host ("|  UID:      $uid") -ForegroundColor Green
+        Write-Host ("|  Rama:     $targetBranch") -ForegroundColor Green
+        Write-Host ("|  Password: $pass") -ForegroundColor Green
+        Write-Host ("|  Cuota:    $cuota MB") -ForegroundColor Green
+        if ($uidManager) { Write-Host ("|  Gestor:   $uidManager") -ForegroundColor Green }
+        if ($centroDirectivo) { Write-Host ("|  Centro:   $centroDirectivo / $centroDestino") -ForegroundColor Green }
+        Write-Host "|"
+    }
+    footer @("s para crear", "Enter para cancelar")
+    $confirm = prompt "s/N: " "n"
+    if ($confirm -ne 's') { Write-Log "Cancelado" "WARN"; return }
+
+    try {
+        Write-Log "Paso 1/3: Inicializando formulario..." "INFO"
+        $initBody = @{
+            accion = 'nuevo'; botonPulsado = 'pantalla1'
+            tokenParametro = $script:token
+            filtroAtributo = 'identificador'; filtroTipoBusqueda = 'empezando'; filtroValor = ''
+            marcarSirhus = $(if ($esInt) { 'NO' } else { 'SI' })
+            marcarInternos = $(if ($esInt) { 'SI' } else { 'NO' })
+            marcarExternos = 'NO'; marcarGenericos = 'NO'; marcarNA = 'NO'
+            numUsuariosAntiguo = '25'; numUsuarios = '25'
+        }
+        $r1 = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $initBody
+        $script:token = Extract-Token $r1.Content
+        if (-not $script:token) { throw "No se pudo extraer token tras pantalla1" }
+
+        Write-Log "Paso 2/3: Enviando datos basicos..." "INFO"
+        $basicBody = @{
+            accion = 'nuevo'; botonPulsado = 'pantalla2'
+            tokenParametro = $script:token
+            empleadoNombre_sa = $nombre; empleadoApellido1_sa = $apellido1; empleadoApellido2_sa = $apellido2
+            empleadoUidType = 'conCorreo'; empleadoTipo = $empleadoTipo
+            empleadoNombre = $nombre; empleadoApellido1 = $apellido1; empleadoApellido2 = $apellido2
+            empleadoDni = $dni
+        }
+        $r2 = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $basicBody
+        $p2Html = $r2.Content
+        $script:token = Extract-Token $p2Html
+        if (-not $script:token) { throw "No se pudo extraer token tras pantalla2" }
+
+        $debugStep2 = Join-Path $script:DEBUG_DIR "crear_p2_$uid.html"
+        $p2Html | Out-File -FilePath $debugStep2 -Encoding UTF8
+        Write-Log ("Pantalla2: " + $p2Html.Length + " bytes") "INFO"
+
+        Write-Log "Paso 3/3: Extrayendo campos y enviando..." "INFO"
+        $formFields = Extract-FormFields $p2Html
+        $allInputs = [regex]::Matches($p2Html, '\bname\s*=\s*["'']([^"'']*?)["''][^>]*?\bvalue\s*=\s*["'']([^"'']*?)["'']')
+        foreach ($m in $allInputs) {
+            $n = $m.Groups[1].Value; $v = $m.Groups[2].Value
+            if (-not $formFields.ContainsKey($n)) { $formFields[$n] = $v }
+        }
+
+        $body = @{}
+        foreach ($kv in $formFields.GetEnumerator()) { $body[$kv.Key] = $kv.Value }
+        $body['tokenParametro'] = $script:token
+        $body['botonPulsado'] = 'pantalla3'
+        $body['accion'] = 'nuevo'
+
+        $body['empleadoNombre'] = $nombre
+        $body['empleadoNombre2'] = $nombre
+        $body['empleadoApellido1'] = $apellido1
+        $body['empleadoApellido2'] = $apellido2
+        $body['empleadoDni'] = $dni
+        $body['empleadoTipo'] = $empleadoTipo
+        $body['empleadoUidType'] = 'conCorreo'
+        $body['dominioCorreoSeleccionado'] = 'juntadeandalucia.es'
+        $body['pwd_nuevo'] = $pass
+        $body['pwd2_nuevo'] = $pass
+        $body['empleadoServidorCorreo'] = 'Centralizado'
+        $body['empleadoServidorWebmail'] = 'Centralizado'
+        $body['empleadoCuota'] = $cuota
+        $body['FJCuota'] = '10240'
+        $body['provincia'] = '99'
+        $body['JAreserva'] = 'SI'
+        $body['caducidadNO'] = 'NO'
+
+        if ($esInt) {
+            $body['identificador_radio'] = 'select'
+            $body['identificador_select'] = $uid
+            $body['empleadoExtension_select'] = '.ius'
+            $body['empleadoExtension'] = ''
+            $body['JAcloudTipoUsuario'] = 'NA'
+        } else {
+            $body['identificador_text'] = $uid
+            $body['empleadoExtension'] = '.jus'
+            $body['JAcloud'] = 'NO'
+            $body['consigna'] = '0'
+            if ($uidManager) { $body['uidManager'] = $uidManager }
+            if ($centroDirectivo) { $body['centroDirectivo'] = $centroDirectivo }
+            if ($centroDestino) { $body['centroDestino'] = $centroDestino }
+            $body['puestoTrabajoNuevo'] = ''
+        }
+
+        Write-Log ("Enviando creacion (" + $body.Count + " campos)...") "INFO"
+        $r3 = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
+
+        $resultHtml = $r3.Content
+        $debugFile = Join-Path $script:DEBUG_DIR "crear_result_$uid.html"
+        $resultHtml | Out-File -FilePath $debugFile -Encoding UTF8
+
+        if ($resultHtml -match 'correctamente|actualiz.+correcta|Usuario.*creado|Alta.*correcta|mensaje_ok') {
+            Write-Log "Usuario $uid creado correctamente" "OK"
+            try { Get-UserProfile -UID $uid; screen-profile } catch { pause }
+        } else {
+            Write-Log "Posible error. HTML guardado en $debugFile" "WARN"
+            pause
+        }
+    } catch {
+        $debugFile = Join-Path $script:DEBUG_DIR "crear_error_$uid.html"
+        if ($_.Exception.Response) {
+            try {
+                $sr = New-Object System.IO.StreamReader($_.Exception.Response.GetResponseStream())
+                $errHtml = $sr.ReadToEnd(); $sr.Close()
+                $errHtml | Out-File -FilePath $debugFile -Encoding UTF8
+                Write-Log "HTML error guardado en $debugFile" "WARN"
+            } catch { Write-Log "No se pudo leer respuesta del servidor" "WARN" }
+        }
+        Write-Log ("Error: " + $_.Exception.Message) "ERROR"
+        pause
     }
 }
 
@@ -1334,7 +2176,7 @@ try {
         }
         switch -Wildcard ($opt) {
             "1" { screen-search }
-            "2" { if (-not $script:lastProfileFields) { Write-Log "Busca un usuario primero" "WARN"; pause; continue }; screen-profile }
+            "2" { screen-crear-usuario }
             "3" { if (-not $script:lastProfileFields) { Write-Log "Busca un usuario primero" "WARN"; pause; continue }; screen-password }
             "4" { screen-listas }
             "5" { screen-sirhus }
