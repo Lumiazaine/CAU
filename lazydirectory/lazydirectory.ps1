@@ -806,32 +806,62 @@ function Set-UserPassword {
 function screen-main {
     ui
     header
-    panel "MENU PRINCIPAL" {
-        Write-Host "|"
-        Write-Host "|  1. Buscar usuario" -ForegroundColor Cyan
-        Write-Host "|  2. Crear usuario" -ForegroundColor Cyan
-        Write-Host "|  3. Cambiar contrasena" -ForegroundColor Cyan
-        Write-Host "|  4. Listas" -ForegroundColor Cyan
-        Write-Host "|  5. Sirhus" -ForegroundColor Cyan
-        Write-Host "|"
-        Write-Host "|  0. Salir" -ForegroundColor Red
-        Write-Host "|"
-        Write-Host ("|  >> Rama: $script:ramaLdap") -ForegroundColor Green
-        if ($script:lastProfileFields -and $script:lastProfileFields['uid']) {
-            Write-Host ("|     Usuario: $($script:lastProfileFields['uid'])") -ForegroundColor DarkGray
+    $menuItems = @(
+        @{ key = "1"; label = "Buscar usuario" }
+        @{ key = "2"; label = "Crear usuario" }
+        @{ key = "3"; label = "Cambiar contrasena" }
+        @{ key = "4"; label = "Listas" }
+        @{ key = "5"; label = "Sirhus" }
+        @{ key = "0"; label = "Salir" }
+    )
+    $cursor = 0
+
+    while ($true) {
+        ui; header
+        panel "MENU PRINCIPAL" {
+            Write-Host "|"
+            for ($i = 0; $i -lt $menuItems.Count; $i++) {
+                $item = $menuItems[$i]
+                if ($item.key -eq "0") { Write-Host "|" }
+                $isCur = ($i -eq $cursor)
+                $color = if ($item.key -eq "0") { "Red" } else { "Cyan" }
+                if ($isCur) {
+                    Write-Host ("|  > ") -NoNewline
+                    Write-Host ("$($item.key). $($item.label)") -ForegroundColor White -BackgroundColor DarkCyan
+                } else {
+                    Write-Host ("|    ") -NoNewline
+                    Write-Host ("$($item.key). $($item.label)") -ForegroundColor $color
+                }
+            }
+            Write-Host "|"
+            Write-Host ("|  >> Rama: $script:ramaLdap") -ForegroundColor Green
+            if ($script:lastProfileFields -and $script:lastProfileFields['uid']) {
+                Write-Host ("|     Usuario: $($script:lastProfileFields['uid'])") -ForegroundColor DarkGray
+            }
+            Write-Host "|"
         }
-        Write-Host "|"
+        footer @("[?] Ayuda", "[1-5] Accion", "[s] Buscar", "[l] Rama", "[q] Salir")
+
+        $k = Get-Key
+        if ($k.Key -eq 'Q' -or $k.Key -eq 'ESCAPE') { return "q" }
+        if ($k.Key -eq '?' -or $k.Key -eq 'F1') { Show-Help -Screen "main"; continue }
+        if ($k.Key -eq 'UP' -and $cursor -gt 0) { $cursor--; continue }
+        if ($k.Key -eq 'DOWN' -and $cursor -lt $menuItems.Count - 1) { $cursor++; continue }
+        if ($k.Key -eq 'ENTER' -or $k.Key -eq 'SPACE') { return $menuItems[$cursor].key }
+        if ($k.Key -match '^[0-5]$') { return $k.Key }
+        if ($k.Key -eq 'S') {
+            $q = Read-KeyLine -Prompt "UID: "
+            if ($q) { screen-quick-search $q }
+            continue
+        }
+        if ($k.Key -eq 'L') {
+            $branch = Read-KeyLine -Prompt "Rama LDAP (jus/ius): " "jus"
+            if ($branch -and $branch -ne $script:ramaLdap) {
+                try { Connect-Directorio -Branch $branch } catch { Write-Log "Error al cambiar rama" "ERROR" }
+            }
+            continue
+        }
     }
-    footer @("1-5 opciones", "0/q salir", "s <uid> busqueda rapida")
-    Write-Host ""
-    Write-Host "Opcion: " -ForegroundColor Yellow -NoNewline
-    $k = Get-Key
-    if ($k.Key -eq 'S') {
-        $q = Read-KeyLine -Prompt "UID: "
-        if ($q) { screen-quick-search $q }
-        return "0"
-    }
-    return $k.Char
 }
 
 function screen-search {
