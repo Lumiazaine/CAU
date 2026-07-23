@@ -28,24 +28,23 @@ function ui {
     $script:columns = [Math]::Max(80, [Console]::WindowWidth)
 }
 function bar { param([string]$c = "DarkGray"); Write-Host ("-" * $script:columns) -ForegroundColor $c }
-function empty { Write-Host (" " * $script:columns) -ForegroundColor DarkGray }
 
 function header {
     Clear-Host
     $w = $script:columns
     $conn = if ($script:authenticated) { "CONECTADO" } else { "DESCONECTADO" }
     $cc = if ($script:authenticated) { "Green" } else { "Red" }
+    $branch = $script:ramaLdap
+    $title = " LAZYDIRECTORY v$script:VERSION "
+    $status = " $conn | $branch "
+    $pad = $w - $title.Length - $status.Length - 2
+    if ($pad -lt 1) { $pad = 1 }
     Write-Host ("." + ("-" * ($w - 2)) + ".") -ForegroundColor DarkGray
-    Write-Host ("|" + (" " * ($w - 2)) + "|") -ForegroundColor DarkGray
-    Write-Host ("|  LAZYDIRECTORY v$script:VERSION") -ForegroundColor Yellow -NoNewline
-    $rest = $w - 28 - $conn.Length
-    if ($rest -gt 0) { Write-Host (" " * $rest) -NoNewline } else { Write-Host "" -NoNewline }
+    Write-Host ("|" + $title) -ForegroundColor Yellow -NoNewline
+    Write-Host (" " * $pad) -NoNewline
+    Write-Host $status -ForegroundColor $cc -NoNewline
     Write-Host "|" -ForegroundColor DarkGray
-    Write-Host ("|  " + (" " * 22)) -NoNewline
-    Write-Host $conn -ForegroundColor $cc -NoNewline
-    Write-Host (" " * ($w - 28 - $conn.Length)) -NoNewline; Write-Host "|" -ForegroundColor DarkGray
     Write-Host ("'" + ("-" * ($w - 2)) + "'") -ForegroundColor DarkGray
-    Write-Host ""
 }
 
 function footer {
