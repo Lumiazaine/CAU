@@ -141,6 +141,97 @@ function Read-KeyLine {
     return $input
 }
 
+function Show-Help {
+    param([string]$Screen = "main")
+    [Console]::CursorVisible = $false
+    $w = $script:columns
+    $helpWidth = 52
+    $leftPad = [Math]::Max(2, [Math]::Floor(($w - $helpWidth) / 2))
+
+    $shortcuts = @{
+        main = @(
+            @("1-5", "Acciones del menu"),
+            @("0 / Q", "Salir"),
+            @("s", "Busqueda rapida (UID)"),
+            @("l", "Cambiar rama LDAP"),
+            @("?", "Mostrar esta ayuda")
+        )
+        search = @(
+            @("1-7", "Campo de busqueda"),
+            @("0", "Volver"),
+            @("?", "Mostrar esta ayuda")
+        )
+        results = @(
+            @("j / Up", "Cursor arriba"),
+            @("k / Down", "Cursor abajo"),
+            @("Enter", "Ver perfil"),
+            @("0 / ESC", "Volver"),
+            @("?", "Mostrar esta ayuda")
+        )
+        profile = @(
+            @("e", "Editar datos"),
+            @("c", "Cambiar password"),
+            @("1-4", "Acciones del perfil"),
+            @("0 / ESC", "Volver"),
+            @("?", "Mostrar esta ayuda")
+        )
+        sirhus = @(
+            @("^ / v", "Navegar"),
+            @("Space", "Seleccionar"),
+            @("t", "Toggle todos"),
+            @("v", "Validar"),
+            @("b", "Buscar"),
+            @("0 / ESC", "Volver")
+        )
+    }
+
+    $items = if ($shortcuts.ContainsKey($Screen)) { $shortcuts[$Screen] } else { $shortcuts['main'] }
+
+    $border = "." + ("-" * ($helpWidth - 2)) + "."
+    $emptyLine = "|" + (" " * ($helpWidth - 2)) + "|"
+
+    $top = $leftPad
+    $row = 0
+    $maxRows = 25
+
+    function DrawLine {
+        param([string]$Line)
+        if ($row -lt $maxRows) {
+            Write-Host (" " * $leftPad) -NoNewline; Write-Host $Line
+            $script:rowCount++
+        }
+    }
+
+    $script:rowCount = 0
+    $saved = [Console]::CursorTop
+    Clear-Host
+    header
+    $script:rowCount = 3
+
+    for ($i = 0; $i -lt 2 -and $script:rowCount -lt $maxRows; $i++) { Write-Host ""; $script:rowCount++ }
+    Write-Host (" " * $leftPad) -NoNewline; Write-Host $border -ForegroundColor Cyan; $script:rowCount++
+    Write-Host (" " * $leftPad) -NoNewline; Write-Host $emptyLine; $script:rowCount++
+    Write-Host (" " * $leftPad) -NoNewline
+    Write-Host ("|  AYUDA - TECLADO") -ForegroundColor Yellow -NoNewline
+    Write-Host (" " * ($helpWidth - 21) + "|"); $script:rowCount++
+    Write-Host (" " * $leftPad) -NoNewline; Write-Host $emptyLine; $script:rowCount++
+    foreach ($s in $items) {
+        $line = "|  " + $s[0].PadRight(12) + "  " + $s[1]
+        $line = $line.PadRight($helpWidth - 1) + "|"
+        Write-Host (" " * $leftPad) -NoNewline; Write-Host $line -ForegroundColor White; $script:rowCount++
+    }
+    Write-Host (" " * $leftPad) -NoNewline; Write-Host $emptyLine; $script:rowCount++
+    Write-Host (" " * $leftPad) -NoNewline; Write-Host ("|  [q / ESC / ?] Cerrar").PadRight($helpWidth - 1) + "|" -ForegroundColor DarkGray; $script:rowCount++
+    Write-Host (" " * $leftPad) -NoNewline; Write-Host $border -ForegroundColor Cyan; $script:rowCount++
+
+    while ($true) {
+        $k = Get-Key
+        if ($k.Key -eq 'Q' -or $k.Key -eq 'Escape' -or $k.Key -eq '?') { break }
+    }
+
+    header
+}
+
 # ============================================================
 # AUTH
 # ============================================================
