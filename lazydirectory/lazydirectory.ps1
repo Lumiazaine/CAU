@@ -61,15 +61,12 @@ function footer {
 
 function prompt {
     param([string]$Text, [string]$Default = "")
-    Write-Host $Text -ForegroundColor Yellow -NoNewline
-    $val = Read-Host
-    if (-not $val) { return $Default }
-    return $val
+    return Read-KeyLine -Prompt $Text -Default $Default
 }
 
 function pause {
     Write-Host "Presiona Enter para continuar..." -ForegroundColor DarkGray -NoNewline
-    $null = Read-Host
+    $null = Get-Key
 }
 
 function Write-Log {
@@ -100,6 +97,51 @@ function row {
     Write-Host $Value -ForegroundColor $Color
 }
 
+function Get-Key {
+    $key = [Console]::ReadKey($true)
+    $vk = [int]$key.Key
+    $ch = $key.KeyChar
+    if ($vk -eq 13) { return @{ Key = 'Enter'; Char = "`r" } }
+    if ($vk -eq 27) { return @{ Key = 'Escape'; Char = "`e" } }
+    if ($vk -eq 38) { return @{ Key = 'Up'; Char = '' } }
+    if ($vk -eq 40) { return @{ Key = 'Down'; Char = '' } }
+    if ($vk -eq 37) { return @{ Key = 'Left'; Char = '' } }
+    if ($vk -eq 39) { return @{ Key = 'Right'; Char = '' } }
+    if ($vk -eq 33) { return @{ Key = 'PageUp'; Char = '' } }
+    if ($vk -eq 34) { return @{ Key = 'PageDown'; Char = '' } }
+    if ($vk -eq 36) { return @{ Key = 'Home'; Char = '' } }
+    if ($vk -eq 35) { return @{ Key = 'End'; Char = '' } }
+    if ($vk -eq 32) { return @{ Key = 'Space'; Char = ' ' } }
+    if ($vk -eq 9) { return @{ Key = 'Tab'; Char = "`t" } }
+    if ($vk -eq 8) { return @{ Key = 'Backspace'; Char = "`b" } }
+    return @{ Key = $ch.ToString().ToUpper(); Char = $ch }
+}
+
+function Read-KeyLine {
+    param([string]$Prompt, [string]$Default = "")
+    if ($Prompt) { Write-Host $Prompt -ForegroundColor Yellow -NoNewline }
+    $input = ""
+    [Console]::CursorVisible = $true
+    while ($true) {
+        $k = [Console]::ReadKey($true)
+        if ($k.Key -eq 13) { break }
+        if ($k.Key -eq 27) { [Console]::CursorVisible = $false; Write-Host ""; return $Default }
+        if ($k.Key -eq 8) {
+            if ($input.Length -gt 0) {
+                $input = $input.Substring(0, $input.Length - 1)
+                Write-Host "`b `b" -NoNewline
+            }
+        } elseif ($k.KeyChar -and $k.KeyChar -ge ' ') {
+            $input += $k.KeyChar
+            Write-Host $k.KeyChar -NoNewline
+        }
+    }
+    [Console]::CursorVisible = $false
+    Write-Host ""
+    if (-not $input -and $Default) { return $Default }
+    return $input
+}
+
 # ============================================================
 # AUTH
 # ============================================================
@@ -126,7 +168,7 @@ function Save-Credentials {
 
 function Get-CredentialsInteractive {
     Write-Log "Solicitando credenciales de administrador..." "WARN"
-    $user = Read-Host "Usuario administrador"
+    $user = Read-KeyLine -Prompt "Usuario administrador: "
     $pass = Read-Host "Contrasena" -AsSecureString
     $ptr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($pass)
     $plainPass = [System.Runtime.InteropServices.Marshal]::PtrToStringBSTR($ptr)
@@ -693,7 +735,13 @@ function screen-main {
     footer @("1-5 opciones", "0/q salir", "s <uid> busqueda rapida")
     Write-Host ""
     Write-Host "Opcion: " -ForegroundColor Yellow -NoNewline
-    return Read-Host
+    $k = Get-Key
+    if ($k.Key -eq 'S') {
+        $q = Read-KeyLine -Prompt "UID: "
+        if ($q) { screen-quick-search $q }
+        return "0"
+    }
+    return $k.Char
 }
 
 function screen-search {
