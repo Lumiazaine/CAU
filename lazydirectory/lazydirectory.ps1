@@ -525,7 +525,7 @@ function Search-UserBranch {
 
     $debugFile = Join-Path $script:DEBUG_DIR ("search_" + $Query.Replace('.','_') + "_$Branch.html")
     $html | Out-File -FilePath $debugFile -Encoding UTF8
-    Write-Log ("Respuesta $Branch: " + $html.Length + " bytes") "INFO"
+    Write-Log ("Respuesta " + $Branch + ": " + $html.Length + " bytes") "INFO"
 
     $users = @()
     $isExact = $false
@@ -547,7 +547,7 @@ function Search-UserBranch {
         $users += @{ dn = $dn; uid = $uid; nombre = $fields['cn']; apellidos = $fields['sn']; email = $fields['mail']; desc = $fields['description']; branch = $Branch; fields = $fields }
         $isExact = $true
         $profileFields = $fields
-        Write-Log ("Encontrado en $Branch: " + $uid) "OK"
+        Write-Log ("Encontrado en " + $Branch + ": " + $uid) "OK"
         return @{ Users = $users; IsExact = $isExact; ProfileFields = $profileFields; Html = $html }
     }
 
@@ -580,7 +580,7 @@ function Search-UserBranch {
             email = $email; desc = ''; branch = $Branch
         }
     }
-    Write-Log ("filas encontradas en $Branch: " + $seen.Count) "INFO"
+    Write-Log ("filas encontradas en " + $Branch + ": " + $seen.Count) "INFO"
     return @{ Users = $users; IsExact = $false; ProfileFields = $null; Html = $html }
 }
 
