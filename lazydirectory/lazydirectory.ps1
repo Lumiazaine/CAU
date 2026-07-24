@@ -497,7 +497,7 @@ function Ensure-Branch {
 }
 
 function Search-UserBranch {
-    param([string]$Query, [string]$SearchField, [string]$SearchType, [string]$Branch)
+    param([string]$Query, [string]$SearchField, [string]$SearchType, [string]$Branch, [switch]$AllTypes)
 
     $esInt = ($Branch -eq "ius")
     Write-Log "Buscando '$Query' por '$SearchField' en $Branch..." "INFO"
@@ -517,7 +517,12 @@ function Search-UserBranch {
         marcarExternos = 'NO'; marcarGenericos = 'NO'; marcarNA = 'NO'
         numUsuariosAntiguo = '25'; numUsuarios = '25'
     }
-    if ($esInt) { $body['seleccionarInternos'] = 'on' }
+    if ($AllTypes) {
+        $body['marcarSirhus'] = 'SI'; $body['marcarInternos'] = 'SI'
+        $body['marcarExternos'] = 'SI'; $body['marcarGenericos'] = 'SI'; $body['marcarNA'] = 'SI'
+        $body.Remove('seleccionarInternos')
+        $body.Remove('seleccionarSirhus')
+    } elseif ($esInt) { $body['seleccionarInternos'] = 'on' }
     else { $body['seleccionarSirhus'] = 'on' }
 
     $r = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
@@ -588,7 +593,7 @@ function Search-User {
     param([string]$Query = "", [string]$SearchField = "identificador", [string]$SearchType = "conteniendo")
 
     if ($Query -match '^\d{7,8}$') {
-        $SearchField = "dni"; $SearchType = "igual"
+        $SearchField = "dni"; $SearchType = "conteniendo"
     }
 
     if ($SearchField -eq "dni") {
@@ -600,7 +605,7 @@ function Search-User {
                 Connect-Directorio -Branch $br
                 if (-not $script:authenticated) { Write-Log "Error al cambiar a $br" "ERROR"; continue }
             }
-            $result = Search-UserBranch -Query $Query -SearchField $SearchField -SearchType $SearchType -Branch $br
+            $result = Search-UserBranch -Query $Query -SearchField $SearchField -SearchType $SearchType -Branch $br -AllTypes
             $allUsers += $result.Users
             if ($result.Html) { $lastHtml = $result.Html }
             if ($result.ProfileFields -and -not $script:lastProfileFields) {
