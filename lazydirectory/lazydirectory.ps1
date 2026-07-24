@@ -965,7 +965,10 @@ function screen-results {
 
         ui; header
         Write-Host (".- $Title ($total usuarios)" + (" " * ($script:columns - 20 - $Title.Length)) + ".") -ForegroundColor Cyan
-        $hdr = ("{0,3} {1,-20} {2,-25} {3,-30}" -f "#", "UID", "NOMBRE", "EMAIL")
+        $numCol = 4; $uidCol = 18; $nameCol = 22
+        $emailCol = $script:columns - 4 - $numCol - $uidCol - $nameCol
+        if ($emailCol -lt 15) { $emailCol = 15; $uidCol = 15; $nameCol = $script:columns - 4 - $numCol - $uidCol - $emailCol }
+        $hdr = ("{0,$numCol} {1,-$uidCol} {2,-$nameCol} {3,-$emailCol}" -f "#", "UID", "NOMBRE", "EMAIL")
         Write-Host ("| " + $hdr.PadRight($script:columns - 4)) -ForegroundColor DarkGray
         $start = $page * $pageSize; $end = [Math]::Min($start + $pageSize - 1, $total - 1)
         for ($i = $start; $i -le $end; $i++) {
@@ -974,7 +977,7 @@ function screen-results {
             $emailStr = if ($u.email) { $u.email } else { "-" }
             $fullName = "$($u.nombre) $($u.apellidos)".Trim()
             if (-not $fullName) { $fullName = "-" }
-            $line = ("{0,3} {1,-20} {2,-25} {3,-30}" -f ($i+1), $uidStr.Substring(0, [Math]::Min(20, $uidStr.Length)), $fullName.Substring(0, [Math]::Min(25, $fullName.Length)), $emailStr.Substring(0, [Math]::Min(30, $emailStr.Length)))
+            $line = ("{0,$numCol} {1,-$uidCol} {2,-$nameCol} {3,-$emailCol}" -f ($i+1), $uidStr.Substring(0, [Math]::Min($uidCol, $uidStr.Length)), $fullName.Substring(0, [Math]::Min($nameCol, $fullName.Length)), $emailStr.Substring(0, [Math]::Min($emailCol, $emailStr.Length)))
             if ($line.Length -gt $script:columns - 5) { $line = $line.Substring(0, $script:columns - 8) }
             $isCur = ($i -eq $cursor)
             if ($isCur) {
