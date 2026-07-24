@@ -496,18 +496,11 @@ function Ensure-Branch {
     return $targetBranch
 }
 
-function Search-User {
-    param([string]$Query = "", [string]$SearchField = "identificador", [string]$SearchType = "conteniendo")
+function Search-UserBranch {
+    param([string]$Query, [string]$SearchField, [string]$SearchType, [string]$Branch)
 
-    # Auto-detect DNI: 7-8 digitos sin letra → buscar por dni exacto
-    if ($Query -match '^\d{7,8}$') {
-        $SearchField = "dni"; $SearchType = "igual"
-    }
-
-    $branch = Ensure-Branch $Query
-    $esInt = ($branch -eq "ius")
-
-    Write-Log "Buscando '$Query' por '$SearchField' en $branch..." "INFO"
+    $esInt = ($Branch -eq "ius")
+    Write-Log "Buscando '$Query' por '$SearchField' en $Branch..." "INFO"
 
     $r = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession
     $script:token = Extract-Token $r.Content
@@ -529,20 +522,18 @@ function Search-User {
 
     $r = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
     $html = $r.Content
-    $script:lastRawHtml = $html
 
-    Write-Log ("Respuesta: " + $html.Length + " bytes") "INFO"
-
-    $debugFile = Join-Path $script:DEBUG_DIR ("search_" + $Query.Replace('.','_') + ".html")
+    $debugFile = Join-Path $script:DEBUG_DIR ("search_" + $Query.Replace('.','_') + "_$Branch.html")
     $html | Out-File -FilePath $debugFile -Encoding UTF8
+    Write-Log ("Respuesta $Branch: " + $html.Length + " bytes") "INFO"
 
     $users = @()
+    $isExact = $false
+    $profileFields = $null
 
-    # Exact hit = exactly one password overlay (name="dn" per overlay)
     $dnMatches = [regex]::Matches($html, 'name="dn"\s*value="([^"]+)"')
     if ($dnMatches.Count -eq 1) {
-        $dnMatch = $dnMatches[0]
-        $dn = $dnMatch.Groups[1].Value
+        $dn = $dnMatches[0].Groups[1].Value
         $uid = ''
         $u = [regex]::Match($dn, 'uid=([^,]+)')
         if ($u.Success) { $uid = $u.Groups[1].Value }
@@ -553,14 +544,13 @@ function Search-User {
                 $fields[$kv.Key] = $kv.Value
             }
         }
-        $users += @{ dn = $dn; uid = $uid; nombre = $fields['cn']; apellidos = $fields['sn']; email = $fields['mail']; desc = $fields['description']; branch = $branch; fields = $fields }
-        $script:lastProfileFields = $fields
-        Write-Log ("Encontrado: " + $uid) "OK"
-        $script:lastResultData = $users
-        return $users
+        $users += @{ dn = $dn; uid = $uid; nombre = $fields['cn']; apellidos = $fields['sn']; email = $fields['mail']; desc = $fields['description']; branch = $Branch; fields = $fields }
+        $isExact = $true
+        $profileFields = $fields
+        Write-Log ("Encontrado en $Branch: " + $uid) "OK"
+        return @{ Users = $users; IsExact = $isExact; ProfileFields = $profileFields; Html = $html }
     }
 
-    # Partial — parse search result rows (fila_par / fila_impar)
     $seen = @{}
     [regex]::Matches($html, '(?s)<div\s+class="fila_(?:par|impar)"[^>]*>.*?</div>') | ForEach-Object {
         $rowHtml = $_.Value
@@ -568,13 +558,11 @@ function Search-User {
         $email = if ($spans.Count -ge 1) { ($spans[0].Groups[1].Value -replace '<[^>]+>', '' -replace '&nbsp;', ' ' -replace '&amp;', '&' -replace '\s+', ' ').Trim() } else { '' }
         $name  = if ($spans.Count -ge 2) { ($spans[1].Groups[1].Value -replace '<[^>]+>', '' -replace '&nbsp;', ' ' -replace '&amp;', '&' -replace '\s+', ' ').Trim() } else { '' }
 
-        # Extract uid from edit link's onClick: enviar(...,'uid=...')
         $uid = ''
         $uidM = [regex]::Match($rowHtml, "enviar\('[^']+','[^']+','uid=([^,]+)")
         if ($uidM.Success) { $uid = $uidM.Groups[1].Value.ToLower() }
 
         if (-not $uid) {
-            # Fallback: extract uid from email
             $atM = [regex]::Match($email, '^([^@]+)@')
             if ($atM.Success) { $uid = $atM.Groups[1].Value.ToLower() }
         }
@@ -582,22 +570,57 @@ function Search-User {
         if ($seen.ContainsKey($uid)) { return }
         $seen[$uid] = $true
 
-        # Split name into nombre/apellidos
         $parts = $name -split '\s+', 2
         $nombre = if ($parts[0]) { $parts[0] } else { '' }
         $apellidos = if ($parts.Count -ge 2) { $parts[1] } else { '' }
 
         $users += @{
-            dn = "uid=$uid,o=$branch,o=empleados,o=juntadeandalucia,c=es"
+            dn = "uid=$uid,o=$Branch,o=empleados,o=juntadeandalucia,c=es"
             uid = $uid; nombre = $nombre; apellidos = $apellidos
-            email = $email; desc = ''; branch = $branch
+            email = $email; desc = ''; branch = $Branch
         }
     }
-    Write-Log ("filas encontradas: " + $seen.Count) "INFO"
+    Write-Log ("filas encontradas en $Branch: " + $seen.Count) "INFO"
+    return @{ Users = $users; IsExact = $false; ProfileFields = $null; Html = $html }
+}
 
-    Write-Log ("Usuarios: " + $users.Count) "INFO"
-    $script:lastResultData = $users
-    return $users
+function Search-User {
+    param([string]$Query = "", [string]$SearchField = "identificador", [string]$SearchType = "conteniendo")
+
+    if ($Query -match '^\d{7,8}$') {
+        $SearchField = "dni"; $SearchType = "igual"
+    }
+
+    if ($SearchField -eq "dni") {
+        $allUsers = @()
+        $lastHtml = $null
+        foreach ($br in @("jus", "ius")) {
+            if ($script:ramaLdap -ne $br) {
+                Write-Log "Cambiando a rama $br..." "INFO"
+                Connect-Directorio -Branch $br
+                if (-not $script:authenticated) { Write-Log "Error al cambiar a $br" "ERROR"; continue }
+            }
+            $result = Search-UserBranch -Query $Query -SearchField $SearchField -SearchType $SearchType -Branch $br
+            $allUsers += $result.Users
+            if ($result.Html) { $lastHtml = $result.Html }
+            if ($result.ProfileFields -and -not $script:lastProfileFields) {
+                $script:lastProfileFields = $result.ProfileFields
+            }
+        }
+        $script:lastRawHtml = $lastHtml
+        if ($allUsers.Count -eq 0) { $script:lastProfileFields = $null }
+        Write-Log ("Total usuarios encontrados: " + $allUsers.Count) "INFO"
+        $script:lastResultData = $allUsers
+        return $allUsers
+    }
+
+    $branch = Ensure-Branch $Query
+    $result = Search-UserBranch -Query $Query -SearchField $SearchField -SearchType $SearchType -Branch $branch
+    $script:lastRawHtml = $result.Html
+    $script:lastProfileFields = $result.ProfileFields
+    $script:lastResultData = $result.Users
+    Write-Log ("Usuarios: " + $result.Users.Count) "INFO"
+    return $result.Users
 }
 
 function Get-UserProfile {
@@ -1283,7 +1306,6 @@ function screen-edit {
         if ($r3.Content -match 'actualiz.+correctamente|mensaje_ok|Modificaci.n guardada|correctamente') {
             Write-Log "Datos actualizados correctamente" "OK"
             Get-UserProfile -UID $uid
-            screen-profile
         } else {
             $debugFile = Join-Path $script:DEBUG_DIR ("edit_" + $uid.Replace('.','_') + ".html")
             $r3.Content | Out-File -FilePath $debugFile -Encoding UTF8
