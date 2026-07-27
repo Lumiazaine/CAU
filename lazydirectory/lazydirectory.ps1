@@ -520,8 +520,8 @@ function Search-UserBranch {
     if ($AllTypes) {
         $body['marcarSirhus'] = 'SI'; $body['marcarInternos'] = 'SI'
         $body['marcarExternos'] = 'SI'; $body['marcarGenericos'] = 'SI'; $body['marcarNA'] = 'SI'
-        $body.Remove('seleccionarInternos')
-        $body.Remove('seleccionarSirhus')
+        $body['seleccionarSirhus'] = 'on'; $body['seleccionarInternos'] = 'on'
+        $body['seleccionarExternos'] = 'on'; $body['seleccionarGenericos'] = 'on'; $body['seleccionarNA'] = 'on'
     } elseif ($esInt) { $body['seleccionarInternos'] = 'on' }
     else { $body['seleccionarSirhus'] = 'on' }
 
