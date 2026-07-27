@@ -2156,12 +2156,36 @@ function screen-sirhus-consulta-estado {
             elseif ($label -match 'Situaci') { $data['SITUACION'] = $value }
         }
         if ($data.Count -eq 0) {
-            # Fallback: form_text (error or info message)
             $formText = [regex]::Match($html, '<div\s+class="form_text">(.*?)</div>')
             if ($formText.Success) {
                 $msg = $formText.Groups[1].Value -replace '<[^>]+>', '' -replace '&nbsp;', ' ' -replace '\s+', ' ' -replace '^\s+|\s+$', ''
                 $data['MENSAJE'] = $msg
             }
+        }
+
+        # Directorio search (silent, before UI)
+        $dirEmail = $null; $dirUid = $null; $dirBranch = $null
+        if ($data.ContainsKey('NOMBRE') -and $data['NOMBRE']) {
+            $oldLog = ${function:Write-Log}
+            ${function:Write-Log} = { param([string]$Message, [string]$Level = "INFO") }
+            try {
+                $dirUsers = Search-User -Query $dni -SearchField "dni"
+                if ($dirUsers.Count -ge 1) {
+                    $dirU = $dirUsers[0]
+                    $dirEmail = $dirU.email
+                    if (-not $dirEmail -and $script:lastRawHtml) {
+                        $allEm = [regex]::Matches($script:lastRawHtml, '[\w\.-]+@[\w\.-]+\.\w+')
+                        foreach ($em in $allEm) {
+                            $c = $em.Value
+                            if ($c -notmatch '^(just\d+|admin|noreply|support)@') { $dirEmail = $c; break }
+                        }
+                        if (-not $dirEmail -and $allEm.Count -gt 0) { $dirEmail = $allEm[0].Value }
+                    }
+                    $dirUid = $dirU.uid
+                    $dirBranch = $dirU.branch
+                }
+            } catch { }
+            ${function:Write-Log} = $oldLog
         }
 
         ui; header
@@ -2183,28 +2207,11 @@ function screen-sirhus-consulta-estado {
             Write-Host "|  (sin datos estructurados)" -ForegroundColor DarkGray
             Write-Host "|  HTML: $debugFile" -ForegroundColor DarkGray
         }
-        if ($data.ContainsKey('NOMBRE') -and $data['NOMBRE']) {
+        if ($dirEmail -or $dirUid) {
             Write-Host "|  ---" -ForegroundColor DarkGray
-            $oldLog = ${function:Write-Log}
-            ${function:Write-Log} = { param([string]$Message, [string]$Level = "INFO") }
-            try {
-                $dirUsers = Search-User -Query $dni -SearchField "dni"
-                if ($dirUsers.Count -ge 1) {
-                    $dirU = $dirUsers[0]
-                    $dirEmail = $dirU.email
-                    if (-not $dirEmail -and $script:lastRawHtml) {
-                        $im = [regex]::Match($script:lastRawHtml, 'name="mail"\s+value="([^"]*)"')
-                        if (-not $im.Success) { $im = [regex]::Match($script:lastRawHtml, '>\s*([\w\.-]+@[\w\.-]+\.\w+)\s*</') }
-                        if ($im.Success) { $dirEmail = $im.Groups[1].Value }
-                    }
-                    if ($dirEmail) { Write-Host ("|  Correo:  ") -NoNewline -ForegroundColor Cyan; Write-Host $dirEmail -ForegroundColor Green }
-                    if ($dirU.uid)   { Write-Host ("|  UID:     ") -NoNewline -ForegroundColor Cyan; Write-Host $dirU.uid -ForegroundColor White }
-                    if ($dirU.branch) { Write-Host ("|  Rama:    ") -NoNewline -ForegroundColor Cyan; Write-Host $dirU.branch -ForegroundColor White }
-                } else {
-                    Write-Host "|  (no encontrado en el Directorio)" -ForegroundColor DarkGray
-                }
-            } catch { Write-Host "|  (error en busqueda)" -ForegroundColor DarkGray }
-            ${function:Write-Log} = $oldLog
+            if ($dirEmail) { Write-Host ("|  Correo:  ") -NoNewline -ForegroundColor Cyan; Write-Host $dirEmail -ForegroundColor Green }
+            if ($dirUid)   { Write-Host ("|  UID:     ") -NoNewline -ForegroundColor Cyan; Write-Host $dirUid -ForegroundColor White }
+            if ($dirBranch) { Write-Host ("|  Rama:    ") -NoNewline -ForegroundColor Cyan; Write-Host $dirBranch -ForegroundColor White }
         }
         Write-Host "|"
         Write-Host "  [Enter] otra consulta  [0] volver" -ForegroundColor Cyan
