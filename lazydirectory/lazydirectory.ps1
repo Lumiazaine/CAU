@@ -2144,7 +2144,6 @@ function screen-sirhus-consulta-estado {
         $debugFile = Join-Path $script:DEBUG_DIR "ConsultaEstadoSirhus.html"
         $html | Out-File -FilePath $debugFile -Encoding UTF8
 
-        # Extract fields from form_field_label / form_field_value divs
         $data = @{}
         $pairs = [regex]::Matches($html, '(?s)<div\s+class="form_field_label">(.*?)</div>\s*<div\s+class="form_field_value">(.*?)</div>')
         foreach ($m in $pairs) {
@@ -2156,16 +2155,28 @@ function screen-sirhus-consulta-estado {
             elseif ($label -match 'Correo') { $data['CORREO'] = $value }
             elseif ($label -match 'Situaci') { $data['SITUACION'] = $value }
         }
+        if ($data.Count -eq 0) {
+            # Fallback: form_text (error or info message)
+            $formText = [regex]::Match($html, '<div\s+class="form_text">(.*?)</div>')
+            if ($formText.Success) {
+                $msg = $formText.Groups[1].Value -replace '<[^>]+>', '' -replace '&nbsp;', ' ' -replace '\s+', ' ' -replace '^\s+|\s+$', ''
+                $data['MENSAJE'] = $msg
+            }
+        }
 
         ui; header
         Write-Host (".- CONSULTA SIRHUS (DNI $dni)" + (" " * ($script:columns - 24)) + ".") -ForegroundColor Cyan
         Write-Host "|"
         if ($data.Count -gt 0) {
-            $order = @("NOMBRE", "DNI", "ESTADO", "CORREO", "SITUACION")
-            foreach ($k in $order) {
-                if ($data.ContainsKey($k)) {
-                    Write-Host ("|  $k : ") -NoNewline -ForegroundColor Cyan
-                    Write-Host $data[$k] -ForegroundColor White
+            if ($data.ContainsKey('MENSAJE')) {
+                Write-Host ("|  " + $data['MENSAJE']) -ForegroundColor Yellow
+            } else {
+                $order = @("NOMBRE", "DNI", "ESTADO", "CORREO", "SITUACION")
+                foreach ($k in $order) {
+                    if ($data.ContainsKey($k)) {
+                        Write-Host ("|  $k : ") -NoNewline -ForegroundColor Cyan
+                        Write-Host $data[$k] -ForegroundColor White
+                    }
                 }
             }
         } else {
