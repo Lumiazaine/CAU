@@ -2185,16 +2185,26 @@ function screen-sirhus-consulta-estado {
         }
         if ($data.ContainsKey('NOMBRE') -and $data['NOMBRE']) {
             Write-Host "|  ---" -ForegroundColor DarkGray
-            Write-Host "|  Buscando correo en el Directorio..." -ForegroundColor DarkGray
-            $dirUsers = Search-User -Query $dni -SearchField "dni"
-            if ($dirUsers.Count -ge 1) {
-                $dirU = $dirUsers[0]
-                if ($dirU.email) { Write-Host ("|  Correo:  ") -NoNewline -ForegroundColor Cyan; Write-Host $dirU.email -ForegroundColor Green }
-                if ($dirU.uid)   { Write-Host ("|  UID:     ") -NoNewline -ForegroundColor Cyan; Write-Host $dirU.uid -ForegroundColor White }
-                if ($dirU.branch) { Write-Host ("|  Rama:    ") -NoNewline -ForegroundColor Cyan; Write-Host $dirU.branch -ForegroundColor White }
-            } else {
-                Write-Host "|  (no encontrado en el Directorio)" -ForegroundColor DarkGray
-            }
+            $oldLog = ${function:Write-Log}
+            ${function:Write-Log} = { param([string]$Message, [string]$Level = "INFO") }
+            try {
+                $dirUsers = Search-User -Query $dni -SearchField "dni"
+                if ($dirUsers.Count -ge 1) {
+                    $dirU = $dirUsers[0]
+                    $dirEmail = $dirU.email
+                    if (-not $dirEmail -and $script:lastRawHtml) {
+                        $im = [regex]::Match($script:lastRawHtml, 'name="mail"\s+value="([^"]*)"')
+                        if (-not $im.Success) { $im = [regex]::Match($script:lastRawHtml, '>\s*([\w\.-]+@[\w\.-]+\.\w+)\s*</') }
+                        if ($im.Success) { $dirEmail = $im.Groups[1].Value }
+                    }
+                    if ($dirEmail) { Write-Host ("|  Correo:  ") -NoNewline -ForegroundColor Cyan; Write-Host $dirEmail -ForegroundColor Green }
+                    if ($dirU.uid)   { Write-Host ("|  UID:     ") -NoNewline -ForegroundColor Cyan; Write-Host $dirU.uid -ForegroundColor White }
+                    if ($dirU.branch) { Write-Host ("|  Rama:    ") -NoNewline -ForegroundColor Cyan; Write-Host $dirU.branch -ForegroundColor White }
+                } else {
+                    Write-Host "|  (no encontrado en el Directorio)" -ForegroundColor DarkGray
+                }
+            } catch { Write-Host "|  (error en busqueda)" -ForegroundColor DarkGray }
+            ${function:Write-Log} = $oldLog
         }
         Write-Host "|"
         Write-Host "  [Enter] otra consulta  [0] volver" -ForegroundColor Cyan
