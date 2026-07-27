@@ -2183,6 +2183,19 @@ function screen-sirhus-consulta-estado {
             Write-Host "|  (sin datos estructurados)" -ForegroundColor DarkGray
             Write-Host "|  HTML: $debugFile" -ForegroundColor DarkGray
         }
+        if ($data.ContainsKey('NOMBRE') -and $data['NOMBRE']) {
+            Write-Host "|  ---" -ForegroundColor DarkGray
+            Write-Host "|  Buscando correo en el Directorio..." -ForegroundColor DarkGray
+            $dirUsers = Search-User -Query $dni -SearchField "dni"
+            if ($dirUsers.Count -ge 1) {
+                $dirU = $dirUsers[0]
+                if ($dirU.email) { Write-Host ("|  Correo:  ") -NoNewline -ForegroundColor Cyan; Write-Host $dirU.email -ForegroundColor Green }
+                if ($dirU.uid)   { Write-Host ("|  UID:     ") -NoNewline -ForegroundColor Cyan; Write-Host $dirU.uid -ForegroundColor White }
+                if ($dirU.branch) { Write-Host ("|  Rama:    ") -NoNewline -ForegroundColor Cyan; Write-Host $dirU.branch -ForegroundColor White }
+            } else {
+                Write-Host "|  (no encontrado en el Directorio)" -ForegroundColor DarkGray
+            }
+        }
         Write-Host "|"
         Write-Host "  [Enter] otra consulta  [0] volver" -ForegroundColor Cyan
         $k = prompt "  > " "0"
