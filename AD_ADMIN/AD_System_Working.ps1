@@ -1,4 +1,4 @@
-param(
+﻿param(
     [string]$CSVFile = "Ejemplo_Usuarios_Oficial.csv",
     [switch]$WhatIfMode = $true
 )
@@ -303,7 +303,7 @@ function Process-NormalizedUser {
     $SamAccountName = Generate-SamAccountName -Nombre $User.Nombre -Apellidos $User.Apellidos
     $Result.SamAccountName = $SamAccountName
     
-    $EmailAddress = "$SamAccountName@justicia.junta-andalucia.es"
+    $EmailAddress = if ($User.Email) { $User.Email } else { "$SamAccountName@justicia.junta-andalucia.es" }
     $Result.Email = $EmailAddress
     
     $OUDN = Find-UOByOffice -OfficeDescription $User.Oficina -Interactive $false
