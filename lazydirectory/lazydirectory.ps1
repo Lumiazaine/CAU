@@ -372,7 +372,14 @@ function Search-User {
         $SearchField = "dni"; $SearchType = "igual"
     }
 
-    $branch = Ensure-Branch $Query
+    # Ramas a probar: si el query explicita .ius, solo ius; si no, jus con fallback a ius
+    $branchesToTry = if ($Query -match '\.ius') { @('ius') } else { @('jus', 'ius') }
+
+    foreach ($branch in $branchesToTry) {
+    if ($branch -ne $script:ramaLdap) {
+        Write-Log "Cambiando a rama $branch..." "INFO"
+        Connect-Directorio -Branch $branch
+    }
     $esInt = ($branch -eq "ius")
 
     Write-Log "Buscando '$Query' por '$SearchField' en $branch..." "INFO"
@@ -464,8 +471,14 @@ function Search-User {
     Write-Log ("filas encontradas: " + $seen.Count) "INFO"
 
     Write-Log ("Usuarios: " + $users.Count) "INFO"
-    $script:lastResultData = $users
-    return $users
+    if ($users.Count -gt 0) {
+        $script:lastResultData = $users
+        return $users
+    }
+    Write-Log "Sin resultados en rama $branch, probando siguiente rama..." "WARN"
+    }
+    $script:lastResultData = @()
+    return @()
 }
 
 function Get-UserProfile {

@@ -133,6 +133,56 @@ function Connect-Temis {
 # SEARCH
 # ============================================================
 
+function Parse-UserRows {
+    param([string]$Html)
+    # Extraer todos los usuarios de la tabla de resultados
+    $users = @()
+    $rowPattern = '(?s)<tr[^>]*class="texto[12]"[^>]*>(.*?)</tr>'
+    $rowMatches = [regex]::Matches($Html, $rowPattern)
+    if ($rowMatches.Count -gt 0) {
+        foreach ($rm in $rowMatches) {
+            $rowHtml = $rm.Groups[1].Value
+            $codMatch = [regex]::Match($rowHtml, 'name="codigoUsuario"\s*value="(\d+)"')
+            if (-not $codMatch.Success) { continue }
+            $cells = [regex]::Matches($rowHtml, '<td[^>]*>(.*?)</td>')
+            $cellVals = @()
+            foreach ($c in $cells) {
+                $v = $c.Groups[1].Value -replace '<[^>]+>', '' -replace '&nbsp;', ' ' -replace '\s+', ' '; $cellVals += $v.Trim()
+            }
+            $users += @{
+                codigo   = $codMatch.Groups[1].Value
+                nombre   = if ($cellVals.Count -gt 0) { $cellVals[0] } else { '' }
+                ape1     = if ($cellVals.Count -gt 1) { $cellVals[1] } else { '' }
+                ape2     = if ($cellVals.Count -gt 2) { $cellVals[2] } else { '' }
+                dni      = if ($cellVals.Count -gt 4) { $cellVals[4] } else { '' }
+                cargo    = if ($cellVals.Count -gt 5) { $cellVals[5] } else { '' }
+                org      = if ($cellVals.Count -gt 6) { $cellVals[6] } else { '' }
+            }
+        }
+    }
+
+    # Si no hay tabla, puede ser resultado unico con formulario
+    if ($users.Count -eq 0) {
+        $codMatch = [regex]::Match($Html, 'name="codigoUsuario"\s*value="(\d+)"')
+        if ($codMatch.Success) {
+            $fields = Extract-ProfileFields -Html $Html
+            if ($fields.Count -gt 0) {
+                $users += @{
+                    codigo   = $codMatch.Groups[1].Value
+                    nombre   = $fields['nombre']
+                    ape1     = $fields['apellido1']
+                    ape2     = $fields['apellido2']
+                    dni      = $fields['dni']
+                    cargo    = $fields['cargo']
+                    org      = $fields['organismo']
+                }
+                $script:lastProfileFields = $fields
+            }
+        }
+    }
+    return $users
+}
+
 function Search-User {
     param([string]$Query = "", [string]$SearchField = "usuario", [string]$Cargo = "")
 
@@ -164,51 +214,7 @@ function Search-User {
     $result = Invoke-WebRequest -Uri "$script:TEMIS_URL/UsuarioConsulta.do" -UseBasicParsing -WebSession $script:webSession -Certificate $script:cert -Method POST -Body $body
     $html = $result.Content
 
-    # Extraer todos los usuarios de la tabla de resultados
-    $users = @()
-    $rowPattern = '(?s)<tr[^>]*class="texto[12]"[^>]*>(.*?)</tr>'
-    $rowMatches = [regex]::Matches($html, $rowPattern)
-    if ($rowMatches.Count -gt 0) {
-        foreach ($rm in $rowMatches) {
-            $rowHtml = $rm.Groups[1].Value
-            $codMatch = [regex]::Match($rowHtml, 'name="codigoUsuario"\s*value="(\d+)"')
-            if (-not $codMatch.Success) { continue }
-            $cells = [regex]::Matches($rowHtml, '<td[^>]*>(.*?)</td>')
-            $cellVals = @()
-            foreach ($c in $cells) {
-                $v = $c.Groups[1].Value -replace '<[^>]+>', '' -replace '&nbsp;', ' ' -replace '\s+', ' '; $cellVals += $v.Trim()
-            }
-            $users += @{
-                codigo   = $codMatch.Groups[1].Value
-                nombre   = if ($cellVals.Count -gt 0) { $cellVals[0] } else { '' }
-                ape1     = if ($cellVals.Count -gt 1) { $cellVals[1] } else { '' }
-                ape2     = if ($cellVals.Count -gt 2) { $cellVals[2] } else { '' }
-                dni      = if ($cellVals.Count -gt 4) { $cellVals[4] } else { '' }
-                cargo    = if ($cellVals.Count -gt 5) { $cellVals[5] } else { '' }
-                org      = if ($cellVals.Count -gt 6) { $cellVals[6] } else { '' }
-            }
-        }
-    }
-
-    # Si no hay tabla, puede ser resultado unico con formulario
-    if ($users.Count -eq 0) {
-        $codMatch = [regex]::Match($html, 'name="codigoUsuario"\s*value="(\d+)"')
-        if ($codMatch.Success) {
-            $fields = Extract-ProfileFields -Html $html
-            if ($fields.Count -gt 0) {
-                $users += @{
-                    codigo   = $codMatch.Groups[1].Value
-                    nombre   = $fields['nombre']
-                    ape1     = $fields['apellido1']
-                    ape2     = $fields['apellido2']
-                    dni      = $fields['dni']
-                    cargo    = $fields['cargo']
-                    org      = $fields['organismo']
-                }
-                $script:lastProfileFields = $fields
-            }
-        }
-    }
+    $users = Parse-UserRows -Html $html
 
     $script:lastResultData = $users
     return $users
@@ -254,7 +260,9 @@ function List-By-Organismo {
         codigoInformeTipoOrganismo = ''; informeTipoOrganismo = ''
         codigoInformeOrganismo = ''; informeOrganismo = ''
     }
-    return Search-User -Query "" -SearchField "usuario"
+    $users = Parse-UserRows -Html $result.Content
+    $script:lastResultData = $users
+    return $users
 }
 
 # ============================================================
