@@ -28,24 +28,23 @@ function ui {
     $script:columns = [Math]::Max(80, [Console]::WindowWidth)
 }
 function bar { param([string]$c = "DarkGray"); Write-Host ("-" * $script:columns) -ForegroundColor $c }
-function empty { Write-Host (" " * $script:columns) -ForegroundColor DarkGray }
 
 function header {
     Clear-Host
     $w = $script:columns
     $conn = if ($script:authenticated) { "CONECTADO" } else { "DESCONECTADO" }
     $cc = if ($script:authenticated) { "Green" } else { "Red" }
+    $branch = $script:ramaLdap
+    $title = " LAZYDIRECTORY v$script:VERSION "
+    $status = " $conn | $branch "
+    $pad = $w - $title.Length - $status.Length - 2
+    if ($pad -lt 1) { $pad = 1 }
     Write-Host ("." + ("-" * ($w - 2)) + ".") -ForegroundColor DarkGray
-    Write-Host ("|" + (" " * ($w - 2)) + "|") -ForegroundColor DarkGray
-    Write-Host ("|  LAZYDIRECTORY v$script:VERSION") -ForegroundColor Yellow -NoNewline
-    $rest = $w - 28 - $conn.Length
-    if ($rest -gt 0) { Write-Host (" " * $rest) -NoNewline } else { Write-Host "" -NoNewline }
+    Write-Host ("|" + $title) -ForegroundColor Yellow -NoNewline
+    Write-Host (" " * $pad) -NoNewline
+    Write-Host $status -ForegroundColor $cc -NoNewline
     Write-Host "|" -ForegroundColor DarkGray
-    Write-Host ("|  " + (" " * 22)) -NoNewline
-    Write-Host $conn -ForegroundColor $cc -NoNewline
-    Write-Host (" " * ($w - 28 - $conn.Length)) -NoNewline; Write-Host "|" -ForegroundColor DarkGray
     Write-Host ("'" + ("-" * ($w - 2)) + "'") -ForegroundColor DarkGray
-    Write-Host ""
 }
 
 function footer {
@@ -61,15 +60,12 @@ function footer {
 
 function prompt {
     param([string]$Text, [string]$Default = "")
-    Write-Host $Text -ForegroundColor Yellow -NoNewline
-    $val = Read-Host
-    if (-not $val) { return $Default }
-    return $val
+    return Read-KeyLine -Prompt $Text -Default $Default
 }
 
 function pause {
     Write-Host "Presiona Enter para continuar..." -ForegroundColor DarkGray -NoNewline
-    $null = Read-Host
+    $null = Get-Key
 }
 
 function Write-Log {
@@ -100,6 +96,142 @@ function row {
     Write-Host $Value -ForegroundColor $Color
 }
 
+function Get-Key {
+    $key = [Console]::ReadKey($true)
+    $vk = [int]$key.Key
+    $ch = $key.KeyChar
+    if ($vk -eq 13) { return @{ Key = 'Enter'; Char = "`r" } }
+    if ($vk -eq 27) { return @{ Key = 'Escape'; Char = "`e" } }
+    if ($vk -eq 38) { return @{ Key = 'Up'; Char = '' } }
+    if ($vk -eq 40) { return @{ Key = 'Down'; Char = '' } }
+    if ($vk -eq 37) { return @{ Key = 'Left'; Char = '' } }
+    if ($vk -eq 39) { return @{ Key = 'Right'; Char = '' } }
+    if ($vk -eq 33) { return @{ Key = 'PageUp'; Char = '' } }
+    if ($vk -eq 34) { return @{ Key = 'PageDown'; Char = '' } }
+    if ($vk -eq 36) { return @{ Key = 'Home'; Char = '' } }
+    if ($vk -eq 35) { return @{ Key = 'End'; Char = '' } }
+    if ($vk -eq 32) { return @{ Key = 'Space'; Char = ' ' } }
+    if ($vk -eq 9) { return @{ Key = 'Tab'; Char = "`t" } }
+    if ($vk -eq 8) { return @{ Key = 'Backspace'; Char = "`b" } }
+    return @{ Key = $ch.ToString().ToUpper(); Char = $ch }
+}
+
+function Read-KeyLine {
+    param([string]$Prompt, [string]$Default = "")
+    if ($Prompt) { Write-Host $Prompt -ForegroundColor Yellow -NoNewline }
+    $input = ""
+    [Console]::CursorVisible = $true
+    while ($true) {
+        $k = [Console]::ReadKey($true)
+        if ($k.Key -eq 13) { break }
+        if ($k.Key -eq 27) { [Console]::CursorVisible = $false; Write-Host ""; return $Default }
+        if ($k.Key -eq 8) {
+            if ($input.Length -gt 0) {
+                $input = $input.Substring(0, $input.Length - 1)
+                Write-Host "`b `b" -NoNewline
+            }
+        } elseif ($k.KeyChar -and $k.KeyChar -ge ' ') {
+            $input += $k.KeyChar
+            Write-Host $k.KeyChar -NoNewline
+        }
+    }
+    [Console]::CursorVisible = $false
+    Write-Host ""
+    if (-not $input -and $Default) { return $Default }
+    return $input
+}
+
+function Show-Help {
+    param([string]$Screen = "main")
+    [Console]::CursorVisible = $false
+    $w = $script:columns
+    $helpWidth = 52
+    $leftPad = [Math]::Max(2, [Math]::Floor(($w - $helpWidth) / 2))
+
+    $shortcuts = @{
+        main = @(
+            @("1-5", "Acciones del menu"),
+            @("0 / Q", "Salir"),
+            @("s", "Busqueda rapida (UID)"),
+            @("l", "Cambiar rama LDAP"),
+            @("?", "Mostrar esta ayuda")
+        )
+        search = @(
+            @("1-7", "Campo de busqueda"),
+            @("0", "Volver"),
+            @("?", "Mostrar esta ayuda")
+        )
+        results = @(
+            @("j / Up", "Cursor arriba"),
+            @("k / Down", "Cursor abajo"),
+            @("Enter", "Ver perfil"),
+            @("0 / ESC", "Volver"),
+            @("?", "Mostrar esta ayuda")
+        )
+        profile = @(
+            @("e", "Editar datos"),
+            @("c", "Cambiar password"),
+            @("1-4", "Acciones del perfil"),
+            @("0 / ESC", "Volver"),
+            @("?", "Mostrar esta ayuda")
+        )
+        sirhus = @(
+            @("^ / v", "Navegar"),
+            @("Space", "Seleccionar"),
+            @("t", "Toggle todos"),
+            @("v", "Validar"),
+            @("b", "Buscar"),
+            @("0 / ESC", "Volver")
+        )
+    }
+
+    $items = if ($shortcuts.ContainsKey($Screen)) { $shortcuts[$Screen] } else { $shortcuts['main'] }
+
+    $border = "." + ("-" * ($helpWidth - 2)) + "."
+    $emptyLine = "|" + (" " * ($helpWidth - 2)) + "|"
+
+    $top = $leftPad
+    $row = 0
+    $maxRows = 25
+
+    function DrawLine {
+        param([string]$Line)
+        if ($row -lt $maxRows) {
+            Write-Host (" " * $leftPad) -NoNewline; Write-Host $Line
+            $script:rowCount++
+        }
+    }
+
+    $script:rowCount = 0
+    $saved = [Console]::CursorTop
+    Clear-Host
+    header
+    $script:rowCount = 3
+
+    for ($i = 0; $i -lt 2 -and $script:rowCount -lt $maxRows; $i++) { Write-Host ""; $script:rowCount++ }
+    Write-Host (" " * $leftPad) -NoNewline; Write-Host $border -ForegroundColor Cyan; $script:rowCount++
+    Write-Host (" " * $leftPad) -NoNewline; Write-Host $emptyLine; $script:rowCount++
+    Write-Host (" " * $leftPad) -NoNewline
+    Write-Host ("|  AYUDA - TECLADO") -ForegroundColor Yellow -NoNewline
+    Write-Host (" " * ($helpWidth - 21) + "|"); $script:rowCount++
+    Write-Host (" " * $leftPad) -NoNewline; Write-Host $emptyLine; $script:rowCount++
+    foreach ($s in $items) {
+        $line = "|  " + $s[0].PadRight(12) + "  " + $s[1]
+        $line = $line.PadRight($helpWidth - 1) + "|"
+        Write-Host (" " * $leftPad) -NoNewline; Write-Host $line -ForegroundColor White; $script:rowCount++
+    }
+    Write-Host (" " * $leftPad) -NoNewline; Write-Host $emptyLine; $script:rowCount++
+    Write-Host (" " * $leftPad) -NoNewline; Write-Host ("|  [q / ESC / ?] Cerrar").PadRight($helpWidth - 1) + "|" -ForegroundColor DarkGray; $script:rowCount++
+    Write-Host (" " * $leftPad) -NoNewline; Write-Host $border -ForegroundColor Cyan; $script:rowCount++
+
+    while ($true) {
+        $k = Get-Key
+        if ($k.Key -eq 'Q' -or $k.Key -eq 'Escape' -or $k.Key -eq '?') { break }
+    }
+
+    header
+}
+
 # ============================================================
 # AUTH
 # ============================================================
@@ -126,7 +258,7 @@ function Save-Credentials {
 
 function Get-CredentialsInteractive {
     Write-Log "Solicitando credenciales de administrador..." "WARN"
-    $user = Read-Host "Usuario administrador"
+    $user = Read-KeyLine -Prompt "Usuario administrador: "
     $pass = Read-Host "Contrasena" -AsSecureString
     $ptr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($pass)
     $plainPass = [System.Runtime.InteropServices.Marshal]::PtrToStringBSTR($ptr)
@@ -134,6 +266,19 @@ function Get-CredentialsInteractive {
     $save = prompt "Guardar credenciales en .env? (s/n): " "s"
     if ($save -eq 's') { Save-Credentials -User $user -Pass $plainPass }
     return @{ User = $user; Pass = $plainPass }
+}
+
+function Fix-HtmlEncoding {
+    param([string]$Text)
+    if (-not $Text -or $Text.Length -eq 0) { return $Text }
+    $hasHigh = $false
+    foreach ($ch in $Text.ToCharArray()) { if ([int]$ch -gt 127) { $hasHigh = $true; break } }
+    if (-not $hasHigh) { return $Text }
+    try {
+        $bytes = [System.Text.Encoding]::GetEncoding('ISO-8859-1').GetBytes($Text)
+        $fixed = [System.Text.Encoding]::UTF8.GetString($bytes)
+        return $fixed
+    } catch { return $Text }
 }
 
 function Extract-Token {
@@ -184,7 +329,9 @@ function Extract-DisplayData {
         param([string]$s)
         $s = $s -replace '<[^>]+>', '' -replace '&nbsp;', ' ' -replace '&amp;', '&'
         $s = $s -replace '&lt;', '<' -replace '&gt;', '>' -replace '\s+', ' '
-        return $s.Trim()
+        $s = $s.Trim()
+        try { $s = $s.Normalize([System.Text.NormalizationForm]::FormC) } catch {}
+        return $s
     }
 
     # Map Directorio field names to our display names
@@ -196,7 +343,7 @@ function Extract-DisplayData {
         'Tipo de entrada' = 'tipoEntrada'
         'Tipo de usuario' = 'tipoEntrada'
         'Correo electr.nico' = 'mail'
-        '.ltimo cambio de contrase.a' = 'ultimoCambioPassword'
+        '.ltimo cambio de contrase' = 'ultimoCambioPassword'
         'Cuota' = 'cuota'
         'departmentNumber' = 'departmentNumber'
         'Cargo' = 'cargo'
@@ -224,10 +371,22 @@ function Extract-DisplayData {
         $m = [regex]::Matches($HtmlSource, '(?s)<div\s+class="form_field">.*?<div\s+class="form_field_label[^"]*">(.*?)</div>\s*<div\s+class="form_field_value[^"]*">(.*?)</div>')
         foreach ($mm in $m) {
             $labelText = Clean-Val $mm.Groups[1].Value
-            $valText = Clean-Val $mm.Groups[2].Value
-            if (-not $labelText -or -not $valText) { continue }
-            if ($mm.Groups[2].Value -match '<(input|select|textarea)\b') { continue }
-            $results += @{ label = $labelText; value = $valText }
+            $valRef = $mm.Groups[2].Value
+            $valText = Clean-Val $valRef
+            if (-not $labelText) { continue }
+            if (-not $valRef -match '<(input|select|textarea)\b') {
+                if ($valText) { $results += @{ label = $labelText; value = $valText } }
+            } else {
+                $selOpt = [regex]::Match($valRef, '<option[^>]*?\bselected\b[^>]*?>(.*?)</option>')
+                if ($selOpt.Success) {
+                    $results += @{ label = $labelText; value = (Clean-Val $selOpt.Groups[1].Value) }
+                } else {
+                    $v = [regex]::Match($valRef, '\bvalue\s*=\s*["'']([^"'']*?)["'']')
+                    if ($v.Success -and $v.Groups[1].Value) {
+                        $results += @{ label = $labelText; value = $v.Groups[1].Value }
+                    }
+                }
+            }
         }
         return $results
     }
@@ -289,6 +448,24 @@ function Extract-DisplayData {
         $data['nombreUsuario'] = $hiddenM.Groups[1].Value
     }
 
+    # Strategy 5: encoding-safe fallbacks using IndexOf + date/value patterns
+    if (-not $data.ContainsKey('ultimoCambioPassword')) {
+        $idx = $Html.IndexOf('ltimo cambio de contrase', [System.StringComparison]::OrdinalIgnoreCase)
+        if ($idx -ge 0) {
+            $after = $Html.Substring($idx, [Math]::Min(300, $Html.Length - $idx))
+            $dm = [regex]::Match($after, '(\d{2}/\d{2}/\d{4})')
+            if ($dm.Success) { $data['ultimoCambioPassword'] = $dm.Groups[1].Value }
+        }
+    }
+    if (-not $data.ContainsKey('tipoEntrada')) {
+        $idx = $Html.IndexOf('Tipo de usuario:</label></div>', [System.StringComparison]::OrdinalIgnoreCase)
+        if ($idx -ge 0) {
+            $after = $Html.Substring($idx, [Math]::Min(300, $Html.Length - $idx))
+            $vm = [regex]::Match($after, 'class="form_field_value">\s*([^<]+)')
+            if ($vm.Success) { $data['tipoEntrada'] = Clean-Val $vm.Groups[1].Value }
+        }
+    }
+
     return $data
 }
 
@@ -325,9 +502,10 @@ function Connect-Directorio {
     }
 
     Write-Log "Paso 3/4: Seleccionando modo administrador..." "INFO"
+    $dnEmpleado = "uid=$($adminUser.ToLower()),o=sandetel,o=empleados,o=juntadeandalucia,c=es"
     $body = @{
         botonPulsado = 'administrarRamas'
-        dnEmpleado = 'uid=just9.sandetel.ext,o=sandetel,o=empleados,o=juntadeandalucia,c=es'
+        dnEmpleado = $dnEmpleado
         datoAuxiliar = ''; esUsuarioGuia = 'NO'
         tokenParametro = $script:token; employeeType = 'externo'
     }
@@ -338,7 +516,7 @@ function Connect-Directorio {
     Write-Log "Paso 4/4: Seleccionando rama LDAP ($Branch)..." "INFO"
     $body = @{
         botonPulsado = 'administrarRama'
-        dnEmpleado = 'uid=just9.sandetel.ext,o=sandetel,o=empleados,o=juntadeandalucia,c=es'
+        dnEmpleado = $dnEmpleado
         datoAuxiliar = ''; esUsuarioGuia = 'NO'
         tokenParametro = $script:token; employeeType = 'externo'; ramaLdap = $Branch
     }
@@ -364,18 +542,11 @@ function Ensure-Branch {
     return $targetBranch
 }
 
-function Search-User {
-    param([string]$Query = "", [string]$SearchField = "identificador", [string]$SearchType = "conteniendo")
+function Search-UserBranch {
+    param([string]$Query, [string]$SearchField, [string]$SearchType, [string]$Branch, [switch]$AllTypes)
 
-    # Auto-detect DNI: 7-8 digitos sin letra → buscar por dni exacto
-    if ($Query -match '^\d{7,8}$') {
-        $SearchField = "dni"; $SearchType = "igual"
-    }
-
-    $branch = Ensure-Branch $Query
-    $esInt = ($branch -eq "ius")
-
-    Write-Log "Buscando '$Query' por '$SearchField' en $branch..." "INFO"
+    $esInt = ($Branch -eq "ius")
+    Write-Log "Buscando '$Query' por '$SearchField' en $Branch..." "INFO"
 
     $r = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession
     $script:token = Extract-Token $r.Content
@@ -392,25 +563,28 @@ function Search-User {
         marcarExternos = 'NO'; marcarGenericos = 'NO'; marcarNA = 'NO'
         numUsuariosAntiguo = '25'; numUsuarios = '25'
     }
-    if ($esInt) { $body['seleccionarInternos'] = 'on' }
+    if ($AllTypes) {
+        $body['marcarSirhus'] = 'SI'; $body['marcarInternos'] = 'SI'
+        $body['marcarExternos'] = 'SI'; $body['marcarGenericos'] = 'SI'; $body['marcarNA'] = 'SI'
+        $body['seleccionarSirhus'] = 'on'; $body['seleccionarInternos'] = 'on'
+        $body['seleccionarExternos'] = 'on'; $body['seleccionarGenericos'] = 'on'; $body['seleccionarNA'] = 'on'
+    } elseif ($esInt) { $body['seleccionarInternos'] = 'on' }
     else { $body['seleccionarSirhus'] = 'on' }
 
     $r = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
-    $html = $r.Content
-    $script:lastRawHtml = $html
+    $html = Fix-HtmlEncoding $r.Content
 
-    Write-Log ("Respuesta: " + $html.Length + " bytes") "INFO"
-
-    $debugFile = Join-Path $script:DEBUG_DIR ("search_" + $Query.Replace('.','_') + ".html")
+    $debugFile = Join-Path $script:DEBUG_DIR ("search_" + $Query.Replace('.','_') + "_$Branch.html")
     $html | Out-File -FilePath $debugFile -Encoding UTF8
+    Write-Log ("Respuesta " + $Branch + ": " + $html.Length + " bytes") "INFO"
 
     $users = @()
+    $isExact = $false
+    $profileFields = $null
 
-    # Exact hit = exactly one password overlay (name="dn" per overlay)
     $dnMatches = [regex]::Matches($html, 'name="dn"\s*value="([^"]+)"')
     if ($dnMatches.Count -eq 1) {
-        $dnMatch = $dnMatches[0]
-        $dn = $dnMatch.Groups[1].Value
+        $dn = $dnMatches[0].Groups[1].Value
         $uid = ''
         $u = [regex]::Match($dn, 'uid=([^,]+)')
         if ($u.Success) { $uid = $u.Groups[1].Value }
@@ -421,14 +595,13 @@ function Search-User {
                 $fields[$kv.Key] = $kv.Value
             }
         }
-        $users += @{ dn = $dn; uid = $uid; nombre = $fields['cn']; apellidos = $fields['sn']; email = $fields['mail']; desc = $fields['description']; branch = $branch; fields = $fields }
-        $script:lastProfileFields = $fields
-        Write-Log ("Encontrado: " + $uid) "OK"
-        $script:lastResultData = $users
-        return $users
+        $users += @{ dn = $dn; uid = $uid; nombre = $fields['cn']; apellidos = $fields['sn']; email = $fields['mail']; desc = $fields['description']; branch = $Branch; fields = $fields }
+        $isExact = $true
+        $profileFields = $fields
+        Write-Log ("Encontrado en " + $Branch + ": " + $uid) "OK"
+        return @{ Users = $users; IsExact = $isExact; ProfileFields = $profileFields; Html = $html }
     }
 
-    # Partial — parse search result rows (fila_par / fila_impar)
     $seen = @{}
     [regex]::Matches($html, '(?s)<div\s+class="fila_(?:par|impar)"[^>]*>.*?</div>') | ForEach-Object {
         $rowHtml = $_.Value
@@ -436,13 +609,11 @@ function Search-User {
         $email = if ($spans.Count -ge 1) { ($spans[0].Groups[1].Value -replace '<[^>]+>', '' -replace '&nbsp;', ' ' -replace '&amp;', '&' -replace '\s+', ' ').Trim() } else { '' }
         $name  = if ($spans.Count -ge 2) { ($spans[1].Groups[1].Value -replace '<[^>]+>', '' -replace '&nbsp;', ' ' -replace '&amp;', '&' -replace '\s+', ' ').Trim() } else { '' }
 
-        # Extract uid from edit link's onClick: enviar(...,'uid=...')
         $uid = ''
         $uidM = [regex]::Match($rowHtml, "enviar\('[^']+','[^']+','uid=([^,]+)")
         if ($uidM.Success) { $uid = $uidM.Groups[1].Value.ToLower() }
 
         if (-not $uid) {
-            # Fallback: extract uid from email
             $atM = [regex]::Match($email, '^([^@]+)@')
             if ($atM.Success) { $uid = $atM.Groups[1].Value.ToLower() }
         }
@@ -450,22 +621,57 @@ function Search-User {
         if ($seen.ContainsKey($uid)) { return }
         $seen[$uid] = $true
 
-        # Split name into nombre/apellidos
         $parts = $name -split '\s+', 2
         $nombre = if ($parts[0]) { $parts[0] } else { '' }
         $apellidos = if ($parts.Count -ge 2) { $parts[1] } else { '' }
 
         $users += @{
-            dn = "uid=$uid,o=$branch,o=empleados,o=juntadeandalucia,c=es"
+            dn = "uid=$uid,o=$Branch,o=empleados,o=juntadeandalucia,c=es"
             uid = $uid; nombre = $nombre; apellidos = $apellidos
-            email = $email; desc = ''; branch = $branch
+            email = $email; desc = ''; branch = $Branch
         }
     }
-    Write-Log ("filas encontradas: " + $seen.Count) "INFO"
+    Write-Log ("filas encontradas en " + $Branch + ": " + $seen.Count) "INFO"
+    return @{ Users = $users; IsExact = $false; ProfileFields = $null; Html = $html }
+}
 
-    Write-Log ("Usuarios: " + $users.Count) "INFO"
-    $script:lastResultData = $users
-    return $users
+function Search-User {
+    param([string]$Query = "", [string]$SearchField = "identificador", [string]$SearchType = "conteniendo")
+
+    if ($Query -match '^\d{7,8}$') {
+        $SearchField = "dni"; $SearchType = "conteniendo"
+    }
+
+    if ($SearchField -eq "dni") {
+        $allUsers = @()
+        $lastHtml = $null
+        foreach ($br in @("jus", "ius")) {
+            if ($script:ramaLdap -ne $br) {
+                Write-Log "Cambiando a rama $br..." "INFO"
+                Connect-Directorio -Branch $br
+                if (-not $script:authenticated) { Write-Log "Error al cambiar a $br" "ERROR"; continue }
+            }
+            $result = Search-UserBranch -Query $Query -SearchField $SearchField -SearchType $SearchType -Branch $br -AllTypes
+            $allUsers += $result.Users
+            if ($result.Html) { $lastHtml = $result.Html }
+            if ($result.ProfileFields -and -not $script:lastProfileFields) {
+                $script:lastProfileFields = $result.ProfileFields
+            }
+        }
+        $script:lastRawHtml = $lastHtml
+        if ($allUsers.Count -eq 0) { $script:lastProfileFields = $null }
+        Write-Log ("Total usuarios encontrados: " + $allUsers.Count) "INFO"
+        $script:lastResultData = $allUsers
+        return $allUsers
+    }
+
+    $branch = Ensure-Branch $Query
+    $result = Search-UserBranch -Query $Query -SearchField $SearchField -SearchType $SearchType -Branch $branch
+    $script:lastRawHtml = $result.Html
+    $script:lastProfileFields = $result.ProfileFields
+    $script:lastResultData = $result.Users
+    Write-Log ("Usuarios: " + $result.Users.Count) "INFO"
+    return $result.Users
 }
 
 function Get-UserProfile {
@@ -481,18 +687,21 @@ function Get-UserProfile {
     function MkBody {
         param([string]$Action, [string]$Btn, [string]$Aux, [string]$Token)
         $b = @{
-            accion = $Action; botonPulsado = $Btn; datoAuxiliar = $Aux
+            accion = $Action; datoAuxiliar = $Aux
             tokenParametro = $Token
             filtroAtributo = 'identificador'
             filtroTipoBusqueda = 'conteniendo'
             filtroValor = $UID
             marcarSirhus = $(if ($esInt) { 'NO' } else { 'SI' })
             marcarInternos = $(if ($esInt) { 'SI' } else { 'NO' })
-            marcarExternos = 'NO'; marcarGenericos = 'NO'; marcarNA = 'NO'
+            marcarExternos = $(if ($esInt) { 'SI' } else { 'SI' })
+            marcarGenericos = 'NO'; marcarNA = 'NO'
             numUsuariosAntiguo = '25'; numUsuarios = '25'
         }
+        if ($Btn) { $b['botonPulsado'] = $Btn }
         if ($esInt) { $b['seleccionarInternos'] = 'on' }
         else { $b['seleccionarSirhus'] = 'on' }
+        $b['seleccionarExternos'] = 'on'
         return $b
     }
 
@@ -504,7 +713,10 @@ function Get-UserProfile {
     $body = MkBody 'consulta' '' '' $script:token
     $r = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
     $script:token = Extract-Token $r.Content
-    $searchHtml = $r.Content
+    $searchHtml = Fix-HtmlEncoding $r.Content
+
+    $searchDebug = Join-Path $script:DEBUG_DIR ("step1_" + $UID.Replace('.','_') + ".html")
+    $searchHtml | Out-File -FilePath $searchDebug -Encoding UTF8
 
     $display = Extract-DisplayData $searchHtml
     foreach ($kv in $display.GetEnumerator()) {
@@ -512,6 +724,8 @@ function Get-UserProfile {
             $fields[$kv.Key] = $kv.Value
         }
     }
+
+    Write-Log ("Step1 overlay: " + ($display.Keys -join ',')) "INFO"
 
     # Extract DN from password overlay
     $dn = ''
@@ -521,61 +735,131 @@ function Get-UserProfile {
     }
     if ($dnMatch.Success) { $dn = $dnMatch.Groups[1].Value }
 
+    if (-not $dn -and $script:lastProfileFields -and $script:lastProfileFields['dn']) {
+        $dn = $script:lastProfileFields['dn']
+        Write-Log "DN recuperado de busqueda previa" "INFO"
+    }
+
     # Step 2: fetch modify form (editable fields) via accion=modificacion
     if ($dn) {
-        $r = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession
-        $script:token = Extract-Token $r.Content
-        if (-not $script:token) { throw "No se pudo extraer token" }
+        try {
+            $r = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession
+            $script:token = Extract-Token $r.Content
+            if (-not $script:token) { throw "No se pudo extraer token" }
 
-        $body2 = MkBody 'modificacion' 'pantalla1' $dn $script:token
-        $r2 = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body2
-        $html2 = $r2.Content
-        $script:lastRawHtml = $html2
+            $body2 = MkBody 'modificacion' 'pantalla1' $dn $script:token
+            $r2 = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body2
+            $html2 = Fix-HtmlEncoding $r2.Content
+            $script:lastRawHtml = $html2
 
-        $debugFile = Join-Path $script:DEBUG_DIR ("profile_" + $UID.Replace('.','_') + ".html")
-        $html2 | Out-File -FilePath $debugFile -Encoding UTF8
+            $debugFile = Join-Path $script:DEBUG_DIR ("profile_" + $UID.Replace('.','_') + ".html")
+            $html2 | Out-File -FilePath $debugFile -Encoding UTF8
 
-        $formFields = Extract-FormFields $html2
-        $display2 = Extract-DisplayData $html2
+            $formFields = Extract-FormFields $html2
+            $display2 = Extract-DisplayData $html2
 
-        # Merge: modify form display + form fields
-        $merge = @{}
-        foreach ($kv in $display2.GetEnumerator()) { $merge[$kv.Key] = $kv.Value }
-        foreach ($kv in $formFields.GetEnumerator()) {
-            if (-not $merge.ContainsKey($kv.Key)) { $merge[$kv.Key] = $kv.Value }
-        }
+            # Merge: modify form display + form fields
+            $merge = @{}
+            foreach ($kv in $display2.GetEnumerator()) { $merge[$kv.Key] = $kv.Value }
+            foreach ($kv in $formFields.GetEnumerator()) {
+                if (-not $merge.ContainsKey($kv.Key)) { $merge[$kv.Key] = $kv.Value }
+            }
 
-        # Add all inputs not already captured
-        [regex]::Matches($html2, 'name="([^"]*)"\s*value="([^"]*)"') | ForEach-Object {
-            $n = $_.Groups[1].Value; $v = $_.Groups[2].Value
-            if (-not $merge.ContainsKey($n)) { $merge[$n] = $v }
-        }
+            # Add all inputs not already captured
+            [regex]::Matches($html2, '(?:name\s*=\s*"([^"]*)"[^>]*?\svalue\s*=\s*"([^"]*)"|value\s*=\s*"([^"]*)"[^>]*?\sname\s*=\s*"([^"]*)")') | ForEach-Object {
+                $n = if ($_.Groups[1].Success) { $_.Groups[1].Value } else { $_.Groups[4].Value }
+                $v = if ($_.Groups[2].Success) { $_.Groups[2].Value } else { $_.Groups[3].Value }
+                if (-not $merge.ContainsKey($n)) { $merge[$n] = $v }
+            }
 
-        # Handle _modificacion suffix — create base-name entries
-        foreach ($k in $merge.Keys) {
-            if ($k -match '^(.+)_modificacion$') {
-                $base = $Matches[1]
-                if (-not $merge.ContainsKey($base)) {
-                    $merge[$base] = $merge[$k]
+            # Handle _modificacion suffix — create base-name entries
+            foreach ($k in $merge.Keys) {
+                if ($k -match '^(.+)_modificacion$') {
+                    $base = $Matches[1]
+                    if (-not $merge.ContainsKey($base)) {
+                        $merge[$base] = $merge[$k]
+                    }
                 }
             }
-        }
 
-        foreach ($kv in $merge.GetEnumerator()) {
-            if (-not $fields.ContainsKey($kv.Key) -or [string]::IsNullOrEmpty($fields[$kv.Key])) {
-                $fields[$kv.Key] = $kv.Value
+            foreach ($kv in $merge.GetEnumerator()) {
+                if (-not $fields.ContainsKey($kv.Key) -or [string]::IsNullOrEmpty($fields[$kv.Key])) {
+                    $fields[$kv.Key] = $kv.Value
+                }
             }
-        }
 
-        # Extract dn from modify form too
-        $dnM = [regex]::Match($html2, 'name="dn"\s*value="([^"]+)"')
-        if ($dnM.Success -and (-not $fields.ContainsKey('dn') -or [string]::IsNullOrEmpty($fields['dn']))) {
-            $fields['dn'] = $dnM.Groups[1].Value
+            # Extract dn from modify form too
+            $dnM = [regex]::Match($html2, 'name="dn"\s*value="([^"]+)"')
+            if ($dnM.Success -and (-not $fields.ContainsKey('dn') -or [string]::IsNullOrEmpty($fields['dn']))) {
+                $fields['dn'] = $dnM.Groups[1].Value
+            }
+        } catch {
+            Write-Log ("Error al obtener modify form: " + $_.Exception.Message) "WARN"
         }
     }
 
     if (-not $fields.ContainsKey('dn') -or [string]::IsNullOrEmpty($fields['dn'])) {
         if ($dn) { $fields['dn'] = $dn }
+    }
+
+    $dnUid = ''
+    if ($fields['dn']) {
+        $du = [regex]::Match($fields['dn'], 'uid=([^,]+)')
+        if ($du.Success) { $dnUid = $du.Groups[1].Value }
+    }
+
+    $currentUid = if ($fields['uid']) { $fields['uid'] } elseif ($fields['identificador']) { $fields['identificador'] } else { '' }
+
+    if (-not $currentUid -or ($currentUid -match '^\d+$' -and $dnUid -and $dnUid -ne $currentUid)) {
+        if ($dnUid) { $fields['uid'] = $dnUid }
+        elseif ($script:lastProfileFields -and $script:lastProfileFields['uid']) {
+            $fields['uid'] = $script:lastProfileFields['uid']
+        } else {
+            $fields['uid'] = $UID
+        }
+    }
+
+    # Preserve overlay-only fields from search result data
+    $overlayKeys = @('ultimoCambioPassword', 'mail', 'tipoEntrada', 'nombreUsuario')
+    if ($script:lastProfileFields) {
+        foreach ($ov in $overlayKeys) {
+            if ($script:lastProfileFields.ContainsKey($ov) -and $script:lastProfileFields[$ov] `
+                -and (-not $fields.ContainsKey($ov) -or [string]::IsNullOrEmpty($fields[$ov]))) {
+                $fields[$ov] = $script:lastProfileFields[$ov]
+            }
+        }
+    }
+
+    # Step 3: if overlay-only fields still missing, fetch via AllTypes search
+    $step3needed = (-not $fields['ultimoCambioPassword']) -or (-not $fields['mail'])
+    if ($step3needed) {
+        try {
+            $r3 = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession
+            $script:token = Extract-Token $r3.Content
+            if ($script:token) {
+                $overBody = @{
+                    accion = 'Buscar'; filtroAtributo = 'identificador'; filtroTipoBusqueda = 'conteniendo'; filtroValor = $UID
+                    marcarSirhus = $(if ($esInt) { 'NO' } else { 'SI' }); marcarInternos = $(if ($esInt) { 'SI' } else { 'NO' })
+                    marcarExternos = 'SI'; marcarGenericos = 'SI'; marcarNA = 'SI'
+                    seleccionarExternos = 'on'; seleccionarGenericos = 'on'; seleccionarNA = 'on'
+                    numUsuariosAntiguo = '25'; numUsuarios = '25'; tokenParametro = $script:token
+                }
+                if ($esInt) { $overBody['seleccionarInternos'] = 'on' } else { $overBody['seleccionarSirhus'] = 'on' }
+                $r3 = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $overBody
+                $overHtml = Fix-HtmlEncoding $r3.Content
+                $overDebug = Join-Path $script:DEBUG_DIR ("step3_" + $UID.Replace('.','_') + ".html")
+                $overHtml | Out-File -FilePath $overDebug -Encoding UTF8
+                $overDisplay = Extract-DisplayData $overHtml
+                foreach ($kv in $overDisplay.GetEnumerator()) {
+                    if (-not $fields.ContainsKey($kv.Key) -or [string]::IsNullOrEmpty($fields[$kv.Key])) {
+                        $fields[$kv.Key] = $kv.Value
+                    }
+                }
+                Write-Log ("Overlay extraido: " + $overDisplay.Count + " campos") "OK"
+            }
+        } catch {
+            Write-Log ("Error al obtener overlay: " + $_.Exception.Message) "WARN"
+        }
     }
 
     $script:lastProfileFields = $fields
@@ -674,26 +958,62 @@ function Set-UserPassword {
 function screen-main {
     ui
     header
-    panel "MENU PRINCIPAL" {
-        Write-Host "|"
-        Write-Host "|  1. Buscar usuario" -ForegroundColor Cyan
-        Write-Host "|  2. Crear usuario" -ForegroundColor Cyan
-        Write-Host "|  3. Cambiar contrasena" -ForegroundColor Cyan
-        Write-Host "|  4. Listas" -ForegroundColor Cyan
-        Write-Host "|  5. Sirhus" -ForegroundColor Cyan
-        Write-Host "|"
-        Write-Host "|  0. Salir" -ForegroundColor Red
-        Write-Host "|"
-        Write-Host ("|  >> Rama: $script:ramaLdap") -ForegroundColor Green
-        if ($script:lastProfileFields -and $script:lastProfileFields['uid']) {
-            Write-Host ("|     Usuario: $($script:lastProfileFields['uid'])") -ForegroundColor DarkGray
+    $menuItems = @(
+        @{ key = "1"; label = "Buscar usuario" }
+        @{ key = "2"; label = "Crear usuario" }
+        @{ key = "3"; label = "Cambiar contrasena" }
+        @{ key = "4"; label = "Listas" }
+        @{ key = "5"; label = "Sirhus" }
+        @{ key = "0"; label = "Salir" }
+    )
+    $cursor = 0
+
+    while ($true) {
+        ui; header
+        panel "MENU PRINCIPAL" {
+            Write-Host "|"
+            for ($i = 0; $i -lt $menuItems.Count; $i++) {
+                $item = $menuItems[$i]
+                if ($item.key -eq "0") { Write-Host "|" }
+                $isCur = ($i -eq $cursor)
+                $color = if ($item.key -eq "0") { "Red" } else { "Cyan" }
+                if ($isCur) {
+                    Write-Host ("|  > ") -NoNewline
+                    Write-Host ("$($item.key). $($item.label)") -ForegroundColor White -BackgroundColor DarkCyan
+                } else {
+                    Write-Host ("|    ") -NoNewline
+                    Write-Host ("$($item.key). $($item.label)") -ForegroundColor $color
+                }
+            }
+            Write-Host "|"
+            Write-Host ("|  >> Rama: $script:ramaLdap") -ForegroundColor Green
+            if ($script:lastProfileFields -and $script:lastProfileFields['uid']) {
+                Write-Host ("|     Usuario: $($script:lastProfileFields['uid'])") -ForegroundColor DarkGray
+            }
+            Write-Host "|"
         }
-        Write-Host "|"
+        footer @("[?] Ayuda", "[1-5] Accion", "[s] Buscar", "[l] Rama", "[q] Salir")
+
+        $k = Get-Key
+        if ($k.Key -eq 'Q' -or $k.Key -eq 'ESCAPE') { return "q" }
+        if ($k.Key -eq '?' -or $k.Key -eq 'F1') { Show-Help -Screen "main"; continue }
+        if ($k.Key -eq 'UP' -and $cursor -gt 0) { $cursor--; continue }
+        if ($k.Key -eq 'DOWN' -and $cursor -lt $menuItems.Count - 1) { $cursor++; continue }
+        if ($k.Key -eq 'ENTER' -or $k.Key -eq 'SPACE') { return $menuItems[$cursor].key }
+        if ($k.Key -match '^[0-5]$') { return $k.Key }
+        if ($k.Key -eq 'S') {
+            $q = Read-KeyLine -Prompt "UID: "
+            if ($q) { screen-quick-search $q }
+            continue
+        }
+        if ($k.Key -eq 'L') {
+            $branch = Read-KeyLine -Prompt "Rama LDAP (jus/ius): " "jus"
+            if ($branch -and $branch -ne $script:ramaLdap) {
+                try { Connect-Directorio -Branch $branch } catch { Write-Log "Error al cambiar rama" "ERROR" }
+            }
+            continue
+        }
     }
-    footer @("1-5 opciones", "0/q salir", "s <uid> busqueda rapida")
-    Write-Host ""
-    Write-Host "Opcion: " -ForegroundColor Yellow -NoNewline
-    return Read-Host
 }
 
 function screen-search {
@@ -758,17 +1078,22 @@ function screen-search {
 
 function screen-results {
     param([array]$Users, [string]$Title = "RESULTADOS")
-    $page = 0; $pageSize = 15
+    $pageSize = 15; $cursor = 0; $page = 0
 
     while ($true) {
-        ui; header
         $total = $Users.Count
+        if ($total -eq 0) { return -1 }
         $pages = [Math]::Max(1, [Math]::Ceiling($total / $pageSize))
-        Write-Host (".- $Title ($total usuarios)" + (" " * ($script:columns - 25 - $Title.Length)) + ".") -ForegroundColor Cyan
-        Write-Host "|" -NoNewline
-        $hdr = "{0,3} {1,-20} {2,-25} {3,-30}" -f "#", "UID", "NOMBRE", "EMAIL"
-        Write-Host $hdr.PadRight($script:columns - 3) -NoNewline
-        Write-Host "|" -ForegroundColor DarkGray
+        if ($cursor -ge $total) { $cursor = $total - 1 }
+        $page = [Math]::Floor($cursor / $pageSize)
+
+        ui; header
+        Write-Host (".- $Title ($total usuarios)" + (" " * ($script:columns - 20 - $Title.Length)) + ".") -ForegroundColor Cyan
+        $numCol = 4; $uidCol = 18; $nameCol = 22
+        $emailCol = $script:columns - 4 - $numCol - $uidCol - $nameCol
+        if ($emailCol -lt 15) { $emailCol = 15; $uidCol = 15; $nameCol = $script:columns - 4 - $numCol - $uidCol - $emailCol }
+        $hdr = ("{0,$numCol} {1,-$uidCol} {2,-$nameCol} {3,-$emailCol}" -f "#", "UID", "NOMBRE", "EMAIL")
+        Write-Host ("| " + $hdr.PadRight($script:columns - 4)) -ForegroundColor DarkGray
         $start = $page * $pageSize; $end = [Math]::Min($start + $pageSize - 1, $total - 1)
         for ($i = $start; $i -le $end; $i++) {
             $u = $Users[$i]
@@ -776,27 +1101,38 @@ function screen-results {
             $emailStr = if ($u.email) { $u.email } else { "-" }
             $fullName = "$($u.nombre) $($u.apellidos)".Trim()
             if (-not $fullName) { $fullName = "-" }
-            $line = ("{0,3} {1,-20} {2,-25} {3,-30}" -f ($i+1), $uidStr.Substring(0, [Math]::Min(20, $uidStr.Length)), $fullName.Substring(0, [Math]::Min(25, $fullName.Length)), $emailStr.Substring(0, [Math]::Min(30, $emailStr.Length)))
-            if ($line.Length -gt $script:columns - 3) { $line = $line.Substring(0, $script:columns - 6) }
-            Write-Host "| " -NoNewline; Write-Host $line -ForegroundColor White -NoNewline
-            $pad = $script:columns - 4 - $line.Length
-            if ($pad -gt 0) { Write-Host (" " * $pad) -NoNewline }; Write-Host "|" -ForegroundColor DarkGray
+            $line = ("{0,$numCol} {1,-$uidCol} {2,-$nameCol} {3,-$emailCol}" -f ($i+1), $uidStr.Substring(0, [Math]::Min($uidCol, $uidStr.Length)), $fullName.Substring(0, [Math]::Min($nameCol, $fullName.Length)), $emailStr.Substring(0, [Math]::Min($emailCol, $emailStr.Length)))
+            if ($line.Length -gt $script:columns - 5) { $line = $line.Substring(0, $script:columns - 8) }
+            $isCur = ($i -eq $cursor)
+            if ($isCur) {
+                Write-Host "| " -NoNewline; Write-Host $line -ForegroundColor White -BackgroundColor DarkCyan -NoNewline
+                $pad = $script:columns - 4 - $line.Length
+                if ($pad -gt 0) { Write-Host (" " * $pad) -NoNewline -BackgroundColor DarkCyan }; Write-Host "|" -ForegroundColor DarkGray
+            } else {
+                Write-Host "| " -NoNewline; Write-Host $line -ForegroundColor White -NoNewline
+                $pad = $script:columns - 4 - $line.Length
+                if ($pad -gt 0) { Write-Host (" " * $pad) -NoNewline }; Write-Host "|" -ForegroundColor DarkGray
+            }
         }
         Write-Host ("'" + ("-" * ($script:columns - 2)) + "'") -ForegroundColor DarkGray
-        Write-Host ""
-        Write-Host ("Pagina $($page+1)/$pages") -ForegroundColor DarkGray -NoNewline
-        if ($start -gt 0) { Write-Host "  [a] anterior" -ForegroundColor Cyan -NoNewline }
-        if ($end -lt $total - 1) { Write-Host "  [s] siguiente" -ForegroundColor Cyan -NoNewline }
+
+        Write-Host ("  Resultado $($cursor+1) de $total") -ForegroundColor DarkGray -NoNewline
+        if ($start -gt 0) { Write-Host "  [p] ant" -ForegroundColor Cyan -NoNewline }
+        if ($end -lt $total - 1) { Write-Host "  [n] sig" -ForegroundColor Cyan -NoNewline }
         Write-Host ""
 
-        $input = prompt "Selecciona # para ver perfil (0=volver): " "0"
-        if ($input -eq "0") { return -1 }
-        elseif ($input -eq "s" -and $end -lt $total - 1) { $page++ }
-        elseif ($input -eq "a" -and $page -gt 0) { $page-- }
-        elseif ($input -match '^\d+$') {
-            $idx = [int]$input - 1
-            if ($idx -ge 0 -and $idx -lt $total) { return $idx }
-        }
+        $k = Get-Key
+        if ($k.Key -eq 'UP' -or $k.Key -eq 'K') { if ($cursor -gt 0) { $cursor-- }; continue }
+        if ($k.Key -eq 'DOWN' -or $k.Key -eq 'J') { if ($cursor -lt $total - 1) { $cursor++ }; continue }
+        if ($k.Key -eq 'PAGEUP') { $cursor = [Math]::Max(0, $cursor - $pageSize); continue }
+        if ($k.Key -eq 'PAGEDOWN') { $cursor = [Math]::Min($total - 1, $cursor + $pageSize); continue }
+        if ($k.Key -eq 'HOME') { $cursor = 0; continue }
+        if ($k.Key -eq 'END') { $cursor = $total - 1; continue }
+        if ($k.Key -eq 'ENTER') { return $cursor }
+        if ($k.Key -eq '0' -or $k.Key -eq 'ESCAPE') { return -1 }
+        if ($k.Key -eq '?') { Show-Help -Screen "results"; continue }
+        if ($k.Key -eq 'N') { $cursor = [Math]::Min($total - 1, $cursor + $pageSize); continue }
+        if ($k.Key -eq 'P') { $cursor = [Math]::Max(0, $cursor - $pageSize); continue }
     }
 }
 
@@ -807,33 +1143,101 @@ function screen-profile {
     $uid = if ($f['uid']) { $f['uid'] } else { $f['identificador'] }
     $displayId = if ($uid) { $uid } else { "desconocido" }
 
-    ui; header
-    Write-Host (".- $displayId" + (" " * ($script:columns - 6 - $displayId.Length)) + ".") -ForegroundColor Cyan
-    Write-Host "|"
-    Write-Host "|  DATOS DEL USUARIO" -ForegroundColor Cyan
-    Write-Host "|" -ForegroundColor DarkGray
-    row "Nombre"        $(if ($f['nombreUsuario']) { $f['nombreUsuario'] } else { $f['cn'] }) "Green"
-    row "Identificador" $(if ($f['uid']) { $f['uid'] } else { $f['identificador'] }) "Green"
-    row "Tipo usuario"  $f['tipoEntrada']
-    row "Correo"        $f['mail'] "DarkYellow"
-    row "Ultimo cambio" $f['ultimoCambioPassword'] "DarkYellow"
-    row "DN"            $f['dn']
-    Write-Host "|"
-    Write-Host "|  OPCIONES" -ForegroundColor Cyan
-    Write-Host "|  1. Cambiar contrasena" -ForegroundColor Cyan
-    Write-Host "|  2. Ver campos raw (todos)" -ForegroundColor Cyan
-    Write-Host "|  3. Ver HTML debug" -ForegroundColor Cyan
-    Write-Host "|  4. Editar datos" -ForegroundColor Cyan
-    Write-Host "|  0. Volver al menu" -ForegroundColor Red
-    Write-Host "|"
-    Write-Host ("'" + ("-" * ($script:columns - 2)) + "'") -ForegroundColor DarkGray
+    $profileFields = @(
+        @{ label = "Nombre";         key = "nombreUsuario"; fallback = "cn";              color = "Green" }
+        @{ label = "Identificador";  key = "uid";           fallback = "identificador";   color = "Green" }
+        @{ label = "Tipo usuario";   key = "tipoEntrada";                                  color = "White" }
+        @{ label = "Correo";         key = "mail";                                         color = "DarkYellow" }
+        @{ label = "Ultimo cambio";  key = "ultimoCambioPassword";                         color = "DarkYellow" }
+        @{ label = "DNI";            key = "dni";                                          color = "White" }
+        @{ label = "Cargo";          key = "cargo";                                        color = "White" }
+        @{ label = "Servicio";       key = "servicio";                                     color = "White" }
+        @{ label = "Telefono";       key = "telefonoFijo";                                 color = "White" }
+        @{ label = "Movil";          key = "telefonoMovil";                                color = "White" }
+        @{ label = "Provincia";      key = "provincia";                                    color = "White" }
+        @{ label = "Department";     key = "departmentNumber";                             color = "White" }
+        @{ label = "Cuota";          key = "cuota";                                        color = "White" }
+        @{ label = "Comentarios";    key = "comentarios";                                  color = "DarkYellow" }
+        @{ label = "DN";             key = "dn";                                           color = "DarkGray" }
+    )
 
-    Write-Host ""
-    $opt = prompt "Opcion: " "0"
-    if ($opt -eq "1") { screen-password }
-    elseif ($opt -eq "2") { screen-raw-fields }
-    elseif ($opt -eq "3") { screen-debug-html }
-    elseif ($opt -eq "4") { screen-edit }
+    $visibleFields = @()
+    foreach ($pf in $profileFields) {
+        $val = if ($f.ContainsKey($pf.key) -and $f[$pf.key]) { $f[$pf.key] } `
+               elseif ($pf.ContainsKey('fallback') -and $f.ContainsKey($pf.fallback) -and $f[$pf.fallback]) { $f[$pf.fallback] } `
+               else { $null }
+        if ($val) { $visibleFields += @{ label = $pf.label; value = $val; color = $pf.color } }
+    }
+
+    $useColumns = $script:columns -ge 120
+    $scrollPos = 0
+    $actionRow = $visibleFields.Count
+    if ($useColumns) {
+        $colCount = [Math]::Ceiling($visibleFields.Count / 2)
+        $maxVisible = $colCount + 6
+    } else {
+        $maxVisible = 12
+    }
+
+    while ($true) {
+        ui; header
+        Write-Host (".- $displayId" + (" " * ($script:columns - 8 - $displayId.Length)) + ".") -ForegroundColor Cyan
+        Write-Host "|"
+        Write-Host "|  DATOS DEL USUARIO" -ForegroundColor Cyan
+        Write-Host "|"
+
+        if ($useColumns) {
+            $half = [Math]::Ceiling($visibleFields.Count / 2)
+            for ($i = 0; $i -lt $half; $i++) {
+                $left = $visibleFields[$i]
+                $rightIdx = $i + $half
+                $right = if ($rightIdx -lt $visibleFields.Count) { $visibleFields[$rightIdx] } else { $null }
+                $valLeft = if ($left.value.Length -gt 25) { $left.value.Substring(0, 24) + "~" } else { $left.value }
+                Write-Host ("|  " + $left.label.PadRight(16) + ": ") -NoNewline
+                Write-Host $valLeft.PadRight(26) -ForegroundColor $left.color -NoNewline
+                if ($right) {
+                    $valRight = if ($right.value.Length -gt 25) { $right.value.Substring(0, 24) + "~" } else { $right.value }
+                    Write-Host ($right.label.PadRight(16) + ": ") -NoNewline
+                    Write-Host $valRight -ForegroundColor $right.color
+                } else { Write-Host "" }
+            }
+        } else {
+            $end = [Math]::Min($scrollPos + $maxVisible - 1, $visibleFields.Count - 1)
+            for ($i = $scrollPos; $i -le $end; $i++) {
+                $pf = $visibleFields[$i]
+                row $pf.label $pf.value $pf.color
+            }
+        }
+
+        Write-Host "|"
+        Write-Host "|  OPCIONES" -ForegroundColor Cyan
+        Write-Host "|  [1] Cambiar contrasena" -ForegroundColor Cyan
+        Write-Host "|  [2] Campos raw" -ForegroundColor Cyan
+        Write-Host "|  [3] HTML debug" -ForegroundColor Cyan
+        Write-Host "|  [4] Editar datos" -ForegroundColor Cyan
+        Write-Host "|  [0] Volver" -ForegroundColor Red
+        Write-Host "|"
+        Write-Host ("'" + ("-" * ($script:columns - 2)) + "'") -ForegroundColor DarkGray
+
+        footer @("[1-4] Accion", "[e] Editar", "[c] Pass", "[?] Ayuda", "[0] Volver")
+
+        $k = Get-Key
+        if ($k.Key -eq '0' -or $k.Key -eq 'ESCAPE') { return }
+        if ($k.Key -eq '1') { screen-password; continue }
+        if ($k.Key -eq '2') { screen-raw-fields; continue }
+        if ($k.Key -eq '3') { screen-debug-html; continue }
+        if ($k.Key -eq '4' -or $k.Key -eq 'E') { screen-edit; continue }
+        if ($k.Key -eq 'C') { screen-password; continue }
+        if ($k.Key -eq 'J' -or $k.Key -eq 'DOWN') {
+            if (-not $useColumns -and $scrollPos + $maxVisible -lt $visibleFields.Count) { $scrollPos++ }
+            continue
+        }
+        if ($k.Key -eq 'K' -or $k.Key -eq 'UP') {
+            if (-not $useColumns -and $scrollPos -gt 0) { $scrollPos-- }
+            continue
+        }
+        if ($k.Key -eq '?') { Show-Help -Screen "profile"; continue }
+    }
 }
 
 function Parse-SelectOptions {
@@ -988,7 +1392,7 @@ function screen-edit {
         else { $fetchBody['seleccionarSirhus'] = 'on' }
 
         $r2 = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $fetchBody
-        $modifyHtml = $r2.Content
+        $modifyHtml = Fix-HtmlEncoding $r2.Content
         $script:token = Extract-Token $modifyHtml
         if (-not $script:token) { Write-Log "Token no encontrado, usando anterior" "WARN" }
 
@@ -1034,7 +1438,6 @@ function screen-edit {
         if ($r3.Content -match 'actualiz.+correctamente|mensaje_ok|Modificaci.n guardada|correctamente') {
             Write-Log "Datos actualizados correctamente" "OK"
             Get-UserProfile -UID $uid
-            screen-profile
         } else {
             $debugFile = Join-Path $script:DEBUG_DIR ("edit_" + $uid.Replace('.','_') + ".html")
             $r3.Content | Out-File -FilePath $debugFile -Encoding UTF8
@@ -1160,7 +1563,7 @@ function Fetch-Servlet {
     param([string]$ServletName, [string]$Label)
     Write-Log "Obteniendo $Label..." "INFO"
     $r = Invoke-WebRequest -Uri "$script:BASE.$ServletName" -UseBasicParsing -WebSession $script:webSession
-    $html = $r.Content
+    $html = Fix-HtmlEncoding $r.Content
     $debugFile = Join-Path $script:DEBUG_DIR ("$ServletName.html")
     $html | Out-File -FilePath $debugFile -Encoding UTF8
     Write-Log ("Respuesta: " + $html.Length + " bytes, guardado en $debugFile") "INFO"
@@ -1366,7 +1769,7 @@ function screen-sirhus-altas {
         $body = @{ accion = 'consulta'; botonPulsado = ''; filtroAtributo = ''; filtroTipoBusqueda = ''; filtroValor = '' }
         try {
             $r = Invoke-WebRequest -Uri "$script:BASE.SirhusAltas" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
-            $html = $r.Content
+            $html = Fix-HtmlEncoding $r.Content
             Write-Log ("Respuesta POST: " + $html.Length + " bytes") "INFO"
             $debugFile = Join-Path $script:DEBUG_DIR "SirhusAltas.html"
             $html | Out-File -FilePath $debugFile -Encoding UTF8
@@ -1402,7 +1805,7 @@ function screen-sirhus-altas {
             try {
                 $r = Invoke-WebRequest -Uri "$script:BASE.SirhusAltas" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
                 $script:token = Extract-Token $r.Content
-                $resultHtml = $r.Content
+                $resultHtml = Fix-HtmlEncoding $r.Content
             } catch { Write-Log ("Error: " + $_.Exception.Message) "ERROR"; pause; continue }
             $debugFile = Join-Path $script:DEBUG_DIR "SirhusAltas_resultados.html"
             $resultHtml | Out-File -FilePath $debugFile -Encoding UTF8
@@ -1425,7 +1828,7 @@ function screen-sirhus-altas {
                 if ([string]::IsNullOrWhiteSpace($html)) {
                     $body = @{ accion = 'consulta'; botonPulsado = ''; filtroAtributo = ''; filtroTipoBusqueda = ''; filtroValor = '' }
                     $r = Invoke-WebRequest -Uri "$script:BASE.SirhusAltas" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
-                    $html = $r.Content
+                    $html = Fix-HtmlEncoding $r.Content
                 }
                 $script:token = Extract-Token $html
                 $ff = Extract-FormFields $html
@@ -1511,7 +1914,7 @@ function Load-SirhusList {
         $body = @{ accion = 'consulta'; botonPulsado = ''; filtroAtributo = ''; filtroTipoBusqueda = ''; filtroValor = '' }
         try {
             $r = Invoke-WebRequest -Uri "$script:BASE.$ServletName" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
-            $html = $r.Content
+            $html = Fix-HtmlEncoding $r.Content
             Write-Log ("Respuesta POST: " + $html.Length + " bytes") "INFO"
             $debugFile = Join-Path $script:DEBUG_DIR "${ServletName}.html"
             $html | Out-File -FilePath $debugFile -Encoding UTF8
@@ -1541,7 +1944,7 @@ function screen-sirhus-generic {
         try {
             $r = Invoke-WebRequest -Uri "$script:BASE.$ServletName" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
             $script:token = Extract-Token $r.Content
-            $resultHtml = $r.Content
+            $resultHtml = Fix-HtmlEncoding $r.Content
         } catch { Write-Log ("Error: " + $_.Exception.Message) "ERROR"; pause; return }
 
         $debugFile = Join-Path $script:DEBUG_DIR "${ServletName}_resultados.html"
@@ -1630,7 +2033,7 @@ function screen-sirhus-bajas {
             try {
                 $r = Invoke-WebRequest -Uri "$script:BASE.SirhusBajas" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
                 $script:token = Extract-Token $r.Content
-                $resultHtml = $r.Content
+                $resultHtml = Fix-HtmlEncoding $r.Content
             } catch { Write-Log ("Error: " + $_.Exception.Message) "ERROR"; pause; continue }
             $debugFile = Join-Path $script:DEBUG_DIR "SirhusBajas_resultados.html"
             $resultHtml | Out-File -FilePath $debugFile -Encoding UTF8
@@ -1857,7 +2260,7 @@ function screen-sirhus-consulta-estado {
                 seleccionarSirhus = 'on'
             }
             $r2 = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
-            $html = $r2.Content
+            $html = Fix-HtmlEncoding $r2.Content
         } catch {
             Write-Log ("Error: " + $_.Exception.Message) "ERROR"; pause; continue
         }
@@ -1865,7 +2268,6 @@ function screen-sirhus-consulta-estado {
         $debugFile = Join-Path $script:DEBUG_DIR "ConsultaEstadoSirhus.html"
         $html | Out-File -FilePath $debugFile -Encoding UTF8
 
-        # Extract fields from form_field_label / form_field_value divs
         $data = @{}
         $pairs = [regex]::Matches($html, '(?s)<div\s+class="form_field_label">(.*?)</div>\s*<div\s+class="form_field_value">(.*?)</div>')
         foreach ($m in $pairs) {
@@ -1877,21 +2279,63 @@ function screen-sirhus-consulta-estado {
             elseif ($label -match 'Correo') { $data['CORREO'] = $value }
             elseif ($label -match 'Situaci') { $data['SITUACION'] = $value }
         }
+        if ($data.Count -eq 0) {
+            $formText = [regex]::Match($html, '<div\s+class="form_text">(.*?)</div>')
+            if ($formText.Success) {
+                $msg = $formText.Groups[1].Value -replace '<[^>]+>', '' -replace '&nbsp;', ' ' -replace '\s+', ' ' -replace '^\s+|\s+$', ''
+                $data['MENSAJE'] = $msg
+            }
+        }
+
+        # Directorio search (silent, before UI)
+        $dirEmail = $null; $dirUid = $null; $dirBranch = $null
+        if ($data.ContainsKey('NOMBRE') -and $data['NOMBRE']) {
+            $oldLog = ${function:Write-Log}
+            ${function:Write-Log} = { param([string]$Message, [string]$Level = "INFO") }
+            try {
+                $dirUsers = Search-User -Query $dni -SearchField "dni"
+                if ($dirUsers.Count -ge 1) {
+                    $dirU = $dirUsers[0]
+                    $dirEmail = $dirU.email
+                    if (-not $dirEmail -and $script:lastRawHtml) {
+                        $allEm = [regex]::Matches($script:lastRawHtml, '[\w\.-]+@[\w\.-]+\.\w+')
+                        foreach ($em in $allEm) {
+                            $c = $em.Value
+                            if ($c -notmatch '^(just\d+|admin|noreply|support)@') { $dirEmail = $c; break }
+                        }
+                        if (-not $dirEmail -and $allEm.Count -gt 0) { $dirEmail = $allEm[0].Value }
+                    }
+                    $dirUid = $dirU.uid
+                    $dirBranch = $dirU.branch
+                }
+            } catch { }
+            ${function:Write-Log} = $oldLog
+        }
 
         ui; header
         Write-Host (".- CONSULTA SIRHUS (DNI $dni)" + (" " * ($script:columns - 24)) + ".") -ForegroundColor Cyan
         Write-Host "|"
         if ($data.Count -gt 0) {
-            $order = @("NOMBRE", "DNI", "ESTADO", "CORREO", "SITUACION")
-            foreach ($k in $order) {
-                if ($data.ContainsKey($k)) {
-                    Write-Host ("|  $k : ") -NoNewline -ForegroundColor Cyan
-                    Write-Host $data[$k] -ForegroundColor White
+            if ($data.ContainsKey('MENSAJE')) {
+                Write-Host ("|  " + $data['MENSAJE']) -ForegroundColor Yellow
+            } else {
+                $order = @("NOMBRE", "DNI", "ESTADO", "CORREO", "SITUACION")
+                foreach ($k in $order) {
+                    if ($data.ContainsKey($k)) {
+                        Write-Host ("|  $k : ") -NoNewline -ForegroundColor Cyan
+                        Write-Host $data[$k] -ForegroundColor White
+                    }
                 }
             }
         } else {
             Write-Host "|  (sin datos estructurados)" -ForegroundColor DarkGray
             Write-Host "|  HTML: $debugFile" -ForegroundColor DarkGray
+        }
+        if ($dirEmail -or $dirUid) {
+            Write-Host "|  ---" -ForegroundColor DarkGray
+            if ($dirEmail) { Write-Host ("|  Correo:  ") -NoNewline -ForegroundColor Cyan; Write-Host $dirEmail -ForegroundColor Green }
+            if ($dirUid)   { Write-Host ("|  UID:     ") -NoNewline -ForegroundColor Cyan; Write-Host $dirUid -ForegroundColor White }
+            if ($dirBranch) { Write-Host ("|  Rama:    ") -NoNewline -ForegroundColor Cyan; Write-Host $dirBranch -ForegroundColor White }
         }
         Write-Host "|"
         Write-Host "  [Enter] otra consulta  [0] volver" -ForegroundColor Cyan
@@ -2067,7 +2511,7 @@ function screen-crear-usuario {
             empleadoDni = $dni
         }
         $r2 = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $basicBody
-        $p2Html = $r2.Content
+        $p2Html = Fix-HtmlEncoding $r2.Content
         $script:token = Extract-Token $p2Html
         if (-not $script:token) { throw "No se pudo extraer token tras pantalla2" }
 

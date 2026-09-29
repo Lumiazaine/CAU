@@ -1,4 +1,4 @@
-param(
+﻿param(
     [string]$CSVFile = "Ejemplo_Usuarios_Oficial.csv",
     [switch]$WhatIfMode = $true
 )
@@ -80,9 +80,9 @@ function Generate-SamAccountName {
     function Normalize-Text {
         param([string]$Text)
         $CharMap = @{
-            'á'='a'; 'é'='e'; 'í'='i'; 'ó'='o'; 'ú'='u'; 'ñ'='n'
-            'Á'='A'; 'É'='E'; 'Í'='I'; 'Ó'='O'; 'Ú'='U'; 'Ñ'='N'
-            'ü'='u'; 'Ü'='U'; 'ç'='c'; 'Ç'='C'
+            '├í'='a'; '├®'='e'; '├¡'='i'; '├│'='o'; '├║'='u'; '├▒'='n'
+            '├ü'='A'; '├ë'='E'; '├ì'='I'; '├ô'='O'; '├Ü'='U'; '├æ'='N'
+            '├╝'='u'; '├£'='U'; '├º'='c'; '├ç'='C'
         }
         
         foreach ($char in $CharMap.Keys) {
@@ -303,7 +303,7 @@ function Process-NormalizedUser {
     $SamAccountName = Generate-SamAccountName -Nombre $User.Nombre -Apellidos $User.Apellidos
     $Result.SamAccountName = $SamAccountName
     
-    $EmailAddress = "$SamAccountName@justicia.junta-andalucia.es"
+    $EmailAddress = if ($User.Email) { $User.Email } else { "$SamAccountName@justicia.junta-andalucia.es" }
     $Result.Email = $EmailAddress
     
     $OUDN = Find-UOByOffice -OfficeDescription $User.Oficina -Interactive $false

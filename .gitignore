@@ -6,4 +6,27 @@ CLAUDE.md
 
 .gemini/
 gha-creds-*.json
+
+# Capturas de trafico de red: contienen cookies de sesion y tokens
 *.har
+
+lazydirectory/debug/
+lazyremedy.config.json
+
+# Depuracion: HTML de sesiones reales con DNI/uid (ver commit "purga de datos")
+Temis/debug/
+debug/
+
+# Wiki SSDJ scrapeada: ~18 MB con el usuario corporativo incrustado en cada pagina
+# Solo se versiona el codigo de Proyecto_HD (procesadores, knowledge base, dashboard)
+Proyecto_HD/wiki_data/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Lock files de LibreOffice
+.~lock.*#
