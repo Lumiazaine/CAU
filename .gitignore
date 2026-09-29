@@ -1,3 +1,17 @@
 ﻿lazydirectory/debug/
 *.log
 *.csv
+lazyremedy.config.json
+
+# Capturas de trafico de red: contienen cookies de sesion y tokens
+*.har
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Lock files de LibreOffice
+.~lock.*#

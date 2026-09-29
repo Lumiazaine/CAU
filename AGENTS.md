@@ -11,6 +11,7 @@ Tres sistemas independientes en un mismo repo, sin dependencias entre sí. No ha
 | `Scripts/` | PowerShell / Batch | `CAUJUS.ps1` o `CAUJUS_refactored.bat` | No hay suite automatizada |
 | `Directorio correo/` | PowerShell 5.1+ | `cambiar_password_correo.ps1` | No hay suite automatizada |
 | `Temis/` | PowerShell 5.1+ | `cambiar_password_temis.ps1` | No hay suite automatizada |
+| `LazyRemedy/` | Python 3.10+ (FastAPI + FastMCP) | `python -m lazyremedy` | pytest: `python -m pytest` (modo mock) |
 
 ## Comandos exactos
 
@@ -47,6 +48,18 @@ Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine  # si fall
 # Temis (anular + cambiar contraseña en Escritorio Judicial)
 .\Temis\cambiar_password_temis.ps1 -TemisUser "15402487P" -WhatIf
 .\Temis\cambiar_password_temis.ps1 -TemisUser "15402487P"
+
+# LazyRemedy - API wrapper dual REST+MCP sobre BMC Remedy (solo lectura)
+python -m lazyremedy rest --port 8000 --mock        # API REST (modo simulación)
+python -m lazyremedy both --port 8000 --mock        # REST + MCP en un proceso (cerrojo compartido)
+python -m lazyremedy mcp --transport stdio          # servidor MCP para agentes IA
+python -m lazyremedy search --incidencia INC123 --json   # one-shot desatendido
+python -m lazyremedy macro CSU
+python -m lazyremedy probe http://hostname/arsys    # calibrar Mid Tier real
+python -m pytest                                     # tests (dentro de LazyRemedy/, mock + midtier simulado)
+# Backends (config.backend): midtier (HTTP, requiere midtier_url) | macro (runmacro.exe) | mock
+# runmacro.exe NO existe en LAP06776; el backend primario es midtier. Ver LazyRemedy/docs/PLAN.md
+# Despliegue persistente LAP06776: tarea HKCU\...\Run -> deploy\start_hidden.vbs -> both
 ```
 
 ## Entorno objetivo (NO es desarrollo local)
@@ -92,6 +105,7 @@ Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine  # si fall
 5. `CLAUDE.md` en `.gitignore` — no crearlo.
 6. Rutas UNC (`\\iusnas05\...`) solo funcionales dentro de la red corporativa de Justicia.
 7. AHK v2 configurado en `.vscode/settings.json`: intérprete en `c:\Program Files\AutoHotkey\v2\AutoHotkey.exe`.
+8. LazyRemedy: `runmacro.exe` **no soporta concurrencia** — respetar el cerrojo (`asyncio.Lock` + mutex). Búsquedas por `usuario_temis`/`correo`/`telefono` requieren `search_field_map` en config (solo `incidencia_id`=1 está garantizado).
 
 # Wiki Processing (PROYECTO_HD) - 2026-06-23
 - process_wiki.ps1 v4: routing tables now extract correctly (43 entries from 3 sections: APLICACIONES, GESTIÓN_USUARIOS, SISTEMAS_INFRAESTRUCTURA)

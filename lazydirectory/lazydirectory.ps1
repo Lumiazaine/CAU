@@ -268,6 +268,19 @@ function Get-CredentialsInteractive {
     return @{ User = $user; Pass = $plainPass }
 }
 
+function Fix-HtmlEncoding {
+    param([string]$Text)
+    if (-not $Text -or $Text.Length -eq 0) { return $Text }
+    $hasHigh = $false
+    foreach ($ch in $Text.ToCharArray()) { if ([int]$ch -gt 127) { $hasHigh = $true; break } }
+    if (-not $hasHigh) { return $Text }
+    try {
+        $bytes = [System.Text.Encoding]::GetEncoding('ISO-8859-1').GetBytes($Text)
+        $fixed = [System.Text.Encoding]::UTF8.GetString($bytes)
+        return $fixed
+    } catch { return $Text }
+}
+
 function Extract-Token {
     param([string]$Html)
     if ($Html -match 'name="tokenParametro"\s*value="([^"]+)"') { return $Matches[1] }
@@ -316,7 +329,9 @@ function Extract-DisplayData {
         param([string]$s)
         $s = $s -replace '<[^>]+>', '' -replace '&nbsp;', ' ' -replace '&amp;', '&'
         $s = $s -replace '&lt;', '<' -replace '&gt;', '>' -replace '\s+', ' '
-        return $s.Trim()
+        $s = $s.Trim()
+        try { $s = $s.Normalize([System.Text.NormalizationForm]::FormC) } catch {}
+        return $s
     }
 
     # Map Directorio field names to our display names
@@ -328,7 +343,7 @@ function Extract-DisplayData {
         'Tipo de entrada' = 'tipoEntrada'
         'Tipo de usuario' = 'tipoEntrada'
         'Correo electr.nico' = 'mail'
-        '.ltimo cambio de contrase.a' = 'ultimoCambioPassword'
+        '.ltimo cambio de contrase' = 'ultimoCambioPassword'
         'Cuota' = 'cuota'
         'departmentNumber' = 'departmentNumber'
         'Cargo' = 'cargo'
@@ -356,10 +371,22 @@ function Extract-DisplayData {
         $m = [regex]::Matches($HtmlSource, '(?s)<div\s+class="form_field">.*?<div\s+class="form_field_label[^"]*">(.*?)</div>\s*<div\s+class="form_field_value[^"]*">(.*?)</div>')
         foreach ($mm in $m) {
             $labelText = Clean-Val $mm.Groups[1].Value
-            $valText = Clean-Val $mm.Groups[2].Value
-            if (-not $labelText -or -not $valText) { continue }
-            if ($mm.Groups[2].Value -match '<(input|select|textarea)\b') { continue }
-            $results += @{ label = $labelText; value = $valText }
+            $valRef = $mm.Groups[2].Value
+            $valText = Clean-Val $valRef
+            if (-not $labelText) { continue }
+            if (-not $valRef -match '<(input|select|textarea)\b') {
+                if ($valText) { $results += @{ label = $labelText; value = $valText } }
+            } else {
+                $selOpt = [regex]::Match($valRef, '<option[^>]*?\bselected\b[^>]*?>(.*?)</option>')
+                if ($selOpt.Success) {
+                    $results += @{ label = $labelText; value = (Clean-Val $selOpt.Groups[1].Value) }
+                } else {
+                    $v = [regex]::Match($valRef, '\bvalue\s*=\s*["'']([^"'']*?)["'']')
+                    if ($v.Success -and $v.Groups[1].Value) {
+                        $results += @{ label = $labelText; value = $v.Groups[1].Value }
+                    }
+                }
+            }
         }
         return $results
     }
@@ -419,6 +446,24 @@ function Extract-DisplayData {
     $hiddenM = [regex]::Match($Html, 'name="nombreUsuario"\s*value="([^"]*)"')
     if ($hiddenM.Success -and $hiddenM.Groups[1].Value -and -not $data.ContainsKey('nombreUsuario')) {
         $data['nombreUsuario'] = $hiddenM.Groups[1].Value
+    }
+
+    # Strategy 5: encoding-safe fallbacks using IndexOf + date/value patterns
+    if (-not $data.ContainsKey('ultimoCambioPassword')) {
+        $idx = $Html.IndexOf('ltimo cambio de contrase', [System.StringComparison]::OrdinalIgnoreCase)
+        if ($idx -ge 0) {
+            $after = $Html.Substring($idx, [Math]::Min(300, $Html.Length - $idx))
+            $dm = [regex]::Match($after, '(\d{2}/\d{2}/\d{4})')
+            if ($dm.Success) { $data['ultimoCambioPassword'] = $dm.Groups[1].Value }
+        }
+    }
+    if (-not $data.ContainsKey('tipoEntrada')) {
+        $idx = $Html.IndexOf('Tipo de usuario:</label></div>', [System.StringComparison]::OrdinalIgnoreCase)
+        if ($idx -ge 0) {
+            $after = $Html.Substring($idx, [Math]::Min(300, $Html.Length - $idx))
+            $vm = [regex]::Match($after, 'class="form_field_value">\s*([^<]+)')
+            if ($vm.Success) { $data['tipoEntrada'] = Clean-Val $vm.Groups[1].Value }
+        }
     }
 
     return $data
@@ -526,7 +571,7 @@ function Search-UserBranch {
     else { $body['seleccionarSirhus'] = 'on' }
 
     $r = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
-    $html = $r.Content
+    $html = Fix-HtmlEncoding $r.Content
 
     $debugFile = Join-Path $script:DEBUG_DIR ("search_" + $Query.Replace('.','_') + "_$Branch.html")
     $html | Out-File -FilePath $debugFile -Encoding UTF8
@@ -641,18 +686,21 @@ function Get-UserProfile {
     function MkBody {
         param([string]$Action, [string]$Btn, [string]$Aux, [string]$Token)
         $b = @{
-            accion = $Action; botonPulsado = $Btn; datoAuxiliar = $Aux
+            accion = $Action; datoAuxiliar = $Aux
             tokenParametro = $Token
             filtroAtributo = 'identificador'
             filtroTipoBusqueda = 'conteniendo'
             filtroValor = $UID
             marcarSirhus = $(if ($esInt) { 'NO' } else { 'SI' })
             marcarInternos = $(if ($esInt) { 'SI' } else { 'NO' })
-            marcarExternos = 'NO'; marcarGenericos = 'NO'; marcarNA = 'NO'
+            marcarExternos = $(if ($esInt) { 'SI' } else { 'SI' })
+            marcarGenericos = 'NO'; marcarNA = 'NO'
             numUsuariosAntiguo = '25'; numUsuarios = '25'
         }
+        if ($Btn) { $b['botonPulsado'] = $Btn }
         if ($esInt) { $b['seleccionarInternos'] = 'on' }
         else { $b['seleccionarSirhus'] = 'on' }
+        $b['seleccionarExternos'] = 'on'
         return $b
     }
 
@@ -664,7 +712,10 @@ function Get-UserProfile {
     $body = MkBody 'consulta' '' '' $script:token
     $r = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
     $script:token = Extract-Token $r.Content
-    $searchHtml = $r.Content
+    $searchHtml = Fix-HtmlEncoding $r.Content
+
+    $searchDebug = Join-Path $script:DEBUG_DIR ("step1_" + $UID.Replace('.','_') + ".html")
+    $searchHtml | Out-File -FilePath $searchDebug -Encoding UTF8
 
     $display = Extract-DisplayData $searchHtml
     foreach ($kv in $display.GetEnumerator()) {
@@ -672,6 +723,8 @@ function Get-UserProfile {
             $fields[$kv.Key] = $kv.Value
         }
     }
+
+    Write-Log ("Step1 overlay: " + ($display.Keys -join ',')) "INFO"
 
     # Extract DN from password overlay
     $dn = ''
@@ -681,61 +734,131 @@ function Get-UserProfile {
     }
     if ($dnMatch.Success) { $dn = $dnMatch.Groups[1].Value }
 
+    if (-not $dn -and $script:lastProfileFields -and $script:lastProfileFields['dn']) {
+        $dn = $script:lastProfileFields['dn']
+        Write-Log "DN recuperado de busqueda previa" "INFO"
+    }
+
     # Step 2: fetch modify form (editable fields) via accion=modificacion
     if ($dn) {
-        $r = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession
-        $script:token = Extract-Token $r.Content
-        if (-not $script:token) { throw "No se pudo extraer token" }
+        try {
+            $r = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession
+            $script:token = Extract-Token $r.Content
+            if (-not $script:token) { throw "No se pudo extraer token" }
 
-        $body2 = MkBody 'modificacion' 'pantalla1' $dn $script:token
-        $r2 = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body2
-        $html2 = $r2.Content
-        $script:lastRawHtml = $html2
+            $body2 = MkBody 'modificacion' 'pantalla1' $dn $script:token
+            $r2 = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body2
+            $html2 = Fix-HtmlEncoding $r2.Content
+            $script:lastRawHtml = $html2
 
-        $debugFile = Join-Path $script:DEBUG_DIR ("profile_" + $UID.Replace('.','_') + ".html")
-        $html2 | Out-File -FilePath $debugFile -Encoding UTF8
+            $debugFile = Join-Path $script:DEBUG_DIR ("profile_" + $UID.Replace('.','_') + ".html")
+            $html2 | Out-File -FilePath $debugFile -Encoding UTF8
 
-        $formFields = Extract-FormFields $html2
-        $display2 = Extract-DisplayData $html2
+            $formFields = Extract-FormFields $html2
+            $display2 = Extract-DisplayData $html2
 
-        # Merge: modify form display + form fields
-        $merge = @{}
-        foreach ($kv in $display2.GetEnumerator()) { $merge[$kv.Key] = $kv.Value }
-        foreach ($kv in $formFields.GetEnumerator()) {
-            if (-not $merge.ContainsKey($kv.Key)) { $merge[$kv.Key] = $kv.Value }
-        }
+            # Merge: modify form display + form fields
+            $merge = @{}
+            foreach ($kv in $display2.GetEnumerator()) { $merge[$kv.Key] = $kv.Value }
+            foreach ($kv in $formFields.GetEnumerator()) {
+                if (-not $merge.ContainsKey($kv.Key)) { $merge[$kv.Key] = $kv.Value }
+            }
 
-        # Add all inputs not already captured
-        [regex]::Matches($html2, 'name="([^"]*)"\s*value="([^"]*)"') | ForEach-Object {
-            $n = $_.Groups[1].Value; $v = $_.Groups[2].Value
-            if (-not $merge.ContainsKey($n)) { $merge[$n] = $v }
-        }
+            # Add all inputs not already captured
+            [regex]::Matches($html2, '(?:name\s*=\s*"([^"]*)"[^>]*?\svalue\s*=\s*"([^"]*)"|value\s*=\s*"([^"]*)"[^>]*?\sname\s*=\s*"([^"]*)")') | ForEach-Object {
+                $n = if ($_.Groups[1].Success) { $_.Groups[1].Value } else { $_.Groups[4].Value }
+                $v = if ($_.Groups[2].Success) { $_.Groups[2].Value } else { $_.Groups[3].Value }
+                if (-not $merge.ContainsKey($n)) { $merge[$n] = $v }
+            }
 
-        # Handle _modificacion suffix — create base-name entries
-        foreach ($k in $merge.Keys) {
-            if ($k -match '^(.+)_modificacion$') {
-                $base = $Matches[1]
-                if (-not $merge.ContainsKey($base)) {
-                    $merge[$base] = $merge[$k]
+            # Handle _modificacion suffix — create base-name entries
+            foreach ($k in $merge.Keys) {
+                if ($k -match '^(.+)_modificacion$') {
+                    $base = $Matches[1]
+                    if (-not $merge.ContainsKey($base)) {
+                        $merge[$base] = $merge[$k]
+                    }
                 }
             }
-        }
 
-        foreach ($kv in $merge.GetEnumerator()) {
-            if (-not $fields.ContainsKey($kv.Key) -or [string]::IsNullOrEmpty($fields[$kv.Key])) {
-                $fields[$kv.Key] = $kv.Value
+            foreach ($kv in $merge.GetEnumerator()) {
+                if (-not $fields.ContainsKey($kv.Key) -or [string]::IsNullOrEmpty($fields[$kv.Key])) {
+                    $fields[$kv.Key] = $kv.Value
+                }
             }
-        }
 
-        # Extract dn from modify form too
-        $dnM = [regex]::Match($html2, 'name="dn"\s*value="([^"]+)"')
-        if ($dnM.Success -and (-not $fields.ContainsKey('dn') -or [string]::IsNullOrEmpty($fields['dn']))) {
-            $fields['dn'] = $dnM.Groups[1].Value
+            # Extract dn from modify form too
+            $dnM = [regex]::Match($html2, 'name="dn"\s*value="([^"]+)"')
+            if ($dnM.Success -and (-not $fields.ContainsKey('dn') -or [string]::IsNullOrEmpty($fields['dn']))) {
+                $fields['dn'] = $dnM.Groups[1].Value
+            }
+        } catch {
+            Write-Log ("Error al obtener modify form: " + $_.Exception.Message) "WARN"
         }
     }
 
     if (-not $fields.ContainsKey('dn') -or [string]::IsNullOrEmpty($fields['dn'])) {
         if ($dn) { $fields['dn'] = $dn }
+    }
+
+    $dnUid = ''
+    if ($fields['dn']) {
+        $du = [regex]::Match($fields['dn'], 'uid=([^,]+)')
+        if ($du.Success) { $dnUid = $du.Groups[1].Value }
+    }
+
+    $currentUid = if ($fields['uid']) { $fields['uid'] } elseif ($fields['identificador']) { $fields['identificador'] } else { '' }
+
+    if (-not $currentUid -or ($currentUid -match '^\d+$' -and $dnUid -and $dnUid -ne $currentUid)) {
+        if ($dnUid) { $fields['uid'] = $dnUid }
+        elseif ($script:lastProfileFields -and $script:lastProfileFields['uid']) {
+            $fields['uid'] = $script:lastProfileFields['uid']
+        } else {
+            $fields['uid'] = $UID
+        }
+    }
+
+    # Preserve overlay-only fields from search result data
+    $overlayKeys = @('ultimoCambioPassword', 'mail', 'tipoEntrada', 'nombreUsuario')
+    if ($script:lastProfileFields) {
+        foreach ($ov in $overlayKeys) {
+            if ($script:lastProfileFields.ContainsKey($ov) -and $script:lastProfileFields[$ov] `
+                -and (-not $fields.ContainsKey($ov) -or [string]::IsNullOrEmpty($fields[$ov]))) {
+                $fields[$ov] = $script:lastProfileFields[$ov]
+            }
+        }
+    }
+
+    # Step 3: if overlay-only fields still missing, fetch via AllTypes search
+    $step3needed = (-not $fields['ultimoCambioPassword']) -or (-not $fields['mail'])
+    if ($step3needed) {
+        try {
+            $r3 = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession
+            $script:token = Extract-Token $r3.Content
+            if ($script:token) {
+                $overBody = @{
+                    accion = 'Buscar'; filtroAtributo = 'identificador'; filtroTipoBusqueda = 'conteniendo'; filtroValor = $UID
+                    marcarSirhus = $(if ($esInt) { 'NO' } else { 'SI' }); marcarInternos = $(if ($esInt) { 'SI' } else { 'NO' })
+                    marcarExternos = 'SI'; marcarGenericos = 'SI'; marcarNA = 'SI'
+                    seleccionarExternos = 'on'; seleccionarGenericos = 'on'; seleccionarNA = 'on'
+                    numUsuariosAntiguo = '25'; numUsuarios = '25'; tokenParametro = $script:token
+                }
+                if ($esInt) { $overBody['seleccionarInternos'] = 'on' } else { $overBody['seleccionarSirhus'] = 'on' }
+                $r3 = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $overBody
+                $overHtml = Fix-HtmlEncoding $r3.Content
+                $overDebug = Join-Path $script:DEBUG_DIR ("step3_" + $UID.Replace('.','_') + ".html")
+                $overHtml | Out-File -FilePath $overDebug -Encoding UTF8
+                $overDisplay = Extract-DisplayData $overHtml
+                foreach ($kv in $overDisplay.GetEnumerator()) {
+                    if (-not $fields.ContainsKey($kv.Key) -or [string]::IsNullOrEmpty($fields[$kv.Key])) {
+                        $fields[$kv.Key] = $kv.Value
+                    }
+                }
+                Write-Log ("Overlay extraido: " + $overDisplay.Count + " campos") "OK"
+            }
+        } catch {
+            Write-Log ("Error al obtener overlay: " + $_.Exception.Message) "WARN"
+        }
     }
 
     $script:lastProfileFields = $fields
@@ -1268,7 +1391,7 @@ function screen-edit {
         else { $fetchBody['seleccionarSirhus'] = 'on' }
 
         $r2 = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $fetchBody
-        $modifyHtml = $r2.Content
+        $modifyHtml = Fix-HtmlEncoding $r2.Content
         $script:token = Extract-Token $modifyHtml
         if (-not $script:token) { Write-Log "Token no encontrado, usando anterior" "WARN" }
 
@@ -1439,7 +1562,7 @@ function Fetch-Servlet {
     param([string]$ServletName, [string]$Label)
     Write-Log "Obteniendo $Label..." "INFO"
     $r = Invoke-WebRequest -Uri "$script:BASE.$ServletName" -UseBasicParsing -WebSession $script:webSession
-    $html = $r.Content
+    $html = Fix-HtmlEncoding $r.Content
     $debugFile = Join-Path $script:DEBUG_DIR ("$ServletName.html")
     $html | Out-File -FilePath $debugFile -Encoding UTF8
     Write-Log ("Respuesta: " + $html.Length + " bytes, guardado en $debugFile") "INFO"
@@ -1645,7 +1768,7 @@ function screen-sirhus-altas {
         $body = @{ accion = 'consulta'; botonPulsado = ''; filtroAtributo = ''; filtroTipoBusqueda = ''; filtroValor = '' }
         try {
             $r = Invoke-WebRequest -Uri "$script:BASE.SirhusAltas" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
-            $html = $r.Content
+            $html = Fix-HtmlEncoding $r.Content
             Write-Log ("Respuesta POST: " + $html.Length + " bytes") "INFO"
             $debugFile = Join-Path $script:DEBUG_DIR "SirhusAltas.html"
             $html | Out-File -FilePath $debugFile -Encoding UTF8
@@ -1681,7 +1804,7 @@ function screen-sirhus-altas {
             try {
                 $r = Invoke-WebRequest -Uri "$script:BASE.SirhusAltas" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
                 $script:token = Extract-Token $r.Content
-                $resultHtml = $r.Content
+                $resultHtml = Fix-HtmlEncoding $r.Content
             } catch { Write-Log ("Error: " + $_.Exception.Message) "ERROR"; pause; continue }
             $debugFile = Join-Path $script:DEBUG_DIR "SirhusAltas_resultados.html"
             $resultHtml | Out-File -FilePath $debugFile -Encoding UTF8
@@ -1704,7 +1827,7 @@ function screen-sirhus-altas {
                 if ([string]::IsNullOrWhiteSpace($html)) {
                     $body = @{ accion = 'consulta'; botonPulsado = ''; filtroAtributo = ''; filtroTipoBusqueda = ''; filtroValor = '' }
                     $r = Invoke-WebRequest -Uri "$script:BASE.SirhusAltas" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
-                    $html = $r.Content
+                    $html = Fix-HtmlEncoding $r.Content
                 }
                 $script:token = Extract-Token $html
                 $ff = Extract-FormFields $html
@@ -1790,7 +1913,7 @@ function Load-SirhusList {
         $body = @{ accion = 'consulta'; botonPulsado = ''; filtroAtributo = ''; filtroTipoBusqueda = ''; filtroValor = '' }
         try {
             $r = Invoke-WebRequest -Uri "$script:BASE.$ServletName" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
-            $html = $r.Content
+            $html = Fix-HtmlEncoding $r.Content
             Write-Log ("Respuesta POST: " + $html.Length + " bytes") "INFO"
             $debugFile = Join-Path $script:DEBUG_DIR "${ServletName}.html"
             $html | Out-File -FilePath $debugFile -Encoding UTF8
@@ -1820,7 +1943,7 @@ function screen-sirhus-generic {
         try {
             $r = Invoke-WebRequest -Uri "$script:BASE.$ServletName" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
             $script:token = Extract-Token $r.Content
-            $resultHtml = $r.Content
+            $resultHtml = Fix-HtmlEncoding $r.Content
         } catch { Write-Log ("Error: " + $_.Exception.Message) "ERROR"; pause; return }
 
         $debugFile = Join-Path $script:DEBUG_DIR "${ServletName}_resultados.html"
@@ -1909,7 +2032,7 @@ function screen-sirhus-bajas {
             try {
                 $r = Invoke-WebRequest -Uri "$script:BASE.SirhusBajas" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
                 $script:token = Extract-Token $r.Content
-                $resultHtml = $r.Content
+                $resultHtml = Fix-HtmlEncoding $r.Content
             } catch { Write-Log ("Error: " + $_.Exception.Message) "ERROR"; pause; continue }
             $debugFile = Join-Path $script:DEBUG_DIR "SirhusBajas_resultados.html"
             $resultHtml | Out-File -FilePath $debugFile -Encoding UTF8
@@ -2136,7 +2259,7 @@ function screen-sirhus-consulta-estado {
                 seleccionarSirhus = 'on'
             }
             $r2 = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
-            $html = $r2.Content
+            $html = Fix-HtmlEncoding $r2.Content
         } catch {
             Write-Log ("Error: " + $_.Exception.Message) "ERROR"; pause; continue
         }
@@ -2387,7 +2510,7 @@ function screen-crear-usuario {
             empleadoDni = $dni
         }
         $r2 = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $basicBody
-        $p2Html = $r2.Content
+        $p2Html = Fix-HtmlEncoding $r2.Content
         $script:token = Extract-Token $p2Html
         if (-not $script:token) { throw "No se pudo extraer token tras pantalla2" }
 
