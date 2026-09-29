@@ -1,0 +1,31 @@
+ZZZSiraj2
+Set-schema: 101_INCIDENCIAS10.241.130.25
+Form-open: 
+Submit-display: 101_INCIDENCIAS10.241.130.25|1010000293=$-1$1010000274=Se han realizado las siguientes pruebas:
+
+* Se ha eliminado los temporales.
+* Se han eliminado la caché y temporales de java.
+* Se ha vaciado la caché del navegador.
+* Se han actualizado directivas.
+* Se ha reiniciado el equipo.
+* Se ha comprobado validez del certificado digital.
+* Se comprueba versión del navegador
+
+Tras realizar las siguientes pruebas, el problema persiste, se adjunta captura de pantalla.
+1010000262=INCIDENCIA1010000229=TELEFONO1010000200=$DATE$ $TIME$1010000179=NORMAL1010000177=SIRAJ2 - El usuario llama indicando que no puede abrir SIRAJ2
+1010000175=ERROR FUNCIONAL1010000174=SIRAJ 21010000173=APLICACIONES1010000151=CONFORME1010000150=$DATE$ $TIME$1010000147=Nivel 1536871051=- No se dispone de ayuda -7=Abierta4=2_Gestion_Cierre2=$-1$1=IN1010000199=111010000171=Acuerdo CEIURIS536870998=No536870981=NO536870966=IN8=.
+Form-final: new1010000293=$-1$1010000274=Se han realizado las siguientes pruebas:
+
+* Se ha eliminado los temporales.
+* Se han eliminado la caché y temporales de java.
+* Se ha vaciado la caché del navegador.
+* Se han actualizado directivas.
+* Se ha reiniciado el equipo.
+* Se ha comprobado validez del certificado digital.
+* Se comprueba versión del navegador
+
+Tras realizar las siguientes pruebas, el problema persiste, se adjunta captura de pantalla.
+1010000262=INCIDENCIA1010000229=TELEFONO1010000200=$DATE$ $TIME$1010000179=NORMAL1010000177=SIRAJ2 - El usuario llama indicando que no puede abrir SIRAJ2
+1010000175=ERROR FUNCIONAL1010000174=SIRAJ 21010000173=APLICACIONES1010000151=CONFORME1010000150=$DATE$ $TIME$1010000147=Nivel 1536871051=- No se dispone de ayuda -7=Abierta4=2_Gestion_Cierre2=$-1$1=IN1010000199=111010000171=Acuerdo CEIURIS536870998=No536870981=NO536870966=IN8=.
+end
+

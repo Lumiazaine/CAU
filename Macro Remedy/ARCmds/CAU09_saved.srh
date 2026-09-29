@@ -1,0 +1,11 @@
+Num Schemas=1
+Schema   {
+   Schema Name  =101_INCIDENCIAS
+   Server Name  =10.241.130.25
+   Num Searches =1
+   Search   {
+      Name=Gestionado_cau09
+      QBE Data=1010000274=CAU09
+      String=
+   }
+}

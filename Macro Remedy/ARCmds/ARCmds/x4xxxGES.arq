@@ -1,0 +1,13 @@
+04 - GESTION DE USUARIOS
+Set-schema: 101_INCIDENCIAS10.241.130.25
+Query: 1010000147=Nivel 14=Gestion de Usuarios1010000199=11 '7' != "Cerrada"
+Form-open: 
+Form-entry-list: 0
+Form-final: modify@
+end
+Nivel 1 / Gestion de usuarios / No cerradas
+
+
+
+
+

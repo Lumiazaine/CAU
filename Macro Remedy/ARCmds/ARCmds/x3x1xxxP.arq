@@ -1,0 +1,9 @@
+03.1 - PENDIENTES CRITICAS
+Set-schema: 101_INCIDENCIAS10.241.130.25
+Query: 1010000179=CRITICA1010000147=Nivel 14=1_Pendiente_Usuario1010000199=11536870939=1_Pendiente_Usuario '7' != "Cerrada"
+Form-open: 
+Form-entry-list: 0
+Form-final: modify@
+end
+
+

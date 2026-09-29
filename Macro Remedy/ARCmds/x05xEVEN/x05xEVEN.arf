@@ -1,0 +1,732 @@
+#&iusswaihv01.justicia.junta-andalucia.es CAU09
+char-set: windows-1252
+#
+#  File exported Wed Jun 24 11:52:03 2026
+#
+begin schema
+   name           : 105_EVENTOS
+   timestamp      : 1420790218
+   export-version : 8
+   schema-type    : 1
+   admin-sub-perm : 1
+   get-list-flds  : 10\1\15\0\\7\10\0\\4\10\0\\536870921\30\0\\8\15\0\\536870917\15\0\\536870916\15\0\\536870918\15\0\\3\20\0\\6\20\0\
+   default-vui    : Default Admin View
+   obj-props      : (null)
+vui  {
+   id             : 536870912
+   name           : Default Admin View
+   label          : Default Admin View
+}
+vui  {
+   id             : 536873165
+   name           : NewDefault Admin View
+   label          : Default Admin View
+}
+field {
+   id             : 1
+   name           : ID de petición
+   datatype       : 4
+   create-mode    : 2
+   option         : 3
+   maxlength      : 15
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 2
+   name           : Remitente
+   datatype       : 4
+   create-mode    : 1
+   option         : 1
+   maxlength      : 30
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   default        : $-1$
+}
+field {
+   id             : 3
+   name           : Fecha de creación
+   datatype       : 7
+   create-mode    : 2
+   option         : 3
+}
+field {
+   id             : 4
+   name           : Asignada a 
+   datatype       : 4
+   create-mode    : 2
+   option         : 2
+   maxlength      : 30
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 5
+   name           : Última modificación realizada por
+   datatype       : 4
+   create-mode    : 2
+   option         : 3
+   maxlength      : 30
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 6
+   name           : Fecha de modificación
+   datatype       : 7
+   create-mode    : 2
+   option         : 3
+}
+field {
+   id             : 7
+   name           : Estado
+   datatype       : 6
+   create-mode    : 1
+   option         : 1
+   enum-value     : OK
+   enum-value     : WARN
+   enum-value     : ALARM
+   enum-value     : SOLUCIONADA
+   enum-value     : IGNORADA
+   enum-value     : CERRADA
+   default        : 0
+}
+field {
+   id             : 8
+   name           : Instancia
+   datatype       : 4
+   create-mode    : 1
+   option         : 1
+   maxlength      : 63
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 15
+   name           : Historial de estado
+   datatype       : 4
+   create-mode    : 1
+   option         : 3
+}
+field {
+   id             : 112
+   name           : Assignee_Group
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 30
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Campo 'Core' que guarda el nombre del grupo asignado y valida el acceso del grupo Assignee Group a la incidencia.
+}
+field {
+   id             : 1012
+   name           : Home
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 1020
+   name           : Results List
+   datatype       : 33
+   create-mode    : 2
+   option         : 4
+tablefield-schema : @
+tablefield-server : @
+tablefield-query  : (null)
+tablefield-numcols: 9
+tablefield-maxret : 0
+}
+field {
+   id             : 536870910
+   name           : Eliminar
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870916
+   name           : Aplicacion
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 63
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 536870917
+   name           : Parámetro
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 63
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 536870918
+   name           : Valor
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 63
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 536870920
+   name           : Fecha de Solución
+   datatype       : 7
+   create-mode    : 2
+   option         : 2
+}
+field {
+   id             : 536870921
+   name           : Descripción
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 63
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 536870922
+   name           : Auxiliar
+   datatype       : 4
+   create-mode    : 1
+   option         : 4
+   maxlength      : 63
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 536870923
+   name           : Box
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870924
+   name           : X_EDI
+   datatype       : 2
+   create-mode    : 2
+   option         : 2
+   range-low      : -2147483648
+   range-high     : 2147483647
+}
+field {
+   id             : 536870925
+   name           : Box2
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870926
+   name           : Box3
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870927
+   name           : T_DIRECCION
+   datatype       : 4
+   create-mode    : 2
+   option         : 2
+   maxlength      : 60
+   menu-style     : 1
+   qbe-match-op   : 3
+   fulltext-optns : 0
+}
+field {
+   id             : 536870928
+   name           : Servidor
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 63
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 536870930
+   name           : X_RED
+   datatype       : 2
+   create-mode    : 2
+   option         : 2
+   range-low      : -2147483648
+   range-high     : 2147483647
+}
+field {
+   id             : 536870931
+   name           : Número Incidencias
+   datatype       : 2
+   create-mode    : 1
+   option         : 2
+   range-low      : 0
+   range-high     : 2147483647
+   default        : 0
+}
+field {
+   id             : 536870932
+   name           : Text
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870933
+   name           : Prioridad
+   datatype       : 6
+   create-mode    : 2
+   option         : 2
+   enum-value     : OK
+   enum-value     : WARN
+   enum-value     : ALARM
+   default        : 2
+}
+field {
+   id             : 536870934
+   name           : Text2
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870935
+   name           : Pestaña
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 63
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 536870936
+   name           : T_MUNICIPIO
+   datatype       : 4
+   create-mode    : 2
+   option         : 2
+   maxlength      : 150
+   menu-style     : 1
+   qbe-match-op   : 3
+   fulltext-optns : 0
+}
+field {
+   id             : 536870937
+   name           : Etiqueta
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 63
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 536870949
+   name           : T_PROVINCIA
+   datatype       : 4
+   create-mode    : 2
+   option         : 2
+   maxlength      : 100
+   menu-style     : 1
+   qbe-match-op   : 3
+   fulltext-optns : 0
+}
+field {
+   id             : 536870951
+   name           : CODSISTEMAS
+   datatype       : 4
+   create-mode    : 2
+   option         : 2
+   maxlength      : 20
+   menu-style     : 1
+   qbe-match-op   : 3
+   fulltext-optns : 0
+}
+field {
+   id             : 536880912
+   name           : Column11
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1010000272
+colfield-datafield: 1010000200
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 536880913
+   name           : Column12
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1010000272
+colfield-datafield: 1010000169
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 536880914
+   name           : Column13
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1010000272
+colfield-datafield: 1
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 536880915
+   name           : Column15
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1010000272
+colfield-datafield: 1010000213
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 536880917
+   name           : Column17
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1010000272
+colfield-datafield: 7
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1010000272
+   name           : Table Field
+   datatype       : 33
+   create-mode    : 2
+   option         : 4
+tablefield-schema : 101_INCIDENCIAS
+tablefield-server : @
+tablefield-query  : 4\1\1\536870978\99\1\
+tablefield-numcols: 8
+tablefield-maxret : 0
+   help-text      : Tabla de registros del formulario 101_HISTORICO_INCIDENCIAS asociados a las incidencias que no se encuentren cerradas en el juzgado al que hace referenc
+   help-text      : ia.
+}
+field {
+   id             : 1010000273
+   name           : Column
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1020
+colfield-datafield: 1
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1010000274
+   name           : Column2
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1020
+colfield-datafield: 7
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1010000275
+   name           : Column3
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1020
+colfield-datafield: 4
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1010000276
+   name           : Column4
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1020
+colfield-datafield: 8
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1010000277
+   name           : Column5
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1020
+colfield-datafield: 536870917
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1010000278
+   name           : Column6
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1020
+colfield-datafield: 536870916
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1010000279
+   name           : Column7
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1020
+colfield-datafield: 536870918
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1010000280
+   name           : Column8
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1020
+colfield-datafield: 3
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1010000281
+   name           : Column9
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1020
+colfield-datafield: 6
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1010000283
+   name           : Column14
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1010000272
+colfield-datafield: 4
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1010000284
+   name           : Column18
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1010000272
+colfield-datafield: 1010000293
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1010000285
+   name           : Column10
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1010000272
+colfield-datafield: 1010000147
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+end
+begin active link
+   name           : 105_EVENTOS_WINDOWS_OPEN
+   timestamp      : 1102413536
+   actlink-order  : 0
+   actlink-mask   : 16384
+   enable         : 1
+   actlink-query  : 4\7\2\1\8\2\4\15\%Administrator%\
+   action {
+      id          : 1
+      focus       : 0
+      access-opt  : 2
+      option      : 0
+   }
+   action {
+      id          : 536870949
+      focus       : 0
+      access-opt  : 2
+      option      : 0
+   }
+   action {
+      id          : 536870936
+      focus       : 0
+      access-opt  : 2
+      option      : 0
+   }
+   action {
+      id          : 536870927
+      focus       : 0
+      access-opt  : 2
+      option      : 0
+   }
+   action {
+      id          : 536870951
+      focus       : 0
+      access-opt  : 2
+      option      : 0
+   }
+   action {
+      id          : 536870930
+      focus       : 0
+      access-opt  : 2
+      option      : 0
+   }
+   action {
+      id          : 536870924
+      focus       : 0
+      access-opt  : 2
+      option      : 0
+   }
+   action {
+      id          : 536870928
+      focus       : 0
+      access-opt  : 2
+      option      : 0
+   }
+   action {
+      id          : 8
+      focus       : 0
+      access-opt  : 2
+      option      : 0
+   }
+   action {
+      id          : 536870917
+      focus       : 0
+      access-opt  : 2
+      option      : 0
+   }
+   action {
+      id          : 536870916
+      focus       : 0
+      access-opt  : 2
+      option      : 0
+   }
+   action {
+      id          : 536870921
+      focus       : 0
+      access-opt  : 2
+      option      : 0
+   }
+   action {
+      id          : 4
+      focus       : 0
+      access-opt  : 2
+      option      : 0
+   }
+   action {
+      id          : 536870933
+      focus       : 0
+      access-opt  : 2
+      option      : 0
+   }
+   action {
+      id          : 536870920
+      focus       : 0
+      access-opt  : 2
+      option      : 0
+   }
+   action {
+      id          : 536870918
+      focus       : 0
+      access-opt  : 2
+      option      : 0
+   }
+   action {
+      id          : 536870931
+      focus       : 0
+      access-opt  : 2
+      option      : 0
+   }
+   action {
+      id          : 7
+      focus       : 0
+      access-opt  : 2
+      option      : 0
+   }
+   action {
+   display-prop   : 2\4\6\1\22\4\7\Default\
+      id          : 6
+      focus       : 0
+      access-opt  : 2
+      option      : 0
+   }
+   action {
+   display-prop   : 2\4\6\1\22\4\7\Default\
+      id          : 5
+      focus       : 0
+      access-opt  : 2
+      option      : 0
+   }
+   action {
+   display-prop   : 2\4\6\1\22\4\7\Default\
+      id          : 2
+      focus       : 0
+      access-opt  : 2
+      option      : 0
+   }
+   action {
+   display-prop   : 2\4\6\1\22\4\7\Default\
+      id          : 536870922
+      focus       : 0
+      access-opt  : 2
+      option      : 0
+   }
+   action {
+   display-prop   : 2\4\6\1\22\4\7\Default\
+      id          : 112
+      focus       : 0
+      access-opt  : 2
+      option      : 0
+   }
+end
+begin active link
+   name           : 105_EVENTOS_ELIMINAR
+   timestamp      : 1113998734
+   actlink-order  : 0
+   actlink-mask   : 1
+   actlink-control: 536870910
+   enable         : 1
+   action {
+      macro-name  : eliminar_eventos
+      macro-text  : Set-schema: 105_EVENTOSiusswaihv01Query: 1=$ID_EVENTO$Form-open: Form-entry-list: 0Delete: Form-final: modify@end
+      macro-parms : 9\ID_EVENTO\$1$
+   }
+end

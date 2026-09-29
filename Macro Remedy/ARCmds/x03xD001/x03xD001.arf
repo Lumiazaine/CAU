@@ -1,0 +1,89 @@
+#&iusswaihv01.justicia.junta-andalucia.es CAU09
+char-set: windows-1252
+#
+#  File exported Fri May 22 13:40:42 2026
+#
+begin schema
+   name           : 103_DIALOGO
+   timestamp      : 1170921183
+   export-version : 8
+   schema-type    : 4
+   admin-sub-perm : 1
+   default-vui    : Default Admin
+   obj-props      : (null)
+vui  {
+   id             : 536870912
+   name           : Default Administrator View
+   label          : Default Admin
+}
+vui  {
+   id             : 536879850
+   name           : NewDefault Administrator View
+   label          : Default Admin
+}
+field {
+   id             : 536870909
+   name           : Button_No
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870910
+   name           : Button_Si
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870913
+   name           : Text
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870914
+   name           : Nombre_Usuario
+   datatype       : 4
+   create-mode    : 2
+   option         : 4
+   maxlength      : 50
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+end
+begin active link
+   name           : 103_DIAL_BOTON_NO
+   timestamp      : 1170920106
+   actlink-order  : 0
+   actlink-mask   : 1
+   actlink-control: 536870909
+   enable         : 1
+   action {
+    commit_changes: 
+   }
+   action {
+      close-wnd   : 
+      close-all   : 0
+   }
+end
+begin active link
+   name           : 103_DIAL_BOTON_SI
+   timestamp      : 1170920106
+   actlink-order  : 0
+   actlink-mask   : 1
+   actlink-control: 536870910
+   enable         : 1
+   action {
+ encrypt-set-field: 0\60\13\01\33785e784133502e4a5f4632427e337c7e2a36494a785c6b2a3c78247478
+   }
+   action {
+    commit_changes: 
+   }
+   action {
+      close-wnd   : 
+      close-all   : 0
+   }
+end

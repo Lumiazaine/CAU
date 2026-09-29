@@ -1,0 +1,9 @@
+02.1 - HD PRIORITARIAS
+Set-schema: 101_INCIDENCIAS10.241.130.25
+Query: 1010000147=Nivel 14=Help-Desk1010000199=11 '7' != "Cerrada" AND '4' LIKE "Help-Desk" AND ( '1010000173'="GRABACION VISTAS" OR '1010000173'="SISTEMAS AUDIOVISUALES")
+Form-open: 
+Form-entry-list: 0
+Form-final: modify@
+end
+
+

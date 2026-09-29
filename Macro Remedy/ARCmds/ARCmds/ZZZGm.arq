@@ -1,0 +1,27 @@
+ZZZGm.arq
+Set-schema: 101_INCIDENCIAS10.241.130.25
+Form-open: 
+Submit-display: 101_INCIDENCIAS10.241.130.25|1010000274=Se han realizado las siguientes pruebas de diagnostico:
+
+    Se ha reiniciado el equipo.
+    Se ha comprobado el latiguillo y la corriente.
+    Se ha revisado si tiene atasco.
+    Se ha comprobado si está bloqueada la cola de impresión.
+    Se ha comprobado la impresora predeterminada.
+
+Teléfono de contacto - 
+
+Se asigna para su gestión.1010000262=INCIDENCIA1010000229=TELEFONO1010000200=$DATE$ $TIME$1010000179=NORMAL1010000177=IMPRESORA - El usuario llama indicando que tiene problemas con1010000175=ERRORES DIVERSOS1010000174=IMPRESORAS1010000173=PUESTO DE TRABAJO1010000171=ACUERDO EXTERNO1010000151=CONFORME1010000150=$DATE$ $TIME$1010000147=Nivel 3536871051=- No se dispone de ayuda -7=Abierta4=GM Techonology2=CAU091=IN1010000199=13536871067=Si536870998=No536870990=  ()536870981=NO536870966=IN8=.
+Form-final: new1010000274=Se han realizado las siguientes pruebas de diagnostico:
+
+    Se ha reiniciado el equipo.
+    Se ha comprobado el latiguillo y la corriente.
+    Se ha revisado si tiene atasco.
+    Se ha comprobado si está bloqueada la cola de impresión.
+    Se ha comprobado la impresora predeterminada.
+
+Teléfono de contacto - 
+
+Se asigna para su gestión.1010000262=INCIDENCIA1010000229=TELEFONO1010000200=$DATE$ $TIME$1010000179=NORMAL1010000177=IMPRESORA - El usuario llama indicando que tiene problemas con1010000175=ERRORES DIVERSOS1010000174=IMPRESORAS1010000173=PUESTO DE TRABAJO1010000171=ACUERDO EXTERNO1010000151=CONFORME1010000150=$DATE$ $TIME$1010000147=Nivel 3536871051=- No se dispone de ayuda -7=Abierta4=GM Techonology2=CAU091=IN1010000199=13536871067=Si536870998=No536870990=  ()536870981=NO536870966=IN8=.
+end
+

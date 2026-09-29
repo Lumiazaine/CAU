@@ -1,0 +1,80 @@
+ZZZAbbyp
+Set-schema: Home Page10.241.130.25
+Form-open: 
+Query-display: Home Page10.241.130.25|536870924=C:\Users\CAU.LAP\AppData\Local\Temp\AR_AE6A.html1575=<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<link rel="stylesheet" type="text/css" href="C:\Program Files (x86)\AR System\User\arsystem.css">
+</head>
+<body>
+<table class="HomeListAppTable">
+<tr>
+<td class="HomeListAppFirstStyle" title=""></td>
+</tr>
+<tr>
+<td class="HomeListEPTStyle" title="Notificaciones de Incidencias"><a href="javascript:" onkeydown="appListJumpOut(false)" onclick="arInvokeForm('10.241.130.25', 'Alert List', 'search')">Notificaciones de Incidencias</a></td>
+</tr>
+<tr>
+<td class="HomeListEPTStyle" title="Búsqueda Avanzada - Informes de Incidencias"><a href="javascript:" onclick="arInvokeForm('10.241.130.25', '103_SELEC_BUSQUEDA', 'search')">Búsqueda Avanzada - Informes de Incidencias</a></td>
+</tr>
+<tr>
+<td class="HomeListEPTStyle" title="Búsqueda Avanzada - Informes de Incidencias"><a href="javascript:" onclick="arInvokeForm('10.241.130.25', '303_SELEC_BUSQUEDA', 'search')">Búsqueda Avanzada - Informes de Incidencias</a></td>
+</tr>
+<tr>
+<td class="HomeListEPTStyle" title="Consulta Inventario de Sistemas y Temis"><a href="javascript:" onclick="arInvokeForm('10.241.130.25', '104_SISTEMAS', 'search')">Consulta Inventario de Sistemas y Temis</a></td>
+</tr>
+<tr>
+<td class="HomeListEPTStyle" title="Consulta Inventario de Sistemas y Temis"><a href="javascript:" onclick="arInvokeForm('10.241.130.25', '300_INVENTARIO', 'search')">Consulta Inventario de Sistemas y Temis</a></td>
+</tr>
+<tr>
+<td class="HomeListEPTStyle" title="Consulta Inventario de Sistemas y Temis"><a href="javascript:" onclick="arInvokeForm('10.241.130.25', '104_ESTADOS_HISTORIAL', 'search')">Consulta Inventario de Sistemas y Temis</a></td>
+</tr>
+<tr>
+<td class="HomeListEPTStyle" title="Comunicaciones en la Red Judicial"><a href="javascript:" onclick="arInvokeForm('10.241.130.25', '105_EVENTOS_MOSTRAR', 'search')">Comunicaciones en la Red Judicial</a></td>
+</tr>
+<tr>
+<td class="HomeListEPTStyle" title="Envío de Problemas / Sugerencias de la Aplicación"><a href="javascript:" onclick="arInvokeForm('10.241.130.25', '106_COMENTARIOS', 'new')">Envío de Problemas / Sugerencias de la Aplicación</a></td>
+</tr>
+<tr>
+<td class="HomeListEPTStyle" title="Crear una Búsqueda Personal"><a href="javascript:" onclick="arInvokeForm('10.241.130.25', '106_BUSQUEDAS_PERSONALES', 'new')">Crear una Búsqueda Personal</a></td>
+</tr>
+<tr>
+<td class="HomeListEPTStyle" title="Consultar Búsquedas Personales"><a href="javascript:" onclick="arInvokeForm('10.241.130.25', '106_BUSQUEDAS_PERSONALES', 'search')">Consultar Búsquedas Personales</a></td>
+</tr>
+<tr>
+<td class="HomeListEPTStyle" title=""><a href="javascript:" onclick="arInvokeForm('10.241.130.25', '210_Informes', 'search')">210_Informes</a></td>
+</tr>
+<tr>
+<td class="HomeListAppStyle" title="AR System Sample Application">AR System Sample Application</td>
+</tr>
+<tr>
+<td class="HomeListEPTStyle" title="Enroll in classes"><a href="javascript:" onclick="arInvokeForm('10.241.130.25', 'Sample:ClassCentral', 'search')">Enroll in classes</a></td>
+</tr>
+<tr>
+<td class="HomeListEPTStyle" title="Create a new class"><a href="javascript:" onclick="arInvokeForm('10.241.130.25', 'Sample:Classes', 'new')">Create a new class</a></td>
+</tr>
+<tr>
+<td class="HomeListEPTStyle" title="Search classes"><a href="javascript:" onclick="arInvokeForm('10.241.130.25', 'Sample:Classes', 'search')">Search classes</a></td>
+</tr>
+<tr>
+<td class="HomeListEPTStyle" title="View enrollments"><a href="javascript:" onclick="arInvokeForm('10.241.130.25', 'Sample:Enrollments', 'search')">View enrollments</a></td>
+</tr>
+<tr>
+<td class="HomeListEPTStyle" title="Add new city"><a href="javascript:" onclick="arInvokeForm('10.241.130.25', 'Sample:Cities', 'new')">Add new city</a></td>
+</tr>
+<tr>
+<td class="HomeListEPTStyle" title="Search cities"><a href="javascript:" onkeydown="appListJumpOut(true)" onclick="arInvokeForm('10.241.130.25', 'Sample:Cities', 'search')">Search cities</a></td>
+</tr>
+</table>
+</body>
+</html>
+
+Form-final: find
+Set-schema: 101_INCIDENCIAS10.241.130.25
+Form-open: 
+Submit-display: 101_INCIDENCIAS10.241.130.25|1010000274=Se indica procedimiento a seguir, quedamos a la espera de recepción de formulario.1010000262=PETICION1010000229=TELEFONO1010000200=$DATE$ $TIME$1010000179=NORMAL1010000177=ABBYPDF - El usuario llama solicitando que le instalen ABBY Transformer.
+1010000175=-1010000174=SOFTWARE1010000173=PUESTO DE TRABAJO1010000151=CONFORME1010000150=$DATE$ $TIME$1010000147=Nivel 17=Abierta4=1_Pendiente_Usuario2=CAU091=IN1010000199=111010000171=Acuerdo CEIURIS536871067=Si536870998=No536870981=NO536870966=IN8=.
+Form-final: new1010000274=Se indica procedimiento a seguir, quedamos a la espera de recepción de formulario.1010000262=PETICION1010000229=TELEFONO1010000200=$DATE$ $TIME$1010000179=NORMAL1010000177=ABBYPDF - El usuario llama solicitando que le instalen ABBY Transformer.
+1010000175=-1010000174=SOFTWARE1010000173=PUESTO DE TRABAJO1010000151=CONFORME1010000150=$DATE$ $TIME$1010000147=Nivel 17=Abierta4=1_Pendiente_Usuario2=CAU091=IN1010000199=111010000171=Acuerdo CEIURIS536871067=Si536870998=No536870981=NO536870966=IN8=.
+end
+

@@ -1,0 +1,36 @@
+[LOCALE]
+locale=
+[10.241.130.25]
+APPCAUL=
+APPCAULT=0
+APPCAUD=
+APPCAUDT=0
+AR System EmailL= 
+AR System EmailLT=0
+AR System EmailD=
+AR System EmailDT=0
+ARDBC LDAP ConfigurationL=ARDBC LDAP Configuration
+ARDBC LDAP ConfigurationLT=0
+ARDBC LDAP ConfigurationD=
+ARDBC LDAP ConfigurationDT=0
+AREA LDAP ConfigurationL=AREA LDAP Configuration
+AREA LDAP ConfigurationLT=0
+AREA LDAP ConfigurationD=
+AREA LDAP ConfigurationDT=0
+Gestion de IncidenciasL=
+Gestion de IncidenciasLT=0
+Gestion de IncidenciasD=
+Gestion de IncidenciasDT=0
+Home PageL=Home Page
+Home PageLT=0
+Home PageD=
+Home PageDT=0
+inetorgpersonL=inetorgperson
+inetorgpersonLT=0
+inetorgpersonD=
+inetorgpersonDT=0
+SampleL=AR System Sample Application
+SampleLT=0
+SampleD=This is the sample application for AR System 6.0.  Use it to learn about developing your own applications.  Help text in the forms and workflow explains how the application works.  In Remedy User, log in as Demo and explore "Enroll in classes" to best experience the application.  In Remedy Administrator, open the Sample application and explore the objects listed in the application window. 
+SampleDT=0
+Timestamp2=1744624692

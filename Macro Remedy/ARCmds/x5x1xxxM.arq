@@ -1,0 +1,10 @@
+05.1 - MICRO ISL Y OCR
+Set-schema: 101_INCIDENCIAS10.241.130.25
+Query: 1010000147=Nivel 14=Microinformatica1010000199=11 '7' != "Cerrada" AND '1010000174' != "LEXNET" AND '1010000175' != "PERFIL USUARIO"
+Form-open: 
+Form-entry-list: 0
+Form-final: modify@
+end
+
+
+

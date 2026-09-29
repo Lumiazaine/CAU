@@ -1,0 +1,127 @@
+#&iusswaihv01.justicia.junta-andalucia.es CAU09
+char-set: windows-1252
+#
+#  File exported Thu May 21 13:40:57 2026
+#
+begin schema
+   name           : 103_DIALOGO_CERRAR
+   timestamp      : 1170921187
+   export-version : 8
+   schema-type    : 4
+   admin-sub-perm : 1
+   default-vui    : Default Admin
+   obj-props      : (null)
+vui  {
+   id             : 536870912
+   name           : Default Administrator View
+   label          : Default Admin
+}
+vui  {
+   id             : 536872612
+   name           : NewDefault Administrator View
+   label          : Default Admin
+}
+field {
+   id             : 536870909
+   name           : Cancelar
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870910
+   name           : Cerrar
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870914
+   name           : Descripción del Cierre
+   datatype       : 4
+   create-mode    : 2
+   option         : 4
+   maxlength      : 255
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 536870999
+   name           : Fecha Solución Proveedor
+   datatype       : 7
+   create-mode    : 1
+   option         : 4
+   help-text      : Fecha de resolución de la incidencia.
+}
+field {
+   id             : 1010000147
+   name           : Asignada_A_Grupo
+   datatype       : 4
+   create-mode    : 1
+   option         : 4
+   maxlength      : 30
+   menu-style     : 2
+   qbe-match-op   : 3
+   fulltext-optns : 0
+   char-menu      : 101_INCI_GRUPOS
+   help-text      : Grupo al que se asigna la incidencia.
+}
+end
+begin active link
+   name           : 103_DIALOGO_CERRAR_BOTON_CERRAR
+   timestamp      : 1170920107
+   actlink-order  : 0
+   actlink-mask   : 1
+   actlink-control: 536870910
+   enable         : 1
+   actlink-query  : 4\6\1\536870914\2\0\
+   action {
+    commit_changes: 
+   }
+   action {
+      close-wnd   : 
+      close-all   : 0
+   }
+   else {
+      message-type: 0
+      message-num : 10000
+      message-pane: 0
+      message-text: Por favor, introduzca una descripción del cierre
+   }
+end
+begin active link
+   name           : 103_DIALOGO_CERRAR_BOTON_CANCELAR
+   timestamp      : 1170920107
+   actlink-order  : 0
+   actlink-mask   : 1
+   actlink-control: 536870909
+   enable         : 1
+   action {
+      close-wnd   : 
+      close-all   : 0
+   }
+end
+begin active link
+   name           : 103_DIALOGO_CERRAR_DISPLAY
+   timestamp      : 1170920107
+   actlink-order  : 0
+   actlink-mask   : 16384
+   enable         : 1
+   actlink-query  : 4\1\1\1010000147\2\4\7\Nivel 3\
+   action {
+   display-prop   : 1\4\6\1\
+      id          : 536870999
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+end
+begin char menu
+   name           : 101_INCI_GRUPOS
+   timestamp      : 1671521295
+   refresh-code   : 2
+   char-menu      : 0\2\5\Group\1\@\105\105\1\
+   char-menu      : \1\1\1\1\1\1\1\1\1\4\6\1\105\2\4\9\Submitter\4\6\1\105\2\4\17\Sub Administrator\4\6\1\105\2\4\6\Public\4\6\1\105\2\4\9\Customize\4\6\1\105\2\4\7\Browser\
+   char-menu      : \4\6\1\105\2\4\14\Assignee Group\4\6\1\105\2\4\8\Assignee\4\6\1\105\2\4\13\Administrator\4\6\1\105\2\4\5\Admin\4\6\1\105\2\4\12\Funcionarios\
+end

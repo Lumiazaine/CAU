@@ -1,0 +1,293 @@
+#&iusswaihv01.justicia.junta-andalucia.es CAU09
+char-set: windows-1252
+#
+#  File exported Thu May 21 12:17:33 2026
+#
+begin schema
+   name           : 101_SOLUCIONES
+   timestamp      : 1420789875
+   export-version : 8
+   schema-type    : 1
+   admin-sub-perm : 1
+   get-list-flds  : 4\1010000025\15\1\ \1010000026\15\1\ \1010000027\15\1\ \1010000031\55\1\ 
+   default-vui    : Default Administrator View
+   obj-props      : (null)
+vui  {
+   id             : 536870912
+   name           : Default Administrator View
+   label          : Default Administrator View
+}
+vui  {
+   id             : 536875674
+   name           : NewDefault Administrator View
+   label          : Default Web View
+}
+field {
+   id             : 1
+   name           : ID_Registro
+   datatype       : 4
+   create-mode    : 2
+   option         : 3
+   maxlength      : 15
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Campo de sistema.
+}
+field {
+   id             : 2
+   name           : Creador
+   datatype       : 4
+   create-mode    : 1
+   option         : 1
+   maxlength      : 30
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   default        : $-1$
+   help-text      : Login del creador del registro. Por defecto es $USER$.
+}
+field {
+   id             : 3
+   name           : Fecha_creacion
+   datatype       : 7
+   create-mode    : 2
+   option         : 3
+   help-text      : Campo de sistema.
+}
+field {
+   id             : 4
+   name           : Asignado_a
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 30
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Campo oculto que toma el valor del creador al hacer el Submit.
+}
+field {
+   id             : 5
+   name           : Ultima_modificacion_por
+   datatype       : 4
+   create-mode    : 2
+   option         : 3
+   maxlength      : 30
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Campo de sistema.
+}
+field {
+   id             : 6
+   name           : Fecha_modificacion
+   datatype       : 7
+   create-mode    : 2
+   option         : 3
+   help-text      : Campo de sistema.
+}
+field {
+   id             : 7
+   name           : Estado
+   datatype       : 6
+   create-mode    : 1
+   option         : 1
+   enum-value     : Propuesta
+   enum-value     : Aceptada
+   enum-value     : Obsoleta
+   default        : 1
+   help-text      : Campo de estado de la solución.
+}
+field {
+   id             : 8
+   name           : Short Description
+   datatype       : 4
+   create-mode    : 1
+   option         : 1
+   maxlength      : 128
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   default        : .
+}
+field {
+   id             : 15
+   name           : Status History
+   datatype       : 4
+   create-mode    : 1
+   option         : 3
+}
+field {
+   id             : 112
+   name           : Asignado_A_Grupo
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 255
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Campo que guarda la lista de grupos a que pertenece el creador del registro.
+}
+field {
+   id             : 536870913
+   name           : Attachment Field
+   datatype       : 11
+   create-mode    : 1
+   option         : 2
+   maxsize        : 0
+   attachtype     : 1
+}
+field {
+   id             : 536870915
+   name           : Attachment Pool
+   datatype       : 37
+   create-mode    : 1
+   option         : 4
+}
+field {
+   id             : 1010000023
+   name           : Text
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 1010000024
+   name           : Box
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 1010000025
+   name           : Clase
+   datatype       : 4
+   create-mode    : 1
+   option         : 1
+   maxlength      : 50
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   char-menu      : 103_INCI_CLASE
+   help-text      : Nombre de la clase.
+}
+field {
+   id             : 1010000026
+   name           : Tipo
+   datatype       : 4
+   create-mode    : 1
+   option         : 1
+   maxlength      : 50
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   char-menu      : 101_SOLU_TIPO
+   help-text      : Nombre del tipo.
+}
+field {
+   id             : 1010000027
+   name           : Categoria
+   datatype       : 4
+   create-mode    : 1
+   option         : 1
+   maxlength      : 50
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   char-menu      : 101_SOLU_CATEGORIA
+   help-text      : Nombre de la categoría.
+}
+field {
+   id             : 1010000029
+   name           : Box2
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 1010000030
+   name           : Box3
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 1010000031
+   name           : Descripcion
+   datatype       : 4
+   create-mode    : 1
+   option         : 1
+   maxlength      : 255
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Descripción breve de la solución.
+}
+field {
+   id             : 1010000032
+   name           : Detalles
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 1200
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Descripción detallada del procedimiento de la solución.
+}
+end
+begin active link
+   name           : 101_SOLU_PONER_USUARIO_ASIGNAD
+   timestamp      : 1170850138
+   actlink-order  : 0
+   actlink-mask   : 4
+   enable         : 1
+   actlink-query  : 4\6\1\2\2\0\
+   action {
+ encrypt-set-field: 0\60\5\01\5f39402639403861635b7973593e6b26322e36612f40295b5b213a4a3521
+   }
+end
+begin active link
+   name           : 101_SOLU_RECTIFICA_CLASE
+   timestamp      : 1170850139
+   actlink-order  : 0
+   actlink-mask   : 128
+   actlink-focus  : 1010000025
+   enable         : 1
+   action {
+ encrypt-set-field: 0\60\12\01\535340267835352378445344627668627958776035357e2679707b605178
+ encrypt-set-field: 1\60\12\01\535340267835352378445344627668627958776035357e26797029605178
+   }
+end
+begin active link
+   name           : 101_SOLU_RECTIFICA_TIPO
+   timestamp      : 1170850139
+   actlink-order  : 0
+   actlink-mask   : 128
+   actlink-focus  : 1010000026
+   enable         : 1
+   action {
+ encrypt-set-field: 0\60\12\01\2b6a253b4c6821786a3e2d726a523b785222492d52644c57253549485856
+   }
+end
+begin char menu
+   name           : 103_INCI_CLASE
+   timestamp      : 1314790388
+   refresh-code   : 1
+   char-menu      : 0\2\15\101_CLASE_NUEVA\1\@\1010000003\1010000003\1\2\4\1\1\536870913\2\6\0\4\1\1\536870915\2\6\0\
+end
+begin char menu
+   name           : 101_SOLU_TIPO
+   timestamp      : 1088068138
+   refresh-code   : 2
+   char-menu      : 0\2\14\101_CLASE_TIPO\1\@\1010000007\1010000007\1\4\1\1\1010000006\99\1010000025\
+end
+begin char menu
+   name           : 101_SOLU_CATEGORIA
+   timestamp      : 1088068138
+   refresh-code   : 2
+   char-menu      : 0\2\24\101_CLASE_TIPO_CATEGORIA\1\@\1010000014\1010000014\1\1\4\1\1\1010000012\99\1010000025\4\1\1\1010000013\99\1010000026\
+end
+# EndOfFieldOffset : 000000000005520

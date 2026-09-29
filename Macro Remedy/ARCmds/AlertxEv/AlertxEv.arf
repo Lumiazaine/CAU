@@ -1,0 +1,174 @@
+#&iusswaihv01.justicia.junta-andalucia.es CAU09
+char-set: windows-1252
+#
+#  File exported Tue Jul 21 10:06:17 2026
+#
+begin schema
+   name           : Alert Events
+   timestamp      : 1087806493
+   export-version : 8
+   schema-type    : 1
+   admin-sub-perm : 1
+   get-list-flds  : 7\7\2\0\\3\15\0\\4\3\0\\704\50\0\\701\25\0\\702\15\0\\703\15\0\
+   default-vui    : Default Administrator View
+   obj-props      : (null)
+vui  {
+   id             : 536870912
+   name           : Default Administrator View
+   label          : Default Administrator View
+}
+field {
+   id             : 1
+   name           : Request ID
+   datatype       : 4
+   create-mode    : 2
+   option         : 3
+   maxlength      : 15
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Request ID of this alert event
+}
+field {
+   id             : 2
+   name           : User
+   datatype       : 4
+   create-mode    : 1
+   option         : 1
+   maxlength      : 30
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : User assigned the alert
+}
+field {
+   id             : 3
+   name           : Create Date
+   datatype       : 7
+   create-mode    : 2
+   option         : 3
+   help-text      : Alert event creation date
+}
+field {
+   id             : 4
+   name           : Source
+   datatype       : 4
+   create-mode    : 1
+   option         : 1
+   maxlength      : 30
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Source of the alert
+}
+field {
+   id             : 5
+   name           : Last Modified By
+   datatype       : 4
+   create-mode    : 2
+   option         : 3
+   maxlength      : 30
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Alert event last modified by
+}
+field {
+   id             : 6
+   name           : Modified Date
+   datatype       : 7
+   create-mode    : 2
+   option         : 3
+   help-text      : Alert event last modified date
+}
+field {
+   id             : 7
+   name           : Read
+   datatype       : 6
+   create-mode    : 2
+   option         : 1
+   enum-value     :  
+   enum-value     : X
+   default        : 0
+   help-text      : Marked if read, blank if not read
+}
+field {
+   id             : 8
+   name           : UNUSED
+   datatype       : 4
+   create-mode    : 1
+   option         : 1
+   maxlength      : 5
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   default        : *
+}
+field {
+   id             : 15
+   name           : Status History
+   datatype       : 4
+   create-mode    : 2
+   option         : 3
+}
+field {
+   id             : 701
+   name           : Form
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 255
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Source form of the alert, if applicable
+}
+field {
+   id             : 702
+   name           : Request
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 255
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Source request ID of the alert, if applicable
+}
+field {
+   id             : 703
+   name           : Server
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 65
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   default        : $-6$
+   help-text      : Source server of the alert, if applicable
+}
+field {
+   id             : 704
+   name           : Alert Text
+   datatype       : 4
+   create-mode    : 1
+   option         : 1
+   maxlength      : 255
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Text of the alert message
+}
+field {
+   id             : 705
+   name           : Priority
+   datatype       : 2
+   create-mode    : 1
+   option         : 2
+   range-low      : 0
+   range-high     : 10
+   default        : 0
+   help-text      : Priority of the alert
+}
+end

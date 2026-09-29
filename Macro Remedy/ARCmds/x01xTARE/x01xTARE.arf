@@ -1,0 +1,275 @@
+#&iusswaihv01.justicia.junta-andalucia.es CAU09
+char-set: windows-1252
+#
+#  File exported Fri May 22 13:15:28 2026
+#
+begin schema
+   name           : 101_TAREAS
+   timestamp      : 1497952760
+   export-version : 8
+   schema-type    : 1
+   admin-sub-perm : 1
+   default-vui    : Default Admin View
+   obj-props      : (null)
+vui  {
+   id             : 536870912
+   name           : Default Admin View
+   label          : Default Admin View
+}
+vui  {
+   id             : 536872501
+   name           : NewDefault Admin View
+   label          : Default Admin View
+}
+field {
+   id             : 1
+   name           : ID de tarea
+   datatype       : 4
+   create-mode    : 2
+   option         : 3
+   maxlength      : 15
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   default        : TA
+}
+field {
+   id             : 2
+   name           : tecnico_soporte
+   datatype       : 4
+   create-mode    : 1
+   option         : 1
+   maxlength      : 30
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   default        : $-1$
+}
+field {
+   id             : 3
+   name           : Fecha de creación
+   datatype       : 7
+   create-mode    : 2
+   option         : 3
+}
+field {
+   id             : 4
+   name           : Asignada a 
+   datatype       : 4
+   create-mode    : 2
+   option         : 2
+   maxlength      : 30
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 5
+   name           : Última modificación realizada por
+   datatype       : 4
+   create-mode    : 2
+   option         : 3
+   maxlength      : 30
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 6
+   name           : Fecha de modificación
+   datatype       : 7
+   create-mode    : 2
+   option         : 3
+}
+field {
+   id             : 7
+   name           : Estado
+   datatype       : 6
+   create-mode    : 2
+   option         : 1
+   enum-value     : Nueva
+   enum-value     : Asignada
+   enum-value     : Fija
+   enum-value     : Rechazada
+   enum-value     : Cerrada
+   default        : 0
+}
+field {
+   id             : 8
+   name           : Descripción breve
+   datatype       : 4
+   create-mode    : 1
+   option         : 1
+   maxlength      : 254
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 15
+   name           : Historial de estado
+   datatype       : 4
+   create-mode    : 2
+   option         : 3
+}
+field {
+   id             : 536870909
+   name           : Cancelar
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870910
+   name           : Guardar
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870913
+   name           : Tiempo empleado
+   datatype       : 14
+   create-mode    : 1
+   option         : 1
+   default        : 0
+}
+field {
+   id             : 536870914
+   name           : ID_Registro
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 15
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Campo de sistema.
+}
+field {
+   id             : 536870915
+   name           : Line
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 1010000137
+   name           : Asignada A
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 50
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Persona responsable de la incidencia entre las fechas de inicio y de fin.
+}
+field {
+   id             : 1010000147
+   name           : Asignada_A_Grupo
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 30
+   menu-style     : 2
+   qbe-match-op   : 3
+   fulltext-optns : 0
+   help-text      : Grupo al que se asigna la incidencia.
+}
+field {
+   id             : 1010000231
+   name           : Box2
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 1010000232
+   name           : ID_Incidencia
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 15
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 1010000238
+   name           : Box
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 1010000240
+   name           : Text
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 1010000293
+   name           : Asignado_Usuario
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 60
+   menu-style     : 2
+   qbe-match-op   : 3
+   fulltext-optns : 0
+}
+end
+begin active link
+   name           : 101_TAREAS_RECARGA_HISTORICO
+   timestamp      : 1497870968
+   actlink-order  : 0
+   actlink-mask   : 262144
+   enable         : 1
+   actlink-query  : 4\1\2\1\9\2\4\6\CREATE\
+   action {
+ encrypt-set-field: 0\240\7\01\656c5f555256517b21446e4f585d6935512a3979402e3856696f5650653c2b396e492a665a4a4647475266396949465f627b4b2e252e464e63224b70383955735a5821243d2338
+ encrypt-set-field: 0\4b7b58275f27477b584b2e3866404e552b38653836505f574f27662123385f765d695f27575d7b282e65566939556d4b65
+   }
+end
+begin active link
+   name           : 101_TAREAS_CERRAR_AL_GRABAR
+   timestamp      : 1497871494
+   actlink-order  : 0
+   actlink-mask   : 6144
+   enable         : 1
+   action {
+      close-wnd   : 
+      close-all   : 0
+   }
+end
+begin active link
+   name           : 101_TAREAS_ACEPTAR
+   timestamp      : 1497872546
+   actlink-order  : 0
+   actlink-mask   : 1
+   actlink-control: 536870910
+   enable         : 1
+   action {
+    encrypt-cmd   : 60\9\01\58572a473b453031546e706360596871383d4345674759605a6064664762
+   }
+end
+begin active link
+   name           : 101_TAREAS_CERRAR
+   timestamp      : 1497872664
+   actlink-order  : 0
+   actlink-mask   : 1
+   actlink-control: 536870909
+   enable         : 1
+   action {
+      close-wnd   : 
+      close-all   : 0
+   }
+end
+begin active link
+   name           : 101_TAREAS_ESCRIBE_EN_DIARIO
+   timestamp      : 1497948122
+   enable         : 0
+end
+# EndOfFieldOffset : 000000000004747

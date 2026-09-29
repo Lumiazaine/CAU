@@ -1,0 +1,31 @@
+Num Schemas=1
+Schema   {
+   Schema Name  =101_INCIDENCIAS
+   Server Name  =10.241.130.25
+   Num Searches =5
+   Search   {
+      QBE Data=7=Reasignada
+      QBE String=Estado=Reasignada
+      String='Fecha Asignación' >= "28/09/2026"  AND 'Diario' LIKE "CAU"
+   }
+   Search   {
+      QBE Data=7=Reasignada
+      QBE String=Estado=Reasignada
+      String='Fecha Asignación' >= "28/09/2026"
+   }
+   Search   {
+      QBE Data=1010000274=CAU09
+      QBE String=Diario=CAU09
+      String=
+   }
+   Search   {
+      QBE Data=1010000170=25998906
+      QBE String=Usuario Temis=25998906
+      String=
+   }
+   Search   {
+      QBE Data=1=2576230
+      QBE String=ID Incidencia=2576230
+      String=
+   }
+}

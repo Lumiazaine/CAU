@@ -1,0 +1,383 @@
+#&iusswaihv01.justicia.junta-andalucia.es CAU09
+char-set: windows-1252
+#
+#  File exported Thu May 21 12:17:33 2026
+#
+begin schema
+   name           : 101_DATOS_LLAMADA
+   timestamp      : 1708602305
+   export-version : 8
+   schema-type    : 1
+   admin-sub-perm : 1
+   get-list-flds  : 8\1010000232\15\1\ \1010000249\20\1\ \1010000250\25\1\ \1010000233\10\1\ \1010000235\20\1\ \1010000236\20\1\ \1010000237\20\1\ \1010000249\30\0\
+   default-vui    : Default Admin View II
+   obj-props      : (null)
+vui  {
+   id             : 536870912
+   name           : Default Administrator View
+   label          : Default Admin View II
+}
+vui  {
+   id             : 536874457
+   name           : NewDefault Administrator View
+   label          : Default Admin View II
+}
+field {
+   id             : 1
+   name           : ID_Registro
+   datatype       : 4
+   create-mode    : 2
+   option         : 3
+   maxlength      : 15
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Campo de sistema.
+}
+field {
+   id             : 2
+   name           : Creador
+   datatype       : 4
+   create-mode    : 1
+   option         : 1
+   maxlength      : 30
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   default        : $-1$
+   help-text      : Creador del registro. Por defecto es USER.
+}
+field {
+   id             : 3
+   name           : Fecha_Creacion
+   datatype       : 7
+   create-mode    : 2
+   option         : 3
+   help-text      : Campo de sistema.
+}
+field {
+   id             : 4
+   name           : Assigned To
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 30
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   default        : $-1$
+}
+field {
+   id             : 5
+   name           : Ultima_Modificacion_Por
+   datatype       : 4
+   create-mode    : 2
+   option         : 3
+   maxlength      : 30
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Campo de sistema.
+}
+field {
+   id             : 6
+   name           : Fecha_Modificacion
+   datatype       : 7
+   create-mode    : 2
+   option         : 3
+   help-text      : Campo de sistema.
+}
+field {
+   id             : 7
+   name           : Status
+   datatype       : 6
+   create-mode    : 1
+   option         : 1
+   enum-value     : New
+   enum-value     : Assigned
+   enum-value     : Fixed
+   enum-value     : Rejected
+   enum-value     : Closed
+   default        : 0
+}
+field {
+   id             : 8
+   name           : Short Description
+   datatype       : 4
+   create-mode    : 1
+   option         : 1
+   maxlength      : 128
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   default        : .
+}
+field {
+   id             : 15
+   name           : Status History
+   datatype       : 4
+   create-mode    : 1
+   option         : 3
+}
+field {
+   id             : 1012
+   name           : Home
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 1020
+   name           : Results List
+   datatype       : 33
+   create-mode    : 2
+   option         : 4
+tablefield-schema : @
+tablefield-server : @
+tablefield-query  : (null)
+tablefield-numcols: 7
+tablefield-maxret : 0
+}
+field {
+   id             : 536870914
+   name           : Grupo
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 60
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 536870915
+   name           : Asignada
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 60
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 1010000231
+   name           : Box
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 1010000232
+   name           : ID_Incidencia
+   datatype       : 4
+   create-mode    : 1
+   option         : 1
+   maxlength      : 15
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 1010000233
+   name           : Telefono
+   datatype       : 4
+   create-mode    : 1
+   option         : 1
+   maxlength      : 10
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 1010000234
+   name           : Nombre
+   datatype       : 4
+   create-mode    : 2
+   option         : 2
+   maxlength      : 50
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 1010000235
+   name           : Fecha_Inicio
+   datatype       : 4
+   create-mode    : 1
+   option         : 1
+   maxlength      : 50
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 1010000236
+   name           : Fecha_Fin
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 50
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 1010000237
+   name           : Duracion
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 50
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 1010000238
+   name           : Box2
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 1010000239
+   name           : Detalles
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 513
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 1010000240
+   name           : Text
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 1010000249
+   name           : Tecnico_Soporte
+   datatype       : 4
+   create-mode    : 1
+   option         : 1
+   maxlength      : 30
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   default        : $-1$
+}
+field {
+   id             : 1010000250
+   name           : Tipo_Llamada
+   datatype       : 6
+   create-mode    : 1
+   option         : 1
+   enum-value     : Entrante Originante
+   enum-value     : Entrante
+   enum-value     : Saliente Originante
+   enum-value     : Saliente
+   enum-value     : Saliente Solución
+   default        : 0
+}
+field {
+   id             : 1010000251
+   name           : Column
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1020
+colfield-datafield: 1010000232
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1010000252
+   name           : Column2
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1020
+colfield-datafield: 1010000249
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1010000253
+   name           : Column3
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1020
+colfield-datafield: 1010000250
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1010000254
+   name           : Column4
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1020
+colfield-datafield: 1010000233
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1010000255
+   name           : Column5
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1020
+colfield-datafield: 1010000235
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1010000256
+   name           : Column6
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1020
+colfield-datafield: 1010000236
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1010000257
+   name           : Column7
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1020
+colfield-datafield: 1010000237
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+end
+begin active link
+   name           : 103_DATOS_LLAMADA_GUARDAR
+   timestamp      : 1496734597
+   actlink-order  : 0
+   actlink-mask   : 4
+   enable         : 1
+   actlink-query  : 4\6\1\1010000239\2\0\
+   action {
+ encrypt-set-field: 0\60\10\01\4e504e71437d7d604d7c7c453b74715d243474425a71434e496b712f4f47
+   }
+   action {
+      push-field  : 0\1\@\15\101_INCIDENCIAS\1\1010000274\4\1\1\1\99\1010000232\3\3\102\1\*\1\*\1\1010000239\0\1\4\
+      push-field  : 1\1\@\15\101_INCIDENCIAS\1\536870996\4\1\1\1\99\1010000232\3\3\102\1\*\1\*\1\1010000239\0\1\4\
+   }
+   action {
+      close-wnd   : 
+      close-all   : 0
+   }
+end
+# EndOfFieldOffset : 000000000007909

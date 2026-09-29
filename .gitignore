@@ -30,3 +30,6 @@ venv/
 
 # Lock files de LibreOffice
 .~lock.*#
+
+# Remedy: temporales de la libreria de macros
+*.tmp

@@ -1,0 +1,3535 @@
+#&iusswaihv01.justicia.junta-andalucia.es CAU09
+char-set: windows-1252
+#
+#  File exported Thu May 21 12:17:32 2026
+#
+begin schema
+   name           : 900_PR_PROBLEMAS
+   timestamp      : 1663336529
+   export-version : 8
+   schema-type    : 1
+   admin-sub-perm : 1
+   get-list-flds  : 11\1\15\1\ \1010000200\17\1\ \2\20\1\ \4\20\1\ \1010000293\15\1\ \1010000150\17\1\ \1010000179\10\1\ \1010000262\10\0\\7\20\1\ \1010000164\20\0\\1010000
+   get-list-flds  : 163\15\0\
+   default-vui    : Default View
+   obj-props      : (null)
+vui  {
+   id             : 536870912
+   name           : Windows
+   label          : Default View
+}
+vui  {
+   id             : 536872462
+   name           : NewWindows
+   label          : Default View
+}
+vui  {
+   id             : 536880645
+   name           : NewNewWindows
+   label          : ConsultaWeb
+}
+field {
+   id             : 1
+   name           : ID_Problema
+   datatype       : 4
+   create-mode    : 2
+   option         : 3
+   maxlength      : 15
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   default        : PR
+   help-text      : Código del Problema. Lo introduce Remedy en el Submit.
+}
+field {
+   id             : 2
+   name           : Recogido_Por
+   datatype       : 4
+   create-mode    : 1
+   option         : 1
+   maxlength      : 30
+   menu-style     : 1
+   qbe-match-op   : 3
+   fulltext-optns : 0
+   default        : $-1$
+   help-text      : Persona que abre el Problema. Por defecto es $USER$
+}
+field {
+   id             : 3
+   name           : Fecha_Creacion
+   datatype       : 7
+   create-mode    : 2
+   option         : 3
+   help-text      : Campo de sistema.
+}
+field {
+   id             : 4
+   name           : Asignado_A
+   datatype       : 4
+   create-mode    : 1
+   option         : 1
+   maxlength      : 30
+   menu-style     : 2
+   qbe-match-op   : 3
+   fulltext-optns : 0
+   char-menu      : 101_INCI_ASIGNADA_A
+   help-text      : Persona a quien se asigna el Problema.
+}
+field {
+   id             : 5
+   name           : Ultima_Modificacion_Por
+   datatype       : 4
+   create-mode    : 2
+   option         : 3
+   maxlength      : 30
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Campo de sistema.
+}
+field {
+   id             : 6
+   name           : Fecha_Modificacion
+   datatype       : 7
+   create-mode    : 2
+   option         : 3
+   help-text      : Campo de sistema.
+}
+field {
+   id             : 7
+   name           : Estado
+   datatype       : 6
+   create-mode    : 1
+   option         : 1
+   enum-value     : Abierto
+   enum-value     : Asignado
+   enum-value     : Rechazado
+   enum-value     : Solucionado
+   enum-value     : Error Conocido
+   enum-value     : Cerrado
+   default        : 0
+   help-text      : Estado del Problema.
+}
+field {
+   id             : 8
+   name           : Short Description
+   datatype       : 4
+   create-mode    : 1
+   option         : 1
+   maxlength      : 128
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   default        : .
+}
+field {
+   id             : 15
+   name           : Status History
+   datatype       : 4
+   create-mode    : 1
+   option         : 3
+}
+field {
+   id             : 112
+   name           : Assignee_Group
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 30
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Campo 'Core' que guarda el nombre del grupo asignado y valida el acceso del grupo Assignee Group a la incidencia.
+}
+field {
+   id             : 1001
+   name           : Submit
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 1002
+   name           : Query
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 1003
+   name           : Modify
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 1005
+   name           : Search Bar
+   datatype       : 4
+   create-mode    : 2
+   option         : 4
+   maxlength      : 255
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 1006
+   name           : Clear
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 1009
+   name           : New Search
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 1011
+   name           : Show Status History
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 1012
+   name           : Home
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 1020
+   name           : Results List
+   datatype       : 33
+   create-mode    : 2
+   option         : 4
+tablefield-schema : @
+tablefield-server : @
+tablefield-query  : (null)
+tablefield-numcols: 9
+tablefield-maxret : 0
+}
+field {
+   id             : 536870890
+   name           : Rechazar
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+   help-text      : Al pulsar este botón se ejecutará el active Link ...... que nos permitirá poner el problema en estado "Rechazado"
+}
+field {
+   id             : 536870891
+   name           : Error_Conocido
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+   help-text      : Al pulsar este botón se ejecutará el active Link......que nos permitirá poner el problema en estado de "Error Conocido".
+}
+field {
+   id             : 536870894
+   name           : Incidencias Abiertas del Juzgado
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870895
+   name           : Incidencias del Juzgado
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870896
+   name           : Button
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870897
+   name           : Consulta de las Incidencias Abiertas
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870898
+   name           : Actualizar_2
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870899
+   name           : Ver Evento
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870903
+   name           : Button_Servidor_Alarm
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870904
+   name           : Reasignar
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870905
+   name           : Cerrar_Poblema
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870906
+   name           : Solucionar_Poblema
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870907
+   name           : Comentario
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870908
+   name           : Solucionar
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+   help-text      : Al pulsar este botón se ejecutará el active Link ...... que nos permitirá cerrar la incidencia
+}
+field {
+   id             : 536870913
+   name           : Attachment Field
+   datatype       : 11
+   create-mode    : 1
+   option         : 2
+   maxsize        : 0
+   attachtype     : 1
+}
+field {
+   id             : 536870916
+   name           : X_MUNICIPIO
+   datatype       : 2
+   create-mode    : 2
+   option         : 2
+   range-low      : -2147483648
+   range-high     : 2147483647
+}
+field {
+   id             : 536870917
+   name           : Descripcion
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1010000187
+colfield-datafield: 1010000031
+colfield-collength: 30
+colfield-datasrc  : 0
+}
+field {
+   id             : 536870919
+   name           : Attachment Field2
+   datatype       : 11
+   create-mode    : 1
+   option         : 2
+   maxsize        : 0
+   attachtype     : 1
+}
+field {
+   id             : 536870932
+   name           : Attachment Field3
+   datatype       : 11
+   create-mode    : 1
+   option         : 2
+   maxsize        : 0
+   attachtype     : 1
+}
+field {
+   id             : 536870933
+   name           : Attachment Field4
+   datatype       : 11
+   create-mode    : 1
+   option         : 2
+   maxsize        : 0
+   attachtype     : 1
+}
+field {
+   id             : 536870934
+   name           : Attachment Field5
+   datatype       : 11
+   create-mode    : 1
+   option         : 2
+   maxsize        : 0
+   attachtype     : 1
+}
+field {
+   id             : 536870936
+   name           : Notificador-Usuario
+   datatype       : 4
+   create-mode    : 2
+   option         : 2
+   maxlength      : 50
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 536870938
+   name           : Fecha Reabrir Incidencia
+   datatype       : 7
+   create-mode    : 2
+   option         : 2
+}
+field {
+   id             : 536870939
+   name           : Error Introduccion
+   datatype       : 4
+   create-mode    : 2
+   option         : 4
+   maxlength      : 255
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 536870954
+   name           : X_RED
+   datatype       : 2
+   create-mode    : 2
+   option         : 2
+   range-low      : -2147483648
+   range-high     : 2147483647
+}
+field {
+   id             : 536870956
+   name           : Dominio
+   datatype       : 4
+   create-mode    : 2
+   option         : 2
+   maxlength      : 64
+   menu-style     : 2
+   qbe-match-op   : 3
+   fulltext-optns : 0
+}
+field {
+   id             : 536870959
+   name           : Correo-Usuario
+   datatype       : 4
+   create-mode    : 2
+   option         : 2
+   maxlength      : 150
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 536870960
+   name           : Attachment Pool
+   datatype       : 37
+   create-mode    : 1
+   option         : 4
+}
+field {
+   id             : 536870964
+   name           : Codigo_Usuario
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 5
+   menu-style     : 1
+   qbe-match-op   : 3
+   fulltext-optns : 0
+   help-text      : Campo oculto que guarda el ID de Registro de la Unidad Funcional.
+}
+field {
+   id             : 536870965
+   name           : Descripción del Cierre
+   datatype       : 5
+   create-mode    : 1
+   option         : 2
+}
+field {
+   id             : 536870966
+   name           : ID_Problema_
+   datatype       : 4
+   create-mode    : 2
+   option         : 2
+   maxlength      : 15
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   default        : PR
+   help-text      : Código del Problema. Lo introduce Remedy en el Submit.
+}
+field {
+   id             : 536870967
+   name           : Box6
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870968
+   name           : Text7
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870969
+   name           : X_EDIFICIO
+   datatype       : 2
+   create-mode    : 2
+   option         : 2
+   range-low      : -2147483648
+   range-high     : 2147483647
+}
+field {
+   id             : 536870970
+   name           : X_TIPORG
+   datatype       : 2
+   create-mode    : 2
+   option         : 2
+   range-low      : -2147483648
+   range-high     : 2147483647
+}
+field {
+   id             : 536870971
+   name           : X_ORGANISMO
+   datatype       : 2
+   create-mode    : 2
+   option         : 2
+   range-low      : -2147483648
+   range-high     : 2147483647
+}
+field {
+   id             : 536870972
+   name           : X_PROVINCIA
+   datatype       : 2
+   create-mode    : 2
+   option         : 2
+   range-low      : -2147483648
+   range-high     : 2147483647
+}
+field {
+   id             : 536870973
+   name           : X_USUARIO
+   datatype       : 2
+   create-mode    : 2
+   option         : 2
+   range-low      : -2147483648
+   range-high     : 2147483647
+}
+field {
+   id             : 536870977
+   name           : Búsquedas Personales
+   datatype       : 4
+   create-mode    : 2
+   option         : 4
+   maxlength      : 50
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   char-menu      : 103_INCI_SELEC_BUSQUEDA_PERSONALES
+}
+field {
+   id             : 536870978
+   name           : ID Evento
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 15
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 536870979
+   name           : Integer Auxiliar
+   datatype       : 2
+   create-mode    : 1
+   option         : 4
+   range-low      : 0
+   range-high     : 2147483647
+}
+field {
+   id             : 536870981
+   name           : Enviar Correo DP
+   datatype       : 6
+   create-mode    : 2
+   option         : 2
+   enum-value     : NO
+   enum-value     : SI
+   default        : 0
+}
+field {
+   id             : 536870982
+   name           : Descripción del Problema Reducido
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 250
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Descripción breve del problema.
+}
+field {
+   id             : 536870984
+   name           : Box4
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870985
+   name           : Box5
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870986
+   name           : Box8
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870987
+   name           : Box10
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870988
+   name           : Text11
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870989
+   name           : Line
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870990
+   name           : Usuario :
+   datatype       : 4
+   create-mode    : 2
+   option         : 2
+   maxlength      : 100
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 536870991
+   name           : Box11
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870993
+   name           : Asignado A :
+   datatype       : 4
+   create-mode    : 2
+   option         : 2
+   maxlength      : 50
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 536870995
+   name           : Estado2
+   datatype       : 4
+   create-mode    : 2
+   option         : 2
+   maxlength      : 255
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 536870996
+   name           : Diario de Comentarios
+   datatype       : 5
+   create-mode    : 1
+   option         : 2
+}
+field {
+   id             : 536870997
+   name           : PrioridadEstado
+   datatype       : 6
+   create-mode    : 2
+   option         : 2
+   enum-value     : Consulta/Peticion
+   enum-value     : Cerrada
+   enum-value     : Normal
+   enum-value     : Urgente
+   enum-value     : Critica
+   enum-value     : Reclamada
+}
+field {
+   id             : 536870998
+   name           : Envio Funcionarios 
+   datatype       : 6
+   create-mode    : 2
+   option         : 2
+   enum-value     : No
+   enum-value     : Si
+   default        : 0
+}
+field {
+   id             : 536871000
+   name           : C_POSTAL
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 5
+   menu-style     : 1
+   qbe-match-op   : 3
+   fulltext-optns : 0
+}
+field {
+   id             : 536871001
+   name           : Text13
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536871006
+   name           : Número de Serie
+   datatype       : 4
+   create-mode    : 2
+   option         : 2
+   maxlength      : 255
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Número de serie del equipo sobre el que se desea comprobar su estado de garantía.
+}
+field {
+   id             : 536871007
+   name           : Modelo Equipo
+   datatype       : 4
+   create-mode    : 2
+   option         : 2
+   maxlength      : 255
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Modelo del equipo sobre el que se desea comprobar su estado de garantía.
+}
+field {
+   id             : 536871008
+   name           : Marca
+   datatype       : 4
+   create-mode    : 2
+   option         : 2
+   maxlength      : 255
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Marca del equipo sobre el que se desea comprobar su estado de garantía.
+}
+field {
+   id             : 536871009
+   name           : Esta en garantia
+   datatype       : 4
+   create-mode    : 2
+   option         : 2
+   maxlength      : 255
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Estado de garantía del equipo.
+}
+field {
+   id             : 536871010
+   name           : Fecha Recepcion
+   datatype       : 13
+   create-mode    : 2
+   option         : 2
+   help-text      : Fecha de Recepción del equipo.
+}
+field {
+   id             : 536871011
+   name           : Fecha Actual
+   datatype       : 13
+   create-mode    : 2
+   option         : 2
+   help-text      : Fecha de Recepción del equipo.
+}
+field {
+   id             : 536871012
+   name           : Garantía (en años)
+   datatype       : 3
+   create-mode    : 2
+   option         : 2
+   range-low      : -18450000000000000000.0
+   range-high     : 18450000000000000000.0
+   precision      : 1
+   help-text      : Fecha actual
+}
+field {
+   id             : 536871013
+   name           : Garantía (en dias)
+   datatype       : 3
+   create-mode    : 2
+   option         : 2
+   range-low      : -18450000000000000000.0
+   range-high     : 18450000000000000000.0
+   precision      : 1
+   help-text      : Fecha actual
+}
+field {
+   id             : 536871014
+   name           : Diferencia fechas en dias
+   datatype       : 3
+   create-mode    : 2
+   option         : 2
+   range-low      : -18450000000000000000.0
+   range-high     : 18450000000000000000.0
+   precision      : 1
+   help-text      : Fecha actual
+}
+field {
+   id             : 536871017
+   name           : Empresa
+   datatype       : 4
+   create-mode    : 2
+   option         : 2
+   maxlength      : 255
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Nombre de la Empresa proveedora.
+}
+field {
+   id             : 536871018
+   name           : Contacto
+   datatype       : 4
+   create-mode    : 2
+   option         : 2
+   maxlength      : 255
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Persona de contacto con la Empresa proveedora.
+}
+field {
+   id             : 536871019
+   name           : Telefono Proveedor
+   datatype       : 4
+   create-mode    : 2
+   option         : 2
+   maxlength      : 255
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Telefono de la persona de contacto con la empresa proveedora.
+}
+field {
+   id             : 536871020
+   name           : Correo
+   datatype       : 4
+   create-mode    : 2
+   option         : 2
+   maxlength      : 255
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Correo de la persona de contacto de la empresa proveedora.
+}
+field {
+   id             : 536871021
+   name           : lote_oculto
+   datatype       : 4
+   create-mode    : 2
+   option         : 2
+   maxlength      : 255
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Introducimos el número de lote al escribir el número de serie de un equipo.
+}
+field {
+   id             : 536871022
+   name           : elemento_oculto
+   datatype       : 4
+   create-mode    : 2
+   option         : 2
+   maxlength      : 255
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Introducimos el número de elemento al escribir el número de serie de un equipo.
+}
+field {
+   id             : 536871023
+   name           : empresa_oculto
+   datatype       : 4
+   create-mode    : 2
+   option         : 2
+   maxlength      : 255
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Introducimos el nombre de la empresa a la que pertenece el proveedor.
+}
+field {
+   id             : 536871024
+   name           : SLA
+   datatype       : 4
+   create-mode    : 2
+   option         : 2
+   maxlength      : 255
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 536871031
+   name           : marca_oculta
+   datatype       : 2
+   create-mode    : 2
+   option         : 2
+   range-low      : -2147483647
+   range-high     : 2147483647
+   help-text      : identificador de la marca
+}
+field {
+   id             : 536871032
+   name           : modelo_oculto
+   datatype       : 2
+   create-mode    : 2
+   option         : 2
+   range-low      : -2147483647
+   range-high     : 2147483647
+   help-text      : modelo del equipo
+}
+field {
+   id             : 536871033
+   name           : modelo_oculto2
+   datatype       : 4
+   create-mode    : 2
+   option         : 2
+   maxlength      : 255
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 536871034
+   name           : marca_oculta2
+   datatype       : 4
+   create-mode    : 2
+   option         : 2
+   maxlength      : 255
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 536871041
+   name           : ID_Problema_Asociado
+   datatype       : 4
+   create-mode    : 2
+   option         : 2
+   maxlength      : 255
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : ID del problema asociado a la incidencia.
+}
+field {
+   id             : 536871043
+   name           : Box2
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536871044
+   name           : Box12
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536871047
+   name           : ID_INCIDENTES_RELACIONADOS
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 1024
+   menu-style     : 1
+   qbe-match-op   : 3
+   fulltext-optns : 0
+}
+field {
+   id             : 536871048
+   name           : Descripcion_libre_de_la_notificacion_al_CSU
+   datatype       : 4
+   create-mode    : 1
+   option         : 1
+   maxlength      : 1500
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Descripción del problema.Se enviará al csu al guardar el problema mediante una notificación por correo electrónico.
+}
+field {
+   id             : 536871049
+   name           : Fecha_Cierre
+   datatype       : 7
+   create-mode    : 1
+   option         : 2
+   help-text      : Fecha de resolución del Problema.
+}
+field {
+   id             : 1010000147
+   name           : Asignado_A_Grupo
+   datatype       : 4
+   create-mode    : 1
+   option         : 1
+   maxlength      : 30
+   menu-style     : 2
+   qbe-match-op   : 3
+   fulltext-optns : 0
+   char-menu      : 101_INCI_GRUPOS
+   help-text      : Grupo al que se asigna el Problema.
+}
+field {
+   id             : 1010000148
+   name           : Box3
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 1010000150
+   name           : Fecha_Asignacion
+   datatype       : 7
+   create-mode    : 1
+   option         : 1
+   help-text      : Fecha de la última asignación del Problema.
+}
+field {
+   id             : 1010000151
+   name           : Conformidad
+   datatype       : 6
+   create-mode    : 1
+   option         : 1
+   enum-value     : CONFORME
+   enum-value     : NO CONFORME
+   default        : 0
+   help-text      : Situación de conformidad del usuario con la resolución del Problema. Es activo para el estado 'Cerrado'.
+}
+field {
+   id             : 1010000152
+   name           : Text
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 1010000154
+   name           : Page Holder
+   datatype       : 36
+   create-mode    : 2
+   option         : 4
+   help-text      : Control de pestañas que guarda los datos del problema.
+}
+field {
+   id             : 1010000155
+   name           : Usuario
+   datatype       : 35
+   create-mode    : 2
+   option         : 4
+   help-text      : Ubicación del problema.
+}
+field {
+   id             : 1010000156
+   name           : Incidente
+   datatype       : 35
+   create-mode    : 2
+   option         : 4
+   help-text      : Pestaña que contiene la categorización del problema.
+}
+field {
+   id             : 1010000157
+   name           : Solucion
+   datatype       : 35
+   create-mode    : 2
+   option         : 4
+   help-text      : Pestaña que contiene los datos de la solución del problema.
+}
+field {
+   id             : 1010000158
+   name           : Historico
+   datatype       : 35
+   create-mode    : 2
+   option         : 4
+   help-text      : Pestaña que guarda la tabla del histórico del problema.
+}
+field {
+   id             : 1010000159
+   name           : Box
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 1010000163
+   name           : Provincia
+   datatype       : 4
+   create-mode    : 1
+   option         : 1
+   maxlength      : 50
+   menu-style     : 2
+   qbe-match-op   : 3
+   fulltext-optns : 0
+   char-menu      : 101_INCI_PROVINCIAS
+   help-text      : Nombre de la provincia.
+}
+field {
+   id             : 1010000164
+   name           : Localidad
+   datatype       : 4
+   create-mode    : 1
+   option         : 1
+   maxlength      : 50
+   menu-style     : 2
+   qbe-match-op   : 3
+   fulltext-optns : 0
+   char-menu      : 101_INCI_LOCALIDADES
+   help-text      : Nombre de la localidad.
+}
+field {
+   id             : 1010000165
+   name           : Unidad_Funcional
+   datatype       : 4
+   create-mode    : 1
+   option         : 1
+   maxlength      : 200
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   char-menu      : 101_INCI_UNIDADES_FUNCIONALES
+   help-text      : Nombre de la unidad funcional a que pertenece el usuario.
+}
+field {
+   id             : 1010000166
+   name           : Direccion
+   datatype       : 4
+   create-mode    : 1
+   option         : 1
+   maxlength      : 255
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   char-menu      : 900_INCI_DIRECCIONES_MUNICIPIO
+   help-text      : Dirección de la Unidad Funcional del usuario.
+}
+field {
+   id             : 1010000167
+   name           : Telefono
+   datatype       : 4
+   create-mode    : 1
+   option         : 1
+   maxlength      : 9
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   char-menu      : 102_INCI_TELEFONO
+   help-text      : Nº de teléfono de la Unidad Funcional del usuario.
+}
+field {
+   id             : 1010000171
+   name           : Acuerdo_De_Servicio
+   datatype       : 4
+   create-mode    : 1
+   option         : 1
+   maxlength      : 50
+   menu-style     : 1
+   qbe-match-op   : 3
+   fulltext-optns : 0
+   help-text      : Acuerdo de servicio que se aplica a la persona asignada al Problema.
+}
+field {
+   id             : 1010000172
+   name           : Organo_Judicial
+   datatype       : 4
+   create-mode    : 1
+   option         : 1
+   maxlength      : 75
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   char-menu      : 103_INCI_JUZGADOS_MIXTO
+   help-text      : Nombre del Órgano Judicial al que pertenece el usuario.
+}
+field {
+   id             : 1010000173
+   name           : Clase
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 50
+   menu-style     : 2
+   qbe-match-op   : 3
+   fulltext-optns : 0
+   char-menu      : 103_INCI_CLASE
+   help-text      : Clase del problema.
+}
+field {
+   id             : 1010000174
+   name           : Tipo
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 50
+   menu-style     : 2
+   qbe-match-op   : 3
+   fulltext-optns : 0
+   char-menu      : 101_INCI_TIPO
+   help-text      : Tipo del problema.
+}
+field {
+   id             : 1010000175
+   name           : Categoria
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 50
+   menu-style     : 2
+   qbe-match-op   : 3
+   fulltext-optns : 0
+   char-menu      : 101_INCI_CATEGORIA
+   help-text      : Categoría del problema.
+}
+field {
+   id             : 1010000177
+   name           : Descripcion_del_Problema
+   datatype       : 4
+   create-mode    : 1
+   option         : 1
+   maxlength      : 511
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Descripción breve del problema.
+}
+field {
+   id             : 1010000178
+   name           : Text4
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 1010000179
+   name           : Prioridad
+   datatype       : 6
+   create-mode    : 1
+   option         : 1
+   enum-value     : NORMAL
+   enum-value     : URGENTE
+   enum-value     : CRITICO
+   default        : 0
+   help-text      : Prioridad de resolución del Problema.
+}
+field {
+   id             : 1010000184
+   name           : Text5
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 1010000185
+   name           : Text6
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 1010000187
+   name           : Tabla_Soluciones
+   datatype       : 33
+   create-mode    : 2
+   option         : 4
+tablefield-schema : 101_SOLUCIONES
+tablefield-server : @
+tablefield-query  : 1\1\4\1\99\1010000173\1\1010000025\4\1\99\1010000174\1\1010000026\4\1\99\1010000175\1\1010000027\
+tablefield-numcols: 1
+tablefield-maxret : 0
+   help-text      : Tabla de soluciones disponibles para el problema según su categorización.
+}
+field {
+   id             : 1010000188
+   name           : Tabla_Historico
+   datatype       : 33
+   create-mode    : 2
+   option         : 4
+tablefield-schema : 900_HISTORICO_PROBLEMAS
+tablefield-server : @
+tablefield-query  : 4\1\1\1010000136\99\1\
+tablefield-numcols: 6
+tablefield-maxret : 0
+   help-text      : Tabla de registros del formulario 900_HISTORICO_PROBLEMAS asociados con el Problema.
+}
+field {
+   id             : 1010000190
+   name           : Marcar
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+   help-text      : Botón para marcar el nº de teléfono del usuario.
+}
+field {
+   id             : 1010000191
+   name           : Icono_Telefono
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+   help-text      : Transferir la llamada a otro operador.
+}
+field {
+   id             : 1010000199
+   name           : ID_Grupo
+   datatype       : 4
+   create-mode    : 1
+   option         : 1
+   maxlength      : 5
+   menu-style     : 1
+   qbe-match-op   : 3
+   fulltext-optns : 0
+   help-text      : Campo oculto que guarda el ID del grupo asignado a la incidencia. Esto sirve para deplegar un menú de usuarios de Remedy asociados con ese nº de grupo. 
+   help-text      : Esto se debe a que la cualificación del menú de usuarios se hace comparando el 'Group List' del User con el grupo escogido, pero ese campo 'Group List' 
+   help-text      : que aparentemente presenta una lista de nombres es en realidad una lista de ID's de esos mismos grupos.
+}
+field {
+   id             : 1010000200
+   name           : Fecha_Apertura
+   datatype       : 7
+   create-mode    : 1
+   option         : 1
+   help-text      : Fecha de apertura de la incidencia.
+}
+field {
+   id             : 1010000207
+   name           : Box7
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 1010000208
+   name           : Text8
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 1010000209
+   name           : Cerrar
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+   help-text      : Al pulsar este botón se ejecutará el active Link ...... que nos permitirá cerrar la incidencia
+}
+field {
+   id             : 1010000213
+   name           : Fecha_Solucion
+   datatype       : 7
+   create-mode    : 1
+   option         : 2
+   help-text      : Fecha de resolución del Problema.
+}
+field {
+   id             : 1010000220
+   name           : Last_ID
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 15
+   menu-style     : 1
+   qbe-match-op   : 3
+   fulltext-optns : 0
+   help-text      : Este campo se utiliza para almacenar el ID_Incidencia que se genera cuando se efectúa el Submit. Dado que ese registro desaparece una vez creado y para 
+   help-text      : poder utilizarlo en posteriores active links hay que guardarlo en este campo de control.
+}
+field {
+   id             : 1010000221
+   name           : Horario
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 255
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Campo oculto que guarda el path del archivo de horarios de ARTIME cuando se selecciona el acuerdo de servicio correspondiente.
+}
+field {
+   id             : 1010000222
+   name           : Calendario
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 255
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Campo oculto que guarda el path del archivo de Calendario laboral de ARTIME cuando se selecciona el acuerdo de servicio correspondiente.
+}
+field {
+   id             : 1010000223
+   name           : Compromiso
+   datatype       : 2
+   create-mode    : 1
+   option         : 2
+   range-low      : -2147483647
+   range-high     : 2147483647
+   help-text      : Campo oculto que guarda el valor del compromiso de resolución perteneciente al acuerdo de servicio seleccionado en el campo 'Acuerdo_de_Servicio'.
+}
+field {
+   id             : 1010000224
+   name           : Acuerdo_Servicio_CEIURIS
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 50
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Campo oculto que guarda el acuerdo de servicio suscrito por la última persona de CEIURIS que tomó la incidencia  (que se guarda en el campo oculto Ultim
+   help-text      : o_Asignado_CEIURIS).
+}
+field {
+   id             : 1010000226
+   name           : Anterior_Fecha_Asignacion
+   datatype       : 7
+   create-mode    : 1
+   option         : 2
+   help-text      : Fecha de la última asignación de la incidencia.
+}
+field {
+   id             : 1010000227
+   name           : Anterior_Fecha_Solucion
+   datatype       : 7
+   create-mode    : 1
+   option         : 2
+   help-text      : Fecha de la última solución dada a la incidencia.
+}
+field {
+   id             : 1010000228
+   name           : Ultimo_Asignado_CEIURIS
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 30
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Campo que guarda el login de la última persona de CEIURIS asignada a la incidencia. De este modo, si la incidencia es resuelta externamente al centro (p
+   help-text      : or prov. externos o Delegaciones) se devolverá la responsabilidad de cerrarla a la persona de CEIURIS que la envió fuera.
+}
+field {
+   id             : 1010000229
+   name           : Origen
+   datatype       : 6
+   create-mode    : 1
+   option         : 1
+   enum-value     : TELEFONO
+   enum-value     : FAX
+   enum-value     : BUZON DE VOZ
+   enum-value     : E-MAIL
+   enum-value     : TIVOLI
+   enum-value     : OTROS
+   default        : 0
+   help-text      : Campo que identifica el modo de entrada del problema en CEIURIS.
+}
+field {
+   id             : 1010000230
+   name           : Ultimo_Grupo_CEIURIS
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 50
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Ultimo grupo de CEIURIS asignado a la incidencia.
+}
+field {
+   id             : 1010000231
+   name           : Incidentes
+   datatype       : 35
+   create-mode    : 2
+   option         : 4
+   help-text      : Pestaña en la que se muestran los incidentes asociados al problema.
+}
+field {
+   id             : 1010000241
+   name           : Tabla_Incidentes_Relacionados
+   datatype       : 33
+   create-mode    : 2
+   option         : 4
+tablefield-schema : 101_INCIDENCIAS
+tablefield-server : @
+tablefield-query  : 4\1\1\536871041\99\1\
+tablefield-numcols: 6
+tablefield-maxret : 0
+   help-text      : Tabla que muestra las incidencias relacionadas con el problema.
+}
+field {
+   id             : 1010000242
+   name           : Text9
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 1010000243
+   name           : Colgar
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 1010000244
+   name           : Transferir
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 1010000246
+   name           : Box9
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 1010000250
+   name           : Asociar
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 1010000262
+   name           : Clasificacion
+   datatype       : 6
+   create-mode    : 1
+   option         : 1
+   enum-value     : PROBLEMA
+   default        : 0
+   help-text      : Clasificación, es única. Problema.
+}
+field {
+   id             : 1010000265
+   name           : DLL_Número_llamado
+   datatype       : 4
+   create-mode    : 2
+   option         : 4
+   maxlength      : 50
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 1010000266
+   name           : DLL_Inicio
+   datatype       : 4
+   create-mode    : 2
+   option         : 4
+   maxlength      : 50
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 1010000267
+   name           : DLL_Fin
+   datatype       : 4
+   create-mode    : 2
+   option         : 4
+   maxlength      : 50
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 1010000268
+   name           : DLL_Duracion
+   datatype       : 4
+   create-mode    : 2
+   option         : 4
+   maxlength      : 50
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 1010000269
+   name           : Informacion_Llamada
+   datatype       : 4
+   create-mode    : 2
+   option         : 4
+   maxlength      : 50
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 1010000270
+   name           : EstadoAgente
+   datatype       : 4
+   create-mode    : 2
+   option         : 4
+   maxlength      : 50
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 1010000271
+   name           : Notificacion
+   datatype       : 35
+   create-mode    : 2
+   option         : 4
+   help-text      : En está pestaña aparece un campo en el que se realizará la descripción del problema que se le enviará al csu.
+}
+field {
+   id             : 1010000274
+   name           : Diario
+   datatype       : 5
+   create-mode    : 1
+   option         : 2
+}
+field {
+   id             : 1010000275
+   name           : DLL_TipoLlamada
+   datatype       : 4
+   create-mode    : 2
+   option         : 4
+   maxlength      : 50
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 1010000276
+   name           : Ver_Proveedor
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+   help-text      : Al pulsar el botón se abrirá en modo lectura el formulario 101_PROVEEDORES en modo lectura para poder ver más datos del proveedor.
+}
+field {
+   id             : 1010000280
+   name           : Número
+   datatype       : 4
+   create-mode    : 2
+   option         : 4
+   maxlength      : 25
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Número a marcar cuando se pulsa el botón 'Marcar'. En caso de que el contenido del campo se encuentre vacío, se marca el número que indique el campo 'Te
+   help-text      : léfono'.
+}
+field {
+   id             : 1010000284
+   name           : Localidad_Informe
+   datatype       : 4
+   create-mode    : 2
+   option         : 2
+   maxlength      : 255
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 1010000290
+   name           : Metodo_Notificacion
+   datatype       : 4
+   create-mode    : 1
+   option         : 4
+   maxlength      : 50
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 1010000291
+   name           : Ultimo_Notificado
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 50
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 1010000293
+   name           : Asignado_Usuario
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 60
+   menu-style     : 2
+   qbe-match-op   : 3
+   fulltext-optns : 0
+   char-menu      : 103_INCI_USUARIOS_DELEGACIONES_MODIF
+}
+field {
+   id             : 1040000022
+   name           : Date_Reception
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 15
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 1040000025
+   name           : Column3
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1020
+colfield-datafield: 1
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1040000026
+   name           : Column19
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1020
+colfield-datafield: 1010000200
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1040000027
+   name           : Column20
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1020
+colfield-datafield: 2
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1040000028
+   name           : Column21
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1020
+colfield-datafield: 4
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1040000029
+   name           : Column22
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1020
+colfield-datafield: 1010000293
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1040000031
+   name           : Column24
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1020
+colfield-datafield: 1010000179
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1040000032
+   name           : Column25
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1020
+colfield-datafield: 7
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1040000033
+   name           : Column26
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1020
+colfield-datafield: 1010000164
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1040000055
+   name           : Column23
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1020
+colfield-datafield: 1010000150
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1040000070
+   name           : Id Incidente Relacionado
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1010000241
+colfield-datafield: 1
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1040000071
+   name           : Fecha Apert. Incidente Relacionado
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1010000241
+colfield-datafield: 1010000200
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1040000072
+   name           : Nombre Incidente Relacionado
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1010000241
+colfield-datafield: 1010000169
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1040000073
+   name           : Descripción Incidente Relacionado
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1010000241
+colfield-datafield: 536870982
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1040000074
+   name           : Notificación
+   datatype       : 35
+   create-mode    : 2
+   option         : 4
+   help-text      : Pestaña donde se escribe el texto que se enviará en el correo al csu.
+}
+field {
+   id             : 1040000075
+   name           : Column
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1010000188
+colfield-datafield: 1010000137
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1040000076
+   name           : Column31
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1010000188
+colfield-datafield: 1010000140
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1040000077
+   name           : Column38
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1010000188
+colfield-datafield: 1010000138
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1040000078
+   name           : Column40
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1010000188
+colfield-datafield: 1010000139
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1040000079
+   name           : Column42
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1010000188
+colfield-datafield: 536870913
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1040000080
+   name           : Column2
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1010000241
+colfield-datafield: 4
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1040000081
+   name           : Column4
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1010000241
+colfield-datafield: 7
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1040000082
+   name           : Column5
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1010000188
+colfield-datafield: 1010000141
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+end
+begin active link
+   name           : 900_PR_ACUERDO_SERV_VISIBLE
+   timestamp      : 1170348715
+   actlink-order  : 0
+   actlink-mask   : 128
+   actlink-focus  : 1010000147
+   enable         : 1
+   actlink-query  : 4\1\1\1010000147\2\4\7\Nivel 3\
+   action {
+ encrypt-set-field: 0\60\12\01\275f6e586e442c5c384c76493c23384c4b76277658276e494c494b2e4958
+   }
+   action {
+   display-prop   : 1\4\6\1\
+      id          : 1010000171
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+   display-prop   : 1\4\6\1\
+      id          : 1010000276
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   else {
+   display-prop   : 1\4\6\0\
+      id          : 1010000171
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   else {
+   display-prop   : 1\4\6\0\
+      id          : 1010000276
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+end
+begin active link
+   name           : 900_PR_AFT_SUB0_REG_APERT_0
+   timestamp      : 1450868766
+   actlink-order  : 0
+   actlink-mask   : 4096
+   enable         : 1
+   actlink-query  : 4\1\1\7\2\6\0\
+   action {
+ encrypt-set-field: 0\300\25\01\776a5240236f4c3f7a4e3b5f533b2b52626053564e567a4e7d734832455355373e4f23523f65693d5f586a4d693f2f3c375d4e7d352b4f3f492b4e2a4d265248233b3d575f306
+ encrypt-set-field: 0\f41776f53524e3b674e567d30644e3d495f6d6a536a5249233b57522a4e3c2b776f5f3f6c3c773d567d4e704e3d485f656a5359553a237755553d5b773d36773d555c77363a5c5c5b305c55
+ encrypt-set-field: 0\3a3d5b36
+ encrypt-set-field: 1\300\25\01\776a6140236f4c3f7a4e3b5f533b3252626053564e562e4e7d734832455355373e4f23523f65693d5f586a4d693f2f3c375d4e7d352b4f3f492b4e2a67265248233b3d575f306
+ encrypt-set-field: 1\f41776f53524e3b674e567d30644e3d495f6d6a536a5249233b57522a4e3c2b776f5f3f6c3c773d567d4e704e3d485f656a5359553a237755553d5b773d36773d555c77363a5c5c5b305c55
+ encrypt-set-field: 1\3a3d5b36
+ encrypt-set-field: 2\300\25\01\776a6140236f4c3f7a4e3b5f533b4452626053564e562e4e7d734832455355373e4f23523f65693d5f586a4d693f2f3c375d4e7d352b4f3f492b4e2a5d265248233b3d575f306
+ encrypt-set-field: 2\f41776f53524e3b674e567d30644e3d495f6d6a536a5249233b57522a4e3c2b776f5f3f6c3c773d567d4e704e3d485f656a5359553a237755553d5b773d36773d555c77363a5c5c5b305c55
+ encrypt-set-field: 2\3a3d5b36
+ encrypt-set-field: 3\300\25\01\776a6140236f4c3f7a4e3b5f533b2b52626053564e562e4e7d734832455355373e4f23523f65693d5f586a4d693f2f3c375d4e7d352b4f3f492b4e2a3a265248233b3d575f306
+ encrypt-set-field: 3\f41776f53524e3b674e567d30644e3d495f6d6a536a5249233b57522a4e3c2b776f5f3f6c3c773d567d4e704e3d485f656a5359553a237755553d5b773d36773d555c77363a5c5c5b305c55
+ encrypt-set-field: 3\3a3d5b36
+   }
+   action {
+      push-field  : 0\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000137\4\1\99\1\1\1010000136\4\6\102\1\*\1\*\1\2\0\1\4\
+      push-field  : 1\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000211\4\1\99\1\1\1010000136\4\6\102\1\*\1\*\1\1010000222\0\1\4\
+      push-field  : 2\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000212\4\1\99\1\1\1010000136\4\6\102\1\*\1\*\1\1010000224\0\1\4\
+      push-field  : 3\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000144\4\1\99\1\1\1010000136\4\6\102\1\*\1\*\1\1010000223\0\1\4\
+      push-field  : 4\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000138\4\1\99\1\1\1010000136\4\6\101\4\7\Abierto\
+      push-field  : 5\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000140\4\1\99\1\1\1010000136\4\6\102\1\*\1\*\1\1010000200\0\1\4\
+      push-field  : 6\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000210\4\1\99\1\1\1010000136\4\6\102\1\*\1\*\1\1010000221\0\1\4\
+      push-field  : 7\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000136\4\1\99\1\1\1010000136\4\6\102\1\*\1\*\1\1\0\1\4\
+      push-field  : 8\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000139\4\1\99\1\1\1010000136\4\6\102\1\*\1\*\1\1010000179\0\1\4\
+   }
+end
+begin active link
+   name           : 900_PR_AFT_SUB15_REG_CERR_15
+   timestamp      : 1450783218
+   enable         : 0
+end
+begin active link
+   name           : 900_PR_AFT_SUB5_REG_ASIGNA_10
+   timestamp      : 1450869911
+   enable         : 0
+end
+begin active link
+   name           : 900_PR_AFT_SUB5_REG_ASIGNA_5
+   timestamp      : 1450869717
+   actlink-order  : 5
+   actlink-mask   : 6144
+   enable         : 1
+   actlink-query  : 1\1\1\1\4\6\1\4\2\0\4\6\1\7\2\6\5\4\6\1\7\2\6\4\4\6\1\7\2\6\3\4\6\1\7\2\6\2\
+   action {
+ encrypt-set-field: 0\60\10\01\4f6f2973782459444a4f6f3e2e292e595577386f385924444f6647664c56
+   }
+   action {
+      push-field  : 0\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000141\1\4\1\1\1010000136\99\1\4\1\1\1010000141\99\1010000150\3\5\102\1\*\1\*\1\1010000150\0\1\4\
+   }
+   action {
+ encrypt-set-field: 0\300\25\01\4f6f4a3e78247544564f6f3e38293829383e386f38293d444f3a2e3d27565e4928247862444b613b3967755461443d4f285438443861653e55453a267b302968786f5e423a712
+ encrypt-set-field: 0\46c4d382d29563a2624754429297129553e7755716f296f786f4229384f68454d382e44444f3a3775443e3a71292e3e4255716f4c73787359594c7773662e4c475947774c302e59665e7766
+ encrypt-set-field: 0\47664c47
+ encrypt-set-field: 1\300\25\01\4f6f4a3e78247544564f6f3e38295529383e386f38293d444f3a2e3d27565e4928247862444b613b3967755461443d4f285438443861653e55453a2678302968786f5e423a712
+ encrypt-set-field: 1\46c4d382d29563a2624754429297129553e7755716f296f786f4229384f68454d382e44444f3a3775443e3a71292e3e4255716f4c73787359594c7773662e4c475947774c302e59665e7766
+ encrypt-set-field: 1\47664c47
+ encrypt-set-field: 2\300\25\01\4f6f4a3e78247544564f6f3e38295c29383e386f38293d444f3a2e3d27565e4928247862444b613b3967755461443d4f285438443861653e55453a2636302968786f5e423a712
+ encrypt-set-field: 2\46c4d382d29563a2624754429297129553e7755716f296f786f4229384f68454d382e44444f3a3775443e3a71292e3e4255716f4c73787359594c7773662e4c475947774c302e59665e7766
+ encrypt-set-field: 2\47664c47
+   }
+   action {
+      push-field  : 0\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000212\1\1\4\1\99\1010000220\1\1010000136\4\1\99\4\1\1010000137\4\1\99\1010000150\1\1010000140\4\5\102\1\*\1\*\1\1
+      push-field  : 0\010000171\0\1\4\
+      push-field  : 1\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000138\1\1\4\1\99\1010000220\1\1010000136\4\1\99\4\1\1010000137\4\1\99\1010000150\1\1010000140\4\5\101\4\8\Asignad
+      push-field  : 1\o\
+      push-field  : 2\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000210\1\1\4\1\99\1010000220\1\1010000136\4\1\99\4\1\1010000137\4\1\99\1010000150\1\1010000140\4\5\102\1\*\1\*\1\1
+      push-field  : 2\010000221\0\1\4\
+      push-field  : 3\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000139\1\1\4\1\99\1010000220\1\1010000136\4\1\99\4\1\1010000137\4\1\99\1010000150\1\1010000140\4\5\102\1\*\1\*\1\1
+      push-field  : 3\010000179\0\1\4\
+      push-field  : 4\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000136\1\1\4\1\99\1010000220\1\1010000136\4\1\99\4\1\1010000137\4\1\99\1010000150\1\1010000140\4\5\102\1\*\1\*\1\1
+      push-field  : 4\\0\1\4\
+      push-field  : 5\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000140\1\1\4\1\99\1010000220\1\1010000136\4\1\99\4\1\1010000137\4\1\99\1010000150\1\1010000140\4\5\102\1\*\1\*\1\1
+      push-field  : 5\010000150\0\1\4\
+      push-field  : 6\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000144\1\1\4\1\99\1010000220\1\1010000136\4\1\99\4\1\1010000137\4\1\99\1010000150\1\1010000140\4\5\102\1\*\1\*\1\1
+      push-field  : 6\010000223\0\1\4\
+      push-field  : 7\1\@\23\900_HISTORICO_PROBLEMAS\1\536870913\1\1\4\1\99\1010000220\1\1010000136\4\1\99\4\1\1010000137\4\1\99\1010000150\1\1010000140\4\5\102\1\*\1\*\1\10
+      push-field  : 7\10000293\0\1\4\
+      push-field  : 8\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000137\1\1\4\1\99\1010000220\1\1010000136\4\1\99\4\1\1010000137\4\1\99\1010000150\1\1010000140\4\5\102\1\*\1\*\1\4
+      push-field  : 8\\0\1\4\
+      push-field  : 9\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000211\1\1\4\1\99\1010000220\1\1010000136\4\1\99\4\1\1010000137\4\1\99\1010000150\1\1010000140\4\5\102\1\*\1\*\1\1
+      push-field  : 9\010000222\0\1\4\
+   }
+   action {
+      message-type: 0
+      message-num : 10000
+      message-pane: 1
+      message-text: Se asigna el $1$ a $4$
+   }
+end
+begin active link
+   name           : 900_PR_ASIGNADO_USUARIO_DISPL
+   timestamp      : 1170348715
+   actlink-order  : 0
+   actlink-mask   : 16
+   enable         : 1
+   actlink-query  : 2\4\7\1\1010000147\2\4\4\DP_%\4\1\1\1010000147\2\4\7\Nivel 2\
+   action {
+   display-prop   : 1\4\6\1\
+      id          : 1010000293
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+end
+begin active link
+   name           : 900_PR_BLOQUEA_SI_CERRADO_0
+   timestamp      : 1170348715
+   actlink-order  : 0
+   actlink-mask   : 16400
+   enable         : 1
+   actlink-query  : 4\1\1\7\2\6\5\
+   action {
+      id          : 4
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000147
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000209
+      focus       : 0
+      access-opt  : 3
+      option      : 0
+   }
+   action {
+      id          : 1010000151
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000166
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000164
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000172
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+      id          : 1010000163
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 2
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000165
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000167
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000229
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 536870904
+      focus       : 0
+      access-opt  : 3
+      option      : 0
+   }
+   action {
+      id          : 536870907
+      focus       : 0
+      access-opt  : 3
+      option      : 0
+   }
+   action {
+      id          : 536870906
+      focus       : 0
+      access-opt  : 3
+      option      : 0
+   }
+   action {
+      id          : 536870905
+      focus       : 0
+      access-opt  : 3
+      option      : 0
+   }
+end
+begin active link
+   name           : 900_PR_BLOQUEA_SI_CERRADO_5
+   timestamp      : 1170348715
+   actlink-order  : 5
+   actlink-mask   : 16400
+   enable         : 1
+   actlink-query  : 4\1\1\7\2\6\5\
+   action {
+      id          : 1010000173
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000177
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000179
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+   display-prop   : 1\4\6\0\
+      id          : 1010000184
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+      id          : 1010000262
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000274
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000293
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000200
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000150
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000171
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000174
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000175
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 536870908
+      focus       : 0
+      access-opt  : 3
+      option      : 0
+   }
+   action {
+      id          : 536870965
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 536871042
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 536870891
+      focus       : 0
+      access-opt  : 3
+      option      : 0
+   }
+   action {
+      id          : 536870890
+      focus       : 0
+      access-opt  : 3
+      option      : 0
+   }
+end
+begin active link
+   name           : 900_PR_BOTON_CERRAR_INDICE_0
+   timestamp      : 1430992600
+   enable         : 0
+end
+begin active link
+   name           : 900_PR_BOTON_CERRAR_INDICE_20
+   timestamp      : 1170348715
+   enable         : 0
+end
+begin active link
+   name           : 900_PR_BOTON_CERRAR_INDICE_30
+   timestamp      : 1170348715
+   enable         : 0
+end
+begin active link
+   name           : 900_PR_BOTON_CERRAR_NUEVO_0
+   timestamp      : 1170348715
+   enable         : 0
+end
+begin active link
+   name           : 900_PR_BOTON_CERRAR_NUEVO_5
+   timestamp      : 1450783226
+   actlink-order  : 5
+   actlink-mask   : 1
+   actlink-control: 1010000209
+   enable         : 1
+   action {
+ encrypt-set-field: 0\60\11\01\507173713f3365746b34627a3b2e5a3c505d746b2e4e486952745a4e3c74
+   }
+   action {
+ encrypt-set-field: 0\60\19\01\50714e71604e2e737473693a3b2e5a2e505d74742e4e47425d245a5a5a74
+ encrypt-set-field: 1\60\11\01\50714371604a6d736b7339563b2e5a52505d74622e4e47425d335a4c6374
+   }
+   action {
+      push-field  : 0\1\@\15\101_INCIDENCIAS\1\536870965\1\1\4\1\99\1\1\536871041\4\1\1\4\2\4\15\CSU - Generales\4\6\1\7\2\6\4\3\5\102\1\*\1\*\1\536870965\0\1\4\
+      push-field  : 1\1\@\15\101_INCIDENCIAS\1\7\1\1\4\1\99\1\1\536871041\4\1\1\4\2\4\15\CSU - Generales\4\6\1\7\2\6\4\3\5\101\6\4\
+      push-field  : 2\1\@\15\101_INCIDENCIAS\1\8\1\1\4\1\99\1\1\536871041\4\1\1\4\2\4\15\CSU - Generales\4\6\1\7\2\6\4\3\5\101\4\16\Problema cerrado\
+      push-field  : 3\1\@\15\101_INCIDENCIAS\1\1010000213\1\1\4\1\99\1\1\536871041\4\1\1\4\2\4\15\CSU - Generales\4\6\1\7\2\6\4\3\5\101\1\2\
+   }
+   action {
+      push-field  : 0\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000141\1\4\1\99\1\1\1010000136\4\1\1\1010000141\2\0\3\5\102\1\*\1\*\1\536871049\0\1\4\
+   }
+   action {
+      push-field  : 0\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000212\1\4\1\99\1\1\1010000136\4\1\1\1010000138\2\4\7\Cerrado\4\6\102\1\*\1\*\1\1010000171\0\1\4\
+      push-field  : 1\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000137\1\4\1\99\1\1\1010000136\4\1\1\1010000138\2\4\7\Cerrado\4\6\102\1\*\1\*\1\4\0\1\4\
+      push-field  : 2\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000139\1\4\1\99\1\1\1010000136\4\1\1\1010000138\2\4\7\Cerrado\4\6\102\1\*\1\*\1\1010000179\0\1\4\
+      push-field  : 3\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000136\1\4\1\99\1\1\1010000136\4\1\1\1010000138\2\4\7\Cerrado\4\6\102\1\*\1\*\1\1\0\1\4\
+      push-field  : 4\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000210\1\4\1\99\1\1\1010000136\4\1\1\1010000138\2\4\7\Cerrado\4\6\102\1\*\1\*\1\1010000221\0\1\4\
+      push-field  : 5\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000140\1\4\1\99\1\1\1010000136\4\1\1\1010000138\2\4\7\Cerrado\4\6\102\1\*\1\*\1\536871049\0\1\4\
+      push-field  : 6\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000141\1\4\1\99\1\1\1010000136\4\1\1\1010000138\2\4\7\Cerrado\4\6\102\1\*\1\*\1\536871049\0\1\4\
+      push-field  : 7\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000138\1\4\1\99\1\1\1010000136\4\1\1\1010000138\2\4\7\Cerrado\4\6\102\1\*\1\*\1\7\0\1\4\
+      push-field  : 8\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000211\1\4\1\99\1\1\1010000136\4\1\1\1010000138\2\4\7\Cerrado\4\6\102\1\*\1\*\1\1010000222\0\1\4\
+      push-field  : 9\1\@\23\900_HISTORICO_PROBLEMAS\1\536870913\1\4\1\99\1\1\1010000136\4\1\1\1010000138\2\4\7\Cerrado\4\6\102\1\*\1\*\1\1010000293\0\1\4\
+   }
+   action {
+    encrypt-cmd   : 60\9\01\507179712a7c232b697027463b2e5a7b503074322e4e415966695876234d
+   }
+   action {
+      close-wnd   : 
+      close-all   : 0
+   }
+end
+begin active link
+   name           : 900_PR_BOTON_ERROR_CONOCIDO_0
+   timestamp      : 1450870396
+   actlink-order  : 0
+   actlink-mask   : 1
+   actlink-control: 536870891
+   enable         : 1
+   actlink-query  : 2\2\2\2\2\4\1\1\4\2\0\4\1\1\1010000147\2\0\4\1\1\1010000163\2\0\4\1\1\1010000164\2\0\4\1\1\1010000165\2\0\4\1\1\1010000177\2\0\
+   action {
+      message-type: 0
+      message-num : 10000
+      message-pane: 1
+      message-text: Faltan campos requeridos por completar / Imposible pasar el problema a estado "Error Conocido"
+   }
+   else {
+ encrypt-set-field: 0\60\19\01\4f4e506d71714e5a2e3c6b24713b5a5074712e507469734f2450453c2e34
+   }
+   else {
+    encrypt-cmd   : 60\9\01\7a7b503f6b714e7661602a5f717e5a6d69775f6e7469702d245031512e31
+   }
+end
+begin active link
+   name           : 900_PR_BOTON_RECHAZAR_0
+   timestamp      : 1170348715
+   actlink-order  : 0
+   actlink-mask   : 1
+   actlink-control: 536870890
+   enable         : 1
+   actlink-query  : 2\2\2\2\2\2\4\1\1\7\2\6\0\4\1\1\4\2\0\4\1\1\1010000147\2\0\4\1\1\1010000163\2\0\4\1\1\1010000164\2\0\4\1\1\1010000165\2\0\4\1\1\1010000177\2\0\
+   action {
+      message-type: 0
+      message-num : 10000
+      message-pane: 1
+      message-text: Faltan campos requeridos por completar / Imposible rechazar el problema
+   }
+   else {
+ encrypt-set-field: 0\60\19\01\505b6976695b756a3437296975616a5b6b346b6a757c5e226b44575e6a7e
+   }
+   else {
+    encrypt-cmd   : 60\9\01\55556935445b756956583b6075686a6874792b46757c5f776b44786c6a3b
+   }
+end
+begin active link
+   name           : 900_PR_BOTON_SOLUCIONAR_INDICE_0
+   timestamp      : 1170348715
+   actlink-order  : 0
+   actlink-mask   : 1
+   actlink-control: 536870908
+   enable         : 1
+   actlink-query  : 1\1\1\1\1\1\4\6\1\7\2\6\0\4\6\1\4\2\0\4\6\1\1010000147\2\0\4\6\1\1010000163\2\0\4\6\1\1010000164\2\0\4\6\1\1010000165\2\0\4\6\1\1010000177\2\0\
+   action {
+ encrypt-set-field: 0\60\19\01\384368377643573e687e22434b3c376b3e3e5743535876683537576b3856
+ encrypt-set-field: 1\60\10\01\385868372158323e7b5f7b414b3c586b3e3e5743235b73523558386b643c
+   }
+   action {
+    encrypt-cmd   : 60\9\01\3e3a3b37334c7e3e305c205c4b6e426b3e3e574347652a4a35556f6b2b4f
+   }
+   else {
+      message-type: 0
+      message-num : 10000
+      message-pane: 0
+      message-text: Faltan campos requeridos por completar / Imposible solucionar problema
+   }
+end
+begin active link
+   name           : 900_PR_CAMBIA_MENU_TIPO_ORG_GUARDIA_17
+   timestamp      : 1170348715
+   actlink-order  : 17
+   actlink-mask   : 128
+   actlink-focus  : 1010000165
+   enable         : 1
+   actlink-query  : 1\1\4\6\1\1010000165\2\0\4\1\1\536870970\2\2\26\4\6\2\1\9\2\4\5\QUERY\
+   action {
+      id          : 1010000172
+      char-menu   : 103_INCI_JUZGADOS_GUARDIA
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+ encrypt-set-field: 0\120\24\01\656c606048735a5860656c4d21702764707b4c6c396f6f5865436c665947517c272548253232273225505e272632263227255e325037775026502726
+   }
+end
+begin active link
+   name           : 900_PR_CAMBIA_MENU_TIPO_ORG_MIXTO_12
+   timestamp      : 1170348715
+   actlink-order  : 12
+   actlink-mask   : 128
+   actlink-focus  : 1010000165
+   enable         : 1
+   actlink-query  : 1\1\4\6\1\1010000165\2\0\4\1\1\536870970\2\2\82\4\6\2\1\9\2\4\5\QUERY\
+   action {
+      id          : 1010000172
+      char-menu   : 103_INCI_JUZGADOS_MIXTO
+      focus       : 0
+      access-opt  : 2
+      option      : 0
+   }
+   action {
+ encrypt-set-field: 0\60\0\01\792a344c3566232e4c536a5b6a6e423f6a2652735925205b64623f6b7554
+   }
+end
+begin active link
+   name           : 900_PR_CAMBIA_MENU_TIPO_ORG_OTROS_27
+   timestamp      : 1170348715
+   actlink-order  : 27
+   actlink-mask   : 128
+   actlink-focus  : 1010000165
+   enable         : 1
+   actlink-query  : 1\1\1\1\1\4\6\1\1010000165\2\0\4\6\1\536870970\2\2\82\4\6\1\536870970\2\2\26\4\6\1\536870970\2\2\140\4\6\1\536870970\2\2\142\4\6\2\1\9\2\4\5\QUERY\
+   action {
+      id          : 1010000172
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+end
+begin active link
+   name           : 900_PR_CAMBIA_MENU_TIPO_ORG_SVISTA_22
+   timestamp      : 1170348715
+   actlink-order  : 22
+   actlink-mask   : 128
+   actlink-focus  : 1010000165
+   enable         : 1
+   actlink-query  : 1\1\4\6\1\1010000165\2\0\2\4\1\1\536870970\2\2\140\4\1\1\536870970\2\2\142\4\6\2\1\9\2\4\5\QUERY\
+   action {
+      id          : 1010000172
+      char-menu   : 103_INCI_JUZGADOS_SALA_VISTA
+      focus       : 0
+      access-opt  : 2
+      option      : 0
+   }
+   action {
+ encrypt-set-field: 0\120\26\01\337e395a2676472657777729204d5b3a3030366270692929576a48775352477e51517e29517e63762f4720292c637e2363237e23334763635129232c
+   }
+end
+begin active link
+   name           : 900_PR_CERRAR_FORMULARIO
+   timestamp      : 1170348715
+   actlink-order  : 200
+   actlink-mask   : 2048
+   enable         : 1
+   action {
+      close-wnd   : 
+      close-all   : 0
+   }
+end
+begin active link
+   name           : 900_PR_CLAS_RELLENA_TIP_5
+   timestamp      : 1170348715
+   actlink-order  : 5
+   actlink-mask   : 130
+   actlink-focus  : 1010000173
+   enable         : 1
+   actlink-query  : 4\6\2\1\9\2\4\5\QUERY\
+   action {
+ encrypt-set-field: 0\240\1\01\2266672f7c3a7a557a3a3778545a7a2e753b3b7a3b4637782d4a2d2661602d4154676e547537617846716a677755687a3b7b3b702626224a2569776e226c675b54546134615437
+ encrypt-set-field: 0\676e4561262e673b7b657b377b504a6c377a76772222453c716b2e7a6e44676e454c264f5e2567455b267b2d4a7b377a46
+   }
+   action {
+ encrypt-set-field: 0\300\11\01\2266672f7c3a7a557a3a3778545e7a2e753d3b7a3b4637782d4a2d2661603d2232473a3a6f3d727846716a7a29436854257848745126684a3c69773a2d7426676e3a7537616e2
+ encrypt-set-field: 0\6783a672e5561453b443b7b2676224a222661752d6c3b453a5475376154267b54674f557a223b40657b2678224a2226756e2b403b4546464e416554557b3a6c75556b67776277784178224a
+ encrypt-set-field: 0\41266b46
+   }
+end
+begin active link
+   name           : 900_PR_CLAS_RELLENA_TIP_CAT
+   timestamp      : 1170348716
+   actlink-order  : 0
+   actlink-mask   : 130
+   actlink-focus  : 1010000173
+   enable         : 1
+   actlink-query  : 4\6\2\1\9\2\4\5\QUERY\
+   action {
+ encrypt-set-field: 0\240\25\01\7737373f334e4e293a6f2179743c7e76303434742266217a7a6f5051507221304334394c377a436f77444f367a4a29293c4f22603c527c3621515127214e334f377337454c6f2
+ encrypt-set-field: 0\1795a217a294529294f4f2c3c7a506f50512237544e6d2e6d236d45542352772e5c79424242422e2e5c5c7979237951236d
+   }
+end
+begin active link
+   name           : 900_PR_COMPLETA_DATO_ORGANISMO_7
+   timestamp      : 1170348716
+   actlink-order  : 7
+   actlink-mask   : 128
+   actlink-focus  : 1010000165
+   enable         : 1
+   actlink-query  : 1\4\1\1\1010000172\2\0\4\6\2\1\9\2\4\5\QUERY\
+   action {
+ encrypt-set-field: 0\60\8\01\5d306f287850315331796223334e6e54236e44637c60516e7d2a2a386823
+   }
+end
+begin active link
+   name           : 900_PR_COMPLETA_DATO_ORGANISMO_9
+   timestamp      : 1170348716
+   actlink-order  : 9
+   actlink-mask   : 128
+   actlink-focus  : 1010000165
+   enable         : 1
+   actlink-query  : 1\4\1\1\1010000166\2\0\4\6\2\1\9\2\4\5\QUERY\
+   action {
+ encrypt-set-field: 0\60\8\01\47474a654c7951404a253562255d2c2524296a2b517c2561242f792b474c
+   }
+end
+begin active link
+   name           : 900_PR_COMPRUEBA_ESTADO_CERRADO
+   timestamp      : 1170348716
+   enable         : 0
+end
+begin active link
+   name           : 900_PR_GUARDA_COD_LOCAL
+   timestamp      : 1170348716
+   actlink-order  : 0
+   actlink-mask   : 128
+   actlink-focus  : 1010000164
+   enable         : 1
+   actlink-query  : 4\6\1\1010000164\2\0\
+   action {
+ encrypt-set-field: 0\240\5\01\7d4c6574726d422363493a7c4a5c353b4e4d7d2f37466444353674664d61513f3237556d48752545745c38447439574d756060467b33742f6a754d572b3f2f60556d355f7c3c33
+ encrypt-set-field: 0\523844613b7c4d2860604674494d2f28754d4a2b2a636e3563352865496e526127423b7c2b282b2446743f493328462b4a
+   }
+   action {
+      id          : 1010000166
+      focus       : 0
+      access-opt  : 2
+      option      : 0
+   }
+   action {
+      id          : 1010000165
+      char-menu   : 101_INCI_UNIDADES_FUNCIONALES
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+end
+begin active link
+   name           : 900_PR_GUARDA_COD_PROVINCIAL
+   timestamp      : 1170348716
+   actlink-order  : 0
+   actlink-mask   : 128
+   actlink-focus  : 1010000163
+   enable         : 1
+   actlink-query  : 4\6\1\1010000163\2\0\
+   action {
+ encrypt-set-field: 0\180\7\01\79753948286c703453315e346a26536a754e707e5a2e687451675a247e457371565f326d514872563d536a3f533d5b756932762e7b4b306f3b2f7a5a2c276545483f3f3453572c
+ encrypt-set-field: 0\727631727b7571313a492e6f392f6432452f6a
+   }
+end
+begin active link
+   name           : 900_PR_GUARDA_CODIGO_DIRECCION_NUEVO
+   timestamp      : 1170348716
+   actlink-order  : 0
+   actlink-mask   : 128
+   actlink-focus  : 1010000166
+   enable         : 1
+   actlink-query  : 4\6\1\1010000166\2\0\
+   action {
+      id          : 1010000165
+      char-menu   : 900_PR_SISTEMAS_UNIDADES_FUNCIONALES_DIRECCION
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+end
+begin active link
+   name           : 900_PR_GUARDA_CODIGO_UF
+   timestamp      : 1170348716
+   actlink-order  : 0
+   actlink-mask   : 128
+   actlink-focus  : 1010000165
+   enable         : 1
+   actlink-query  : 1\4\6\1\1010000165\2\0\4\6\2\1\9\2\4\5\QUERY\
+   action {
+ encrypt-set-field: 0\300\20\01\53266f6c5d677e4253715d587a56293a256c704d34723a34222554313f6065547475377a58395c54787e2556746f736e28337472236d59236d3865706f7234435e5353247a6e5
+ encrypt-set-field: 0\26e30565263676727235d33685c387a546a6c5d6f316f43375353247a5752273056523a3067277a5d33685c387a54246c5d39316f546969543e695a485a6956632f373f543b343b2f393e3e
+ encrypt-set-field: 0\5a3e5439
+ encrypt-set-field: 1\300\20\01\53266f6c5d677e4253716f587a56293a2563574d60723a34222554313f6065547475377a58705c54787e2556746f736e28337472236d59236d3865706f7234435e5353247a6e5
+ encrypt-set-field: 1\26e30565263256727235d33685c387a546a6c5d6f316f43375353247a5752273056523a3067277a5d33685c387a54246c5d39316f546969543e695a485a6956632f373f543b343b2f393e3e
+ encrypt-set-field: 1\5a3e5439
+ encrypt-set-field: 2\300\20\01\53266f6c5d677e42537163587a56293a2563534d60723a34222554313f6065547475377a58325c54787e2556746f736e28337472236d59236d3865706f7234435e5353247a6e5
+ encrypt-set-field: 2\26e305652636a6727235d33685c387a546a6c5d6f316f43375353247a5752273056523a3067277a5d33685c387a54246c5d39316f546969543e695a485a6956632f373f543b343b2f393e3e
+ encrypt-set-field: 2\5a3e5439
+ encrypt-set-field: 3\300\20\01\53266f6c5d677e42537168587a56293a2563704d60723a34222554313f6065547475377a58395c54787e2556746f736e28337472236d59236d3865706f7234435e5353247a6e5
+ encrypt-set-field: 3\26e305652637d6727235d33685c387a546a6c5d6f316f43375353247a5752273056523a3067277a5d33685c387a54246c5d39316f546969543e695a485a6956632f373f543b343b2f393e3e
+ encrypt-set-field: 3\5a3e5439
+ encrypt-set-field: 4\300\20\01\53266f6c5d677e42537168587a56293a2563274d60723a34222554313f6065547475377a58395c54787e2556746f736e28337472236d59236d3865706f7234435e5353247a6e5
+ encrypt-set-field: 4\26e305652636a6727235d33685c387a546a6c5d6f316f43375353247a5752273056523a3067277a5d33685c387a54246c5d39316f546969543e695a485a6956632f373f543b343b2f393e3e
+ encrypt-set-field: 4\5a3e5439
+ encrypt-set-field: 5\300\19\01\607a3467272c702b6e543a4c53565d5d7a6c7e736025525d392271706734743c6d792d536d7a2e3e2c565356227e5c75797a58313175312a283c385c70715d3b6767546d30273
+ encrypt-set-field: 5\a4e30563a527d3f54716a72295d3c2427327b7a7033343b7a30542430273a7030566f52373f547a6a72295d3c2427707b7a397a345469695b3e695a525a69566f2f3767533b5d3b2f393e3e
+ encrypt-set-field: 5\543e5439
+ encrypt-set-field: 6\300\19\01\607a3467272c702b6e543a4c53565d5d7a6c6e736025525d39226e706734743c6d792d536d7a2e3e2c565356227e5c75797a58313175312a283c385c70235d3b6767546d30273
+ encrypt-set-field: 6\a4e30563a522c3f54716a72295d3c2427327b7a7033343b7a30542430273a7030566f52373f547a6a72295d3c2427707b7a397a345469695b3e695a525a69566f2f3767533b5d3b2f393e3e
+ encrypt-set-field: 6\543e5439
+ encrypt-set-field: 7\300\20\01\53266f6c5d677e42537163587a56293a25636e4d60723a34222554313f6065547475377a58325c54787e2556746f736e28337472236d59236d3865706f7234435e5353247a6e5
+ encrypt-set-field: 7\26e305652637a6727235d33685c387a546a6c5d6f316f43375353247a5752273056523a3067277a5d33685c387a54246c5d39316f546969543e695a485a6956632f373f543b343b2f393e3e
+ encrypt-set-field: 7\5a3e5439
+   }
+   action {
+      id          : 1010000166
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+end
+begin active link
+   name           : 900_PR_GUARDA_ID_GRUPO
+   timestamp      : 1170348716
+   actlink-order  : 0
+   actlink-mask   : 128
+   actlink-focus  : 1010000147
+   enable         : 1
+   action {
+ encrypt-set-field: 0\180\26\01\607237724c764e4c2a334f213c4145734f463034455e45294e50343721743c3c37506633374e744e4943607945524f467445765e79346f503472214f5c5c6d79236d6d232e6d7
+ encrypt-set-field: 0\4545c2e4279745c2e42427954422350426d422e
+   }
+end
+begin active link
+   name           : 900_PR_MOD_CERRADO_30
+   timestamp      : 1170348716
+   actlink-order  : 40
+   actlink-mask   : 8
+   enable         : 1
+   actlink-query  : 1\1\1\4\1\2\1\8\2\4\11\G_Problemas\4\6\1\1010000213\2\0\4\6\1\1010000227\1\1010000213\4\1\1\8\2\4\7\Cerrado\
+   action {
+ encrypt-set-field: 0\120\16\01\39682c3c652c3c57426d6a374029214d696f503f4d6d266d2f3c61292669697a6a5b6d6a6b753450685b6943215b3469346b416d5d212f6b5b6a3f50
+   }
+   action {
+      push-field  : 0\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000141\1\4\1\99\1\1\1010000136\4\1\1\1010000141\2\0\4\5\102\1\*\1\*\1\1010000213\0\1\4\
+   }
+   action {
+ encrypt-set-field: 0\120\22\01\3968292e5e27676e39766837692921596f3447204d6d266d2f3c4d4326693c756a5b446a6b753434755b694b445b3469346b7c3f27442f6b5b6a7c50
+ encrypt-set-field: 1\60\12\01\39686a5b65686b75346d37376929215b3469346b4d6d266d2f3c4d6a2669
+ encrypt-set-field: 2\120\1\01\3968296e65277e3c6c6d6837202921775e7350544d6d266d2f3c4d37266930416b50216a7c752f5929456f6441327064654e375954412f452c58355e
+ encrypt-set-field: 3\180\27\01\3968296e65276f3c6c6d5837202921775e7350544d6d266d2f3c4d372669305a2250213f6b716f55412c6464605862723c273759544f2f4b204d355e34756a5b446a6b7534347
+ encrypt-set-field: 3\55b6969445b3469346b42216b442f6b5b6a6b34
+   }
+   action {
+      push-field  : 0\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000137\1\4\1\99\1\1\1010000136\4\1\99\1010000213\1\1010000140\4\6\101\1\1\
+      push-field  : 1\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000211\1\4\1\99\1\1\1010000136\4\1\99\1010000213\1\1010000140\4\6\102\1\*\1\*\1\1010000222\0\1\4\
+      push-field  : 2\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000144\1\4\1\99\1\1\1010000136\4\1\99\1010000213\1\1010000140\4\6\102\1\*\1\*\1\1010000223\0\1\4\
+      push-field  : 3\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000138\1\4\1\99\1\1\1010000136\4\1\99\1010000213\1\1010000140\4\6\101\4\7\Cerrado\
+      push-field  : 4\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000210\1\4\1\99\1\1\1010000136\4\1\99\1010000213\1\1010000140\4\6\102\1\*\1\*\1\1010000221\0\1\4\
+      push-field  : 5\1\@\23\900_HISTORICO_PROBLEMAS\1\536870913\1\4\1\99\1\1\1010000136\4\1\99\1010000213\1\1010000140\4\6\102\1\*\1\*\1\1010000293\0\1\4\
+      push-field  : 6\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000139\1\4\1\99\1\1\1010000136\4\1\99\1010000213\1\1010000140\4\6\102\1\*\1\*\1\1010000179\0\1\4\
+      push-field  : 7\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000136\1\4\1\99\1\1\1010000136\4\1\99\1010000213\1\1010000140\4\6\102\1\*\1\*\1\1\0\1\4\
+      push-field  : 8\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000212\1\4\1\99\1\1\1010000136\4\1\99\1010000213\1\1010000140\4\6\102\1\*\1\*\1\1010000171\0\1\4\
+      push-field  : 9\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000140\1\4\1\99\1\1\1010000136\4\1\99\1010000213\1\1010000140\4\6\102\1\*\1\*\1\1010000213\0\1\4\
+   }
+end
+begin active link
+   name           : 900_PR_MOD_CIERRA_35
+   timestamp      : 1170348716
+   enable         : 0
+end
+begin active link
+   name           : 900_PR_MOD_ERROR_CONOCIDO_25
+   timestamp      : 1170348716
+   actlink-order  : 25
+   actlink-mask   : 8
+   enable         : 1
+   actlink-query  : 1\4\6\1\8\2\4\7\Cerrado\4\1\1\7\2\6\4\
+   action {
+ encrypt-set-field: 0\120\22\01\4f5a40615133527d20614d2c3979524d65617758395b613f3928614d4d223b3b587a6a7a533b3f7a2239316a5341373f58583b7a412158283f252553
+ encrypt-set-field: 1\180\27\01\4f4440276240522d38704d2c3979524d656035734670213f3928614d4d442624753827726e3b25342444686b7e4679652a56783e226535286c79652a3b3b587a6a7a533b3f7a4
+ encrypt-set-field: 1\17a536a5341363f58583b7a414158283f3f3353
+ encrypt-set-field: 2\60\12\01\4f3b407a6a7a523b3f704d2c396a524d653458583b70413f4028614d4d53
+ encrypt-set-field: 3\120\1\01\4f4440276240526a38704d2c3979524d656135734670213f3928614d4d445c3c356636442b402534244468503e39794a2d4e21692b65582865796553
+   }
+   action {
+      push-field  : 0\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000212\0\4\6\102\1\*\1\*\1\1010000171\0\1\4\
+      push-field  : 1\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000211\0\4\6\102\1\*\1\*\1\1010000222\0\1\4\
+      push-field  : 2\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000144\0\4\6\102\1\*\1\*\1\1010000223\0\1\4\
+      push-field  : 3\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000137\0\4\6\101\1\1\
+      push-field  : 4\1\@\23\900_HISTORICO_PROBLEMAS\1\536870913\0\4\6\102\1\*\1\*\1\1010000293\0\1\4\
+      push-field  : 5\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000138\0\4\6\101\4\14\Error Conocido\
+      push-field  : 6\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000210\0\4\6\102\1\*\1\*\1\1010000221\0\1\4\
+      push-field  : 7\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000139\0\4\6\102\1\*\1\*\1\1010000179\0\1\4\
+      push-field  : 8\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000136\0\4\6\102\1\*\1\*\1\1\0\1\4\
+      push-field  : 9\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000140\0\4\6\101\1\2\
+   }
+end
+begin active link
+   name           : 900_PR_MOD_INF_NOTIF_50
+   timestamp      : 1170348716
+   actlink-order  : 50
+   actlink-mask   : 8
+   enable         : 1
+   action {
+ encrypt-set-field: 0\120\7\01\69616f396f372a2c50416170226f6b4d5f503c68427c5e573f7d576d2c2650376969405b7529394d6e6f376f29413c6d3a2c757c21256b447a216a3c
+   }
+end
+begin active link
+   name           : 900_PR_MOD_INF_NOTIF_55
+   timestamp      : 1170348716
+   enable         : 0
+end
+begin active link
+   name           : 900_PR_MOD_RECHAZADO_25
+   timestamp      : 1170348716
+   actlink-order  : 25
+   actlink-mask   : 8
+   enable         : 1
+   actlink-query  : 1\4\6\1\8\2\4\7\Cerrado\4\1\1\7\2\6\2\
+   action {
+ encrypt-set-field: 0\180\27\01\6b306574466c4a462c717162516321793778384f306962627e605d71707574204957385d4f5c47276c33515c69503f5b35567545393d60454f635b5a505122225175225174756
+ encrypt-set-field: 0\05051755a745121742151217a5074742275215a
+ encrypt-set-field: 1\60\12\01\50516522466c4a467471716251755a6c5151744f512162627e602271705a
+ encrypt-set-field: 2\120\1\01\6b306574466c4a462c71716251632179374f384f306962627e605d71703d6c387c22382a695c3d276c33517a69747c6660733820393d6050773b6669
+ encrypt-set-field: 3\120\22\01\7178654f466c54466b71716251376d792e4f744f6b5762626b605d717052505122227475227c747d5c7a51755a74512174215121444474742275215a
+   }
+   action {
+      push-field  : 0\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000139\0\4\6\102\1\*\1\*\1\1010000179\0\1\4\
+      push-field  : 1\1\@\23\900_HISTORICO_PROBLEMAS\1\536870913\0\4\6\102\1\*\1\*\1\1010000293\0\1\4\
+      push-field  : 2\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000212\0\4\6\102\1\*\1\*\1\1010000171\0\1\4\
+      push-field  : 3\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000211\0\4\6\102\1\*\1\*\1\1010000222\0\1\4\
+      push-field  : 4\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000137\0\4\6\101\1\1\
+      push-field  : 5\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000144\0\4\6\102\1\*\1\*\1\1010000223\0\1\4\
+      push-field  : 6\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000140\0\4\6\101\1\2\
+      push-field  : 7\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000136\0\4\6\102\1\*\1\*\1\1\0\1\4\
+      push-field  : 8\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000210\0\4\6\102\1\*\1\*\1\1010000221\0\1\4\
+      push-field  : 9\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000138\0\4\6\101\4\9\Rechazado\
+   }
+end
+begin active link
+   name           : 900_PR_MOD_SOLUCIONADO_CERRADO_25
+   timestamp      : 1170348716
+   enable         : 0
+end
+begin active link
+   name           : 900_PR_MOD_SOLUCIONADO_CERRADO_30
+   timestamp      : 1170348716
+   actlink-order  : 30
+   actlink-mask   : 8
+   enable         : 1
+   actlink-query  : 1\1\1\4\6\1\1010000213\2\0\4\6\1\1010000227\1\1010000213\4\6\1\8\2\4\7\Cerrado\4\1\1\7\2\6\3\
+   action {
+ encrypt-set-field: 0\120\16\01\5e4e2e2b2b2b6c2471622a4f4d2471767777452f26442f49495a7177405b7e4e2a7850784a7636782e4e782a362a7e3671337833334a497c55776f5e
+   }
+   action {
+      push-field  : 0\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000141\1\4\1\99\1\1\1010000136\4\1\1\1010000141\2\0\4\5\102\1\*\1\*\1\1010000213\0\1\4\
+   }
+   action {
+ encrypt-set-field: 0\120\22\01\7c4e2e672b505c243d7d2a4f4d243f445e653c325d2a7349495a71776f5e7e4d6d7878784a7136782d59782a366f7e3636337833334a4a7e30776f7e
+ encrypt-set-field: 1\180\27\01\7c4e2e212b502f2433372a4f4d2449763d3345257d2a2f49495a7177693b5f6238575f604d7954384a49585a414e2a587733615f2d627d48517779257e49337878784a6f36783
+ encrypt-set-field: 1\321786f366f7e3636337833334a4a7e36776f7e
+ encrypt-set-field: 2\120\1\01\7c4e2e212b502f2433372a4f4d2449763d33454b7d2a2f49495a7177695e2d62385972784d794f3b4a493c5a365e324f776d38386353402451772a2a
+ encrypt-set-field: 3\60\12\01\7e4e2e782b744a2436782a4f4d2436767e364533782a3349495a71776f3d
+   }
+   action {
+      push-field  : 0\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000210\1\4\1\99\1\1\1010000136\4\1\99\1010000213\1\1010000140\4\6\102\1\*\1\*\1\1010000221\0\1\4\
+      push-field  : 1\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000136\1\4\1\99\1\1\1010000136\4\1\99\1010000213\1\1010000140\4\6\102\1\*\1\*\1\1\0\1\4\
+      push-field  : 2\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000212\1\4\1\99\1\1\1010000136\4\1\99\1010000213\1\1010000140\4\6\102\1\*\1\*\1\1010000171\0\1\4\
+      push-field  : 3\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000139\1\4\1\99\1\1\1010000136\4\1\99\1010000213\1\1010000140\4\6\102\1\*\1\*\1\1010000179\0\1\4\
+      push-field  : 4\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000211\1\4\1\99\1\1\1010000136\4\1\99\1010000213\1\1010000140\4\6\102\1\*\1\*\1\1010000222\0\1\4\
+      push-field  : 5\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000138\1\4\1\99\1\1\1010000136\4\1\99\1010000213\1\1010000140\4\6\101\4\11\Solucionado\
+      push-field  : 6\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000140\1\4\1\99\1\1\1010000136\4\1\99\1010000213\1\1010000140\4\6\102\1\*\1\*\1\1010000213\0\1\4\
+      push-field  : 7\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000144\1\4\1\99\1\1\1010000136\4\1\99\1010000213\1\1010000140\4\6\102\1\*\1\*\1\1010000223\0\1\4\
+      push-field  : 8\1\@\23\900_HISTORICO_PROBLEMAS\1\1010000137\1\4\1\99\1\1\1010000136\4\1\99\1010000213\1\1010000140\4\6\101\1\1\
+      push-field  : 9\1\@\23\900_HISTORICO_PROBLEMAS\1\536870913\1\4\1\99\1\1\1010000136\4\1\99\1010000213\1\1010000140\4\6\102\1\*\1\*\1\1010000293\0\1\4\
+   }
+end
+begin active link
+   name           : 900_PR_MOD_ULT_CEIURIS_20
+   timestamp      : 1170348716
+   actlink-order  : 20
+   enable         : 1
+   actlink-query  : 2\4\1\1\1010000147\2\4\7\Nivel 1\4\1\1\1010000147\2\4\7\Nivel 2\
+   action {
+ encrypt-set-field: 0\120\25\01\3a457656773d4b457b5b5b5c5b2e32362d6d502c6d366d2c7b4a3b647e54636d29793a793a6d3929555c63393a7939263a4026792640393a79646340
+ encrypt-set-field: 1\120\16\01\3a45763d773d4b452e5b5b5c5b2e4a222d6d502c6d366d2c7b4a3b643a44634555797b793a5539297644637b3a4039264a40267926407b322764635c
+   }
+end
+begin active link
+   name           : 900_PR_MUESTRA_CONFORMIDAD
+   timestamp      : 1170348716
+   actlink-order  : 0
+   actlink-mask   : 16
+   enable         : 1
+   actlink-query  : 4\1\1\7\2\6\5\
+   action {
+   display-prop   : 1\4\6\1\
+      id          : 1010000151
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+end
+begin active link
+   name           : 900_PR_NO_PERMITE_SUBMIT_15
+   timestamp      : 1450778573
+   actlink-order  : 15
+   actlink-mask   : 16384
+   enable         : 1
+   actlink-query  : 1\4\1\2\1\9\2\4\6\CREATE\3\4\7\2\1\8\2\4\13\%G_Problemas%\
+   action {
+      message-type: 2
+      message-num : 10000
+      message-pane: 0
+      message-text: No tiene permiso para realizar esta operación
+   }
+end
+begin active link
+   name           : 900_PR_NOVISIBLE_OTROS_TODO
+   timestamp      : 1170348716
+   actlink-order  : 10
+   actlink-mask   : 16
+   enable         : 1
+   actlink-query  : 1\4\6\2\1\8\2\4\11\G_Problemas\4\6\1\7\2\6\5\
+   action {
+      id          : 1010000177
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000274
+      focus       : 0
+      access-opt  : 2
+      option      : 0
+   }
+   action {
+      id          : 1010000179
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000229
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000262
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000147
+      focus       : 0
+      access-opt  : 2
+      option      : 0
+   }
+   action {
+      id          : 4
+      focus       : 0
+      access-opt  : 2
+      option      : 0
+   }
+   action {
+      id          : 1010000293
+      focus       : 0
+      access-opt  : 2
+      option      : 0
+   }
+   action {
+      id          : 1010000163
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000164
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000165
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000167
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000173
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000174
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000175
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+   display-prop   : 1\4\6\1\
+      id          : 536870960
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+      id          : 1010000166
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   else {
+      id          : 7
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+end
+begin active link
+   name           : 900_PR_NOVISIBLE_SI_CERRADO
+   timestamp      : 1170348716
+   actlink-order  : 13
+   actlink-mask   : 16
+   enable         : 1
+   actlink-query  : 4\1\1\7\2\6\5\
+   action {
+      id          : 7
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+end
+begin active link
+   name           : 900_PR_OCULTA_BOTONES
+   timestamp      : 1445958410
+   actlink-order  : 0
+   actlink-mask   : 278544
+   enable         : 1
+   actlink-query  : 1\4\6\2\1\8\2\4\11\G_Problemas\4\6\2\1\1\2\4\5\S-CAU\
+   action {
+      id          : 1010000209
+      focus       : 0
+      access-opt  : 3
+      option      : 0
+   }
+   action {
+      id          : 536870891
+      focus       : 0
+      access-opt  : 3
+      option      : 0
+   }
+end
+begin active link
+   name           : 900_PR_PONE_ACUERDO_SERVICIO
+   timestamp      : 1170348716
+   actlink-order  : 0
+   actlink-mask   : 128
+   actlink-focus  : 4
+   enable         : 1
+   actlink-query  : 1\4\6\1\4\2\0\4\6\2\1\9\2\4\5\QUERY\
+   action {
+ encrypt-set-field: 0\180\0\01\5655224b5a365f564e5c695f7d655a67504e245446665f54526d235c637929592331575c794452365967745c4b376f4e594123666a4f794b52452e6a715a44754b555f713b3b73
+ encrypt-set-field: 0\42423c4b42795c386950662e5f2e4b444e712e
+   }
+end
+begin active link
+   name           : 900_PR_PONE_FECHA_APERTURA
+   timestamp      : 1170348716
+   actlink-order  : 0
+   actlink-mask   : 512
+   enable         : 1
+   action {
+ encrypt-set-field: 0\60\10\01\6a5a5d475f3366735e664d723328514c4c552f5f7d4f47525d3372555a59
+   }
+end
+begin active link
+   name           : 900_PR_PONE_FECHA_ASIGNACION
+   timestamp      : 1170348716
+   actlink-order  : 0
+   actlink-mask   : 128
+   actlink-focus  : 4
+   enable         : 1
+   actlink-query  : 4\6\2\1\9\2\4\5\QUERY\
+   action {
+ encrypt-set-field: 0\60\10\01\246c713a714f217b6b753e2e71282a37656b284f5e5c75745a675a676b7b
+   }
+   action {
+ encrypt-set-field: 0\60\19\01\6b6c6c5c714f2e6e6e4e6b2e715e7132656b5e4f5e5c284f6b6756676b6b
+   }
+end
+begin active link
+   name           : 900_PR_PONE_FECHA_ASIGNACION_2
+   timestamp      : 1170348716
+   actlink-order  : 0
+   actlink-mask   : 128
+   actlink-focus  : 1010000293
+   enable         : 1
+   actlink-query  : 4\6\2\1\9\2\4\5\QUERY\
+   action {
+ encrypt-set-field: 0\60\10\01\616d62422d7b676c6e3870624d6e78526040687e7b6c6d4c606b354c2b2d
+   }
+end
+begin active link
+   name           : 900_PR_QUERY_PRESENTA
+   timestamp      : 1170348716
+   actlink-order  : 0
+   actlink-mask   : 16384
+   enable         : 1
+   actlink-query  : 4\1\2\1\9\2\4\5\QUERY\
+   action {
+      id          : 2
+      focus       : 0
+      access-opt  : 2
+      option      : 0
+   }
+   action {
+      id          : 1010000200
+      focus       : 0
+      access-opt  : 2
+      option      : 0
+   }
+   action {
+      id          : 7
+      focus       : 0
+      access-opt  : 2
+      option      : 0
+   }
+   action {
+   display-prop   : 1\4\6\1\
+      id          : 1010000293
+      focus       : 0
+      access-opt  : 2
+      option      : 0
+   }
+   action {
+      id          : 1010000150
+      focus       : 0
+      access-opt  : 2
+      option      : 0
+   }
+   action {
+      id          : 1010000172
+      focus       : 0
+      access-opt  : 2
+      option      : 0
+   }
+   action {
+      id          : 1010000166
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 536870956
+      focus       : 0
+      access-opt  : 2
+      option      : 0
+   }
+end
+begin active link
+   name           : 900_PR_RECTIFIC_ASIG_A_GRUPO
+   timestamp      : 1170348716
+   actlink-order  : 0
+   actlink-mask   : 130
+   actlink-focus  : 1010000147
+   enable         : 1
+   actlink-query  : 4\6\1\1010000147\2\0\
+   action {
+ encrypt-set-field: 0\60\21\01\252a55455778453b54547d3c4569254c72722a25787278254c782a6d4c57
+   }
+   action {
+ encrypt-set-field: 0\60\12\01\255f3b455a4b453b54547d5a2a69255172724f257855782b3c4b5f6d4c38
+   }
+   action {
+ encrypt-set-field: 0\60\13\01\25352b45695e457d54542a5f4550255172723825784f786733555f6d4c40
+ encrypt-set-field: 1\60\13\01\25352b45695e457d54542a5f4550252172723525784f786733555f6d4c40
+   }
+end
+begin active link
+   name           : 900_PR_RECTIFICA_ASIG_A_USUA_MODIF
+   timestamp      : 1170348716
+   actlink-order  : 6
+   actlink-mask   : 130
+   actlink-focus  : 1010000293
+   enable         : 1
+   actlink-query  : 1\4\6\1\1010000293\2\0\4\6\2\1\9\2\4\5\QUERY\
+   action {
+ encrypt-set-field: 0\180\12\01\733d67374d736f234c6425587638435b2e77677e7b474f606c27653c5d4c24737d595d6d59777059377a616024564323663a397070617361773c6638256c58325d43327a27325
+ encrypt-set-field: 0\9774c4c5e475e323a505e27264c7347233c505c
+   }
+end
+begin active link
+   name           : 900_PR_RECTIFICA_ASIG_A_USUA_MODIF_2
+   timestamp      : 1170348717
+   actlink-order  : 7
+   actlink-mask   : 130
+   actlink-focus  : 1010000293
+   enable         : 1
+   actlink-query  : 1\4\6\1\1010000293\2\0\4\6\2\1\9\2\4\5\QUERY\
+   action {
+ encrypt-set-field: 0\180\12\01\713649596161717d435b40773f227151293a3e46372877406147614d4d5e5e58626c512e3562736c6d43652261616f6c3e58613673616c5e2e5446466d46656b6b6b4673475d7
+ encrypt-set-field: 0\14773226c4f65614d5d245d43616b6d627d355d
+   }
+end
+begin active link
+   name           : 900_PR_RECTIFICA_ASIGNADO_A
+   timestamp      : 1170348717
+   actlink-order  : 0
+   actlink-mask   : 130
+   actlink-focus  : 4
+   enable         : 1
+   actlink-query  : 1\4\6\1\4\2\0\4\6\2\1\9\2\4\5\QUERY\
+   action {
+ encrypt-set-field: 0\60\10\01\352f4a46633c332f24757c744464334e642a63352a7d2a35746528763574
+ encrypt-set-field: 1\60\12\01\352f4a466328332f24757c744464337d242a2a3e2a7d2a3574652876355b
+   }
+   action {
+   display-prop   : 1\4\6\0\
+      id          : 1010000151
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+ encrypt-set-field: 0\60\12\01\352f4a466328332f24757c744464332b242a2a3e2a7d2a3574652876355b
+ encrypt-set-field: 1\60\13\01\354a48466575333f2475747a356a332b242a453e2a752a496e6328763535
+ encrypt-set-field: 2\60\13\01\354a48466575333f2475747a356a333c242a7c3e2a752a496e6328763535
+   }
+end
+begin active link
+   name           : 900_PR_RECTIFICA_CLASE
+   timestamp      : 1170348717
+   actlink-order  : 0
+   actlink-mask   : 128
+   actlink-focus  : 1010000173
+   enable         : 1
+   actlink-query  : 4\6\1\1010000173\2\0\
+   action {
+ encrypt-set-field: 0\60\12\01\26502f2f5c7c32635c303b637955257c3e32746325303655395f61795047
+ encrypt-set-field: 1\60\12\01\26502f2f5c7c32635c303b637955257c3e32746325303655395f52795047
+   }
+end
+begin active link
+   name           : 900_PR_RECTIFICA_LOCALIDAD
+   timestamp      : 1170348717
+   actlink-order  : 5
+   actlink-mask   : 128
+   actlink-focus  : 1010000164
+   enable         : 1
+   actlink-query  : 4\6\1\1010000164\2\0\
+   action {
+ encrypt-set-field: 0\60\13\01\476635552c5b514f5e764f58682b5b466835444a533375212c5b323b685e
+ encrypt-set-field: 1\60\12\01\5b4a3576475b512e47402e58686a5b2a6835462b5333452a2c5b403c685e
+ encrypt-set-field: 2\60\12\01\3d4a3576475b512e47402e58687a5b2a6835462b5333452a2c5b403c685e
+ encrypt-set-field: 3\60\13\01\476635552c5b514f5e406958686a5b466835444a533375212c5b323b6839
+ encrypt-set-field: 4\60\12\01\3f4a3576475b512e47402e58686a5b2a6835462b5333452a2c5b403c685e
+ encrypt-set-field: 5\60\12\01\564a3576475b512e47402e58686a5b2a6835462b5333452a2c5b403c685e
+   }
+end
+begin active link
+   name           : 900_PR_RECTIFICA_PROVINCIA
+   timestamp      : 1170348717
+   actlink-order  : 5
+   actlink-mask   : 128
+   actlink-focus  : 1010000163
+   enable         : 1
+   actlink-query  : 4\6\1\1010000163\2\0\
+   action {
+ encrypt-set-field: 0\60\12\01\593f275c3970325963683f513b514d637c3b64725b5c7079795b325b254b
+ encrypt-set-field: 1\60\12\01\593f275c3970325963683f513b516c637c3b64725b5c3379795b325b254b
+ encrypt-set-field: 2\60\13\01\6069595c393b3227636868503b4222632d3b6b7d5b5c3174575b325b2528
+ encrypt-set-field: 3\60\12\01\593f275c3970325963683f513b5169637c3b64725b5c3379795b325b254b
+ encrypt-set-field: 4\60\12\01\593f275c3970325963683f513b5154637c3b64725b5c3379795b325b254b
+ encrypt-set-field: 5\60\13\01\60695f5c393b3259633c68503b4222632d3b6b7d5b5c3374575b325b2528
+ encrypt-set-field: 6\60\12\01\593f275c3970325963683f513b515a637c3b64725b5c3379795b325b254b
+   }
+end
+begin active link
+   name           : 900_PR_RECTIFICA_TIPO
+   timestamp      : 1170348717
+   actlink-order  : 0
+   actlink-mask   : 128
+   actlink-focus  : 1010000174
+   enable         : 1
+   actlink-query  : 4\6\1\1010000174\2\0\
+   action {
+ encrypt-set-field: 0\60\12\01\4d774f267d5e294f7774513c4f2a773c7c232a5a2649736b22277775504d
+   }
+end
+begin active link
+   name           : 900_PR_SUB_CAMBIA_ESTADO_25
+   timestamp      : 1170348717
+   actlink-order  : 25
+   actlink-mask   : 4
+   enable         : 1
+   actlink-query  : 4\1\1\8\2\4\7\Cerrado\
+   action {
+ encrypt-set-field: 0\60\19\01\555529292929456f452e53442e29456f256d753a757c6f52555e55535c29
+   }
+end
+begin active link
+   name           : 900_PR_SUB_CAMBIO_ESTADO_20
+   timestamp      : 1170348717
+   enable         : 0
+end
+begin active link
+   name           : 900_PR_SUB_CAMPO_DESCRIPCION_PROBLEMA_15
+   timestamp      : 1170348717
+   actlink-order  : 15
+   actlink-mask   : 4
+   enable         : 1
+   action {
+ encrypt-set-field: 0\180\27\01\5976417552317152655636232c636f6646535c5979514b4b563b2b524f566b6a6659522066203156794c4b6364665159425c79496a32713b7252756a756a356d2b75352b75352
+ encrypt-set-field: 0\b6d74633844323838382b447474356d752b6d35
+   }
+end
+begin active link
+   name           : 900_PR_SUB_INF_NOTIF_50
+   timestamp      : 1170348717
+   actlink-order  : 50
+   actlink-mask   : 4
+   enable         : 1
+   action {
+ encrypt-set-field: 0\120\7\01\29716363302a715a3567786e51395e386371286b5e714f6b257156767a4e5a677171285e6e336b543e4867395f5e246e2849306b57214f634f283828
+   }
+end
+begin active link
+   name           : 900_PR_SUB_PROVI_ASIG_GRU_CE
+   timestamp      : 1170348717
+   actlink-order  : 84
+   actlink-mask   : 12
+   enable         : 1
+   actlink-query  : 4\1\1\1010000163\2\4\5\Ceuta\
+   action {
+ encrypt-set-field: 0\60\8\01\7a65473b666e51612433394e6721446c5454547851344a29582132653434
+   }
+end
+begin active link
+   name           : 900_PR_SUB_PROVI_ASIG_GRU_DP
+   timestamp      : 1170348717
+   actlink-order  : 80
+   actlink-mask   : 12
+   enable         : 1
+   action {
+ encrypt-set-field: 0\180\27\01\673a723a6a77587a2e2c5d3b3f44525b525322704670343f7a343722537263527a296a5d727a3b7a34487b275d277e2570337024603f7a5d303c2c543f483b2f6a393b3b54693
+ encrypt-set-field: 0\954545a2f5a2f695a3b393e39546939693e695a
+   }
+end
+begin active link
+   name           : 900_PR_SUB_PROVI_ASIG_GRU_ME
+   timestamp      : 1170348717
+   actlink-order  : 96
+   actlink-mask   : 12
+   enable         : 1
+   actlink-query  : 4\1\1\1010000163\2\4\7\Melilla\
+   action {
+ encrypt-set-field: 0\60\7\01\796a21797a652c4d6e654c5d4165245852536a333b283955523b43584e4d
+   }
+end
+begin active link
+   name           : 900_PR_SUB_ULT_CEIURIS_30
+   timestamp      : 1170348717
+   actlink-order  : 30
+   actlink-mask   : 4
+   enable         : 1
+   actlink-query  : 4\6\1\1010000147\2\4\7\Nivel 1\
+   action {
+ encrypt-set-field: 0\120\25\01\66747c58665d66273b60606161516545344460252a45392f517a564a5b2a67546c3b677867615461285d7826266c346754613b6c6c67267a6154653b
+ encrypt-set-field: 1\60\10\01\66547c2d67786627546060616126653d342f54613b2f6c2f517a564a5b3b
+   }
+   else {
+ encrypt-set-field: 0\120\25\01\66287c58665d66273b60606161516545344460252a45392f517a564a5b2a67546c3b677867615461285d7826266c346754613b6c6c67267a6154653b
+ encrypt-set-field: 1\120\16\01\66607c582f5d66273b60606161516545342f60562a2f392f517a564a5b556754393b6778676154254a342e26656c615454613b396c66267a33285b3b
+   }
+end
+begin active link
+   name           : 900_PR_SUBMOD_CAMPO
+   timestamp      : 1445958553
+   enable         : 0
+end
+begin active link
+   name           : 900_PR_SUBMOD_CAMPO_1
+   timestamp      : 1445966919
+   enable         : 0
+end
+begin active link
+   name           : 900_PR_SUBMOD_CAMPO_2
+   timestamp      : 1170348717
+   actlink-order  : 2
+   actlink-mask   : 12
+   enable         : 1
+   actlink-query  : 1\1\4\7\2\1\8\2\4\4\DP_%\4\6\1\1010000147\2\1\8\4\6\1\1010000147\2\4\7\Nivel 1\
+   action {
+      message-type: 0
+      message-num : 10000
+      message-pane: 1
+      message-text: No se permite este tipo de asignación
+   }
+end
+begin active link
+   name           : 900_PR_TIPO_RELLENA_CATEGORI
+   timestamp      : 1170348717
+   actlink-order  : 0
+   actlink-mask   : 130
+   actlink-focus  : 1010000174
+   enable         : 1
+   actlink-query  : 4\6\2\1\9\2\4\5\QUERY\
+   action {
+ encrypt-set-field: 0\300\11\01\5421377d2428712471396d374b3e28222878373457685757287176576b272336533839282e546b7b3d46596c7d7520275443757e4b6a297174295a396d256d437228763668723
+ encrypt-set-field: 0\7372f682a2457723772572f6b2f7e7171576b406d6b492439577636683e376d4b686b247e31373e282f6b577e7171575772284049246839452c4d3e546d2f4d2f244c3e3f2c394b40577e71
+ encrypt-set-field: 0\51572b68
+   }
+end
+begin char menu
+   name           : 101_INCI_ASIGNADA_A
+   timestamp      : 1302109437
+   refresh-code   : 2
+   char-menu      : 0\2\4\User\1\@\101\101\1\1\4\7\1\104\3\1\3\1\2\4\1\%\99\1010000199\2\4\1\%\4\1\1\536870933\2\6\0\
+end
+begin char menu
+   name           : 103_INCI_SELEC_BUSQUEDA_PERSONALES
+   timestamp      : 1099488712
+   refresh-code   : 1
+   char-menu      : 0\2\24\106_BUSQUEDAS_PERSONALES\1\@\8\8\1\0\
+end
+begin char menu
+   name           : 101_INCI_GRUPOS
+   timestamp      : 1671521295
+   refresh-code   : 2
+   char-menu      : 0\2\5\Group\1\@\105\105\1\
+   char-menu      : \1\1\1\1\1\1\1\1\1\4\6\1\105\2\4\9\Submitter\4\6\1\105\2\4\17\Sub Administrator\4\6\1\105\2\4\6\Public\4\6\1\105\2\4\9\Customize\4\6\1\105\2\4\7\Browser\
+   char-menu      : \4\6\1\105\2\4\14\Assignee Group\4\6\1\105\2\4\8\Assignee\4\6\1\105\2\4\13\Administrator\4\6\1\105\2\4\5\Admin\4\6\1\105\2\4\12\Funcionarios\
+end
+begin char menu
+   name           : 101_INCI_PROVINCIAS
+   timestamp      : 1088673511
+   refresh-code   : 1
+   char-menu      : 0\5\19\101_INCI_PROVINCIAS\0\\0\\0\\1\@\0\\
+end
+begin char menu
+   name           : 101_INCI_LOCALIDADES
+   timestamp      : 1095855423
+   refresh-code   : 2
+   char-menu      : 0\2\20\101_MUNICIPIOS_TEMIS\1\@\536870917\536870917\1\4\1\1\536870916\99\536870972\
+end
+begin char menu
+   name           : 101_INCI_UNIDADES_FUNCIONALES
+   timestamp      : 1095855448
+   refresh-code   : 2
+   char-menu      : 0\2\26\101_ORGANISMOS_TEMIS_COPIA\1\@\536870919\536870919\1\4\1\1\536870916\99\536870916\
+end
+begin char menu
+   name           : 900_INCI_DIRECCIONES_MUNICIPIO
+   timestamp      : 1165305308
+   refresh-code   : 2
+   char-menu      : 0\2\26\101_ORGANISMOS_TEMIS_COPIA\1\@\536870927\536870927\1\4\1\1\536870916\99\536870916\
+end
+begin char menu
+   name           : 102_INCI_TELEFONO
+   timestamp      : 1095855810
+   refresh-code   : 2
+   char-menu      : 0\2\26\101_ORGANISMOS_TEMIS_COPIA\1\@\536870920\536870920\1\4\1\1\536870924\99\536870971\
+end
+begin char menu
+   name           : 103_INCI_JUZGADOS_MIXTO
+   timestamp      : 1093437968
+   refresh-code   : 1
+   char-menu      : 0\1\9\Instancia\9\Instancia
+   char-menu      : 0\1\11\Instrucción\11\Instrucción
+end
+begin char menu
+   name           : 103_INCI_CLASE
+   timestamp      : 1314790388
+   refresh-code   : 1
+   char-menu      : 0\2\15\101_CLASE_NUEVA\1\@\1010000003\1010000003\1\2\4\1\1\536870913\2\6\0\4\1\1\536870915\2\6\0\
+end
+begin char menu
+   name           : 101_INCI_TIPO
+   timestamp      : 1096568648
+   refresh-code   : 2
+   char-menu      : 0\2\30\101_CLASE_TIPO_CATEGORIA_NUEVA\1\@\1010000013\1010000013\1\1\4\1\1\1010000012\99\1010000173\4\1\1\536870913\2\6\0\
+end
+begin char menu
+   name           : 101_INCI_CATEGORIA
+   timestamp      : 1096568180
+   refresh-code   : 2
+   char-menu      : 0\2\30\101_CLASE_TIPO_CATEGORIA_NUEVA\1\@\1010000014\1010000014\1\1\1\4\1\1\1010000012\99\1010000173\4\1\1\1010000013\99\1010000174\4\1\1\536870913\2\6\0\
+end
+begin char menu
+   name           : 103_INCI_USUARIOS_DELEGACIONES_MODIF
+   timestamp      : 1101302398
+   refresh-code   : 2
+   char-menu      : 0\2\4\User\1\@\8\8\1\1\4\1\1\4\99\4\4\1\1\536870933\2\6\1\
+end
+begin char menu
+   name           : 103_INCI_JUZGADOS_GUARDIA
+   timestamp      : 1095238295
+   refresh-code   : 1
+   char-menu      : 0\1\13\Instrucción 1\13\Instrucción 1
+   char-menu      : 0\1\13\Instrucción 2\13\Instrucción 2
+   char-menu      : 0\1\13\Instrucción 3\13\Instrucción 3
+   char-menu      : 0\1\13\Instrucción 4\13\Instrucción 4
+   char-menu      : 0\1\13\Instrucción 5\13\Instrucción 5
+   char-menu      : 0\1\13\Instrucción 6\13\Instrucción 6
+   char-menu      : 0\1\13\Instrucción 7\13\Instrucción 7
+   char-menu      : 0\1\13\Instrucción 8\13\Instrucción 8
+   char-menu      : 0\1\13\Instrucción 9\13\Instrucción 9
+   char-menu      : 0\1\14\Instrucción 10\14\Instrucción 10
+   char-menu      : 0\1\14\Instrucción 11\14\Instrucción 11
+   char-menu      : 0\1\14\Instrucción 12\14\Instrucción 12
+   char-menu      : 0\1\14\Instrucción 13\14\Instrucción 13
+   char-menu      : 0\1\14\Instrucción 14\14\Instrucción 14
+   char-menu      : 0\1\14\Instrucción 15\14\Instrucción 15
+   char-menu      : 0\1\14\Instrucción 16\14\Instrucción 16
+   char-menu      : 0\1\14\Instrucción 17\14\Instrucción 17
+   char-menu      : 0\1\14\Instrucción 18\14\Instrucción 18
+   char-menu      : 0\1\14\Instrucción 19\14\Instrucción 19
+   char-menu      : 0\1\14\Instrucción 20\14\Instrucción 20
+end
+begin char menu
+   name           : 103_INCI_JUZGADOS_SALA_VISTA
+   timestamp      : 1111394317
+   refresh-code   : 1
+   char-menu      : 0\1\13\Planta Sótano\13\Planta Sótano
+   char-menu      : 0\1\11\Planta Baja\11\Planta Baja
+   char-menu      : 0\1\14\Planta Primera\14\Planta Primera
+   char-menu      : 0\1\14\Planta Segunda\14\Planta Segunda
+   char-menu      : 0\1\14\Planta Tercera\14\Planta Tercera
+   char-menu      : 0\1\13\Planta Cuarta\13\Planta Cuarta
+   char-menu      : 0\1\13\Planta Quinta\13\Planta Quinta
+   char-menu      : 0\1\12\Planta Sexta\12\Planta Sexta
+   char-menu      : 0\1\14\Planta Séptima\14\Planta Séptima
+   char-menu      : 0\1\13\Planta Octava\13\Planta Octava
+end
+begin char menu
+   name           : 900_PR_SISTEMAS_UNIDADES_FUNCIONALES_DIRECCION
+   timestamp      : 1170348561
+   refresh-code   : 1
+   char-menu      : 0\2\26\101_ORGANISMOS_TEMIS_COPIA\1\@\536870919\536870919\1\4\1\1\536870927\99\1010000166\
+end
+# EndOfFieldOffset : 000000000047332

@@ -1,0 +1,628 @@
+#&iusswaihv01.justicia.junta-andalucia.es CAU09
+char-set: windows-1252
+#
+#  File exported Thu May 21 12:17:33 2026
+#
+begin schema
+   name           : 101_HISTORICO_INCIDENCIAS
+   timestamp      : 1497852229
+   export-version : 8
+   schema-type    : 1
+   admin-sub-perm : 1
+   get-list-flds  : 8\1010000136\15\1\ \1010000138\25\1\ \1010000137\20\1\ \536870913\20\1\ \1010000140\15\1\ \1010000141\15\1\ \1010000212\40\1\ \1010000142\10\0\
+   default-vui    : Default Admin II
+   obj-props      : (null)
+vui  {
+   id             : 536870912
+   name           : Default Administrator View
+   label          : Default Admin II
+}
+vui  {
+   id             : 536874052
+   name           : NewDefault Administrator View
+   label          : Default Admin II
+}
+field {
+   id             : 1
+   name           : ID_Registro
+   datatype       : 4
+   create-mode    : 2
+   option         : 3
+   maxlength      : 15
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Campo de sistema.
+}
+field {
+   id             : 2
+   name           : Creador
+   datatype       : 4
+   create-mode    : 1
+   option         : 1
+   maxlength      : 30
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   default        : $-1$
+   help-text      : Creador del registro. Por defecto es $USER$.
+}
+field {
+   id             : 3
+   name           : Fecha_creacion
+   datatype       : 7
+   create-mode    : 2
+   option         : 3
+   help-text      : Campo de sistema.
+}
+field {
+   id             : 4
+   name           : Assigned To
+   datatype       : 4
+   create-mode    : 2
+   option         : 2
+   maxlength      : 30
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 5
+   name           : Ultima_modificacion_por
+   datatype       : 4
+   create-mode    : 2
+   option         : 3
+   maxlength      : 30
+   menu-style     : 2
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Campo de sistema.
+}
+field {
+   id             : 6
+   name           : Fecha_modificacion
+   datatype       : 7
+   create-mode    : 2
+   option         : 3
+   help-text      : Campo de sistema.
+}
+field {
+   id             : 7
+   name           : Status
+   datatype       : 6
+   create-mode    : 1
+   option         : 1
+   enum-value     : New
+   enum-value     : Assigned
+   enum-value     : Fixed
+   enum-value     : Rejected
+   enum-value     : Closed
+   default        : 0
+}
+field {
+   id             : 8
+   name           : Short Description
+   datatype       : 4
+   create-mode    : 1
+   option         : 1
+   maxlength      : 128
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   default        : .
+}
+field {
+   id             : 15
+   name           : Status History
+   datatype       : 4
+   create-mode    : 1
+   option         : 3
+}
+field {
+   id             : 1012
+   name           : Home
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 1020
+   name           : Results List
+   datatype       : 33
+   create-mode    : 2
+   option         : 4
+tablefield-schema : @
+tablefield-server : @
+tablefield-query  : (null)
+tablefield-numcols: 8
+tablefield-maxret : 0
+}
+field {
+   id             : 536870913
+   name           : Asignado Usuario
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 60
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Persona responsable de la incidencia entre las fechas de inicio y de fin.
+}
+field {
+   id             : 536870914
+   name           : Table Field
+   datatype       : 33
+   create-mode    : 2
+   option         : 4
+tablefield-schema : 101_TAREAS
+tablefield-server : @
+tablefield-query  : 1\4\1\99\1010000136\1\1010000232\4\1\99\1\1\536870914\
+tablefield-numcols: 3
+tablefield-maxret : 0
+}
+field {
+   id             : 1010000134
+   name           : Box
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 1010000135
+   name           : Text
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 1010000136
+   name           : ID_Incidencia
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 15
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : ID de la incidencia.
+}
+field {
+   id             : 1010000137
+   name           : Asignada A
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 50
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Persona responsable de la incidencia entre las fechas de inicio y de fin.
+}
+field {
+   id             : 1010000138
+   name           : Estado
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 50
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Estado de la incidencia entre las fechas de inicio y de fin.
+}
+field {
+   id             : 1010000139
+   name           : Prioridad
+   datatype       : 6
+   create-mode    : 1
+   option         : 2
+   enum-value     : Normal
+   enum-value     : Urgente
+   enum-value     : Crítica
+   enum-value     : Reclamada
+   enum-value     : Cualificada
+   default        : 0
+   help-text      : Prioridad de la incidencia.
+}
+field {
+   id             : 1010000140
+   name           : Fecha_Inicio
+   datatype       : 7
+   create-mode    : 1
+   option         : 2
+   help-text      : Fecha de entrada en el estado correspondiente.
+}
+field {
+   id             : 1010000141
+   name           : Fecha_Fin
+   datatype       : 7
+   create-mode    : 1
+   option         : 2
+   help-text      : Fecha de salida del estado correspondiente.
+}
+field {
+   id             : 1010000142
+   name           : Duracion
+   datatype       : 2
+   create-mode    : 1
+   option         : 2
+   range-low      : -2147483647
+   range-high     : 2147483647
+   help-text      : Duración total del estado en segundos. Se calcula cuando existe una fecha de fin.
+}
+field {
+   id             : 1010000143
+   name           : Box2
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 1010000144
+   name           : Compromiso
+   datatype       : 2
+   create-mode    : 1
+   option         : 2
+   range-low      : -2147483647
+   range-high     : 2147483647
+   help-text      : Compromiso (en horas) de resolución de la incidencia, si existe.
+}
+field {
+   id             : 1010000145
+   name           : Fecha_Limite
+   datatype       : 7
+   create-mode    : 1
+   option         : 2
+   help-text      : Fecha límite de resolución de la incidencia según el acuerdo suscrito por el proveedor.
+}
+field {
+   id             : 1010000151
+   name           : Conformidad
+   datatype       : 6
+   create-mode    : 1
+   option         : 2
+   enum-value     : CONFORME
+   enum-value     : NO CONFORME/SOLUCIÓN
+   enum-value     : NO CONFORME/ESCALADO
+   enum-value     : NO CONFORME/CLASIFICACIÓN
+   enum-value     : NO CONFORME/TRABAJOS PREVIOS
+   enum-value     : NO CONFORME/ANS6 SISTEMAS
+   default        : 0
+   help-text      : Situación de conformidad del usuario con la resolución de la incidencia. Es activo para los estados 'Solucionada' y 'Cerrada'.
+}
+field {
+   id             : 1010000173
+   name           : Clase
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 50
+   menu-style     : 2
+   qbe-match-op   : 3
+   fulltext-optns : 0
+   help-text      : Clase del problema.
+}
+field {
+   id             : 1010000174
+   name           : Tipo
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 50
+   menu-style     : 2
+   qbe-match-op   : 3
+   fulltext-optns : 0
+   help-text      : Tipo del problema.
+}
+field {
+   id             : 1010000175
+   name           : Categoria
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 50
+   menu-style     : 2
+   qbe-match-op   : 3
+   fulltext-optns : 0
+   help-text      : Categoría del problema.
+}
+field {
+   id             : 1010000210
+   name           : Horario
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 255
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Horario laboral del proveedor o técnico.
+}
+field {
+   id             : 1010000211
+   name           : Calendario
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 255
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Calendario laboral del proveedor o técnico.
+}
+field {
+   id             : 1010000212
+   name           : Acuerdo_De_Servicio
+   datatype       : 4
+   create-mode    : 1
+   option         : 2
+   maxlength      : 75
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+   help-text      : Nombre del acuerdo de servicio suscrito por la Persona Asignada.
+}
+field {
+   id             : 1010000213
+   name           : Column
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1020
+colfield-datafield: 1010000136
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1010000214
+   name           : Column2
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1020
+colfield-datafield: 1010000138
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1010000215
+   name           : Column3
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1020
+colfield-datafield: 1010000137
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1010000216
+   name           : Column4
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1020
+colfield-datafield: 536870913
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1010000217
+   name           : Column5
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1020
+colfield-datafield: 1010000140
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1010000218
+   name           : Column6
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1020
+colfield-datafield: 1010000141
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1010000219
+   name           : Column7
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1020
+colfield-datafield: 1010000212
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1010000220
+   name           : Column8
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 1020
+colfield-datafield: 1010000142
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1010000221
+   name           : Column9
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 536870914
+colfield-datafield: 1
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1010000222
+   name           : Column10
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 536870914
+colfield-datafield: 8
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+field {
+   id             : 1010000223
+   name           : Column11
+   datatype       : 34
+   create-mode    : 2
+   option         : 4
+colfield-parent   : 536870914
+colfield-datafield: 536870913
+colfield-collength: 254
+colfield-datasrc  : 0
+}
+end
+begin active link
+   name           : 101_HIIN_BLOQUEA_CAMPOS
+   timestamp      : 1409209551
+   actlink-order  : 0
+   actlink-mask   : 16400
+   enable         : 1
+   actlink-query  : 3\4\7\2\1\8\2\4\15\%Administrator%\
+   action {
+      id          : 1010000212
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000211
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000144
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 2
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000142
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000138
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 3
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000141
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000140
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000145
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 6
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000210
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000136
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000137
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000139
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 5
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 536870913
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000173
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000174
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000175
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+   action {
+      id          : 1010000151
+      focus       : 0
+      access-opt  : 1
+      option      : 0
+   }
+end
+# EndOfFieldOffset : 000000000011582

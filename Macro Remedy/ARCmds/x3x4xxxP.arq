@@ -1,0 +1,9 @@
+03.4 - PENDIENTES DE HD
+Set-schema: 101_INCIDENCIAS10.241.130.25
+Query: 1010000147=Nivel 14=1_Pendiente_Usuario1010000199=11 '7' != "Cerrada" AND  NOT '2' = "CAU01" AND  NOT '2' = "CAU02" AND  NOT '2' = "CAU03" AND  NOT '2' = "CAU04" AND  NOT '2' = "CAU05" AND  NOT '2' = "CAU06" AND  NOT '2' = "CAU07" AND  NOT '2' = "CAU08" AND  NOT '2' = "CAU09" AND  NOT '2' = "CAU10" AND  NOT '2' = "CAU11" AND  NOT '2' = "CAU12" AND  NOT '2' = "CAU13" AND NOT '2' = "CAU14" AND  NOT '2' = "CAU15" AND  NOT '2' = "CAU16" AND  NOT '2' = "CAU17" AND  NOT '2' = "CAU18" AND  NOT '2' = "CAU19" OR '1010000179' = "CRITICA" OR '1010000179' = "CUALIFICADA"
+Form-open: 
+Form-entry-list: 0
+Form-final: modify@
+end
+
+

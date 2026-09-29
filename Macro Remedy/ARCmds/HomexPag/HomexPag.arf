@@ -1,0 +1,1225 @@
+#&iusswaihv01.justicia.junta-andalucia.es CAU09
+char-set: windows-1252
+#
+#  File exported Thu May 21 12:05:18 2026
+#
+begin schema
+   name           : Home Page
+   timestamp      : 1456313436
+   export-version : 8
+   schema-type    : 4
+   admin-sub-perm : 1
+   default-vui    : Default Admin View
+   obj-props      : 2\90007\2\0\90002\4\9\Home Page\
+vui  {
+   id             : 536870912
+   name           : Default Admin View
+   label          : Default Admin View
+}
+vui  {
+   id             : 536875163
+   name           : Default Web View
+   label          : Default Admin View
+}
+vui  {
+   id             : 536880291
+   name           : NewDefault Admin View
+   label          : Default Admin View
+}
+vui  {
+   id             : 536885651
+   name           : NewDefault Admin View2
+   label          : Default Admin View
+}
+vui  {
+   id             : 536891037
+   name           : NewDefault Admin View3
+   label          : Default Admin View
+}
+vui  {
+   id             : 536896449
+   name           : NewDefault Admin View4
+   label          : Default Admin View
+}
+vui  {
+   id             : 536901891
+   name           : NewDefault Web View
+   label          : Default Admin View
+}
+vui  {
+   id             : 536907391
+   name           : NewDefault Web View2
+   label          : Default Admin View
+}
+vui  {
+   id             : 536918526
+   name           : NewDefault Web View4
+   label          : Default Admin View
+}
+vui  {
+   id             : 536927398
+   name           : NewNewDefault Admin View3
+   label          : Default Admin View
+}
+field {
+   id             : 1005
+   name           : Query Bar
+   datatype       : 4
+   create-mode    : 2
+   option         : 4
+   maxlength      : 255
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 1575
+   name           : Application List
+   datatype       : 42
+   create-mode    : 2
+   option         : 4
+   maxlength      : 0
+}
+field {
+   id             : 1576
+   name           : AppSubset
+   datatype       : 4
+   create-mode    : 2
+   option         : 4
+   maxlength      : 255
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 3000000
+   name           : Username
+   datatype       : 4
+   create-mode    : 2
+   option         : 4
+   maxlength      : 50
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 536870887
+   name           : Consulta Formulario Altas
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870888
+   name           : Incidencias
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870889
+   name           : Consulta Despliegue Aplicaciones
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870890
+   name           : Crear Despliegue Aplicaciones
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870891
+   name           : Informes Web
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870892
+   name           : Procedimientos_Alfresco
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870893
+   name           : Prueba
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870894
+   name           : Buscar Problemas
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870895
+   name           : Crear Problemas
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870896
+   name           : Procedimientos
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870897
+   name           : Cerrar Sesión
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870898
+   name           : Historial Eventos
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870899
+   name           : EX
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870900
+   name           : Comentario / Sugerencia
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870901
+   name           : Consulta Eventos
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870902
+   name           : Consulta Inventario
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870903
+   name           : Gestionar Usuarios Delegación
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870905
+   name           : Gestionar Búsqueda Personal
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870906
+   name           : Búsqueda Avanzada de Incidencias
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870907
+   name           : Buscar Incidencias
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870908
+   name           : Crear Incidencias
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870910
+   name           : Logout
+   datatype       : 32
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870915
+   name           : Texto - Gestión Incidencias
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870916
+   name           : Texto - Gestión Inventario
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870917
+   name           : Text - Gestión Gestión de Eventos
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870918
+   name           : Texto - Gestión Incidencias2
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870919
+   name           : Grupo
+   datatype       : 4
+   create-mode    : 2
+   option         : 4
+   maxlength      : 50
+   menu-style     : 1
+   qbe-match-op   : 1
+   fulltext-optns : 0
+}
+field {
+   id             : 536870920
+   name           : Texto - Gestion Problemas2
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+   help-text      : Título Gestión de Problemas
+}
+field {
+   id             : 536870921
+   name           : Texto - Gestion Problemas3
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+   help-text      : Título Gestión de Problemas
+}
+field {
+   id             : 536870922
+   name           : Texto - Gestión Despliegue Aplicaciones
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870923
+   name           : Line
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870924
+   name           : Noticias
+   datatype       : 42
+   create-mode    : 2
+   option         : 4
+   maxlength      : 0
+}
+field {
+   id             : 536870925
+   name           : Texto - Noticia
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870926
+   name           : Texto - Gestión Altas Web
+   datatype       : 31
+   create-mode    : 2
+   option         : 4
+}
+field {
+   id             : 536870935
+   name           : DP Administrador
+   datatype       : 6
+   create-mode    : 2
+   option         : 4
+   enum-value     : NO
+   enum-value     : SI
+   default        : 0
+}
+end
+begin active link
+   name           : Home Page: Hide Query Bar Field
+   timestamp      : 1301565062
+   actlink-order  : 0
+   actlink-mask   : 262144
+   enable         : 1
+   action {
+   display-prop   : 1\4\6\0\
+      id          : 1005
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+ encrypt-set-field: 0\180\14\01\6f2b75716475642f7b3a3a3f685e472a6c54305828682e2e682268257e367b5b553a28792d716f6e3672685e392d412d6e724f687e7e3e6e47242e347b7e283a794e723352332
+ encrypt-set-field: 0\84f525e7e4f5472714f28217e7e47333e34344e
+   }
+end
+begin active link
+   name           : Home Page: Logout
+   timestamp      : 1292517936
+   actlink-order  : 0
+   actlink-mask   : 1
+   actlink-control: 536870910
+   enable         : 1
+   action {
+    encrypt-cmd   : 60\6\01\3f5a7149433e624b532571385a2c44627b625f2d5d6364652462525a494e
+   }
+end
+begin active link
+   name           : Home Page:Set User Name
+   timestamp      : 1160494668
+   actlink-order  : 0
+   actlink-mask   : 262144
+   enable         : 1
+   action {
+ encrypt-set-field: 0\60\13\01\6328634e7931623544306e30315979533d68786e51272a7d7d6e4a31283d
+   }
+end
+begin active link
+   name           : 106_INICIO_CREAR_INCIDENCIA
+   timestamp      : 1671357275
+   actlink-order  : 0
+   actlink-mask   : 1
+   actlink-control: 536870908
+   enable         : 1
+   actlink-query  : 1\4\6\2\1\1\2\4\12\pfmontenegro\4\6\2\1\1\2\4\8\jmegiasb\
+   action {
+      open-server : @
+      open-schema : 101_INCIDENCIAS
+      open-vui    : 
+      open-close  : 1
+      open-input  : 1\97\101\4\1\@\
+      open-output : 0\
+      open-winmod : 2
+      open-target : New
+      open-pollint: 0
+      open-continu: 1
+      open-suppres: 0
+      open-msgtype: 2
+      open-msgnum : 10000
+      open-msgpane: 0
+   }
+   else {
+      message-type: 0
+      message-num : 10000
+      message-pane: 1
+      message-text: No tiene permiso para crear incidencias.
+   }
+end
+begin active link
+   name           : 106_INICIO_BUSCAR_INCIDENCIA
+   timestamp      : 1671358345
+   actlink-order  : 0
+   actlink-mask   : 1
+   actlink-control: 536870907
+   enable         : 1
+   actlink-query  : 4\6\2\1\8\2\4\7\Nivel 3\
+   action {
+      open-server : @
+      open-schema : 101_INCIDENCIAS
+      open-vui    : 
+      open-close  : 1
+      open-input  : 0\
+      open-output : 0\
+      open-winmod : 1
+      open-target : New
+      open-pollint: 0
+      open-continu: 1
+      open-suppres: 0
+      open-msgtype: 2
+      open-msgnum : 10000
+      open-msgpane: 0
+   }
+   else {
+      open-server : @
+      open-schema : 220_Incidencias_2
+      open-vui    : ConsultaWeb
+      open-close  : 1
+      open-input  : 1\97\101\4\1\@\
+      open-output : 0\
+      open-winmod : 1
+      open-target : Current
+      open-pollint: 0
+      open-continu: 1
+      open-suppres: 0
+      open-msgtype: 2
+      open-msgnum : 10000
+      open-msgpane: 0
+   }
+end
+begin active link
+   name           : 106_INICIO_BUSQUEDA_AVANZADA_INCIDENCIA
+   timestamp      : 1190273551
+   actlink-order  : 0
+   actlink-mask   : 1
+   actlink-control: 536870906
+   enable         : 1
+   action {
+      open-server : @
+      open-schema : 333_SELEC_BUSQUEDA
+      open-vui    : 
+      open-close  : 1
+      open-input  : 1\97\101\4\1\@\
+      open-output : 0\
+      open-winmod : 1
+      open-target : New
+      open-pollint: 0
+      open-continu: 1
+      open-suppres: 0
+      open-msgtype: 2
+      open-msgnum : 10000
+      open-msgpane: 0
+   }
+end
+begin active link
+   name           : 106_INICIO_CREAR_BUSQUEDA_PERSONAL
+   timestamp      : 1447837849
+   actlink-order  : 0
+   actlink-mask   : 1
+   actlink-control: 536870905
+   enable         : 1
+   action {
+      open-server : @
+      open-schema : 106_BUSQUEDAS_PERSONALES
+      open-vui    : 
+      open-close  : 1
+      open-input  : 1\97\101\4\1\@\
+      open-output : 0\
+      open-winmod : 5
+      open-target : New
+      open-pollint: 0
+      open-query  : 4\1\1\112\2\1\8\
+      open-continu: 1
+      open-suppres: 0
+      open-msgtype: 2
+      open-msgnum : 10000
+      open-msgpane: 0
+   }
+end
+begin active link
+   name           : 106_INICIO_GESTIONAR_USUARIOS
+   timestamp      : 1181809635
+   actlink-order  : 0
+   actlink-mask   : 1
+   actlink-control: 536870903
+   enable         : 1
+   action {
+      open-server : @
+      open-schema : User
+      open-vui    : 
+      open-close  : 1
+      open-input  : 1\97\101\4\1\@\
+      open-output : 0\
+      open-winmod : 10
+      open-target : New
+      open-pollint: 0
+      open-sortord: 1\101\1
+      open-query  : 4\1\1\2\2\1\1\
+      open-continu: 0
+      open-suppres: 0
+      open-msgtype: 2
+      open-msgnum : 10000
+      open-msgpane: 0
+   }
+end
+begin active link
+   name           : 106_INICIO_CONSULTA_INVENTARIO
+   timestamp      : 1195115070
+   actlink-order  : 0
+   actlink-mask   : 1
+   actlink-control: 536870902
+   enable         : 1
+   action {
+      open-server : @
+      open-schema : 300_INVENTARIO
+      open-vui    : 
+      open-close  : 1
+      open-input  : 1\97\101\4\1\@\
+      open-output : 0\
+      open-winmod : 1
+      open-target : New
+      open-pollint: 0
+      open-continu: 1
+      open-suppres: 0
+      open-msgtype: 2
+      open-msgnum : 10000
+      open-msgpane: 0
+   }
+end
+begin active link
+   name           : 106_INICIO_COMUNICACIONES_ESTADO
+   timestamp      : 1101227326
+   actlink-order  : 0
+   actlink-mask   : 1
+   actlink-control: 536870901
+   enable         : 1
+   action {
+      open-server : @
+      open-schema : 105_EVENTOS_MOSTRAR
+      open-vui    : 
+      open-close  : 1
+      open-input  : 1\97\101\4\1\@\
+      open-output : 0\
+      open-winmod : 1
+      open-target : New
+      open-pollint: 0
+      open-continu: 1
+      open-suppres: 0
+      open-msgtype: 2
+      open-msgnum : 10000
+      open-msgpane: 0
+   }
+end
+begin active link
+   name           : 106_INICIO_OPEN_NO_DP
+   timestamp      : 1414742367
+   actlink-order  : 0
+   actlink-mask   : 16384
+   enable         : 1
+   actlink-query  : 3\4\7\2\1\8\2\4\4\DP_%\
+   action {
+   display-prop   : 2\4\6\0\22\4\7\Default\
+      id          : 536870906
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+   display-prop   : 2\4\6\0\22\4\7\Default\
+      id          : 536870905
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+   display-prop   : 2\4\6\1\22\4\7\Default\
+      id          : 536870908
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+   display-prop   : 2\4\6\1\22\4\7\Default\
+      id          : 536870896
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+   display-prop   : 1\4\6\1\
+      id          : 536870890
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+   display-prop   : 1\4\6\1\
+      id          : 536870922
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+   display-prop   : 1\4\6\1\
+      id          : 536870889
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+end
+begin active link
+   name           : 106_INICIO_COMENTARIO_SUGERENCIA
+   timestamp      : 1101227593
+   actlink-order  : 0
+   actlink-mask   : 1
+   actlink-control: 536870900
+   enable         : 1
+   action {
+      open-server : @
+      open-schema : 106_COMENTARIOS
+      open-vui    : 
+      open-close  : 1
+      open-input  : 1\97\101\4\1\@\
+      open-output : 0\
+      open-winmod : 2
+      open-target : New
+      open-pollint: 0
+      open-continu: 1
+      open-suppres: 0
+      open-msgtype: 2
+      open-msgnum : 10000
+      open-msgpane: 0
+   }
+end
+begin active link
+   name           : 106_INICIO_OPEN_DP_ADMINSITRADOR_5
+   timestamp      : 1714405793
+   actlink-order  : 5
+   actlink-mask   : 16384
+   enable         : 1
+   actlink-query  : 2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\4\1\2\1\1\2\4\11\Al_Dsi_Ope1\4\1\2\1\1\2\4\9\CJAPCADIZ\4\1\2\1\1\2\4\11\dlg_Cordoba\4\1\2\1\1\2\4\3\dlg\4\1\2\1\
+   actlink-query  : 1\2\4\10\dlg_Huelva\4\1\2\1\1\2\4\8\dlg_Jaen\4\1\2\1\1\2\4\10\dlg_Malaga\4\1\2\1\1\2\4\11\dlg_Sevilla\4\1\2\1\1\2\4\16\antonioe.jimenez\4\1\2\1\1\2\4\6\
+   actlink-query  : amcruz\4\1\2\1\1\2\4\8\s_huelva\4\1\2\1\1\2\4\7\s_cadiz\4\1\2\1\1\2\4\9\s_almeria\4\1\2\1\1\2\4\6\s_jaen\4\1\2\1\1\2\4\8\s_malaga\4\1\2\1\1\2\4\9\s_sevi
+   actlink-query  : lla\4\1\2\1\1\2\4\7\s_jerez\4\1\2\1\1\2\4\9\s_granada\4\1\2\1\1\2\4\10\s_granada1\4\1\2\1\1\2\4\11\s_algeciras\4\1\2\1\1\2\4\9\s_cordoba\
+   action {
+   display-prop   : 2\4\6\1\22\4\7\Default\
+      id          : 536870903
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+   display-prop   : 1\4\6\1\
+      id          : 536870908
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+end
+begin active link
+   name           : 106_INICIO_HISTORIA_COMUNICACINES
+   timestamp      : 1101813706
+   actlink-order  : 0
+   actlink-mask   : 1
+   actlink-control: 536870898
+   enable         : 1
+   action {
+      open-server : @
+      open-schema : 104_ESTADOS_HISTORIAL
+      open-vui    : 
+      open-close  : 1
+      open-input  : 1\97\101\4\1\@\
+      open-output : 0\
+      open-winmod : 1
+      open-target : New
+      open-pollint: 0
+      open-continu: 1
+      open-suppres: 0
+      open-msgtype: 2
+      open-msgnum : 10000
+      open-msgpane: 0
+   }
+end
+begin active link
+   name           : 106_INICIO_CERRAR_SESION
+   timestamp      : 1301994871
+   actlink-order  : 0
+   actlink-mask   : 1
+   actlink-control: 536870897
+   enable         : 1
+   action {
+      message-type: 0
+      message-num : 10000
+      message-pane: 0
+      message-text: Cierre de la Sesión
+   }
+   action {
+    encrypt-cmd   : 60\6\01\234d643b223b7a6b394e33736c62576c6e4f326c63562376474b7e606a2c
+   }
+end
+begin active link
+   name           : 106_INICIO_CONSULTA_DOCUMENTOS
+   timestamp      : 1415793494
+   actlink-order  : 0
+   actlink-mask   : 1
+   actlink-control: 536870896
+   enable         : 1
+   action {
+    encrypt-cmd   : 180\0\01\4b554466345e3b5b7a424d30356028535a2b5f4435665e275c364b654b256b563b4122305e334a337d6e3f604222646e362658774f634b7d75715d492b71226e6837763b3924267
+    encrypt-cmd   : 17260775a59646f6c7c6b4f5b32566e7d642b
+   }
+end
+begin active link
+   name           : 900_INICIO_BUSCAR_PROBLEMA
+   timestamp      : 1170348715
+   actlink-order  : 0
+   actlink-mask   : 1048577
+   actlink-control: 536870894
+   enable         : 1
+   action {
+      open-server : @
+      open-schema : 900_PR_PROBLEMAS
+      open-vui    : 
+      open-close  : 1
+      open-input  : 0\
+      open-output : 0\
+      open-winmod : 1
+      open-target : New
+      open-pollint: 0
+      open-continu: 1
+      open-suppres: 0
+      open-msgtype: 2
+      open-msgnum : 10000
+      open-msgpane: 0
+   }
+end
+begin active link
+   name           : 900_INICIO_CREAR_PROBLEMA
+   timestamp      : 1301568933
+   actlink-order  : 0
+   actlink-mask   : 1
+   actlink-control: 536870895
+   enable         : 1
+   actlink-query  : 2\4\7\2\1\8\2\4\13\%G_Problemas%\4\7\2\1\8\2\4\12\%Supervisor%\
+   action {
+      open-server : @
+      open-schema : 900_PR_PROBLEMAS
+      open-vui    : 
+      open-close  : 1
+      open-input  : 1\97\101\4\1\@\
+      open-output : 0\
+      open-winmod : 2
+      open-target : New
+      open-pollint: 0
+      open-continu: 1
+      open-suppres: 0
+      open-msgtype: 2
+      open-msgnum : 10000
+      open-msgpane: 0
+   }
+   else {
+      message-type: 0
+      message-num : 10000
+      message-pane: 1
+      message-text: No tiene permisos para abrir está operación
+   }
+end
+begin active link
+   name           : 200_HOmePAge
+   timestamp      : 1343297946
+   actlink-order  : 0
+   actlink-mask   : 1
+   enable         : 1
+   action {
+      open-server : @
+      open-schema : 103_SELEC_BUSQUEDA
+      open-vui    : 
+      open-close  : 1
+      open-input  : 3\536870916\101\4\1\8\536870923\101\4\13\Administrator\536870929\101\4\7\Sevilla\
+      open-output : 0\
+      open-winmod : 1
+      open-target : New
+      open-pollint: 0
+      open-continu: 1
+      open-suppres: 0
+      open-msgtype: 2
+      open-msgnum : 10000
+      open-msgpane: 0
+   }
+end
+begin active link
+   name           : 900_ABRE_PROCEDIMIENTOS_ALFRESCO
+   timestamp      : 1288700602
+   actlink-order  : 0
+   actlink-mask   : 1
+   actlink-control: 536870892
+   enable         : 1
+   action {
+    encrypt-cmd   : 240\20\01\206531204559322e23655d653e4f62615b7e732565562059572a724f4b3f3e507354527724545c473243585f3d2f3e35532a684b6e34572523504e37514e74437b2a373e25613e
+    encrypt-cmd   : 433e567523616b374c4655242457757d33365d2a58616152614d586d545861433a65616d436d4d56325f65574d61614121
+   }
+end
+begin active link
+   name           : 220_INICIO_BOTON_INFORMES
+   timestamp      : 1194429389
+   actlink-order  : 0
+   actlink-mask   : 1
+   actlink-control: 536870891
+   enable         : 1
+   action {
+      open-server : @
+      open-schema : 200_Informes
+      open-vui    : 
+      open-close  : 1
+      open-input  : 0\
+      open-output : 0\
+      open-winmod : 1
+      open-target : New
+      open-pollint: 0
+      open-continu: 1
+      open-suppres: 0
+      open-msgtype: 2
+      open-msgnum : 10000
+      open-msgpane: 0
+   }
+end
+begin active link
+   name           : 106_INICIO_CREAR_DESPLIEGUE_APLICACIONES
+   timestamp      : 1300963849
+   actlink-order  : 0
+   actlink-mask   : 1
+   actlink-control: 536870890
+   enable         : 1
+   actlink-query  : 1\4\6\2\1\1\2\4\12\pfmontenegro\4\6\2\1\1\2\4\8\jmegiasb\
+   action {
+      open-server : @
+      open-schema : 107_DESPLIEGUES
+      open-vui    : 
+      open-close  : 1
+      open-input  : 1\97\101\4\1\@\
+      open-output : 0\
+      open-winmod : 2
+      open-target : New
+      open-pollint: 0
+      open-continu: 1
+      open-suppres: 0
+      open-msgtype: 2
+      open-msgnum : 10000
+      open-msgpane: 0
+   }
+   else {
+      message-type: 0
+      message-num : 10000
+      message-pane: 1
+      message-text: No tiene permiso para crear despliegues.
+   }
+end
+begin active link
+   name           : 106_INICIO_CONSULTAR_DESPLIEGUE_APLICACIONES
+   timestamp      : 1432550014
+   actlink-order  : 0
+   actlink-mask   : 1
+   actlink-control: 536870889
+   enable         : 1
+   action {
+      open-server : @
+      open-schema : 107_DESPLIEGUES
+      open-vui    : 
+      open-close  : 1
+      open-input  : 0\
+      open-output : 0\
+      open-winmod : 1
+      open-target : Current
+      open-pollint: 0
+      open-continu: 1
+      open-suppres: 0
+      open-msgtype: 2
+      open-msgnum : 10000
+      open-msgpane: 0
+   }
+end
+begin active link
+   name           : 106_INICIO_OPEN_OTROS_10
+   timestamp      : 1445236412
+   actlink-order  : 10
+   actlink-mask   : 16384
+   enable         : 1
+   actlink-query  : 2\2\2\2\4\1\2\1\1\2\4\12\pfmontenegro\4\1\2\1\1\2\4\8\jmegiasb\4\1\2\1\1\2\4\8\aarmenta\4\1\2\1\1\2\4\10\mdominguez\4\1\2\1\1\2\4\6\Hermes\
+   action {
+   display-prop   : 1\4\6\0\
+      id          : 536870903
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+   display-prop   : 1\4\6\0\
+      id          : 536870902
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+   display-prop   : 1\4\6\0\
+      id          : 536870890
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+   display-prop   : 1\4\6\0\
+      id          : 536870895
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+   display-prop   : 1\4\6\0\
+      id          : 536870901
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+   display-prop   : 1\4\6\0\
+      id          : 536870900
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+   display-prop   : 1\4\6\0\
+      id          : 536870898
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+   display-prop   : 1\4\6\0\
+      id          : 536870896
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+   display-prop   : 1\4\6\0\
+      id          : 536870892
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+   display-prop   : 1\4\6\0\
+      id          : 536870889
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+   display-prop   : 1\4\6\0\
+      id          : 536870894
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+   display-prop   : 1\4\6\0\
+      id          : 536870891
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+   display-prop   : 1\4\6\0\
+      id          : 536870906
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+   display-prop   : 1\4\6\0\
+      id          : 536870905
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+end
+begin active link
+   name           : 106_INICIO_OPEN_OTROS_11
+   timestamp      : 1372227278
+   actlink-order  : 11
+   actlink-mask   : 16384
+   enable         : 1
+   actlink-query  : 4\1\2\1\1\2\4\6\Hermes\
+   action {
+   display-prop   : 1\4\6\0\
+      id          : 536870903
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+   display-prop   : 1\4\6\0\
+      id          : 536870902
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+   display-prop   : 1\4\6\0\
+      id          : 536870890
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+   display-prop   : 1\4\6\0\
+      id          : 536870895
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+   display-prop   : 1\4\6\0\
+      id          : 536870901
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+   display-prop   : 1\4\6\0\
+      id          : 536870900
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+   display-prop   : 1\4\6\0\
+      id          : 536870898
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+   display-prop   : 1\4\6\0\
+      id          : 536870896
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+   display-prop   : 1\4\6\0\
+      id          : 536870892
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+   display-prop   : 1\4\6\0\
+      id          : 536870889
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+   display-prop   : 1\4\6\0\
+      id          : 536870894
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+   display-prop   : 1\4\6\0\
+      id          : 536870891
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+   display-prop   : 1\4\6\1\
+      id          : 536870888
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+   display-prop   : 1\4\6\0\
+      id          : 536870907
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+   display-prop   : 1\4\6\0\
+      id          : 536870906
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+   display-prop   : 1\4\6\0\
+      id          : 536870905
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+end
+begin active link
+   name           : 230_INICIO_BUSCAR_INCIDENCIA
+   timestamp      : 1373278366
+   actlink-order  : 0
+   actlink-mask   : 1
+   actlink-control: 536870888
+   enable         : 1
+   actlink-query  : 4\1\2\1\1\2\4\6\Hermes\
+   action {
+      open-server : @
+      open-schema : 101_INCIDENCIAS
+      open-vui    : Default View
+      open-close  : 1
+      open-input  : 1\97\101\4\1\@\
+      open-output : 0\
+      open-winmod : 11
+      open-target : New
+      open-pollint: 0
+      open-query  : 1\4\1\1\4\2\4\6\Hermes\4\4\1\7\2\6\3\
+      open-continu: 0
+      open-suppres: 0
+      open-msgtype: 2
+      open-msgnum : 10000
+      open-msgpane: 0
+   }
+end
+begin active link
+   name           : 106_INICIO_CONSULTA_DOCUMENTOS_OLD
+   timestamp      : 1415793349
+   enable         : 0
+end
+begin active link
+   name           : 106_INICIO_VER_GESTION_FORMULARIO_ALTA
+   timestamp      : 1436871836
+   actlink-order  : 3
+   actlink-mask   : 16384
+   enable         : 1
+   actlink-query  : 2\2\4\1\2\1\8\2\4\7\Nivel 1\4\1\2\1\1\2\4\10\afuentessa\4\1\2\1\1\2\4\7\jbaenat\
+   action {
+   display-prop   : 1\4\6\1\
+      id          : 536870926
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+   action {
+   display-prop   : 1\4\6\1\
+      id          : 536870887
+      focus       : 0
+      access-opt  : 0
+      option      : 0
+   }
+end
+begin active link
+   name           : 106_INICIO_CONSULTAR_FORMULARIO_ALTAS
+   timestamp      : 1527059688
+   actlink-order  : 0
+   actlink-mask   : 1
+   actlink-control: 536870887
+   enable         : 1
+   action {
+      open-server : @
+      open-schema : 400_ALTA_NUEVO_PUESTO_antes
+      open-vui    : 
+      open-close  : 1
+      open-input  : 0\
+      open-output : 0\
+      open-winmod : 1
+      open-target : Current
+      open-pollint: 0
+      open-continu: 1
+      open-suppres: 0
+      open-msgtype: 2
+      open-msgnum : 10000
+      open-msgpane: 0
+   }
+end
