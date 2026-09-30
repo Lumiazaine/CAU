@@ -113,20 +113,95 @@ function Get-MacrosReales {
 }
 
 # --- Si algo no cuadra, ensena como se ha leido el fichero -----------------
+# Esta funcion nunca debe lanzar una excepcion: si falla, se pierde el
+# diagnostico justo cuando mas hace falta.
 function Show-Diagnostico {
     param([string]$Ruta, [string[]]$Lineas)
+
     Write-Host ""
-    Write-Host "  DIAGNOSTICO de $Ruta" -ForegroundColor Yellow
-    if (-not (Test-Path $Ruta)) { Write-Host "    el fichero no existe"; return }
-    $bytes = [IO.File]::ReadAllBytes($Ruta)
-    $cr = 0; $lf = 0
-    foreach ($x in $bytes) { if ($x -eq 13) { $cr++ } elseif ($x -eq 10) { $lf++ } }
-    Write-Host "    $($bytes.Length) bytes, $($Lineas.Count) lineas"
-    Write-Host "    CR=$cr  LF=$lf  ->  $(if ($cr -eq 0) { 'solo LF' } elseif ($cr -eq $lf) { 'CRLF' } else { 'MIXTO, raro' })"
+    Write-Host "  DIAGNOSTICO" -ForegroundColor Yellow
+    Write-Host "    $Ruta"
+
+    if (-not $Ruta -or -not (Test-Path $Ruta)) {
+        Write-Host "    ruta vacia o fichero inexistente: no hay nada que leer"
+        return
+    }
+
+    try {
+        $bytes = [IO.File]::ReadAllBytes($Ruta)
+    } catch {
+        Write-Host "    no se pudieron leer los bytes: $($_.Exception.Message)"
+        return
+    }
+
+    $cr = 0; $lf = 0; $nul = 0
+    foreach ($x in $bytes) {
+        if ($x -eq 13)     { $cr++ }
+        elseif ($x -eq 10) { $lf++ }
+        elseif ($x -eq 0)  { $nul++ }
+    }
+    Write-Host "    $($bytes.Length) bytes   CR=$cr  LF=$lf  NUL=$nul"
+
+    # Codificado. Si el fichero esta en UTF-16 cada caracter ocupa 2 bytes con un
+    # NUL intercalado: la tabla deja de encajar y solo casaria una linea suelta.
+    $primeros = ($bytes | Select-Object -First 4) -join ' '
+    $cod = 'UTF-8 sin BOM'
+    if     ($bytes.Length -gt 1 -and $bytes[0] -eq 0xFF -and $bytes[1] -eq 0xFE) { $cod = 'UTF-16 LE' }
+    elseif ($bytes.Length -gt 1 -and $bytes[0] -eq 0xFE -and $bytes[1] -eq 0xFF) { $cod = 'UTF-16 BE' }
+    elseif ($bytes.Length -gt 2 -and $bytes[0] -eq 0xEF -and $bytes[1] -eq 0xBB -and $bytes[2] -eq 0xBF) { $cod = 'UTF-8 con BOM' }
+    Write-Host "    codificado: $cod  (primeros bytes: $primeros)"
+
+    if ($nul -gt 0) {
+        Write-Host "    ATENCION: hay bytes NUL. Si el fichero esta en UTF-16, guardalo como UTF-8." -ForegroundColor Red
+    }
+
     Write-Host "    primeras lineas no vacias:"
     $n = 0
-    foreach ($linea in $Lineas) {
-        if ($linea.Trim() -and $n -lt 12) { Write-Host "      | $linea"; $n++ }
+    foreach ($linea in @($Lineas)) {
+        if ($linea -and $linea.Trim() -ne '' -and $n -lt 12) {
+            Write-Host "      | $($linea -replace "`t", '<TAB>')"
+            $n++
+        }
+    }
+    if ($n -eq 0) { Write-Host "      (ninguna linea con contenido)" }
+
+    # El dato que decide la causa: cuantas lineas se han leido, cuantas parecen
+    # entradas de tabla y cuantas encajan con el patron. Si hay 46 lineas con
+    # "numero": y solo encaja 1, el problema es el patron o el codificado. Si
+    # solo hay 1 linea con esa forma, el fichero de disco no es el que creemos.
+    $conComillas = @($Lineas | Where-Object { $_ -match '"\s*:\s*\d' })
+    $encajan = 0
+    foreach ($l in $conComillas) {
+        if ($l -match '^\s*"([^"]+)"\s*:\s*(\d+)\s*,?\s*$') { $encajan++ }
+    }
+    Write-Host "    lineas leidas: $($Lineas.Count)"
+    Write-Host "    lineas que parecen entradas de tabla: $($conComillas.Count)"
+    Write-Host "    lineas que encajan con el patron: $encajan"
+
+    # La zona de la tabla, que es lo que de verdad importa. Si aqui hay 46 lineas
+    # y el parser solo devuelve 1, el problema esta en el patron; si hay menos,
+    # el fichero de disco no es el del repositorio.
+    $iM = -1
+    for ($k = 0; $k -lt $Lineas.Count; $k++) {
+        if ($Lineas[$k] -match '^\s*M\s*:=') { $iM = $k; break }
+    }
+    if ($iM -ge 0) {
+        Write-Host "    la tabla empieza en la linea $($iM + 1) de $($Lineas.Count). Primeras 4:"
+        for ($k = $iM; $k -lt [Math]::Min($iM + 4, $Lineas.Count); $k++) {
+            Write-Host "      $i($($k + 1)) | $($Lineas[$k])"
+        }
+    } else {
+        Write-Host "    NO se encuentra ninguna linea 'M :='. Ese fichero no es CAU_GUI_BETA_v2.ahk." -ForegroundColor Red
+    }
+
+    if ($conComillas.Count -gt 3 -and $encajan -lt 3) {
+        Write-Host "    hay entradas de tabla pero casi ninguna encaja. Primeras 3:" -ForegroundColor Red
+        $k = 0
+        foreach ($l in $conComillas) {
+            if ($k -ge 3) { break }
+            Write-Host "      > $l"
+            $k++
+        }
     }
 }
 
@@ -182,37 +257,44 @@ Write-Host "  Tabla  : $Tabla"
 
 Write-Tit "1. Coherencia interna de la tabla"
 try {
-    $tabla = @(Get-TablaIndices -Ruta $Tabla)
+    # $tablaM, no $tablaM: ver la nota de mas abajo sobre el choque de nombres.
+    $tablaM = @(Get-TablaIndices -Ruta $Tabla)
 } catch {
     Write-Fail $_.Exception.Message
     exit 1
 }
-Write-Host "  $($tabla.Count) macros con nombre"
+Write-Host "  $($tablaM.Count) macros con nombre"
 
 # Un recuento absurdo no es "la tabla tiene pocas macros": es que no se ha leido
 # bien. La primera version leia 1 entrada de 46 y concluia que faltaban 45
 # macros en ARCmds, senalando la tabla como desviada cuando lo roto era el
 # parser. Menos de 10 entradas es lectura fallida, no tabla corta.
-if ($tabla.Count -lt 10) {
-    Write-Fail "Solo $($tabla.Count) entradas leidas de $Tabla. Es una lectura fallida, no una tabla corta."
+#
+# OJO con el nombre: este array se llama $tablaM y no $tablaM porque PowerShell
+# no distingue mayusculas, $tabla era LA MISMA variable que el parametro $Tabla
+# con la ruta del fichero, y al asignarla se perdia la ruta. Despues el
+# diagnostico recibia una ruta vacia y ReadAllBytes tiraba "la ruta de acceso no
+# tiene un formato valido", que era el sintoma que veia el usuario.
+if ($tablaM.Count -lt 10) {
+    Write-Fail "Solo $($tablaM.Count) entradas leidas de $Tabla. Es una lectura fallida, no una tabla corta."
     Show-Diagnostico -Ruta $Tabla -Lineas $lineasCache
     exit 1
 }
 
-$dupIdx = $tabla | Group-Object Indice | Where-Object Count -gt 1
+$dupIdx = $tablaM | Group-Object Indice | Where-Object Count -gt 1
 if ($dupIdx) {
     foreach ($d in $dupIdx) {
         Write-Fail "Indice $($d.Name) asignado a $($d.Count) macros: $(($d.Group.Nombre) -join '  /  ')"
     }
 } else { Write-Ok "Ningun indice esta asignado a dos macros" }
 
-$dupNom = $tabla | Group-Object Nombre | Where-Object Count -gt 1
+$dupNom = $tablaM | Group-Object Nombre | Where-Object Count -gt 1
 if ($dupNom) {
     foreach ($d in $dupNom) { Write-Fail "Nombre repetido: $($d.Name)" }
 } else { Write-Ok "Ningun nombre aparece dos veces" }
 
-$maxIdx = ($tabla.Indice | Measure-Object -Maximum).Maximum
-$huecos = @(0..$maxIdx | Where-Object { $_ -notin $tabla.Indice })
+$maxIdx = ($tablaM.Indice | Measure-Object -Maximum).Maximum
+$huecos = @(0..$maxIdx | Where-Object { $_ -notin $tablaM.Indice })
 if ($huecos) { Write-Aviso "Indices sin ninguna macro en la tabla: $($huecos -join ', ')" }
 else { Write-Ok "Los indices van de 0 a $maxIdx sin huecos" }
 
@@ -232,9 +314,9 @@ if ($null -eq $arc) {
     $total = $reales.Count
     Write-Host "  $total macros ZZZ*.arq, indices 0..$($total - 1)"
 
-    if ($tabla.Count -ne $total) {
-        Write-Fail "La tabla tiene $($tabla.Count) macros y ARCmds tiene $total. TODOS los indices estan desplazados."
-        $diff = $total - $tabla.Count
+    if ($tablaM.Count -ne $total) {
+        Write-Fail "La tabla tiene $($tablaM.Count) macros y ARCmds tiene $total. TODOS los indices estan desplazados."
+        $diff = $total - $tablaM.Count
         Write-Host "         Se han anadido $diff macro(s). Los de la zona alta van +$diff."
         Write-Host "         Copia ARCmds/ARCmds/ al equipo y vuelve a pasar esto."
     } else {
@@ -245,12 +327,12 @@ if ($null -eq $arc) {
     Write-Host "  -------+----------------------------------+---------------------------"
     foreach ($m in $reales) {
         $marca = ''
-        if (-not ($tabla.Indice -contains $m.Indice)) { $marca = '  <- sin entrada en la tabla' }
+        if (-not ($tablaM.Indice -contains $m.Indice)) { $marca = '  <- sin entrada en la tabla' }
         Write-Host ("  {0,6} | {1,-32} | {2}{3}" -f $m.Indice, $m.Fichero, $m.Nombre, $marca)
     }
 
     # Cada .arq debe tener una fila de la tabla, por indice o por nombre.
-    $sinCubrir = @($reales | Where-Object { $_.Indice -notin $tabla.Indice })
+    $sinCubrir = @($reales | Where-Object { $_.Indice -notin $tablaM.Indice })
     if ($sinCubrir.Count -gt 0) {
         Write-Host ""
         Write-Aviso "$($sinCubrir.Count) macro(s) de ARCmds sin fila propia en la tabla:"
