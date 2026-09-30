@@ -147,6 +147,25 @@ Consecuencias, todas ya materializadas en producción:
 distintos, mismo nombre visible), así que su zona alta va `+1` desplazada. La tabla `M` del port está
 generada desde los `.arq`. Antes de tocar cualquier índice: `./verificar_indices.ps1`.
 
+### Si escribes PowerShell para este repo, ten en cuenta esto
+
+Cuatro trampas de PowerShell que han costado tres commits de depuración, todas en
+`verificar_indices.ps1`:
+
+- **Los nombres de variable no distinguen mayúsculas.** `$tabla` y `$Tabla` son la misma variable.
+  Un array de resultados y una ruta de fichero no pueden llamarse igual aunque "se entienda".
+- **`@($null)` tiene `.Count` = 1 y se imprime como cadena vacía.** Un valor `null` colado se lee
+  como "una entrada con el nombre en blanco". Contar siempre sobre arrays construidos explícitamente.
+- **`@($lista).Count` lanza si la lista es `List[object]`** ("Argument types do not match"), tenga
+  elementos o no. Para listas de objetos usa arrays de PowerShell.
+- **`Join-Path` sobre una variable de entorno inexistente revienta** antes de que puedas filtrarla.
+  Comprobar `$env:APPDATA` antes de meterla en un array de candidatos.
+
+Para ejecutarlo en un entorno sin PowerShell instalado (Linux), se puede bajar el tarball oficial:
+`https://github.com/PowerShell/PowerShell/releases` → `powershell-<version>-linux-x64.tar.gz`.
+Con eso el script corre entero y el contraste con los `.arq` reales es verificable sin ir a un
+equipo con Remedy abierto.
+
 ### Los `.arq` de ARCmds
 
 - **Windows-1252** (`-Encoding Default`). Nunca guardarlos como UTF-8: se corrompen los acentos.
