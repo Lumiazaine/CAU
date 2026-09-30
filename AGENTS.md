@@ -151,6 +151,11 @@ generada desde los `.arq`. Antes de tocar cualquier índice: `./verificar_indice
 
 - **Windows-1252** (`-Encoding Default`). Nunca guardarlos como UTF-8: se corrompen los acentos.
   Separador de campo: byte `0x01`. Fin de línea: CRLF.
+- **Están marcados `-text` en `.gitattributes` a propósito.** Sin esa regla, el `core.autocrlf=true`
+  que Git trae por defecto en Windows convierte los finales de línea y rompe las macros de
+  producción. **No añadir reglas `eol=lf` para el código fuente**: con medio repo en CRLF
+  legadose, un `--renormalize` reescribe de golpe `Bateria de pruebas/`, `Otras herramientas/` y
+  `superbateria_test.ps1`, que no se deben tocar.
 - `Alba.ps1` excluye a propósito los **18 `x*.arq`** y sustituye en los otros la fecha/hora literal
   (`1010000200=` / `1010000150=`) por `$DATE$ $TIME$`. Es *offline* y ya no se invoca desde la macro.
 - **`Alba(n)` en el .ahk NO tiene relación con `Alba.ps1`.** El nombre es un resto; en el port v2 se

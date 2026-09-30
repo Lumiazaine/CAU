@@ -413,6 +413,30 @@ en un script.
 La lectura del nombre es la del §2.1: byte a byte hasta el `\n` en Windows-1252, orden alfabético
 sin distinguir mayúsculas, desempate por nombre de fichero.
 
-> No se ha podido ejecutar aquí (no hay PowerShell en este entorno). La lógica está replicada en
-> Python y validada contra los 46 `.arq`: 46 filas, correspondencia 1:1, sin huecos ni duplicados.
-> **Conviene pasarlo una vez en un equipo con Remedy antes de fiarse del todo.**
+> **Bug encontrado al ejecutarlo en un equipo real (30/09/2026).** La primera versión leía la tabla
+> con un único regex multilínea sobre el fichero entero y devolvía **1 entrada de 46**. El script
+> concluía que faltaban 45 macros en ARCmds y señalaba la tabla como desviada, cuando lo único roto
+> era el parser. La causa exacta no queda confirmada —la diferencia está en cómo el motor .NET
+> interpreta `(?m)` junto con `$`—, así que la lectura se reescribió para no depender de eso: se leen
+> bytes, se normalizan los finales de línea y se analiza **línea a línea sin anclar `$`**. Además,
+> un recuento inferior a 10 entradas se trata como **fallo de lectura**, no como tabla corta, y se
+> imprime un diagnóstico con bytes, recuento de CR y de LF, y las primeras líneas no vacías.
+>
+> Sigue sin poder ejecutarse en el entorno donde se escribió (no hay PowerShell en Linux). La lógica
+> está replicada en Python y validada contra los `.arq` reales en las dos variantes de finales de
+> línea: 46 entradas, correspondencia 1:1, sin huecos ni duplicados. Aun así conviene confirmarlo en
+> un equipo con Remedy.
+
+### `.gitattributes`: los `.arq` no se dejan a git
+
+El repositorio no tenía `.gitattributes`, y con el `core.autocrlf=true` que trae Git por defecto al
+instalarlo en Windows hay un riesgo real: git podría convertir los finales de línea de
+`ARCmds/**/*.arq`, que son Windows-1252 con CRLF y llevan el separador de campo `0x01`. Si los toca,
+**las macros de producción dejan de funcionar y la tabla de índices pasa a describir un listado que
+ya no es el real**.
+
+Se añaden `*.arq -text` y `*.arr -text` (binario: cero conversión en ninguna dirección). Comprobado
+que los blobs ya commiteados tienen los CRLF intactos, así que la regla no provoca ningún cambio
+espurio. **Deliberadamente no se fijan reglas `eol=lf` para el código fuente**: con medio repo en
+CRLF legadose, un `--renormalize` reescribe de golpe `Bateria de pruebas/`, `Otras herramientas/` y
+`superbateria_test.ps1`, que están fuera de alcance.

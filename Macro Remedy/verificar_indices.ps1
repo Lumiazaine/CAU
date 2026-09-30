@@ -100,25 +100,68 @@ function Get-MacrosReales {
     return $orden
 }
 
+# --- Si algo no cuadra, ensena como se ha leido el fichero -----------------
+function Show-Diagnostico {
+    param([string]$Ruta, [string[]]$Lineas)
+    Write-Host ""
+    Write-Host "  DIAGNOSTICO de $Ruta" -ForegroundColor Yellow
+    if (-not (Test-Path $Ruta)) { Write-Host "    el fichero no existe"; return }
+    $bytes = [IO.File]::ReadAllBytes($Ruta)
+    $cr = 0; $lf = 0
+    foreach ($x in $bytes) { if ($x -eq 13) { $cr++ } elseif ($x -eq 10) { $lf++ } }
+    Write-Host "    $($bytes.Length) bytes, $($Lineas.Count) lineas"
+    Write-Host "    CR=$cr  LF=$lf  ->  $(if ($cr -eq 0) { 'solo LF' } elseif ($cr -eq $lf) { 'CRLF' } else { 'MIXTO, raro' })"
+    Write-Host "    primeras lineas no vacias:"
+    $n = 0
+    foreach ($linea in $Lineas) {
+        if ($linea.Trim() -and $n -lt 12) { Write-Host "      | $linea"; $n++ }
+    }
+}
+
 # --- Leer la tabla M del script --------------------------------------------
 function Get-TablaIndices {
     param([string]$Ruta)
     if (-not (Test-Path $Ruta)) { throw "No existe el fichero de tabla: $Ruta" }
-    $texto = Get-Content $Ruta -Raw -Encoding UTF8
 
-    $m = [regex]::Matches($texto, '(?m)^\s*"([^"]+)"\s*:\s*(\d+)\s*,\s*$')
-    if ($m.Count -gt 0) {
-        return $m | ForEach-Object {
-            [pscustomobject]@{ Nombre = $_.Groups[1].Value; Indice = [int]$_.Groups[2].Value }
+    # Leer bytes y decodificar a mano en vez de Get-Content -Raw: este depende
+    # de la version de PowerShell y del BOM, y con -Encoding UTF8 sobre un
+    # fichero sin BOM no es de fiar en Windows PowerShell 5.1.
+    $bytes = [IO.File]::ReadAllBytes($Ruta)
+    $texto = [Text.Encoding]::UTF8.GetString($bytes)
+    $texto = $texto -replace "`r`n", "`n" -replace "`r", "`n"
+    $lineas = $texto -split "`n"
+
+    # Linea a linea, sin modo multilinea y sin anclar $: el resultado no depende
+    # de como esten los finales de linea ni de como interprete el motor .NET
+    # las anclas. La primera version usaba un unico regex con (?m) sobre todo
+    # el fichero y en el equipo del usuario devolvio 1 entrada de 46.
+    $res = @()
+    foreach ($linea in $lineas) {
+        if ($linea -match '^\s*"([^"]+)"\s*:\s*(\d+)\s*,?\s*$') {
+            $res += [pscustomobject]@{ Nombre = $Matches[1]; Indice = [int]$Matches[2] }
         }
     }
-    $m2 = [regex]::Matches($texto, 'Map\("name",\s*"([^"]+)",\s*"albaParam",\s*(\d+)')
-    if ($m2.Count -gt 0) {
-        return $m2 | ForEach-Object {
-            [pscustomobject]@{ Nombre = $_.Groups[1].Value; Indice = [int]$_.Groups[2].Value }
+    if ($res.Count -gt 0) { return $res }
+
+    # Formato antiguo de Core/ButtonManager.ahk: Map("name", "X", "albaParam", N)
+    $res = @()
+    foreach ($linea in $lineas) {
+        if ($linea -match 'Map\("name",\s*"([^"]+)",\s*"albaParam",\s*(\d+)') {
+            $res += [pscustomobject]@{ Nombre = $Matches[1]; Indice = [int]$Matches[2] }
         }
     }
+    if ($res.Count -gt 0) { return $res }
+
+    Show-Diagnostico -Ruta $Ruta -Lineas $lineas
     throw "No se reconoce el formato de la tabla en $Ruta"
+}
+
+# Lineas del fichero de tabla, para diagnosticar sin volver a leerlo.
+$lineasCache = @()
+if (Test-Path $Tabla) {
+    $b = [IO.File]::ReadAllBytes($Tabla)
+    $t = [Text.Encoding]::UTF8.GetString($b) -replace "`r`n", "`n" -replace "`r", "`n"
+    $lineasCache = $t -split "`n"
 }
 
 # ============================================================================
@@ -134,6 +177,16 @@ try {
 }
 Write-Host "  $($tabla.Count) macros con nombre"
 
+# Un recuento absurdo no es "la tabla tiene pocas macros": es que no se ha leido
+# bien. La primera version leia 1 entrada de 46 y concluia que faltaban 45
+# macros en ARCmds, senalando la tabla como desviada cuando lo roto era el
+# parser. Menos de 10 entradas es lectura fallida, no tabla corta.
+if ($tabla.Count -lt 10) {
+    Write-Fail "Solo $($tabla.Count) entradas leidas de $Tabla. Es una lectura fallida, no una tabla corta."
+    Show-Diagnostico -Ruta $Tabla -Lineas $lineasCache
+    exit 1
+}
+
 $dupIdx = $tabla | Group-Object Indice | Where-Object Count -gt 1
 if ($dupIdx) {
     foreach ($d in $dupIdx) {
@@ -146,10 +199,10 @@ if ($dupNom) {
     foreach ($d in $dupNom) { Write-Fail "Nombre repetido: $($d.Name)" }
 } else { Write-Ok "Ningun nombre aparece dos veces" }
 
-$huecos = @(0..(($tabla.Indice | Measure-Object -Maximum).Maximum) |
-    Where-Object { $_ -notin $tabla.Indice })
+$maxIdx = ($tabla.Indice | Measure-Object -Maximum).Maximum
+$huecos = @(0..$maxIdx | Where-Object { $_ -notin $tabla.Indice })
 if ($huecos) { Write-Aviso "Indices sin ninguna macro en la tabla: $($huecos -join ', ')" }
-else { Write-Ok "Los indices van de 0 a $($tabla.Count - 1) sin huecos" }
+else { Write-Ok "Los indices van de 0 a $maxIdx sin huecos" }
 
 # --- 2. Contraste con los .arq ---------------------------------------------
 Write-Tit "2. Contraste con los .arq de ARCmds"

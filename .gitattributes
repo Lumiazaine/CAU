@@ -1,0 +1,19 @@
+# Los .arq / .arr de ARCmds son la libreria de macros de BMC Remedy.
+#
+# Son Windows-1252 (la "n" con tilde de ZZZContr.arq es el byte 0xF1) con CRLF,
+# y llevan el separador de campo 0x01. NO son texto: si git los toca, se rompen
+# las macros de produccion y la tabla de indices de la macro CAU pasa a
+# describiendo un listado que ya no es el real.
+#
+# -text los declara binarios: cero conversion de finales de linea y de
+# codificado en las dos direcciones. Es la unica proteccion contra el
+# core.autocrlf=true que Git trae por defecto al instalarlo en Windows.
+#
+# Deliberadamente NO se anaden reglas eol=lf para el codigo fuente. Con el
+# repositorio entero en CRLF legadose, declararlas provoca que git reescriba
+# de golpe ficheros que no se han tocado (Bateria de pruebas/, Otras
+# herramientas/, superbateria_test.ps1) y el commit se llena de ruido
+# alfabetico. Si alguna vez hay que fijarlo, se hace con un renormalizado
+# explicito y revisando fichero a fichero.
+*.arq -text
+*.arr -text
