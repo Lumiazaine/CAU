@@ -72,15 +72,20 @@ function Write-Tit   { Write-Host "`n$($args[0])" -ForegroundColor Cyan }
 
 # --- Localizar el ARCmds ---------------------------------------------------
 function Find-ARCmds {
-    $candidatos = @(
-        $script:ARCmds
-        (Join-Path $script:Base 'ARCmds\ARCmds')
-        (Join-Path $env:APPDATA 'AR System\HOME\ARCmds')
-    ) | Where-Object { $_ -and $_ -ne '' }
+    # Los candidatos se construyen uno a uno con comprobacion previa: armar un
+    # array con Join-Path sobre $env:APPDATA cuando esa variable no existe
+    # revienta con "Cannot bind argument to parameter 'Path' because it is null"
+    # y se lleva por delante la busqueda entera.
+    $candidatos = New-Object System.Collections.Generic.List[string]
+    if ($script:ARCmds) { $candidatos.Add($script:ARCmds) }
+    $candidatos.Add((Join-Path $script:Base 'ARCmds\ARCmds'))
+    if ($env:APPDATA) {
+        $candidatos.Add((Join-Path $env:APPDATA 'AR System\HOME\ARCmds'))
+    }
     foreach ($c in $candidatos) {
-        if (Test-Path $c -PathType Container) {
-            $arq = @(Get-ChildItem -Path $c -Filter 'ZZZ*.arq' -File -ErrorAction SilentlyContinue)
-            if ($arq.Count -gt 0) { return @{ Ruta = (Resolve-Path $c).Path; Ficheros = $arq } }
+        if ($c -and (Test-Path -LiteralPath $c -PathType Container)) {
+            $arq = @(Get-ChildItem -LiteralPath $c -Filter 'ZZZ*.arq' -File -ErrorAction SilentlyContinue)
+            if ($arq.Count -gt 0) { return @{ Ruta = (Resolve-Path -LiteralPath $c).Path; Ficheros = $arq } }
         }
     }
     return $null
@@ -188,7 +193,7 @@ function Show-Diagnostico {
     if ($iM -ge 0) {
         Write-Host "    la tabla empieza en la linea $($iM + 1) de $($Lineas.Count). Primeras 4:"
         for ($k = $iM; $k -lt [Math]::Min($iM + 4, $Lineas.Count); $k++) {
-            Write-Host "      $i($($k + 1)) | $($Lineas[$k])"
+            Write-Host "      linea $($k + 1) | $($Lineas[$k])"
         }
     } else {
         Write-Host "    NO se encuentra ninguna linea 'M :='. Ese fichero no es CAU_GUI_BETA_v2.ahk." -ForegroundColor Red
@@ -206,49 +211,115 @@ function Show-Diagnostico {
 }
 
 # --- Leer la tabla M del script --------------------------------------------
+# Se prueban VARIAS decodificaciones y se queda con la que mas entradas saca.
+# Motivo: en el equipo del usuario (Windows PowerShell 5.1) esta funcion devolvio
+# un unico $null en vez de las 46 entradas, y el mensaje que llego fue
+# "1 macros con nombre" con el nombre en blanco. Un $null unico envuelto en @()
+# da .Count = 1 y se imprime como cadena vacia: es exactamente lo que se vio.
+# Ninguna variante de fichero (CRLF, CR puro, BOM, cp1252, UTF-16, tabuladores,
+# espacio duro) reproduce ese 1 con este codigo, asi que en vez de seguir
+# buscandolo se hace la lectura a prueba de el: tres decodificaciones, dos
+# formatos de tabla y eleccion de la mejor. Si ninguna llega a 10 entradas se
+# dice cual fallo, en vez de propagar un valor a medias.
+#
+# Arrays de PowerShell y no List[object]: envolver una List[object] en @()
+# lanza "Argument types do not match" sin importar cuantos elementos tenga. Con
+# 46 entradas no hay nada que ganar con una lista.
+function Convertir-Entradas {
+    param([string[]]$Lineas)
+    $rx = [regex]::new('^\s*"([^"]+)"\s*:\s*(\d+)\s*,?\s*$')
+    $salida = @()
+    foreach ($linea in $Lineas) {
+        if ($null -eq $linea) { continue }
+        $m = $rx.Match($linea)
+        if (-not $m.Success) { continue }
+        $indice = 0
+        # TryParse en vez de [int]: si el numero no cabe, TryParse devuelve
+        # false y la entrada se descarta en vez de reventar la conversion.
+        if ([int]::TryParse($m.Groups[2].Value, [ref]$indice)) {
+            $salida += [pscustomobject]@{ Nombre = $m.Groups[1].Value; Indice = $indice }
+        }
+    }
+    return $salida
+}
+
+function Convertir-Entradas-Map {
+    param([string[]]$Lineas)
+    $rx = [regex]::new('Map\("name",\s*"([^"]+)",\s*"albaParam",\s*(\d+)')
+    $salida = @()
+    foreach ($linea in $Lineas) {
+        if ($null -eq $linea) { continue }
+        $m = $rx.Match($linea)
+        if (-not $m.Success) { continue }
+        $indice = 0
+        if ([int]::TryParse($m.Groups[2].Value, [ref]$indice)) {
+            $salida += [pscustomobject]@{ Nombre = $m.Groups[1].Value; Indice = $indice }
+        }
+    }
+    return $salida
+}
+
 function Get-TablaIndices {
     param([string]$Ruta)
-    if (-not (Test-Path $Ruta)) { throw "No existe el fichero de tabla: $Ruta" }
+
+    if (-not $Ruta) { throw "Ruta de tabla vacia" }
+    if (-not (Test-Path -LiteralPath $Ruta -PathType Leaf)) {
+        throw "No existe el fichero de tabla: $Ruta"
+    }
 
     # Leer bytes y decodificar a mano en vez de Get-Content -Raw: este depende
     # de la version de PowerShell y del BOM, y con -Encoding UTF8 sobre un
     # fichero sin BOM no es de fiar en Windows PowerShell 5.1.
     $bytes = [IO.File]::ReadAllBytes($Ruta)
-    $texto = [Text.Encoding]::UTF8.GetString($bytes)
-    $texto = $texto -replace "`r`n", "`n" -replace "`r", "`n"
-    $lineas = $texto -split "`n"
+    if (-not $bytes -or $bytes.Length -eq 0) { throw "El fichero de tabla esta vacio: $Ruta" }
 
-    # Linea a linea, sin modo multilinea y sin anclar $: el resultado no depende
-    # de como esten los finales de linea ni de como interprete el motor .NET
-    # las anclas. La primera version usaba un unico regex con (?m) sobre todo
-    # el fichero y en el equipo del usuario devolvio 1 entrada de 46.
-    $res = @()
-    foreach ($linea in $lineas) {
-        if ($linea -match '^\s*"([^"]+)"\s*:\s*(\d+)\s*,?\s*$') {
-            $res += [pscustomobject]@{ Nombre = $Matches[1]; Indice = [int]$Matches[2] }
-        }
+    $candidatos = @(
+        [pscustomobject]@{ Cod = 'UTF-8';        Texto = [Text.Encoding]::UTF8.GetString($bytes) }
+        [pscustomobject]@{ Cod = 'Windows-1252'; Texto = [Text.Encoding]::GetEncoding(1252).GetString($bytes) }
+        [pscustomobject]@{ Cod = 'UTF-16';       Texto = [Text.Encoding]::Unicode.GetString($bytes) }
+    )
+
+    $mejor = @()
+    $mejorCod = '(ninguno)'
+    $mejorFormato = '(ninguno)'
+
+    Write-Host "  probando $($candidatos.Count) codificados x 2 formatos de tabla:"
+    foreach ($c in $candidatos) {
+        # Normalizar finales de linea: CRLF, CR puro y LF dan el mismo resultado.
+        $normalizado = ($c.Texto -replace "`r`n", "`n") -replace "`r", "`n"
+        $lineas = $normalizado -split "`n"
+
+        $a = @(Convertir-Entradas -Lineas $lineas)
+        Write-Host ("    {0,-13} {1,4} entradas con el formato tabla M" -f $c.Cod, $a.Count)
+        if ($a.Count -gt $mejor.Count) { $mejor = $a; $mejorCod = $c.Cod; $mejorFormato = 'tabla M' }
+
+        $b = @(Convertir-Entradas-Map -Lineas $lineas)
+        Write-Host ("    {0,-13} {1,4} entradas con el formato Map(...)" -f $c.Cod, $b.Count)
+        if ($b.Count -gt $mejor.Count) { $mejor = $b; $mejorCod = $c.Cod; $mejorFormato = 'Map(...)' }
     }
-    if ($res.Count -gt 0) { return $res }
 
-    # Formato antiguo de Core/ButtonManager.ahk: Map("name", "X", "albaParam", N)
-    $res = @()
-    foreach ($linea in $lineas) {
-        if ($linea -match 'Map\("name",\s*"([^"]+)",\s*"albaParam",\s*(\d+)') {
-            $res += [pscustomobject]@{ Nombre = $Matches[1]; Indice = [int]$Matches[2] }
-        }
+    if ($mejor.Count -eq 0) {
+        $tx = [Text.Encoding]::UTF8.GetString($bytes)
+        Show-Diagnostico -Ruta $Ruta -Lineas ((($tx -replace "`r`n", "`n") -replace "`r", "`n") -split "`n")
+        throw "No se reconoce el formato de la tabla en $Ruta"
     }
-    if ($res.Count -gt 0) { return $res }
 
-    Show-Diagnostico -Ruta $Ruta -Lineas $lineas
-    throw "No se reconoce el formato de la tabla en $Ruta"
+    Write-Host "  mejor lectura: $($mejor.Count) entradas  (codificado $mejorCod, formato $mejorFormato)"
+    return $mejor
 }
 
 # Lineas del fichero de tabla, para diagnosticar sin volver a leerlo.
+# -LiteralPath y try/catch: si algo falla aqui, el diagnostico se queda sin
+# lineas pero el resto del script sigue pudiéndose ejecutar.
 $lineasCache = @()
-if (Test-Path $Tabla) {
-    $b = [IO.File]::ReadAllBytes($Tabla)
-    $t = [Text.Encoding]::UTF8.GetString($b) -replace "`r`n", "`n" -replace "`r", "`n"
-    $lineasCache = $t -split "`n"
+try {
+    if ($Tabla -and (Test-Path -LiteralPath $Tabla -PathType Leaf)) {
+        $b = [IO.File]::ReadAllBytes($Tabla)
+        $t = [Text.Encoding]::UTF8.GetString($b)
+        $lineasCache = (($t -replace "`r`n", "`n") -replace "`r", "`n") -split "`n"
+    }
+} catch {
+    $lineasCache = @()
 }
 
 # ============================================================================
@@ -257,7 +328,7 @@ Write-Host "  Tabla  : $Tabla"
 
 Write-Tit "1. Coherencia interna de la tabla"
 try {
-    # $tablaM, no $tablaM: ver la nota de mas abajo sobre el choque de nombres.
+    # $tablaM y no $tabla: ver la nota de mas abajo sobre el choque de nombres.
     $tablaM = @(Get-TablaIndices -Ruta $Tabla)
 } catch {
     Write-Fail $_.Exception.Message
@@ -266,11 +337,9 @@ try {
 Write-Host "  $($tablaM.Count) macros con nombre"
 
 # Un recuento absurdo no es "la tabla tiene pocas macros": es que no se ha leido
-# bien. La primera version leia 1 entrada de 46 y concluia que faltaban 45
-# macros en ARCmds, senalando la tabla como desviada cuando lo roto era el
-# parser. Menos de 10 entradas es lectura fallida, no tabla corta.
+# bien. Menos de 10 entradas es lectura fallida, no tabla corta.
 #
-# OJO con el nombre: este array se llama $tablaM y no $tablaM porque PowerShell
+# OJO con el nombre: este array se llama $tablaM y no $tabla porque PowerShell
 # no distingue mayusculas, $tabla era LA MISMA variable que el parametro $Tabla
 # con la ruta del fichero, y al asignarla se perdia la ruta. Despues el
 # diagnostico recibia una ruta vacia y ReadAllBytes tiraba "la ruta de acceso no

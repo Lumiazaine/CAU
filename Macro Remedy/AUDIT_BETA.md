@@ -413,19 +413,48 @@ en un script.
 La lectura del nombre es la del §2.1: byte a byte hasta el `\n` en Windows-1252, orden alfabético
 sin distinguir mayúsculas, desempate por nombre de fichero.
 
-> **Bug encontrado al ejecutarlo en un equipo real (30/09/2026).** La primera versión leía la tabla
-> con un único regex multilínea sobre el fichero entero y devolvía **1 entrada de 46**. El script
-> concluía que faltaban 45 macros en ARCmds y señalaba la tabla como desviada, cuando lo único roto
-> era el parser. La causa exacta no queda confirmada —la diferencia está en cómo el motor .NET
-> interpreta `(?m)` junto con `$`—, así que la lectura se reescribió para no depender de eso: se leen
-> bytes, se normalizan los finales de línea y se analiza **línea a línea sin anclar `$`**. Además,
-> un recuento inferior a 10 entradas se trata como **fallo de lectura**, no como tabla corta, y se
-> imprime un diagnóstico con bytes, recuento de CR y de LF, y las primeras líneas no vacías.
->
-> Sigue sin poder ejecutarse en el entorno donde se escribió (no hay PowerShell en Linux). La lógica
-> está replicada en Python y validada contra los `.arq` reales en las dos variantes de finales de
-> línea: 46 entradas, correspondencia 1:1, sin huecos ni duplicados. Aun así conviene confirmarlo en
-> un equipo con Remedy.
+### Tres bugs del validador, todos encontrados por ejecutarlo de verdad
+
+**1. El "1 de 46" no era un parser roto: era un `$null`.** En un equipo con Windows PowerShell 5.1
+la salida era:
+
+```
+1. Coherencia interna de la tabla
+  1 macros con nombre
+  [FALLO]  Solo 1 entradas leidas de                          . Es una lectura fallida, no una tabla corta.
+```
+
+El nombre de fichero sale **en blanco**, y eso es la pista: `@($null)` tiene `.Count` = 1 y se
+interpola como cadena vacía. Lo que llegaba al comparador no era una tabla de una entrada, era un
+`$null` suelto. Rehecha la lectura línea a línea, sin anclar `$` y sin depender del modo multilínea,
+el resultado siguió siendo 1: el fallo no estaba en el patrón.
+
+**2. `$tabla` y `$Tabla` eran la misma variable.** PowerShell no distingue mayúsculas, así que el
+array de índices y el parámetro con la ruta del fichero eran una y la misma. Al asignar el array se
+perdía la ruta, el diagnóstico recibía una ruta vacía y `ReadAllBytes` terminaba con *"La ruta de
+acceso no tiene un formato válido"*, que era el error que veía el usuario. El array pasa a llamarse
+`$tablaM`.
+
+**3. `@($lista).Count` lanza si la lista es de objetos.** Envolver un `System.Collections.Generic.List[object]`
+en `@()` falla con *"Argument types do not match"* **aunque tenga elementos**. Con 46 entradas no
+hay nada que ganar con una lista, así que el validador usa arrays de PowerShell.
+
+**Cómo queda la lectura.** En vez de seguir buscando la causa exacta del `$null`, que depende de la
+versión de PowerShell y no se ha podido reproducir, la lectura se hace a prueba de él: se leen
+bytes, se proban **tres decodificaciones** (UTF-8, Windows-1252, UTF-16) contra **dos formatos de
+tabla** (`"nombre": N` del port v2 y `Map("name", "X", "albaParam", N)` de `ButtonManager.ahk`), y
+se queda con la que más entradas saca. El script imprime las seis pruebas, así que si algo va mal
+se ve cuál era la buena y por qué las otras no.
+
+Comprobado con PowerShell 7.6.6 sobre el repo y sobre ficheros construidos a propósito: LF, CRLF,
+CR puro, UTF-8 con BOM, Windows-1252, tabuladores y espacio duro dan **46 entradas y "Todo
+correcto"**; un fichero UTF-16 también se lee (46, por la decodificación alternativa); uno vacío, uno
+con basura y una ruta inexistente fallan con un mensaje claro y código 1; y una tabla con un índice
+duplicado se detecta con el desfase que provoca. **El código de salida es 0 cuando todo cuadra.**
+
+El diagnóstico de lectura fallida se mantiene y ahora no puede lanzar: indica codificado, recuento
+de bytes, CR, LF y NUL, cuántas líneas parecen entradas de tabla, cuántas encajan y dónde está la
+línea `M :=`.
 
 ### `.gitattributes`: los `.arq` no se dejan a git
 
