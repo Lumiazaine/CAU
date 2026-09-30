@@ -339,6 +339,35 @@ Ver `CAU_GUI_BETA_v2.ahk`. Criterios aplicados:
 
 ## 7. Preguntas abiertas
 
+*Respuesta del usuario al ejecutar el validador en su equipo:* las corridas de
+`verificar_indices.ps1` en Windows (PowerShell 5.1, copia actual del repositorio) devuelven
+**"Todo correcto"** con la tabla M del port y la lectura se decide por **UTF-8, formato tabla M**,
+46 entradas, 46 `.arq`, sin huecos ni duplicados y `0` como última fila (`ZZZZConnie`). El caso
+que provocaba *1 entrada de 46* con el nombre en blanco queda identificado y blindado en el script.
+
+1. **¿Con qué intérprete se ejecuta en producción?** El archivo mezcla sintaxis v1 y v2 (bug #2), así
+   que no es válido en ninguna. `global dni, telf` (línea 95) está dentro de `ExecuteAlbaMacro`, que se
+   ejecuta en **cada click**. Si fuese v2 puro, `Gui, 1:Add` (líneas 181-231) no existiría; si fuese v1
+   puro, ese `global` daría error. Se resuelve mirando el intérprete configurado en el equipo.
+2. **¿Qué macro deben correr `#2/F14`, `#3/F15` y `#4/F16`?** Sus números (43, 34, 40) apuntaban fuera
+   de rango incluso antes del desfase. Hoy caen en `Adriano`, `Correo password` y `ArconteSala` (§2.7).
+3. **`#6`: ¿índice 42 o la fila 0?** 42 = `Adriano`, que no encaja con "repetir la acción". En git es
+   `Alba(0)`. El port mantiene 42.
+4. **¿`Buscar` / `F12` / `F19` deben ejecutar `Connexion`?** `{End}{Up 0}{Enter}` sí selecciona y ejecuta
+   la última fila. En el v1 se tomaba como "solo enfocar".
+5. **¿Las 4 filas de arriba del listado** (`ZZZAbbyp`, `ZZZAdpas`, `ZZZArcontepassword`,
+   `ZZZArconteSala`) **son de uso real del CAU o Discarded?** No las referencia ningún botón. Si se
+   borran, todos los números vuelven a bajar.
+6. **Orden alfabético exacto.** La deducción asume *case-insensitive* por el nombre visible, con
+   desempate por fichero. Solo afecta a 4 posiciones (`Arconte password`/`ArconteSala` y
+   `Internet libre`/`Intervención video`) y ninguna la usa un botón. Se resuelve contando en el
+   formulario.
+
+Para resolver 2-6 basta abrir el formulario Alba en un equipo con Remedy y contar. `verificar_indices.ps1`
+(§9) automatiza la parte estática.
+
+
+
 1. **¿Con qué intérprete se ejecuta en producción?** El archivo mezcla sintaxis v1 y v2 (bug #2), así
    que no es válido en ninguna. `global dni, telf` (línea 95) está dentro de `ExecuteAlbaMacro`, que se
    ejecuta en **cada click**. Si fuese v2 puro, `Gui, 1:Add` (líneas 181-231) no existiría; si fuese v1
