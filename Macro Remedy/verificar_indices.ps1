@@ -53,6 +53,18 @@ param(
 $ErrorActionPreference = 'Stop'
 $script:Mal = 0
 
+# --- Anclar las rutas al script, no al directorio actual --------------------
+# [IO.File]::ReadAllBytes resuelve una ruta relativa contra el CWD de .NET, que
+# NO es el de PowerShell: Get-Location devuelve ...\Macro Remedy mientras que
+# [Environment]::CurrentDirectory sigue en la carpeta desde la que arranco el
+# proceso. Por eso Test-Path encontraba el fichero y ReadAllBytes no.
+# Se resuelve todo a rutas absolutas antes de tocar nada.
+$script:Base = $PSScriptRoot
+if (-not $script:Base) { $script:Base = (Get-Location).Path }
+
+if (-not [IO.Path]::IsPathRooted($Tabla))   { $Tabla   = Join-Path $script:Base $Tabla }
+if ($ARCmds -and -not [IO.Path]::IsPathRooted($ARCmds)) { $ARCmds = Join-Path $script:Base $ARCmds }
+
 function Write-Ok    { param($t) Write-Host "  [OK]     $t" -ForegroundColor Green }
 function Write-Fail  { param($t) Write-Host "  [FALLO]  $t" -ForegroundColor Red; $script:Mal++ }
 function Write-Aviso { param($t) Write-Host "  [AVISO]  $t" -ForegroundColor Yellow }
@@ -62,13 +74,13 @@ function Write-Tit   { Write-Host "`n$($args[0])" -ForegroundColor Cyan }
 function Find-ARCmds {
     $candidatos = @(
         $script:ARCmds
-        (Join-Path $PSScriptRoot 'ARCmds\ARCmds')
-        "$env:APPDATA\AR System\HOME\ARCmds"
-    ) | Where-Object { $_ }
+        (Join-Path $script:Base 'ARCmds\ARCmds')
+        (Join-Path $env:APPDATA 'AR System\HOME\ARCmds')
+    ) | Where-Object { $_ -and $_ -ne '' }
     foreach ($c in $candidatos) {
-        if (Test-Path $c) {
+        if (Test-Path $c -PathType Container) {
             $arq = @(Get-ChildItem -Path $c -Filter 'ZZZ*.arq' -File -ErrorAction SilentlyContinue)
-            if ($arq.Count -gt 0) { return @{ Ruta = $c; Ficheros = $arq } }
+            if ($arq.Count -gt 0) { return @{ Ruta = (Resolve-Path $c).Path; Ficheros = $arq } }
         }
     }
     return $null
