@@ -12,27 +12,70 @@
 ;
 ; Los numeros de macro (n) NO se han tocado: son indices posicionales contados
 ; desde el final del formulario Alba. Ver AUDIT_BETA.md seccion 2.
+;
+; NOTA SOBRE LOS "catch as excepcionN": los 17 catch tienen NOMBRES DISTINTOS a
+; proposito. Con todos ellos llamados "err" (que es lo que hacia el v1), v2
+; avisa 17 veces "This local variable has the same name as a global variable":
+; para el motor, 17 locales con el mismo nombre se pisan entre si, y el aviso es
+; MODAL, con lo que la macro arranca y se queda parada. Comprobado en Wine con
+; AHK v2.0.28. El numero permite seguir el catch en el log de WriteError.
 ; =============================================================================
 
 #SingleInstance Force
-#NoEnv
-#MaxHotkeysPerInterval 99000000
-#HotkeyInterval 99000000
-#KeyHistory 0
+; #NoEnv no se traslada: la directiva se elimino en v2, donde las variables de
+; entorno nunca se cargan como globales (hay que usar EnvGet, o los prefijos
+; $Env / _Env). Dejarla puesta hace que v2 rechace el script entero con
+; "This line does not contain a recognized action" y la macro no arranca.
+; #MaxHotkeysPerInterval y #HotkeyInterval tambien eran directivas de v1: en v2
+; son variables incorporadas (A_*) que se asignan. Van mas abajo, con el resto
+; de ajustes, porque una asignacion no puede ir en la zona de directivas.
 ; #Persistent no existe en v2: los scripts son persistentes por defecto.
 
 ; --- Ajustes de rendimiento (identicos a v1) ---
-DetectHiddenWindows True
-ListLines False
+; #MaxHotkeysPerInterval y #HotkeyInterval eran directivas de v1; en v2 son
+; variables incorporadas (A_*) que se asignan, y por eso van aqui y no en la
+; zona de directivas de arriba.
+; Valores absurdos a proposito: la macro dispara decenas de hotkeys seguidas al
+; technician y cualquier umbral reasonable haria saltar el aviso de "demasiados
+; hotkeys". En v1 esto se hacia con directivas; en v2 se hace asi.
+A_MaxHotkeysPerInterval := 99000000
+A_HotkeyInterval := 99000000
+
+; #KeyHistory 0 (v1) -> KeyHistory 0 (v2): la directiva paso a ser la llamada a
+; la funcion, que toma el maximo de eventos. El 0 desactiva el historial igual
+; que en v1 (en v2 el valor por defecto es 40).
+KeyHistory(0)
+
+; OJO: todo este bloque necesita parentesis. Es la diferencia entre la sintaxis
+; de comando de v1 (SetBatchLines "-1") y la llamada a funcion de v2
+; (SetBatchLines("-1")). Sin ellos, v2 no ve una llamada, ve una variable global
+; sin usar, y saca el aviso "This global variable appears to never be assigned
+; a value", que en un script sin compilar sale en un dialogo modal y deja la
+; macro PARADA esperando a que alguien pulse Aceptar.
+DetectHiddenWindows(True)
+ListLines(False)
 ProcessSetPriority("A")
-SetBatchLines "-1"
-SetKeyDelay -1, -1
-SetMouseDelay -1
-SetDefaultMouseSpeed 0
-SetWinDelay -1
-SetControlDelay -1
-SendMode "Input"        ; metodo Input: NO cambiar a Event sin rehacer el analisis
-DllCall("ntdll\ZwSetTimerResolution", "Int", 5000, "Int", 1, "Int*", MyCurrentTimerResolution)
+; SetBatchLines se ha ELIMINADO en v2: los scripts ya se ejecutan a velocidad
+; maxima por defecto, que es justo lo que hacia SetBatchLines "-1" en v1.
+; Dejar la llamada puesta hace que v2 la trate como una variable global sin
+; usar y saque el aviso "This global variable appears to never be assigned a
+; value". Ese aviso, en un script sin compilar, es un dialogo MODAL: la macro
+; arranca y se queda parada esperando a que alguien pulse Aceptar.
+SetKeyDelay(-1, -1)
+SetMouseDelay(-1)
+SetDefaultMouseSpeed(0)
+SetWinDelay(-1)
+SetControlDelay(-1)
+SendMode("Input")        ; metodo Input: NO cambiar a Event sin rehacer el analisis
+; v1 pasaba un "Int*" de salida a MyCurrentTimerResolution. Esa variable no se
+; usaba en ninguna parte del script (ni v1 ni aqui), asi que solo servia para
+; disparar el aviso de "variable global sin asignar", que en v2 es un dialogo
+; modal que deja la macro parada. La llamada se conserva porque lo que importa
+; es el efecto: subir la resolucion del temporizador del sistema para que los
+; Send() con SetKeyDelay -1 no pierdan pulsaciones. El codigo de retorno es
+; STATUS_SUCCESS (0) en exito, que no hacia falta guardar.
+if (!DllCall("ntdll\ZwSetTimerResolution", "UInt", 5000, "Int", 1))
+    WriteError("No se pudo subir la resolución del temporizador (ZwSetTimerResolution)")
 SetWorkingDir A_ScriptDir
 
 ; --- Version: la variable se usaba en los logs pero nunca se asignaba (bug #4) ---
@@ -62,16 +105,23 @@ if (Cierrepass = "")
         . "`n`n" . "Los cierres automáticos quedarán sin texto por defecto.", "Lazybird", "Iconx")
 
 ; --- Diccionario: boton de GUI 2 -> fichero de plantilla de correo ---
-DiccionarioCorreos := {
-    AccionPlantilla1: "NIG_captura",
-    AccionPlantilla2: "Captura",
-    AccionPlantilla3: "Formulario",
-    AccionPlantilla4: "Formulario_GDU",
-    AccionPlantilla5: "Info_solventada",
-    AccionPlantilla6: "Problema_General",
-    AccionPlantilla7: "Resolucion_tlt",
-    AccionPlantilla8: "Mantenimiento",
-}
+; Es un Map(), no un objeto plano. En v2 un objeto plano NO admite acceso por
+; indice: escribir Mapa["clave"] da en tiempo de ejecucion
+;   "This value of type Object has no property named __Item"
+; y el script se para. Map() es la estructura de diccionario de v2 y ademas
+; trae .Has(clave) para preguntar por una clave sin disparar el error.
+; Las claves de este si podrian ser identificadores ("AccionPlantilla1"), pero
+; la tabla M de abajo no, asi que los dos usan la misma forma.
+DiccionarioCorreos := Map(
+    "AccionPlantilla1", "NIG_captura",
+    "AccionPlantilla2", "Captura",
+    "AccionPlantilla3", "Formulario",
+    "AccionPlantilla4", "Formulario_GDU",
+    "AccionPlantilla5", "Info_solventada",
+    "AccionPlantilla6", "Problema_General",
+    "AccionPlantilla7", "Resolucion_tlt",
+    "AccionPlantilla8", "Mantenimiento",
+)
 
 ; =============================================================================
 ; INDICE DE MACROS - LISTADO REAL DE ARCmds (46 macros, filas 0..45)
@@ -98,54 +148,68 @@ DiccionarioCorreos := {
 ; no coincide con el de arriba, cambia aqui el numero, no en los handlers.
 ; =============================================================================
 
-M := {
-    "Abbypdf":                         45,
-    "Adpas":                           44,
-    "Adriano":                         43,
-    "Agenda de señalamientos":         42,
-    "Arconte password":                41,
-    "ArconteSala":                     40,
-    "Aumento espacio correo":          39,
-    "Certificado digital":             38,
-    "Error relación de confianza":     37,
-    "Contraseñas":                     36,
-    "Correo password (micuenta)":      35,
-    "Correo password (procedimiento)": 34,
-    "Disco duro":                      33,
-    "Dragon Speaking":                 32,
-    "Edoc":                            31,
-    "Emparejamiento ISL":              30,
-    "Escritorio judicial":             29,
-    "Expediente digital":              28,
-    "Formaciones":                     27,
-    "Equipo no enciende":              26,
-    "Ganes":                           25,
-    "GDU":                             24,
-    "GM":                              23,
-    "Hermes":                          22,
-    "Internet libre":                  21,
-    "Intervención video":              20,
-    "ISL Apagado":                     19,
-    "Jara":                            18,
-    "Lector tarjeta":                  17,
-    "Lexnet":                          16,
-    "Monitor":                         15,
-    "Multiconferencia":                14,
-    "@Driano":                         13,
-    "Orfila":                          12,
-    "PIN tarjeta":                     11,
-    "Servicio no CEIURIS":             10,
-    "PortafirmasNG":                   9,
-    "Ratón":                           8,
-    "Equipo sin red":                  7,
-    "Siraj2":                          6,
-    "Software":                        5,
-    "Suministros":                     4,
-    "Teclado":                         3,
-    "Teléfono":                        2,
-    "Temis":                           1,
-    "Connexion":                       0,
-}
+; M es un Map(), no un objeto plano. En v2 un objeto plano NO admite acceso por
+; indice: "M["nombre"]" da en ejecucion
+;   "This value of type Object has no property named __Item"
+; y el script se para al arrancar. Map() es el diccionario de v2.
+;
+; Por que 46 lineas y no un literal: las claves de un literal de objeto en v2
+; tienen que ser identificadores desnudos (GDU: 24). Las entrecomilladas
+; ("GDU": 24) son de v1 y v2 las rechaza con "Invalid property name in object
+; literal". Casi todos los nombres de macro tienen espacios, acentos o
+; parentesis, asi que la tabla no se puede escribir como literal.
+;
+; El ORDEN de estas lineas es el orden alfabetico del listado de ARCmds, que es
+; como los presenta el formulario Alba. El numero de la derecha NO es un id: es
+; la distancia desde el final de la lista (n = 45 - posicion). Ver seccion 2 de
+; AUDIT_BETA.md.
+M := Map()
+M["Abbypdf"] := 45
+M["Adpas"] := 44
+M["Adriano"] := 43
+M["Agenda de señalamientos"] := 42
+M["Arconte password"] := 41
+M["ArconteSala"] := 40
+M["Aumento espacio correo"] := 39
+M["Certificado digital"] := 38
+M["Error relación de confianza"] := 37
+M["Contraseñas"] := 36
+M["Correo password (micuenta)"] := 35
+M["Correo password (procedimiento)"] := 34
+M["Disco duro"] := 33
+M["Dragon Speaking"] := 32
+M["Edoc"] := 31
+M["Emparejamiento ISL"] := 30
+M["Escritorio judicial"] := 29
+M["Expediente digital"] := 28
+M["Formaciones"] := 27
+M["Equipo no enciende"] := 26
+M["Ganes"] := 25
+M["GDU"] := 24
+M["GM"] := 23
+M["Hermes"] := 22
+M["Internet libre"] := 21
+M["Intervención video"] := 20
+M["ISL Apagado"] := 19
+M["Jara"] := 18
+M["Lector tarjeta"] := 17
+M["Lexnet"] := 16
+M["Monitor"] := 15
+M["Multiconferencia"] := 14
+M["@Driano"] := 13
+M["Orfila"] := 12
+M["PIN tarjeta"] := 11
+M["Servicio no CEIURIS"] := 10
+M["PortafirmasNG"] := 9
+M["Ratón"] := 8
+M["Equipo sin red"] := 7
+M["Siraj2"] := 6
+M["Software"] := 5
+M["Suministros"] := 4
+M["Teclado"] := 3
+M["Teléfono"] := 2
+M["Temis"] := 1
+M["Connexion"] := 0
 
 ; Fila 0 = ULTIMA del listado = "ZZZZConnie" (Connexion). El v1 la usaba como si
 ; fuera "sin macro", pero {End}{Up 0}{Enter} SI selecciona esa fila y la ejecuta.
@@ -158,7 +222,10 @@ EjecutarMacro(nombre) {
     global M, ULTIMA_FILA
     if (nombre = "Ultima fila")
         return ULTIMA_FILA
-    if !M.HasOwnProp(nombre) {
+    ; .Has() y no .HasOwnProp(): M es un Map(), y Map no tiene HasOwnProp.
+    ; Ademas .Has() no crea la clave, que es justo lo que se quiere: preguntar
+    ; por una macro inexistente no debe modificar la tabla.
+    if !M.Has(nombre) {
         WriteError("Macro '" . nombre . "' no esta en la tabla de indices")
         MsgBox("La macro '" . nombre . "' no existe en la tabla de índices.`n"
             . "Añádela al objeto M (línea ~95) con su posición en ARCmds.",
@@ -168,11 +235,20 @@ EjecutarMacro(nombre) {
     return M[nombre]
 }
 
-; Log de inicializacion
-try {
-    WriteLog("Ejecutando aplicación")
-} catch as e {
-    WriteError("Error ejecutando la aplicación: " . e.Message)
+; Log de inicializacion.
+; Va en una funcion, y no suelto en la seccion auto-ejecucion, por dos razones
+; de v2:
+;   - la seccion auto-ejecucion termina en cuanto aparece una funcion, asi que
+;     el codigo que hay despues no se ejecuta salvo que se llame explicitamente.
+;     Por eso la llamada esta junto a guiMain.Show(), no aqui.
+;   - un "catch as X" a ese nivel crea una GLOBAL "excepcion1", que luego
+;     choca con la local de cualquier otro sitio que use el mismo nombre.
+logInicio() {
+    try {
+        WriteLog("Ejecutando aplicación")
+    } catch as excepcion1 {
+        WriteError("Error ejecutando la aplicación: " . excepcion1.Message)
+    }
 }
 
 ; =============================================================================
@@ -229,7 +305,10 @@ WriteError(errorMessage) {
 }
 
 CheckRemedy() {
-    if IfWinExist("ahk_exe aruser.exe")
+    ; IfWinExist era una FUNCION en v1. En v2 no existe: la sustituye
+    ; WinExist(), que devuelve el HWND (0 si no la encuentra) y sirve igual en un
+    ; if. Dejar IfWinExist puesto hace que v2 la trate como una variable y avise.
+    if WinExist("ahk_exe aruser.exe")
         return true
 
     MsgBox("El programa Remedy no se encuentra abierto.", "Lazybird", "Iconx")
@@ -242,8 +321,8 @@ screen() {
         SetTitleMatchMode 2
         WinActivate("ahk_class ArFrame")
         WriteLog("Activó la ventana ArFrame")
-    } catch as e {
-        WriteError("Activando ventana ArFrame: " . e.Message)
+    } catch as excepcion2 {
+        WriteError("Activando ventana ArFrame: " . excepcion2.Message)
     }
 }
 
@@ -279,8 +358,8 @@ SeleccionarMacro(num, nombre := "?") {
         Send("{TAB 22}")
         WriteLog("Seleccionó la macro con índice " . num)
         return true
-    } catch as e {
-        WriteError("Seleccionando macro " . num . ": " . e.Message)
+    } catch as excepcion3 {
+        WriteError("Seleccionando macro " . num . ": " . excepcion3.Message)
         return false
     } finally {
         BlockInput False
@@ -303,7 +382,7 @@ ExecuteAlbaMacro(num, description) {
     try {
         WriteLog("Iniciando macro: " . description . " (índice " . num . ")")
         SeleccionarMacro(num, description)
-        Gui("Submit", "NoHide")
+        leerCampos()
 
         ; Introducir datos en Remedy
         if (dni != "") {
@@ -318,12 +397,14 @@ ExecuteAlbaMacro(num, description) {
             Send(telf)
 
         ; Limpiar los campos de la GUI
-        GuiControl("dni", dni)
-        GuiControl("telf", telf)
+        dni := ""
+        telf := ""
+        ctlDni.Text := ""
+        ctlTelf.Text := ""
 
         WriteLog("Finalizado: " . description . " [DNI: " . dni . ", Telf: " . telf . "]")
-    } catch as e {
-        WriteError("Error en macro " . description . " (índice " . num . "): " . e.Message)
+    } catch as excepcion4 {
+        WriteError("Error en macro " . description . " (índice " . num . "): " . excepcion4.Message)
     }
 }
 
@@ -341,8 +422,8 @@ cierre(closetext) {
         SendEvent("!a {Down 9}{Right}{Enter}{TAB 12}{Right 2}{TAB 5}{Enter 3}")
         SendEvent("!a {Down 9}{Right}{Enter}{TAB 12}{Right 2}{TAB 6}{Enter}" . closetext . "{Tab}{Enter}")
         WriteLog("Cierre ejecutado con texto: " . closetext)
-    } catch as e {
-        WriteError("Error en el cierre: " . e.Message)
+    } catch as excepcion5 {
+        WriteError("Error en el cierre: " . excepcion5.Message)
     } finally {
         BlockInput False
     }
@@ -361,94 +442,146 @@ ExecuteAlbaMacroWithClose(num, description, closureText := "") {
 ; =============================================================================
 ; GUI 1 - Ventana principal "Lazybird"
 ; =============================================================================
+; En v1 las dos ventanas se numeraban ("Gui, 1:" y "Gui, 2:"). En v2 no existe
+; esa numeracion: cada ventana es un objeto Gui. La traduccion mecanica
+; Gui("1:Add", ...) COMPILA pero revienta en la primera llamada ("Too many
+; parameters passed to function"), asi que no se podia dejar como estaba.
+; Lo mismo con la opcion gButtonN: no existe en v2 y los botones quedarian
+; muertos sin OnEvent. Ver AUDIT_BETA.md seccion 8.
+;
+; Ojo con el orden: en v2 la seccion auto-ejecucion termina en cuanto aparece
+; una funcion o un hotkey. Por eso Boton() y leerCampos() estan mas abajo, con
+; el resto de funciones, y NO aqui.
+guiMain := Gui()
+guiPlantillas := Gui()
 
-Gui("1:Font", , "Segoe UI")
+; v1 era "Gui, 1:Font,, Segoe UI". El metodo se llama SetFont, no Font, y el
+; primer parametro son las OPCIONES (s14, cRed, ...), no el nombre de la fuente:
+; SetFont("Segoe UI") falla con "Invalid option". Con el hueco delante se deja
+; vacio, que es el equivalente de los dos comas del v1.
+guiMain.SetFont(, "Segoe UI")
 
 ; --- Bloque 1: SOLICITUDES ---
-Gui("1:Add", "Text", "x144 y16 w98 h19", "SOLICITUDES")
-Gui("1:Add", "Button", "x40 y40 w136 h46 gButton4", "GDU")
-Gui("1:Add", "Button", "x176 y40 w136 h46 gButton3", "Aumento espacio correo")
-Gui("1:Add", "Button", "x40 y88 w136 h46 gButton16", "Intervención video")
-Gui("1:Add", "Button", "x176 y88 w136 h46 gButton24", "Formaciones")
-Gui("1:Add", "Button", "x40 y136 w136 h46 gButton1", "Internet libre")
-Gui("1:Add", "Button", "x176 y136 w136 h46 gButton2", "Multiconferencia")
+guiMain.Add("Text", "x144 y16 w98 h19", "SOLICITUDES")
+Boton(guiMain, Button4, "x40 y40 w136 h46", "GDU")
+Boton(guiMain, Button3, "x176 y40 w136 h46", "Aumento espacio correo")
+Boton(guiMain, Button16, "x40 y88 w136 h46", "Intervención video")
+Boton(guiMain, Button24, "x176 y88 w136 h46", "Formaciones")
+Boton(guiMain, Button1, "x40 y136 w136 h46", "Internet libre")
+Boton(guiMain, Button2, "x176 y136 w136 h46", "Multiconferencia")
 
 ; --- Bloque 2: CIERRES ---
-Gui("1:Add", "Text", "x464 y16 w67 h18", "CIERRES")
-Gui("1:Add", "Button", "x344 y40 w136 h46 gButton23", "Contraseñas")
-Gui("1:Add", "Button", "x480 y40 w136 h46 gButton7", "Software")
-Gui("1:Add", "Button", "x344 y88 w136 h46 gButton6", "Certificado digital")
-Gui("1:Add", "Button", "x480 y88 w136 h46 gButton8", "PIN tarjeta")
-Gui("1:Add", "Button", "x344 y136 w136 h46 gButton9", "Servicio no CEIURIS")
-Gui("1:Add", "Button", "x480 y136 w136 h46 gButton5", "Emparejamiento ISL")
+guiMain.Add("Text", "x464 y16 w67 h18", "CIERRES")
+Boton(guiMain, Button23, "x344 y40 w136 h46", "Contraseñas")
+Boton(guiMain, Button7, "x480 y40 w136 h46", "Software")
+Boton(guiMain, Button6, "x344 y88 w136 h46", "Certificado digital")
+Boton(guiMain, Button8, "x480 y88 w136 h46", "PIN tarjeta")
+Boton(guiMain, Button9, "x344 y136 w136 h46", "Servicio no CEIURIS")
+Boton(guiMain, Button5, "x480 y136 w136 h46", "Emparejamiento ISL")
 
 ; --- Bloque 3: DP ---
-Gui("1:Add", "Text", "x840 y16 w25 h17", "DP")
-Gui("1:Add", "Button", "x640 y40 w136 h46 gButton15", "Disco duro")
-Gui("1:Add", "Button", "x776 y40 w136 h46 gButton12", "GM")
-Gui("1:Add", "Button", "x912 y40 w136 h46 gButton11", "Equipo sin red")
-Gui("1:Add", "Button", "x640 y88 w136 h46 gButton22", "ISL Apagado")
-Gui("1:Add", "Button", "x776 y88 w136 h46 gButton14", "Equipo no enciende")
-Gui("1:Add", "Button", "x912 y88 w136 h46 gButton10", "Lector tarjeta")
-Gui("1:Add", "Button", "x640 y136 w136 h46 gButton21", "Ratón")
-Gui("1:Add", "Button", "x776 y136 w136 h46 gButton17", "Monitor")
-Gui("1:Add", "Button", "x912 y136 w136 h46 gButton13", "Teléfono")
-Gui("1:Add", "Button", "x776 y184 w136 h46 gButton18", "Teclado")
+guiMain.Add("Text", "x840 y16 w25 h17", "DP")
+Boton(guiMain, Button15, "x640 y40 w136 h46", "Disco duro")
+Boton(guiMain, Button12, "x776 y40 w136 h46", "GM")
+Boton(guiMain, Button11, "x912 y40 w136 h46", "Equipo sin red")
+Boton(guiMain, Button22, "x640 y88 w136 h46", "ISL Apagado")
+Boton(guiMain, Button14, "x776 y88 w136 h46", "Equipo no enciende")
+Boton(guiMain, Button10, "x912 y88 w136 h46", "Lector tarjeta")
+Boton(guiMain, Button21, "x640 y136 w136 h46", "Ratón")
+Boton(guiMain, Button17, "x776 y136 w136 h46", "Monitor")
+Boton(guiMain, Button13, "x912 y136 w136 h46", "Teléfono")
+Boton(guiMain, Button18, "x776 y184 w136 h46", "Teclado")
 
 ; --- Bloque 4: DNI ---
-Gui("1:Add", "Text", "x136 y272 w33 h21", "DNI")
-Gui("1:Add", "Edit", "x176 y264 w188 h26 gUpdateLetter vdni", dni)
-Gui("1:Add", "Edit", "vDNILetter x368 y264 w20 h26 +ReadOnly")
+; Los cuatro Edit se guardan en variables: en v2 no existen las variables de
+; control de v1, asi que hay que leer y escribir el control directamente.
+guiMain.Add("Text", "x136 y272 w33 h21", "DNI")
+ctlDni := guiMain.Add("Edit", "x176 y264 w188 h26", dni)
+ctlDni.OnEvent("Change", UpdateLetter)
+ctlDNILetter := guiMain.Add("Edit", "x368 y264 w20 h26 +ReadOnly", "")
 
 ; --- Bloque 5: Teléfono ---
-Gui("1:Add", "Text", "x392 y272 w76 h21", "TELÉFONO")
-Gui("1:Add", "Edit", "x448 y264 w188 h26 vtelf", telf)
+guiMain.Add("Text", "x392 y272 w76 h21", "TELÉFONO")
+ctlTelf := guiMain.Add("Edit", "x448 y264 w188 h26", telf)
 
 ; --- Bloque 6: Búsqueda de incidencias ---
-Gui("1:Add", "Text", "x648 y272 w23 h21", "IN")
-Gui("1:Add", "Edit", "x664 y264 w188 h26 vInci", Inci)
-Gui("1:Add", "Button", "x872 y264 w80 h23 gButton25", "Buscar")
+guiMain.Add("Text", "x648 y272 w23 h21", "IN")
+ctlInci := guiMain.Add("Edit", "x664 y264 w188 h26", Inci)
+Boton(guiMain, Button25, "x872 y264 w80 h23", "Buscar")
 
-Gui("1:Show", "w1083 h332", "Lazybird")
+; v1 cerraba la aplicacion con las etiquetas GuiEscape / GuiClose. En v2 eso son
+; eventos de la ventana, no hotkeys (GuiEscape:: no es un hotkey valido), asi que
+; se enganchan aqui. Solo a la ventana principal: en v2 no hay forma de
+; replicar "una etiqueta para todas las ventanas" sin numeracion, y colgar la
+; aplicacion al cerrar el formulario de plantillas no es lo que se quiere.
+; Ver AUDIT_BETA.md seccion 7 (pregunta abierta para los tecnicos).
+guiMain.OnEvent("Close", SalirApp)
+guiMain.OnEvent("Escape", SalirApp)
+
+; El log de arranque va aqui, no antes: logInicio() esta definida mas abajo, y
+; llamarla antes de llegar a la seccion de funciones es lo que v2 no permite
+; (la seccion auto-ejecucion termina en la primera definicion de funcion).
+; El orden respecto a la ventana es el mismo que en v1: log y luego pintar.
+logInicio()
+
+; v1 era "Gui, 1:Show, w1083 h332, Lazybird". En v2 Show() SOLO acepta el tamano:
+; el titulo va en la propiedad .Title. Ponerlo como segundo argumento da "Too
+; many parameters passed to function".
+guiMain.Title := "Lazybird"
+guiMain.Show("w1083 h332")
 
 ; =============================================================================
 ; GUI 2 - Plantillas de correo
 ; =============================================================================
 
-Gui("2:Add", "Button", "x56 y32 w136 h46 gAccionPlantilla1", "NIG y captura")
-Gui("2:Add", "Button", "x56 y80 w136 h46 gAccionPlantilla2", "Captura")
-Gui("2:Add", "Button", "x56 y128 w136 h46 gAccionPlantilla3", "Formulario")
-Gui("2:Add", "Button", "x56 y176 w136 h46 gAccionPlantilla4", "Formulario GDU")
-Gui("2:Add", "Button", "x192 y32 w136 h46 gAccionPlantilla5", "Info solventada")
-Gui("2:Add", "Button", "x192 y80 w136 h46 gAccionPlantilla6", "Problema general")
-Gui("2:Add", "Button", "x192 y128 w136 h46 gAccionPlantilla7", "Resolución TLT")
-Gui("2:Add", "Button", "x192 y176 w136 h46 gAccionPlantilla8", "Mantenimiento")
-Gui("2:Add", "Radio", "x16 y248 w120 h23 vRadioContacto +Checked", "Primer contacto")
-Gui("2:Add", "Radio", "x144 y248 w120 h23", "Segundo contacto")
-Gui("2:Add", "Radio", "x272 y248 w120 h23", "Tercer contacto")
+Boton(guiPlantillas, AccionPlantilla1, "x56 y32 w136 h46", "NIG y captura")
+Boton(guiPlantillas, AccionPlantilla2, "x56 y80 w136 h46", "Captura")
+Boton(guiPlantillas, AccionPlantilla3, "x56 y128 w136 h46", "Formulario")
+Boton(guiPlantillas, AccionPlantilla4, "x56 y176 w136 h46", "Formulario GDU")
+Boton(guiPlantillas, AccionPlantilla5, "x192 y32 w136 h46", "Info solventada")
+Boton(guiPlantillas, AccionPlantilla6, "x192 y80 w136 h46", "Problema general")
+Boton(guiPlantillas, AccionPlantilla7, "x192 y128 w136 h46", "Resolución TLT")
+Boton(guiPlantillas, AccionPlantilla8, "x192 y176 w136 h46", "Mantenimiento")
+; v1 agrupaba los tres Radio con vRadioContacto (solo el primero lleva el
+; nombre). En v2 se lee .Value de cada uno.
+ctlContacto1 := guiPlantillas.Add("Radio", "x16 y248 w120 h23 +Checked", "Primer contacto")
+ctlContacto2 := guiPlantillas.Add("Radio", "x144 y248 w120 h23", "Segundo contacto")
+ctlContacto3 := guiPlantillas.Add("Radio", "x272 y248 w120 h23", "Tercer contacto")
 
 ; =============================================================================
 ; Atajos y handlers
 ; =============================================================================
 
-#Space::
+#Space::{
     WriteLog("Abriendo GUI de Plantillas")
-    Gui("2:Show", "w389 h286", "Plantillas correos")
+    ; v1 era "Gui, 2:Show, w389 h286, Plantillas correos". El titulo va en .Title,
+    ; no como segundo argumento de Show(). Ver la nota de guiMain.Show mas arriba.
+    guiPlantillas.Title := "Plantillas correos"
+    guiPlantillas.Show("w389 h286")
     return
+}
 
 ; --- Envío de plantillas de correo ---
+; En v1 las ocho AccionPlantillaN eran etiquetas apiladas que compartian cuerpo
+; y se distinguian por A_ThisLabel. En v2 un manejador de OnEvent tiene que ser
+; una funcion, asi que hay ocho funciones finitas que delegan en una comun.
+; El nombre se pasa como cadena para poder seguir usando DiccionarioCorreos tal
+; cual estaba (sus claves son "AccionPlantilla1".."AccionPlantilla8").
+AccionPlantilla1(*) => plantillaEnviada("AccionPlantilla1")
+AccionPlantilla2(*) => plantillaEnviada("AccionPlantilla2")
+AccionPlantilla3(*) => plantillaEnviada("AccionPlantilla3")
+AccionPlantilla4(*) => plantillaEnviada("AccionPlantilla4")
+AccionPlantilla5(*) => plantillaEnviada("AccionPlantilla5")
+AccionPlantilla6(*) => plantillaEnviada("AccionPlantilla6")
+AccionPlantilla7(*) => plantillaEnviada("AccionPlantilla7")
+AccionPlantilla8(*) => plantillaEnviada("AccionPlantilla8")
+
 ; En v1 este flujo no estaba dentro de try/catch: si faltaba un .txt saltaba un
 ; error de AHK sin log y con el formulario a medias (bug #15). Ahora se captura.
-AccionPlantilla1:
-AccionPlantilla2:
-AccionPlantilla3:
-AccionPlantilla4:
-AccionPlantilla5:
-AccionPlantilla6:
-AccionPlantilla7:
-AccionPlantilla8:
+plantillaEnviada(nombre) {
     try {
-        Gui("2:Submit", "NoHide")
+        ; en v2 no hay variables de control: el Radio se lee con .Value
+        RadioContacto := ctlContacto1.Value ? "1" : (ctlContacto2.Value ? "2" : "3")
 
         RutaContacto := RutaContactos . "\" . RadioContacto . "contacto.txt"
         TextoContacto := LeerPlantilla(RutaContacto)
@@ -457,7 +590,7 @@ AccionPlantilla8:
             return
         }
 
-        NombreCorreo := DiccionarioCorreos[A_ThisLabel]
+        NombreCorreo := DiccionarioCorreos[nombre]
         TextoCorreo := LeerPlantilla(RutaCorreos . "\" . NombreCorreo . ".txt")
         if (TextoCorreo = "") {
             MsgBox("No se encontró la plantilla de correo:" . "`n"
@@ -467,38 +600,79 @@ AccionPlantilla8:
         TextoCorreo := StrReplace(TextoCorreo, "`r`n", "`n")
 
         screen()
-        ; SendRaw preservado: el texto de las plantillas puede contener llaves
-        ; {} y no debe interpretarse como teclas.
+        ; SendRaw no existe en v2: lo sustituye SendText(), que es su equivalente
+        ; exacto (envia el texto literal, sin interpretar {} como teclas). Las
+        ; plantillas contienen llaves y corchetes, asi que la diferencia se ve.
+        ; OJO: NO cambiar SendText por Send, que interpretaria {Enter} y compañía.
         Send("{Tab 24}{Up}{Tab}{Enter}{Tab 3}^+{Up}^v{Tab}{Down 2}{Tab 4}^+{Up}")
         Sleep 150
-        SendRaw(TextoContacto)
+        SendText(TextoContacto)
         Send("^{Enter}{Enter}")
         Sleep 150
         Send("{Tab 10}{Enter}")
-        SendRaw(TextoCorreo)
+        SendText(TextoCorreo)
         Send("^{Enter}")
         Send("{Tab 2}{Enter}{Tab}{Enter}")
         Send("^{Enter}{Enter}")
         Sleep 100
         Send("{Enter}{Tab 2}{Enter}")
-        Gui("2:Hide")
+        guiPlantillas.Hide()
         WriteLog("Envió la plantilla " . NombreCorreo . " (" . RadioContacto . ")")
-    } catch as e {
-        WriteError("Error en la plantilla " . A_ThisLabel . ": " . e.Message)
-        MsgBox("Error al enviar la plantilla:" . "`n" . e.Message, "Lazybird", "Iconx")
+    } catch as excepcion6 {
+        WriteError("Error en la plantilla " . nombre . ": " . excepcion6.Message)
+        MsgBox("Error al enviar la plantilla:" . "`n" . excepcion6.Message, "Lazybird", "Iconx")
     }
-    return
+}
 
-UpdateLetter:
+; --- Letra del DNI ---
+; v1 la enganchaba con gUpdateLetter al Edit del DNI. En v2 es OnEvent("Change").
+; OJO: este manejador estaba conectado en la construccion de la GUI y hay que
+; mantenerlo en el mismo sitio, con la misma semantica (se recalcula en cada
+; pulsacion, que es lo que hacia v1).
+UpdateLetter(*) {
+    global dni             ; sin global, se escribe una local y la global sigue vacia
     try {
-        Gui("Submit", "NoHide")
+        dni := ctlDni.Text
         DNILetter := CalculateDNILetter(dni)
-        GuiControl("DNILetter", DNILetter)
+        ctlDNILetter.Text := DNILetter
         WriteLog("Actualizó la letra del DNI")
-    } catch as e {
-        WriteError("Actualizando letra del DNI: " . e.Message)
+    } catch as excepcion7 {
+        WriteError("Actualizando letra del DNI: " . excepcion7.Message)
     }
-    return
+}
+
+; Cierre de la aplicacion. Sustituye a las etiquetas GuiEscape / GuiClose de v1,
+; que en v2 no existen como hotkeys. Ver la nota de OnEvent mas arriba.
+SalirApp(*) {
+    WriteLog("Cerró la aplicación")
+    ExitApp()
+}
+
+; Crea un boton y lo engancha a su manejador. En v1 era la opcion "gButtonN" de
+; la cadena de opciones, que en v2 no existe: sin esto los 25 botones se
+; dibujarian pero no harian nada al pulsarlos.
+;
+; La local NO se llama "boton". En v2 los nombres distinguen mayusculas, pero AHK
+; sigue avisando "This local variable has the same name as a global variable"
+; cuando una local coincide con el nombre de una funcion global, aunque solo
+; cambien en las mayusculas: "boton" dentro de Boton() dispara el aviso. Y el
+; aviso es MODAL, asi que la macro se queda parada al arrancar. Comprobado con un
+; caso minimo de 4 lineas.
+Boton(ventana, manejador, opciones, texto) {
+    ctlBoton := ventana.Add("Button", opciones, texto)
+    ctlBoton.OnEvent("Click", manejador)
+    return ctlBoton
+}
+
+; Lee los tres campos editables. En v1 esto lo hacia "Gui, Submit, NoHide",
+; que rellenaba las variables de control; en v2 no existen esas variables y
+; Submit no hace nada por si solo, hay que leer cada control.
+leerCampos() {
+    global dni, telf, Inci
+    dni := ctlDni.Text
+    telf := ctlTelf.Text
+    Inci := ctlInci.Text
+}
 
 ; =============================================================================
 ; Handlers de los botones de la GUI 1
@@ -507,99 +681,103 @@ UpdateLetter:
 ; que lo busca en la tabla M del principio del script. Asi es imposible que dos
 ; macros distintas compartan indice, que es lo que pasaba en v1.
 ; Ver AUDIT_BETA.md seccion 2.
-Button1:
+Button1(*) {
     ExecuteAlbaMacro(EjecutarMacro("Internet libre"), "Internet libre")
-    return
-Button2:
+}
+Button2(*) {
     ExecuteAlbaMacro(EjecutarMacro("Multiconferencia"), "Multiconferencia")
-    return
-Button3:
+}
+Button3(*) {
     ExecuteAlbaMacro(EjecutarMacro("Aumento espacio correo"), "Aumento espacio correo")
-    return
-Button4:
+}
+Button4(*) {
     ExecuteAlbaMacro(EjecutarMacro("GDU"), "GDU")
-    return
-Button5:
+}
+Button5(*) {
     ExecuteAlbaMacro(EjecutarMacro("Emparejamiento ISL"), "Emparejamiento ISL")
-    return
-Button6:
+}
+Button6(*) {
     ExecuteAlbaMacro(EjecutarMacro("Certificado digital"), "Certificado digital")
-    return
-Button7:
+}
+Button7(*) {
     ExecuteAlbaMacro(EjecutarMacro("Software"), "Software")
-    return
-Button8:
+}
+Button8(*) {
     ExecuteAlbaMacro(EjecutarMacro("PIN tarjeta"), "PIN tarjeta")
-    return
-Button9:
+}
+Button9(*) {
     ExecuteAlbaMacro(EjecutarMacro("Servicio no CEIURIS"), "Servicio no CEIURIS")
-    return
-Button10:
+}
+Button10(*) {
     ExecuteAlbaMacro(EjecutarMacro("Lector tarjeta"), "Lector tarjeta")
-    return
-Button11:
+}
+Button11(*) {
     ExecuteAlbaMacro(EjecutarMacro("Equipo sin red"), "Equipo sin red")
-    return
-Button12:
+}
+Button12(*) {
     ExecuteAlbaMacro(EjecutarMacro("GM"), "GM")
-    return
-Button13:
+}
+Button13(*) {
     ExecuteAlbaMacro(EjecutarMacro("Teléfono"), "Teléfono")
-    return
-Button14:
+}
+Button14(*) {
     ExecuteAlbaMacro(EjecutarMacro("Equipo no enciende"), "Equipo no enciende")
-    return
-Button15:
+}
+Button15(*) {
     ExecuteAlbaMacro(EjecutarMacro("Disco duro"), "Disco duro")
-    return
-Button16:
+}
+Button16(*) {
     ExecuteAlbaMacro(EjecutarMacro("Intervención video"), "Intervención video")
-    return
-Button17:
+}
+Button17(*) {
     ExecuteAlbaMacro(EjecutarMacro("Monitor"), "Monitor")
-    return
-Button18:
+}
+Button18(*) {
     ExecuteAlbaMacro(EjecutarMacro("Teclado"), "Teclado")
-    return
+}
 
 ; Código muerto en v1 (ningún botón los invoca, bug #6). Se conservan por si
 ; algun día se usan. Sus indices ya coincidian con el listado.
-Button19:
+Button19(*) {
     ExecuteAlbaMacro(EjecutarMacro("Siraj2"), "Siraj2")
-    return
-Button20:
+}
+Button20(*) {
     ExecuteAlbaMacro(EjecutarMacro("Emparejamiento ISL"), "Emparejamiento ISL")
-    return
+}
 
-Button21:
+Button21(*) {
     ExecuteAlbaMacro(EjecutarMacro("Ratón"), "Ratón")
-    return
-Button22:
+}
+Button22(*) {
     ExecuteAlbaMacro(EjecutarMacro("ISL Apagado"), "ISL Apagado")
-    return
-Button23:
+}
+Button23(*) {
     ExecuteAlbaMacro(EjecutarMacro("Contraseñas"), "Contraseñas")
-    return
-Button24:
+}
+Button24(*) {
     ExecuteAlbaMacro(EjecutarMacro("Formaciones"), "Formaciones")
-    return
+}
 
 ; Buscar: el índice 0 es intencionado, solo enfoca el formulario antes de buscar.
-Button25:
+; global Inci es obligatorio: sin el, v2 crea una variable LOCAL con ese nombre,
+; distinta de la global que rellena leerCampos(), y la busqueda saldria siempre
+; vacia sin dar ningun error.
+Button25(*) {
+    global Inci
     if (!CheckRemedy())
         return
     try {
-        Gui("Submit", "NoHide")
+        leerCampos()
         SeleccionarMacro(ULTIMA_FILA)
         Send("{F3}{Enter}{Tab 5}")
         Send(Inci)
         Send("^{Enter}")
-        GuiControl("Inci", Inci)
+        ctlInci.Text := ""
         WriteLog("Pulsó el botón Buscar con Inci: " . Inci)
-    } catch as e {
-        WriteError("Pulsando el botón Buscar: " . e.Message)
+    } catch as excepcion8 {
+        WriteError("Pulsando el botón Buscar: " . excepcion8.Message)
     }
-    return
+}
 
 ; --- Atajos de teclado ---
 ; Estos cuatro conservan el literal del v1 en vez de pasar por la tabla M,
@@ -614,21 +792,30 @@ Button25:
 ; Cuando se confirme que macro debe correr cada atajo, ponla en la tabla M y
 ; cambia el literal por EjecutarMacro("nombre").
 ; #1 usa la fila 0 (= "Connexion"), igual que en v1. Ver la nota de ULTIMA_FILA.
-#1::
+#1::{
     ExecuteAlbaMacro(ULTIMA_FILA, "Combinación #1 (Macro Base)")
     return
-#2::
+}
+
+#2::{
     ExecuteAlbaMacroWithClose(43, "Combinación #2 (Cierre Estándar)")
     return
-#3::
+}
+
+#3::{
     ExecuteAlbaMacro(34, "Combinación #3 (Cierre Estándar)")
     return
-#4::
+}
+
+#4::{
     ExecuteAlbaMacro(40, "Combinación #4 (Cierre Estándar)")
     return
-#5::
+}
+
+#5::{
     ExecuteAlbaMacro(1, "Combinación #5 (Cierre Estándar)")
     return
+}
 
 ; Repetir la acción N veces.
 ; NOTA (bug abierto): produccion usa el índice 42; la copia de git usa 0.
@@ -637,15 +824,34 @@ Button25:
 ; mejoras de UX y no alteran la secuencia de teclas.
 ; Los flags numéricos de MsgBox en v1 (16, 48, 64) son máscaras de BOTÓN, no
 ; iconos: 16=Ignore, 48=Ignore+Yes, 64=No. Casi seguro se querían iconos.
-#6::
+#6::{
     if (!CheckRemedy())
         return
 
-    repeatCount := InputBox("¿Cuántas veces deseas repetir la acción?", "Repeticiones", , , "300", "150")
-    if !repeatCount {
+    ; InputBox cambia de DOS maneras en v2, y las dos importan:
+    ;
+    ; 1) Devuelve un OBJETO, no una cadena. El texto va en .Value y el motivo de
+    ;    cierre en .Result ("OK" / "Cancel" / "Timeout"). En v1 era
+    ;    "InputBox, salida" y el motivo se leia con ErrorLevel.
+    ; 2) El ORDEN de parametros es otro. v1 era
+    ;       InputBox, salida, Titulo, Prompt, Default, H, W
+    ;    y v2 es
+    ;       InputBox(Prompt, Title, Options, Default)
+    ;    con el tamano dentro de Options como "w150 h300". La llamada de v1
+    ;    (..., , 300, 150) era H=300 W=150, asi que aqui va "w150 h300".
+    ;    Ademas v2 no admite huecos: en v1 los parametros vacios se dejaban en
+    ;    blanco y aqui eso da "Too many parameters passed to function".
+    ib := InputBox("¿Cuántas veces deseas repetir la acción?", "Repeticiones", "w150 h300")
+    if (ib.Result != "OK") {
         MsgBox("Cancelado por el usuario.", "Cancelado", "Icon!")
         return
     }
+    repeatCount := ib.Value
+
+    ; v1 comparaba el texto crudo con un entero y aceptaba "3" con espacios.
+    ; Trim() es el equivalente explicito; sin el, " 3 " pasaria a IsInteger()
+    ; como falso y el tecnico veria "numero invalido" con un numero valido.
+    repeatCount := Trim(repeatCount)
 
     if (!IsInteger(repeatCount) || repeatCount <= 0 || repeatCount > 999) {
         MsgBox("Número inválido. Introduce un número entero entre 1 y 999.", "Error", "Icon!")
@@ -660,8 +866,8 @@ Button25:
             ToolTip("Macro ejecutándose: " . A_Index . " de " . repeatCount . " (No tocar)")
             WriteLog("Macro repetición (Iteración: " . A_Index . ")")
             Send("^{Enter}{Enter}")
-        } catch as e {
-            WriteError("Error en iteración " . A_Index . ": " . e.Message)
+        } catch as excepcion9 {
+            WriteError("Error en iteración " . A_Index . ": " . excepcion9.Message)
         }
         Sleep 1000
     }
@@ -669,9 +875,14 @@ Button25:
     ToolTip()
     MsgBox("Se ha completado correctamente " . repeatCount . " veces.", "Completado", "Icon2")
     return
+}
 
 ; Modo AFK: evita que el equipo entre en suspensión.
-#7::
+; global Toggle / IsActive es OBLIGATORIO. Sin el, v2 crea una LOCAL con ese
+; nombre dentro del hotkey, que arranca vacia en cada pulsacion: Toggle valdria
+; false, el "si" nunca se cumpliria y el modo AFK no se podria ni activar.
+#7::{
+    global Toggle, IsActive
     if (!CheckRemedy())
         return
     try {
@@ -687,23 +898,26 @@ Button25:
             MsgBox("Modo AFK desactivado.", "Gestor", "Icon2")
             WriteLog("Modo AFK DESACTIVADO")
         }
-    } catch as e {
-        WriteError("Cambiando modo AFK: " . e.Message)
+    } catch as excepcion10 {
+        WriteError("Cambiando modo AFK: " . excepcion10.Message)
     }
     return
+}
 
 ; En v1 IsActive se leia sin declarar (bug #5). Aqui se inicializa arriba.
+; OJO: esto es una ETIQUETA (destino de SetTimer), no un hotkey. Las etiquetas se
+; declaran igual que en v1 y NO llevan llaves.
 KeepActive:
     try {
         if (IsActive)
             DllCall("SetThreadExecutionState", "UInt", 0x80000003)
-    } catch as e {
-        WriteError("Error manteniendo el equipo activo: " . e.Message)
+    } catch as excepcion11 {
+        WriteError("Error manteniendo el equipo activo: " . excepcion11.Message)
     }
     return
 
 ; Marcación automática en OpenScape.
-#8::
+#8::{
     try {
         WriteLog("Iniciando marcación automática OpenScape")
         Send("{End}^+{Up}^c")
@@ -718,61 +932,74 @@ KeepActive:
         Sleep 12000
         Send("{Alt down}{Alt up}3")
         WriteLog("Finalizada marcación OpenScape")
-    } catch as e {
-        WriteError("Error en marcación OpenScape: " . e.Message)
+    } catch as excepcion12 {
+        WriteError("Error en marcación OpenScape: " . excepcion12.Message)
     }
     return
+}
 
-#9::
+#9::{
+    global Inci          ; sin global, v2 lee una local vacia (ver Button25)
     if (!CheckRemedy())
         return
     try {
-        Gui("Submit", "NoHide")
+        leerCampos()
         SeleccionarMacro(ULTIMA_FILA)
         Send("{F3}{Enter}{Tab 5}" . Inci . "^{Enter}")
-        GuiControl("Inci", Inci)
+        ctlInci.Text := ""
         WriteLog("Ejecutó búsqueda rápida (#9) con IN: " . Inci)
-    } catch as e {
-        WriteError("Error en búsqueda rápida #9: " . e.Message)
+    } catch as excepcion13 {
+        WriteError("Error en búsqueda rápida #9: " . excepcion13.Message)
     }
     return
+}
 
-#0::
+#0::{
     WriteLog("Solicitando recarga del script (Reload)")
     Reload()
     return
+}
 
-XButton1::
+XButton1::{
     if (!CheckRemedy())
         return
     try {
         screen()
         Send("{Alt}a{Down 9}{Right}{Enter}")
         WriteLog("Ejecutó macro rápida de menú con XButton1")
-    } catch as e {
-        WriteError("Error en XButton1: " . e.Message)
+    } catch as excepcion14 {
+        WriteError("Error en XButton1: " . excepcion14.Message)
     }
     return
+}
 
-XButton2::
+XButton2::{
     WriteLog("Ejecutó captura de pantalla (Win+Shift+S) con XButton2")
     Send("#+s")
     return
+}
 
-F14::
+F14::{
     ExecuteAlbaMacroWithClose(43, "Macro F14")
     return
-F15::
+}
+
+F15::{
     ExecuteAlbaMacroWithClose(34, "Macro F15")
     return
-F16::
+}
+
+F16::{
     ExecuteAlbaMacroWithClose(40, "Macro F16")
     return
-F17::
+}
+
+F17::{
     ExecuteAlbaMacroWithClose(1, "Macro F17")
     return
+}
 
-F18::
+F18::{
     if (!CheckRemedy())
         return
     try {
@@ -780,32 +1007,53 @@ F18::
         SeleccionarMacro(ULTIMA_FILA)
         Send("{F3}{Enter}{Tab 5}^v^{Enter}")
         WriteLog("Ejecutó búsqueda F18 con texto del portapapeles")
-    } catch as e {
-        WriteError("Error en búsqueda F18: " . e.Message)
+    } catch as excepcion15 {
+        WriteError("Error en búsqueda F18: " . excepcion15.Message)
     }
     return
+}
 
-F12::
-F19::
+; F12 y F19 comparten cuerpo, como en v1. En v2 NO se pueden apilar con llaves
+; ("F12::F19::{" es un hotkey invalido), asi que van por separado con el mismo
+; cuerpo. El texto del log se deja igual para no cambiar lo que ve el técnico.
+F12::{
+    global Inci          ; sin global, v2 lee una local vacia (ver Button25)
     if (!CheckRemedy())
         return
     try {
-        Gui("Submit", "NoHide")
+        leerCampos()
         SeleccionarMacro(ULTIMA_FILA)
         Send("{F3}{Enter}{Tab 5}" . Inci . "^{Enter}")
-        GuiControl("Inci", Inci)
+        ctlInci.Text := ""
         WriteLog("Ejecutó búsqueda (F12/F19) con IN: " . Inci)
-    } catch as e {
-        WriteError("Error en búsqueda F12/F19: " . e.Message)
+    } catch as excepcion16 {
+        WriteError("Error en búsqueda F12/F19: " . excepcion16.Message)
     }
     return
+}
 
-F20::
+F19::{
+    global Inci          ; sin global, v2 lee una local vacia (ver Button25)
+    if (!CheckRemedy())
+        return
+    try {
+        leerCampos()
+        SeleccionarMacro(ULTIMA_FILA)
+        Send("{F3}{Enter}{Tab 5}" . Inci . "^{Enter}")
+        ctlInci.Text := ""
+        WriteLog("Ejecutó búsqueda (F12/F19) con IN: " . Inci)
+    } catch as excepcion17 {
+        WriteError("Error en búsqueda F12/F19: " . excepcion17.Message)
+    }
+    return
+}
+
+F20::{
     ExecuteAlbaMacroWithClose(EjecutarMacro("Emparejamiento ISL"), "Macro F20 (Emparejamiento)",
         "Se empareja equipo correctamente y se indica contraseña ISL se cierra ticket.")
     return
+}
 
-GuiEscape::
-GuiClose::
-    WriteLog("Cerró la aplicación")
-    ExitApp()
+; GuiEscape / GuiClose ya no estan aqui: eran etiquetas, no hotkeys, y en v2 no
+; existen. Se han resuelto con guiMain.OnEvent("Escape"/"Close", SalirApp), mas
+; arriba, al construir la ventana. SalirApp() es la funcion que hace el ExitApp.

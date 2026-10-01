@@ -310,22 +310,26 @@ alteran la secuencia de teclas.
 
 ## 6. Port a AHK v2
 
-Ver `CAU_GUI_BETA_v2.ahk`. Criterios aplicados:
+Ver `CAU_GUI_BETA_v2.ahk`. **La lista completa de lo que hubo que cambiar, y de los fallos que solo
+aparecieron al ejecutarlo, está en el §10. Esta sección es el criterio; el §10 es la evidencia.**
 
-- **Sintaxis v2 real**, no renombrados cosméticos: `Gui("1:Add", …)`, `Send("…")`, `FileRead()`,
-  `IfWinExist()`, `Loop N`, `StrReplace()`, `InputBox(Prompt, Title, …)`, `IsInteger()`. Los 6
-  `global` desaparecen (en v2 el ámbito de función es local y las globales lo son por defecto).
+Criterios aplicados:
+
+- **Sintaxis v2 real, no renombrados cosméticos.** Cada cambio está verificado contra el intérprete
+  de v2 (2.0.28), no de memoria. Varios eran comandos en v1 y en v2 no existen:
+  `IfWinExist` → `WinExist`, `SendRaw` → `SendText`, `SetTitleMatchMode` → sigue existiendo pero como
+  función, `InputBox` cambia de firma y de tipo de retorno. El §10 los lista uno a uno.
 - **Preservación estricta del comportamiento**: mismas coordenadas, mismos atajos, misma secuencia
-  `{Tab 22}`, mismo `BlockInput`, mismo `SendRaw` para las plantillas (el texto puede contener `{}` y
-  no debe interpretarse).
+  `{Tab 22}`, mismo `BlockInput`, y `SendText` para las plantillas, que es el equivalente exacto de
+  `SendRaw` (el texto puede contener `{}` y no debe interpretarse como teclas).
 - **`SendInput` → `SendEvent`**: el original usa `SendInput` a propósito en `cierre()` (envío por
   eventos, no por inyección de Input). En v2 `Send` usa el método Input, así que preservar esto exige
   `SendEvent()` explícito.
 - **Corregido en el port:** rutas por `%APPDATA%`/`%USERPROFILE%` (#1), `currentVersion` e `IsActive`
   declarados (#4, #5), `MsgBox` con iconos válidos (#10), `BlockInput` también en `cierre()` (#13),
   `try/catch` en las plantillas (#14), validación de entero y `ToolTip` en `#6` (de git).
-- **Números de macro corregidos** contra los `.arq` reales (§2.2) y **reestructurados**: los 24 handlers
-  ya no llevan número, piden el índice por nombre a `EjecutarMacro("nombre")`, que lo busca en el objeto
+- **Números de macro corregidos** contra los `.arq` reales (§2.2) y **reestructurados**: los 25 handlers
+  ya no llevan número, piden el índice por nombre a `EjecutarMacro("nombre")`, que lo busca en el `Map`
   `M` del principio del script. Así es estructuralmente imposible que dos macros compartan índice
   (bug #15), que es exactamente como se coló el error.
 - **`SIN_MACRO` era falso y se ha eliminado.** El v1 usaba `Alba(0)` creyendo que era "sin macro", pero
@@ -334,6 +338,11 @@ Ver `CAU_GUI_BETA_v2.ahk`. Criterios aplicados:
 - **Guardas añadidas:** si un nombre no está en `M`, `EjecutarMacro` devuelve `-1` y `ExecuteAlbaMacro`
   aborta con `MsgBox` **sin enviar ninguna tecla**. Antes, un nombre mal escrito mandaba el cursor a una
   fila arbitraria del formulario.
+
+> **Los `global` NO desaparecen.** Una primera versión de esta sección afirmaba que los seis `global`
+> del v1 sobraban. Es al revés: en v2 el ámbito de función es local **por defecto**, así que sin
+> `global` un hotkey que asigna `Toggle := !Toggle` se crea una local nueva en cada pulsación y el
+> estado se pierde al salir. Faltan cuatro (§10, fallo 7).
 
 ---
 
@@ -363,31 +372,20 @@ que provocaba *1 entrada de 46* con el nombre en blanco queda identificado y bli
    `Internet libre`/`Intervención video`) y ninguna la usa un botón. Se resuelve contando en el
    formulario.
 
-Para resolver 2-6 basta abrir el formulario Alba en un equipo con Remedy y contar. `verificar_indices.ps1`
-(§9) automatiza la parte estática.
 
 
+7. **`GuiEscape` / `GuiClose`: ¿cerraban la aplicación entera o solo la ventana principal?** En v2 esas
+   etiquetas no existen y se han sustituido por `.OnEvent("Close"/"Escape")` **en la ventana
+   principal únicamente**. No se ha podido confirmar la semántica de v1 porque no se ha conseguido el
+   intérprete de v1 (todas las URL de descarga dan 404 o 0 bytes). Si en v1 cerrar el formulario de
+   plantillas salía de la aplicación y aquí no, es un cambio de comportamiento que hay que decidir.
+8. **Los `MsgBox` con 16, 48 y 64, ¿querían iconos o botones?** Son máscaras de botón (§2.3), no
+   iconos. El port los ha puesto como iconos, que es casi con toda seguridad la intención, pero es
+   una interpretación y cambia lo que ve el técnico.
 
-1. **¿Con qué intérprete se ejecuta en producción?** El archivo mezcla sintaxis v1 y v2 (bug #2), así
-   que no es válido en ninguna. `global dni, telf` (línea 95) está dentro de `ExecuteAlbaMacro`, que se
-   ejecuta en **cada click**. Si fuese v2 puro, `Gui, 1:Add` (líneas 181-231) no existiría; si fuese v1
-   puro, ese `global` daría error. Se resuelve mirando el intérprete configurado en el equipo.
-2. **¿Qué macro deben correr `#2/F14`, `#3/F15` y `#4/F16`?** Sus números (43, 34, 40) apuntaban fuera
-   de rango incluso antes del desfase. Hoy caen en `Adriano`, `Correo password` y `ArconteSala` (§2.7).
-3. **`#6`: ¿índice 42 o la fila 0?** 42 = `Adriano`, que no encaja con "repetir la acción". En git es
-   `Alba(0)`. El port mantiene 42.
-4. **¿`Buscar` / `F12` / `F19` deben ejecutar `Connexion`?** `{End}{Up 0}{Enter}` sí selecciona y ejecuta
-   la última fila. En el v1 setomaba como "solo enfocar".
-5. **¿Las 4 filas de arriba del listado** (`ZZZAbbyp`, `ZZZAdpas`, `ZZZArcontepassword`,
-   `ZZZArconteSala`) **son de uso real del CAU o Discarded?** No las referencia ningún botón. Si se
-   borran, todos los números vuelven a bajar.
-6. **Orden alfabético exacto.** La deducción asume *case-insensitive* por el nombre visible, con
-   desempate por fichero. Solo afecta a 4 posiciones (`Arconte password`/`ArconteSala` y
-   `Internet libre`/`Intervención video`) y ninguna la usa un botón. Se resuelve contando en el
-   formulario.
-
-Para resolver 2-6 basta abrir el formulario Alba en un equipo con Remedy y contar. `verificar_indices.ps1`
-(§9) automatiza la parte estática.
+Para resolver 2-6 basta abrir el formulario Alba en un equipo con Remedy y contar. `verificar_indices.ps1` (§9)
+automatiza la parte estática. La 7 y la 8 no se pueden automatizar: son de intención, no de
+texto, y necesitan que conteste alguien de los técnicos.
 
 ---
 
@@ -498,3 +496,146 @@ que los blobs ya commiteados tienen los CRLF intactos, así que la regla no prov
 espurio. **Deliberadamente no se fijan reglas `eol=lf` para el código fuente**: con medio repo en
 CRLF legadose, un `--renormalize` reescribe de golpe `Bateria de pruebas/`, `Otras herramientas/` y
 `superbateria_test.ps1`, que están fuera de alcance.
+
+---
+
+## 10. El port a v2, fallado por ejecución
+
+Esta sección existe porque **compilar no es arrancar**. El port llegó a compilar sin un solo error y
+aún así estaba roto de nueve maneras distintas, y ninguna se veía sin ejecutarlo.
+
+### Cómo se ha verificado
+
+El banco de pruebas es **Wine + Xvfb**, no una VM de Windows. La razón es el coste: un ciclo de
+corrección en una VM de Proxmox es de horas (arrancar, instalar AutoHotkey, copiar el fichero,
+arrancar, cerrar), y aquí son unos 40 segundos. Un `.ahk` no usa nada que Wine no sepa emular
+(mensajes de Windows, GUI, `DllCall` a `ntdll`), así que las diferencias entre el banco y un equipo
+real están en la resolución del formulario Oracle y en el `{Tab}` de Remedy, no en la lógica.
+
+Interprete: **AutoHotkey v2.0.28**. Todo lo de esta sección está comprobado con ese binario, no con
+la documentación ni de memoria.
+
+El resultado final del port:
+
+```
+0 errores de compilación
+0 avisos de #Warn
+ventana "Lazybird" presente, 1083x332, los 23 botones con su texto
+clic en "GDU" -> llega a CheckRemedy()   (verificado por captura)
+```
+
+### Los 9 fallos
+
+**1. `Gui("1:Add", …)` está muerto al nacer.** La traducción mecánica de `Gui, 1:Add, Text, …` da
+`Gui("1:Add", "Text", …)`, que **compila sin quejarse** y revienta en la primera llamada con *"Too
+many parameters passed to function"*. En v2 no hay ventanas numeradas: cada una es un objeto `Gui()`.
+Lo mismo con la opción `gButtonN` de las cadenas de opciones, que en v2 no existe y se traduce por
+`.OnEvent("Click", …)`.
+
+> Consecuencia: los 25 botones se dibujaban y **no hacían nada al pulsarlos**. Un port que solo se
+> compila y se mira compilar habría dado este por bueno.
+
+**2. Las 25 etiquetas `ButtonN:` no son manejadores.** `Boton(guiMain, Button4, …)` evalúa `Button4`
+como expresión, y una etiqueta no es un valor. Se han convertido en funciones `ButtonN(*) { … }`. El `*` es
+obligatorio: `OnEvent` pasa dos argumentos y una función de un solo parámetro falla. Con etiquetas,
+AHK avisaba 25 veces *"This global variable appears to never be assigned a value"*.
+
+**3. `M` y `DiccionarioCorreos` no admitían acceso por índice.** Eran objetos planos. En v2,
+`objeto["clave"]` no busca una propiedad: busca una propiedad llamada `__Item`, y da en ejecución
+
+```
+This value of type "Object" has no property named "__Item".
+```
+
+lo que **para el script en el arranque**, antes de pintar nada. Los dos son ahora `Map()`, que es el
+diccionario de v2, y `.Has()` sustituye a `.HasOwnProp()` (que `Map` no tiene).
+
+Relacionado: las claves de un literal de objeto en v2 tienen que ser **identificadores desnudos**
+(`GDU: 24`). Las entrecomilladas (`"GDU": 24`) son de v1 y se rechazan. Como casi todos los nombres
+de macro tienen espacios o acentos, la tabla no se puede escribir como literal: son 46 asignaciones.
+
+**4. `Font` no es un método de `Gui`, y el título no va en `Show()`.**
+
+| v1 | v2 (correcto) | Qué pasaba si se hacía mal |
+|---|---|---|
+| `Gui, 1:Font,, Segoe UI` | `guiMain.SetFont(, "Segoe UI")` | *Invalid option* — el 1.º parámetro son las opciones (`s14`, `cRed`), no la fuente |
+| `Gui, 1:Show, w1083 h332, Lazybird` | `guiMain.Title := "Lazybird"` + `Show("w1083 h332")` | *Too many parameters* — `Show` solo acepta el tamaño |
+
+**5. Comandos de v1 que en v2 no existen o cambian de firma.**
+
+| v1 | v2 | Nota |
+|---|---|---|
+| `IfWinExist("…")` | `WinExist("…")` | v2 lo trata como variable y avisa |
+| `SendRaw(texto)` | `SendText(texto)` | Equivalente **exacto**: no interpreta `{}`. **No** sustituir por `Send`, que sí lo interpretaría |
+| `SetBatchLines` | — | **Eliminada.** Los scripts corren a máxima velocidad por defecto. Se dejó la llamada como está, y v2 la trata como global suelta y saca un diálogo **modal** que congela la macro |
+| `InputBox, salida, título, prompt, , 300, 150` | `ib := InputBox(prompt, título, "w150 h300")` → `ib.Value` / `ib.Result` | Cambia el **orden** (v1: `H, W`; v2: dentro de `Options`) y **devuelve un objeto**, no una cadena. Los huecos no se permiten |
+
+Lo de `SetBatchLines` es la más traicionera de la lista: quitar la llamada no cambia el
+comportamiento, **dejarla** congela la macro en un diálogo.
+
+**6. Los 17 `catch as err` se pisaban entre sí.** Renombrados a `catch as excepcion1…17`, los 17
+avisos desaparecieron. El caso mínimo son cuatro líneas:
+
+```ahk
+Boton(v) {
+    boton := v          ; ← "boton" dentro de "Boton" dispara el aviso
+    return boton
+}
+Boton(1)
+```
+
+*This local variable has the same name as a global variable* — con el aviso **modal**, es decir la
+macro arranca y se queda parada. Un técnico vería una macro que no responde y sin pista. Nótese que
+v2 **sí** distingue mayúsculas: el choque no es de nombre, es de que la local se llama igual que la
+función global. Nombres únicos (`excepcionN`, `ctlBoton`) lo resuelven.
+
+**7. Faltaban cuatro `global`.** En v2 el ámbito de función es local por defecto, así que asignar sin
+`global` dentro de un hotkey crea una local que **arranca vacía en cada pulsación**:
+
+| Variable | Función | Sin `global` |
+|---|---|---|
+| `Inci` | `Button25` | Busca siempre una incidencia vacía, sin error |
+| `Toggle`, `IsActive` | `#7` | El modo AFK no se puede ni activar: `Toggle` siempre vale `false` |
+| `dni` | `UpdateLetter` | La global sigue vacía para el resto del script |
+
+**8. `MyCurrentTimerResolution` era un parámetro de salida sin usar.** `DllCall` con un destino que
+nunca se lee no falla, pero el port comprobaba la **variable** en vez del **código de retorno**. Ahora
+comprueba el retorno y escribe al log.
+
+**9. `A_MaxHotkeysPerInterval` / `A_HotkeyInterval` no son directivas.** Eran `#MaxHotkeysPerInterval`
+y `#HotkeyInterval` en v1; en v2 son variables incorporadas que se asignan, y por eso van en el cuerpo
+y no en la zona de directivas. `#NoEnv` se eliminó y `#Persistent` no existe: los scripts ya son
+persistentes.
+
+### Lo que NO se ha podido cerrar
+
+- **`GuiEscape` / `GuiClose`.** El v1 cerraba la aplicación con esas dos etiquetas. En v2 no existen
+  como hotkeys (`GuiEscape::` no es un hotkey válido), así que se han enganchado a la ventana principal
+  con `.OnEvent("Close"/"Escape")`. **Sin cerrar la cuestión**: no se ha podido conseguir el intérprete
+  de v1 para confirmar si en v1 afectaban a **las dos** ventanas o solo a la principal, y en v2 no hay
+  forma de replicar "una etiqueta para todas las ventanas" sin la numeración que ya no existe. Si en
+  v1 cerrar el formulario de plantillas salía de la aplicación y aquí no, es un cambio de
+  comportamiento. **Pregunta para los técnicos** (§7).
+- **Los números 16, 48 y 64 de los `MsgBox` del v1** son máscaras de botón, no iconos (§2.3). El port
+  los ha puesto como iconos, que es casi con toda seguridad la intención, pero es una interpretación.
+
+### Verificación automática
+
+`verificar-port.py` comprueba lo que es textual, que es justamente lo que decide si el técnico pulsa
+"GDU" y le sale la macro de GDU:
+
+1. el listado real de los `.arq` tiene 46 macros y los índices son 0..45 sin huecos ni repetidos;
+2. la tabla `M` tiene 46 entradas y la *k*-ésima tiene el índice `45 − k`;
+3. los 25 handlers piden su macro por nombre, y todo nombre existe en la tabla;
+4. ningún handler escribe un número de macro a mano;
+5. todo botón cableado tiene su función, y existe `OnEvent("Click")`.
+
+> **La comparación de nombres es POSICIONAL, no literal, y hay un motivo.** El nombre visible de la
+> macro en el formulario (línea 1 del `.arq`) **no es** la etiqueta del botón. La macro
+> `ZZZFuentealimentacion` es la que el técnico tiene en el botón **"Equipo no enciende"** — si no
+> enciende el equipo, la causa es la fuente — y `ZZZRedEquipo` es la de **"Equipo sin red"**. Comparar
+> los nombres en abstracto daría 46 avisos falsos. Lo que define el índice es la posición alfabética.
+
+Comprobado en positivo y, sobre todo, **en negativo**: contra copias con un índice movido (`GDU`
+24→25), con un `ExecuteAlbaMacro(14, "GDU")` a mano y con el `OnEvent` eliminado, falla las tres con un
+mensaje que señala el sitio exacto. Un validador que solo dice "OK" no vale para nada.
