@@ -214,6 +214,42 @@ def main():
               % ", ".join(muertos))
     print()
 
+    # ------------------------------------------------- 5. SetTimer con cadena
+    # SetTimer("nombre", n) compila limpio y en v2 lanza
+    #   Parameter #1 of SetTimer requires an Object, but received a String.
+    # Como la llamada va dentro del try del hotkey #7, el fallo se come en
+    # silencio: el modo AFK queda "activado" en pantalla y el equipo sigue
+    # suspendiendose. Medido en Wine: 6 disparos con la referencia, 0 con la
+    # cadena. No lo compila el validador de AutoHotkey, asi que se comprueba
+    # aqui. Solo se miran lineas de codigo, no comentarios.
+    print("5. SETTIMER (MODO AFK)")
+    codigo = "\n".join(l for l in texto.split("\n")
+                       if not l.lstrip().startswith(";"))
+    cadenas = re.findall(r'SetTimer\(\s*"([^"]+)"', codigo)
+    if cadenas:
+        for nombre in cadenas:
+            fallo('SetTimer("%s", ...) recibe una cadena. En v2 exige el objeto'
+                  ' funcion: SetTimer(%s, ...). Con la cadena el temporizador no'
+                  ' se crea y el modo AFK no impide la suspension.'
+                  % (nombre, nombre))
+    else:
+        ok("SetTimer recibe objetos funcion, no cadenas")
+
+    # El destino del temporizador tiene que existir como FUNCION. Si es una
+    # etiqueta, SetTimer(Etiqueta, ...) no compila en v2.
+    destinos = set(re.findall(r'SetTimer\(\s*([A-Za-z_]\w*)\s*,', codigo))
+    for destino in sorted(destinos):
+        if re.search(r'^%s\(\)\s*\{' % re.escape(destino), codigo, re.M):
+            ok("el destino del temporizador %s() es una funcion" % destino)
+        elif re.search(r'^%s:\s*$' % re.escape(destino), codigo, re.M):
+            fallo("el destino del temporizador %s es una ETIQUETA. En v2"
+                  " SetTimer necesita una funcion: defina %s() { ... }"
+                  % (destino, destino))
+        else:
+            fallo("SetTimer apunta a %s, que no esta definido en el script"
+                  % destino)
+    print()
+
     print("=" * 78)
     if fallos:
         print("RESULTADO: %d FALLO(S)" % len(fallos))

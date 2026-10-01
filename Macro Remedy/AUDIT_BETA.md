@@ -502,7 +502,7 @@ CRLF legadose, un `--renormalize` reescribe de golpe `Bateria de pruebas/`, `Otr
 ## 10. El port a v2, fallado por ejecución
 
 Esta sección existe porque **compilar no es arrancar**. El port llegó a compilar sin un solo error y
-aún así estaba roto de nueve maneras distintas, y ninguna se veía sin ejecutarlo.
+aún así estaba roto de diez maneras distintas, y ninguna se veía sin ejecutarlo.
 
 ### Cómo se ha verificado
 
@@ -524,7 +524,7 @@ ventana "Lazybird" presente, 1083x332, los 23 botones con su texto
 clic en "GDU" -> llega a CheckRemedy()   (verificado por captura)
 ```
 
-### Los 9 fallos
+### Los 10 fallos
 
 **1. `Gui("1:Add", …)` está muerto al nacer.** La traducción mecánica de `Gui, 1:Add, Text, …` da
 `Gui("1:Add", "Text", …)`, que **compila sin quejarse** y revienta en la primera llamada con *"Too
@@ -607,6 +607,62 @@ y `#HotkeyInterval` en v1; en v2 son variables incorporadas que se asignan, y po
 y no en la zona de directivas. `#NoEnv` se eliminó y `#Persistent` no existe: los scripts ya son
 persistentes.
 
+**10. `SetTimer("KeepActive", …)` no crea el temporizador.** Este no lo había visto nadie — ni yo en
+la primera pasada — porque **compila sin error ni aviso** y solo falla al ejecutar:
+
+```
+Parameter #1 of SetTimer requires an Object, but received a String.
+```
+
+En v2 `SetTimer` exige el **objeto función**, no el nombre entre comillas. Y como la llamada está
+dentro del `try` del hotkey `#7`, la excepción se come sola y acaba en el log. El técnico pulsaba
+`#7`, veía *"Modo AFK activado"*, y el equipo **se suspendía igual**: el temporizador, que era lo
+único que impedía la suspensión, nunca se había creado.
+
+Dos arreglos, los dos obligatorios:
+
+| v1 / forma rota | v2 | Por qué |
+|---|---|---|
+| `SetTimer("KeepActive", 60000)` | `SetTimer(KeepActive, 60000)` | objeto función, no cadena |
+| `KeepActive:` (etiqueta) | `KeepActive() { … }` (función) | `SetTimer` no acepta etiquetas en v2 |
+
+Medido sobre el port real, no sobre un ejemplo: 6 disparos del temporizador en la ventana activa con
+la forma buena, **0** con la de cadena, en la misma prueba y la misma copia.
+
+La forma buena, entera:
+
+```ahk
+KeepActive() {
+    global IsActive                    ; sin esto, IsActive es una local vacía
+    try {
+        if (IsActive)
+            DllCall("SetThreadExecutionState", "UInt", 0x80000003)
+    } catch as excepcion11 {
+        WriteError("Error manteniendo el equipo activo: " . excepcion11.Message)
+    }
+}
+```
+
+Sin el `global` el bug se enmascara: el temporizador sí existiría, pero `IsActive` sería una local
+vacía en cada disparo y la `DllCall` no se ejecutaría nunca. Los dos fallos juntos dan exactamente
+el síntoma del bug 7 —el modo AFK no hace nada— por dos causas distintas, y por eso conviene
+comprobarlos por separado.
+
+`verificar-port.py` (§5) avisa de las dos formas: cadena en `SetTimer`, y destino que sea etiqueta o
+no exista. Probado en negativo con tres copias rotas a propósito; las tres se detectan.
+
+> **Nota sobre la prueba end-to-end del modo AFK:** para ejercitarlo de verdad no vale pulsar `#7`
+> desde fuera con `Send()`. Bajo Wine el `Send()` sintético no llega a los hotkeys del propio script,
+> así que la hotkey no se dispara y la prueba pasa sin comprobar nada — da falso negativo. Lo que
+> funciona es copiar el *cuerpo* del hotkey (las tres líneas de `Toggle`/`SetTimer`/`IsActive`) en un
+> temporizador de prueba dentro del propio port. Es lo que se hizo aquí.
+>
+> Otra trampa del mismo test: en una copia instrumentada, el `MsgBox` de *"No se encontró la plantilla
+> de cierre"* (línea 104 del port) detiene el auto-execute en Wine, donde `Cierrepass.txt` no existe.
+> El port arranca, dibuja la ventana y se queda parado **antes** de llegar a `guiMain.Show()`; sin
+> `xvfb` no se ve ningún síntoma y parece que el script no hace nada. Hay que falsear esa rama para
+> instrumentar.
+
 ### Lo que NO se ha podido cerrar
 
 - **`GuiEscape` / `GuiClose`.** El v1 cerraba la aplicación con esas dos etiquetas. En v2 no existen
@@ -628,7 +684,8 @@ persistentes.
 2. la tabla `M` tiene 46 entradas y la *k*-ésima tiene el índice `45 − k`;
 3. los 25 handlers piden su macro por nombre, y todo nombre existe en la tabla;
 4. ningún handler escribe un número de macro a mano;
-5. todo botón cableado tiene su función, y existe `OnEvent("Click")`.
+5. todo botón cableado tiene su función, y existe `OnEvent("Click")`;
+6. `SetTimer` no recibe cadenas y su destino es una función que existe (modo AFK, bug 10).
 
 > **La comparación de nombres es POSICIONAL, no literal, y hay un motivo.** El nombre visible de la
 > macro en el formulario (línea 1 del `.arq`) **no es** la etiqueta del botón. La macro

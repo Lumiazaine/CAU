@@ -888,12 +888,12 @@ Button25(*) {
     try {
         Toggle := !Toggle
         if (Toggle) {
-            SetTimer("KeepActive", 60000)
+            SetTimer(KeepActive, 60000)
             IsActive := true
             MsgBox("Modo AFK activado.", "Gestor", "Icon2")
             WriteLog("Modo AFK ACTIVADO")
         } else {
-            SetTimer("KeepActive", 0)
+            SetTimer(KeepActive, 0)
             IsActive := false
             MsgBox("Modo AFK desactivado.", "Gestor", "Icon2")
             WriteLog("Modo AFK DESACTIVADO")
@@ -905,16 +905,24 @@ Button25(*) {
 }
 
 ; En v1 IsActive se leia sin declarar (bug #5). Aqui se inicializa arriba.
-; OJO: esto es una ETIQUETA (destino de SetTimer), no un hotkey. Las etiquetas se
-; declaran igual que en v1 y NO llevan llaves.
-KeepActive:
+; OJO: esto es una FUNCION, no una etiqueta, y no por estilo. En v2 SetTimer()
+; exige un objeto funcion: SetTimer("KeepActive", 60000) lanza
+;   Parameter #1 of SetTimer requires an Object, but received a String.
+; que el try de #7 se come en silencio. El modo AFK no fallaba visiblemente,
+; solo no impedia la suspension del equipo. Comprobado empíricamente:
+;   SetTimer("KeepActive", 300) -> EXCEPCION (0 disparos)
+;   SetTimer(KeepActive,  300)  -> 6 disparos en 1800 ms (periodo 300)
+; Ademas global es obligatorio: sin el, IsActive seria una local vacia en cada
+; disparo y la DllCall no se ejecutaria nunca.
+KeepActive() {
+    global IsActive
     try {
         if (IsActive)
             DllCall("SetThreadExecutionState", "UInt", 0x80000003)
     } catch as excepcion11 {
         WriteError("Error manteniendo el equipo activo: " . excepcion11.Message)
     }
-    return
+}
 
 ; Marcación automática en OpenScape.
 #8::{
