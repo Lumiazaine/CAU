@@ -37,19 +37,42 @@ sustituyó el SDK por un protocolo JSON-RPC artesanal ni por respuestas falsas.
 El último escenario de MCP sin aprobación false es una ampliación de
 caracterización de la guardia existente: no exigió cambios de implementación.
 Los tests de stdout usan la respuesta del proceso real, no mocks del servidor.
-La comprobación stdio impide DNS/conexiones/bind también en el hijo.
+La comprobación stdio impide DNS/conexiones/bind de aplicación también en el hijo;
+la excepción de IPC interno Windows se detalla en el ciclo de portabilidad.
 
 Hubo un timeout aislado de herramienta (30 s) al ejecutar el selector JSON.
 La repetición con timeout 90 s pasó en 0.21 s. No se cambió código para ocultar
 el timeout ni se afirmó su causa; la verificación final completa pasó.
 
-Resultado final medido: **187 tests: 134 anteriores + 53 nuevos; sin fallos,
+Resultado inicial medido: **187 tests: 134 anteriores + 53 nuevos; sin fallos,
 errores ni skips**. El prototipo anterior pasó también sus 19 unittest offline
 sin modificaciones. compileall y comprobación de compatibilidad de 83 paquetes
-pasaron. No se han probado Windows, GUI, COM, DLL, VPN o red corporativa.
+pasaron. En ese hito no se habían probado Windows, GUI, COM, DLL, VPN o red corporativa.
 
 Los artefactos XML/JSON y el transcript completo de initialize/list/call se
 conservan como evidencia privada, fuera del repositorio público. El proceso
 negoció protocolo 2025-11-25, enumeró cuatro herramientas y obtuvo cuatro
 éxitos y un error de dominio isError=true; stderr vacío. Puede repetirse con
 los tests stdio incluidos, sin conexión corporativa.
+
+## Corrección de portabilidad del guard en Windows
+
+La instalación Windows aislada arrancó health, pero la primera suite completa
+dio **184 passed / 3 failed**: los tres procesos stdio se cerraban antes de
+initialize. Sus stderr situaron la causa en el `bind` de
+`socket._fallback_socketpair`, requerido por el wakeup pipe de asyncio Windows,
+no en una conexión del adaptador a Remedy.
+
+Se añadió un repro de socketpair real y casos de DNS, connect externo,
+connect loopback, connect_ex loopback y bind ordinario. Antes de enlazar el
+guard corregido, el selector mostró **4 failed / 4 passed** (tres stdio y el
+socketpair fallaban; las cuatro guardias ordinarias entonces existentes pasaban).
+El guard permite únicamente el código original stdlib de socketpair y sus
+endpoints loopback privados; las conexiones de aplicación siguen bloqueadas.
+No se cambió la implementación CLI/MCP de producción ni se eliminó el guard.
+
+Resultado posterior: **193/193 passed tanto en Windows como en Linux**,
+sin errores ni skips. Incluye seis regresiones adicionales al hito de 187.
+Instalación Windows Python 3.11 aislada y 82 paquetes compatibles; no instalación
+global, cambio PATH ni registro de intérpretes. Esto no valida COM, DLL, GUI,
+endpoint corporativo ni lectura de una incidencia real.

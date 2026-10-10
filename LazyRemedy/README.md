@@ -6,7 +6,7 @@ Wrapper experimental REST (FastAPI) + MCP (FastMCP) para integrar lecturas de BM
 
 `remedy-terminal` / `python -m lazyremedy.terminal` ofrece health, capabilities,
 búsqueda y get acotados sobre un adaptador **sintético explícito**, con política
-JSON aprobada. MCP solo stdio (`mcp==2.3.0`), sin listener ni escrituras.
+JSON aprobada. MCP solo stdio (`mcp==2.3.0`), sin listener MCP HTTP ni escrituras.
 Sin configuración/aprobación no se publican lecturas. No activa DLL, COM,
 runmacro ni red corporativa. Las interfaces anteriores se conservan.
 

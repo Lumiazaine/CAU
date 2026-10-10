@@ -3,25 +3,56 @@ import asyncio
 import os
 from pathlib import Path
 import sys
+import subprocess
+
+import pytest
 
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
 
 ROOT = Path(__file__).resolve().parents[1]
 
+# Windows uses a short-lived loopback socketpair for asyncio's private wakeup
+# pipe. Permit ONLY that stdlib code object and its own pair endpoints; normal
+# application DNS/connect/bind remain denied, including ordinary loopback.
+CHILD_NETWORK_GUARD = '''import socket, sys
+_pair_code = getattr(socket.socketpair, "__code__", None)
+_bind = socket.socket.bind
+_connect = socket.socket.connect
+
+def denied(*args, **kwargs):
+    raise AssertionError("network forbidden: offline MCP test")
+
+def guarded_bind(sock, address):
+    caller = sys._getframe(1)
+    if (_pair_code is not None and caller.f_code is _pair_code
+            and sock is caller.f_locals.get("lsock")
+            and address in (("127.0.0.1", 0), ("::1", 0))):
+        return _bind(sock, address)
+    return denied()
+
+def guarded_connect(sock, address):
+    caller = sys._getframe(1)
+    listener = caller.f_locals.get("lsock")
+    if (_pair_code is not None and caller.f_code is _pair_code
+            and sock is caller.f_locals.get("csock") and listener is not None
+            and address[0] in ("127.0.0.1", "::1")
+            and address == listener.getsockname()[:2]):
+        return _connect(sock, address)
+    return denied()
+
+socket.getaddrinfo = denied
+socket.socket.connect = guarded_connect
+socket.socket.connect_ex = denied
+socket.socket.bind = guarded_bind
+'''
+
 
 def server_parameters(tmp_path, config=None):
     # Apply a network kill switch in the CHILD too (pytest fixtures only guard parent).
     guard = tmp_path / "guard"
     guard.mkdir(exist_ok=True)
-    (guard / "sitecustomize.py").write_text(
-        "import socket\n"
-        "def denied(*args, **kwargs):\n"
-        "    raise AssertionError('network forbidden: offline MCP test')\n"
-        "socket.getaddrinfo = denied\n"
-        "socket.socket.connect = denied\n"
-        "socket.socket.connect_ex = denied\n"
-        "socket.socket.bind = denied\n", encoding="utf-8")
+    (guard / "sitecustomize.py").write_text(CHILD_NETWORK_GUARD, encoding="utf-8")
     env = {k: v for k, v in os.environ.items()
            if not k.startswith(("LAZYREMEDY_", "REMEDY_"))}
     env["PYTHONPATH"] = os.pathsep.join([str(guard), str(ROOT)])
@@ -74,9 +105,6 @@ def test_real_stdio_synthetic_reads_and_errors(tmp_path):
     asyncio.run(asyncio.wait_for(check(), 20))
 
 
-import pytest
-
-
 @pytest.mark.parametrize("approved", [None, False])
 def test_real_stdio_initialize_list_call_default_closed(tmp_path, approved):
     config = None
@@ -106,3 +134,34 @@ def test_real_stdio_initialize_list_call_default_closed(tmp_path, approved):
                         denied = await session.call_tool(forbidden, {})
                         assert denied.is_error is True
     asyncio.run(asyncio.wait_for(check(), 20))
+
+
+@pytest.mark.parametrize("operation", [
+    'socket.getaddrinfo("example.invalid", 443)',
+    'socket.socket().connect(("203.0.113.1", 443))',
+    'socket.socket().connect(("127.0.0.1", 9))',
+    'socket.socket().connect_ex(("127.0.0.1", 9))',
+    'socket.socket().bind(("127.0.0.1", 0))',
+])
+def test_child_guard_denies_ordinary_network(tmp_path, operation):
+    parameters = server_parameters(tmp_path)
+    code = ('import socket\ntry:\n    ' + operation
+            + '\nexcept AssertionError:\n    print("DENIED")\n'
+              'else:\n    raise RuntimeError("offline guard failed")\n')
+    result = subprocess.run([sys.executable, "-c", code], env=parameters.env,
+                            cwd=parameters.cwd, capture_output=True, text=True, timeout=5)
+    assert result.returncode == 0, result.stderr
+    assert result.stdout.strip() == "DENIED"
+    assert not result.stderr
+
+
+def test_child_guard_allows_stdlib_private_socketpair(tmp_path):
+    parameters = server_parameters(tmp_path)
+    code = ('import socket\na,b=socket.socketpair()\n'
+            'try:\n    a.sendall(b"x")\n    assert b.recv(1)==b"x"\n'
+            'finally:\n    a.close()\n    b.close()\nprint("PAIR_OK")\n')
+    result = subprocess.run([sys.executable, "-c", code], env=parameters.env,
+                            cwd=parameters.cwd, capture_output=True, text=True, timeout=5)
+    assert result.returncode == 0, result.stderr
+    assert result.stdout.strip() == "PAIR_OK"
+    assert not result.stderr

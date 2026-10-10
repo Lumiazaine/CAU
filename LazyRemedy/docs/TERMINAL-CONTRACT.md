@@ -92,12 +92,33 @@ las lecturas no. Éxito: JSON por stdout, exit 0. Error de aplicación o
 configuración: código fijo JSON por stderr, stdout vacío, exit 2. Errores de
 uso de argparse: stderr y exit 2. No se imprimen diagnósticos de adaptadores.
 
+## Windows: entorno aislado y comando directo
+
+Desde `LazyRemedy/`, con `uv` oficial ya disponible. El runtime se limita al
+perfil del usuario; no hace falta Python global, registro ni modificar PATH:
+
+```powershell
+$runtime = Join-Path $env:LOCALAPPDATA 'RemedyTerminalRuntime'
+$env:UV_PYTHON_INSTALL_DIR = Join-Path $runtime 'python'
+$env:UV_CACHE_DIR = Join-Path $runtime 'cache'
+uv python install 3.11 --install-dir $env:UV_PYTHON_INSTALL_DIR --no-registry --no-bin
+uv venv --python 3.11 --managed-python --no-python-downloads .venv
+uv pip install --python .venv/Scripts/python.exe '.[test]'
+uv pip check --python .venv/Scripts/python.exe
+& ./.venv/Scripts/remedy-terminal.exe health
+& ./.venv/Scripts/python.exe -m pytest -q -o addopts='' -p no:cacheprovider
+```
+
+El comando `health` funciona sin activación y devuelve cierre preventivo. La
+configuración sintética sigue exigiendo aprobación explícita. El runtime x64
+de CLI/MCP no es un bridge ABI para cargar una DLL Remedy x86.
+
 ## MCP stdio oficial
 
 El host lanza directamente el proceso con comando absoluto al intérprete y
 argumentos `-m lazyremedy.terminal mcp --config /ruta/local/terminal.json`.
-No se ha cambiado configuración de Hermes ni de ningún host MCP.
-No existe opción HTTP, host, port ni listener en esta entrada.
+No existe opción HTTP, host, port ni listener MCP en esta entrada. La configuración
+de un host MCP es externa: este paquete no la modifica por sí mismo.
 Stdout queda reservado exclusivamente al protocolo; no banners ni resultados
 CLI adicionales. Stderr es el canal de diagnóstico del SDK.
 
@@ -161,10 +182,14 @@ python -m pytest -q -o addopts=""
 `test_terminal_stdio.py` usa el **SDK oficial real** para initialize, tools/list,
 tools/call y cierre de subprocesos. Ejercita modo sin configuración, aprobación
 false y synthetic aprobado, resultados y errores. Un `sitecustomize` de test
-en el hijo bloquea DNS, connect/connect_ex y bind: el test verde también exige
-que stdio no abra red/listener. Los otros tests heredados conservan la guardia
-no-loopback y sus fixtures loopback existentes. Solo se verificó ejecución en
-Linux/Python 3.11; no se afirma prueba de instalación Windows ni lectura live.
+en el hijo bloquea DNS, connect/connect_ex y bind de aplicación. En Windows
+permite únicamente el código original de `socket.socketpair` y sus endpoints
+loopback privados, necesarios para el wakeup pipe del event loop; esto no abre
+un listener MCP/HTTP ni autoriza conexiones de aplicación, incluso loopback.
+Las regresiones verifican conexiones ordinarias denegadas y socketpair stdlib
+funcional. Los tests heredados conservan sus fixtures loopback existentes.
+La suite completa se ejercitó en Linux y Windows con Python 3.11; no son pruebas
+de COM, DLL, GUI ni lecturas Remedy live.
 Los resultados XML/JSON y el transcript detallado son artefactos privados, no
 incluidos en este repositorio público. Los comandos anteriores regeneran los
 resultados de forma local. Los ciclos RED→GREEN están resumidos en
