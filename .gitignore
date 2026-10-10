@@ -36,6 +36,8 @@ venv/
 
 # Metadatos generados y evidencia privada de integracion
 *.egg-info/
+LazyRemedy/build/
+LazyRemedy/dist/
 LazyRemedy/docs/AUDIT-REMEDY.md
 LazyRemedy/docs/independent-review*.json
 LazyRemedy/docs/terminal-offline-results.xml
