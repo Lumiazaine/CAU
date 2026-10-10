@@ -89,7 +89,7 @@ function Parse-Statspat($html) {
 }
 
 function Write-CriticasJs($data) {
-    $json = ConvertTo-Json -InputObject $data -Depth 3 -Compress
+    $json = ConvertTo-Json -InputObject @($data) -Depth 3 -Compress
     $content = "window.CRITICAS_DATA = $json;"
     [System.IO.File]::WriteAllText($script:outJs, $content, [System.Text.UTF8Encoding]::new($false))
     Write-Log "Escrito criticas_data.js - $($data.Count) incidencias"

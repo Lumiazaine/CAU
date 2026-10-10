@@ -1,8 +1,12 @@
-﻿# Módulos
+﻿[CmdletBinding(SupportsShouldProcess=$true)]
+param([Parameter(Mandatory=$true)][Security.SecureString]$AccountPassword)
+$ErrorActionPreference = 'Stop'
+# Módulos
 Import-Module ActiveDirectory
 
 # Contraseña
-$securePassword = ConvertTo-SecureString "Temporal01" -AsPlainText -Force
+$securePassword = $AccountPassword
+if ($AccountPassword.Length -eq 0) { throw 'La clave segura no puede estar vacia.' }
 
 # Ruta fija del archivo CSV
 $filepath = "E:\Users\dlunag\Altas.csv"
@@ -92,23 +96,24 @@ ForEach ($user in $users) {
     if (-not [string]::IsNullOrWhiteSpace($OUpath)) {
         try {
             # Crear usuario en AD
+            if ($PSCmdlet.ShouldProcess($username, 'Crear cuenta AD')) {
             New-ADUser -Name "$fname $firstLastName $secondLastName" `
                 -GivenName $fname `
                 -Surname "$firstLastName $secondLastName" `
                 -SamAccountName $username `
-                -UserPrincipalName "$username@justicia.junta-andalucia.es" `  # Cambio aquí
+                -UserPrincipalName "$username@justicia.junta-andalucia.es" `
                 -Path $OUpath `
                 -AccountPassword $securePassword `
-                -ChangePasswordAtLogon $false `
+                -ChangePasswordAtLogon $true `
                 -OfficePhone $dni `
                 -Description $jtitle `
                 -EmailAddress $emailaddress `
-                -Enabled $true
-
-            Write-Output "Usuario $username creado correctamente en $OUpath."
+                -Enabled $true -ErrorAction Stop
+                Write-Output "Usuario $username creado correctamente en $OUpath."
+            }
         }
         catch {
-            Write-Error ("Error al crear usuario {0}: {1}" -f $username, $_)  # Cambio aquí
+            throw 'No se pudo crear la cuenta; revise AD mediante el canal aprobado.'
         }
     } else {
         Write-Warning "Usuario $fname $firstLastName $secondLastName omitido porque 'membresias' está vacío."

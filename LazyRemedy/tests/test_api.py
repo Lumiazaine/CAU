@@ -8,7 +8,7 @@ from lazyremedy.server_rest import create_app
 
 
 def _client(settings):
-    return TestClient(create_app(settings))
+    return TestClient(create_app(settings), client=("127.0.0.1", 12345))
 
 
 def test_health(settings):
@@ -62,7 +62,7 @@ def test_macro_desconocido_devuelve_404(settings):
 
 def test_macro_sin_archivo_en_onedrive_devuelve_404(settings, tmp_path):
     """macro_dir vacío => el .arq no existe en OneDrive => 404."""
-    settings = settings.model_copy(update={"remedy_macro_dir": str(tmp_path / "vacio")})
+    settings = settings.model_copy(update={"mock": False, "remedy_macro_dir": str(tmp_path / "vacio")})
     (tmp_path / "vacio").mkdir()
     resp = _client(settings).post("/api/v1/macros/HELPDESK/run")
     assert resp.status_code == 404

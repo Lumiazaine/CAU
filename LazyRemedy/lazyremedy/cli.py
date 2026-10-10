@@ -21,7 +21,7 @@ import sys
 
 from . import __version__
 from .config import default_config_example, load_settings
-from .errors import LazyRemedyError
+from .errors import BackendNoDisponibleError, LazyRemedyError
 from .logging_setup import setup_logging
 from .models import SearchRequest
 from .service import RemedyService
@@ -161,10 +161,22 @@ def _run_config(args: argparse.Namespace) -> int:
     return 0
 
 
+def _require_loopback(host: str) -> None:
+    import ipaddress
+
+    try:
+        allowed = host == "localhost" or ipaddress.ip_address(host).is_loopback
+    except ValueError:
+        allowed = False
+    if not allowed:
+        raise BackendNoDisponibleError("Servidor sin autenticación: solo se permite bind loopback.")
+
+
 def _run_rest(args: argparse.Namespace) -> int:
     import uvicorn
 
     settings = _settings(args)
+    _require_loopback(args.host or settings.host)
     setup_logging(settings.log_level)
     from .server_rest import create_app
 
@@ -180,6 +192,8 @@ def _run_rest(args: argparse.Namespace) -> int:
 
 def _run_mcp(args: argparse.Namespace) -> int:
     settings = _settings(args)
+    if args.transport == "http":
+        _require_loopback(args.host or settings.host)
     setup_logging(settings.log_level)
     from .server_mcp import create_mcp
 
@@ -200,6 +214,7 @@ def _run_both(args: argparse.Namespace) -> int:
     import uvicorn
 
     settings = _settings(args)
+    _require_loopback(args.host or settings.host)
     setup_logging(settings.log_level)
     from .server_mcp import create_mcp
     from .server_rest import create_app
@@ -226,18 +241,43 @@ def _run_probe(args: argparse.Namespace) -> int:
 
     import httpx
 
+    settings = _settings(args)
+    if not settings.live_access_approved or settings.mock:
+        print("Probe bloqueado: requiere aprobación y URL exacta confirmada.")
+        return 1
+    # The HTML contract is unverified: approval alone must not enable live I/O.
+    import ipaddress
+    from urllib.parse import urlsplit
+
+    try:
+        parsed = urlsplit(args.url)
+        port = parsed.port  # Validate malformed/out-of-range ports before I/O.
+        offline = (
+            parsed.scheme in {"http", "https"}
+            and ipaddress.ip_address(parsed.hostname or "").is_loopback
+            and parsed.username is None
+            and parsed.password is None
+            and (port is None or 1 <= port <= 65535)
+        )
+    except ValueError:
+        offline = False
+    if not offline:
+        print("Probe live bloqueado: solo fixtures de IP literal loopback, sin credenciales en URL.")
+        return 1
+    setup_logging(settings.log_level)
+
     async def _probar() -> int:
-        base = args.url.rstrip("/")
+        base = args.url
         try:
             async with httpx.AsyncClient(
                 base_url=base,
                 timeout=10.0,
-                verify=False,
-                follow_redirects=True,
+                verify=True,
+                follow_redirects=False,
                 headers={"User-Agent": "LazyRemedy/1.0 (probe)"},
             ) as client:
-                resp = await client.get("/arsys/login")
-                print(f"GET {base}/arsys/login -> HTTP {resp.status_code}")
+                resp = await client.get(base)
+                print(f"GET URL aprobada -> HTTP {resp.status_code}")
                 if resp.status_code != 200:
                     print("  No parece un Mid Tier accesible en esa ruta.")
                     return 1
@@ -247,21 +287,16 @@ def _run_probe(args: argparse.Namespace) -> int:
                 parser.feed(resp.text)
                 if parser.formulario is None:
                     print("  No hay formulario de login en HTML (¿SSO/SAML?).")
-                    print("  Fragmento:", " ".join(resp.text.split())[:200])
+                    # No volcar HTML, cookies o datos de la respuesta.
                     return 2
-                f = parser.formulario
-                print(
-                    "  Formulario de login: "
-                    f"action={f.action} method={f.method} "
-                    f"campos={[c[0] for c in f.campos]}"
-                )
-                print("  El backend midtier puede usar esta URL: basta 'midtier_url' en config.")
+                print("  Formulario HTML detectado (acción y campos omitidos por seguridad).")
+                print("  No valida login ni resultados; backend live bloqueado sin contrato verificado.")
                 return 0
         except httpx.HTTPError as exc:
-            print(f"ERROR de conexión: {exc}")
+            print("ERROR de conexión (diagnóstico omitido por seguridad).")
             return 1
         except Exception as exc:  # noqa: BLE001
-            print(f"ERROR: {exc}")
+            print("ERROR de probe (diagnóstico omitido por seguridad).")
             return 1
 
     return asyncio.run(_probar())

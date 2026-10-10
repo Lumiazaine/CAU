@@ -48,7 +48,7 @@ class Settings(BaseSettings):
 
     model_config = SettingsConfigDict(
         env_prefix="LAZYREMEDY_",
-        env_file=".env",
+        env_file=None,  # No cargar secretos de otro proyecto de forma implícita.
         env_file_encoding="utf-8",
         extra="ignore",
     )
@@ -83,11 +83,14 @@ class Settings(BaseSettings):
     #: Backend de datos: "midtier" (Mid Tier web), "macro" (runmacro.exe) o "mock".
     backend: str = "macro"
     mock: bool = False
+    live_access_approved: bool = False
     cross_process_lock: bool = True
 
     # --- Mid Tier (backend HTTP) ----------------------------------------
     midtier_url: str = ""
-    midtier_verify_ssl: bool = False
+    midtier_login_path: str = ""
+    midtier_query_path: str = ""
+    midtier_verify_ssl: bool = True
     midtier_timeout_sec: float = 15.0
 
     # --- Servidores -----------------------------------------------------
@@ -95,7 +98,15 @@ class Settings(BaseSettings):
     port: int = 8000
     mcp_port: int = 8100
     log_level: str = "INFO"
-    cors_origins: list[str] = Field(default_factory=lambda: ["*"])
+    cors_origins: list[str] = Field(default_factory=list)
+    api_token: str = Field(default="", exclude=True, repr=False)
+
+    @field_validator("cors_origins")
+    @classmethod
+    def _reject_wildcard_cors(cls, origins: list[str]) -> list[str]:
+        if any("*" in origin for origin in origins):
+            raise ValueError("CORS requiere orígenes explícitos, sin comodines")
+        return origins
 
     @field_validator("search_field_map", mode="before")
     @classmethod
@@ -138,6 +149,7 @@ class Settings(BaseSettings):
     def to_dict(self) -> dict[str, Any]:
         """Representación serializable para diagnóstico (sin credenciales)."""
         data = self.model_dump(exclude={"remedy_password", "remedy_user"})
+        data["runmacro_args"] = ["[REDACTADO]"] if self.runmacro_args else []
         data["mock"] = self.mock
         data["cross_process_lock"] = self.cross_process_lock
         return data

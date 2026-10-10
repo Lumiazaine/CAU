@@ -104,6 +104,8 @@ class RemedyEngine:
         return await self._run_real(macro_path, output_path)
 
     async def _run_real(self, macro_path: Path, output_path: Path) -> list[dict[str, Any]]:
+        if not self.settings.live_access_approved:
+            raise BackendNoDisponibleError("Acceso live bloqueado: requiere aprobación y contrato del propietario.")
         self._preflight_remedy(macro_path)
         # Limpiar un archivo de salida residual ANTES de lanzar el subproceso:
         # si se borrase al esperar, podría perderse una salida escrita muy rápido.
@@ -113,15 +115,15 @@ class RemedyEngine:
             pass
 
         cmd = self._build_command(macro_path)
-        logger.info("Ejecutando runmacro: %s", " ".join(str(c) for c in cmd))
+        logger.info("Ejecutando el adaptador de macros configurado (argumentos omitidos).")
 
         try:
             proc = await asyncio.create_subprocess_exec(
                 *cmd,
-                stdout=asyncio.subprocess.PIPE,
-                stderr=asyncio.subprocess.PIPE,
+                stdout=asyncio.subprocess.DEVNULL,
+                stderr=asyncio.subprocess.DEVNULL,
                 stdin=asyncio.subprocess.DEVNULL,
-                creationflags=CREATE_NO_WINDOW,
+                creationflags=CREATE_NO_WINDOW if os.name == "nt" else 0,
                 env=self._build_env(macro_path, output_path),
             )
         except OSError as exc:
@@ -136,16 +138,10 @@ class RemedyEngine:
         finally:
             self._proc_count -= 1
 
-        stderr_text = ""
         if proc.returncode != 0:
-            try:
-                stderr_bytes = await proc.stderr.read() if proc.stderr else b""
-                stderr_text = stderr_bytes.decode(self.settings.output_encoding, errors="replace")
-            except Exception:  # noqa: BLE001 - diagnóstico best-effort
-                stderr_text = "(stderr no disponible)"
             raise RemedyEjecucionError(
                 f"runmacro.exe terminó con código {proc.returncode}.",
-                detail=stderr_text.strip()[:500] or "Sin salida de error.",
+                detail="Diagnóstico del subproceso omitido por seguridad.",
             )
 
         await self._wait_output_file(output_path)
@@ -187,6 +183,14 @@ class RemedyEngine:
     async def _wait_process(self, proc: asyncio.subprocess.Process) -> None:
         try:
             await asyncio.wait_for(proc.wait(), timeout=self.settings.runmacro_timeout_sec)
+        except asyncio.CancelledError:
+            if proc.returncode is None:
+                try:
+                    proc.kill()
+                except ProcessLookupError:
+                    pass
+                await proc.wait()
+            raise
         except asyncio.TimeoutError as exc:
             try:
                 proc.kill()

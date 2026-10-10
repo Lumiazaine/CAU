@@ -39,6 +39,7 @@ def settings_real(tmp_path) -> Settings:
         (macro_dir / archivo).write_text("demo", encoding="cp1252")
     return Settings(
         mock=False,
+        live_access_approved=True,  # Solo ejecutable simulador local.
         cross_process_lock=False,
         remedy_runmacro=sys.executable,
         runmacro_args=[str(FAKE_RUNMACRO)],
@@ -117,7 +118,7 @@ def test_concurrencia_camino_real(settings_real, monkeypatch):
 
 
 def test_rest_camino_real(settings_real):
-    with TestClient(create_app(settings_real)) as client:
+    with TestClient(create_app(settings_real), client=("127.0.0.1", 12345)) as client:
         resp = client.post("/api/v1/macros/HELPDESK/run")
         assert resp.status_code == 200
         assert resp.json()["total"] == 2

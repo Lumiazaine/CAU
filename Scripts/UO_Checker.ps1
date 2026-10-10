@@ -1,56 +1,34 @@
-﻿<#
-# Definir el dominio raíz
-$dominios = @(
-    "justicia.junta-andalucia.es",
-    "almeria.justicia.junta-andalucia.es",
-    "cadiz.justicia.junta-andalucia.es",
-    "cordoba.justicia.junta-andalucia.es",
-    "formacion.justicia.junta-andalucia.es",
-    "granada.justicia.junta-andalucia.es",
-    "huelva.justicia.junta-andalucia.es",
-    "jaen.justicia.junta-andalucia.es",
-    "malaga.justicia.junta-andalucia.es",
-    "sevilla.justicia.junta-andalucia.es",
-    "vdi.justicia.junta-andalucia.es"
+﻿#Requires -Version 5.1
+[CmdletBinding()]
+param(
+    [Parameter(Mandatory=$true)][ValidateNotNullOrEmpty()]
+    [ValidateScript({ $_ -match '^(?=.{1,253}$)[A-Za-z0-9](?:[A-Za-z0-9.-]*[A-Za-z0-9])?$' -and $_ -notmatch '\.\.|\.-|-\.' })]
+    [string[]]$Domains,
+    [Parameter(Mandatory=$true)][ValidateNotNullOrEmpty()]
+    [ValidateScript({[IO.Path]::IsPathRooted($_) -and [IO.Path]::GetExtension($_) -eq '.csv' -and (Test-Path -LiteralPath (Split-Path -Parent $_) -PathType Container)})]
+    [string]$OutputPath,
+    [switch]$Force
 )
-
-# Recorremos cada dominio y extraemos UOs y objetos
-foreach ($dominio in $dominios) {
-    Write-Output "Dominio: $dominio"
-
-    # Obtener todas las UOs en el dominio
-    $OUs = Get-ADOrganizationalUnit -Filter * -Server $dominio | Select-Object Name, DistinguishedName
-
-    foreach ($OU in $OUs) {
-        Write-Output "`tUO: $($OU.Name) - $($OU.DistinguishedName)"
-
-        # Obtener los objetos dentro de la UO
-        $objetos = Get-ADObject -SearchBase $OU.DistinguishedName -Filter * -Server $dominio | Select-Object Name, DistinguishedName
-
-        foreach ($objeto in $objetos) {
-            Write-Output "`t`tObjeto: $($objeto.Name) - $($objeto.DistinguishedName)"
-        }
-    }
-}
-#>
-$lista = @()
-
-foreach ($dominio in $dominios) {
-    $OUs = Get-ADOrganizationalUnit -Filter * -Server $dominio | Select-Object Name, DistinguishedName
-
-    foreach ($OU in $OUs) {
-        $objetos = Get-ADObject -SearchBase $OU.DistinguishedName -Filter * -Server $dominio | Select-Object Name, DistinguishedName
-
-        foreach ($objeto in $objetos) {
-            $lista += [PSCustomObject]@{
-                Dominio = $dominio
-                UO = $OU.Name
-                UO_DistinguishedName = $OU.DistinguishedName
-                Objeto = $objeto.Name
-                Objeto_DistinguishedName = $objeto.DistinguishedName
+$ErrorActionPreference = 'Stop'
+# Complete all read-only queries before creating output. Never silently export an empty CSV.
+if ((Test-Path -LiteralPath $OutputPath) -and -not $Force) { throw 'Salida existente; use -Force para reemplazar explicitamente.' }
+$rows = @(
+    foreach ($domain in $Domains) {
+        $ous = Get-ADOrganizationalUnit -Filter * -Server $domain -ErrorAction Stop
+        foreach ($ou in $ous) {
+            $objects = Get-ADObject -SearchBase $ou.DistinguishedName -Filter * -Server $domain -ErrorAction Stop
+            foreach ($object in $objects) {
+                [pscustomobject]@{
+                    Dominio = $domain
+                    UO = $ou.Name
+                    UO_DistinguishedName = $ou.DistinguishedName
+                    Objeto = $object.Name
+                    Objeto_DistinguishedName = $object.DistinguishedName
+                }
             }
         }
     }
-}
-
-$lista | Export-Csv -Path "E:\Users\dlunag\AD_UOs_Objetos.csv" -NoTypeInformation -Encoding UTF8 -delimiter ";"
+)
+if ($rows.Count -eq 0) { throw 'Consulta sin objetos; no se genera CSV vacio.' }
+$rows | Export-Csv -LiteralPath $OutputPath -NoTypeInformation -Encoding UTF8 -Delimiter ';'
+Write-Output "Exportados $($rows.Count) objetos a $OutputPath"

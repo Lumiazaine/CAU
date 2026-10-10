@@ -1,4 +1,4 @@
-# #Requires -Modules ActiveDirectory  # Comentado para desarrollo
+﻿# #Requires -Modules ActiveDirectory  # Comentado para desarrollo
 
 <#
 .SYNOPSIS
@@ -37,65 +37,25 @@ $script:PerformanceMetrics = @{
 $script:ADConnectionPool = [System.Collections.Concurrent.ConcurrentQueue[System.DirectoryServices.DirectoryEntry]]::new()
 $script:MaxPoolSize = 5
 $script:ADAvailable = $null
+$script:UOAliases = @()
 
 # Funciones wrapper para simulación cuando AD no está disponible
 function Get-ADDomainSafe {
-    param($Identity, $ErrorAction = 'Continue')
-    
-    if (-not $script:ADAvailable) {
-        # Simular objeto de dominio
-        return @{
-            Name = $Identity
-            DistinguishedName = "DC=$($Identity.Replace('.', ',DC='))"
-            DNSRoot = $Identity
-        }
-    }
-    
-    try {
-        return Get-ADDomain -Identity $Identity -ErrorAction $ErrorAction
-    } catch {
-        if ($ErrorAction -ne 'SilentlyContinue') {
-            Write-Warning "Error accediendo a AD: $($_.Exception.Message)"
-        }
-        return $null
-    }
+    [CmdletBinding()]
+    param($Identity)
+    if (-not $script:ADAvailable) { throw 'ActiveDirectory no disponible; no se fabrican dominios.' }
+    Get-ADDomain -Identity $Identity -ErrorAction Stop
 }
 
 function Get-ADOrganizationalUnitSafe {
-    param($Filter, $SearchBase, $SearchScope = 'Subtree', $Properties, $ResultSetSize, $ErrorAction = 'Continue')
-    
-    if (-not $script:ADAvailable) {
-        # Simular OUs de provincias andaluzas
-        $SimulatedOUs = @()
-        foreach ($Provincia in $script:ProvinciasAndalucia) {
-            $SimulatedOUs += @{
-                Name = $Provincia
-                DistinguishedName = "OU=$Provincia,DC=justicia,DC=junta-andalucia,DC=es"
-                Description = "Unidad Organizativa simulada de $Provincia"
-                whenCreated = (Get-Date).AddDays(-30)
-                whenChanged = Get-Date
-            }
-        }
-        return $SimulatedOUs
-    }
-    
-    try {
-        $Params = @{
-            Filter = $Filter
-            Properties = $Properties
-            ErrorAction = $ErrorAction
-        }
-        if ($SearchBase) { $Params.SearchBase = $SearchBase }
-        if ($SearchScope) { $Params.SearchScope = $SearchScope }
-        if ($ResultSetSize) { $Params.ResultSetSize = $ResultSetSize }
-        
-        return Get-ADOrganizationalUnit @Params
-    } catch {
-        if ($ErrorAction -ne 'SilentlyContinue') {
-            Write-Warning "Error consultando OUs: $($_.Exception.Message)"
-        }
-        return @()
-    }
+    [CmdletBinding()]
+    param($Filter, $SearchBase, $SearchScope = 'Subtree', $Properties = @('Name','DistinguishedName'), $ResultSetSize, [string]$Server)
+    if (-not $script:ADAvailable) { throw 'ActiveDirectory no disponible o no inicializado; no se generan UOs simuladas.' }
+    $params = @{Filter=$Filter;Properties=$Properties;SearchScope=$SearchScope;ErrorAction='Stop'}
+    if ($SearchBase) { $params.SearchBase=$SearchBase }
+    if ($ResultSetSize) { $params.ResultSetSize=$ResultSetSize }
+    if ($Server) { $params.Server=$Server }
+    Get-ADOrganizationalUnit @params
 }
 
 function Initialize-UOManager {
@@ -128,7 +88,9 @@ function Initialize-UOManager {
         # Verificar disponibilidad de ActiveDirectory
         $script:ADAvailable = $null -ne (Get-Module -ListAvailable -Name ActiveDirectory)
         if (-not $script:ADAvailable) {
-            Write-Warning "Módulo ActiveDirectory no disponible - funcionando en modo simulación"
+            Write-Warning "ActiveDirectory no disponible; inicialización bloqueada."
+            Clear-UOCache
+            return $false
         }
         
         # Configurar cache y métricas
@@ -230,7 +192,7 @@ function Initialize-RootDomains {
     
     try {
         $RootDomain = Get-ADDomainSafe -Identity $script:DominioBase
-        $script:UOCache.TryAdd("Root", $RootDomain)
+        [void]$script:UOCache.TryAdd("Root", $RootDomain)
         
         # Pre-cargar solo provincias más utilizadas basado en métricas históricas
         $HighUsageProvinces = @("malaga", "sevilla", "cadiz")  # Las más consultadas típicamente
@@ -240,7 +202,7 @@ function Initialize-RootDomains {
                 $ProvinciaOU = "$Provincia.$script:DominioBase"
                 $OU = Get-ADDomainSafe -Identity $ProvinciaOU -ErrorAction SilentlyContinue
                 if ($OU) {
-                    $script:UOCache.TryAdd($Provincia, $OU)
+                    [void]$script:UOCache.TryAdd($Provincia, $OU)
                     Write-Verbose "Provincia de alta demanda pre-cargada: $ProvinciaOU"
                 }
             } catch {
@@ -285,24 +247,24 @@ function Add-UOToIndexes {
         $DN = $OU.DistinguishedName
         
         # Índice por nombre
-        $script:UOIndexByName.TryAdd($Name, $DN)
+        [void]$script:UOIndexByName.TryAdd($Name, $DN)
         
         # Índice por tipo (extraído del nombre)
         $Type = Get-OUType -Name $Name
         if ($Type -ne "UNKNOWN") {
             if (-not $script:UOIndexByType.ContainsKey($Type)) {
-                $script:UOIndexByType.TryAdd($Type, [System.Collections.ArrayList]::new())
+                [void]$script:UOIndexByType.TryAdd($Type, [System.Collections.ArrayList]::new())
             }
-            $script:UOIndexByType[$Type].Add($DN)
+            [void]$script:UOIndexByType[$Type].Add($DN)
         }
         
         # Índice por ubicación (extraído del DN)
         $Location = Get-OULocation -DN $DN
         if ($Location -ne "UNKNOWN") {
             if (-not $script:UOIndexByLocation.ContainsKey($Location)) {
-                $script:UOIndexByLocation.TryAdd($Location, [System.Collections.ArrayList]::new())
+                [void]$script:UOIndexByLocation.TryAdd($Location, [System.Collections.ArrayList]::new())
             }
-            $script:UOIndexByLocation[$Location].Add($DN)
+            [void]$script:UOIndexByLocation[$Location].Add($DN)
         }
         
     } catch {
@@ -364,7 +326,7 @@ function Find-NewOUs {
             
             if (-not $script:UOCache.ContainsKey($OUKey)) {
                 # Nueva UO encontrada
-                $script:UOCache.TryAdd($OUKey, $OU)
+                [void]$script:UOCache.TryAdd($OUKey, $OU)
                 Add-UOToIndexes -OU $OU
                 $NewOUsFound++
                 Write-Verbose "Nueva UO detectada: $($OU.DistinguishedName)"
@@ -440,7 +402,7 @@ function Invoke-FullUOLoad {
         Remove-Job -Job $Job
         
         if ($Result.Success) {
-            $script:UOCache.TryAdd($Result.Provincia, $Result.OU)
+            [void]$script:UOCache.TryAdd($Result.Provincia, $Result.OU)
             Add-UOToIndexes -OU $Result.OU
             $LoadedCount++
             Write-Verbose "UO cargada: $($Result.Provincia)"
@@ -496,7 +458,7 @@ function Update-PerformanceMetrics {
     param([double]$QueryTime)
     
     $script:PerformanceMetrics.TotalQueries++
-    $script:PerformanceMetrics.QueryTimes.Add($QueryTime)
+    [void]$script:PerformanceMetrics.QueryTimes.Add($QueryTime)
     
     # Calcular promedio móvil
     if ($script:PerformanceMetrics.QueryTimes.Count -gt 100) {
@@ -617,83 +579,22 @@ function Optimize-UOIndexes {
 }
 
 function Get-UOByName {
-    <#
-    .SYNOPSIS
-        Obtiene una UO por su nombre con cache inteligente y búsqueda optimizada
-    .PARAMETER Name
-        Nombre de la UO (provincia o identificador)
-    .PARAMETER UseCache
-        Si usar cache (por defecto verdadero)
-    #>
     [CmdletBinding()]
     param(
-        [Parameter(Mandatory=$true)]
-        [string]$Name,
-        
-        [Parameter(Mandatory=$false)]
-        [switch]$UseCache = $true
+        [Parameter(Mandatory=$true)][string]$Name,
+        [switch]$UseCache = $true,
+        [string]$Server
     )
-    
-    $Name = $Name.ToLower().Trim()
-    
-    # PASO 1: Búsqueda directa en cache
+    # QuickCheck: solo inventario en memoria. Operaciones: consulta completa;
+    # el índice por nombre pierde duplicados y una cache parcial no prueba unicidad.
     if ($UseCache) {
-        # Incrementar métricas
-        if ($script:UOCache.ContainsKey($Name)) {
-            $script:PerformanceMetrics.CacheHits++
-            return $script:UOCache[$Name]
-        }
-        
-        # Buscar en índice de nombres
-        if ($script:UOIndexByName.ContainsKey($Name)) {
-            $script:PerformanceMetrics.CacheHits++
-            $DN = $script:UOIndexByName[$Name]
-            # Encontrar UO por DN en cache
-            $UO = $script:UOCache.Values | Where-Object { $_.DistinguishedName -eq $DN } | Select-Object -First 1
-            if ($UO) {
-                return $UO
-            }
-        }
-        
-        $script:PerformanceMetrics.CacheMisses++
+        $params = @{Filter='*';Properties=@('Name','DistinguishedName');ErrorAction='Stop'}
+        if ($Server) { $params.Server = $Server }
+        $candidates = @(Get-ADOrganizationalUnitSafe @params)
+    } else {
+        $candidates = @($script:UOCache.Values | Where-Object { $_.DistinguishedName -like 'OU=*' })
     }
-    
-    # PASO 2: Búsqueda fuzzy en cache
-    foreach ($Key in $script:UOCache.Keys) {
-        if ($Key -like "*$Name*" -or $Name -like "*$Key*") {
-            if ($UseCache) {
-                # Añadir al índice para futuras búsquedas
-                $script:UOIndexByName.TryAdd($Name, $script:UOCache[$Key].DistinguishedName)
-            }
-            return $script:UOCache[$Key]
-        }
-    }
-    
-    # PASO 3: Búsqueda en AD si no se encuentra en cache
-    if ($UseCache) {
-        try {
-            Write-Verbose "Búsqueda en AD para UO no encontrada en cache: $Name"
-            $script:PerformanceMetrics.ADQueries++
-            
-            # Búsqueda inteligente en AD
-            $SearchResults = Find-UOInAD -SearchTerm $Name
-            if ($SearchResults.Count -gt 0) {
-                $OU = $SearchResults[0]
-                
-                # Añadir al cache
-                $CacheKey = Get-OUCacheKey -OU $OU
-                $script:UOCache.TryAdd($CacheKey, $OU)
-                Add-UOToIndexes -OU $OU
-                
-                return $OU
-            }
-        } catch {
-            Write-Verbose "Error en búsqueda AD: $($_.Exception.Message)"
-        }
-    }
-    
-    Write-Verbose "UO no encontrada: $Name"
-    return $null
+    return Resolve-UOName -Name $Name -OrganizationalUnits $candidates -Aliases @($script:UOAliases)
 }
 
 function Get-AvailableUOs {
@@ -772,62 +673,19 @@ function Test-UOExists {
 }
 
 function Get-UOContainer {
-    <#
-    .SYNOPSIS
-        Obtiene el contenedor padre de usuarios para una UO específica con cache optimizado
-    .PARAMETER UOName
-        Nombre de la UO
-    .PARAMETER UseCache
-        Si usar cache de contenedores
-    #>
     [CmdletBinding()]
-    param(
-        [Parameter(Mandatory=$true)]
-        [string]$UOName,
-        
-        [Parameter(Mandatory=$false)]
-        [switch]$UseCache = $true
-    )
-    
-    # Cache de contenedores para evitar consultas repetidas
-    $script:ContainerCache = if (-not $script:ContainerCache) { @{} } else { $script:ContainerCache }
-    
-    # Verificar cache de contenedores
-    if ($UseCache -and $script:ContainerCache.ContainsKey($UOName)) {
-        return $script:ContainerCache[$UOName]
-    }
-    
-    $UO = Get-UOByName -Name $UOName
-    if (-not $UO) {
-        throw "UO no encontrada: $UOName"
-    }
-    
-    try {
-        $script:PerformanceMetrics.ADQueries++
-        $QueryStart = Get-Date
-        
-        $UsersContainer = Get-ADOrganizationalUnitSafe -Filter "Name -eq 'Users'" -SearchBase $UO.DistinguishedName -SearchScope OneLevel -ErrorAction SilentlyContinue
-        
-        $QueryTime = (Get-Date) - $QueryStart
-        Update-PerformanceMetrics -QueryTime $QueryTime.TotalMilliseconds
-        
-        $ContainerDN = if ($UsersContainer) {
-            $UsersContainer.DistinguishedName
-        } else {
-            $UO.DistinguishedName
-        }
-        
-        # Guardar en cache
-        if ($UseCache) {
-            $script:ContainerCache[$UOName] = $ContainerDN
-        }
-        
-        return $ContainerDN
-        
-    } catch {
-        Write-Warning "Error al obtener contenedor de usuarios para $UOName`: $($_.Exception.Message)"
-        return $UO.DistinguishedName
-    }
+    param([Parameter(Mandatory=$true)][string]$UOName, [switch]$UseCache = $true, [string]$Server)
+    # Resolver de nuevo: una cache de contenedores por nombre puede ocultar
+    # duplicados del inventario o conservar un alias que ya fue retirado.
+    $uo = Get-UOByName -Name $UOName -Server $Server
+    if (-not $uo) { throw "UO no encontrada: $UOName" }
+    $params = @{Filter="Name -eq 'Users'";SearchBase=$uo.DistinguishedName;SearchScope='OneLevel';ErrorAction='Stop'}
+    if ($Server) { $params.Server=$Server }
+    $containers = @(Get-ADOrganizationalUnitSafe @params | Sort-Object DistinguishedName -Unique)
+    if ($containers.Count -gt 1) { throw 'Contenedor Users ambiguo; operación bloqueada.' }
+    if ($containers.Count -eq 1) { return $containers[0].DistinguishedName }
+    # Solo una consulta satisfactoria sin Users permite usar la UO observada.
+    return $uo.DistinguishedName
 }
 
 function Find-UOInAD {
@@ -913,7 +771,126 @@ function Clear-UOCache {
     Write-Verbose "Cache de UO Manager limpiado"
 }
 
+function ConvertTo-UONameKey {
+    param([string]$Text)
+    # Solo tildes, caja y espacios; no reparar texto corrupto ni borrar puntuación.
+    $decomposed = $Text.Normalize([System.Text.NormalizationForm]::FormD)
+    $key = [regex]::Replace($decomposed, '\p{Mn}', '').ToLowerInvariant()
+    return ([regex]::Replace($key, '\s+', ' ')).Trim()
+}
+
+function Get-UOJudicialIdentity {
+    param([string]$Name, [string]$DistinguishedName, [string]$ExpectedLocality)
+    $key = ConvertTo-UONameKey $Name
+    $types = 'primera instancia e instruccion|primera instancia|instruccion|mixto|penal|social|mercantil|contencioso administrativo|violencia sobre la mujer|menores|vigilancia penitenciaria'
+    $legacy = "^juzgado(?: de)? (?<type>$types) (?:n(?:o|umero|[º°])\.?\s*)?(?<number>[1-9][0-9]*)(?: (?:de )?(?<locality>[a-z][a-z -]*))?$"
+    $sectionTypes="civil y de instruccion|civil|$types"
+    $section = "^seccion (?<number>[1-9][0-9]*) del tribunal de (?<type>$sectionTypes) de (?<locality>[a-z][a-z -]*)$"
+    $plaza = "^seccion (?:de )?(?<type>$sectionTypes) del tribunal de instancia de (?<locality>[a-z][a-z -]*) plaza (?<number>[1-9][0-9]*)$"
+    $unique = '^seccion (?:de )?(?<type>civil y de instruccion) unica del tribunal de instancia de (?<locality>[a-z][a-z -]*)$'
+    if ($key -match $unique) {
+        # Única identifica la plaza 1; nunca renumerar otra plaza ni inferir familia.
+        $typeText=$Matches.type; $number='1'; $locality=$Matches.locality
+    } elseif ($key -match $legacy -or $key -match $section -or $key -match $plaza) {
+        $typeText=$Matches.type; $number=$Matches.number; $locality=$Matches.locality
+    } else { return $null }
+    if (-not $locality) {
+        # En UOs legacy sin municipio en Name, solo aceptar un ancestro OU
+        # con municipio completo y opcional código de edificio. Nunca DC=provincia.
+        if (-not $ExpectedLocality -or -not $DistinguishedName) { return $null }
+        $locationKey=ConvertTo-UONameKey $ExpectedLocality
+        $ancestorPattern='^'+[regex]::Escape($locationKey)+'(?:\s*-\s*[a-z0-9].*)?$'
+        foreach ($component in [regex]::Matches($DistinguishedName, '(?:^|,)OU=(?<value>(?:\\.|[^,])+)')) {
+            $value=$component.Groups['value'].Value
+            if ($value.Contains('\')) { continue } # DN escapado: revisión, no adivinación.
+            if ((ConvertTo-UONameKey $value) -match $ancestorPattern) { $locality=$locationKey; break }
+        }
+        if (-not $locality) { return $null }
+    }
+    $type = switch ($typeText) {
+        'primera instancia e instruccion' { 'MIXTO' }
+        'civil y de instruccion' { 'MIXTO' }
+        'mixto' { 'MIXTO' }
+        'primera instancia' { 'PRIMERA_INSTANCIA' }
+        'civil' { 'PRIMERA_INSTANCIA' }
+        default { $typeText.ToUpperInvariant().Replace(' ', '_') }
+    }
+    return [pscustomobject]@{Locality=$locality;Type=$type;Number=$number}
+}
+
+function Test-UOAliasConfiguration {
+    param([object[]]$Aliases)
+    $seen = @{}
+    foreach ($alias in $Aliases) {
+        foreach ($field in @('Alias','Locality','SourceType','SourceNumber','TargetType','TargetNumber','TargetName')) {
+            if (-not $alias -or [string]::IsNullOrWhiteSpace([string]$alias.$field)) { throw "Alias inválido: falta $field." }
+        }
+        $source = Get-UOJudicialIdentity $alias.Alias
+        $target = Get-UOJudicialIdentity $alias.TargetName
+        $locality = ConvertTo-UONameKey $alias.Locality
+        if (-not $source -or -not $target -or
+            $source.Locality -ne $locality -or $target.Locality -ne $locality -or
+            $source.Type -cne $alias.SourceType -or $target.Type -cne $alias.TargetType -or
+            $source.Number -cne [string]$alias.SourceNumber -or $target.Number -cne [string]$alias.TargetNumber) {
+            throw 'Alias inválido: ámbito localidad/tipo/número incompatible con sus nombres.'
+        }
+        if ($source.Type -cne $target.Type) {
+            throw 'Alias inválido: materia/tipo incompatible entre origen y destino.'
+        }
+        if ($source.Number -cne $target.Number) {
+            throw 'Alias inválido: número de plaza incompatible entre origen y destino.'
+        }
+        $key = ConvertTo-UONameKey $alias.Alias
+        $targetKey = ConvertTo-UONameKey $alias.TargetName
+        if ($seen.ContainsKey($key) -and $seen[$key] -ne $targetKey) { throw 'Alias contradictorio: un origen tiene varios destinos.' }
+        $seen[$key] = $targetKey
+    }
+}
+
+function Set-UOAliases {
+    [CmdletBinding()]
+    param([AllowEmptyCollection()][object[]]$Aliases = @())
+    Test-UOAliasConfiguration $Aliases
+    # Copia defensiva: una modificación del objeto del llamador no altera el ámbito.
+    $script:UOAliases = @($Aliases | ForEach-Object {
+        [pscustomobject]@{Alias=$_.Alias;Locality=$_.Locality;SourceType=$_.SourceType;SourceNumber=[string]$_.SourceNumber;TargetType=$_.TargetType;TargetNumber=[string]$_.TargetNumber;TargetName=$_.TargetName}
+    })
+}
+
+function Resolve-UOName {
+    <# Resuelve únicamente nombres exactos y aliases explícitos; nunca construye DNs. #>
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory=$true)][string]$Name,
+        [Parameter(Mandatory=$true)][AllowEmptyCollection()][object[]]$OrganizationalUnits,
+        [object[]]$Aliases = @()
+    )
+    Test-UOAliasConfiguration $Aliases
+    $key = ConvertTo-UONameKey $Name
+    $names = @($key)
+    foreach ($alias in $Aliases) {
+        if ((ConvertTo-UONameKey $alias.Alias) -eq $key) {
+            $names += ConvertTo-UONameKey $alias.TargetName
+        }
+    }
+    $identity = Get-UOJudicialIdentity -Name $Name
+    $matches = @($OrganizationalUnits | Where-Object {
+        if (-not $_ -or -not $_.DistinguishedName -or -not $_.Name) { return $false }
+        if ($names -contains (ConvertTo-UONameKey $_.Name)) { return $true }
+        if (-not $identity) { return $false }
+        $candidate = Get-UOJudicialIdentity -Name $_.Name -DistinguishedName $_.DistinguishedName -ExpectedLocality $identity.Locality
+        # Solo nomenclatura conservadora: misma materia, misma plaza y mismo
+        # municipio. Un Mixto NO es Instrucción ni Primera Instancia separadas.
+        return $candidate -and $candidate.Type -ceq $identity.Type -and $candidate.Number -ceq $identity.Number -and $candidate.Locality -ceq $identity.Locality
+    } | Sort-Object DistinguishedName -Unique)
+    if ($matches.Count -gt 1) { throw 'Resolución de UO ambigua; se requiere revisión del inventario o alias.' }
+    if ($matches.Count -eq 1) { return $matches[0] }
+    return $null
+}
+
 Export-ModuleMember -Function @(
+    'Resolve-UOName',
+    'Set-UOAliases',
     'Initialize-UOManager',
     'Get-UOByName',
     'Get-AvailableUOs', 

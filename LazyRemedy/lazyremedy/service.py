@@ -19,7 +19,7 @@ logger = logging.getLogger("lazyremedy.service")
 
 
 def _build_backend(settings: Settings) -> RemedyBackend:
-    if settings.backend == "midtier":
+    if settings.backend == "midtier" and not settings.mock:
         from .backends.midtier import MidtierBackend
 
         return MidtierBackend(settings)

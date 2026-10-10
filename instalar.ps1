@@ -2,23 +2,34 @@ param([switch]$WhatIf)
 
 $functions = @'
 
-Set-Location $env:USERPROFILE
+# Los atajos ejecutan esta copia revisada; no descargan codigo mutable al usarlos.
+$global:CAUInstallRoot = '__CAU_ROOT__'
 
 # Temis - Cambio de contrasena
-function temis ([string]$TemisUser) {
-    & ([scriptblock]::Create((irm "https://raw.githubusercontent.com/Lumiazaine/CAU/refs/heads/main/Temis/cambiar_password_temis.ps1"))) -TemisUser $TemisUser
+function temis {
+    param([string]$TemisUser, [Security.SecureString]$NewPassword, [switch]$WhatIf, [switch]$ShowBrowser, [string]$TemisEndpoint, [string]$CertificateThumbprint)
+    & (Join-Path $global:CAUInstallRoot 'Temis/cambiar_password_temis.ps1') @PSBoundParameters
 }
 
 # Directorio Correo - Cambio de contrasena
-function ldap ([string]$correo) {
-    & ([scriptblock]::Create((irm "https://raw.githubusercontent.com/Lumiazaine/CAU/refs/heads/main/Directorio%20correo/cambiar_password_correo.ps1"))) -TargetUser $correo
+function ldap {
+    param([string]$correo, [Security.SecureString]$NewPassword, [switch]$PersistCredentials, [switch]$WhatIf, [switch]$Interno)
+    $parameters = @{}
+    foreach ($key in $PSBoundParameters.Keys) {
+        if ($key -eq 'correo') { $parameters['TargetUser'] = $correo }
+        else { $parameters[$key] = $PSBoundParameters[$key] }
+    }
+    & (Join-Path $global:CAUInstallRoot 'Directorio correo/cambiar_password_correo.ps1') @parameters
 }
 
 # Directorio Correo - TUI
 function lazydirectory {
-    & ([scriptblock]::Create((irm "https://raw.githubusercontent.com/Lumiazaine/CAU/refs/heads/main/lazydirectory/lazydirectory.ps1")))
+    param([switch]$WhatIf, [switch]$PersistCredentials)
+    & (Join-Path $global:CAUInstallRoot 'lazydirectory/lazydirectory.ps1') @PSBoundParameters
 }
 '@
+if (-not $PSScriptRoot) { throw 'Ejecuta instalar.ps1 desde una copia local revisada del repositorio.' }
+$functions = $functions.Replace('__CAU_ROOT__', $PSScriptRoot.Replace("'", "''"))
 
 Write-Host "============================================" -ForegroundColor Yellow
 Write-Host "  INSTALACION - Scripts CAU" -ForegroundColor Yellow
@@ -57,15 +68,12 @@ if (-not (Test-Path $PROFILE)) {
 
 Write-Host "[3/3] Anhadiendo funciones al perfil..." -ForegroundColor Cyan
 $content = Get-Content $PROFILE -Raw -ErrorAction SilentlyContinue
-if ($content -match 'function temis\b' -and $content -match 'function ldap\b') {
-    Write-Host "  Las funciones ya existen en el perfil (se anh adira lazydirectory si falta)" -ForegroundColor Yellow
-    if ($content -notmatch 'function lazydirectory\b') {
-        Add-Content -Path $PROFILE -Value $functions -Encoding UTF8
-        Write-Host "  Funcion 'lazydirectory' anh adida al perfil" -ForegroundColor Green
-    }
+if ($content -and $content.Contains($functions.Trim())) {
+    Write-Host "  Los atajos locales ya existen en el perfil" -ForegroundColor Yellow
 } else {
+    # Una nueva definicion reemplaza tambien los atajos remotos de instalaciones anteriores.
     Add-Content -Path $PROFILE -Value $functions -Encoding UTF8
-    Write-Host "  Funciones 'temis', 'ldap' y 'lazydirectory' anh adidas al perfil" -ForegroundColor Green
+    Write-Host "  Atajos locales actualizados: temis, ldap y lazydirectory" -ForegroundColor Green
 }
 
 Write-Host ""

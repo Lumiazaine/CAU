@@ -1,7 +1,8 @@
 param(
     [Parameter(Mandatory=$true)]
     [string]$TargetUser,
-    [string]$NewPassword,
+    [Security.SecureString]$NewPassword,
+    [switch]$PersistCredentials,
     [switch]$WhatIf,
     [switch]$Interno
 )
@@ -10,42 +11,27 @@ $script:SCRIPT_DIR = if ($PSScriptRoot) { $PSScriptRoot } else { (Get-Location).
 $script:LOG_FILE = Join-Path $script:SCRIPT_DIR "cambiar_password_correo.log"
 $script:DEBUG_DIR = Join-Path $script:SCRIPT_DIR "debug"
 $script:BASE = "https://directorio.juntadeandalucia.es/myServlets/es.sadesi.admdirectorio.servlets"
-$script:ENV_FILE = Join-Path $env:USERPROFILE ".env"
+Import-Module (Join-Path (Split-Path $script:SCRIPT_DIR -Parent) 'Common/DirectorySecurity.psm1') -ErrorAction Stop
 
 function Get-Credentials {
-    $envFile = $script:ENV_FILE
-    if (Test-Path $envFile) {
-        $content = Get-Content $envFile -Encoding UTF8 | ForEach-Object { $_.Trim() }
-        $user = ($content | Where-Object { $_ -match '^ADMIN_USER=(.+)$' } | ForEach-Object { $Matches[1] }) -join ''
-        $pass = ($content | Where-Object { $_ -match '^ADMIN_PASS=(.+)$' } | ForEach-Object { $Matches[1] }) -join ''
-        if ($user -and $pass) {
-            Write-Log "Credenciales cargadas desde $envFile" "INFO"
-            return @{ User = $user; Pass = $pass }
-        }
-        Write-Log "El archivo $envFile no contiene ADMIN_USER y ADMIN_PASS" "WARN"
-    }
+    $credential = Get-DirectoryCredential
+    if ($credential) { return @{User=$credential.UserName; Pass=$credential.Password} }
     return $null
 }
 
 function Save-Credentials {
-    param([string]$User, [string]$Pass)
-    $lines = @(
-        "ADMIN_USER=$User",
-        "ADMIN_PASS=$Pass"
-    )
-    $lines | Set-Content -Path $script:ENV_FILE -Encoding UTF8
-    Write-Log "Credenciales guardadas en $($script:ENV_FILE)" "OK"
+    param([string]$User, [Security.SecureString]$Pass)
+    if (-not $PersistCredentials) { return }
+    Save-DirectoryCredential -Credential (New-Object Management.Automation.PSCredential $User,$Pass)
+    Write-Log 'Credencial guardada con DPAPI para este usuario/equipo.' 'OK'
 }
 
 function Get-CredentialsInteractive {
-    Write-Log "Solicitando credenciales manualmente..." "WARN"
-    $user = Read-Host "Usuario administrador"
-    $pass = Read-Host "Contrasena" -AsSecureString
-    $ptr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($pass)
-    $plainPass = [System.Runtime.InteropServices.Marshal]::PtrToStringBSTR($ptr)
-    [System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR($ptr)
-    Save-Credentials -User $user -Pass $plainPass
-    return @{ User = $user; Pass = $plainPass }
+    Write-Log 'Introduzca la credencial (legacy .env no se lee; persistencia solo con -PersistCredentials).' 'WARN'
+    $user = Read-Host 'Usuario administrador'
+    $pass = Read-Host 'Contrasena' -AsSecureString
+    Save-Credentials -User $user -Pass $pass
+    return @{User=$user; Pass=$pass}
 }
 
 function Write-Log {
@@ -73,24 +59,23 @@ function Extract-Token {
 function Extract-FormField {
     param([string]$Html, [string]$FieldName)
     $pattern = 'name="' + [regex]::Escape($FieldName) + '"\s*value="([^"]*)"'
-    if ($Html -match $pattern) { return $Matches[1] }
+    if ($Html -match $pattern) { return [System.Net.WebUtility]::HtmlDecode($Matches[1]) }
     return ""
 }
 
 $script:ERROR_COUNT = 0
 
-if (-not $NewPassword) {
-    $month = Get-Date -Format "MM"
-    $year = Get-Date -Format "yy"
-    $NewPassword = "Justicia.$month$year"
-}
+if ($null -eq $NewPassword) { $NewPassword = Read-Host 'Nueva contrasena del gestor (sin valor por defecto)' -AsSecureString }
+if ($NewPassword.Length -eq 0) { throw 'Nueva contrasena obligatoria. Use su gestor o New-DirectoryPassword antes de invocar.' }
+# WhatIf must not authenticate, persist credentials or make network requests.
+if ($WhatIf) { Write-Output 'WHATIF: cambio omitido; sin red ni persistencia.'; return }
 
 Clear-Host
 Write-Host "============================================" -ForegroundColor Yellow
 Write-Host "  DIRECTORIO CORREO - Cambiar Contrasena" -ForegroundColor Yellow
 Write-Host "============================================" -ForegroundColor Yellow
 Write-Host ""
-Write-Log "Nueva contrasena destino: $NewPassword" "INFO"
+Write-Log "Nueva contrasena destino: [OCULTA]" "INFO"
 Write-Log "Usuario destino: $TargetUser" "INFO"
 if ($WhatIf) { Write-Log "MODO WHATIF" "WARN" }
 Write-Host ""
@@ -126,10 +111,11 @@ for ($attempt = 1; $attempt -le $maxLoginAttempts; $attempt++) {
         accionInicial = 'inicio'
         tokenParametro = $token
         administrador = $script:ADMIN_USER
-        clave = $script:ADMIN_PASS
+        clave = (New-Object Management.Automation.PSCredential $script:ADMIN_USER,$script:ADMIN_PASS).GetNetworkCredential().Password
         login = 'Entrar'
     }
-    $r = Invoke-WebRequest -Uri "$script:BASE.LoginInicial" -UseBasicParsing -WebSession $session -Method POST -Body $body
+    try { $r = Invoke-WebRequest -Uri "$script:BASE.LoginInicial" -UseBasicParsing -WebSession $session -Method POST -Body $body }
+    finally { $body['clave'] = $null }
     $token = Extract-Token $r.Content
     if (-not $token) {
         if ($r.Content -match 'error|Error|incorrecto|incorrecta') {
@@ -216,7 +202,7 @@ if (-not $dn) {
     Write-Log ("Usuario encontrado. DN: $dn") "OK"
 }
 
-Write-Log "Cambiando contrasena a $NewPassword..." "INFO"
+Write-Log "Cambiando contrasena..." "INFO"
 $body2 = @{
     accion = 'modificacion'
     botonPulsado = 'confirmarPassword'
@@ -240,13 +226,14 @@ $body2 += @{
     usuarioWindows = 'NO'
     passCaducadoCP = 'NO'
     dn = $dn
-    pwd_modificacion = $NewPassword
-    pwd2_modificacion = $NewPassword
+    pwd_modificacion = (New-Object Management.Automation.PSCredential 'target',$NewPassword).GetNetworkCredential().Password
+    pwd2_modificacion = (New-Object Management.Automation.PSCredential 'target',$NewPassword).GetNetworkCredential().Password
 }
-$r2 = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $session -Method POST -Body $body2
+try { $r2 = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $session -Method POST -Body $body2 }
+finally { $body2['pwd_modificacion']=$null; $body2['pwd2_modificacion']=$null }
 
 if ($r2.Content -match 'actualiz.+correctamente|mensaje_ok') {
-    Write-Log "Contrasena cambiada correctamente a $NewPassword" "OK"
+    Write-Log "Contrasena cambiada correctamente" "OK"
 } elseif ($r2.Content -match 'error|Error|incorrecto') {
     Write-Log "Posible error al cambiar la contrasena" "WARN"
 }
@@ -257,9 +244,9 @@ Write-Log "Proceso completado" "OK"
     if ($_.Exception.Message -eq "whatif") {
         Write-Log "WHATIF - No se realizaron cambios" "OK"
     } else {
-        Write-Log ("Error: " + $_.Exception.Message) "ERROR"
+        Write-Log 'Operacion fallida; detalle de respuesta omitido por seguridad.' 'ERROR'
     }
-}
+} finally { $script:ADMIN_PASS=$null; $creds=$null; $NewPassword=$null; $session=$null; $r=$null; $r2=$null }
 
 Write-Host ""
 Write-Host "============================================" -ForegroundColor Yellow

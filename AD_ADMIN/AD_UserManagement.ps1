@@ -1,4 +1,4 @@
-#requires -version 5.1
+﻿#requires -version 5.1
 
 <#
 .SYNOPSIS
@@ -29,17 +29,34 @@ param(
     [switch]$WhatIf = $false,
     
     [ValidateSet("INFO", "WARNING", "ERROR")]
-    [string]$LogLevel = "INFO"
+    [string]$LogLevel = "INFO",
+
+    [string]$UOAliasPath,
+    [string]$LogDirectory = 'C:\Logs\AD_UserManagement'
+
 )
 
 # Variables globales
 $Global:ScriptPath = $PSScriptRoot
-$Global:LogDirectory = "C:\Logs\AD_UserManagement"
+$Global:LogDirectory = $LogDirectory
 $Global:WhatIfMode = $WhatIf
+
+# Configuración explícita, vacía por defecto: ninguna equivalencia normativa implícita.
+Import-Module (Join-Path $PSScriptRoot 'Modules/UOManager.psm1') -Force -DisableNameChecking -ErrorAction Stop
+Import-Module (Join-Path $PSScriptRoot 'Modules/PasswordManager.psm1') -Force -DisableNameChecking -ErrorAction Stop
+$script:ConfiguredUOAliases = @()
+if ($UOAliasPath) {
+    $script:ConfiguredUOAliases = @(Get-Content -LiteralPath $UOAliasPath -Raw -Encoding UTF8 -ErrorAction Stop | ConvertFrom-Json -ErrorAction Stop)
+}
+Set-UOAliases -Aliases $script:ConfiguredUOAliases
+# Sin RSAT/AD no se fabrican usuarios, plantillas o informes de éxito.
+foreach ($required in @('Get-ADOrganizationalUnit','Get-ADUser')) {
+    if (-not (Get-Command $required -ErrorAction SilentlyContinue)) { throw "ActiveDirectory no disponible: falta $required." }
+}
 
 # Crear directorio de logs si no existe
 if (-not (Test-Path $Global:LogDirectory)) {
-    New-Item -ItemType Directory -Path $Global:LogDirectory -Force | Out-Null
+    New-Item -ItemType Directory -Path $Global:LogDirectory -Force -ErrorAction Stop | Out-Null
 }
 
 # Generar nombre de archivo de log con timestamp
@@ -130,7 +147,7 @@ function Add-ToCumulativeResults {
             
             if ($NewUniqueResults.Count -gt 0) {
                 # Añadir solo registros nuevos al archivo existente
-                $NewUniqueResults | Export-Csv -Path $CumulativeCSVPath -Delimiter ";" -Encoding UTF8 -NoTypeInformation -Append
+                $NewUniqueResults | Export-Csv -Path $CumulativeCSVPath -Delimiter ";" -Encoding UTF8 -NoTypeInformation -Append -ErrorAction Stop
                 Write-Log "Añadidos $($NewUniqueResults.Count) nuevos registros al archivo acumulativo" "INFO"
             } else {
                 Write-Log "No hay registros nuevos para añadir (todos eran duplicados)" "INFO"
@@ -139,7 +156,7 @@ function Add-ToCumulativeResults {
         } else {
             # Archivo no existe - crear nuevo
             Write-Log "Creando nuevo archivo acumulativo: $CumulativeCSVPath" "INFO"
-            $EnrichedResults | Export-Csv -Path $CumulativeCSVPath -Delimiter ";" -Encoding UTF8 -NoTypeInformation
+            $EnrichedResults | Export-Csv -Path $CumulativeCSVPath -Delimiter ";" -Encoding UTF8 -NoTypeInformation -ErrorAction Stop
             Write-Log "Archivo acumulativo creado con $($EnrichedResults.Count) registros" "INFO"
         }
         
@@ -166,7 +183,7 @@ function Write-Log {
     $LogMessage = "[$Timestamp] [$Level] $Message"
     
     # Escribir al archivo de log
-    Add-Content -Path $Global:LogFile -Value $LogMessage -Encoding UTF8
+    Add-Content -Path $Global:LogFile -Value $LogMessage -Encoding UTF8 -ErrorAction Stop
     
     # Mostrar en consola con colores
     switch ($Level) {
@@ -623,430 +640,21 @@ function Get-DomainFromOffice {
 }
 
 function Find-OrganizationalUnit {
-    <#
-    .SYNOPSIS
-        Busca la UO correspondiente a una oficina especificada en el dominio correcto
-    #>
-    param(
-        [string]$Office,
-        [string]$Domain = $null
-    )
-    
-    if ([string]::IsNullOrWhiteSpace($Office)) {
-        Write-Log "Oficina no especificada - usando UO por defecto" "WARNING"
-        return $null
-    }
-    
-    # Si no se proporciona dominio, detectarlo desde la oficina
-    if ([string]::IsNullOrWhiteSpace($Domain)) {
-        $Domain = Get-DomainFromOffice -Office $Office
-        Write-Log "Dominio auto-detectado desde oficina: $Domain" "INFO"
-    }
-    
+    <# Resolución cerrada: nombre exacto o alias revisado, sin scoring ni DNs inventados. #>
+    param([string]$Office, [string]$Domain = $null)
+    if ([string]::IsNullOrWhiteSpace($Office)) { return $null }
+    if ([string]::IsNullOrWhiteSpace($Domain)) { $Domain = Get-DomainFromOffice -Office $Office }
     try {
-        Write-Log "Buscando UO para oficina: '$Office' en dominio: $Domain" "INFO"
-        
-        # Inicializar variable para candidatos
-        $CandidateOUs = @()
-        
-        # Verificar si el modulo ActiveDirectory esta disponible
-        $ADModuleAvailable = $false
-        try {
-            Get-Command Get-ADOrganizationalUnit -ErrorAction Stop | Out-Null
-            $ADModuleAvailable = $true
-        } catch {
-            Write-Log "Modulo ActiveDirectory no disponible - generando UO simulada" "WARNING"
-        }
-        
-        if ($ADModuleAvailable) {
-            # Obtener todas las UOs del dominio
-            $AllOUs = Get-ADOrganizationalUnit -Filter * -Server $Domain -Properties Name, DistinguishedName
-        } else {
-            # Generar UO simulada basada en el nombre de la oficina
-            $SimulatedOU = "OU=$Office,OU=Juzgados,DC=testdomain,DC=local"
-            Write-Log "UO simulada generada: $SimulatedOU" "INFO"
-            return $SimulatedOU
-        }
-        
-        # Normalizar nombre de oficina usando la función mejorada
-        $CleanOffice = Normalize-Text -Text $Office
-        $NormalizedOffice = $CleanOffice.ToLower()
-        Write-Log "Oficina normalizada: '$NormalizedOffice'" "INFO"
-        
-        # PASO 0: Mapeos específicos para oficinas problemáticas identificadas en logs
-        $SpecificOUMappings = @{
-            'imlcf central de jaen - patologia forense' = 'OU=IML - Sede Central,OU=Jaen-JA4C-San Antonio,DC=jaen,DC=justicia,DC=junta-andalucia,DC=es'
-            'imlcf central de jaén - patología forense' = 'OU=IML - Sede Central,OU=Jaen-JA4C-San Antonio,DC=jaen,DC=justicia,DC=junta-andalucia,DC=es'
-            'imlcf de algeciras' = 'OU=UVIG,OU=IML,OU=Algeciras-CAAL3-Virgen del Carmen,DC=cadiz,DC=justicia,DC=junta-andalucia,DC=es'
-            'registro civil exclusivo de malaga' = 'OU=Registro Civil de Malaga,OU=Malaga-MACJ-Ciudad de la Justicia,DC=malaga,DC=justicia,DC=junta-andalucia,DC=es'
-            'registro civil exclusivo de málaga' = 'OU=Registro Civil de Malaga,OU=Malaga-MACJ-Ciudad de la Justicia,DC=malaga,DC=justicia,DC=junta-andalucia,DC=es'
-        }
-        
-        # Verificar si existe un mapeo específico para esta oficina
-        if ($SpecificOUMappings.ContainsKey($NormalizedOffice)) {
-            $SpecificOU = $SpecificOUMappings[$NormalizedOffice]
-            Write-Log "Mapeo específico encontrado para '$Office': $SpecificOU" "INFO"
-            return $SpecificOU
-        }
-        
-        # PASO 1: Buscar coincidencia exacta (incluyendo numeros)
-        foreach ($OU in $AllOUs) {
-            # Normalizar el nombre de la UO usando la función mejorada
-            $CleanOUName = Normalize-Text -Text $OU.Name
-            $NormalizedOUName = $CleanOUName.ToLower()
-            
-            if ($NormalizedOUName -eq $NormalizedOffice -or (Compare-TextWithoutAccents -Text1 $NormalizedOUName -Text2 $NormalizedOffice)) {
-                Write-Log "Coincidencia EXACTA encontrada: '$($OU.Name)' (con normalización de acentos)" "INFO"
-                Write-Log "DN: $($OU.DistinguishedName)" "INFO"
-                return $OU.DistinguishedName
-            }
-        }
-        
-        # PASO 2: Buscar coincidencia por numero especifico si existe
-        $OfficeNumber = ""
-        if ($NormalizedOffice -match '\b(\d+)\b') {
-            $OfficeNumber = $Matches[1]
-            Write-Log "Numero detectado en oficina: '$OfficeNumber'" "INFO"
-            
-            foreach ($OU in $AllOUs) {
-                # Normalizar nombre de UO usando la función mejorada
-                $CleanOUName = Normalize-Text -Text $OU.Name
-                $OUNameNormalized = $CleanOUName.ToLower()
-                
-                # Verificar que contenga el numero especifico (buscar patrones mas flexibles)
-                if ($OUNameNormalized -match "\b$OfficeNumber\b") {
-                    # Verificar que tambien contenga palabras clave principales
-                    $KeyWords = @('juzgado', 'juzgados', 'primera', 'instancia', 'instruccion', 'penal', 'civil', 'mixto', 'familia', 'mercantil', 'contencioso', 'social')
-                    $MatchedKeyWords = 0
-                    $Score = 0
-                    
-                    # LÓGICA ESPECIAL: Mapeo de Juzgado de Instrucción a Primera Instancia e Instrucción (con número)
-                    $IsInstruccionOnlyNumbered = $NormalizedOffice -like "*instruccion*" -and 
-                                                $NormalizedOffice -notlike "*primera*" -and 
-                                                $NormalizedOffice -notlike "*instancia*" -and
-                                                $NormalizedOffice -like "*juzgado*"
-                    
-                    $IsFirstInstanceInstructionNumbered = $OUNameNormalized -like "*primera*" -and 
-                                                         $OUNameNormalized -like "*instancia*" -and 
-                                                         $OUNameNormalized -like "*instruccion*"
-                    
-                    if ($IsInstruccionOnlyNumbered -and $IsFirstInstanceInstructionNumbered) {
-                        Write-Log "MAPEO ESPECIAL CON NÚMERO: Juzgado de Instrucción N°$OfficeNumber → Primera Instancia e Instrucción: '$($OU.Name)'" "INFO"
-                        $Score += 100  # Bonus muy alto para mapeo específico con número
-                        $MatchedKeyWords += 5  # Contar como múltiples keywords
-                    }
-                    
-                    foreach ($KeyWord in $KeyWords) {
-                        # Usar comparación mejorada que ignora acentos
-                        $OfficeContainsKey = $NormalizedOffice -like "*$KeyWord*" -or (Compare-TextWithoutAccents -Text1 $NormalizedOffice -Text2 $KeyWord)
-                        $OUContainsKey = $OUNameNormalized -like "*$KeyWord*" -or (Compare-TextWithoutAccents -Text1 $OUNameNormalized -Text2 $KeyWord)
-                        
-                        if ($OfficeContainsKey -and $OUContainsKey) {
-                            $MatchedKeyWords++
-                            # Dar mayor peso a combinaciones específicas
-                            if ($KeyWord -eq 'primera' -and $OUNameNormalized -like "*instancia*") {
-                                $Score += 10  # Bonus por "primera instancia"
-                            } elseif ($KeyWord -eq 'instancia' -and $OUNameNormalized -like "*primera*") {
-                                $Score += 10  # Bonus por "primera instancia" (orden inverso)
-                            } else {
-                                $Score += 1   # Puntuacion base
-                            }
-                        }
-                    }
-                    
-                    # Bonus adicional por similitud general del texto (ignora acentos)
-                    $SimilarityScore = Get-TextSimilarityScore -Text1 $NormalizedOffice -Text2 $OUNameNormalized
-                    if ($SimilarityScore -gt 70) {
-                        $SimilarityBonus = [Math]::Round($SimilarityScore / 10, 0)
-                        $Score += $SimilarityBonus
-                        Write-Log "Bonus de similitud aplicado: +$SimilarityBonus (similitud: $SimilarityScore%)" "INFO"
-                    }
-                    
-                    Write-Log "Evaluando UO: '$($OU.Name)' - Numero: $OfficeNumber, Palabras clave: $MatchedKeyWords, Score: $Score" "INFO"
-                    
-                    # Recopilar candidatos en lugar de retornar el primero
-                    if ($MatchedKeyWords -ge 1) {
-                        if (-not $CandidateOUs) { $CandidateOUs = @() }
-                        $CandidateOUs += [PSCustomObject]@{
-                            OU = $OU
-                            Score = $Score
-                            KeyWordMatches = $MatchedKeyWords
-                        }
-                    }
-                }
-            }
-        }
-        
-        # Seleccionar el mejor candidato si hay múltiples opciones
-        if ($CandidateOUs -and $CandidateOUs.Count -gt 0) {
-            $BestCandidate = $CandidateOUs | Sort-Object @{Expression="Score"; Descending=$true}, @{Expression="KeyWordMatches"; Descending=$true} | Select-Object -First 1
-            
-            # Evaluar confianza de la mejor coincidencia
-            $ConfidenceLevel = Get-UOMatchConfidence -Score $BestCandidate.Score -KeywordMatches $BestCandidate.KeyWordMatches -Office $Office -OUDN $BestCandidate.OU.DistinguishedName
-            
-            if ($ConfidenceLevel -eq "HIGH") {
-                Write-Log "Mejor coincidencia por NUMERO ESPECIFICO (ALTA CONFIANZA): '$($BestCandidate.OU.Name)' (Score: $($BestCandidate.Score), Palabras: $($BestCandidate.KeyWordMatches))" "INFO"
-                Write-Log "DN: $($BestCandidate.OU.DistinguishedName)" "INFO"
-                return $BestCandidate.OU.DistinguishedName
-            } else {
-                Write-Log "Coincidencia por número incierta (Confianza: $ConfidenceLevel). Candidatos encontrados: $($CandidateOUs.Count)" "WARNING"
-                Write-Log "Mejor candidato: '$($BestCandidate.OU.Name)' (Score: $($BestCandidate.Score), Keywords: $($BestCandidate.KeyWordMatches))" "INFO"
-                Write-Log "Iniciando selección interactiva..." "WARNING"
-                $SelectedOU = Select-BestUOInteractive -Candidates $CandidateOUs -Office $Office
-                if ($SelectedOU) {
-                    return $SelectedOU
-                } else {
-                    Write-Log "Usuario decidió omitir esta asignación de UO por número" "WARNING"
-                    return $null
-                }
-            }
-        }
-        
-        # PASO 2.5: Manejo especial para oficinas no judiciales (Fiscalía, Guardia Civil, etc.)
-        # Identificar tipos de oficina específicos para evitar matches incorrectos
-        $OfficeType = $null
-        $SpecialKeywords = @()
-        $ExclusionKeywords = @()
-        
-        if ($NormalizedOffice -like "*fiscalia*") {
-            $OfficeType = "Fiscalia"
-            $SpecialKeywords = @('fiscalia', 'ministerio', 'fiscal')
-            $ExclusionKeywords = @('juzgado', 'juzgados', 'tribunal', 'instancia', 'penal', 'civil')
-            Write-Log "Detectada FISCALIA: '$Office' - Buscando solo UOs de fiscalia" "INFO"
-        }
-        elseif ($NormalizedOffice -like "*guardia civil*") {
-            $OfficeType = "GuardiaCivil"
-            $SpecialKeywords = @('guardia', 'civil')
-            $ExclusionKeywords = @('juzgado', 'juzgados', 'tribunal', 'fiscalia')
-            Write-Log "Detectada GUARDIA CIVIL: '$Office'" "INFO"
-        }
-        elseif ($NormalizedOffice -like "*policia*") {
-            $OfficeType = "Policia"
-            $SpecialKeywords = @('policia', 'nacional')
-            $ExclusionKeywords = @('juzgado', 'juzgados', 'tribunal', 'fiscalia')
-            Write-Log "Detectada POLICIA: '$Office'" "INFO"
-        }
-        
-        if ($OfficeType) {
-            $ValidMatches = @()
-            
-            foreach ($OU in $AllOUs) {
-                $CleanOUName = Normalize-Text -Text $OU.Name
-                $OUNameNormalized = $CleanOUName.ToLower()
-                $HasSpecialKeyword = $false
-                $HasExclusionKeyword = $false
-                
-                # Verificar palabras clave requeridas
-                foreach ($Keyword in $SpecialKeywords) {
-                    if ($OUNameNormalized -like "*$Keyword*") {
-                        $HasSpecialKeyword = $true
-                        break
-                    }
-                }
-                
-                # Verificar palabras de exclusión
-                foreach ($ExclWord in $ExclusionKeywords) {
-                    if ($OUNameNormalized -like "*$ExclWord*") {
-                        $HasExclusionKeyword = $true
-                        break
-                    }
-                }
-                
-                # Solo incluir si tiene palabra clave requerida Y NO tiene palabra de exclusión
-                if ($HasSpecialKeyword -and -not $HasExclusionKeyword) {
-                    $ValidMatches += $OU
-                    Write-Log "UO valida para ${OfficeType}: '$($OU.Name)'" "INFO"
-                }
-                elseif ($HasSpecialKeyword -and $HasExclusionKeyword) {
-                    Write-Log "UO descartada por exclusion: '$($OU.Name)' (contiene: $($ExclusionKeywords -join ', '))" "WARNING"
-                }
-            }
-            
-            # Si hay matches válidos, usar el primero
-            if ($ValidMatches.Count -gt 0) {
-                $SelectedOU = $ValidMatches[0]
-                Write-Log "UO ${OfficeType} seleccionada: '$($SelectedOU.Name)'" "INFO"
-                Write-Log "DN: $($SelectedOU.DistinguishedName)" "INFO"
-                return $SelectedOU.DistinguishedName
-            } else {
-                Write-Log "No se encontro UO especifica valida para ${OfficeType}. Usando UO generica." "WARNING"
-                $GenericOU = "OU=$Office,OU=Oficinas Especiales,DC=$($Domain -replace '\.', ',DC=')"
-                Write-Log "UO genérica sugerida: $GenericOU" "INFO"
-                return $GenericOU
-            }
-        }
-        
-        # PASO 3: Buscar por coincidencia de palabras clave (para juzgados y tribunales)
-        $OfficeWords = $Office -split '\s+' | Where-Object { $_.Length -gt 3 -and $_ -notmatch '^\d+$' }  # Excluir numeros solos
-        Write-Log "Palabras clave de la oficina: $($OfficeWords -join ', ')" "INFO"
-        
-        $BestMatch = $null
-        $BestScore = 0
-        $ValidCandidates = @()
-        
-        # Determinar el contexto de búsqueda basado en la oficina
-        $IsCourtOffice = $NormalizedOffice -like "*juzgado*" -or $NormalizedOffice -like "*tribunal*" -or 
-                        $NormalizedOffice -like "*instancia*" -or $NormalizedOffice -like "*penal*" -or
-                        $NormalizedOffice -like "*civil*" -or $NormalizedOffice -like "*social*" -or
-                        $NormalizedOffice -like "*contencioso*" -or $NormalizedOffice -like "*mercantil*"
-        
-        foreach ($OU in $AllOUs) {
-            $Score = 0
-            $CleanOUName = Normalize-Text -Text $OU.Name
-            $OUName = $CleanOUName.ToLower()
-            $WordMatches = 0
-            $HasIncompatibleContent = $false
-            
-            # Verificar incompatibilidades (evitar matches incorrectos)
-            if ($IsCourtOffice) {
-                # Si buscamos juzgado, excluir fiscalías y otras oficinas no judiciales
-                if ($OUName -like "*fiscalia*" -or $OUName -like "*ministerio*" -or $OUName -like "*guardia*") {
-                    $HasIncompatibleContent = $true
-                    Write-Log "UO excluida por incompatibilidad: '$($OU.Name)' (contiene fiscalia/ministerio/guardia)" "INFO"
-                }
-            } else {
-                # Si buscamos fiscalía/otras, excluir juzgados
-                if ($OUName -like "*juzgado*" -or $OUName -like "*tribunal*") {
-                    $HasIncompatibleContent = $true
-                    Write-Log "UO excluida por incompatibilidad: '$($OU.Name)' (contiene juzgado/tribunal)" "INFO"
-                }
-            }
-            
-            if ($HasIncompatibleContent) {
-                continue
-            }
-            
-            # LÓGICA ESPECIAL: Mapeo de Juzgado de Instrucción a Primera Instancia e Instrucción
-            $IsInstruccionOnly = $NormalizedOffice -like "*instruccion*" -and 
-                                $NormalizedOffice -notlike "*primera*" -and 
-                                $NormalizedOffice -notlike "*instancia*" -and
-                                $NormalizedOffice -like "*juzgado*"
-            
-            $IsFirstInstanceInstruction = $OUName -like "*primera*" -and 
-                                         $OUName -like "*instancia*" -and 
-                                         $OUName -like "*instruccion*"
-            
-            # Si estamos buscando un Juzgado de Instrucción y encontramos una UO de Primera Instancia e Instrucción
-            if ($IsInstruccionOnly -and $IsFirstInstanceInstruction) {
-                Write-Log "MAPEO ESPECIAL: Juzgado de Instrucción → Primera Instancia e Instrucción: '$($OU.Name)'" "INFO"
-                $Score += 50  # Bonus muy alto para este mapeo específico
-                $WordMatches += 3  # Contar como múltiples matches
-            }
-            
-            # Puntuar coincidencias de palabras (excluyendo numeros)
-            foreach ($Word in $OfficeWords) {
-                $CleanWord = $Word.ToLower() -replace '[^a-z]', ''
-                if ($CleanWord.Length -gt 3 -and $OUName -like "*$CleanWord*") {
-                    $Score += $CleanWord.Length * 2  # Dar más peso a coincidencias de palabras
-                    $WordMatches++
-                }
-            }
-            
-            # Bonus por coincidencias múltiples
-            if ($WordMatches -gt 1) {
-                $Score += $WordMatches * 5
-            }
-            
-            # Penalizar si tiene numero diferente (solo para juzgados)
-            if ($OfficeNumber -and $OUName -match '\bn[o..]\s*(\d+)') {
-                $OUNumber = $Matches[1]
-                if ($OUNumber -ne $OfficeNumber) {
-                    $Score = $Score * 0.3  # Penalización más severa
-                    Write-Log "Penalizando UO '$($OU.Name)' por numero diferente ($OUNumber vs $OfficeNumber)" "INFO"
-                }
-            }
-            
-            if ($Score -gt 0) {
-                $ValidCandidates += [PSCustomObject]@{
-                    OU = $OU
-                    Score = $Score
-                    WordMatches = $WordMatches
-                }
-            }
-            
-            if ($Score -gt $BestScore) {
-                $BestScore = $Score
-                $BestMatch = $OU
-            }
-        }
-        
-        # Log de candidatos válidos para debugging
-        if ($ValidCandidates.Count -gt 0) {
-            Write-Log "Candidatos válidos encontrados: $($ValidCandidates.Count)" "INFO"
-            $SortedCandidates = $ValidCandidates | Sort-Object Score -Descending | Select-Object -First 3
-            foreach ($Candidate in $SortedCandidates) {
-                Write-Log "  - '$($Candidate.OU.Name)' (Score: $($Candidate.Score), Matches: $($Candidate.WordMatches))" "INFO"
-            }
-        }
-        
-        if ($BestMatch -and $BestScore -gt 15) {  # Umbral más alto para mayor precisión
-            # Evaluar confianza con el nuevo sistema
-            $ConfidenceLevel = Get-UOMatchConfidence -Score $BestScore -KeywordMatches 1 -Office $Office -OUDN $BestMatch.DistinguishedName
-            
-            if ($ConfidenceLevel -eq "HIGH" -or $ConfidenceLevel -eq "MEDIUM") {
-                Write-Log "Mejor coincidencia encontrada: '$($BestMatch.Name)' (Puntuacion: $BestScore, Confianza: $ConfidenceLevel)" "INFO"
-                Write-Log "DN: $($BestMatch.DistinguishedName)" "INFO"
-                return $BestMatch.DistinguishedName
-            } else {
-                Write-Log "Coincidencia incierta encontrada (Confianza: $ConfidenceLevel). Iniciando selección interactiva..." "WARNING"
-                
-                # Crear array de candidatos para selección interactiva
-                $InteractiveCandidates = @()
-                if ($ValidCandidates.Count -gt 0) {
-                    $InteractiveCandidates = $ValidCandidates | Sort-Object Score -Descending | Select-Object -First 10
-                } else {
-                    # Crear un candidato único con el BestMatch
-                    $InteractiveCandidates = @([PSCustomObject]@{
-                        OU = $BestMatch
-                        Score = $BestScore
-                        KeyWordMatches = 1
-                    })
-                }
-                
-                $SelectedOU = Select-BestUOInteractive -Candidates $InteractiveCandidates -Office $Office
-                if ($SelectedOU) {
-                    return $SelectedOU
-                } else {
-                    Write-Log "Usuario decidió omitir esta asignación de UO general" "WARNING"
-                    return $null
-                }
-            }
-        } else {
-            Write-Log "No se encontraron coincidencias suficientes para '$Office'" "WARNING"
-            
-            # Ofrecer selección manual de todas las UOs disponibles como último recurso
-            if ($AllOUs.Count -gt 0) {
-                Write-Log "Iniciando búsqueda manual en todas las UOs disponibles..." "INFO"
-                
-                # Crear candidatos genéricos para selección
-                $GenericCandidates = @()
-                $FilteredOUs = $AllOUs | Where-Object { $_.Name -like "*juzgado*" -or $_.Name -like "*tribunal*" -or $_.Name -like "*fiscalia*" -or $_.Name -like "*servicio*" }
-                
-                foreach ($OU in $FilteredOUs) {
-                    $GenericCandidates += [PSCustomObject]@{
-                        OU = $OU
-                        Score = 5  # Score bajo para indicar búsqueda manual
-                        KeyWordMatches = 0
-                    }
-                }
-                
-                if ($GenericCandidates.Count -gt 0) {
-                    $SelectedOU = Select-BestUOInteractive -Candidates $GenericCandidates -Office $Office
-                    if ($SelectedOU) {
-                        return $SelectedOU
-                    }
-                }
-            }
-            
-            Write-Log "No se pudo determinar UO para '$Office' - registro será omitido" "ERROR"
-            return $null
-        }
-        
+        $allOUs = @(Get-ADOrganizationalUnit -Filter '*' -Server $Domain -Properties Name, DistinguishedName -ErrorAction Stop)
+        $resolved = Resolve-UOName -Name $Office -OrganizationalUnits $allOUs -Aliases @($script:ConfiguredUOAliases)
+        if (-not $resolved) { Write-Log 'UO no resuelta: registro bloqueado; revisar nombre o alias.' 'ERROR'; return $null }
+        return $resolved.DistinguishedName
     } catch {
-        Write-Log "Error buscando UO: $($_.Exception.Message)" "ERROR"
+        Write-Log "Resolución de UO bloqueada: $($_.Exception.Message)" 'ERROR'
         return $null
     }
 }
+
 
 function Find-TemplateUserInOU {
     <#
@@ -2569,31 +2177,13 @@ function Find-ExistingUserForTransfer {
                     $DomainObj = Get-ADDomain -Identity $DomainName -ErrorAction Stop
                     $AllDomains += $DomainObj.DNSRoot
                 } catch {
-                    Write-Log "Dominio $DomainName no accesible" "WARNING"
+                    Write-Log 'Consulta de dominio fallida; búsqueda de origen bloqueada, sin candidatos parciales.' 'ERROR'
+                    return $null
                 }
             }
         } catch {
-            Write-Log "Error obteniendo dominios del bosque - usando dominios por defecto" "WARNING"
-            
-            # Fallback: usar dominios conocidos comunes del entorno judicial
-            $AllDomains = @(
-                "justicia.es",
-                "juntadeandalucia.es", 
-                "jccm.es",
-                "administraciondejusticia.gob.es"
-            )
-            
-            # Intentar determinar el dominio actual
-            try {
-                $CurrentDomain = $env:USERDNSDOMAIN
-                if ($CurrentDomain -and $CurrentDomain -notin $AllDomains) {
-                    $AllDomains = @($CurrentDomain) + $AllDomains
-                }
-            } catch {
-                Write-Log "No se pudo determinar el dominio actual" "WARNING"
-            }
-            
-            Write-Log "Usando dominios de fallback: $($AllDomains -join ', ')" "INFO"
+            Write-Log 'Consulta del bosque fallida; búsqueda de origen bloqueada, sin dominios inventados.' 'ERROR'
+            return $null
         }
         
         if ($AllDomains.Count -eq 0) {
@@ -2636,7 +2226,7 @@ function Find-ExistingUserForTransfer {
                 # 1. Buscar por campo AD si existe
                 if (![string]::IsNullOrWhiteSpace($UserData.AD)) {
                     try {
-                        $User = Get-ADUser -Identity $UserData.AD -Server $Domain -Properties DisplayName, mail, Office, Description, telephoneNumber, GivenName, Surname -ErrorAction SilentlyContinue
+                        $User = Get-ADUser -Identity $UserData.AD -Server $Domain -Properties DisplayName, mail, Office, Description, telephoneNumber, GivenName, Surname -ErrorAction Stop
                         if ($User) {
                             Write-Log "Usuario encontrado por AD en ${Domain}: $($User.DisplayName) ($($User.SamAccountName))" "INFO"
                             $User | Add-Member -NotePropertyName "SourceDomain" -NotePropertyValue $Domain -Force
@@ -2644,14 +2234,15 @@ function Find-ExistingUserForTransfer {
                             $FoundUsers += $User
                         }
                     } catch {
-                        # Continuar con el siguiente criterio
+                        # Ausencia por Identity es esperable; acceso/red/otros fallos no.
+                        if ($_.Exception.GetType().FullName -ne 'Microsoft.ActiveDirectory.Management.ADIdentityNotFoundException') { throw }
                     }
                 }
                 
                 # 2. Buscar por email
                 if (![string]::IsNullOrWhiteSpace($UserData.Email)) {
                     try {
-                        $Users = Get-ADUser -Filter "mail -eq '$($UserData.Email)'" -Server $Domain -Properties DisplayName, mail, Office, Description, telephoneNumber, GivenName, Surname -ErrorAction SilentlyContinue
+                        $Users = Get-ADUser -Filter "mail -eq '$($UserData.Email)'" -Server $Domain -Properties DisplayName, mail, Office, Description, telephoneNumber, GivenName, Surname -ErrorAction Stop
                         foreach ($User in $Users) {
                             # Evitar duplicados
                             if ($FoundUsers | Where-Object { $_.SamAccountName -eq $User.SamAccountName -and $_.SourceDomain -eq $Domain }) {
@@ -2663,7 +2254,7 @@ function Find-ExistingUserForTransfer {
                             $FoundUsers += $User
                         }
                     } catch {
-                        # Continuar con el siguiente criterio
+                        throw
                     }
                 }
                 
@@ -2671,7 +2262,7 @@ function Find-ExistingUserForTransfer {
                 if (![string]::IsNullOrWhiteSpace($UserData.Telefono)) {
                     try {
                         $CleanPhone = $UserData.Telefono -replace '\s+', '' -replace '-', '' -replace '[\(\)]', ''
-                        $Users = Get-ADUser -Filter "telephoneNumber -like '*$CleanPhone*'" -Server $Domain -Properties DisplayName, mail, Office, Description, telephoneNumber, GivenName, Surname -ErrorAction SilentlyContinue
+                        $Users = Get-ADUser -Filter "telephoneNumber -like '*$CleanPhone*'" -Server $Domain -Properties DisplayName, mail, Office, Description, telephoneNumber, GivenName, Surname -ErrorAction Stop
                         foreach ($User in $Users) {
                             # Evitar duplicados
                             if ($FoundUsers | Where-Object { $_.SamAccountName -eq $User.SamAccountName -and $_.SourceDomain -eq $Domain }) {
@@ -2683,7 +2274,7 @@ function Find-ExistingUserForTransfer {
                             $FoundUsers += $User
                         }
                     } catch {
-                        # Continuar con el siguiente criterio
+                        throw
                     }
                 }
                 
@@ -2701,7 +2292,7 @@ function Find-ExistingUserForTransfer {
                             $FilterName += " -and Surname -like '*$SegundoApellido*'"
                         }
                         
-                        $Users = Get-ADUser -Filter $FilterName -Server $Domain -Properties DisplayName, mail, Office, Description, telephoneNumber, GivenName, Surname -ErrorAction SilentlyContinue
+                        $Users = Get-ADUser -Filter $FilterName -Server $Domain -Properties DisplayName, mail, Office, Description, telephoneNumber, GivenName, Surname -ErrorAction Stop
                         foreach ($User in $Users) {
                             # Evitar duplicados
                             if ($FoundUsers | Where-Object { $_.SamAccountName -eq $User.SamAccountName -and $_.SourceDomain -eq $Domain }) {
@@ -2713,7 +2304,7 @@ function Find-ExistingUserForTransfer {
                             $FoundUsers += $User
                         }
                     } catch {
-                        # Continuar con el siguiente dominio
+                        throw
                     }
                 }
             }
@@ -2759,9 +2350,8 @@ function Find-ExistingUserForTransfer {
                     Write-Log "Usuario seleccionado: $($SelectedUser.DisplayName) ($($SelectedUser.SamAccountName))" "INFO"
                     return $SelectedUser
                 } else {
-                    # Modo no interactivo: devolver el primer usuario encontrado
-                    Write-Log "Modo no interactivo: seleccionando primer usuario encontrado" "INFO"
-                    return $FoundUsers[0]
+                    Write-Log 'Origen ambiguo en modo no interactivo; traslado bloqueado, sin seleccionar el primero.' 'ERROR'
+                    return $null
                 }
             }
             
@@ -2799,370 +2389,161 @@ function Find-ExistingUserForTransfer {
         }
         
     } catch {
-        Write-Log "Error buscando usuario existente: $($_.Exception.Message)" "ERROR"
+        Write-Log 'Error consultando origen; traslado bloqueado, sin candidatos parciales ni detalles del proveedor.' 'ERROR'
         return $null
     }
 }
 
 function Execute-CrossDomainTransfer {
-    <#
-    .SYNOPSIS
-        Ejecuta traslado entre dominios: copia usuario, elimina del origen, crea en destino
-    #>
-    param(
-        [PSCustomObject]$ExistingUser,
-        [string]$TargetDomain,
-        [string]$TargetOU,
-        [PSCustomObject]$UserData
-    )
-    
+    <# Recreación entre dominios, NO migración de SID ni transacción AD.
+       No borrar origen sin recibo GUID y lectura completa del destino.
+       Si algo falla, conservar ambas cuentas; jamás borrar destino por SAM. #>
+    [CmdletBinding(SupportsShouldProcess)]
+    param([PSCustomObject]$ExistingUser,[string]$TargetDomain,[string]$TargetOU,[PSCustomObject]$UserData)
+    if ($Global:WhatIfMode -or -not $PSCmdlet.ShouldProcess($ExistingUser.SamAccountName, 'Trasladar usuario de AD')) { return $false }
+    $Stage='preflight'; $CreatedUser=$null
     try {
-        Write-Log "=== INICIANDO TRASLADO ENTRE DOMINIOS ===" "INFO"
-        Write-Log "Usuario: $($ExistingUser.SamAccountName)" "INFO"
-        Write-Log "Desde: $($ExistingUser.SourceDomain)" "INFO"
-        Write-Log "Hacia: $TargetDomain" "INFO"
-        Write-Log "UO destino: $TargetOU" "INFO"
-        
-        # Verificar si el modulo ActiveDirectory esta disponible
-        $ADModuleAvailable = $false
-        try {
-            Get-Command Get-ADUser -ErrorAction Stop | Out-Null
-            $ADModuleAvailable = $true
-        } catch {
-            Write-Log "Modulo ActiveDirectory no disponible - ejecutando en modo simulacion" "WARNING"
+        Write-Log 'Preflight de recreación entre dominios: auditoría disponible antes de cualquier escritura.' 'INFO'
+        if (-not $TargetOU -or -not $TargetDomain -or -not $ExistingUser.SourceDomain -or $ExistingUser.SourceDomain -eq $TargetDomain) { throw 'Destino inválido' }
+        Get-Command Get-ADUser -ErrorAction Stop | Out-Null
+        $OriginalUser=Get-ADUser -Identity $ExistingUser.SamAccountName -Server $ExistingUser.SourceDomain -Properties * -ErrorAction Stop
+        if (-not $OriginalUser) { throw 'Origen ausente' }
+        $ExistingSam=Get-ADUser -Filter "SamAccountName -eq '$($OriginalUser.SamAccountName.Replace("'", "''"))'" -Server $TargetDomain -ErrorAction Stop
+        if ($ExistingSam) {
+            Write-Log 'Colisión en dominio destino; traslado bloqueado sin borrar ni reemplazar usuarios.' 'ERROR'
+            return $false
         }
-        
-        if ($ADModuleAvailable) {
-            # PASO 1: Obtener informacion completa del usuario original
-            Write-Log "PASO 1: Obteniendo informacion completa del usuario original..." "INFO"
-            $OriginalUser = Get-ADUser -Identity $ExistingUser.SamAccountName -Server $ExistingUser.SourceDomain -Properties *
-            
-            # PASO 2: Buscar usuario plantilla en el dominio destino
-            Write-Log "PASO 2: Buscando usuario plantilla en dominio destino..." "INFO"
-            $TemplateUser = Find-TemplateUserInOU -Description $UserData.Descripcion -OrganizationalUnit $TargetOU -Domain $TargetDomain
-            
-            # PASO 3: Crear usuario en dominio destino
-            Write-Log "PASO 3: Creando usuario en dominio destino..." "INFO"
-            
-            # Generar contrasenia estandar
-            $CurrentDate = Get-Date
-            $Month = $CurrentDate.ToString("MM")
-            $Year = $CurrentDate.ToString("yy")
-            $StandardPassword = "Justicia$Month$Year"
-            $SecurePassword = ConvertTo-SecureString $StandardPassword -AsPlainText -Force
-            
-            # Para traslados entre dominios: eliminar usuario original y recrear en destino
-            # Usar UPN normal del dominio destino (sin timestamp)
-            $UniqueUPN = "$($OriginalUser.SamAccountName)`@justicia.junta-andalucia.es"
-            
-            # Verificar si el SamAccountName ya existe en el destino
-            try {
-                $ExistingSam = Get-ADUser -Filter "SamAccountName -eq '$($OriginalUser.SamAccountName)'" -Server $TargetDomain -ErrorAction SilentlyContinue
-                if ($ExistingSam) {
-                    Write-Log "ADVERTENCIA: SamAccountName $($OriginalUser.SamAccountName) ya existe en dominio destino $TargetDomain" "WARNING"
-                    Write-Log "Eliminando usuario existente en destino para recrearlo..." "WARNING"
-                    
-                    # Eliminar usuario existente en destino antes de recrear
-                    try {
-                        Remove-ADUser -Identity $ExistingSam.SamAccountName -Server $TargetDomain -Confirm:$false
-                        Write-Log "Usuario existente eliminado del destino: $($ExistingSam.SamAccountName)" "INFO"
-                    } catch {
-                        Write-Log "Error eliminando usuario existente en destino: $($_.Exception.Message)" "ERROR"
-                        return $false
-                    }
-                }
-            } catch {
-                Write-Log "Error verificando SamAccountName en destino: $($_.Exception.Message)" "WARNING"
-            }
-            
-            Write-Log "UPN para recreación en destino: $UniqueUPN" "INFO"
-            Write-Log "SamAccountName a recrear: $($OriginalUser.SamAccountName)" "INFO"
-            Write-Log "Estrategia: Eliminar original y recrear con perfil similar (descripción: $($UserData.Descripcion))" "INFO"
-            
-            # Parametros para crear el usuario en destino
-            $NewUserParams = @{
-                SamAccountName = $OriginalUser.SamAccountName
-                Name = $OriginalUser.Name
-                DisplayName = $OriginalUser.DisplayName
-                GivenName = $OriginalUser.GivenName
-                Surname = $OriginalUser.Surname
-                UserPrincipalName = $UniqueUPN
-                EmailAddress = $UserData.Email
-                OfficePhone = $UserData.Telefono
-                Office = $UserData.Oficina
-                Description = $UserData.Descripcion
-                AccountPassword = $SecurePassword
-                Enabled = $true
-                ChangePasswordAtLogon = $true
-                Server = $TargetDomain
-                Path = $TargetOU
-            }
-            
-            # Crear el usuario en el dominio destino
-            try {
-                New-ADUser @NewUserParams -ErrorAction Stop
-            } catch {
-                Write-Log "Error creando usuario: $($_.Exception.Message)" "ERROR"
-                throw $_
-            }
-            Write-Log "Usuario creado exitosamente en $TargetDomain" "INFO"
-            
-            # PASO 4: Copiar grupos del usuario plantilla
-            Write-Log "PASO 4: Copiando grupos del usuario plantilla..." "INFO"
-            if ($TemplateUser -and $TemplateUser.MemberOf) {
-                $GroupsAdded = 0
-                foreach ($GroupDN in $TemplateUser.MemberOf) {
-                    try {
-                        $Group = Get-ADGroup -Identity $GroupDN -Server $TargetDomain
-                        Add-ADGroupMember -Identity $Group -Members $OriginalUser.SamAccountName -Server $TargetDomain
-                        Write-Log "Grupo aniadido: $($Group.Name)" "INFO"
-                        $GroupsAdded++
-                    } catch {
-                        Write-Log "Error aniadiendo grupo $($Group.Name): $($_.Exception.Message)" "WARNING"
-                    }
-                }
-                Write-Log "PASO 4 COMPLETADO: $GroupsAdded grupos copiados del usuario plantilla" "INFO"
-            } else {
-                Write-Log "No se encontro usuario plantilla o no tiene grupos para copiar" "WARNING"
-            }
-            
-            # PASO 5: Eliminar usuario del dominio origen
-            Write-Log "PASO 5: Eliminando usuario del dominio origen..." "INFO"
-            Remove-ADUser -Identity $OriginalUser.SamAccountName -Server $ExistingUser.SourceDomain -Confirm:$false
-            Write-Log "Usuario eliminado exitosamente de $($ExistingUser.SourceDomain)" "INFO"
-            
-            Write-Log "=== TRASLADO ENTRE DOMINIOS COMPLETADO EXITOSAMENTE ===" "INFO"
-            return $true
-            
-        } else {
-            # MODO SIMULACION para testing sin ActiveDirectory
-            Write-Log "MODO SIMULACION: Ejecutando traslado entre dominios simulado" "WARNING"
-            
-            Write-Log "PASO 1 SIMULADO: Obteniendo informacion del usuario original..." "INFO"
-            Write-Log "  Usuario original: $($ExistingUser.SamAccountName) en $($ExistingUser.SourceDomain)" "INFO"
-            
-            Write-Log "PASO 2 SIMULADO: Buscando usuario plantilla en destino..." "INFO"
-            Write-Log "  Usuario plantilla encontrado (simulado): template_$($UserData.Descripcion.ToLower())" "INFO"
-            
-            Write-Log "PASO 3 SIMULADO: Creando usuario en dominio destino..." "INFO"
-            Write-Log "  Nuevo usuario: $($ExistingUser.SamAccountName) en $TargetDomain" "INFO"
-            Write-Log "  UPN: $($ExistingUser.SamAccountName)`@justicia.junta-andalucia.es" "INFO"
-            Write-Log "  Contrasenia: Justicia$Month$Year" "INFO"
-            
-            Write-Log "PASO 4 SIMULADO: Copiando grupos..." "INFO"
-            $SimulatedGroups = @("Nuevos Permisos $($UserData.Descripcion)", "Acceso Especializado", "Grupo Oficina")
-            Write-Log "  Grupos aniadidos (simulado): $($SimulatedGroups -join ', ')" "INFO"
-            
-            Write-Log "PASO 5 SIMULADO: Eliminando usuario del origen..." "INFO"
-            Write-Log "  Usuario eliminado de $($ExistingUser.SourceDomain) (simulado)" "INFO"
-            
-            Write-Log "=== TRASLADO ENTRE DOMINIOS SIMULADO COMPLETADO ===" "INFO"
-            return $true
+        if (-not $OriginalUser.ObjectGUID -or -not $OriginalUser.DistinguishedName -or $OriginalUser.SamAccountName -ne $ExistingUser.SamAccountName) { throw 'Origen no verificado' }
+        $SourceGuid=[guid]$OriginalUser.ObjectGUID
+        if ($ExistingUser.ObjectGUID -and [guid]$ExistingUser.ObjectGUID -ne $SourceGuid) { throw 'Identidad origen cambió' }
+        if ($ExistingUser.DistinguishedName -and $ExistingUser.DistinguishedName -ine $OriginalUser.DistinguishedName) { throw 'Ubicación origen cambió' }
+        $TemplateUser=Find-TemplateUserInOU -Description $UserData.Descripcion -OrganizationalUnit $TargetOU -Domain $TargetDomain
+        if (-not $TemplateUser) { throw 'Plantilla no verificada' }
+        $DesiredGroups=@()
+        foreach ($GroupDN in @($TemplateUser.MemberOf)) {
+            $Group=Get-ADGroup -Identity $GroupDN -Server $TargetDomain -ErrorAction Stop
+            if (-not $Group -or $Group.DistinguishedName -ne $GroupDN) { throw 'Grupo no verificado' }
+            $DesiredGroups+= $Group.DistinguishedName
         }
-        
+        $StandardPassword=Get-StandardPassword
+        $SecurePassword=ConvertTo-SecureString $StandardPassword -AsPlainText -Force
+        $UniqueUPN="$($OriginalUser.SamAccountName)@justicia.junta-andalucia.es"
+        $NewUserParams=@{
+            SamAccountName=$OriginalUser.SamAccountName; Name=$OriginalUser.Name; DisplayName=$OriginalUser.DisplayName
+            GivenName=$OriginalUser.GivenName; Surname=$OriginalUser.Surname; UserPrincipalName=$UniqueUPN
+            EmailAddress=$UserData.Email; OfficePhone=$UserData.Telefono; Office=$UserData.Oficina; Description=$UserData.Descripcion
+            AccountPassword=$SecurePassword; Enabled=$true; ChangePasswordAtLogon=$true; Server=$TargetDomain; Path=$TargetOU
+        }
+        $Stage='creación destino'
+        $CreatedUser=New-ADUser @NewUserParams -PassThru -ErrorAction Stop
+        if (-not $CreatedUser -or -not $CreatedUser.ObjectGUID -or [guid]$CreatedUser.ObjectGUID -eq $SourceGuid) { throw 'Sin recibo de creación verificable' }
+        $CreatedGuid=[guid]$CreatedUser.ObjectGUID
+        $Stage='copia de grupos'
+        foreach ($GroupDN in $DesiredGroups) {
+            Add-ADGroupMember -Identity $GroupDN -Members $CreatedGuid -Server $TargetDomain -ErrorAction Stop | Out-Null
+        }
+        $Stage='verificación destino'
+        $Destination=Get-ADUser -Identity $CreatedGuid -Server $TargetDomain -Properties * -ErrorAction Stop
+        if (-not $Destination -or [guid]$Destination.ObjectGUID -ne $CreatedGuid -or
+            $Destination.SamAccountName -cne $OriginalUser.SamAccountName -or $Destination.UserPrincipalName -ine $UniqueUPN -or
+            $Destination.DistinguishedName.Substring($Destination.DistinguishedName.IndexOf(',')+1) -ine $TargetOU -or
+            $Destination.Name -cne $OriginalUser.Name -or $Destination.DisplayName -cne $OriginalUser.DisplayName -or
+            $Destination.GivenName -cne $OriginalUser.GivenName -or $Destination.Surname -cne $OriginalUser.Surname -or
+            $Destination.Office -cne $UserData.Oficina -or $Destination.Description -cne $UserData.Descripcion -or
+            [string]$Destination.mail -cne [string]$UserData.Email -or [string]$Destination.telephoneNumber -cne [string]$UserData.Telefono -or
+            $Destination.Enabled -ne $true -or $null -eq $Destination.pwdLastSet -or [long]$Destination.pwdLastSet -ne 0) { throw 'Destino incompleto' }
+        foreach ($GroupDN in $DesiredGroups) { if ($GroupDN -notin @($Destination.MemberOf)) { throw 'Falta grupo destino' } }
+        $Stage='revalidación origen'
+        $SourceNow=Get-ADUser -Identity $SourceGuid -Server $ExistingUser.SourceDomain -Properties * -ErrorAction Stop
+        if (-not $SourceNow -or [guid]$SourceNow.ObjectGUID -ne $SourceGuid) { throw 'Origen cambió' }
+        foreach ($Property in @('SamAccountName','DistinguishedName','Name','DisplayName','GivenName','Surname','Office','Description','mail','telephoneNumber','Enabled','UserPrincipalName','pwdLastSet')) {
+            if ([string]$SourceNow.$Property -cne [string]$OriginalUser.$Property) { throw 'Origen modificado durante traslado' }
+        }
+        if (@($SourceNow.MemberOf).Count -ne @($OriginalUser.MemberOf).Count) { throw 'Grupos origen cambiaron' }
+        foreach ($GroupDN in @($OriginalUser.MemberOf)) { if ($GroupDN -notin @($SourceNow.MemberOf)) { throw 'Grupos origen cambiaron' } }
+        # Único borrado: GUID original, nunca SAM ni destino. No rollback automático.
+        $Stage='borrado origen'
+        Remove-ADUser -Identity $SourceGuid -Server $ExistingUser.SourceDomain -Confirm:$false -ErrorAction Stop | Out-Null
+        $Stage='confirmación borrado'
+        $Remaining=Get-ADUser -Filter "ObjectGUID -eq '$SourceGuid'" -Server $ExistingUser.SourceDomain -ErrorAction Stop
+        if ($Remaining) { throw 'Borrado no confirmado' }
+        Write-Log 'Recreación entre dominios verificada y borrado origen confirmado; contraseña omitida.' 'INFO'
+        return $true
     } catch {
-        Write-Log "ERROR CRITICO en traslado entre dominios: $($_.Exception.Message)" "ERROR"
+        Write-Log "Traslado entre dominios fallido en fase $Stage; conservar origen y destino si existen, sin cleanup ni rollback destructivo." 'ERROR'
         return $false
+    } finally {
+        $StandardPassword=$null; $SecurePassword=$null; $NewUserParams=$null
     }
 }
 
 function Execute-UserTransfer {
-    <#
-    .SYNOPSIS
-        Ejecuta traslado de usuario siguiendo procedimiento exacto (mismo dominio)
-    #>
-    param(
-        [PSCustomObject]$ExistingUser,
-        [string]$TargetDomain,
-        [string]$TargetOU,
-        [PSCustomObject]$UserData
-    )
-    
+    <# Traslado no transaccional: preflight, preparar destino, retirar grupos, verificar.
+       Un fallo parcial se audita y se conserva; nunca se intenta rollback destructivo. #>
+    [CmdletBinding(SupportsShouldProcess)]
+    param([PSCustomObject]$ExistingUser,[string]$TargetDomain,[string]$TargetOU,[PSCustomObject]$UserData)
+    if ($Global:WhatIfMode -or -not $PSCmdlet.ShouldProcess($ExistingUser.SamAccountName, 'Trasladar usuario de AD')) { return $false }
+    $Stage='preflight'
     try {
-        Write-Log "=== EJECUTANDO TRASLADO DE USUARIO ===" "INFO"
-        Write-Log "Usuario: $($ExistingUser.SamAccountName)" "INFO"
-        Write-Log "Desde: $($ExistingUser.SourceDomain)" "INFO"
-        Write-Log "Hacia: $TargetDomain" "INFO"
-        Write-Log "UO destino: $TargetOU" "INFO"
-        
-        # Verificar si el modulo ActiveDirectory esta disponible
-        $ADModuleAvailable = $false
-        try {
-            Get-Command Get-ADUser -ErrorAction Stop | Out-Null
-            $ADModuleAvailable = $true
-        } catch {
-            Write-Log "Modulo ActiveDirectory no disponible - ejecutando en modo simulacion" "WARNING"
+        Write-Log 'Preflight de traslado mismo dominio: auditoría disponible antes de cualquier escritura.' 'INFO'
+        if (-not $TargetOU -or $ExistingUser.SourceDomain -ne $TargetDomain) { throw 'Destino inválido' }
+        Get-Command Get-ADUser -ErrorAction Stop | Out-Null
+        $Source = Get-ADUser -Identity $ExistingUser.DistinguishedName -Server $TargetDomain -Properties * -ErrorAction Stop
+        if (-not $Source -or -not $Source.ObjectGUID -or $Source.SamAccountName -ne $ExistingUser.SamAccountName) { throw 'Origen no verificado' }
+        $SourceGuid=[guid]$Source.ObjectGUID
+        if ($ExistingUser.ObjectGUID -and [guid]$ExistingUser.ObjectGUID -ne $SourceGuid) { throw 'Identidad origen cambió' }
+        $CurrentGroups=@(Get-ADPrincipalGroupMembership -Identity $SourceGuid -Server $TargetDomain -ErrorAction Stop)
+        $TemplateUser=Find-TemplateUserInOU -Description $UserData.Descripcion -OrganizationalUnit $TargetOU -Domain $TargetDomain
+        if (-not $TemplateUser) { throw 'Plantilla no verificada' }
+        $DesiredGroups=@()
+        foreach ($GroupDN in @($TemplateUser.MemberOf)) {
+            $Group=Get-ADGroup -Identity $GroupDN -Server $TargetDomain -ErrorAction Stop
+            if (-not $Group -or $Group.DistinguishedName -ne $GroupDN) { throw 'Grupo no verificado' }
+            $DesiredGroups+= $Group.DistinguishedName
         }
-        
-        if ($ADModuleAvailable) {
-            # PASO 1: Eliminar grupos actuales (excepto sistema)
-            Write-Log "PASO 1: Eliminando grupos actuales del usuario..." "INFO"
-            
-            $CurrentGroups = @()
-            try {
-                # Intentar con diferentes metodos para obtener grupos
-                try {
-                    $CurrentGroups = Get-ADPrincipalGroupMembership -Identity $ExistingUser.SamAccountName -Server $ExistingUser.SourceDomain -ErrorAction Stop
-                    Write-Log "Se encontraron $($CurrentGroups.Count) grupos para el usuario (metodo 1)" "INFO"
-                } catch {
-                    # Intentar con DN si SamAccountName falla
-                    $CurrentGroups = Get-ADPrincipalGroupMembership -Identity $ExistingUser.DistinguishedName -Server $ExistingUser.SourceDomain -ErrorAction Stop
-                    Write-Log "Se encontraron $($CurrentGroups.Count) grupos para el usuario (metodo 2)" "INFO"
-                }
-            } catch {
-                Write-Log "Error obteniendo grupos del usuario: $($_.Exception.Message)" "WARNING"
-                Write-Log "Continuando con el proceso de traslado sin eliminar grupos..." "WARNING"
-                $CurrentGroups = @()
-            }
-            
-            # Grupos del sistema que NO se eliminan
-            $SystemGroups = @('Domain Users', 'Usuarios del dominio', 'Everyone', 'Authenticated Users', 'Usuarios autenticados')
-            
-            $GroupsRemoved = 0
-            $GroupsSkipped = 0
-            foreach ($Group in $CurrentGroups) {
-                if ($Group.Name -notin $SystemGroups) {
-                    try {
-                        Remove-ADGroupMember -Identity $Group -Members $ExistingUser.SamAccountName -Server $ExistingUser.SourceDomain -Confirm:$false -ErrorAction Stop
-                        Write-Log "Grupo eliminado: $($Group.Name)" "INFO"
-                        $GroupsRemoved++
-                    } catch {
-                        Write-Log "Error eliminando grupo $($Group.Name): $($_.Exception.Message)" "WARNING"
-                        Write-Log "CONTINUANDO con el proceso de traslado..." "WARNING"
-                        $GroupsSkipped++
-                    }
-                } else {
-                    Write-Log "Grupo del sistema conservado: $($Group.Name)" "INFO"
-                }
-            }
-            Write-Log "PASO 1 COMPLETADO: $GroupsRemoved grupos eliminados, $GroupsSkipped con errores (PROCESO CONTINUA)" "INFO"
-            
-            # PASO 2: Mover usuario a nueva ubicacion
-            Write-Log "PASO 2: Moviendo usuario a nueva UO..." "INFO"
-            try {
-                Move-ADObject -Identity $ExistingUser.DistinguishedName -TargetPath $TargetOU -Server $TargetDomain
-                Write-Log "Usuario movido exitosamente a: $TargetOU" "INFO"
-                
-                # Actualizar campo oficina y descripcion
-                $NormalizedOficina = Normalize-Text -Text $UserData.Oficina
-                $NormalizedDescripcion = Normalize-Text -Text $UserData.Descripcion
-                
-                Set-ADUser -Identity $ExistingUser.SamAccountName -Office $NormalizedOficina -Description $NormalizedDescripcion -Server $TargetDomain
-                Write-Log "Campo oficina actualizado a: $NormalizedOficina" "INFO"
-                Write-Log "Campo descripcion actualizado a: $NormalizedDescripcion" "INFO"
-                
-            } catch {
-                Write-Log "Error moviendo usuario: $($_.Exception.Message)" "ERROR"
-                return $false
-            }
-            Write-Log "PASO 2 COMPLETADO: Usuario reubicado" "INFO"
-            
-            # PASO 3: Buscar usuario plantilla y copiar grupos
-            Write-Log "PASO 3: Buscando usuario plantilla con descripcion: $($UserData.Descripcion)" "INFO"
-            $TemplateUser = Find-TemplateUserInOU -Description $UserData.Descripcion -OrganizationalUnit $TargetOU -Domain $TargetDomain
-            
-            if ($TemplateUser) {
-                Write-Log "Usuario plantilla encontrado: $($TemplateUser.SamAccountName) - $($TemplateUser.Description)" "INFO"
-                
-                $GroupsAdded = 0
-                foreach ($GroupDN in $TemplateUser.MemberOf) {
-                    try {
-                        $Group = Get-ADGroup -Identity $GroupDN -Server $TargetDomain
-                        Add-ADGroupMember -Identity $Group -Members $ExistingUser.SamAccountName -Server $TargetDomain
-                        Write-Log "Grupo aniadido: $($Group.Name)" "INFO"
-                        $GroupsAdded++
-                    } catch {
-                        Write-Log "Error aniadiendo grupo $($Group.Name): $($_.Exception.Message)" "WARNING"
-                    }
-                }
-                Write-Log "PASO 3 COMPLETADO: $GroupsAdded grupos copiados del usuario plantilla" "INFO"
-            } else {
-                Write-Log "No se encontro usuario plantilla para descripcion: $($UserData.Descripcion)" "WARNING"
-            }
-            
-            # PASO 4: Cambiar contrasenia a formato estandar
-            Write-Log "PASO 4: Cambiando contrasenia a formato estandar..." "INFO"
-            try {
-                # Generar contrasenia estandar (Justicia + mes + anio)
-                $CurrentDate = Get-Date
-                $Month = $CurrentDate.ToString("MM")
-                $Year = $CurrentDate.ToString("yy")
-                $StandardPassword = "Justicia$Month$Year"
-                
-                $SecurePassword = ConvertTo-SecureString $StandardPassword -AsPlainText -Force
-                Set-ADAccountPassword -Identity $ExistingUser.SamAccountName -Server $TargetDomain -NewPassword $SecurePassword -Reset
-                Set-ADUser -Identity $ExistingUser.SamAccountName -Server $TargetDomain -ChangePasswordAtLogon $true
-                
-                Write-Log "Contrasenia cambiada a: $StandardPassword (cambio obligatorio en proximo inicio)" "INFO"
-            } catch {
-                Write-Log "Error cambiando contrasenia: $($_.Exception.Message)" "WARNING"
-            }
-            Write-Log "PASO 4 COMPLETADO: Contrasenia actualizada" "INFO"
-            
-            # PASO 5: Verificacion final
-            Write-Log "PASO 5: Verificacion final del traslado..." "INFO"
-            
-            $FinalGroups = @()
-            try {
-                $FinalGroups = Get-ADPrincipalGroupMembership -Identity $ExistingUser.SamAccountName -Server $TargetDomain -ErrorAction Stop
-                Write-Log "Grupos finales del usuario: $($FinalGroups.Count)" "INFO"
-                foreach ($FinalGroup in $FinalGroups) {
-                    Write-Log "  - $($FinalGroup.Name)" "INFO"
-                }
-                Write-Log "PASO 5 COMPLETADO: Verificacion exitosa" "INFO"
-            } catch {
-                Write-Log "Error en verificacion final: $($_.Exception.Message)" "WARNING"
-                Write-Log "PASO 5 COMPLETADO: Traslado realizado exitosamente (verificacion omitida)" "WARNING"
-            }
-            
-            return $true
-        } else {
-            # MODO SIMULACION para testing sin ActiveDirectory
-            Write-Log "MODO SIMULACION: Ejecutando traslado simulado" "WARNING"
-            
-            # PASO 1 SIMULADO: Eliminar grupos
-            Write-Log "PASO 1 SIMULADO: Eliminando grupos simulados..." "INFO"
-            $SimulatedGroups = @("Grupo Administrativo", "Acceso Aplicaciones", "Permisos Especiales")
-            Write-Log "Grupos eliminados (simulado): $($SimulatedGroups -join ', ')" "INFO"
-            Write-Log "PASO 1 COMPLETADO: 3 grupos eliminados (simulado)" "INFO"
-            
-            # PASO 2 SIMULADO: Mover usuario
-            Write-Log "PASO 2 SIMULADO: Moviendo usuario a nueva UO..." "INFO"
-            Write-Log "Usuario movido exitosamente a: $TargetOU (simulado)" "INFO"
-            Write-Log "Campo oficina actualizado a: $($UserData.Oficina) (simulado)" "INFO"
-            Write-Log "PASO 2 COMPLETADO: Usuario reubicado (simulado)" "INFO"
-            
-            # PASO 3 SIMULADO: Buscar plantilla y copiar grupos
-            Write-Log "PASO 3 SIMULADO: Buscando usuario plantilla..." "INFO"
-            Write-Log "Usuario plantilla encontrado (simulado): template_$($UserData.Descripcion.ToLower())" "INFO"
-            $SimulatedNewGroups = @("Nuevos Permisos $($UserData.Descripcion)", "Acceso Especializado", "Grupo Oficina")
-            Write-Log "Grupos aniadidos (simulado): $($SimulatedNewGroups -join ', ')" "INFO"
-            Write-Log "PASO 3 COMPLETADO: 3 grupos copiados (simulado)" "INFO"
-            
-            # PASO 4 SIMULADO: Cambiar contrasenia
-            Write-Log "PASO 4 SIMULADO: Cambiando contrasenia..." "INFO"
-            $CurrentDate = Get-Date
-            $Month = $CurrentDate.ToString("MM")
-            $Year = $CurrentDate.ToString("yy")
-            $StandardPassword = "Justicia$Month$Year"
-            Write-Log "Contrasenia cambiada a: $StandardPassword (simulado)" "INFO"
-            Write-Log "PASO 4 COMPLETADO: Contrasenia actualizada (simulado)" "INFO"
-            
-            # PASO 5 SIMULADO: Verificacion
-            Write-Log "PASO 5 SIMULADO: Verificacion final..." "INFO"
-            Write-Log "Grupos finales del usuario: 5 (simulado)" "INFO"
-            $FinalSimulatedGroups = @("Domain Users", "Nuevos Permisos $($UserData.Descripcion)", "Acceso Especializado", "Grupo Oficina", "Usuarios Autenticados")
-            foreach ($Group in $FinalSimulatedGroups) {
-                Write-Log "  - $Group (simulado)" "INFO"
-            }
-            
-            Write-Log "=== TRASLADO SIMULADO COMPLETADO EXITOSAMENTE ===" "INFO"
-            return $true
+        $SystemGroups=@('Domain Users','Usuarios del dominio','Everyone','Authenticated Users','Usuarios autenticados')
+        $GroupsToRemove=@($CurrentGroups | Where-Object { $_.Name -notin $SystemGroups -and $_.DistinguishedName -notin $DesiredGroups })
+        foreach ($Group in $GroupsToRemove) { if (-not $Group.DistinguishedName) { throw 'Grupo origen sin identidad' } }
+        $NormalizedOficina=Normalize-Text -Text $UserData.Oficina
+        $NormalizedDescripcion=Normalize-Text -Text $UserData.Descripcion
+        $StandardPassword=Get-StandardPassword
+        $SecurePassword=ConvertTo-SecureString $StandardPassword -AsPlainText -Force
+        # Preparar destino antes de retirar el acceso anterior; errores no terminantes son fatales.
+        $Stage='copia de grupos'
+        foreach ($GroupDN in $DesiredGroups) {
+            Add-ADGroupMember -Identity $GroupDN -Members $SourceGuid -Server $TargetDomain -ErrorAction Stop | Out-Null
         }
-        
+        $Stage='movimiento'
+        Move-ADObject -Identity $SourceGuid -TargetPath $TargetOU -Server $TargetDomain -ErrorAction Stop | Out-Null
+        $Stage='atributos'
+        Set-ADUser -Identity $SourceGuid -Office $NormalizedOficina -Description $NormalizedDescripcion -Server $TargetDomain -ErrorAction Stop | Out-Null
+        $Stage='contraseña'
+        Set-ADAccountPassword -Identity $SourceGuid -Server $TargetDomain -NewPassword $SecurePassword -Reset -ErrorAction Stop | Out-Null
+        Set-ADUser -Identity $SourceGuid -Server $TargetDomain -ChangePasswordAtLogon $true -ErrorAction Stop | Out-Null
+        $Stage='retirada de grupos'
+        foreach ($Group in $GroupsToRemove) {
+            Remove-ADGroupMember -Identity $Group.DistinguishedName -Members $SourceGuid -Server $TargetDomain -Confirm:$false -ErrorAction Stop | Out-Null
+        }
+        $Stage='verificación final'
+        $Final=Get-ADUser -Identity $SourceGuid -Server $TargetDomain -Properties * -ErrorAction Stop
+        $FinalGroups=@(Get-ADPrincipalGroupMembership -Identity $SourceGuid -Server $TargetDomain -ErrorAction Stop)
+        if (-not $Final -or [guid]$Final.ObjectGUID -ne $SourceGuid -or
+            $Final.DistinguishedName.Substring($Final.DistinguishedName.IndexOf(',')+1) -ine $TargetOU -or
+            $Final.Office -cne $NormalizedOficina -or $Final.Description -cne $NormalizedDescripcion -or
+            $null -eq $Final.pwdLastSet -or [long]$Final.pwdLastSet -ne 0) { throw 'Atributos finales no verificados' }
+        foreach ($GroupDN in $DesiredGroups) { if ($GroupDN -notin @($FinalGroups.DistinguishedName)) { throw 'Falta grupo destino' } }
+        foreach ($Group in $GroupsToRemove) { if ($Group.DistinguishedName -in @($FinalGroups.DistinguishedName)) { throw 'Permanece grupo antiguo' } }
+        foreach ($Group in @($CurrentGroups | Where-Object { $_.Name -in $SystemGroups })) {
+            if ($Group.DistinguishedName -notin @($FinalGroups.DistinguishedName)) { throw 'Falta grupo protegido' }
+        }
+        Write-Log 'Traslado mismo dominio verificado; contraseña omitida.' 'INFO'
+        return $true
     } catch {
-        Write-Log "ERROR CRITICO en traslado: $($_.Exception.Message)" "ERROR"
+        # No incluir mensajes del proveedor: pueden contener atributos o secretos.
+        Write-Log "Traslado fallido en fase $Stage; estado posiblemente parcial conservado, sin rollback destructivo." 'ERROR'
         return $false
+    } finally {
+        $StandardPassword=$null; $SecurePassword=$null
     }
 }
 
@@ -3472,7 +2853,16 @@ foreach ($User in $Users) {
                 }
                 
                 # Buscar la UO correcta para ubicar el usuario (sin especificar dominio para que use auto-deteccion)
-                $TargetOU = Find-OrganizationalUnit -Office $User.Oficina
+                $TargetOU = Find-OrganizationalUnit -Office $User.Oficina -Domain $TargetDomain
+                if (-not $TargetOU) {
+                    Write-Log 'UO de destino no resuelta; alta bloqueada, sin fallback al contenedor por defecto.' 'ERROR'
+                    $ErrorCount++
+                    $blocked = $User | Select-Object *
+                    $blocked | Add-Member -NotePropertyName Estado -NotePropertyValue 'ERROR' -Force
+                    $blocked | Add-Member -NotePropertyName Observaciones -NotePropertyValue 'UO de destino no resuelta' -Force
+                    $ProcessingResults += $blocked
+                    continue
+                }
                 
                 # Buscar usuario plantilla dentro de la UO especifica
                 $TemplateUser = $null
@@ -3545,7 +2935,7 @@ foreach ($User in $Users) {
                             $CurrentDate = Get-Date
                             $Month = $CurrentDate.ToString("MM")
                             $Year = $CurrentDate.ToString("yy")
-                            $UserPassword = "Justicia$Month$Year"
+                            $UserPassword = Get-StandardPassword
                             
                             $SecurePassword = ConvertTo-SecureString $UserPassword -AsPlainText -Force
                             
@@ -3579,26 +2969,39 @@ foreach ($User in $Users) {
                             Write-Log "  UO: $TargetOU" "INFO"
                             
                             # Crear el usuario
-                            New-ADUser @UserParams
-                            Write-Log "Usuario $SamAccountName creado exitosamente en $TargetDomain" "INFO"
+                            $CreatedUser=New-ADUser @UserParams -PassThru -ErrorAction Stop
+                            if (-not $CreatedUser -or -not $CreatedUser.ObjectGUID) { throw 'Alta sin recibo GUID verificable' }
+                            $CreatedGuid=[guid]$CreatedUser.ObjectGUID
+                            Write-Log "Usuario creado; pendiente de grupos y verificación en $TargetDomain" "INFO"
                             
                             # Copiar grupos del usuario plantilla si existe
                             if ($TemplateUser -and $TemplateUser.MemberOf) {
                                 Write-Log "Copiando grupos del usuario plantilla..." "INFO"
                                 
                                 foreach ($GroupDN in $TemplateUser.MemberOf) {
-                                    try {
-                                        $Group = Get-ADGroup -Identity $GroupDN -Server $TargetDomain
-                                        Add-ADGroupMember -Identity $Group -Members $SamAccountName -Server $TargetDomain
-                                        Write-Log "Usuario aniadido al grupo: $($Group.Name)" "INFO"
-                                    } catch {
-                                        Write-Log "Error aniadiendo usuario al grupo ${GroupDN}: $($_.Exception.Message)" "WARNING"
-                                    }
+                                    $Group = Get-ADGroup -Identity $GroupDN -Server $TargetDomain -ErrorAction Stop
+                                    if (-not $Group -or $Group.DistinguishedName -ne $GroupDN) { throw 'Grupo destino no verificado' }
+                                    Add-ADGroupMember -Identity $Group -Members $CreatedGuid -Server $TargetDomain -ErrorAction Stop | Out-Null
+                                    Write-Log "Usuario aniadido al grupo: $($Group.Name)" "INFO"
                                 }
                                 
                                 Write-Log "Copia de grupos completada" "INFO"
                             }
                             
+                            $FinalUser=Get-ADUser -Identity $CreatedGuid -Server $TargetDomain -Properties * -ErrorAction Stop
+                            if (-not $FinalUser -or [guid]$FinalUser.ObjectGUID -ne $CreatedGuid -or
+                                $FinalUser.SamAccountName -cne $SamAccountName -or $FinalUser.UserPrincipalName -ine $UserParams.UserPrincipalName -or
+                                $FinalUser.DistinguishedName.Substring($FinalUser.DistinguishedName.IndexOf(',')+1) -ine $TargetOU -or
+                                $FinalUser.Office -cne $User.Oficina -or $FinalUser.Description -cne $User.Descripcion -or
+                                $FinalUser.Name -cne $UserParams.Name -or $FinalUser.DisplayName -cne $UserParams.DisplayName -or
+                                $FinalUser.GivenName -cne $User.Nombre -or $FinalUser.Surname -cne $User.Apellidos -or
+                                [string]$FinalUser.mail -cne [string]$User.Email -or [string]$FinalUser.telephoneNumber -cne [string]$User.Telefono -or
+                                $FinalUser.Enabled -ne $true -or $null -eq $FinalUser.pwdLastSet -or [long]$FinalUser.pwdLastSet -ne 0) { throw 'Alta no verificada' }
+                            if ($TemplateUser) {
+                                foreach ($GroupDN in @($TemplateUser.MemberOf)) {
+                                    if ($GroupDN -notin @($FinalUser.MemberOf)) { throw 'Grupo destino ausente tras alta' }
+                                }
+                            }
                             $ProcessedCount++
                             
                             # Agregar resultado exitoso de alta normalizada
@@ -3619,7 +3022,7 @@ foreach ($User in $Users) {
                             }
                             
                         } catch {
-                            Write-Log "ERROR: Fallo creando usuario ${SamAccountName}: $($_.Exception.Message)" "ERROR"
+                            Write-Log 'Alta fallida o parcial; cuenta creada conservada si existe, sin cleanup destructivo; detalles del proveedor omitidos.' 'ERROR'
                             $ErrorCount++
                             
                             # Agregar resultado con error de creación
@@ -3636,7 +3039,7 @@ foreach ($User in $Users) {
                                 Dominio_Destino = $TargetDomain
                                 Estado = "ERROR"
                                 TipoTraslado = "N/A"
-                                Observaciones = "Error creando usuario: $($_.Exception.Message)"
+                                Observaciones = 'Alta fallida o parcial; cuenta conservada si existe. Revisión manual necesaria.'
                             }
                             continue
                         }
@@ -3645,7 +3048,7 @@ foreach ($User in $Users) {
                         Write-Log "CREACION SIMULADA: Usuario $SamAccountName en dominio $TargetDomain" "WARNING"
                         Write-Log "  UPN simulado: $SamAccountName`@justicia.junta-andalucia.es" "INFO"
                         Write-Log "  UO simulada: $TargetOU" "INFO"
-                        Write-Log "  Contrasenia simulada: Justicia$Month$Year" "INFO"
+                        Write-Log "  Contrasenia simulada: valor omitido" "INFO"
                         
                         if ($TemplateUser) {
                             Write-Log "  Grupos simulados copiados de: $($TemplateUser.SamAccountName)" "INFO"
@@ -3753,7 +3156,7 @@ if ($ProcessingResults.Count -gt 0) {
         # 1. Generar CSV tradicional con timestamp para esta ejecución
         $TimeStampForCSV = Get-Date -Format "yyyyMMdd_HHmmss"
         $ResultsCSVPath = $CSVFile -replace '\.csv$', "_resultados_${TimeStampForCSV}.csv"
-        $ProcessingResults | Export-Csv -Path $ResultsCSVPath -Delimiter ";" -Encoding UTF8 -NoTypeInformation
+        $ProcessingResults | Export-Csv -Path $ResultsCSVPath -Delimiter ";" -Encoding UTF8 -NoTypeInformation -ErrorAction Stop
         Write-Log "Resultados CSV para esta ejecucion: $ResultsCSVPath" "INFO"
         
         # 2. Añadir al archivo acumulativo de control total

@@ -1,4 +1,6 @@
-param([switch]$WhatIf)
+param([switch]$WhatIf, [switch]$PersistCredentials)
+Import-Module (Join-Path (Split-Path $PSScriptRoot -Parent) 'Common/DirectorySecurity.psm1') -ErrorAction Stop
+if ($WhatIf) { Write-Output 'WHATIF: TUI omitida; sin red ni persistencia.'; return }
 
 # ============================================================
 # LAZYDIRECTORY - Terminal Directorio Correo
@@ -10,7 +12,6 @@ $script:LOG_FILE = Join-Path $script:SCRIPT_DIR "lazydirectory.log"
 $script:DEBUG_DIR = Join-Path $script:SCRIPT_DIR "debug"
 $null = New-Item -ItemType Directory -Path $script:DEBUG_DIR -Force
 $script:BASE = "https://directorio.juntadeandalucia.es/myServlets/es.sadesi.admdirectorio.servlets"
-$script:ENV_FILE = Join-Path $env:USERPROFILE ".env"
 $script:webSession = $null
 $script:token = $null
 $script:lastResultData = @()
@@ -237,35 +238,24 @@ function Show-Help {
 # ============================================================
 
 function Get-Credentials {
-    if (Test-Path $script:ENV_FILE) {
-        $content = Get-Content $script:ENV_FILE -Encoding UTF8 | ForEach-Object { $_.Trim() }
-        $user = ($content | Where-Object { $_ -match '^ADMIN_USER=(.+)$' } | ForEach-Object { $Matches[1] }) -join ''
-        $pass = ($content | Where-Object { $_ -match '^ADMIN_PASS=(.+)$' } | ForEach-Object { $Matches[1] }) -join ''
-        if ($user -and $pass) {
-            Write-Log "Credenciales cargadas desde $($script:ENV_FILE)" "INFO"
-            return @{ User = $user; Pass = $pass }
-        }
-    }
+    $credential = Get-DirectoryCredential
+    if ($credential) { return @{User=$credential.UserName; Pass=$credential.Password} }
     return $null
 }
 
 function Save-Credentials {
-    param([string]$User, [string]$Pass)
-    $lines = @("ADMIN_USER=$User", "ADMIN_PASS=$Pass")
-    $lines | Set-Content -Path $script:ENV_FILE -Encoding UTF8
-    Write-Log "Credenciales guardadas en $($script:ENV_FILE)" "OK"
+    param([string]$User, [Security.SecureString]$Pass)
+    if (-not $PersistCredentials) { return }
+    Save-DirectoryCredential -Credential (New-Object Management.Automation.PSCredential $User,$Pass)
+    Write-Log 'Respuesta recibida; contenido no persistido.' 'INFO'
 }
 
 function Get-CredentialsInteractive {
-    Write-Log "Solicitando credenciales de administrador..." "WARN"
-    $user = Read-KeyLine -Prompt "Usuario administrador: "
-    $pass = Read-Host "Contrasena" -AsSecureString
-    $ptr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($pass)
-    $plainPass = [System.Runtime.InteropServices.Marshal]::PtrToStringBSTR($ptr)
-    [System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR($ptr)
-    $save = prompt "Guardar credenciales en .env? (s/n): " "s"
-    if ($save -eq 's') { Save-Credentials -User $user -Pass $plainPass }
-    return @{ User = $user; Pass = $plainPass }
+    Write-Log 'Credencial manual; .env legacy no se lee. Persistencia solo con -PersistCredentials.' 'WARN'
+    $user = Read-KeyLine -Prompt 'Usuario administrador: '
+    $pass = Read-Host 'Contrasena' -AsSecureString
+    Save-Credentials -User $user -Pass $pass
+    return @{User=$user; Pass=$pass}
 }
 
 function Fix-HtmlEncoding {
@@ -294,13 +284,13 @@ function Extract-FormFields {
 
     # Match name="val" or name='val' — handles both quote styles
     $re = '<input[^>]*?\bname\s*=\s*(["''])([^"'']*?)\1[^>]*?\bvalue\s*=\s*(["''])([^"'']*?)\3[^>]*?>'
-    [regex]::Matches($Html, $re) | ForEach-Object { $fields[$_.Groups[2].Value] = $_.Groups[4].Value }
+    [regex]::Matches($Html, $re) | ForEach-Object { $fields[$_.Groups[2].Value] = [System.Net.WebUtility]::HtmlDecode($_.Groups[4].Value) }
     # Also match value before name
     $re2 = '<input[^>]*?\bvalue\s*=\s*(["''])([^"'']*?)\1[^>]*?\bname\s*=\s*(["''])([^"'']*?)\3[^>]*?>'
-    [regex]::Matches($Html, $re2) | ForEach-Object { $fields[$_.Groups[4].Value] = $_.Groups[2].Value }
+    [regex]::Matches($Html, $re2) | ForEach-Object { $fields[$_.Groups[4].Value] = [System.Net.WebUtility]::HtmlDecode($_.Groups[2].Value) }
 
     # Selects: match name with both quote styles
-    [regex]::Matches($Html, '<select[^>]*?\bname\s*=\s*(["''])([^"'']*?)\1[^>]*?>(.*?)</select>') | ForEach-Object {
+    [regex]::Matches($Html, '(?s)<select[^>]*?\bname\s*=\s*(["''])([^"'']*?)\1[^>]*?>(.*?)</select>') | ForEach-Object {
         $n = $_.Groups[2].Value; $selectInner = $_.Groups[3].Value
         $opt = [regex]::Match($selectInner, '<option[^>]*?\bselected\b[^>]*?>(.*?)</option>')
         if ($opt.Success) {
@@ -314,8 +304,8 @@ function Extract-FormFields {
     }
 
     # Textareas
-    [regex]::Matches($Html, '<textarea[^>]*?\bname\s*=\s*(["''])([^"'']*?)\1[^>]*?>(.*?)</textarea>') | ForEach-Object {
-        $fields[$_.Groups[2].Value] = $_.Groups[3].Value -replace '&nbsp;', ' ' -replace '&amp;', '&' -replace '<[^>]+>', ''
+    [regex]::Matches($Html, '(?s)<textarea[^>]*?\bname\s*=\s*(["''])([^"'']*?)\1[^>]*?>(.*?)</textarea>') | ForEach-Object {
+        $fields[$_.Groups[2].Value] = [System.Net.WebUtility]::HtmlDecode($_.Groups[3].Value)
     }
 
     return $fields
@@ -492,9 +482,10 @@ function Connect-Directorio {
     Write-Log "Paso 2/4: Iniciando sesion como $adminUser..." "INFO"
     $body = @{
         accionInicial = 'inicio'; tokenParametro = $script:token
-        administrador = $adminUser; clave = $adminPass; login = 'Entrar'
+        administrador = $adminUser; clave = (New-Object Management.Automation.PSCredential $adminUser,$adminPass).GetNetworkCredential().Password; login = 'Entrar'
     }
-    $r = Invoke-WebRequest -Uri "$script:BASE.LoginInicial" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
+    try { $r = Invoke-WebRequest -Uri "$script:BASE.LoginInicial" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body }
+    finally { $body['clave']=$null; $adminPass=$null }
     $script:token = Extract-Token $r.Content
     if (-not $script:token) {
         if ($r.Content -match 'error|Error|incorrecto|incorrecta') { throw "Credenciales incorrectas" }
@@ -575,7 +566,7 @@ function Search-UserBranch {
     $html = Fix-HtmlEncoding $r.Content
 
     $debugFile = Join-Path $script:DEBUG_DIR ("search_" + $Query.Replace('.','_') + "_$Branch.html")
-    $html | Out-File -FilePath $debugFile -Encoding UTF8
+    # Raw authenticated response/body deliberately not persisted.
     Write-Log ("Respuesta " + $Branch + ": " + $html.Length + " bytes") "INFO"
 
     $users = @()
@@ -716,7 +707,7 @@ function Get-UserProfile {
     $searchHtml = Fix-HtmlEncoding $r.Content
 
     $searchDebug = Join-Path $script:DEBUG_DIR ("step1_" + $UID.Replace('.','_') + ".html")
-    $searchHtml | Out-File -FilePath $searchDebug -Encoding UTF8
+    # Raw authenticated response/body deliberately not persisted.
 
     $display = Extract-DisplayData $searchHtml
     foreach ($kv in $display.GetEnumerator()) {
@@ -753,7 +744,7 @@ function Get-UserProfile {
             $script:lastRawHtml = $html2
 
             $debugFile = Join-Path $script:DEBUG_DIR ("profile_" + $UID.Replace('.','_') + ".html")
-            $html2 | Out-File -FilePath $debugFile -Encoding UTF8
+            # Raw authenticated response/body deliberately not persisted.
 
             $formFields = Extract-FormFields $html2
             $display2 = Extract-DisplayData $html2
@@ -794,7 +785,7 @@ function Get-UserProfile {
                 $fields['dn'] = $dnM.Groups[1].Value
             }
         } catch {
-            Write-Log ("Error al obtener modify form: " + $_.Exception.Message) "WARN"
+            Write-Log 'Operacion fallida; respuesta omitida por seguridad.' 'ERROR'
         }
     }
 
@@ -848,7 +839,7 @@ function Get-UserProfile {
                 $r3 = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $overBody
                 $overHtml = Fix-HtmlEncoding $r3.Content
                 $overDebug = Join-Path $script:DEBUG_DIR ("step3_" + $UID.Replace('.','_') + ".html")
-                $overHtml | Out-File -FilePath $overDebug -Encoding UTF8
+                # Raw authenticated response/body deliberately not persisted.
                 $overDisplay = Extract-DisplayData $overHtml
                 foreach ($kv in $overDisplay.GetEnumerator()) {
                     if (-not $fields.ContainsKey($kv.Key) -or [string]::IsNullOrEmpty($fields[$kv.Key])) {
@@ -858,7 +849,7 @@ function Get-UserProfile {
                 Write-Log ("Overlay extraido: " + $overDisplay.Count + " campos") "OK"
             }
         } catch {
-            Write-Log ("Error al obtener overlay: " + $_.Exception.Message) "WARN"
+            Write-Log 'Operacion fallida; respuesta omitida por seguridad.' 'ERROR'
         }
     }
 
@@ -872,7 +863,9 @@ function Get-UserProfile {
 # ============================================================
 
 function Set-UserPassword {
-    param([string]$DN, [string]$UID, [string]$TargetUser, [string]$NewPassword, [switch]$WhatIf)
+    param([string]$DN, [string]$UID, [string]$TargetUser, [Parameter(Mandatory=$true)][Security.SecureString]$NewPassword, [switch]$WhatIf)
+    if ($NewPassword.Length -eq 0) { throw 'Nueva contrasena obligatoria.' }
+    if ($WhatIf) { Write-Log 'WHATIF: sin red ni cambios; valor oculto.' 'INFO'; return }
 
     $searchId = if ($UID) { $UID } else { $TargetUser }
     $Branch = Ensure-Branch $searchId
@@ -912,7 +905,7 @@ function Set-UserPassword {
     }
 
     if ($WhatIf) {
-        Write-Log "WHATIF - Se cambiaria la contrasena de $searchUser ($foundDn) a $NewPassword" "INFO"
+        Write-Log "WHATIF - Se cambiaria la contrasena de $searchUser ($foundDn); valor oculto" "INFO"
         return
     }
 
@@ -933,19 +926,20 @@ function Set-UserPassword {
     $body2 += @{
         usuarioWindows = 'NO'; passCaducadoCP = 'NO'
         dn = $foundDn
-        pwd_modificacion = $NewPassword
-        pwd2_modificacion = $NewPassword
+        pwd_modificacion = (New-Object Management.Automation.PSCredential 'target',$NewPassword).GetNetworkCredential().Password
+        pwd2_modificacion = (New-Object Management.Automation.PSCredential 'target',$NewPassword).GetNetworkCredential().Password
     }
 
-    $r2 = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body2
+    try { $r2 = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body2 }
+    finally { $body2['pwd_modificacion']=$null; $body2['pwd2_modificacion']=$null }
 
     if ($r2.Content -match 'actualiz.+correctamente|mensaje_ok') {
-        Write-Log "Contrasena cambiada correctamente a $NewPassword" "OK"
+        Write-Log "Contrasena cambiada correctamente" "OK"
     } elseif ($r2.Content -match 'error|Error|incorrecto') {
         Write-Log "Posible error al cambiar la contrasena" "WARN"
         $debugFile = Join-Path $script:DEBUG_DIR ("passerr_" + $searchUser.Replace('.','_') + ".html")
-        $r2.Content | Out-File -FilePath $debugFile -Encoding UTF8
-        Write-Log "HTML guardado en $debugFile" "INFO"
+        # Raw authenticated response/body deliberately not persisted.
+        Write-Log 'Respuesta recibida; contenido no persistido.' 'INFO'
     } else {
         Write-Log "Contrasena enviada. Verifica el resultado." "WARN"
     }
@@ -1371,7 +1365,7 @@ function screen-edit {
 
     # Save
     try {
-        Write-Log "Preparando guardado..." "INFO"
+        Write-Log 'Respuesta recibida; contenido no persistido.' 'INFO'
 
         # Step 1: fetch modify form fresh
         $r = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession
@@ -1440,8 +1434,8 @@ function screen-edit {
             Get-UserProfile -UID $uid
         } else {
             $debugFile = Join-Path $script:DEBUG_DIR ("edit_" + $uid.Replace('.','_') + ".html")
-            $r3.Content | Out-File -FilePath $debugFile -Encoding UTF8
-            Write-Log "Posible error. HTML guardado en $debugFile" "WARN"
+            # Raw authenticated response/body deliberately not persisted.
+            Write-Log 'Respuesta recibida; contenido no persistido.' 'INFO'
             pause
         }
     } catch {
@@ -1450,11 +1444,11 @@ function screen-edit {
             try {
                 $sr = New-Object System.IO.StreamReader($_.Exception.Response.GetResponseStream())
                 $errHtml = $sr.ReadToEnd(); $sr.Close()
-                $errHtml | Out-File -FilePath $debugFile -Encoding UTF8
-                Write-Log "HTML error guardado en $debugFile" "WARN"
+                # Raw authenticated response/body deliberately not persisted.
+                Write-Log 'Respuesta recibida; contenido no persistido.' 'INFO'
             } catch { Write-Log "No se pudo leer respuesta del servidor" "WARN" }
         }
-        Write-Log ("Error: " + $_.Exception.Message) "ERROR"
+        Write-Log 'Operacion fallida; respuesta omitida por seguridad.' 'ERROR'
         pause
     }
 }
@@ -1462,7 +1456,7 @@ function screen-edit {
 function screen-raw-fields {
     $f = $script:lastProfileFields
     if (-not $f) { return }
-    $keys = $f.Keys | Sort-Object
+    $keys = $f.Keys | Where-Object { $_ -notmatch 'token|pass|pwd|cookie|clave|session' } | Sort-Object
     $page = 0; $pageSize = 20
     while ($true) {
         ui; header
@@ -1488,29 +1482,7 @@ function screen-raw-fields {
 }
 
 function screen-debug-html {
-    $f = $script:lastProfileFields
-    if (-not $f) { return }
-    $uid = if ($f['uid']) { $f['uid'] } else { $f['identificador'] }
-    $html = $script:lastRawHtml
-    if (-not $html) { Write-Log "No hay HTML guardado" "WARN"; pause; return }
-    
-    ui; header
-    Write-Host (".- HTML DEBUG" + (" " * ($script:columns - 12)) + ".") -ForegroundColor Cyan
-    
-    # Find sections around known labels
-    $labelsToFind = @('Nombre', 'Identificador', 'Correo', 'DN', 'dn', 'uid')
-    foreach ($lb in $labelsToFind) {
-        $idx = $html.IndexOf($lb, [System.StringComparison]::OrdinalIgnoreCase)
-        if ($idx -ge 0) {
-            $start = [Math]::Max(0, $idx - 50)
-            $end = [Math]::Min($html.Length, $idx + 150)
-            $snippet = $html.Substring($start, $end - $start)
-            $snippet = $snippet -replace '<', '<' -replace '>', '>'
-            Write-Host ("|  ..." + $snippet + "...") -ForegroundColor DarkYellow
-            Write-Host "|"
-        }
-    }
-    Write-Host ("'" + ("-" * ($script:columns - 2)) + "'") -ForegroundColor DarkGray
+    Write-Log 'HTML autenticado no se muestra ni persiste: puede contener tokens.' 'WARN'
     pause
 }
 
@@ -1530,14 +1502,12 @@ function screen-password {
     Write-Host "|"
     Write-Host ("'" + ("-" * ($script:columns - 2)) + "'") -ForegroundColor DarkGray
 
-    $month = Get-Date -Format "MM"; $year = Get-Date -Format "yy"
-    $defaultPass = "Justicia.$month$year"
-    Write-Host ("  Password por defecto: " + $defaultPass) -ForegroundColor DarkGray
-    $pass = prompt "  Nueva password (Enter=defecto): " $defaultPass
+    $pass = Read-Host 'Nueva contrasena del gestor (sin valor por defecto)' -AsSecureString
+    if ($pass.Length -eq 0) { Write-Log 'Contrasena obligatoria; no se cambia.' 'WARN'; return }
 
     Write-Host ""
     Write-Host "  Confirmar:" -ForegroundColor Yellow
-    Write-Host "  [s] Si, cambiar a '$pass'" -ForegroundColor Green
+    Write-Host '  [s] Si, cambiar (valor oculto)' -ForegroundColor Green
     Write-Host "  [w] WhatIf (solo simular)" -ForegroundColor Yellow
     Write-Host "  [n] No, cancelar" -ForegroundColor Red
     Write-Host ""
@@ -1555,7 +1525,7 @@ function screen-password {
             Set-UserPassword -DN $targetDn -UID $targetUser -TargetUser $targetUser -NewPassword $pass -WhatIf
             Write-Log "Simulacion completada" "OK"
         }
-    } catch { Write-Log ("Error: " + $_.Exception.Message) "ERROR" }
+    } catch { Write-Log 'Operacion fallida; respuesta omitida por seguridad.' 'ERROR' }
     pause
 }
 
@@ -1565,8 +1535,8 @@ function Fetch-Servlet {
     $r = Invoke-WebRequest -Uri "$script:BASE.$ServletName" -UseBasicParsing -WebSession $script:webSession
     $html = Fix-HtmlEncoding $r.Content
     $debugFile = Join-Path $script:DEBUG_DIR ("$ServletName.html")
-    $html | Out-File -FilePath $debugFile -Encoding UTF8
-    Write-Log ("Respuesta: " + $html.Length + " bytes, guardado en $debugFile") "INFO"
+    # Raw authenticated response/body deliberately not persisted.
+    Write-Log 'Respuesta recibida; contenido no persistido.' 'INFO'
     return $html
 }
 
@@ -1581,7 +1551,7 @@ function screen-listas {
     try {
         $html = Fetch-Servlet -ServletName "ListasMain" -Label "Listas"
     } catch {
-        Write-Log ("Error: " + $_.Exception.Message) "ERROR"
+        Write-Log 'Operacion fallida; respuesta omitida por seguridad.' 'ERROR'
         pause; return
     }
 
@@ -1772,8 +1742,8 @@ function screen-sirhus-altas {
             $html = Fix-HtmlEncoding $r.Content
             Write-Log ("Respuesta POST: " + $html.Length + " bytes") "INFO"
             $debugFile = Join-Path $script:DEBUG_DIR "SirhusAltas.html"
-            $html | Out-File -FilePath $debugFile -Encoding UTF8
-        } catch { Write-Log ("Error en POST: " + $_.Exception.Message) "ERROR"; pause; return }
+            # Raw authenticated response/body deliberately not persisted.
+        } catch { Write-Log 'Operacion fallida; respuesta omitida por seguridad.' 'ERROR'; pause; return }
     }
     if ([string]::IsNullOrWhiteSpace($html)) { Write-Log "No se pudo cargar SirhusAltas" "ERROR"; pause; return }
     $script:token = Extract-Token $html
@@ -1806,9 +1776,9 @@ function screen-sirhus-altas {
                 $r = Invoke-WebRequest -Uri "$script:BASE.SirhusAltas" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
                 $script:token = Extract-Token $r.Content
                 $resultHtml = Fix-HtmlEncoding $r.Content
-            } catch { Write-Log ("Error: " + $_.Exception.Message) "ERROR"; pause; continue }
+            } catch { Write-Log 'Operacion fallida; respuesta omitida por seguridad.' 'ERROR'; pause; continue }
             $debugFile = Join-Path $script:DEBUG_DIR "SirhusAltas_resultados.html"
-            $resultHtml | Out-File -FilePath $debugFile -Encoding UTF8
+            # Raw authenticated response/body deliberately not persisted.
             $users = Parse-SirhusResults $resultHtml
             Write-Log ("Resultados: " + $users.Count) "INFO"
             if ($users.Count -eq 0) { Write-Log "Sin resultados" "WARN"; pause }
@@ -1875,30 +1845,30 @@ function Sirhus-Validar {
 
     # Log body for debugging
     $bodyDebug = Join-Path $script:DEBUG_DIR "SirhusAltas_body.txt"
-    $bodyString | Out-File -FilePath $bodyDebug -Encoding UTF8
+    # Raw authenticated response/body deliberately not persisted.
 
     try {
         $r = Invoke-WebRequest -Uri "$script:BASE.SirhusAltas" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $bodyString -ContentType "application/x-www-form-urlencoded"
         $resp = $r.Content
         $debugFile = Join-Path $script:DEBUG_DIR "SirhusAltas_validar.html"
-        $resp | Out-File -FilePath $debugFile -Encoding UTF8
-        Write-Log "Respuesta guardada en $debugFile" "INFO"
+        # Raw authenticated response/body deliberately not persisted.
+        Write-Log 'Respuesta recibida; contenido no persistido.' 'INFO'
 
         if ($resp -match 'actualiz.+correctamente|correcto|ok|mensaje_ok|Se han validado|validado') {
             Write-Log "Validacion completada correctamente" "OK"
         } else {
-            Write-Log "Verificar resultado, revisa el HTML guardado" "WARN"
+            Write-Log 'Respuesta recibida; contenido no persistido.' 'INFO'
         }
     } catch {
-        Write-Log ("Error: " + $_.Exception.Message) "ERROR"
+        Write-Log 'Operacion fallida; respuesta omitida por seguridad.' 'ERROR'
         try {
             if ($_.Exception.Response) {
                 $stream = $_.Exception.Response.GetResponseStream()
                 $reader = New-Object System.IO.StreamReader($stream)
                 $resp = $reader.ReadToEnd(); $reader.Close()
                 $debugFile = Join-Path $script:DEBUG_DIR "SirhusAltas_validar.html"
-                $resp | Out-File -FilePath $debugFile -Encoding UTF8
-                Write-Log "Body de error guardado en $debugFile" "WARN"
+                # Raw authenticated response/body deliberately not persisted.
+                Write-Log 'Respuesta recibida; contenido no persistido.' 'INFO'
             }
         } catch { }
     }
@@ -1917,8 +1887,8 @@ function Load-SirhusList {
             $html = Fix-HtmlEncoding $r.Content
             Write-Log ("Respuesta POST: " + $html.Length + " bytes") "INFO"
             $debugFile = Join-Path $script:DEBUG_DIR "${ServletName}.html"
-            $html | Out-File -FilePath $debugFile -Encoding UTF8
-        } catch { Write-Log ("Error en POST: " + $_.Exception.Message) "ERROR"; return $null }
+            # Raw authenticated response/body deliberately not persisted.
+        } catch { Write-Log 'Operacion fallida; respuesta omitida por seguridad.' 'ERROR'; return $null }
     }
     return $html
 }
@@ -1945,10 +1915,10 @@ function screen-sirhus-generic {
             $r = Invoke-WebRequest -Uri "$script:BASE.$ServletName" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
             $script:token = Extract-Token $r.Content
             $resultHtml = Fix-HtmlEncoding $r.Content
-        } catch { Write-Log ("Error: " + $_.Exception.Message) "ERROR"; pause; return }
+        } catch { Write-Log 'Operacion fallida; respuesta omitida por seguridad.' 'ERROR'; pause; return }
 
         $debugFile = Join-Path $script:DEBUG_DIR "${ServletName}_resultados.html"
-        $resultHtml | Out-File -FilePath $debugFile -Encoding UTF8
+        # Raw authenticated response/body deliberately not persisted.
 
         $users = Parse-SirhusResults $resultHtml
         Write-Log ("Usuarios encontrados: " + $users.Count) "INFO"
@@ -2034,9 +2004,9 @@ function screen-sirhus-bajas {
                 $r = Invoke-WebRequest -Uri "$script:BASE.SirhusBajas" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
                 $script:token = Extract-Token $r.Content
                 $resultHtml = Fix-HtmlEncoding $r.Content
-            } catch { Write-Log ("Error: " + $_.Exception.Message) "ERROR"; pause; continue }
+            } catch { Write-Log 'Operacion fallida; respuesta omitida por seguridad.' 'ERROR'; pause; continue }
             $debugFile = Join-Path $script:DEBUG_DIR "SirhusBajas_resultados.html"
-            $resultHtml | Out-File -FilePath $debugFile -Encoding UTF8
+            # Raw authenticated response/body deliberately not persisted.
             $users = Parse-SirhusBajasResults $resultHtml
             Write-Log ("Resultados: " + $users.Count) "INFO"
             if ($users.Count -eq 0) { Write-Log "Sin resultados" "WARN"; pause }
@@ -2048,11 +2018,9 @@ function screen-sirhus-bajas {
             if ($indices.Count -eq 0) { continue }
             $su = $users[$indices[0]]
             Write-Log "Cambiando contrasena para $($su.uid)..." "INFO"
-            # Use the same password logic as cambiar_password_correo.ps1
-            $month = Get-Date -Format "MM"
-            $year = Get-Date -Format "yy"
-            $pwd = "Justicia.$month$year"
-            Write-Log "Nueva contrasena: $pwd" "INFO"
+            # Deprovisioning default: independent CSPRNG password, never displayed or logged.
+            $pwd = New-DirectoryPassword
+            Write-Log 'Nueva contrasena aleatoria: [OCULTA]' 'INFO'
 
             $body = @{
                 accion = 'cambioPassword'
@@ -2061,29 +2029,30 @@ function screen-sirhus-bajas {
                 tokenParametro = $script:token
                 tipoActualizacion = ''
                 dn = $su.dn
-                pwd_sirhusBajas = $pwd
-                pwd2_sirhusBajas = $pwd
+                pwd_sirhusBajas = (New-Object Management.Automation.PSCredential 'target',$pwd).GetNetworkCredential().Password
+                pwd2_sirhusBajas = (New-Object Management.Automation.PSCredential 'target',$pwd).GetNetworkCredential().Password
                 usuarioWindows = 'NO'
             }
             try {
-                $r = Invoke-WebRequest -Uri "$script:BASE.SirhusBajas" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
+                try { $r = Invoke-WebRequest -Uri "$script:BASE.SirhusBajas" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body }
+                finally { $body['pwd_sirhusBajas']=$null; $body['pwd2_sirhusBajas']=$null; $pwd=$null }
                 $resp = $r.Content
                 $debugFile = Join-Path $script:DEBUG_DIR "SirhusBajas_cambiarpass.html"
-                $resp | Out-File -FilePath $debugFile -Encoding UTF8
+                # Raw authenticated response/body deliberately not persisted.
                 if ($resp -match 'actualiz.+correctamente|correcto|ok|mensaje_ok') {
                     Write-Log "Contrasena cambiada correctamente" "OK"
                 } else {
                     Write-Log "Verificar resultado en $debugFile" "WARN"
                 }
             } catch {
-                Write-Log ("Error: " + $_.Exception.Message) "ERROR"
+                Write-Log 'Operacion fallida; respuesta omitida por seguridad.' 'ERROR'
                 try {
                     if ($_.Exception.Response) {
                         $stream = $_.Exception.Response.GetResponseStream()
                         $reader = New-Object System.IO.StreamReader($stream)
                         $resp = $reader.ReadToEnd(); $reader.Close()
                         $debugFile = Join-Path $script:DEBUG_DIR "SirhusBajas_cambiarpass.html"
-                        $resp | Out-File -FilePath $debugFile -Encoding UTF8
+                        # Raw authenticated response/body deliberately not persisted.
                     }
                 } catch { }
             }
@@ -2232,7 +2201,7 @@ function screen-sirhus-consulta-estado {
         $script:token = Extract-Token $r.Content
         if (-not $script:token) { throw "No se pudo extraer token" }
     } catch {
-        Write-Log ("Error: " + $_.Exception.Message) "ERROR"; pause; return
+        Write-Log 'Operacion fallida; respuesta omitida por seguridad.' 'ERROR'; pause; return
     }
 
     while ($true) {
@@ -2262,11 +2231,11 @@ function screen-sirhus-consulta-estado {
             $r2 = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
             $html = Fix-HtmlEncoding $r2.Content
         } catch {
-            Write-Log ("Error: " + $_.Exception.Message) "ERROR"; pause; continue
+            Write-Log 'Operacion fallida; respuesta omitida por seguridad.' 'ERROR'; pause; continue
         }
 
         $debugFile = Join-Path $script:DEBUG_DIR "ConsultaEstadoSirhus.html"
-        $html | Out-File -FilePath $debugFile -Encoding UTF8
+        # Raw authenticated response/body deliberately not persisted.
 
         $data = @{}
         $pairs = [regex]::Matches($html, '(?s)<div\s+class="form_field_label">(.*?)</div>\s*<div\s+class="form_field_value">(.*?)</div>')
@@ -2443,9 +2412,8 @@ function screen-crear-usuario {
         if (-not $uid) { Write-Log "UID requerido" "WARN"; pause; return }
     }
 
-    $month = Get-Date -Format "MM"; $year = Get-Date -Format "yy"
-    $defaultPass = "Justicia.$month$year"
-    $pass = prompt "Password [$defaultPass]: " $defaultPass
+    $pass = Read-Host 'Contrasena del gestor (obligatoria, oculta)' -AsSecureString
+    if ($pass.Length -eq 0) { Write-Log 'Contrasena obligatoria; alta cancelada.' 'WARN'; return }
 
     $cuota = if ($esInt) { "1024" } else { "250" }
     $uidManager = ""; $centroDirectivo = ""; $centroDestino = ""
@@ -2476,7 +2444,7 @@ function screen-crear-usuario {
         Write-Host ("|  DNI:      $dni") -ForegroundColor Green
         Write-Host ("|  UID:      $uid") -ForegroundColor Green
         Write-Host ("|  Rama:     $targetBranch") -ForegroundColor Green
-        Write-Host ("|  Password: $pass") -ForegroundColor Green
+        Write-Host '|  Password: [OCULTA]' -ForegroundColor Green
         Write-Host ("|  Cuota:    $cuota MB") -ForegroundColor Green
         if ($uidManager) { Write-Host ("|  Gestor:   $uidManager") -ForegroundColor Green }
         if ($centroDirectivo) { Write-Host ("|  Centro:   $centroDirectivo / $centroDestino") -ForegroundColor Green }
@@ -2516,7 +2484,7 @@ function screen-crear-usuario {
         if (-not $script:token) { throw "No se pudo extraer token tras pantalla2" }
 
         $debugStep2 = Join-Path $script:DEBUG_DIR "crear_p2_$uid.html"
-        $p2Html | Out-File -FilePath $debugStep2 -Encoding UTF8
+        # Raw authenticated response/body deliberately not persisted.
         Write-Log ("Pantalla2: " + $p2Html.Length + " bytes") "INFO"
 
         Write-Log "Paso 3/3: Extrayendo campos y enviando..." "INFO"
@@ -2541,8 +2509,8 @@ function screen-crear-usuario {
         $body['empleadoTipo'] = $empleadoTipo
         $body['empleadoUidType'] = 'conCorreo'
         $body['dominioCorreoSeleccionado'] = 'juntadeandalucia.es'
-        $body['pwd_nuevo'] = $pass
-        $body['pwd2_nuevo'] = $pass
+        $body['pwd_nuevo'] = (New-Object Management.Automation.PSCredential 'target',$pass).GetNetworkCredential().Password
+        $body['pwd2_nuevo'] = (New-Object Management.Automation.PSCredential 'target',$pass).GetNetworkCredential().Password
         $body['empleadoServidorCorreo'] = 'Centralizado'
         $body['empleadoServidorWebmail'] = 'Centralizado'
         $body['empleadoCuota'] = $cuota
@@ -2569,17 +2537,18 @@ function screen-crear-usuario {
         }
 
         Write-Log ("Enviando creacion (" + $body.Count + " campos)...") "INFO"
-        $r3 = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body
+        try { $r3 = Invoke-WebRequest -Uri "$script:BASE.UsuariosMain" -UseBasicParsing -WebSession $script:webSession -Method POST -Body $body }
+        finally { $body['pwd_nuevo']=$null; $body['pwd2_nuevo']=$null; $pass=$null }
 
         $resultHtml = $r3.Content
         $debugFile = Join-Path $script:DEBUG_DIR "crear_result_$uid.html"
-        $resultHtml | Out-File -FilePath $debugFile -Encoding UTF8
+        # Raw authenticated response/body deliberately not persisted.
 
         if ($resultHtml -match 'correctamente|actualiz.+correcta|Usuario.*creado|Alta.*correcta|mensaje_ok') {
             Write-Log "Usuario $uid creado correctamente" "OK"
             try { Get-UserProfile -UID $uid; screen-profile } catch { pause }
         } else {
-            Write-Log "Posible error. HTML guardado en $debugFile" "WARN"
+            Write-Log 'Respuesta recibida; contenido no persistido.' 'INFO'
             pause
         }
     } catch {
@@ -2588,11 +2557,11 @@ function screen-crear-usuario {
             try {
                 $sr = New-Object System.IO.StreamReader($_.Exception.Response.GetResponseStream())
                 $errHtml = $sr.ReadToEnd(); $sr.Close()
-                $errHtml | Out-File -FilePath $debugFile -Encoding UTF8
-                Write-Log "HTML error guardado en $debugFile" "WARN"
+                # Raw authenticated response/body deliberately not persisted.
+                Write-Log 'Respuesta recibida; contenido no persistido.' 'INFO'
             } catch { Write-Log "No se pudo leer respuesta del servidor" "WARN" }
         }
-        Write-Log ("Error: " + $_.Exception.Message) "ERROR"
+        Write-Log 'Operacion fallida; respuesta omitida por seguridad.' 'ERROR'
         pause
     }
 }
@@ -2605,7 +2574,7 @@ try {
     # Auto-connect at startup
     Write-Log "Conectando al Directorio..." "INFO"
     try { Connect-Directorio -Branch "jus" } catch {
-        Write-Log ("Error de conexion: " + $_.Exception.Message) "ERROR"
+        Write-Log 'Operacion fallida; respuesta omitida por seguridad.' 'ERROR'
     }
 
     $running = $true
@@ -2614,7 +2583,7 @@ try {
         if (-not $script:authenticated) {
             Write-Log "Reconectando..." "WARN"
             try { Connect-Directorio -Branch "jus" } catch {
-                Write-Log ("Error: " + $_.Exception.Message) "ERROR"
+                Write-Log 'Operacion fallida; respuesta omitida por seguridad.' 'ERROR'
                 pause; continue
             }
         }

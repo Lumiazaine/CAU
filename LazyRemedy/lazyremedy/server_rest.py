@@ -26,8 +26,40 @@ logger = logging.getLogger("lazyremedy.rest")
 _APP_TITLE = "LazyRemedy - API Remedy (CAU)"
 _APP_DESCRIPTION = (
     "Wrapper dual (REST + MCP) sobre el cliente legado BMC Remedy User v7.0.01. "
-    "Solo lectura. Ejecución serializada de runmacro.exe."
+    "Adaptador experimental orientado a lecturas; contrato live no verificado."
 )
+
+
+class _AccessGuard:
+    """Protect every route and mounted app; never trust forwarded headers here."""
+
+    def __init__(self, app, token: str = ""):
+        self.app = app
+        self.token = token.encode("utf-8")
+
+    async def __call__(self, scope, receive, send):
+        if scope["type"] in {"http", "websocket"}:
+            import ipaddress
+
+            peer = scope.get("client")
+            try:
+                allowed = bool(peer) and ipaddress.ip_address(peer[0]).is_loopback
+            except ValueError:
+                allowed = False
+            status = 403
+            if self.token:
+                import hmac
+
+                headers = [value for name, value in scope.get("headers", []) if name.lower() == b"authorization"]
+                allowed = len(headers) == 1 and hmac.compare_digest(headers[0], b"Bearer " + self.token)
+                status = 401
+            if not allowed:
+                if scope["type"] == "websocket":
+                    await send({"type": "websocket.close", "code": 1008})
+                else:
+                    await JSONResponse(status_code=status, content={"error": "Acceso no autorizado"})(scope, receive, send)
+                return
+        await self.app(scope, receive, send)
 
 
 def create_app(
@@ -61,6 +93,8 @@ def create_app(
         allow_headers=["*"],
     )
 
+    # Added last, so even CORS preflights and mounted MCP routes are guarded.
+    app.add_middleware(_AccessGuard, token=settings.api_token)
     app.add_exception_handler(LazyRemedyError, _error_handler)
 
     _register_routes(app)

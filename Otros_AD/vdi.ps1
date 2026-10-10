@@ -6,11 +6,17 @@
 # ==============================================================================
 
 # Importar el modulo de Active Directory
+[CmdletBinding(SupportsShouldProcess=$true, ConfirmImpact='High')]
+param()
+function ConvertTo-LdapLiteral {
+    param([AllowEmptyString()][string]$Value)
+    return $Value.Replace('\','\5c').Replace('*','\2a').Replace('(','\28').Replace(')','\29').Replace([string][char]0,'\00')
+}
 Import-Module ActiveDirectory
 
 # Configuracion de variables globales
 $Domain = "vdi.justicia.junta-andalucia.es"
-$GCServer = "$Domain:3268" # Puerto 3268 para buscar en "Todo el directorio" (Global Catalog)
+$GCServer = "${Domain}:3268" # Puerto 3268 para buscar en "Todo el directorio" (Global Catalog)
 $GroupName = "GVDIEscPTV" # Grupo por defecto (GRP_Publicaciones)
 
 Clear-Host
@@ -40,7 +46,7 @@ Write-Host "`nBuscando al usuario '$UserBajaInput' en todo el directorio (Catalo
 
 # Buscar el usuario en todo el bosque usando el Catalogo Global (Paso 5/6 del manual)
 try {
-    $UserBaja = Get-ADUser -Filter "SamAccountName -eq '$UserBajaInput'" -Server $GCServer
+    $UserBaja = Get-ADUser -LDAPFilter "(sAMAccountName=$(ConvertTo-LdapLiteral $UserBajaInput))" -Server $GCServer
     if (-not $UserBaja) {
         Write-Host "[ERROR] El usuario '$UserBajaInput' no existe en el directorio." -ForegroundColor Red
         Write-Host "Proceso abortado." -ForegroundColor Yellow
@@ -55,7 +61,7 @@ try {
 
 # Comprobar pertenencia al grupo usando un filtro LDAP optimizado en lugar de Get-ADGroupMember
 Write-Host "`nVerificando si el usuario pertenece al grupo '$GroupName'..." -ForegroundColor Yellow
-$IsMemberBaja = Get-ADGroup -LDAPFilter "(&(distinguishedName=$($Group.DistinguishedName))(member=$($UserBaja.DistinguishedName)))" -Server $Domain
+$IsMemberBaja = Get-ADGroup -LDAPFilter "(&(distinguishedName=$(ConvertTo-LdapLiteral $Group.DistinguishedName))(member=$(ConvertTo-LdapLiteral $UserBaja.DistinguishedName)))" -Server $Domain
 
 if (-not $IsMemberBaja) {
     Write-Host "[ERROR] El usuario '$UserBajaInput' NO es miembro de '$GroupName'." -ForegroundColor Red
@@ -74,7 +80,7 @@ $UserAltaInput = Read-Host "Introduzca el usuario (SAMAccountName) que desea dar
 Write-Host "`nBuscando al usuario '$UserAltaInput' en todo el directorio (Catalogo Global)..." -ForegroundColor Yellow
 
 try {
-    $UserAlta = Get-ADUser -Filter "SamAccountName -eq '$UserAltaInput'" -Server $GCServer
+    $UserAlta = Get-ADUser -LDAPFilter "(sAMAccountName=$(ConvertTo-LdapLiteral $UserAltaInput))" -Server $GCServer
     if (-not $UserAlta) {
         Write-Host "[ERROR] El usuario de alta '$UserAltaInput' no existe en el directorio." -ForegroundColor Red
         Write-Host "Proceso abortado." -ForegroundColor Yellow
@@ -88,7 +94,7 @@ try {
 }
 
 # Verificar si el usuario de alta ya es miembro del grupo mediante filtro LDAP
-$IsMemberAlta = Get-ADGroup -LDAPFilter "(&(distinguishedName=$($Group.DistinguishedName))(member=$($UserAlta.DistinguishedName)))" -Server $Domain
+$IsMemberAlta = Get-ADGroup -LDAPFilter "(&(distinguishedName=$(ConvertTo-LdapLiteral $Group.DistinguishedName))(member=$(ConvertTo-LdapLiteral $UserAlta.DistinguishedName)))" -Server $Domain
 if ($IsMemberAlta) {
     Write-Host "[ADVERTENCIA] El usuario '$UserAltaInput' ya es miembro del grupo '$GroupName'." -ForegroundColor Yellow
 }
@@ -107,7 +113,7 @@ Write-Host "----------------------------------------------------------" -Foregro
 $Confirmacion = Read-Host "Esta seguro de que desea aplicar estos cambios? (S/N)"
 
 # Verificar la confirmacion del operador
-if ($Confirmacion -eq 'S' -or $Confirmacion -eq 's') {
+if (($Confirmacion -eq 'S' -or $Confirmacion -eq 's') -and $PSCmdlet.ShouldProcess($Group.DistinguishedName, 'Baja y alta de miembros VDI')) {
     try {
         # Ejecutar la Baja
         Remove-ADGroupMember -Identity $GroupName -Members $UserBaja.DistinguishedName -Server $Domain -Confirm:$false

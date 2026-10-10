@@ -8,8 +8,8 @@ separados:
 - Windows: mutex con nombre (CreateMutexW/WaitForSingleObject).
 - POSIX: ``fcntl.flock`` sobre un archivo de bloqueo.
 
-El acquire se ejecuta en un hilo (``asyncio.to_thread``) para no bloquear el
-event loop mientras se espera.
+El acquire asíncrono usa esperas cortas en el hilo del event loop para mantener
+la propiedad del mutex Win32 y permitir cancelación entre intentos.
 """
 
 from __future__ import annotations
@@ -79,15 +79,37 @@ class CrossProcessLock:
             handle = create_mutex(None, False, f"Local\\{self._name}")
             if not handle:
                 raise CerrojoExpiradoError("No se pudo crear el mutex runmacro.")
+            try:
+                _win_mutex(handle, wait_ms)
+            except BaseException:
+                close = kernel32.CloseHandle
+                close.argtypes = [ctypes.c_void_p]
+                close.restype = ctypes.c_int32
+                close(ctypes.c_void_p(handle))
+                raise
             self._handle = handle
-            _win_mutex(handle, wait_ms)
         else:
             import fcntl
 
+            import time
+
             path = self._lock_file or Path(os.path.join(sys.prefix, "lazyremedy.lock"))
             path.parent.mkdir(parents=True, exist_ok=True)
-            self._fd = os.open(str(path), os.O_CREAT | os.O_RDWR)
-            fcntl.flock(self._fd, fcntl.LOCK_EX)
+            fd = os.open(str(path), os.O_CREAT | os.O_RDWR, 0o600)
+            deadline = time.monotonic() + timeout_sec if timeout_sec > 0 else None
+            try:
+                while True:
+                    try:
+                        fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                        self._fd = fd
+                        return
+                    except BlockingIOError:
+                        if deadline is not None and time.monotonic() >= deadline:
+                            raise CerrojoExpiradoError("Tiempo agotado para adquirir el cerrojo runmacro.")
+                        time.sleep(0.01)
+            except BaseException:
+                os.close(fd)
+                raise
 
     def release(self) -> None:
         if _WINDOWS and self._handle:
@@ -105,11 +127,22 @@ class CrossProcessLock:
             self._fd = None
 
     async def acquire_async(self, timeout_sec: float = 0.0) -> None:
-        await asyncio.to_thread(self.acquire, timeout_sec)
+        # Un mutex Win32 pertenece al hilo: acquire/release deben ocurrir
+        # en el hilo del event loop, no en workers independientes.
+        loop = asyncio.get_running_loop()
+        deadline = loop.time() + timeout_sec if timeout_sec > 0 else None
+        while True:
+            try:
+                self.acquire(0.01)
+                return
+            except CerrojoExpiradoError:
+                if deadline is not None and loop.time() >= deadline:
+                    raise
+                await asyncio.sleep(0.01)
 
     async def __aenter__(self) -> "CrossProcessLock":
         await self.acquire_async()
         return self
 
     async def __aexit__(self, *exc) -> None:
-        await asyncio.to_thread(self.release)
+        self.release()

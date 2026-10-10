@@ -18,7 +18,7 @@ def _both_client(settings):
     mcp_app = mcp.http_app(path="/mcp")
     app = create_app(settings, service=service, lifespan=mcp_app.lifespan)
     app.mount("/", mcp_app)
-    return TestClient(app)
+    return TestClient(app, client=("127.0.0.1", 12345))
 
 
 def test_both_rest_funciona(settings):
@@ -64,7 +64,7 @@ def test_both_sin_lifespan_falla_con_500(settings):
     mcp_app = mcp.http_app(path="/mcp")
     app = create_app(settings, service=service)
     app.mount("/", mcp_app)
-    client = TestClient(app)
+    client = TestClient(app, client=("127.0.0.1", 12345))
     with client:
         resp = client.get("/health")
         assert resp.status_code == 200

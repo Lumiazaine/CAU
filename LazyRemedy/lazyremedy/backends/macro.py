@@ -16,7 +16,7 @@ from ..config import Settings
 from ..engine import RemedyEngine
 from ..errors import MacroNoEncontradoError
 from ..macros import resolve_macro
-from ..query_builder import build_search_macro, criterios_descripcion, write_macro_file
+from ..query_builder import build_search_macro, write_macro_file
 from .base import RemedyBackend
 
 logger = logging.getLogger("lazyremedy.backends.macro")
@@ -38,8 +38,8 @@ class MacroBackend(RemedyBackend):
         try:
             write_macro_file(self.settings, macro_text, macro_path)
             logger.info(
-                "Búsqueda dinámica por: %s",
-                criterios_descripcion(criterios_limpios.items()),
+                "Búsqueda dinámica por campos (valores omitidos): %s",
+                ", ".join(sorted(criterios_limpios)),
             )
             return await self.engine.execute_macro(macro_path, output_path)
         finally:
@@ -48,7 +48,7 @@ class MacroBackend(RemedyBackend):
     async def run_macro(self, macro_id: str) -> list[dict[str, str]]:
         macro = resolve_macro(macro_id)
         ruta = macro.ruta(self.settings.macro_dir)
-        if not ruta.exists():
+        if not self.settings.mock and not ruta.exists():
             raise MacroNoEncontradoError(
                 f"El archivo '{macro.archivo}' no está disponible en OneDrive.",
                 detail=str(ruta),

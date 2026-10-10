@@ -1,4 +1,10 @@
-﻿Add-Type -AssemblyName System.Windows.Forms
+﻿function Get-UserSearchLdapFilter([string]$Text) {
+    # RFC4515: conservar comodines solo fuera del valor aportado por el usuario.
+    $literal = $Text.Replace('\', '\5c').Replace('*', '\2a').Replace('(', '\28').Replace(')', '\29').Replace([string][char]0, '\00')
+    return "(|(sAMAccountName=*$literal*)(name=*$literal*)(displayName=*$literal*))"
+}
+
+Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
 # --- VENTANA PRINCIPAL ---
@@ -99,8 +105,8 @@ $BuscarAccion = {
     $ListView.Items.Clear()
     $Form.Refresh()
 
-    $Filtro = "SamAccountName -like '*$Busqueda*' -or Name -like '*$Busqueda*' -or DisplayName -like '*$Busqueda*'"
-    $Resultados = Get-ADUser -Filter $Filtro -Server "justicia.junta-andalucia.es:3268" -Properties CanonicalName -ErrorAction SilentlyContinue
+    $Filtro = Get-UserSearchLdapFilter $Busqueda
+    $Resultados = Get-ADUser -LDAPFilter $Filtro -Server "justicia.junta-andalucia.es:3268" -Properties CanonicalName -ErrorAction SilentlyContinue
 
     if ($Resultados) {
         foreach ($Usuario in $Resultados) {

@@ -4,10 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard de Incidencias</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-<script src="predictor_data.js"></script>
-<script src="wiki_knowledge.js"></script>
-<script src="ods_data.js"></script>
+<script src="chart.umd.min.js"></script>
+<!-- Corporate knowledge assets are loaded with authentication after Connect. -->
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:system-ui,-apple-system,sans-serif;background:#f0f2f5;color:#1a1a2e;padding:0}
@@ -229,6 +227,10 @@ Incidencias Help-Desk abiertas
 </h3>
 <div style="display:flex;gap:8px;align-items:center;font-size:.78rem">
 <span id="hdTimestamp" style="color:#999"></span>
+<label for="hdToken">Token local:</label>
+<input type="password" id="hdToken" autocomplete="off" spellcheck="false" placeholder="Token del servidor (solo memoria)">
+<button class="btn btn-sm btn-primary" id="hdConnectBtn">Conectar</button>
+<button class="btn btn-sm btn-outline" id="hdDisconnectBtn">Desconectar</button>
 <button class="btn btn-sm btn-outline" id="hdRefreshBtn">Refrescar</button>
 </div>
 </div>
@@ -919,6 +921,8 @@ function computeRepeated() {
         if (!freq[norm]) {
             freq[norm] = 1;
             firstSeen[norm] = r;
+        } else {
+            freq[norm]++;
         }
         lastSeen[norm] = r;
         if (!sampleIds[norm]) sampleIds[norm] = [];
@@ -1177,7 +1181,7 @@ function showDebugInfo() {
     for (const [key, label] of Object.entries(mapLabel)) {
         const detected = cols[key] || '(no detectada)';
         if (!cols[key]) allFound = false;
-        mapping.push(label + '→' + detected);
+        mapping.push(label + '→' + escHtml(detected));
     }
     el.innerHTML = '<strong>Columnas detectadas:</strong> ' + mapping.join(' | ');
     el.style.display = 'block';
@@ -1209,7 +1213,7 @@ function renderStats(s) {
         <div class="stat-card urg"><div class="num">${s.urgentes.toLocaleString()} (${(s.urgentes/s.total*100).toFixed(1)}%)</div><div class="label">URGENTE</div></div>
         <div class="stat-card afecta"><div class="num">${s.afecta.toLocaleString()} (${(s.afecta/s.total*100).toFixed(1)}%)</div><div class="label">Afecta a todos</div></div>
         <div class="stat-card nopuedo"><div class="num">${s.nopuedo.toLocaleString()}</div><div class="label">"No puedo trabajar"</div></div>
-        <div class="stat-card na"><div class="num">${s.nadriano.toLocaleString()} (${(s.nadriano/s.total*100).toFixed(1)}%)</div><div class="label">${COL.clase || 'Categoria principal'}</div></div>
+        <div class="stat-card na"><div class="num">${s.nadriano.toLocaleString()} (${(s.nadriano/s.total*100).toFixed(1)}%)</div><div class="label">${escHtml(COL.clase || 'Categoria principal')}</div></div>
         <div class="stat-card info"><div class="num">${s.catSinClasificar.toLocaleString()}</div><div class="label">Sin categor&iacute;a</div></div>
         ${precisionHtml}
         <div class="stat-card" style="grid-column:1/-1;font-size:.72rem;color:#888;padding:6px 12px;text-align:left">
@@ -1741,7 +1745,7 @@ function parseCSV(text) {
     const lines = []; let current = '', inQuote = false;
     for (let i = 0; i < text.length; i++) {
         const ch = text[i];
-        if (ch === '"') { inQuote = !inQuote; }
+        if (ch === '"') { inQuote = !inQuote; current += ch; }
         else if (ch === '\n' && !inQuote) { lines.push(current); current = ''; }
         else if (ch !== '\r') current += ch;
     }
@@ -1771,7 +1775,10 @@ function parseLine(line) {
     const out = []; let cur = '', inQ = false;
     for (let i = 0; i < line.length; i++) {
         const ch = line[i];
-        if (ch === '"') { inQ = !inQ; }
+        if (ch === '"') {
+            if (inQ && line[i + 1] === '"') { cur += '"'; i++; }
+            else { inQ = !inQ; }
+        }
         else if (ch === ',' && !inQ) { out.push(cur); cur = ''; }
         else cur += ch;
     }
@@ -2430,11 +2437,30 @@ document.getElementById('alertClose').addEventListener('click', function() {
 
 // ===== HelpDesk Online =====
 
-const HD_API = 'http://localhost:8080/api/helpdesk';
+const HD_API = '/api/helpdesk';
+let _hdToken = ''; // Memory only: no URL, cookie, localStorage or log.
+let _hdAssetsLoaded = new Set();
 let _hdCache = null;
 let _hdInterval = null;
 
 function initHelpdesk() {
+    document.getElementById('hdConnectBtn').addEventListener('click', function() {
+        _hdToken = document.getElementById('hdToken').value;
+        document.getElementById('hdToken').value = '';
+        if (!/^[A-Za-z0-9_-]{43,128}$/.test(_hdToken)) {
+            _hdToken = ''; setHdStatus('error', 'Token invalido'); return;
+        }
+        fetchHelpdesk();
+        if (!_hdInterval) _hdInterval = setInterval(fetchHelpdesk, 120000);
+        loadHelpdeskAssets();
+    });
+    document.getElementById('hdDisconnectBtn').addEventListener('click', function() {
+        _hdToken = ''; _hdCache = null;
+        document.getElementById('hdToken').value = '';
+        clearInterval(_hdInterval); _hdInterval = null;
+        // Reload also discards loaded corporate knowledge and any pending UI response.
+        location.reload();
+    });
     document.getElementById('hdRefreshBtn').addEventListener('click', fetchHelpdesk);
     document.getElementById('hdRetryBtn').addEventListener('click', fetchHelpdesk);
     document.getElementById('hdDetailClose').addEventListener('click', function() {
@@ -2444,9 +2470,23 @@ function initHelpdesk() {
     document.getElementById('tabHelpdeskBtn').addEventListener('click', function() {
         if (!_hdCache) fetchHelpdesk();
     });
-    // Auto-poll every 120s
-    fetchHelpdesk();
-    _hdInterval = setInterval(fetchHelpdesk, 120000);
+    setHdStatus('error', location.protocol === 'file:' ? 'Abra http://localhost:8080/ (file:// no permite API)' : 'Introduzca token y conecte');
+}
+
+function loadHelpdeskAssets() {
+    if (location.protocol !== 'http:' || location.hostname !== 'localhost' || !_hdToken) return;
+    for (const name of ['predictor_data.js', 'wiki_knowledge.js', 'ods_data.js']) {
+        if (_hdAssetsLoaded.has(name)) continue;
+        _hdAssetsLoaded.add(name);
+        fetch('/' + name, {headers: {Authorization: 'Bearer ' + _hdToken}, cache: 'no-store', credentials: 'omit', redirect: 'error'})
+            .then(r => { if (!r.ok) throw new Error('Conocimiento no disponible'); return r.text(); })
+            .then(text => {
+                if (!_hdToken) return;
+                const script = document.createElement('script');
+                script.textContent = text; document.head.appendChild(script);
+            })
+            .catch(() => { _hdAssetsLoaded.delete(name); });
+    }
 }
 
 function setHdStatus(state, msg) {
@@ -2456,12 +2496,15 @@ function setHdStatus(state, msg) {
 }
 
 function fetchHelpdesk() {
+    if (location.protocol !== 'http:' || location.hostname !== 'localhost' || !_hdToken) {
+        setHdStatus('error', 'Abra el servidor localhost e introduzca el token'); return;
+    }
     setHdStatus('loading', 'Cargando...');
     document.getElementById('hdLoading').style.display = '';
     document.getElementById('hdContent').style.display = 'none';
     document.getElementById('hdError').style.display = 'none';
 
-    fetch(HD_API)
+    fetch(HD_API, {headers: {Authorization: 'Bearer ' + _hdToken}, cache: 'no-store', credentials: 'omit', redirect: 'error'})
         .then(r => {
             if (!r.ok) {
                 if (r.status === 503) return r.json().then(d => { throw new Error(d.msg || 'Servidor ocupado') });
@@ -2526,6 +2569,7 @@ function extractDescInfo(desc) {
 }
 
 function fetchHelpdeskDetail(id) {
+    if (location.protocol !== 'http:' || location.hostname !== 'localhost' || !_hdToken || !/^IN\d+$/.test(id)) return;
     const panel = document.getElementById('hdDetailPanel');
     const body = document.getElementById('hdDetailBody');
     const title = document.getElementById('hdDetailTitle');
@@ -2533,8 +2577,8 @@ function fetchHelpdeskDetail(id) {
     body.innerHTML = '<div style="text-align:center;color:#999;padding:24px">Cargando datos de Remedy...</div>';
     panel.classList.add('open');
 
-    fetch(HD_API + '/' + id)
-        .then(r => r.json())
+    fetch(HD_API + '/' + id, {headers: {Authorization: 'Bearer ' + _hdToken}, cache: 'no-store', credentials: 'omit', redirect: 'error'})
+        .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
         .then(d => {
             if (d.ok && d.data) {
                 title.textContent = d.data.id;

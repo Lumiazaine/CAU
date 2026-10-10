@@ -1,8 +1,10 @@
-﻿# Módulos
+﻿param([Parameter(Mandatory=$true)][ValidateNotNull()][System.Security.SecureString]$AccountPassword)
+
+# Módulos
 Import-Module ActiveDirectory
 $comandos = @()
-# Contraseña
-$securePassword = ConvertTo-SecureString "Temporal01" -AsPlainText -Force
+# La contraseña debe aportarse como SecureString; nunca usar un secreto compartido embebido.
+$securePassword = $AccountPassword
 
 # Ruta fija del archivo CSV
 # $filepath = "E:\Users\dlunag\Altas.csv"
@@ -98,7 +100,7 @@ ForEach ($user in $users) {
                 -GivenName $fname `
                 -Surname "$firstLastName $secondLastName" `
                 -SamAccountName $username `
-                -UserPrincipalName "$username@justicia.junta-andalucia.es" `  # Cambio aquí
+                -UserPrincipalName "$username@justicia.junta-andalucia.es" `
                 -Path $OUpath `
                 -AccountPassword $securePassword `
                 -ChangePasswordAtLogon $false `

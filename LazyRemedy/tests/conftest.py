@@ -7,6 +7,45 @@ import pytest
 from lazyremedy.config import Settings
 
 
+@pytest.fixture(autouse=True)
+def offline_environment(monkeypatch):
+    """La suite no hereda configuración live ni resuelve/conecta fuera de loopback."""
+    import ipaddress
+    import os
+    import socket
+
+    for key in tuple(os.environ):
+        if key.startswith("LAZYREMEDY_"):
+            monkeypatch.delenv(key)
+    original_resolve = socket.getaddrinfo
+    original_connect = socket.socket.connect
+    original_connect_ex = socket.socket.connect_ex
+
+    def allowed(host):
+        if host in ("localhost", b"localhost", None):
+            return True
+        try:
+            return ipaddress.ip_address(host.decode() if isinstance(host, bytes) else host).is_loopback
+        except ValueError:
+            return False
+
+    def resolve(host, *args, **kwargs):
+        assert allowed(host), "DNS externo prohibido en tests offline"
+        return original_resolve(host, *args, **kwargs)
+
+    def connect(sock, address):
+        assert not isinstance(address, tuple) or allowed(address[0]), "Conexión externa prohibida en tests offline"
+        return original_connect(sock, address)
+
+    def connect_ex(sock, address):
+        assert not isinstance(address, tuple) or allowed(address[0]), "Conexión externa prohibida en tests offline"
+        return original_connect_ex(sock, address)
+
+    monkeypatch.setattr(socket, "getaddrinfo", resolve)
+    monkeypatch.setattr(socket.socket, "connect", connect)
+    monkeypatch.setattr(socket.socket, "connect_ex", connect_ex)
+
+
 @pytest.fixture
 def settings(tmp_path) -> Settings:
     """Configuración en modo mock con directorios temporales aislados."""

@@ -6,6 +6,7 @@ separadores ``\\x01`` (SOH), líneas CRLF y codificación Windows-1252.
 
 from __future__ import annotations
 
+import re
 from pathlib import Path
 from typing import Iterable
 
@@ -31,6 +32,9 @@ CRITERIO_LABELS: dict[str, str] = {
 
 def _normalize(criterios: dict[str, str]) -> dict[str, str]:
     """Filtra criterios vacíos y lanza SinCriteriosError si no queda ninguno."""
+    for value in criterios.values():
+        if value is not None and (not isinstance(value, str) or re.search(r'[\x00-\x1f\x7f"\\]', value)):
+            raise CriterioInvalidoError("Valor de búsqueda con sintaxis no permitida.")
     limpios = {k: (v or "").strip() for k, v in criterios.items() if (v or "").strip()}
     if not limpios:
         raise SinCriteriosError(
@@ -54,6 +58,8 @@ def _field_ids(settings: Settings, criterios: dict[str, str]) -> dict[str, str]:
         if not field_id:
             faltantes.append(f"{criterio} ({CRITERIO_LABELS[criterio]})")
             continue
+        if not re.fullmatch(r"[1-9][0-9]*", field_id):
+            raise CriterioInvalidoError("ID de campo inválido; use un token decimal exacto.")
         result[field_id] = valor
     if faltantes:
         raise CriterioInvalidoError(

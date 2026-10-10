@@ -1,18 +1,20 @@
-﻿@echo off
-rem Verifica si Check Point VPN está instalado
-set "vpnCmd=C:\Program Files (x86)\CheckPoint\Endpoint Security\Endpoint Connect\trac.exe"
-if not exist "%vpnCmd%" (
-    echo Check Point VPN Client no está instalado.
-    exit /b 1
+﻿param(
+    [string]$VpnCommand = 'C:\Program Files (x86)\CheckPoint\Endpoint Security\Endpoint Connect\trac.exe',
+    [string]$SiteName = 'nisepvpn.juntadeandalucia.es',
+    [switch]$ListOnly
 )
 
-rem Verificar certificado digital válido
-echo Verificando certificados disponibles asociados
-"%vpnCmd%" list
+# PowerShell counterpart of the original batch commands. The .bat remains independent.
+if (-not (Test-Path -LiteralPath $VpnCommand -PathType Leaf)) {
+    throw 'Check Point VPN Client no esta instalado.'
+}
+Write-Host 'Verificando certificados disponibles asociados'
+& $VpnCommand list
+if ($LASTEXITCODE -ne 0) { throw 'No se pudo consultar Check Point VPN Client.' }
+if ($ListOnly) { return }
 
-rem Intenta conectar a la VPN con el certificado encontrado
-set "siteName=nisepvpn.juntadeandalucia.es"
-echo Intentando conectar a la VPN
-"%vpnCmd%" start
-"%vpnCmd%" connectgui -s "%siteName%"
-pause
+Write-Host 'Intentando conectar a la VPN'
+& $VpnCommand start
+if ($LASTEXITCODE -ne 0) { throw 'No se pudo iniciar Check Point VPN Client.' }
+& $VpnCommand connectgui -s $SiteName
+if ($LASTEXITCODE -ne 0) { throw 'Check Point no pudo iniciar la conexion.' }

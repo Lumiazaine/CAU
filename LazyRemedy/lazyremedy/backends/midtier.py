@@ -9,8 +9,8 @@ Flujo (patrón lazydirectory/lazytemis, automatización HTTP de portales web):
    formulario ``101_INCIDENCIAS``.
 3. **Parseo**: extrae la tabla HTML de resultados y la convierte a filas JSON.
 
-> Los endpoints reales del Mid Tier 7.x deben calibrarse contra el host real
-> (``probe``). Las rutas por defecto son las habituales y ajustables por config.
+> Solo habilitado para fixtures HTTP de IP literal loopback. El contrato HTML
+> corporativo no está verificado; ni un 200 ni una tabla acreditan autenticación.
 """
 
 from __future__ import annotations
@@ -145,12 +145,30 @@ class MidtierBackend(RemedyBackend):
         return not self._base
 
     async def _ensure_client(self) -> httpx.AsyncClient:
+        if not self._settings.live_access_approved:
+            raise BackendNoDisponibleError("Acceso live bloqueado: requiere aprobación y contrato del propietario.")
+        # No verified corporate HTML authentication/result contract exists.
+        # The legacy parser remains available only for literal loopback fixtures.
+        import ipaddress
+        from urllib.parse import urlsplit
+
+        parsed = urlsplit(self._base)
+        try:
+            offline = parsed.scheme in {"http", "https"} and ipaddress.ip_address(parsed.hostname or "").is_loopback
+        except ValueError:
+            offline = False
+        if not offline or parsed.username or parsed.password:
+            raise BackendNoDisponibleError("Mid Tier live bloqueado: contrato HTML de autenticación y resultados no verificado.")
+        for path in (self._settings.midtier_login_path, self._settings.midtier_query_path):
+            target = urlsplit(urljoin(self._base + "/", path))
+            if (target.scheme, target.hostname, target.port) != (parsed.scheme, parsed.hostname, parsed.port) or target.username or target.password:
+                raise BackendNoDisponibleError("Ruta Mid Tier fuera del origen aprobado.")
         if self._client is None:
             self._client = httpx.AsyncClient(
                 base_url=self._base,
                 timeout=self._timeout,
                 verify=self._verify,
-                follow_redirects=True,
+                follow_redirects=False,
                 headers={"User-Agent": "LazyRemedy/1.0"},
             )
         return self._client
@@ -170,9 +188,11 @@ class MidtierBackend(RemedyBackend):
             raise BackendNoDisponibleError(
                 "Falta configurar 'midtier_url' en lazyremedy.config.json"
             )
+        if not self._settings.midtier_login_path or not self._settings.midtier_query_path:
+            raise BackendNoDisponibleError("Falta confirmar las rutas Mid Tier aprobadas.")
         client = await self._ensure_client()
         try:
-            resp = await client.get("/arsys/login")
+            resp = await client.get(self._settings.midtier_login_path)
             resp.raise_for_status()
             parser = _LoginFormParser()
             parser.feed(resp.text)
@@ -180,17 +200,24 @@ class MidtierBackend(RemedyBackend):
                 raise BackendNoDisponibleError(
                     message="No se encontró formulario de login en el Mid Tier"
                 )
-            self._login = parser.formulario
-            action = urljoin(self._base, self._login.action)
-            datos = self._login.datos(
+            login = parser.formulario
+            action = urljoin(str(resp.url), login.action)
+            from urllib.parse import urlsplit
+            expected, target = urlsplit(self._base), urlsplit(action)
+            if (target.scheme, target.hostname, target.port) != (expected.scheme, expected.hostname, expected.port) or target.username or target.password:
+                raise BackendNoDisponibleError("Acción de login fuera del origen aprobado.")
+            if login.method != "POST":
+                raise BackendNoDisponibleError("El formulario debe usar POST; no se enviarán credenciales por URL.")
+            datos = login.datos(
                 self._settings.remedy_user, self._settings.remedy_password
             )
             login_resp = await client.post(action, data=datos)
             login_resp.raise_for_status()
+            self._login = login
             logger.info("Login Mid Tier OK (status=%s)", login_resp.status_code)
         except httpx.HTTPError as exc:
             raise BackendNoDisponibleError(
-                message=f"No se pudo iniciar sesión en el Mid Tier: {exc}"
+                message="No se pudo iniciar sesión en el Mid Tier (diagnóstico de conexión omitido)."
             ) from exc
 
     # ------------------------------------------------------------------
@@ -231,20 +258,21 @@ class MidtierBackend(RemedyBackend):
     # ------------------------------------------------------------------
     async def _query(self, cualificacion: str) -> list[dict[str, str]]:
         client = await self._ensure_client()
-        url = _DEFAULT_QUERY_PATH.format(schema="101_INCIDENCIAS")
+        from urllib.parse import quote
+        url = self._settings.midtier_query_path.format(schema=quote(self._settings.remedy_schema, safe=""))
         try:
             resp = await client.get(url, params={"q": cualificacion})
             resp.raise_for_status()
         except httpx.HTTPError as exc:
             raise BackendNoDisponibleError(
-                message=f"Error en la consulta al Mid Tier: {exc}"
+                message="Error en la consulta al Mid Tier (diagnóstico de conexión omitido)."
             ) from exc
 
         parser = _TableParser()
         parser.feed(resp.text)
         if not parser.tablas or not parser.tablas[-1]:
-            # Sin resultados: tabla vacía o ausente.
-            return []
+            self._login = None
+            raise BackendNoDisponibleError("Respuesta Mid Tier sin tabla de resultados reconocible.")
         tabla = parser.tablas[-1]
         cabecera = tabla[0]
         filas = []

@@ -1,4 +1,4 @@
-# Modulo no requiere ActiveDirectory para las funciones basicas de generacion
+﻿# Modulo no requiere ActiveDirectory para las funciones basicas de generacion
 
 <#
 .SYNOPSIS
@@ -47,7 +47,7 @@ function New-SamAccountName {
     $CleanSurname = Clean-TextForSamAccountName -Text $Surname
     
     # Separar apellidos
-    $SurnamesParts = $CleanSurname -split '\s+' | Where-Object { $_ -ne '' }
+    $SurnamesParts = @($CleanSurname -split '\s+' | Where-Object { $_ -ne '' })
     $FirstSurname = $SurnamesParts[0]
     $SecondSurname = if ($SurnamesParts.Count -gt 1) { $SurnamesParts[1] } else { "" }
     
@@ -328,89 +328,25 @@ function Try-NumericalFallback {
 }
 
 function Test-SamAccountNameUniqueness {
-    <#
-    .SYNOPSIS
-        Verifica si un SamAccountName es unico en TODOS los dominios del bosque
-    .DESCRIPTION
-        Busca el SamAccountName en todos los dominios disponibles para garantizar unicidad global
-    #>
     [CmdletBinding()]
-    param(
-        [Parameter(Mandatory=$true)]
-        [string]$SamAccountName,
-        
-        [Parameter(Mandatory=$true)]
-        [string]$Domain
-    )
-    
-    # Verificar si el modulo ActiveDirectory esta disponible
-    if (-not (Get-Module -ListAvailable -Name ActiveDirectory)) {
-        Write-Warning "ActiveDirectory no disponible - asumiendo nombre unico para pruebas"
-        return $true
+    param([Parameter(Mandatory=$true)][string]$SamAccountName, [Parameter(Mandatory=$true)][string]$Domain)
+    # Ausencia de RSAT, permiso denegado o bosque incompleto no prueba unicidad.
+    foreach ($required in @('Get-ADForest','Get-ADDomain','Get-ADUser')) {
+        if (-not (Get-Command $required -ErrorAction SilentlyContinue)) { throw "ActiveDirectory no disponible: falta $required." }
     }
-    
-    Write-Verbose "Verificando unicidad de '$SamAccountName' en todos los dominios..."
-    
-    try {
-        # Obtener todos los dominios del bosque
-        $AllDomains = @()
-        
-        try {
-            $Forest = Get-ADForest -ErrorAction Stop
-            Write-Verbose "Bosque encontrado: $($Forest.Name)"
-            
-            foreach ($DomainName in $Forest.Domains) {
-                try {
-                    $DomainObj = Get-ADDomain -Identity $DomainName -ErrorAction Stop
-                    $AllDomains += [PSCustomObject]@{
-                        Name = $DomainObj.DNSRoot
-                        Available = $true
-                    }
-                    Write-Verbose "Dominio disponible: $($DomainObj.DNSRoot)"
-                } catch {
-                    Write-Verbose "Dominio no accesible: $DomainName"
-                }
-            }
-        } catch {
-            # Fallback al dominio especificado
-            $AllDomains += [PSCustomObject]@{
-                Name = $Domain
-                Available = $true
-            }
-            Write-Verbose "Usando dominio especificado como fallback: $Domain"
-        }
-        
-        # Buscar el SamAccountName en cada dominio
-        foreach ($DomainInfo in $AllDomains) {
-            if (-not $DomainInfo.Available) { continue }
-            
-            try {
-                Write-Verbose "Buscando '$SamAccountName' en dominio: $($DomainInfo.Name)"
-                
-                # Buscar por SamAccountName exacto
-                $ExistingUser = Get-ADUser -Filter "SamAccountName -eq '$SamAccountName'" -Server $DomainInfo.Name -ErrorAction SilentlyContinue
-                
-                if ($ExistingUser) {
-                    Write-Warning "SamAccountName '$SamAccountName' ya existe en dominio $($DomainInfo.Name)"
-                    Write-Warning "Usuario existente: $($ExistingUser.DisplayName) ($($ExistingUser.SamAccountName))"
-                    return $false
-                }
-                
-            } catch {
-                Write-Verbose "Error verificando en $($DomainInfo.Name): $($_.Exception.Message)"
-                # Continuar con el siguiente dominio
-            }
-        }
-        
-        Write-Verbose "SamAccountName '$SamAccountName' es unico en todos los dominios verificados"
-        return $true
-        
-    } catch {
-        Write-Warning "Error durante verificacion de unicidad: $($_.Exception.Message)"
-        # En caso de error, ser conservador y asumir que NO es unico
-        return $false
+    $forest = Get-ADForest -ErrorAction Stop
+    if (-not $forest -or -not $forest.Domains) { throw 'No se pudo verificar el bosque completo.' }
+    $domains = @($forest.Domains) + @($Domain) | Sort-Object -Unique
+    foreach ($domainName in $domains) {
+        $domainObject = Get-ADDomain -Identity $domainName -ErrorAction Stop
+        if (-not $domainObject.DNSRoot) { throw 'No se pudo verificar un dominio del bosque.' }
+        $escapedName = $SamAccountName.Replace("'", "''")
+        $existing = Get-ADUser -Filter "SamAccountName -eq '$escapedName'" -Server $domainObject.DNSRoot -ErrorAction Stop
+        if ($existing) { return $false }
     }
+    return $true
 }
+
 
 function Show-SamAccountNameGenerationExample {
     <#

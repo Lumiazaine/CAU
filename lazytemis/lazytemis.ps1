@@ -1,4 +1,4 @@
-param([switch]$WhatIf)
+﻿param([switch]$WhatIf, [string]$TemisEndpoint, [string]$CertificateThumbprint)
 
 # ============================================================
 # LAZYTEMIS - Terminal Temis
@@ -8,9 +8,12 @@ $script:VERSION = "2.0"
 $script:SCRIPT_DIR = if ($PSScriptRoot) { $PSScriptRoot } else { (Get-Location).Path }
 $script:LOG_FILE = Join-Path $script:SCRIPT_DIR "lazytemis.log"
 $script:DEBUG_DIR = Join-Path $script:SCRIPT_DIR "debug"
-$null = New-Item -ItemType Directory -Path $script:DEBUG_DIR -Force
+
 $script:ESC_URL = "https://escritoriojudicial.justicia.junta-andalucia.es/Escritorio"
 $script:TEMIS_URL = "http://temis.justicia.junta-andalucia.es/Temis"
+if ($TemisEndpoint) { $script:TEMIS_URL = $TemisEndpoint.TrimEnd('/') }
+$script:CertificateThumbprint = $CertificateThumbprint
+$script:ResetWhatIf = [bool]$WhatIf
 $script:webSession = $null
 $script:cert = $null
 $script:lastResultData = @()
@@ -98,18 +101,56 @@ function row {
 # AUTH
 # ============================================================
 
-function Get-Certificate {
-    $certs = Get-ChildItem Cert:\CurrentUser\My | Where-Object {
-        $_.Subject -match '\d{8}[A-Z]' -and $_.NotAfter -gt (Get-Date)
-    } | Sort-Object NotAfter -Descending
-    $cert = $certs | Select-Object -First 1
-    if (-not $cert) {
-        $cert = Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.NotAfter -gt (Get-Date) } | Sort-Object NotAfter -Descending | Select-Object -First 1
+function Assert-PasswordEndpoint {
+    param([string]$Url)
+    $endpoint = $null
+    if (-not [Uri]::TryCreate($Url,[UriKind]::Absolute,[ref]$endpoint) -or
+        $endpoint.Scheme -ne 'https' -or $endpoint.UserInfo -or $endpoint.Query -or $endpoint.Fragment) {
+        throw 'Cambio bloqueado: configure un endpoint HTTPS aprobado mediante -TemisEndpoint; no se envia ninguna clave por HTTP.'
     }
-    if (-not $cert) { $cert = Get-ChildItem Cert:\CurrentUser\My | Select-Object -First 1 }
-    if (-not $cert) { throw "No se encontro ningun certificado digital en el almacen" }
-    return $cert
 }
+
+function Get-Certificate {
+    $now = Get-Date
+    $certs = @(Get-ChildItem Cert:\CurrentUser\My -ErrorAction Stop | Where-Object {
+        $_.HasPrivateKey -and $_.NotBefore -le $now -and $_.NotAfter -gt $now
+    })
+    if ($script:CertificateThumbprint) {
+        $certs = @($certs | Where-Object { $_.Thumbprint -eq $script:CertificateThumbprint })
+    }
+    if ($certs.Count -ne 1) {
+        throw 'Se requiere un unico certificado vigente con clave privada; especifique -CertificateThumbprint si hay varios.'
+    }
+    return $certs[0]
+}
+
+function Invoke-PasswordPost {
+    param([string]$Uri,[hashtable]$Fields,[Security.SecureString]$NewPassword)
+    Assert-PasswordEndpoint $Uri
+    if (-not $NewPassword -or $NewPassword.Length -eq 0) { throw 'La clave segura no puede estar vacia.' }
+    $body = $Fields.Clone()
+    $ptr = [IntPtr]::Zero
+    try {
+        $ptr = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($NewPassword)
+        $plain = [Runtime.InteropServices.Marshal]::PtrToStringBSTR($ptr)
+        $body['nuevaPassword'] = $plain
+        $body['nuevaPassword2'] = $plain
+        if ($body.ContainsKey('pwd_modificacion')) {
+            $body['pwd_modificacion'] = $plain
+            $body['pwd2_modificacion'] = $plain
+        }
+        # No redirecciones: una respuesta HTTPS no puede reenviar el cuerpo a HTTP.
+        $null = Invoke-WebRequest -Uri $Uri -UseBasicParsing -WebSession $script:webSession -Certificate $script:cert -Method POST -Body $body -MaximumRedirection 0 -ErrorAction Stop
+    } catch {
+        # Ni HTML, ni excepciones de transporte (pueden reflejar el secreto).
+        throw 'No se pudo completar el envio seguro. Compruebe el servicio por un canal aprobado; no reintente automaticamente.'
+    } finally {
+        $body.Clear()
+        $plain = $null
+        if ($ptr -ne [IntPtr]::Zero) { [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($ptr) }
+    }
+}
+
 
 function Test-Url {
     param([string]$Url)
@@ -228,8 +269,8 @@ function Extract-ProfileFields {
     param([string]$Html)
     $fields = @{}
     [regex]::Matches($Html, '<input[^>]*name="([^"]*)"[^>]*value="([^"]*)"[^>]*>') | ForEach-Object { $fields[$_.Groups[1].Value] = [System.Web.HttpUtility]::HtmlDecode($_.Groups[2].Value) }
-    [regex]::Matches($Html, '<textarea[^>]*name="([^"]*)"[^>]*>(.*?)</textarea>') | ForEach-Object { $fields[$_.Groups[1].Value] = $_.Groups[2].Value -replace '&nbsp;', ' ' -replace '&amp;', '&' -replace '<[^>]+>', '' }
-    [regex]::Matches($Html, '<select[^>]*name="([^"]*)"[^>]*>(.*?)</select>') | ForEach-Object {
+    [regex]::Matches($Html, '(?s)<textarea[^>]*name="([^"]*)"[^>]*>(.*?)</textarea>') | ForEach-Object { $fields[$_.Groups[1].Value] = [System.Net.WebUtility]::HtmlDecode($_.Groups[2].Value) }
+    [regex]::Matches($Html, '(?s)<select[^>]*name="([^"]*)"[^>]*>(.*?)</select>') | ForEach-Object {
         $n = $_.Groups[1].Value; $s = [regex]::Match($_.Groups[2].Value, '<option[^>]*value="([^"]*)"[^>]*selected[^>]*>')
         if ($s.Success) { $fields[$n] = $s.Groups[1].Value }
     }
@@ -262,23 +303,26 @@ function List-By-Organismo {
 # ============================================================
 
 function Set-UserPassword {
-    param([string]$CodigoUsuario, [string]$NewPassword, [switch]$WhatIf)
-    $modResult = Invoke-WebRequest -Uri "$script:TEMIS_URL/UsuarioConsulta.do" -UseBasicParsing -WebSession $script:webSession -Certificate $script:cert -Method POST -Body @{
-        codigoUsuario = $CodigoUsuario; accion = 'modificarDos'
-    }
-    $formFields = Extract-ProfileFields -Html $modResult.Content
-    if ($formFields.Count -eq 0) { throw "No se pudieron extraer los campos del formulario" }
-    if ($WhatIf) { Write-Log "WHATIF - Se anularia la contrasena en Temis y se estableceria: $NewPassword" "INFO"; return }
-    $formFields['accion'] = 'anular'; $formFields['usuario'] = $formFields['dni']
-    $formFields['cambiarIdPassword'] = '3'
-    $formFields['pwd_modificacion'] = $NewPassword; $formFields['pwd2_modificacion'] = $NewPassword
-    $null = Invoke-WebRequest -Uri "$script:TEMIS_URL/UsuarioGuardarModificar.do" -UseBasicParsing -WebSession $script:webSession -Certificate $script:cert -Method POST -Body $formFields
-    Write-Log "Contrasena anulada en Temis" "OK"
-    $dni = $formFields['usuario'] -replace '[A-Z]$', ''
-    $null = Invoke-WebRequest -Uri "$script:ESC_URL/RealizarModificarPassword.do" -UseBasicParsing -WebSession $script:webSession -Certificate $script:cert -Method POST -Body @{
-        usuario = $dni; password = ''; nuevaPassword = $NewPassword; nuevaPassword2 = $NewPassword; aceptar2 = 'Aceptar'
-    }
-    Write-Log "Contrasena establecida en Escritorio Judicial" "OK"
+    param([string]$CodigoUsuario, [Security.SecureString]$NewPassword, [switch]$WhatIf)
+    if ($WhatIf -or $script:ResetWhatIf) { Write-Host 'WHATIF - No se realizan peticiones, registros ni cambios'; return }
+    Assert-PasswordEndpoint $script:TEMIS_URL
+    Assert-PasswordEndpoint $script:ESC_URL
+    $ownedSecret = $false
+    try {
+        if (-not $NewPassword) { $NewPassword = Read-Host 'Nueva clave' -AsSecureString; $ownedSecret = $true }
+        if ($NewPassword.Length -eq 0) { throw 'La clave segura no puede estar vacia.' }
+        $modResult = Invoke-WebRequest -Uri "$script:TEMIS_URL/UsuarioConsulta.do" -UseBasicParsing -WebSession $script:webSession -Certificate $script:cert -Method POST -Body @{codigoUsuario=$CodigoUsuario;accion='modificarDos'} -MaximumRedirection 0 -ErrorAction Stop
+        $formFields = Extract-ProfileFields -Html $modResult.Content
+        if ($formFields.Count -eq 0) { throw 'No se pudieron extraer los campos del formulario' }
+        $formFields['accion'] = 'anular'; $formFields['usuario'] = $formFields['dni']
+        $formFields['cambiarIdPassword'] = '3'
+        $formFields['pwd_modificacion'] = ''; $formFields['pwd2_modificacion'] = ''
+        Invoke-PasswordPost -Uri "$script:TEMIS_URL/UsuarioGuardarModificar.do" -Fields $formFields -NewPassword $NewPassword
+        $dni = $formFields['usuario'] -replace '[A-Z]$', ''
+        Invoke-PasswordPost -Uri "$script:ESC_URL/RealizarModificarPassword.do" -Fields @{usuario=$dni;password='';aceptar2='Aceptar'} -NewPassword $NewPassword
+        Write-Log 'Peticiones de cambio enviadas; confirme el resultado por el canal aprobado.' 'INFO'
+    } catch { throw 'Cambio no completado. Puede haber cambios parciales; verifique por el canal aprobado.' }
+    finally { if ($ownedSecret -and $NewPassword) { $NewPassword.Dispose() } }
 }
 
 # ============================================================
@@ -459,14 +503,12 @@ function screen-password {
     Write-Host "|"
     Write-Host ("'" + ("-" * ($script:columns - 2)) + "'") -ForegroundColor DarkGray
 
-    $month = Get-Date -Format "MM"; $year = Get-Date -Format "yy"
-    $defaultPass = "Justicia$month$year"
-    Write-Host ("  Password por defecto: " + $defaultPass) -ForegroundColor DarkGray
-    $pass = prompt "  Nueva password (Enter=defecto): " $defaultPass
+    # El guard se ejecuta en Set-UserPassword antes de cualquier entrada segura.
+    $pass = $null
 
     Write-Host ""
     Write-Host "  Confirmar:" -ForegroundColor Yellow
-    Write-Host "  [s] Si, cambiar a '$pass'" -ForegroundColor Green
+    Write-Host "  [s] Si, cambiar (entrada segura, sin mostrar la clave)" -ForegroundColor Green
     Write-Host "  [w] WhatIf (solo simular)" -ForegroundColor Yellow
     Write-Host "  [n] No, cancelar" -ForegroundColor Red
     Write-Host ""
@@ -480,12 +522,12 @@ function screen-password {
     try {
         if ($confirm -eq 's' -or $confirm -eq 'S') {
             Set-UserPassword -CodigoUsuario $cod -NewPassword $pass
-            Write-Log "Contrasena cambiada exitosamente" "OK"
+            Write-Host 'Operacion finalizada; confirme el resultado mediante el canal aprobado.'
         } elseif ($confirm -eq 'w' -or $confirm -eq 'W') {
             Set-UserPassword -CodigoUsuario $cod -NewPassword $pass -WhatIf
-            Write-Log "Simulacion completada" "OK"
+            Write-Host 'Operacion finalizada; confirme el resultado mediante el canal aprobado.'
         }
-    } catch { Write-Log ("Error: " + $_.Exception.Message) "ERROR" }
+    } catch { Write-Log 'Operacion no completada; compruebe la configuracion y el servicio.' 'ERROR' }
     pause
 }
 
@@ -540,7 +582,7 @@ try {
         switch -Wildcard ($opt) {
             "1" {
                 try { Connect-Temis; Write-Log "Conectado a Temis" "OK" }
-                catch { Write-Log ("Error: " + $_.Exception.Message) "ERROR" }
+                catch { Write-Log 'Operacion no completada; compruebe la configuracion y el servicio.' 'ERROR' }
                 pause
             }
             "2" { if (-not $script:authenticated) { Write-Log "Conecta primero" "WARN"; pause; continue }; screen-search }

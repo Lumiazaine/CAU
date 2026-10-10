@@ -16,4 +16,8 @@ def setup_logging(level: str = "INFO") -> logging.Logger:
         handler.setFormatter(logging.Formatter(_FORMAT))
         root.addHandler(handler)
     root.setLevel(level.upper())
+    # HTTP transport INFO/DEBUG records include query URLs and headers.
+    # Keep them out even when the application's diagnostic level is DEBUG.
+    logging.getLogger("httpx").setLevel(logging.WARNING)
+    logging.getLogger("httpcore").setLevel(logging.WARNING)
     return logging.getLogger("lazyremedy")

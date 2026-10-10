@@ -95,6 +95,9 @@ def midtier_settings(tmp_path):
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
     yield Settings(
+        midtier_login_path="/arsys/login",
+        midtier_query_path="/arsys/forms/{schema}/query",
+        live_access_approved=True,  # Solo servidor HTTP local sintético.
         backend="midtier",
         mock=False,
         cross_process_lock=False,
@@ -170,7 +173,7 @@ def test_macro_desconocido_error(midtier_settings):
 
 
 def test_rest_search_via_midtier(midtier_settings):
-    with TestClient(create_app(midtier_settings)) as client:
+    with TestClient(create_app(midtier_settings), client=("127.0.0.1", 12345)) as client:
         resp = client.post("/api/v1/search", json={"incidencia_id": "INC001"})
         assert resp.status_code == 200
         assert resp.json()["total"] == 2
@@ -182,6 +185,9 @@ def test_rest_search_via_midtier(midtier_settings):
 
 def test_backend_no_disponible_si_servidor_cae():
     settings = Settings(
+        midtier_login_path="/arsys/login",
+        midtier_query_path="/arsys/forms/{schema}/query",
+        live_access_approved=True,  # Solo servidor HTTP local sintético.
         backend="midtier",
         mock=False,
         midtier_url="http://127.0.0.1:1",  # puerto cerrado

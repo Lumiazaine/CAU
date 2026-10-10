@@ -228,10 +228,12 @@ function Show-Diagnostico {
 function Convertir-Entradas {
     param([string[]]$Lineas)
     $rx = [regex]::new('^\s*"([^"]+)"\s*:\s*(\d+)\s*,?\s*$')
+    $rxAssignment = [regex]::new('^\s*M\["([^"]+)"\]\s*:=\s*(\d+)\s*$')
     $salida = @()
     foreach ($linea in $Lineas) {
         if ($null -eq $linea) { continue }
         $m = $rx.Match($linea)
+        if (-not $m.Success) { $m = $rxAssignment.Match($linea) }
         if (-not $m.Success) { continue }
         $indice = 0
         # TryParse en vez de [int]: si el numero no cabe, TryParse devuelve

@@ -1,4 +1,10 @@
-param([string]$OutputDir = "$PSScriptRoot\wiki_data", [int]$DelayMs = 300)
+using module Microsoft.PowerShell.Utility
+
+param(
+    [string]$OutputDir = "$PSScriptRoot\wiki_data",
+    [int]$DelayMs = 300,
+    [Parameter(Mandatory=$true)][ValidateNotNull()][Microsoft.PowerShell.Commands.WebRequestSession]$WebSession
+)
 
 Add-Type -AssemblyName System.Web | Out-Null
 $BASE = "https://extranet.chap.junta-andalucia.es/dokuwiki/!ssdj"
@@ -10,17 +16,7 @@ $downloaded = @{}
 if (Test-Path "$OutputDir\raw") { Get-ChildItem "$OutputDir\raw" -Name | ForEach-Object { $downloaded[$_ -replace '\.txt$',''] = $true } }
 Write-Host "Already downloaded: $($downloaded.Count)" -ForegroundColor DarkYellow
 
-$cc = New-Object System.Net.CookieContainer
-function newCookie($n,$v,$p) { $c=New-Object System.Net.Cookie; $c.Name=$n; $c.Value=$v; $c.Path=$p; $c.Domain="extranet.chap.junta-andalucia.es"; $cc.Add($c) }
-newCookie "DokuWiki" "us4t3smfngb0mvsp3j3erfrjq4" "/dokuwiki/!ssdj/"
-newCookie "DWc4fc8116f3d2910c745622ac4bdeb5eb" "anVzdDkuc2FuZGV0ZWwuZXh0%7C1%7CIs3XKoi43WvbnPsskKXMXWb31l%2FEdYMA9TEuTomoXneL88M4z1GlohR%2FeH0eth4P" "/dokuwiki/!ssdj/"
-newCookie "FCK_NmSp_acl" "us4t3smfngb0mvsp3j3erfrjq4" "/"
-newCookie "FCK_NmSp" "pag_procedimientos_generales%3Agesti" "/"
-newCookie "FCK_SCAYT_AUTO" "off" "/"
-newCookie "FCK_media" "%2Fdokuwiki%2F%21ssdj%2Fimage%2F" "/"
-
-$Global:session = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-$Global:session.Cookies = $cc
+$Global:session = $WebSession
 
 function Get-Url($url) {
     Start-Sleep -Milliseconds $DelayMs
