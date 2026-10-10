@@ -1,0 +1,5 @@
+{
+  "adapter": "synthetic",
+  "read_approved": false,
+  "forms": {"SYN:Tickets": ["summary", "status"]}
+}

@@ -33,3 +33,11 @@ venv/
 
 # Remedy: temporales de la libreria de macros
 *.tmp
+
+# Metadatos generados y evidencia privada de integracion
+*.egg-info/
+LazyRemedy/docs/AUDIT-REMEDY.md
+LazyRemedy/docs/independent-review*.json
+LazyRemedy/docs/terminal-offline-results.xml
+LazyRemedy/docs/terminal-verification.json
+LazyRemedy/docs/terminal-stdio-evidence.json

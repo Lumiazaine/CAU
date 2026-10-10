@@ -2,6 +2,18 @@
 
 Wrapper experimental REST (FastAPI) + MCP (FastMCP) para integrar lecturas de BMC Remedy. **No hay una integración con el servidor corporativo verificada.** La versión del cliente AR System User 7.0.01 no identifica la versión del servidor.
 
+## Nueva entrada terminal (SDK MCP oficial, solo offline)
+
+`remedy-terminal` / `python -m lazyremedy.terminal` ofrece health, capabilities,
+búsqueda y get acotados sobre un adaptador **sintético explícito**, con política
+JSON aprobada. MCP solo stdio (`mcp==2.3.0`), sin listener ni escrituras.
+Sin configuración/aprobación no se publican lecturas. No activa DLL, COM,
+runmacro ni red corporativa. Las interfaces anteriores se conservan.
+
+Ver [arquitectura, uso y contrato fail-closed](docs/TERMINAL-CONTRACT.md) y
+[ejemplo desactivado](docs/terminal-synthetic.example.json). No confundir los
+resultados sintéticos con evidencia de conectividad Remedy live.
+
 ## Estado y límites
 
 - La suite es offline: usa datos sintéticos, un servidor HTTP loopback y un ejecutable sustituto. Un resultado verde no prueba acceso a Remedy real.
