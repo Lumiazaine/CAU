@@ -27,8 +27,21 @@ def main(argv=None) -> int:
     incident = sub.add_parser("incident")
     incident.add_argument("--id", required=True)
     incident.add_argument("--com-config")
+    ui = sub.add_parser("ui", help="Interfaz visual de solo lectura")
+    ui.add_argument("--com-config", required=True)
+    ui.add_argument("--journal-csv")
+    ui.add_argument("--id")
     args = parser.parse_args(argv)
     try:
+        if args.command == "ui":
+            try:
+                from .tui import run_ui
+            except ModuleNotFoundError as exc:
+                if exc.name == "textual" or (exc.name or "").startswith("textual."):
+                    raise TerminalError("ui_dependencies_missing") from None
+                raise
+            run_ui(com_config=args.com_config, journal_csv=args.journal_csv, initial_id=args.id)
+            return 0
         if args.command == "incident":
             from .windows_readonly import read_incident
             result = read_incident(args.id, args.com_config)
