@@ -24,8 +24,16 @@ def main(argv=None) -> int:
     get.add_argument("--form", required=True)
     get.add_argument("--entry-id", required=True)
     get.add_argument("--field", action="append", required=True)
+    incident = sub.add_parser("incident")
+    incident.add_argument("--id", required=True)
+    incident.add_argument("--com-config")
     args = parser.parse_args(argv)
     try:
+        if args.command == "incident":
+            from .windows_readonly import read_incident
+            result = read_incident(args.id, args.com_config)
+            print(json.dumps(result, ensure_ascii=False))
+            return 0
         app = build_application(args.config)
         if args.command == "mcp":
             from .mcp_server import create_server
