@@ -20,7 +20,7 @@ from textual.widgets import Button, DataTable, Footer, Input, Static, TabbedCont
 
 from .domain import TerminalError
 from .snapshot import load_snapshot, numeric_selection
-from .windows_readonly import _load_policy, _numeric_id, read_incident
+from .windows_readonly import _load_policy, _numeric_id, incident_allowed, read_incident
 
 # Remove entire control sequences, not merely ESC (which leaves printable payloads).
 _ESCAPE = re.compile(
@@ -67,10 +67,8 @@ def read_on_thread(incident_id, com_config, reader=read_incident) -> dict:
         raise TerminalError("configuration_required")
     policy = _load_policy(com_config)
     identity = policy["incident_field"]
-    if len(incident_id) > identity["digits"]:
-        raise TerminalError("invalid_incident_id")
     # This is a second gate, never a replacement/expansion of the adapter's policy.
-    if incident_id not in policy["approved_incident_ids"]:
+    if not incident_allowed(policy, incident_id):
         raise TerminalError("incident_not_approved")
     runtime = com_runtime()
     if runtime is not None:
@@ -158,7 +156,7 @@ class RemedyApp(App):
                 Binding("ctrl+q", "quit", "Salir", priority=True)]
     CSS = """
     Screen { background: #182330; color: #e5edf5; }
-    #readonly { height: 3; background: #24445c; color: #ffffff; text-style: bold; padding: 1 2; }
+    #readonly { height: 4; background: #24445c; color: #ffffff; text-style: bold; padding: 1 2; }
     #search-bar { height: 3; margin: 1 1 0 1; }
     #search-label { width: 18; padding: 1 0; }
     #incident-id { width: 1fr; }
@@ -175,7 +173,7 @@ class RemedyApp(App):
     #pagination Button { min-width: 10; width: 12; }
     #page-info { width: 1fr; content-align: center middle; }
     #identity { height: 2; text-style: bold; }
-    #source { height: 3; color: #b4c8d7; }
+    #source { height: auto; min-height: 3; color: #b4c8d7; }
     TabbedContent { height: 1fr; }
     TabPane { padding: 1; }
     VerticalScroll { height: 1fr; }
@@ -201,8 +199,21 @@ class RemedyApp(App):
         self.export_identity = None
         self._highlighted_row = 0
 
+    def _authorization_text(self):
+        # This describes local policy only, never authentication or server ACLs.
+        try:
+            policy = _load_policy(self.com_config) if self.com_config else None
+        except TerminalError:
+            policy = None
+        if policy is None:
+            return "Autorización de lectura: sin verificar."
+        scope = "TODAS las incidencias" if policy.get("allow_all_incidents") is True else "lista de IDs aprobados"
+        return "Autorización: " + scope + " (política local)."
+
     def compose(self) -> ComposeResult:
-        yield Static("REMEDY   |   CONSULTA DE INCIDENCIAS   |   SOLO LECTURA", id="readonly", markup=False)
+        authorization = self._authorization_text()
+        yield Static("REMEDY   |   CONSULTA DE INCIDENCIAS   |   SOLO LECTURA\n" + authorization,
+                     id="readonly", markup=False)
         with Horizontal(id="search-bar"):
             yield Static("ID de incidencia", id="search-label")
             yield Input(value=self.initial_id or "", placeholder="ID numérico exacto", id="incident-id")
@@ -221,7 +232,7 @@ class RemedyApp(App):
             with Vertical(id="detail-panel"):
                 yield Static("Ficha de incidencia · no editable", classes="section-title")
                 yield Static("Sin incidencia seleccionada", id="identity", markup=False)
-                yield Static("Sin lectura en vivo", id="source", markup=False)
+                yield Static("Sin lectura en vivo\n" + authorization, id="source", markup=False)
                 with TabbedContent():
                     for title, tab_id, content_id in [("Resumen", "summary-tab", "summary"),
                                                      ("Descripción", "description-tab", "description"),
@@ -229,7 +240,7 @@ class RemedyApp(App):
                                                      ("Diario", "journal-tab", "journal")]:
                         with TabPane(title, id=tab_id):
                             with VerticalScroll():
-                                yield Static("No incluido en los campos autorizados.", id=content_id,
+                                yield Static("Sin incidencia cargada.", id=content_id,
                                              classes="field-text", markup=False)
         yield Footer()
 
@@ -350,10 +361,13 @@ class RemedyApp(App):
             self.render_page()
 
     def clear_details(self) -> None:
+        authorization = self._authorization_text()
+        self.query_one("#readonly", Static).update(
+            "REMEDY   |   CONSULTA DE INCIDENCIAS   |   SOLO LECTURA\n" + authorization)
         self.query_one("#identity", Static).update("Sin incidencia seleccionada")
-        self.query_one("#source", Static).update("Sin lectura en vivo")
+        self.query_one("#source", Static).update("Sin lectura en vivo\n" + authorization)
         for selector in ("#summary", "#description", "#closure", "#journal"):
-            self.query_one(selector, Static).update("No incluido en los campos autorizados.")
+            self.query_one(selector, Static).update("Sin incidencia cargada.")
 
     def request_lookup(self) -> None:
         if self.busy:
@@ -384,7 +398,8 @@ class RemedyApp(App):
                 self.query_one("#status", Static).update("Consulta descartada: el ID de búsqueda ha cambiado.")
                 return
             self.render_details(result)
-            self.query_one("#status", Static).update("Ficha recibida y verificada. SOLO LECTURA; solo campos autorizados.")
+            self.query_one("#status", Static).update(
+                "Ficha recibida y verificada. SOLO LECTURA; solo campos autorizados.\n" + self._authorization_text())
         except Exception as exc:
             if generation == self._generation and self.is_running:
                 self.clear_details()
@@ -396,9 +411,13 @@ class RemedyApp(App):
                 self.update_read_controls()
 
     def render_details(self, result: dict) -> None:
+        authorization = self._authorization_text()
+        self.query_one("#readonly", Static).update(
+            "REMEDY   |   CONSULTA DE INCIDENCIAS   |   SOLO LECTURA\n" + authorization)
         self.query_one("#identity", Static).update(display_text(result["canonical_id"]))
         stamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
-        self.query_one("#source", Static).update("Remedy en vivo · COM solo lectura\nConsulta: " + stamp)
+        self.query_one("#source", Static).update(
+            "Remedy en vivo · COM solo lectura\nConsulta: " + stamp + "\n" + authorization)
         grouped = {"summary": [], "description": [], "closure": [], "journal": []}
         for label, value in result["values"].items():
             key = unicodedata.normalize("NFKD", label.casefold())

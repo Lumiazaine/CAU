@@ -45,7 +45,14 @@ del contrato numérico se rechazan. Los IDs canónicos del CSV se conservan en l
 tabla; su conversión a ID numérico al seleccionar una fila exige coincidencia
 exacta con el prefijo y la longitud de la política privada. Esa conversión de
 un ID canónico verificado no es una reparación del texto introducido por el
-usuario. La autorización se comprueba de nuevo al consultar.
+usuario. La autorización se comprueba de nuevo al consultar mediante el mismo
+helper que usa el backend. `allow_all_incidents: true` en una política válida
+permite cualquier ID válido por el contrato; ausente o `false` conserva la lista
+exacta de IDs aprobados. No admite comodines, consultas libres ni lectura masiva.
+La cabecera, la procedencia y el estado de una ficha recibida indican
+**TODAS las incidencias (política local)** cuando corresponde. Este aviso describe
+solo el permiso local: no prueba una sesión autenticada ni acceso a todas las
+incidencias en las ACL corporativas. Sin política válida indica **sin verificar**.
 
 ## Exportación local (opcional)
 
@@ -89,7 +96,10 @@ exceso de límites se rechaza con un mensaje humano sin rutas privadas.
   únicamente el adaptador existente y sus consultas/formularios propios de
   Query y Display. MCP y `health` mantienen su comportamiento previo.
 - Cada consulta limpia la ficha anterior antes de empezar; cualquier fallo
-  deja la ficha vacía. Mientras se lee, búsqueda y botón quedan deshabilitados.
+  deja la ficha vacía con **Sin incidencia cargada.** en sus cuatro paneles, igual
+  que al arrancar. **No incluido…** solo aparece tras una respuesta válida, en
+  los grupos que realmente no contienen campos. Mientras se lee, búsqueda y
+  botón quedan deshabilitados.
   La ayuda sigue respondiendo. Las lecturas están serializadas y una respuesta
   obsoleta o con ID cambiado se descarta.
 - El worker Windows inicializa COM en su propio hilo con `CoInitialize` y lo
@@ -105,6 +115,12 @@ exceso de límites se rechaza con un mensaje humano sin rutas privadas.
 - El Diario se muestra solo si está incluido en los campos que devuelve el
   adaptador autorizado. Si no lo está, la pestaña lo indica explícitamente;
   no se simula ni se obtiene de la exportación del listado.
+  El lector opcional `reader: diary_history` usa el getter formal
+  `GetDiaryHistoryList(0)` tras validar la etiqueta exacta. Convierte solo una
+  tupla de cadenas exactas en texto separado por líneas en blanco, con límites
+  de 10.000 entradas y 1 MiB UTF-8, incluidos separadores; vacío produce texto
+  vacío. Sin esa opción se mantiene el getter escalar `Value`. No escribe campos
+  ni evita la denegación de etiquetas de credenciales.
 - Los errores de pantalla no muestran trazas, rutas privadas ni mensajes crudos
   del backend. No hay operaciones de AD, VPN, UOs ni otras aplicaciones.
 
@@ -113,6 +129,7 @@ exceso de límites se rechaza con un mensaje humano sin rutas privadas.
 ```console
 python -m pip install ".[ui,test]"
 python -m pytest tests/test_tui*.py
+python -m pytest tests/test_all_readonly.py
 python -m pytest tests
 ```
 

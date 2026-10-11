@@ -26,6 +26,7 @@ El ejemplo queda deshabilitado deliberadamente.
     "id": 900001, "label": "Synthetic incident", "prefix": "SYN", "digits": 10
   },
   "approved_incident_ids": ["7654321"],
+  "allow_all_incidents": false,
   "fields": [{"id": 900002, "label": "Synthetic summary"}]
 }
 ```
@@ -35,13 +36,41 @@ El ejemplo queda deshabilitado deliberadamente.
 de metadatos confirmados. `prefix` y `digits` definen la representación canónica
 (sólo en este ejemplo, `SYN0007654321`); no se infiere un patrón universal.
 Los IDs solicitados son cadenas ASCII numéricas sin espacios ni ceros iniciales,
-aprobadas exactamente en `approved_incident_ids`. Para la primera validación,
-autoriza únicamente un incidente. No se admiten claves adicionales ni duplicadas,
+dentro del límite `digits` del contrato. La clave opcional `allow_all_incidents`
+admite **solo booleanos JSON**: ausente o `false` conserva la autorización exacta
+en `approved_incident_ids`; `true`, tras autorización expresa, permite consultar
+cualquier ID válido por ese contrato, incluso fuera de esa lista. La lista sigue
+siendo obligatoria, no vacía y válida por compatibilidad; no acepta comodines ni
+se sustituye por una enumeración de todas las incidencias. Para la primera
+validación, autoriza únicamente un incidente. Este permiso local no autentica al
+usuario ni amplía las ACL corporativas del SDK/servidor. Se consulta una única
+incidencia por igualdad exacta, no consultas arbitrarias ni barridos masivos.
+No se admiten claves desconocidas ni duplicadas,
 IDs de campo de tipo texto/bool, etiquetas duplicadas o etiquetas conocidas de
 credenciales, incluso si aparecen en la lista permitida. La denegación cubre
 variantes Unicode y con separadores conservando etiquetas y valores originales.
 No inspecciona texto libre ni garantiza que una descripción no contenga datos
 sensibles.
+
+Cada campo de `fields` admite únicamente `id` y `label`, o esas dos claves más
+`"reader": "diary_history"`. Sin `reader` se conserva la lectura escalar de
+`field.Value`; no hay inferencia automática por etiqueta o tipo. El único valor
+permitido para `reader` es `diary_history`; `value` no es un valor de configuración.
+El campo de identidad no admite `reader`, ni puede reutilizarse como diario.
+Un ejemplo sintético de campo opcional es:
+
+```json
+{"id": 900003, "label": "Diario sintético", "reader": "diary_history"}
+```
+
+Tras comprobar su etiqueta exacta, este lector usa **solo**
+`field.GetDiaryHistoryList(0)`: exige un `tuple` exacto de `str` exactos (sin
+objetos COM, listas, diccionarios ni subclases), máximo 10.000 entradas y 1 MiB
+UTF-8 en total, incluidos los separadores. Comprueba los límites antes de unir
+las entradas con `\n\n`; una tupla vacía produce `""`. No lee ni escribe `Value`
+para ese campo. La denegación de etiquetas de credenciales sigue activa; el
+texto libre del diario no se filtra por palabras de negocio. Un error descarta
+la ficha y cierra todos los formularios propios; el JSON no admite NaN/Infinity.
 
 Requiere Windows y pywin32 ya disponibles, una GUI existente y visible, sesión
 interactiva positiva y coincidencias de host, usuario, sesión, SID, logon y ruta

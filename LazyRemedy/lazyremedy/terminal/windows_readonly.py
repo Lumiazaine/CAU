@@ -46,7 +46,12 @@ def _safe_label(label):
 
 def _field(spec, identity=False):
     keys = {"id", "label", "prefix", "digits"} if identity else {"id", "label"}
-    if not isinstance(spec, dict) or set(spec) != keys:
+    if not isinstance(spec, dict):
+        return False
+    if not identity and set(spec) == keys | {"reader"}:
+        if spec["reader"] != "diary_history":
+            return False
+    elif set(spec) != keys:
         return False
     if not _integer(spec["id"]) or not _safe_label(spec["label"]):
         return False
@@ -61,8 +66,10 @@ def _load_policy(path):
         keys = {"enabled", "read_only", "expected_host", "expected_user", "expected_session_id",
                 "client_executable", "typelib_guid", "server", "form", "expected_auth_user",
                 "incident_field", "approved_incident_ids", "fields"}
-        if not isinstance(data, dict) or set(data) != keys:
+        if not isinstance(data, dict) or set(data) not in (keys, keys | {"allow_all_incidents"}):
             raise ValueError("schema")
+        if "allow_all_incidents" in data and type(data["allow_all_incidents"]) is not bool:
+            raise ValueError("approval scope")
         if data["enabled"] is not True or data["read_only"] is not True:
             raise ValueError("approval")
         for key in ("expected_host", "expected_user", "server", "form", "expected_auth_user"):
@@ -89,6 +96,9 @@ def _load_policy(path):
         fields = data["fields"]
         if not isinstance(fields, list) or not fields or any(not _field(item) for item in fields):
             raise ValueError("fields")
+        if any(item.get("reader") == "diary_history" and item["id"] == data["incident_field"]["id"]
+               for item in fields):
+            raise ValueError("identity reader")
         if (len({item["id"] for item in fields}) != len(fields)
                 or len({item["label"] for item in fields}) != len(fields)):
             raise ValueError("duplicate fields")
@@ -226,13 +236,33 @@ def _attach_existing(policy):
         raise TerminalError("client_ownership_unverified") from None
 
 
+def _diary_history(field):
+    """Read only the formal history getter; bound plain text before joining it."""
+    entries = field.GetDiaryHistoryList(0)
+    if type(entries) is not tuple or len(entries) > 10000:
+        raise TerminalError("field_value_unsupported")
+    size = max(0, len(entries) - 1) * 2  # Include the blank-line separators.
+    for entry in entries:
+        if type(entry) is not str or len(entry) > 1024 * 1024:
+            raise TerminalError("field_value_unsupported")
+        size += len(entry.encode("utf-8"))
+        if size > 1024 * 1024:
+            raise TerminalError("field_value_unsupported")
+    return "\n\n".join(entries)
+
+
+def incident_allowed(policy, incident_id):
+    """Shared gate for a validated policy; invalid IDs never gain authorization."""
+    if not _numeric_id(incident_id) or len(incident_id) > policy["incident_field"]["digits"]:
+        raise TerminalError("invalid_incident_id")
+    return policy.get("allow_all_incidents") is True or incident_id in policy["approved_incident_ids"]
+
+
 def read_incident(incident_id, config_path, *, factory=None):
     if not config_path:
         raise TerminalError("configuration_required")
     policy = _load_policy(config_path)
-    if not _numeric_id(incident_id) or len(incident_id) > policy["incident_field"]["digits"]:
-        raise TerminalError("invalid_incident_id")
-    if incident_id not in policy["approved_incident_ids"]:
+    if not incident_allowed(policy, incident_id):
         raise TerminalError("incident_not_approved")
     canonical = policy["incident_field"]["prefix"] + incident_id.zfill(policy["incident_field"]["digits"])
     owned = []
@@ -266,7 +296,7 @@ def read_incident(incident_id, config_path, *, factory=None):
             field = display.GetFieldById(spec["id"])
             if field.GetFieldLabel() != spec["label"]:
                 raise TerminalError("field_contract_mismatch")
-            value = field.Value
+            value = _diary_history(field) if spec.get("reader") == "diary_history" else field.Value
             if value is not None and type(value) not in (str, int, float, bool):
                 raise TerminalError("field_value_unsupported")
             values[spec["label"]] = value
